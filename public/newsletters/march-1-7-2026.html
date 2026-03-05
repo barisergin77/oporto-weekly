@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Oporto Weekly — Mar 1–7</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600&display=swap');
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #f4f1ec;
+      font-family: 'Inter', Arial, sans-serif;
+      color: #1a1a1a;
+    }
+
+    .wrapper {
+      max-width: 640px;
+      margin: 32px auto;
+      background: #ffffff;
+      border-radius: 4px;
+      overflow: hidden;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.08);
+    }
+
+    /* HEADER */
+    .header {
+      background: #1a1a2e;
+      padding: 48px 40px 36px;
+      text-align: center;
+    }
+
+    .header-eyebrow {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #c9a96e;
+      margin-bottom: 12px;
+    }
+
+    .header h1 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 42px;
+      color: #ffffff;
+      line-height: 1.1;
+      margin-bottom: 8px;
+    }
+
+    .header-date {
+      font-size: 14px;
+      color: #9999bb;
+      margin-top: 10px;
+    }
+
+    .header-tagline {
+      font-size: 13px;
+      color: #c9a96e;
+      margin-top: 6px;
+      font-style: italic;
+    }
+
+    /* BODY */
+    .body {
+      padding: 40px;
+    }
+
+    /* EDITOR'S PICKS */
+    .editors-picks {
+      background: #1a1a2e;
+      border-radius: 4px;
+      padding: 32px;
+      margin-bottom: 40px;
+    }
+
+    .editors-picks .section-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #c9a96e;
+      margin-bottom: 20px;
+    }
+
+    .pick {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 20px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .pick:last-child {
+      margin-bottom: 0;
+      padding-bottom: 0;
+      border-bottom: none;
+    }
+
+    .pick-number {
+      font-family: 'Playfair Display', serif;
+      font-size: 28px;
+      color: #c9a96e;
+      line-height: 1;
+      min-width: 28px;
+      padding-top: 2px;
+    }
+
+    .pick-content h3 {
+      font-size: 15px;
+      font-weight: 600;
+      color: #ffffff;
+      margin-bottom: 4px;
+    }
+
+    .pick-content .pick-meta {
+      font-size: 12px;
+      color: #9999bb;
+      margin-bottom: 5px;
+    }
+
+    .pick-content p {
+      font-size: 13px;
+      color: #bbbbcc;
+      line-height: 1.6;
+    }
+
+    /* SECTION */
+    .section {
+      margin-bottom: 36px;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid #1a1a2e;
+    }
+
+    .section-emoji {
+      font-size: 20px;
+    }
+
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      color: #1a1a2e;
+    }
+
+    /* EVENT CARD */
+    .event {
+      display: flex;
+      gap: 16px;
+      padding: 16px 0;
+      border-bottom: 1px solid #f0ece4;
+    }
+
+    .event:last-child {
+      border-bottom: none;
+    }
+
+    .event-date-block {
+      min-width: 52px;
+      text-align: center;
+      background: #f4f1ec;
+      border-radius: 4px;
+      padding: 8px 4px;
+      height: fit-content;
+    }
+
+    .event-date-block .day {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: #c9a96e;
+    }
+
+    .event-date-block .date {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      color: #1a1a2e;
+      line-height: 1;
+    }
+
+    .event-info h4 {
+      font-size: 15px;
+      font-weight: 600;
+      color: #1a1a2e;
+      margin-bottom: 3px;
+    }
+
+    .event-info .venue {
+      font-size: 12px;
+      color: #888;
+      margin-bottom: 5px;
+    }
+
+    .event-info p {
+      font-size: 13px;
+      color: #555;
+      line-height: 1.6;
+    }
+
+    .badge {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 2px 8px;
+      border-radius: 20px;
+      margin-left: 6px;
+      vertical-align: middle;
+    }
+
+    .badge-free { background: #e8f5e9; color: #2e7d32; }
+    .badge-price { background: #fff3e0; color: #e65100; }
+
+    /* TIP BOX */
+    .tip-box {
+      background: #f4f1ec;
+      border-left: 4px solid #c9a96e;
+      border-radius: 0 4px 4px 0;
+      padding: 24px;
+      margin-top: 8px;
+    }
+
+    .tip-box .tip-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #c9a96e;
+      margin-bottom: 10px;
+    }
+
+    .tip-box p {
+      font-size: 14px;
+      line-height: 1.7;
+      color: #444;
+    }
+
+    /* FOOTER */
+    .footer {
+      background: #1a1a2e;
+      padding: 28px 40px;
+      text-align: center;
+    }
+
+    .footer p {
+      font-size: 12px;
+      color: #666899;
+      line-height: 1.7;
+    }
+
+    .footer .brand {
+      font-family: 'Playfair Display', serif;
+      font-size: 18px;
+      color: #c9a96e;
+      margin-bottom: 8px;
+    }
+
+    .divider {
+      height: 1px;
+      background: linear-gradient(to right, transparent, #c9a96e, transparent);
+      margin: 32px 0;
+    }
+
+    .more-info {
+      display: inline-block;
+      margin-top: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      color: #c9a96e;
+      text-decoration: none;
+      letter-spacing: 0.5px;
+      border-bottom: 1px solid #c9a96e44;
+      padding-bottom: 1px;
+    }
+    .more-info:hover { color: #a8874e; }
+    .pick-content .more-info { color: #c9a96e; border-color: #c9a96e44; }
+  </style>
+</head>
+<body>
+<div class="wrapper">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-eyebrow">Your weekly Porto guide</div>
+    <h1>Oporto Weekly</h1>
+    <div class="header-date">March 1 – 7, 2026</div>
+    <div class="header-tagline">The best of the city, curated every week</div>
+  </div>
+
+  <div class="body">
+
+    <!-- EDITOR'S PICKS -->
+    <div class="editors-picks">
+      <div class="section-label">⭐ Editor's Picks — Don't Miss This Week</div>
+
+      <div class="pick">
+        <div class="pick-number">1</div>
+        <div class="pick-content">
+          <h3>Bárbara Tinoco</h3>
+          <div class="pick-meta">Fri Mar 6 & Sat Mar 7 · Super Bock Arena · €20–€80</div>
+          <p>Portugal's most exciting young voice plays two nights in a row. Intimate-feeling shows despite the arena. One of those artists you'll wish you saw before she's selling out stadiums.</p>
+        <a class="more-info" href="https://www.superbockarena.pt/agenda/" target="_blank">Tickets &amp; info →</a>
+        </div>
+      </div>
+
+      <div class="pick">
+        <div class="pick-number">2</div>
+        <div class="pick-content">
+          <h3>Serralves: "ISTO NÃO SÃO LIVROS"</h3>
+          <div class="pick-meta">Opens Fri Mar 6 · Museu de Serralves · runs to May 31</div>
+          <p>Brand new exhibition opening this week. Serralves in early March is magical — go opening weekend before it gets crowded.</p>
+        <a class="more-info" href="https://www.serralves.pt/en/activities/" target="_blank">Serralves programme →</a>
+        </div>
+      </div>
+
+      <div class="pick">
+        <div class="pick-number">3</div>
+        <div class="pick-content">
+          <h3>Bombalkanica — Balagan Trio</h3>
+          <div class="pick-meta">Sat Mar 7, 8:30 PM · Casa da Horta · Free</div>
+          <p>Free Balkan folk music concert as part of the Bombalkanica Festival. Exactly the kind of unexpected, electric night out that Porto does best.</p>
+        <a class="more-info" href="https://agendaculturalporto.org" target="_blank">Agenda Cultural Porto →</a>
+        </div>
+      </div>
+
+      <div class="pick">
+        <div class="pick-number">4</div>
+        <div class="pick-content">
+          <h3>O Pássaro de Fogo — Porto Symphony</h3>
+          <div class="pick-meta">Fri Mar 6, 9 PM · Casa da Música, Sala Suggia</div>
+          <p>Oscar Jockel conducts Stravinsky's Firebird with the Porto Symphony. Sala Suggia is one of the best concert rooms in Europe — worth it for the room alone.</p>
+        <a class="more-info" href="https://casadamusica.com/agenda/" target="_blank">Casa da Música agenda →</a>
+        </div>
+      </div>
+
+      <div class="pick">
+        <div class="pick-number">5</div>
+        <div class="pick-content">
+          <h3>Mercado da Alegria</h3>
+          <div class="pick-meta">Sun Mar 1, 10 AM–6 PM · Jardim do Passeio Alegre · Free</div>
+          <p>Craft and artisan market by the river. The perfect Sunday morning — combine with a walk along the Douro and a pastel de nata.</p>
+        <a class="more-info" href="https://www.agenda-porto.pt/" target="_blank">Agenda Porto →</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- MUSIC -->
+    <div class="section">
+      <div class="section-header">
+        <span class="section-emoji">🎵</span>
+        <span class="section-title">Music & Concerts</span>
+      </div>
+
+      <div class="event">
+        <div class="event-date-block">
+          <div class="day">Sun</div>
+          <div class="date">1</div>
+        </div>
+        <div class="event-info">
+          <h4>Serafim Borges — "Dois no Mundo" <span class="badge badge-price">€20</span></h4>
+          <div class="venue">Casa da Música, Sala 2 · 7 PM</div>
+          <p>Intimate solo set from a Porto-based musician-producer. A quiet, thoughtful Sunday night option before the week begins.</p>
+          <a class="more-info" href="https://casadamusica.com/agenda/" target="_blank">More info →</a>
+        </div>
+      </div>
+
+      <div class="event">
+        <div class="event-date-block">
+          <div class="day">Fri</div>
+          <div class="date">6</div>
+        </div>
+        <div class="event-info">
+          <h4>O Pássaro de Fogo — Porto Symphony Orchestra</h4>
+          <div class="venue">Casa da Música, Sala Suggia · 9 PM</div>
+          <p>Stravinsky's Firebird conducted by Oscar Jockel. A serious concert in a seriously beautiful room.</p>
+          <a class="more-info" href="https://casadamusica.com/agenda/" target="_blank">More info →</a>
+        </div>
+      </div>
+
+      <div class="event">
+        <div class="event-date-block">
+          <div class="day">Fri–Sat</div>
+          <div class="date">6–7</div>
+        </div>
+        <div class="event-info">
+          <h4>Bárbara Tinoco <span class="badge badge-price">€20–€80</span></h4>
+          <div class="venue">Super Bock Arena · Two nights</div>
+          <p>Portugal's brightest young pop voice. Two-night run — pick whichever night suits you.</p>
+          <a class="more-info" href="https://www.superbockarena.pt/agenda/" target="_blank">Get tickets →</a>
+        </div>
+      </div>
+
+      <div class="event">
+        <div class="event-date-block">
+          <div class="day">Sat</div>
+          <div class="date">7</div>
+        </div>
+        <div class="event-info">
+          <h4>Balagan Trio — Bombalkanica Festival <span class="badge badge-free">Free</span></h4>
+          <div class="venue">Casa da Horta · 8:30 PM</div>
+          <p>Balkan folk music in one of Porto's hidden spots. Free, vibrant, and completely worth your Saturday night.</p>
+          <a class="more-info" href="https://agendaculturalporto.org" target="_blank">More info →</a>
+        </div>
+      </div>
+
+      <div class="event">
+        <div class="event-date-block">
+          <div class="day">Various</div>
+          <div class="date">—</div>
+        </div>
+        <div class="event-info">
+          <h4>Candlelight Concerts <span class="badge badge-price">from €16.50</span></h4>
+          <div class="venue">Hilton Porto Gaia / Pestana Palácio do Freixo</div>
+          <p>ABBA, Hans Zimmer, and Adele tributes by candlelight. Romantic and surprisingly good.</p>
+          <a class="more-info" href="https://feverup.com/pt/porto/concertos" target="_blank">Get tickets →</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- ART -->
+    <div class="section">
+      <div class="section-header">
+        <span class="section-emoji">🎨</span>
+        <span class="section-title">Art & Exhibitions</span>
+      </div>
+
+      <div class="event">
+        <div class="event-date-block">
+          <div class="day">Opens</div>
+          <div class="date">Fri 6</div>
+        </div>
+        <div class="event-info">
+          <h4>ISTO NÃO SÃO LIVROS <span class="badge badge-price">Museum entry</span></h4>
+          <div class="venue">Museu de Serralves · runs to May 31</div>
+          <p>Brand new exhibition opening this Friday. Go opening weekend — the energy is different when it's fresh.</p>
+          <a class="more-info" href="https://www.serralves.pt/en/activities/" target="_blank">Serralves →</a>
+        </div>
+      </div>
+
+      <div class="event">
+        <div class="event-date-block">
+          <div class="day">Ongoing</div>
+          <div class="date">—</div>
+        </div>
+        <div class="event-info">
+          <h4>Joan Miró e Arte Contemporânea</h4>
+          <div class="venue">Casa de Serralves · included with museum entry</div>
+          <p>Miró in dialogue with the Serralves permanent collection. A rare, intelligent pairing.</p>
+          <a class="more-info" href="https://www.serralves.pt/en/activities/" target="_blank">Serralves →</a>
+        </div>
+      </div>
+
+      <div class="event">
+        <div class="event-date-block">
+          <div class="day">Ongoing</div>
+          <div class="date">—</div>
+        </div>
+        <div class="event-info">
+          <h4>Impressive Monet & Brilliant Klimt</h4>
+          <div class="venue">Alfândega do Porto</div>
+          <p>Large-scale immersive digital experience. Great for an evening out with something visually spectacular.</p>
+          <a class="more-info" href="https://www.agenda-porto.pt/" target="_blank">More info →</a>
+        </div>
+      </div>
+
+      <div class="event">
+        <div class="event-date-block">
+          <div class="day">Opens</div>
+          <div class="date">Sun 1</div>
+        </div>
+        <div class="event-info">
+          <h4>Entre Pintura e Fotografia <span class="badge badge-free">Free Sundays</span></h4>
+          <div class="venue">Museu Nacional Soares dos Reis</div>
+          <p>New exhibition exploring the intersection of painting and photography. Free on Sundays — go today.</p>
+          <a class="more-info" href="https://mnsr.matriznet.dgpc.pt/" target="_blank">Museum website →</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- FOOD -->
+    <div class="section">
+      <div class="section-header">
+        <span class="section-emoji">🍽️</span>
+        <span class="section-title">Food, Markets & Wine</span>
+      </div>
+
+      <div class="event">
+        <div class="event-date-block">
+          <div class="day">TODAY</div>
+          <div class="date">Sun 1</div>
+        </div>
+        <div class="event-info">
+          <h4>Simplesmente Vinho Porto ⚠️ Last Day</h4>
+          <div class="venue">Douro Riverfront</div>
+          <p>One of Porto's best wine events wraps up today. Artisan producers, food, live music. If you're free this afternoon, go.</p>
+          <a class="more-info" href="https://www.agenda-porto.pt/" target="_blank">More info →</a>
+        </div>
+      </div>
+
+      <div class="event">
+        <div class="event-date-block">
+          <div class="day">Sun</div>
+          <div class="date">1</div>
+        </div>
+        <div class="event-info">
+          <h4>Mercado da Alegria <span class="badge badge-free">Free entry</span></h4>
+          <div class="venue">Jardim do Passeio Alegre · 10 AM–6 PM</div>
+          <p>Weekly artisan and craft market. Recurs every Sunday — a Porto staple worth building a morning around.</p>
+          <a class="more-info" href="https://www.agenda-porto.pt/" target="_blank">More info →</a>
+        </div>
+      </div>
+
+      <div class="event">
+        <div class="event-date-block">
+          <div class="day">Sat–Sun</div>
+          <div class="date">7–8</div>
+        </div>
+        <div class="event-info">
+          <h4>Primavera Bonsai Fest</h4>
+          <div class="venue">Centro Social Luso Venezolano</div>
+          <p>Niche but genuinely beautiful. Bonsai as living art. Surprisingly meditative for a Saturday morning.</p>
+          <a class="more-info" href="https://www.agenda-porto.pt/" target="_blank">More info →</a>
+        </div>
+      </div>
+
+      <div class="event">
+        <div class="event-date-block">
+          <div class="day">All week</div>
+          <div class="date">—</div>
+        </div>
+        <div class="event-info">
+          <h4>Port Wine Tasting <span class="badge badge-price">from €15</span></h4>
+          <div class="venue">Taylor's / Calem, Vila Nova de Gaia</div>
+          <p>Always a solid option. A weekday afternoon tasting across the river is one of Porto's most underrated pleasures.</p>
+          <a class="more-info" href="https://www.taylor.pt/en/visit-us/" target="_blank">Taylor's →</a> &nbsp;<a class="more-info" href="https://calem.pt/en/visit/" target="_blank">Calem →</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- FAMILY -->
+    <div class="section">
+      <div class="section-header">
+        <span class="section-emoji">👨‍👩‍👧</span>
+        <span class="section-title">Family</span>
+      </div>
+
+      <div class="event">
+        <div class="event-date-block">
+          <div class="day">Sun</div>
+          <div class="date">1</div>
+        </div>
+        <div class="event-info">
+          <h4>A Menina do Mar</h4>
+          <div class="venue">Coliseu Porto Ageas · 5 PM · every Sunday</div>
+          <p>Sophia de Mello Breyner's classic brought to stage. Beautiful for kids and nostalgic for any Portuguese-raised adult.</p>
+          <a class="more-info" href="https://www.coliseu.pt" target="_blank">Coliseu Porto →</a>
+        </div>
+      </div>
+
+      <div class="event">
+        <div class="event-date-block">
+          <div class="day">Sat</div>
+          <div class="date">7</div>
+        </div>
+        <div class="event-info">
+          <h4>Gamelão — Kids' Percussion Workshop</h4>
+          <div class="venue">Casa da Música · 2:30 PM · Low cost</div>
+          <p>Hands-on Gamelan instrument session for kids. Loud, joyful, and genuinely musical. Book ahead.</p>
+          <a class="more-info" href="https://casadamusica.com/agenda/" target="_blank">Book →</a>
+        </div>
+      </div>
+
+      <div class="event">
+        <div class="event-date-block">
+          <div class="day">Sat</div>
+          <div class="date">7</div>
+        </div>
+        <div class="event-info">
+          <h4>Cerâmica em Família</h4>
+          <div class="venue">Rua Duque de Saldanha 416 · 10:30 AM</div>
+          <p>Family ceramics workshop. Get your hands dirty together — always a hit with kids of all ages.</p>
+          <a class="more-info" href="https://www.agenda-porto.pt/" target="_blank">More info →</a>
+        </div>
+      </div>
+
+      <div class="event">
+        <div class="event-date-block">
+          <div class="day">Sat</div>
+          <div class="date">7</div>
+        </div>
+        <div class="event-info">
+          <h4>Oficina Cinema-Mentira</h4>
+          <div class="venue">Serralves · 3 PM</div>
+          <p>Family workshop tied to cinema and storytelling. Quirky, creative, and Serralves in the park is always a win.</p>
+          <a class="more-info" href="https://www.serralves.pt/en/activities/" target="_blank">Serralves →</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- NIGHTLIFE -->
+    <div class="section">
+      <div class="section-header">
+        <span class="section-emoji">🌙</span>
+        <span class="section-title">Nightlife</span>
+      </div>
+
+      <div class="event">
+        <div class="event-date-block">
+          <div class="day">Fri</div>
+          <div class="date">6</div>
+        </div>
+        <div class="event-info">
+          <h4>BEWARE THE INVASION by INVDRS</h4>
+          <div class="venue">Hard Club</div>
+          <p>Electronic music takeover at one of Porto's best venues. Hard Club rarely disappoints on a Friday night.</p>
+          <a class="more-info" href="https://hardclub.pt" target="_blank">Hard Club →</a>
+        </div>
+      </div>
+
+      <div class="event">
+        <div class="event-date-block">
+          <div class="day">Fri</div>
+          <div class="date">6</div>
+        </div>
+        <div class="event-info">
+          <h4>Vitrinni Opo — Opening Night</h4>
+          <div class="venue">Maria Pistolas</div>
+          <p>Latin-flavoured opening night at one of Porto's most-loved late spots. First nights here always have good energy.</p>
+          <a class="more-info" href="https://www.agenda-porto.pt/" target="_blank">More info →</a>
+        </div>
+      </div>
+
+      <div class="event">
+        <div class="event-date-block">
+          <div class="day">Fri–Sat</div>
+          <div class="date">6–7</div>
+        </div>
+        <div class="event-info">
+          <h4>AfroLatine Nights <span class="badge badge-free">Free / low cover</span></h4>
+          <div class="venue">Muxima Bar</div>
+          <p>Every weekend this month. Best spot in the city for Afrobeats, kizomba, and dancing that doesn't feel choreographed.</p>
+          <a class="more-info" href="https://www.agenda-porto.pt/" target="_blank">More info →</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- TIP -->
+    <div class="section">
+      <div class="section-header">
+        <span class="section-emoji">💡</span>
+        <span class="section-title">Tip of the Week</span>
+      </div>
+      <div class="tip-box">
+        <div class="tip-label">Local Insider</div>
+        <p>March is Porto's sweet spot — the tourists haven't fully arrived, the parks are starting to bloom, and you can still get a table at good restaurants without a reservation. Hit <strong>Serralves on a weekday afternoon</strong>: the park is free for Porto municipality residents, and the new exhibition just opened. Bring a coffee from the café, take your time. This is the version of Porto that people who live here actually get to enjoy.</p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div class="brand">Oporto Weekly</div>
+    <p>Curated every Thursday morning from many reputable sources.<br/>
+    Events subject to change — always verify before heading out.<br/><br/>
+    <a href="#" style="color:#c9a96e; text-decoration:none;">Unsubscribe</a> · Porto, Portugal</p>
+  </div>
+
+</div>
+</body>
+</html>
