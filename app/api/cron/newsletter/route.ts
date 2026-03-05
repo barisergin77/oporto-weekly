@@ -90,7 +90,7 @@ Output ONLY the complete HTML. No markdown, no explanation.`;
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       contents: [{ parts: [{ text: prompt }] }],
-      generationConfig: { maxOutputTokens: 8192 },
+      generationConfig: { maxOutputTokens: 65536 },
     }),
   });
 
