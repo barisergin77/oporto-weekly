@@ -1,6 +1,6 @@
 # Oporto Weekly
 
-A curated Porto events newsletter, auto-generated every Thursday morning via Gemini AI and delivered via Resend.
+A curated Porto events newsletter, auto-generated every Thursday morning via Gemini 2.5 Flash and delivered via Resend.
 
 ## Stack
 
