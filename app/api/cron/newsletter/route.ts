@@ -6,7 +6,7 @@ import { getActiveSubscribers } from '@/lib/beehiiv';
 import { sendBatch } from '@/lib/resend-client';
 
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY!;
-const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`;
+const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`;
 
 const SEARCH_QUERIES = [
   'Porto events this week',
