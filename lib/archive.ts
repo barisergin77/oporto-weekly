@@ -31,6 +31,27 @@ export function stripEmailFooter(html: string): string {
   return html.replace(/<div class="footer">[\s\S]*?<\/div>\s*(<\/div>\s*)?(<\/body>[\s\S]*)?$/, '</div>\n</body>\n</html>');
 }
 
+// ---------- Portuguese archive ----------
+
+export function listNewslettersPT(): NewsletterMeta[] {
+  const filePath = path.join(process.cwd(), 'data', 'newsletters-pt.json');
+  if (!fs.existsSync(filePath)) return [];
+  const raw = fs.readFileSync(filePath, 'utf-8');
+  return JSON.parse(raw) as NewsletterMeta[];
+}
+
+export function getNewsletterMetaPT(slug: string): NewsletterMeta | null {
+  return listNewslettersPT().find((n) => n.slug === slug) ?? null;
+}
+
+export function getNewsletterHtmlPT(slug: string): string | null {
+  const filePath = path.join(process.cwd(), 'public', 'newsletters', `${slug}.html`);
+  if (!fs.existsSync(filePath)) return null;
+  return fs.readFileSync(filePath, 'utf-8');
+}
+
+// ---------- Utilities ----------
+
 export function generateSlug(weekRange: string): string {
   return weekRange
     .toLowerCase()

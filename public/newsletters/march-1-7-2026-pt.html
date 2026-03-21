@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Oporto Weekly — 1–7 de Março</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600&display=swap');
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #f4f1ec; font-family: 'Inter', Arial, sans-serif; color: #1a1a1a; }
+    .wrapper { max-width: 640px; margin: 32px auto; background: #ffffff; border-radius: 4px; overflow: hidden; box-shadow: 0 2px 16px rgba(0,0,0,0.08); }
+    .header { background: #1a1a2e; padding: 48px 40px 36px; text-align: center; }
+    .header-eyebrow { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: #c9a96e; margin-bottom: 12px; }
+    .header h1 { font-family: 'Playfair Display', Georgia, serif; font-size: 42px; color: #ffffff; line-height: 1.1; margin-bottom: 8px; }
+    .header-date { font-size: 14px; color: #9999bb; margin-top: 10px; }
+    .header-tagline { font-size: 13px; color: #c9a96e; margin-top: 6px; font-style: italic; }
+    .body { padding: 40px; }
+    .editors-picks { background: #1a1a2e; border-radius: 4px; padding: 32px; margin-bottom: 40px; }
+    .editors-picks .section-label { font-size: 10px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: #c9a96e; margin-bottom: 20px; }
+    .pick { display: flex; gap: 16px; margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.08); }
+    .pick:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+    .pick-number { font-family: 'Playfair Display', serif; font-size: 28px; color: #c9a96e; line-height: 1; min-width: 28px; padding-top: 2px; }
+    .pick-content h3 { font-size: 15px; font-weight: 600; color: #ffffff; margin-bottom: 4px; }
+    .pick-content .pick-meta { font-size: 12px; color: #9999bb; margin-bottom: 5px; }
+    .pick-content p { font-size: 13px; color: #bbbbcc; line-height: 1.6; }
+    .section { margin-bottom: 36px; }
+    .section-header { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 2px solid #1a1a2e; }
+    .section-emoji { font-size: 20px; }
+    .section-title { font-family: 'Playfair Display', serif; font-size: 22px; color: #1a1a2e; }
+    .event { display: flex; gap: 16px; padding: 16px 0; border-bottom: 1px solid #f0ece4; }
+    .event:last-child { border-bottom: none; }
+    .event-date-block { min-width: 52px; text-align: center; background: #f4f1ec; border-radius: 4px; padding: 8px 4px; height: fit-content; }
+    .event-date-block .day { font-size: 10px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: #c9a96e; }
+    .event-date-block .date { font-family: 'Playfair Display', serif; font-size: 22px; color: #1a1a2e; line-height: 1; }
+    .event-info h4 { font-size: 15px; font-weight: 600; color: #1a1a2e; margin-bottom: 3px; }
+    .event-info .venue { font-size: 12px; color: #888; margin-bottom: 5px; }
+    .event-info p { font-size: 13px; color: #555; line-height: 1.6; }
+    .badge { display: inline-block; font-size: 10px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; padding: 2px 8px; border-radius: 20px; margin-left: 6px; vertical-align: middle; }
+    .badge-free { background: #e8f5e9; color: #2e7d32; }
+    .badge-price { background: #fff3e0; color: #e65100; }
+    .tip-box { background: #f4f1ec; border-left: 4px solid #c9a96e; border-radius: 0 4px 4px 0; padding: 24px; margin-top: 8px; }
+    .tip-box .tip-label { font-size: 10px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: #c9a96e; margin-bottom: 10px; }
+    .tip-box p { font-size: 14px; line-height: 1.7; color: #444; }
+    .footer { background: #1a1a2e; padding: 28px 40px; text-align: center; }
+    .footer p { font-size: 12px; color: #666899; line-height: 1.7; }
+    .footer .brand { font-family: 'Playfair Display', serif; font-size: 18px; color: #c9a96e; margin-bottom: 8px; }
+    .divider { height: 1px; background: linear-gradient(to right, transparent, #c9a96e, transparent); margin: 32px 0; }
+    .more-info { display: inline-block; margin-top: 6px; font-size: 11px; font-weight: 600; color: #c9a96e; text-decoration: none; letter-spacing: 0.5px; border-bottom: 1px solid #c9a96e44; padding-bottom: 1px; }
+    .more-info:hover { color: #a8874e; }
+    .pick-content .more-info { color: #c9a96e; border-color: #c9a96e44; }
+  </style>
+</head>
+<body>
+<div class="wrapper">
+  <div class="header">
+    <div class="header-eyebrow">O seu guia semanal do Porto</div>
+    <h1>Oporto Weekly</h1>
+    <div class="header-date">1 – 7 de Março, 2026</div>
+    <div class="header-tagline">O melhor da cidade, curado todas as semanas</div>
+  </div>
+  <div class="body">
+    <div class="editors-picks">
+      <div class="section-label">⭐ Escolhas do Editor — Não Perca Esta Semana</div>
+      <div class="pick"><div class="pick-number">1</div><div class="pick-content"><h3>Bárbara Tinoco</h3><div class="pick-meta">Sex 6 e Sáb 7 Mar · Super Bock Arena · €20–€80</div><p>A voz jovem mais entusiasmante de Portugal em duas noites consecutivas. Espetáculos com sensação intimista apesar da arena. Daquelas artistas que vai querer ter visto antes de esgotar estádios.</p><a class="more-info" href="https://www.superbockarena.pt/agenda/" target="_blank">Bilhetes e info →</a></div></div>
+      <div class="pick"><div class="pick-number">2</div><div class="pick-content"><h3>Serralves: "ISTO NÃO SÃO LIVROS"</h3><div class="pick-meta">Inaugura Sex 6 Mar · Museu de Serralves · até 31 de Maio</div><p>Nova exposição que inaugura esta semana. Serralves no início de março é mágico — vá no fim de semana de abertura antes de ficar cheio.</p><a class="more-info" href="https://www.serralves.pt/en/activities/" target="_blank">Programa Serralves →</a></div></div>
+      <div class="pick"><div class="pick-number">3</div><div class="pick-content"><h3>Bombalkanica — Balagan Trio</h3><div class="pick-meta">Sáb 7 Mar, 20:30 · Casa da Horta · Gratuito</div><p>Concerto gratuito de música folk dos Balcãs no Festival Bombalkanica. Exatamente o tipo de noite inesperada e elétrica que o Porto faz tão bem.</p><a class="more-info" href="https://agendaculturalporto.org" target="_blank">Agenda Cultural Porto →</a></div></div>
+      <div class="pick"><div class="pick-number">4</div><div class="pick-content"><h3>O Pássaro de Fogo — Orquestra Sinfónica do Porto</h3><div class="pick-meta">Sex 6 Mar, 21h · Casa da Música, Sala Suggia</div><p>Oscar Jockel dirige O Pássaro de Fogo de Stravinsky com a Orquestra Sinfónica do Porto. A Sala Suggia é uma das melhores salas de concerto da Europa — vale a pena só pela sala.</p><a class="more-info" href="https://casadamusica.com/agenda/" target="_blank">Agenda Casa da Música →</a></div></div>
+      <div class="pick"><div class="pick-number">5</div><div class="pick-content"><h3>Mercado da Alegria</h3><div class="pick-meta">Dom 1 Mar, 10h–18h · Jardim do Passeio Alegre · Gratuito</div><p>Mercado de artesanato junto ao rio. O domingo de manhã perfeito — combine com um passeio ao longo do Douro e um pastel de nata.</p><a class="more-info" href="https://www.agenda-porto.pt/" target="_blank">Agenda Porto →</a></div></div>
+    </div>
+
+    <div class="section"><div class="section-header"><span class="section-emoji">🎵</span><span class="section-title">Música &amp; Concertos</span></div>
+      <div class="event"><div class="event-date-block"><div class="day">Dom</div><div class="date">1</div></div><div class="event-info"><h4>Serafim Borges — "Dois no Mundo" <span class="badge badge-price">€20</span></h4><div class="venue">Casa da Música, Sala 2 · 19h</div><p>Concerto solo intimista de um músico-produtor baseado no Porto. Uma opção tranquila e pensativa para domingo à noite.</p><a class="more-info" href="https://casadamusica.com/agenda/" target="_blank">Mais info →</a></div></div>
+      <div class="event"><div class="event-date-block"><div class="day">Sex</div><div class="date">6</div></div><div class="event-info"><h4>O Pássaro de Fogo — Orquestra Sinfónica do Porto</h4><div class="venue">Casa da Música, Sala Suggia · 21h</div><p>O Pássaro de Fogo de Stravinsky dirigido por Oscar Jockel. Um concerto sério numa sala seriamente bonita.</p><a class="more-info" href="https://casadamusica.com/agenda/" target="_blank">Mais info →</a></div></div>
+      <div class="event"><div class="event-date-block"><div class="day">Sex–Sáb</div><div class="date">6–7</div></div><div class="event-info"><h4>Bárbara Tinoco <span class="badge badge-price">€20–€80</span></h4><div class="venue">Super Bock Arena · Duas noites</div><p>A voz pop jovem mais brilhante de Portugal. Duas noites — escolha a que lhe der mais jeito.</p><a class="more-info" href="https://www.superbockarena.pt/agenda/" target="_blank">Comprar bilhetes →</a></div></div>
+      <div class="event"><div class="event-date-block"><div class="day">Sáb</div><div class="date">7</div></div><div class="event-info"><h4>Balagan Trio — Festival Bombalkanica <span class="badge badge-free">Gratuito</span></h4><div class="venue">Casa da Horta · 20:30</div><p>Música folk dos Balcãs num dos cantos escondidos do Porto. Gratuito, vibrante e totalmente merecedor do seu sábado à noite.</p><a class="more-info" href="https://agendaculturalporto.org" target="_blank">Mais info →</a></div></div>
+      <div class="event"><div class="event-date-block"><div class="day">Vários</div><div class="date">—</div></div><div class="event-info"><h4>Concertos Candlelight <span class="badge badge-price">desde €16,50</span></h4><div class="venue">Hilton Porto Gaia / Pestana Palácio do Freixo</div><p>Tributos a ABBA, Hans Zimmer e Adele à luz de velas. Romântico e surpreendentemente bom.</p><a class="more-info" href="https://feverup.com/pt/porto/concertos" target="_blank">Comprar bilhetes →</a></div></div>
+    </div>
+    <div class="divider"></div>
+
+    <div class="section"><div class="section-header"><span class="section-emoji">🎨</span><span class="section-title">Arte &amp; Exposições</span></div>
+      <div class="event"><div class="event-date-block"><div class="day">Inaugura</div><div class="date">Sex 6</div></div><div class="event-info"><h4>ISTO NÃO SÃO LIVROS <span class="badge badge-price">Entrada museu</span></h4><div class="venue">Museu de Serralves · até 31 de Maio</div><p>Nova exposição que inaugura esta sexta. Vá no fim de semana de abertura — a energia é diferente quando é novidade.</p><a class="more-info" href="https://www.serralves.pt/en/activities/" target="_blank">Serralves →</a></div></div>
+      <div class="event"><div class="event-date-block"><div class="day">Em curso</div><div class="date">—</div></div><div class="event-info"><h4>Joan Miró e Arte Contemporânea</h4><div class="venue">Casa de Serralves · incluído na entrada do museu</div><p>Miró em diálogo com a coleção permanente de Serralves. Um cruzamento raro e inteligente.</p><a class="more-info" href="https://www.serralves.pt/en/activities/" target="_blank">Serralves →</a></div></div>
+      <div class="event"><div class="event-date-block"><div class="day">Em curso</div><div class="date">—</div></div><div class="event-info"><h4>Impressive Monet &amp; Brilliant Klimt</h4><div class="venue">Alfândega do Porto</div><p>Experiência digital imersiva em grande escala. Ótima para uma noite fora com algo visualmente espetacular.</p><a class="more-info" href="https://www.agenda-porto.pt/" target="_blank">Mais info →</a></div></div>
+      <div class="event"><div class="event-date-block"><div class="day">Inaugura</div><div class="date">Dom 1</div></div><div class="event-info"><h4>Entre Pintura e Fotografia <span class="badge badge-free">Domingos grátis</span></h4><div class="venue">Museu Nacional Soares dos Reis</div><p>Nova exposição que explora a interseção entre pintura e fotografia. Grátis aos domingos — vá hoje.</p><a class="more-info" href="https://mnsr.matriznet.dgpc.pt/" target="_blank">Site do museu →</a></div></div>
+    </div>
+    <div class="divider"></div>
+
+    <div class="section"><div class="section-header"><span class="section-emoji">🍽️</span><span class="section-title">Gastronomia, Mercados &amp; Vinho</span></div>
+      <div class="event"><div class="event-date-block"><div class="day">HOJE</div><div class="date">Dom 1</div></div><div class="event-info"><h4>Simplesmente Vinho Porto ⚠️ Último Dia</h4><div class="venue">Margem do Douro</div><p>Um dos melhores eventos de vinho do Porto termina hoje. Produtores artesanais, comida, música ao vivo. Se estiver livre esta tarde, vá.</p><a class="more-info" href="https://www.agenda-porto.pt/" target="_blank">Mais info →</a></div></div>
+      <div class="event"><div class="event-date-block"><div class="day">Dom</div><div class="date">1</div></div><div class="event-info"><h4>Mercado da Alegria <span class="badge badge-free">Entrada gratuita</span></h4><div class="venue">Jardim do Passeio Alegre · 10h–18h</div><p>Mercado semanal de artesanato. Todos os domingos — um clássico do Porto que merece uma manhã dedicada.</p><a class="more-info" href="https://www.agenda-porto.pt/" target="_blank">Mais info →</a></div></div>
+      <div class="event"><div class="event-date-block"><div class="day">Sáb–Dom</div><div class="date">7–8</div></div><div class="event-info"><h4>Primavera Bonsai Fest</h4><div class="venue">Centro Social Luso Venezolano</div><p>Nicho mas genuinamente bonito. Bonsai como arte viva. Surpreendentemente meditativo para uma manhã de sábado.</p><a class="more-info" href="https://www.agenda-porto.pt/" target="_blank">Mais info →</a></div></div>
+      <div class="event"><div class="event-date-block"><div class="day">Toda a semana</div><div class="date">—</div></div><div class="event-info"><h4>Prova de Vinho do Porto <span class="badge badge-price">desde €15</span></h4><div class="venue">Taylor's / Calem, Vila Nova de Gaia</div><p>Sempre uma boa opção. Uma prova à tarde durante a semana do outro lado do rio é um dos prazeres mais subestimados do Porto.</p><a class="more-info" href="https://www.taylor.pt/en/visit-us/" target="_blank">Taylor's →</a> &nbsp;<a class="more-info" href="https://calem.pt/en/visit/" target="_blank">Calem →</a></div></div>
+    </div>
+    <div class="divider"></div>
+
+    <div class="section"><div class="section-header"><span class="section-emoji">👨‍👩‍👧</span><span class="section-title">Família</span></div>
+      <div class="event"><div class="event-date-block"><div class="day">Dom</div><div class="date">1</div></div><div class="event-info"><h4>A Menina do Mar</h4><div class="venue">Coliseu Porto Ageas · 17h · todos os domingos</div><p>O clássico de Sophia de Mello Breyner levado ao palco. Bonito para crianças e nostálgico para qualquer adulto criado em Portugal.</p><a class="more-info" href="https://www.coliseu.pt" target="_blank">Coliseu Porto →</a></div></div>
+      <div class="event"><div class="event-date-block"><div class="day">Sáb</div><div class="date">7</div></div><div class="event-info"><h4>Gamelão — Oficina de Percussão para Crianças</h4><div class="venue">Casa da Música · 14:30 · Preço reduzido</div><p>Sessão prática com instrumentos Gamelan para crianças. Barulhento, alegre e genuinamente musical. Reserve com antecedência.</p><a class="more-info" href="https://casadamusica.com/agenda/" target="_blank">Reservar →</a></div></div>
+      <div class="event"><div class="event-date-block"><div class="day">Sáb</div><div class="date">7</div></div><div class="event-info"><h4>Cerâmica em Família</h4><div class="venue">Rua Duque de Saldanha 416 · 10:30</div><p>Oficina de cerâmica em família. Metam as mãos no barro juntos — sempre um sucesso com crianças de todas as idades.</p><a class="more-info" href="https://www.agenda-porto.pt/" target="_blank">Mais info →</a></div></div>
+      <div class="event"><div class="event-date-block"><div class="day">Sáb</div><div class="date">7</div></div><div class="event-info"><h4>Oficina Cinema-Mentira</h4><div class="venue">Serralves · 15h</div><p>Oficina familiar ligada ao cinema e à narrativa. Criativa, diferente, e Serralves com o parque é sempre uma vitória.</p><a class="more-info" href="https://www.serralves.pt/en/activities/" target="_blank">Serralves →</a></div></div>
+    </div>
+    <div class="divider"></div>
+
+    <div class="section"><div class="section-header"><span class="section-emoji">🌙</span><span class="section-title">Vida Noturna</span></div>
+      <div class="event"><div class="event-date-block"><div class="day">Sex</div><div class="date">6</div></div><div class="event-info"><h4>BEWARE THE INVASION by INVDRS</h4><div class="venue">Hard Club</div><p>Noite de música eletrónica num dos melhores espaços do Porto. O Hard Club raramente desilude numa sexta à noite.</p><a class="more-info" href="https://hardclub.pt" target="_blank">Hard Club →</a></div></div>
+      <div class="event"><div class="event-date-block"><div class="day">Sex</div><div class="date">6</div></div><div class="event-info"><h4>Vitrinni Opo — Noite de Inauguração</h4><div class="venue">Maria Pistolas</div><p>Noite de inauguração com sabor latino num dos spots noturnos mais queridos do Porto. As primeiras noites aqui têm sempre boa energia.</p><a class="more-info" href="https://www.agenda-porto.pt/" target="_blank">Mais info →</a></div></div>
+      <div class="event"><div class="event-date-block"><div class="day">Sex–Sáb</div><div class="date">6–7</div></div><div class="event-info"><h4>Noites AfroLatinas <span class="badge badge-free">Gratuito / entrada reduzida</span></h4><div class="venue">Muxima Bar</div><p>Todos os fins de semana este mês. O melhor sítio da cidade para Afrobeats, kizomba e dança sem coreografia forçada.</p><a class="more-info" href="https://www.agenda-porto.pt/" target="_blank">Mais info →</a></div></div>
+    </div>
+    <div class="divider"></div>
+
+    <div class="section"><div class="section-header"><span class="section-emoji">💡</span><span class="section-title">Dica da Semana</span></div>
+      <div class="tip-box"><div class="tip-label">Dica Local</div><p>Março é a altura ideal do Porto — os turistas ainda não chegaram em força, os parques estão a começar a florescer e ainda se consegue mesa nos bons restaurantes sem reserva. Vá a <strong>Serralves numa tarde de semana</strong>: o parque é gratuito para residentes do concelho do Porto e a nova exposição acabou de inaugurar. Leve um café do bar, tome o seu tempo. Esta é a versão do Porto que quem cá vive realmente desfruta.</p></div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="brand">Oporto Weekly</div>
+    <p>Curado todas as quintas-feiras de manhã a partir de várias fontes reputadas.<br/>
+    Os eventos estão sujeitos a alterações — confirme sempre antes de sair.<br/><br/>
+    <a href="#" style="color:#c9a96e; text-decoration:none;">Cancelar subscrição</a> · Porto, Portugal</p>
+  </div>
+</div>
+</body>
+</html>

@@ -1,10 +1,10 @@
-import { listNewsletters } from '@/lib/archive';
+import { listNewslettersPT, getNewsletterHtmlPT, stripEmailFooter } from '@/lib/archive';
 import Link from 'next/link';
 import type { Metadata } from 'next';
 import { SubscribeForm } from '../SubscribeForm';
 
 export async function generateMetadata(): Promise<Metadata> {
-  const newsletters = listNewsletters();
+  const newsletters = listNewslettersPT();
   const latest = newsletters[0] ?? null;
   const title = latest
     ? `${latest.weekRange} — Guia de Eventos no Porto`
@@ -35,8 +35,10 @@ const gold = '#c9a96e';
 const bg = '#1a1a2e';
 
 export default function HomePT() {
-  const newsletters = listNewsletters();
+  const newsletters = listNewslettersPT();
   const latest = newsletters[0] ?? null;
+  const rawHtml = latest ? getNewsletterHtmlPT(latest.slug) : null;
+  const html = rawHtml ? stripEmailFooter(rawHtml) : null;
 
   return (
     <div style={{ background: '#f4f1ec', minHeight: '100vh', fontFamily: 'Inter, Arial, sans-serif' }}>
@@ -47,7 +49,7 @@ export default function HomePT() {
           Oporto Weekly
         </Link>
         <div style={{ display: 'flex', gap: 20, alignItems: 'center' }}>
-          <Link href="/archive" style={{ fontSize: 12, color: '#9999bb', textDecoration: 'none', letterSpacing: 0.5 }}>
+          <Link href="/pt/arquivo" style={{ fontSize: 12, color: '#9999bb', textDecoration: 'none', letterSpacing: 0.5 }}>
             Arquivo →
           </Link>
           <Link href="/" style={{ fontSize: 12, color: gold, textDecoration: 'none', letterSpacing: 0.5, fontWeight: 600 }}>
@@ -72,6 +74,23 @@ export default function HomePT() {
           <SubscribeForm />
         </div>
       </div>
+
+      {/* Latest PT newsletter content */}
+      {html && (
+        <div style={{ maxWidth: 800, margin: '0 auto', padding: '40px 24px' }}>
+          <div style={{
+            background: '#fff', borderRadius: 4, padding: '12px 20px', marginBottom: 24,
+            borderLeft: '4px solid #c9a96e', fontSize: 13, color: '#555',
+          }}>
+            📅 <strong style={{ color: '#1a1a2e' }}>Edição: {latest?.weekRange}</strong>
+            {' — '}
+            <Link href={`/pt/arquivo/${latest?.slug}`} style={{ color: '#c9a96e', textDecoration: 'none' }}>
+              Link permanente →
+            </Link>
+          </div>
+          <div dangerouslySetInnerHTML={{ __html: html }} />
+        </div>
+      )}
 
       {/* What you get */}
       <div style={{ maxWidth: 800, margin: '0 auto', padding: '56px 24px' }}>
@@ -188,7 +207,7 @@ export default function HomePT() {
         <p style={{ fontFamily: 'Georgia, serif', fontSize: 16, color: gold, marginBottom: 8 }}>Oporto Weekly</p>
         <p style={{ fontSize: 12, color: '#666899', lineHeight: 1.8, margin: 0 }}>
           Curado toda quinta-feira · Porto, Portugal<br />
-          <Link href="/archive" style={{ color: gold, textDecoration: 'none' }}>Arquivo</Link>
+          <Link href="/pt/arquivo" style={{ color: gold, textDecoration: 'none' }}>Arquivo</Link>
           {' · '}
           <Link href="/" style={{ color: '#666899', textDecoration: 'none' }}>English</Link>
           {' · '}

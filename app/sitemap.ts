@@ -1,5 +1,5 @@
 import { MetadataRoute } from 'next';
-import { listNewsletters } from '@/lib/archive';
+import { listNewsletters, listNewslettersPT } from '@/lib/archive';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const newsletters = listNewsletters();
@@ -16,5 +16,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: 'https://oportoweekly.com/pt', lastModified: new Date(), changeFrequency: 'weekly', priority: 0.9 },
     { url: 'https://oportoweekly.com/archive', lastModified: new Date(), changeFrequency: 'weekly', priority: 0.8 },
     ...archiveUrls,
+    { url: 'https://oportoweekly.com/pt/arquivo', lastModified: new Date(), changeFrequency: 'weekly' as const, priority: 0.7 },
+    ...listNewslettersPT().map((n) => ({
+      url: `https://oportoweekly.com/pt/arquivo/${n.slug}`,
+      lastModified: new Date(n.sentAt),
+      changeFrequency: 'never' as const,
+      priority: 0.6,
+    })),
   ];
 }
