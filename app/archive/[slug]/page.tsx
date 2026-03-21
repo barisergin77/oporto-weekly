@@ -39,30 +39,36 @@ export default function EditionPage({ params }: { params: { slug: string } }) {
 
   if (!meta || !html) notFound();
 
+  const pageUrl = `https://oportoweekly.com/archive/${meta.slug}`;
   const jsonLd = {
     '@context': 'https://schema.org',
-    '@type': 'NewsArticle',
-    headline: `${meta.weekRange} — Porto Events Guide`,
-    description: meta.description,
-    datePublished: meta.sentAt,
-    dateModified: meta.sentAt,
-    url: `https://oportoweekly.com/archive/${meta.slug}`,
-    publisher: {
-      '@type': 'Organization',
-      name: 'Oporto Weekly',
-      url: 'https://oportoweekly.com',
-    },
-    author: {
-      '@type': 'Organization',
-      name: 'Oporto Weekly',
-    },
-    isAccessibleForFree: true,
-    inLanguage: 'en',
-    about: {
-      '@type': 'Place',
-      name: 'Porto',
-      addressCountry: 'PT',
-    },
+    '@graph': [
+      {
+        '@type': 'NewsArticle',
+        headline: `${meta.weekRange} — Porto Events Guide`,
+        description: meta.description,
+        datePublished: meta.sentAt,
+        dateModified: meta.sentAt,
+        url: pageUrl,
+        publisher: {
+          '@type': 'Organization',
+          name: 'Oporto Weekly',
+          url: 'https://oportoweekly.com',
+        },
+        author: { '@type': 'Organization', name: 'Oporto Weekly' },
+        isAccessibleForFree: true,
+        inLanguage: 'en',
+        about: { '@type': 'Place', name: 'Porto', addressCountry: 'PT' },
+      },
+      {
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://oportoweekly.com' },
+          { '@type': 'ListItem', position: 2, name: 'Archive', item: 'https://oportoweekly.com/archive' },
+          { '@type': 'ListItem', position: 3, name: meta.weekRange, item: pageUrl },
+        ],
+      },
+    ],
   };
 
   return (

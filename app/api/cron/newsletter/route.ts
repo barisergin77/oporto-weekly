@@ -4,6 +4,7 @@ import { NextResponse } from 'next/server';
 import { saveNewsletter, generateSlug } from '@/lib/archive';
 import { getActiveSubscribers } from '@/lib/beehiiv';
 import { sendBatch } from '@/lib/resend-client';
+import { notifySearchEngines } from '@/lib/search-engines';
 
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY!;
 const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`;
@@ -148,6 +149,11 @@ export async function GET() {
         weekRange,
       }, html);
       console.log(`[cron/newsletter] Archived as ${slug}`);
+
+      // Notify search engines about the new edition (best-effort)
+      notifySearchEngines(slug).catch(e =>
+        console.error('[cron/newsletter] Search engine notification failed:', e)
+      );
     } catch (archiveErr) {
       console.error('[cron/newsletter] Archive skipped (read-only fs):', archiveErr);
     }

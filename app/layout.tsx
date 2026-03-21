@@ -57,6 +57,9 @@ export const metadata: Metadata = {
   },
   alternates: {
     canonical: 'https://oportoweekly.com',
+    types: {
+      'application/rss+xml': 'https://oportoweekly.com/feed.xml',
+    },
   },
 };
 

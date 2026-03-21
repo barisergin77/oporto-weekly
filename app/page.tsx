@@ -30,6 +30,34 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
+const organizationJsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Organization',
+      '@id': 'https://oportoweekly.com/#organization',
+      name: 'Oporto Weekly',
+      url: 'https://oportoweekly.com',
+      email: 'hello@oportoweekly.com',
+      description: 'Curated Porto events and culture newsletter, published every Thursday.',
+      areaServed: { '@type': 'City', name: 'Porto', addressCountry: 'PT' },
+    },
+    {
+      '@type': 'WebSite',
+      '@id': 'https://oportoweekly.com/#website',
+      url: 'https://oportoweekly.com',
+      name: 'Oporto Weekly',
+      publisher: { '@id': 'https://oportoweekly.com/#organization' },
+      inLanguage: 'en',
+      potentialAction: {
+        '@type': 'SearchAction',
+        target: { '@type': 'EntryPoint', urlTemplate: 'https://oportoweekly.com/archive?q={search_term_string}' },
+        'query-input': 'required name=search_term_string',
+      },
+    },
+  ],
+};
+
 export default function Home() {
   const newsletters = listNewsletters();
   const latest = newsletters[0] ?? null;
@@ -41,6 +69,10 @@ export default function Home() {
 
   return (
     <div style={{ background: '#f4f1ec', minHeight: '100vh', fontFamily: 'Inter, Arial, sans-serif' }}>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
+      />
 
       {/* Top bar */}
       <div style={{ background: bg, padding: '14px 32px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
