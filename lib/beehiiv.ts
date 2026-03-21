@@ -2,7 +2,7 @@ const BEEHIIV_API_KEY = process.env.BEEHIIV_API_KEY!;
 const PUB_ID = 'pub_8e15aa9e-4215-4fe3-b803-d991916b0dd9';
 const BASE = 'https://api.beehiiv.com/v2';
 
-export async function addSubscriber(email: string): Promise<void> {
+export async function addSubscriber(email: string, lang: 'en' | 'pt' = 'en'): Promise<void> {
   const res = await fetch(`${BASE}/publications/${PUB_ID}/subscriptions`, {
     method: 'POST',
     headers: {
@@ -13,7 +13,7 @@ export async function addSubscriber(email: string): Promise<void> {
       email,
       reactivate_existing: false,
       send_welcome_email: false,
-      utm_source: 'website',
+      utm_source: lang === 'pt' ? 'website-pt' : 'website',
       utm_medium: 'organic',
     }),
   });
@@ -30,14 +30,26 @@ export interface BeehiivSubscriber {
   status: string;
 }
 
-export async function getActiveSubscribers(): Promise<BeehiivSubscriber[]> {
+/**
+ * Fetches active subscribers, optionally filtered by language.
+ * - 'en' → utm_source=website (all existing + new EN subscribers)
+ * - 'pt' → utm_source=website-pt
+ * - undefined → all active subscribers (backwards compat)
+ */
+export async function getActiveSubscribers(lang?: 'en' | 'pt'): Promise<BeehiivSubscriber[]> {
   const subscribers: BeehiivSubscriber[] = [];
   let page = 1;
   const limit = 100;
 
+  // Build query params
+  const params = new URLSearchParams({ status: 'active', limit: String(limit) });
+  if (lang === 'en') params.set('utm_source', 'website');
+  if (lang === 'pt') params.set('utm_source', 'website-pt');
+
   while (true) {
+    params.set('page', String(page));
     const res = await fetch(
-      `${BASE}/publications/${PUB_ID}/subscriptions?status=active&limit=${limit}&page=${page}`,
+      `${BASE}/publications/${PUB_ID}/subscriptions?${params}`,
       {
         headers: { Authorization: `Bearer ${BEEHIIV_API_KEY}` },
       }
@@ -57,7 +69,6 @@ export async function getActiveSubscribers(): Promise<BeehiivSubscriber[]> {
 
     subscribers.push(...batch);
 
-    // Stop if we got fewer than limit (last page)
     if (batch.length < limit) break;
     page++;
   }

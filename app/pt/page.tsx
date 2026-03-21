@@ -1,7 +1,7 @@
 import { listNewslettersPT, getNewsletterHtmlPT, stripEmailFooter } from '@/lib/archive';
 import Link from 'next/link';
 import type { Metadata } from 'next';
-import { SubscribeForm } from '../SubscribeForm';
+import { SubscribeFormPT } from '../SubscribeFormPT';
 
 export async function generateMetadata(): Promise<Metadata> {
   const newsletters = listNewslettersPT();
@@ -125,7 +125,7 @@ export default function HomePT() {
               </div>
             )}
 
-            <SubscribeForm />
+            <SubscribeFormPT />
           </div>
 
           <div style={{ textAlign: 'center', marginTop: 16 }}>

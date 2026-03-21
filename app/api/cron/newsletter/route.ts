@@ -173,11 +173,11 @@ export async function GET() {
     const weekDate = new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
     const subject = `Oporto Weekly — ${weekDate}`;
 
-    // 4. Send directly — fetch subscribers and batch-send
-    const subscribers = await getActiveSubscribers();
-    const emails = subscribers.map(s => s.email);
-    const sent = await sendBatch(emails, subject, html);
-    console.log(`[cron/newsletter] Sent to ${sent} subscribers`);
+    // 4. Send EN edition to EN subscribers
+    const enSubscribers = await getActiveSubscribers('en');
+    const enEmails = enSubscribers.map(s => s.email);
+    const sentEN = await sendBatch(enEmails, subject, html);
+    console.log(`[cron/newsletter] Sent EN to ${sentEN} subscribers`);
 
     // 5. Archive EN edition via GitHub API (commits to repo → triggers Vercel redeploy)
     const now = new Date();
@@ -201,24 +201,36 @@ export async function GET() {
       console.error('[cron/newsletter] EN archive failed:', archiveErr);
     }
 
-    // 6. Generate Portuguese translation and archive via GitHub API (best-effort)
+    // 6. Generate Portuguese translation, send to PT subscribers, archive
+    let sentPT = 0;
     try {
       const ptHtml = await translateNewsletter(html);
+      const ptWeekDate = now.toLocaleDateString('pt-PT', { day: 'numeric', month: 'long', year: 'numeric' });
+      const ptSubject = `Oporto Weekly — ${ptWeekDate}`;
+
+      // Send PT edition to PT subscribers
+      const ptSubscribers = await getActiveSubscribers('pt');
+      const ptEmails = ptSubscribers.map(s => s.email);
+      if (ptEmails.length > 0) {
+        sentPT = await sendBatch(ptEmails, ptSubject, ptHtml);
+        console.log(`[cron/newsletter] Sent PT to ${sentPT} subscribers`);
+      }
+
+      // Archive PT edition
       const ptSlug = slug + '-pt';
-      const ptWeekRange = now.toLocaleDateString('pt-PT', { day: 'numeric', month: 'long', year: 'numeric' });
       await archiveViaGitHub({
         slug: ptSlug,
-        title: `Oporto Weekly — ${ptWeekRange}`,
-        description: `Eventos no Porto: ${ptWeekRange}`,
+        title: `Oporto Weekly — ${ptWeekDate}`,
+        description: `Eventos no Porto: ${ptWeekDate}`,
         sentAt: now.toISOString(),
-        weekRange: ptWeekRange,
+        weekRange: ptWeekDate,
       }, ptHtml, 'newsletters-pt.json');
       console.log(`[cron/newsletter] Archived PT as ${ptSlug}`);
     } catch (ptErr) {
-      console.error('[cron/newsletter] PT translation/archive failed:', ptErr);
+      console.error('[cron/newsletter] PT translation/send/archive failed:', ptErr);
     }
 
-    return NextResponse.json({ success: true, sent });
+    return NextResponse.json({ success: true, sent: { en: sentEN, pt: sentPT } });
   } catch (err: unknown) {
     console.error('[cron/newsletter]', err);
     const message = err instanceof Error ? err.message : 'Internal server error';
