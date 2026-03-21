@@ -28,12 +28,14 @@ export interface BeehiivSubscriber {
   id: string;
   email: string;
   status: string;
+  utm_source?: string;
 }
 
 /**
  * Fetches active subscribers, optionally filtered by language.
- * - 'en' → utm_source=website (all existing + new EN subscribers)
- * - 'pt' → utm_source=website-pt
+ * - 'en' → all active subscribers EXCEPT those with utm_source=website-pt
+ *          (includes 'website', 'direct', and any other source)
+ * - 'pt' → only utm_source=website-pt
  * - undefined → all active subscribers (backwards compat)
  */
 export async function getActiveSubscribers(lang?: 'en' | 'pt'): Promise<BeehiivSubscriber[]> {
@@ -41,9 +43,8 @@ export async function getActiveSubscribers(lang?: 'en' | 'pt'): Promise<BeehiivS
   let page = 1;
   const limit = 100;
 
-  // Build query params
+  // For PT, filter server-side. For EN, fetch all and exclude PT client-side.
   const params = new URLSearchParams({ status: 'active', limit: String(limit) });
-  if (lang === 'en') params.set('utm_source', 'website');
   if (lang === 'pt') params.set('utm_source', 'website-pt');
 
   while (true) {
@@ -61,16 +62,23 @@ export async function getActiveSubscribers(lang?: 'en' | 'pt'): Promise<BeehiivS
     }
 
     const data = await res.json();
-    const batch: BeehiivSubscriber[] = (data.data ?? []).map((s: BeehiivSubscriber) => ({
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const batch = (data.data ?? []).map((s: any) => ({
       id: s.id,
       email: s.email,
       status: s.status,
+      utm_source: s.utm_source ?? '',
     }));
 
     subscribers.push(...batch);
 
     if (batch.length < limit) break;
     page++;
+  }
+
+  // For EN: exclude PT-only subscribers (everyone else gets EN)
+  if (lang === 'en') {
+    return subscribers.filter(s => s.utm_source !== 'website-pt');
   }
 
   return subscribers;
