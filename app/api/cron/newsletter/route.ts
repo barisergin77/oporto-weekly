@@ -1,7 +1,8 @@
 export const dynamic = 'force-dynamic';
 export const maxDuration = 300;
 import { NextResponse } from 'next/server';
-import { saveNewsletter, saveNewsletterPT, generateSlug } from '@/lib/archive';
+import { generateSlug } from '@/lib/archive';
+import { archiveViaGitHub } from '@/lib/github';
 import { getActiveSubscribers } from '@/lib/beehiiv';
 import { sendBatch } from '@/lib/resend-client';
 import { notifySearchEngines } from '@/lib/search-engines';
@@ -178,43 +179,41 @@ export async function GET() {
     const sent = await sendBatch(emails, subject, html);
     console.log(`[cron/newsletter] Sent to ${sent} subscribers`);
 
-    // 5. Archive the newsletter (best-effort — Vercel filesystem is read-only in prod)
+    // 5. Archive EN edition via GitHub API (commits to repo → triggers Vercel redeploy)
+    const now = new Date();
+    const weekRange = now.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+    const slug = generateSlug(weekRange);
     try {
-      const now = new Date();
-      const weekRange = now.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
-      const slug = generateSlug(weekRange);
-      saveNewsletter({
+      await archiveViaGitHub({
         slug,
         title: `Oporto Weekly — ${now.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}`,
         description: subject,
         sentAt: now.toISOString(),
         weekRange,
-      }, html);
-      console.log(`[cron/newsletter] Archived as ${slug}`);
+      }, html, 'newsletters.json');
+      console.log(`[cron/newsletter] Archived EN as ${slug}`);
 
       // Notify search engines about the new edition (best-effort)
       notifySearchEngines(slug).catch(e =>
         console.error('[cron/newsletter] Search engine notification failed:', e)
       );
     } catch (archiveErr) {
-      console.error('[cron/newsletter] Archive skipped (read-only fs):', archiveErr);
+      console.error('[cron/newsletter] EN archive failed:', archiveErr);
     }
 
-    // 6. Generate Portuguese translation and archive (best-effort)
+    // 6. Generate Portuguese translation and archive via GitHub API (best-effort)
     try {
       const ptHtml = await translateNewsletter(html);
-      const now = new Date();
-      const weekRange = now.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
-      const ptSlug = generateSlug(weekRange) + '-pt';
+      const ptSlug = slug + '-pt';
       const ptWeekRange = now.toLocaleDateString('pt-PT', { day: 'numeric', month: 'long', year: 'numeric' });
-      saveNewsletterPT({
+      await archiveViaGitHub({
         slug: ptSlug,
         title: `Oporto Weekly — ${ptWeekRange}`,
         description: `Eventos no Porto: ${ptWeekRange}`,
         sentAt: now.toISOString(),
         weekRange: ptWeekRange,
-      }, ptHtml);
-      console.log(`[cron/newsletter] PT edition archived as ${ptSlug}`);
+      }, ptHtml, 'newsletters-pt.json');
+      console.log(`[cron/newsletter] Archived PT as ${ptSlug}`);
     } catch (ptErr) {
       console.error('[cron/newsletter] PT translation/archive failed:', ptErr);
     }
