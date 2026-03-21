@@ -39,6 +39,12 @@ export default function EditionPage({ params }: { params: { slug: string } }) {
 
   if (!meta || !html) notFound();
 
+  // Prev / next navigation (list is newest-first)
+  const all = listNewsletters();
+  const idx = all.findIndex((n) => n.slug === params.slug);
+  const newer = idx > 0 ? all[idx - 1] : null;
+  const older = idx < all.length - 1 ? all[idx + 1] : null;
+
   const pageUrl = `https://oportoweekly.com/archive/${meta.slug}`;
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -89,6 +95,38 @@ export default function EditionPage({ params }: { params: { slug: string } }) {
 
       {/* Newsletter HTML */}
       <div dangerouslySetInnerHTML={{ __html: html }} />
+
+      {/* Prev / Next navigation */}
+      <div style={{
+        background: '#16213e',
+        borderTop: '1px solid #c9a96e33',
+        padding: '28px 24px',
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        gap: 16,
+        flexWrap: 'wrap',
+      }}>
+        <div style={{ flex: 1, minWidth: 0 }}>
+          {older && (
+            <Link href={`/archive/${older.slug}`} style={{ textDecoration: 'none' }}>
+              <div style={{ fontSize: 10, letterSpacing: 2, textTransform: 'uppercase', color: '#9999bb', marginBottom: 4 }}>← Older edition</div>
+              <div style={{ fontSize: 14, color: '#c9a96e', fontFamily: 'Georgia, serif' }}>{older.weekRange}</div>
+            </Link>
+          )}
+        </div>
+        <Link href="/archive" style={{ fontSize: 12, color: '#9999bb', textDecoration: 'none', whiteSpace: 'nowrap' }}>
+          All editions
+        </Link>
+        <div style={{ flex: 1, minWidth: 0, textAlign: 'right' }}>
+          {newer && (
+            <Link href={`/archive/${newer.slug}`} style={{ textDecoration: 'none' }}>
+              <div style={{ fontSize: 10, letterSpacing: 2, textTransform: 'uppercase', color: '#9999bb', marginBottom: 4 }}>Newer edition →</div>
+              <div style={{ fontSize: 14, color: '#c9a96e', fontFamily: 'Georgia, serif' }}>{newer.weekRange}</div>
+            </Link>
+          )}
+        </div>
+      </div>
 
       {/* Subscribe CTA */}
       <div style={{ background: '#1a1a2e', padding: '40px 24px', textAlign: 'center' }}>

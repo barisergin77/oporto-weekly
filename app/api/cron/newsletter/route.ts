@@ -83,6 +83,7 @@ DESIGN REQUIREMENTS:
 - Max width: 600px, centered
 - Mobile-friendly, table-based layout for email clients
 - Footer: unsubscribe note, "© Oporto Weekly · Porto, Portugal"
+- All <img> tags must have descriptive alt attributes (e.g., alt="Jazz concert at Casa da Música Porto")
 
 Output ONLY the complete HTML. No markdown, no explanation.`;
 

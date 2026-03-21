@@ -41,6 +41,7 @@ export function GET() {
     <webMaster>hello@oportoweekly.com (Oporto Weekly)</webMaster>
     <ttl>10080</ttl>
     <atom:link href="${site}/feed.xml" rel="self" type="application/rss+xml"/>
+    <atom:link rel="hub" href="https://pubsubhubbub.appspot.com/"/>
     <image>
       <url>${site}/opengraph-image</url>
       <title>Oporto Weekly</title>

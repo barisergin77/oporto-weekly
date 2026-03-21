@@ -105,6 +105,26 @@ export async function submitSitemapToGSC(): Promise<void> {
 }
 
 // ---------------------------------------------------------------------------
+// WebSub / PubSubHubbub — instant RSS distribution to Feedly, Flipboard, etc.
+// Pings Google's public hub so subscribers are notified the moment a new
+// edition is published.
+// ---------------------------------------------------------------------------
+export async function pingWebSub(): Promise<void> {
+  const params = new URLSearchParams({
+    'hub.mode': 'publish',
+    'hub.url': `${SITE}/feed.xml`,
+  });
+
+  const res = await fetch('https://pubsubhubbub.appspot.com/', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: params.toString(),
+  });
+
+  console.log(`[search-engines] WebSub ping → ${res.status}`);
+}
+
+// ---------------------------------------------------------------------------
 // Master export — call this after every new newsletter is published
 // ---------------------------------------------------------------------------
 export async function notifySearchEngines(slug: string): Promise<void> {
@@ -118,5 +138,6 @@ export async function notifySearchEngines(slug: string): Promise<void> {
     notifyIndexNow(urls),
     notifyGoogleIndexingAPI(urls),
     submitSitemapToGSC(),
+    pingWebSub(),
   ]);
 }
