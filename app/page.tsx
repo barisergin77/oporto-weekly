@@ -1,6 +1,34 @@
 import { listNewsletters, getNewsletterHtml, stripEmailFooter } from '@/lib/archive';
 import Link from 'next/link';
+import type { Metadata } from 'next';
 import { SubscribeForm } from './SubscribeForm';
+
+export async function generateMetadata(): Promise<Metadata> {
+  const newsletters = listNewsletters();
+  const latest = newsletters[0] ?? null;
+  const title = latest
+    ? `${latest.weekRange} — Porto Events Guide`
+    : 'Porto Events & Culture Newsletter';
+  const description = latest?.description
+    ?? 'The best events, culture, food, and things to do in Porto — curated every Thursday morning.';
+
+  return {
+    title,
+    description,
+    alternates: { canonical: 'https://oportoweekly.com' },
+    openGraph: {
+      title,
+      description,
+      url: 'https://oportoweekly.com',
+      type: 'website',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+    },
+  };
+}
 
 export default function Home() {
   const newsletters = listNewsletters();

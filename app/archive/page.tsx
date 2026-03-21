@@ -1,9 +1,18 @@
 import { listNewsletters } from '@/lib/archive';
 import Link from 'next/link';
 
-export const metadata = {
-  title: 'Archive — Oporto Weekly',
-  description: 'Browse all past editions of Oporto Weekly — your curated Porto events guide.',
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Archive — All Porto Events Editions',
+  description: 'Browse all past editions of Oporto Weekly — your curated Porto events, culture, food, and weekend guide, published every Thursday.',
+  alternates: { canonical: 'https://oportoweekly.com/archive' },
+  openGraph: {
+    title: 'Archive — Oporto Weekly',
+    description: 'Browse all past editions of Oporto Weekly — your curated Porto events guide.',
+    url: 'https://oportoweekly.com/archive',
+    type: 'website',
+  },
 };
 
 export default function ArchivePage() {

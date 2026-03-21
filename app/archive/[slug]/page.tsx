@@ -11,14 +11,23 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
   const meta = getNewsletterMeta(params.slug);
   if (!meta) return { title: 'Not Found' };
+  const url = `https://oportoweekly.com/archive/${meta.slug}`;
   return {
-    title: `${meta.title} | Porto Events Guide`,
+    title: `${meta.weekRange} — Porto Events Guide`,
     description: meta.description,
+    alternates: { canonical: url },
     openGraph: {
-      title: meta.title,
+      title: `${meta.weekRange} — Porto Events Guide`,
       description: meta.description,
       type: 'article',
-      url: `https://oportoweekly.com/archive/${meta.slug}`,
+      url,
+      publishedTime: meta.sentAt,
+      siteName: 'Oporto Weekly',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${meta.weekRange} — Porto Events Guide`,
+      description: meta.description,
     },
   };
 }
@@ -30,8 +39,38 @@ export default function EditionPage({ params }: { params: { slug: string } }) {
 
   if (!meta || !html) notFound();
 
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'NewsArticle',
+    headline: `${meta.weekRange} — Porto Events Guide`,
+    description: meta.description,
+    datePublished: meta.sentAt,
+    dateModified: meta.sentAt,
+    url: `https://oportoweekly.com/archive/${meta.slug}`,
+    publisher: {
+      '@type': 'Organization',
+      name: 'Oporto Weekly',
+      url: 'https://oportoweekly.com',
+    },
+    author: {
+      '@type': 'Organization',
+      name: 'Oporto Weekly',
+    },
+    isAccessibleForFree: true,
+    inLanguage: 'en',
+    about: {
+      '@type': 'Place',
+      name: 'Porto',
+      addressCountry: 'PT',
+    },
+  };
+
   return (
     <main style={{ background: '#f4f1ec', minHeight: '100vh', fontFamily: 'Inter, Arial, sans-serif' }}>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       {/* Nav bar */}
       <div style={{ background: '#1a1a2e', padding: '14px 24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <Link href="/" style={{ fontFamily: 'Georgia, serif', fontSize: 18, color: '#c9a96e', textDecoration: 'none' }}>
