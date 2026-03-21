@@ -1,7 +1,7 @@
 export const dynamic = 'force-dynamic';
 export const maxDuration = 300;
 import { NextResponse } from 'next/server';
-import { saveNewsletter, generateSlug } from '@/lib/archive';
+import { saveNewsletter, saveNewsletterPT, generateSlug } from '@/lib/archive';
 import { getActiveSubscribers } from '@/lib/beehiiv';
 import { sendBatch } from '@/lib/resend-client';
 import { notifySearchEngines } from '@/lib/search-engines';
@@ -113,6 +113,47 @@ Output ONLY the complete HTML. No markdown, no explanation.`;
   return html;
 }
 
+async function translateNewsletter(enHtml: string): Promise<string> {
+  const prompt = `Translate the following HTML newsletter from English to European Portuguese (pt-PT).
+
+RULES:
+- Translate ALL text content to Portuguese, including section headers, descriptions, tips, footer text
+- Keep event names and venue names as-is (they are proper nouns)
+- Translate day abbreviations: Mon→Seg, Tue→Ter, Wed→Qua, Thu→Qui, Fri→Sex, Sat→Sáb, Sun→Dom
+- Translate "Free"→"Gratuito", "More info"→"Mais info", "Get tickets"→"Comprar bilhetes", "Book"→"Reservar"
+- Use 24h time format (9 PM → 21h)
+- Change <html lang="en"> to <html lang="pt">
+- Keep ALL HTML structure, CSS, classes, links, and styling exactly the same
+- Keep all URLs unchanged
+- Output ONLY the complete translated HTML. No markdown, no explanation.
+
+HTML TO TRANSLATE:
+${enHtml}`;
+
+  const res = await fetch(GEMINI_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      contents: [{ parts: [{ text: prompt }] }],
+      generationConfig: { maxOutputTokens: 65536 },
+    }),
+  });
+
+  if (!res.ok) {
+    const err = await res.text();
+    throw new Error(`Gemini translation failed: ${res.status} ${err}`);
+  }
+
+  const data = await res.json();
+  let html: string =
+    data?.candidates?.[0]?.content?.parts
+      ?.map((p: { text?: string }) => p.text ?? '')
+      .join('') ?? '';
+
+  html = html.replace(/^```html\n?/i, '').replace(/\n?```$/, '').trim();
+  return html;
+}
+
 export async function GET() {
   try {
     // 1. Run Gemini searches sequentially to respect rate limits
@@ -157,6 +198,25 @@ export async function GET() {
       );
     } catch (archiveErr) {
       console.error('[cron/newsletter] Archive skipped (read-only fs):', archiveErr);
+    }
+
+    // 6. Generate Portuguese translation and archive (best-effort)
+    try {
+      const ptHtml = await translateNewsletter(html);
+      const now = new Date();
+      const weekRange = now.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+      const ptSlug = generateSlug(weekRange) + '-pt';
+      const ptWeekRange = now.toLocaleDateString('pt-PT', { day: 'numeric', month: 'long', year: 'numeric' });
+      saveNewsletterPT({
+        slug: ptSlug,
+        title: `Oporto Weekly — ${ptWeekRange}`,
+        description: `Eventos no Porto: ${ptWeekRange}`,
+        sentAt: now.toISOString(),
+        weekRange: ptWeekRange,
+      }, ptHtml);
+      console.log(`[cron/newsletter] PT edition archived as ${ptSlug}`);
+    } catch (ptErr) {
+      console.error('[cron/newsletter] PT translation/archive failed:', ptErr);
     }
 
     return NextResponse.json({ success: true, sent });

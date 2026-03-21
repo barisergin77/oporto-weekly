@@ -67,12 +67,24 @@ export function saveNewsletter(
   meta: Omit<NewsletterMeta, never>,
   html: string
 ): void {
-  // Write HTML
   const htmlPath = path.join(process.cwd(), 'public', 'newsletters', `${meta.slug}.html`);
   fs.writeFileSync(htmlPath, html, 'utf-8');
 
-  // Update index
   const indexPath = path.join(process.cwd(), 'data', 'newsletters.json');
+  const existing: NewsletterMeta[] = JSON.parse(fs.readFileSync(indexPath, 'utf-8'));
+  const filtered = existing.filter((e) => e.slug !== meta.slug);
+  fs.writeFileSync(indexPath, JSON.stringify([meta, ...filtered], null, 2), 'utf-8');
+}
+
+// Same but for Portuguese editions
+export function saveNewsletterPT(
+  meta: Omit<NewsletterMeta, never>,
+  html: string
+): void {
+  const htmlPath = path.join(process.cwd(), 'public', 'newsletters', `${meta.slug}.html`);
+  fs.writeFileSync(htmlPath, html, 'utf-8');
+
+  const indexPath = path.join(process.cwd(), 'data', 'newsletters-pt.json');
   const existing: NewsletterMeta[] = JSON.parse(fs.readFileSync(indexPath, 'utf-8'));
   const filtered = existing.filter((e) => e.slug !== meta.slug);
   fs.writeFileSync(indexPath, JSON.stringify([meta, ...filtered], null, 2), 'utf-8');
