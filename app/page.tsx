@@ -77,9 +77,14 @@ export default function Home() {
       {/* Top bar */}
       <div style={{ background: bg, padding: '14px 32px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <span style={{ fontFamily: 'Georgia, serif', fontSize: 20, color: gold }}>Oporto Weekly</span>
-        <Link href="/archive" style={{ fontSize: 12, color: '#9999bb', textDecoration: 'none', letterSpacing: 0.5 }}>
-          Archive →
-        </Link>
+        <div style={{ display: 'flex', gap: 20, alignItems: 'center' }}>
+          <Link href="/archive" style={{ fontSize: 12, color: '#9999bb', textDecoration: 'none', letterSpacing: 0.5 }}>
+            Archive →
+          </Link>
+          <Link href="/pt" style={{ fontSize: 12, color: gold, textDecoration: 'none', letterSpacing: 0.5, fontWeight: 600 }}>
+            PT
+          </Link>
+        </div>
       </div>
 
       {/* Main layout */}
@@ -172,6 +177,8 @@ export default function Home() {
         <p style={{ fontSize: 12, color: '#666899', lineHeight: 1.8, margin: 0 }}>
           Curated every Thursday · Porto, Portugal<br />
           <Link href="/archive" style={{ color: gold, textDecoration: 'none' }}>Browse all editions</Link>
+          {' · '}
+          <Link href="/pt" style={{ color: '#666899', textDecoration: 'none' }}>Português</Link>
           {' · '}
           <a href="mailto:hello@oportoweekly.com" style={{ color: '#666899', textDecoration: 'none' }}>hello@oportoweekly.com</a>
         </p>
