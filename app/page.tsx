@@ -1,6 +1,5 @@
-import { listNewsletters, getNewsletterHtml, stripEmailFooter } from '@/lib/archive';
+import { listNewsletters, getNewsletterHtml, stripEmailFooter, replaceHeaderWithBanner } from '@/lib/archive';
 import Link from 'next/link';
-import Image from 'next/image';
 import type { Metadata } from 'next';
 import { SubscribeForm } from './SubscribeForm';
 import { Header } from './components/Header';
@@ -65,7 +64,7 @@ export default function Home() {
   const newsletters = listNewsletters();
   const latest = newsletters[0] ?? null;
   const rawHtml = latest ? getNewsletterHtml(latest.slug) : null;
-  const html = rawHtml ? stripEmailFooter(rawHtml) : null;
+  const html = rawHtml ? replaceHeaderWithBanner(stripEmailFooter(rawHtml)) : null;
 
   const gold = '#c9a96e';
   const bg = '#1a1a2e';
@@ -91,19 +90,6 @@ export default function Home() {
 
         {/* Newsletter content — takes up most of the space */}
         <div style={{ flex: 1, minWidth: 0 }}>
-
-          {/* Hero banner */}
-          <div style={{ position: 'relative', width: '100%', height: 280, borderRadius: 10, overflow: 'hidden', marginBottom: 24 }}>
-            <Image
-              src="/hero-banner.png"
-              alt="Your curated guide to Porto — local insights, travel tips, and hidden gems"
-              fill
-              priority
-              style={{ objectFit: 'cover', objectPosition: 'center' }}
-              sizes="(max-width: 1080px) 100vw, 760px"
-            />
-          </div>
-
           {html ? (
             <div dangerouslySetInnerHTML={{ __html: html }} />
           ) : (
