@@ -104,8 +104,8 @@ export async function GET() {
       `  "title": "SEO-optimized article title (50-65 chars, include 'Porto')",\n` +
       `  "excerpt": "Compelling meta description (120-155 chars)",\n` +
       `  "tags": ["3-5 relevant tags like 'food', 'culture', 'wine', 'nightlife'"],\n` +
-      `  "heroImagePrompt": "Detailed prompt for generating a beautiful hero image of Porto related to this topic (describe scene, lighting, style — photorealistic, no text/words in image)",\n` +
-      `  "inlineImagePrompt": "Detailed prompt for a second image showing a specific detail from the article (photorealistic, no text/words)"\n` +
+      `  "heroImagePrompt": "Detailed prompt for a photorealistic hero image set IN PORTO, PORTUGAL. MUST include recognizable Porto elements like: Ribeira district, Douro River, Dom Luís I Bridge, colorful tiled facades (azulejos), Clérigos Tower, Livraria Lello, Port wine cellars in Vila Nova de Gaia, or the narrow cobblestone streets of Porto. Describe specific Porto scenery, golden hour lighting, no text/words in image.",\n` +
+      `  "inlineImagePrompt": "Detailed prompt for a photorealistic image of a specific Porto location or scene related to the article topic. MUST be clearly set in Porto, Portugal — include Portuguese signage, azulejo tiles, Porto architecture, or Douro River views. No text/words in image."\n` +
       `}`
     );
 
