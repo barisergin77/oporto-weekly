@@ -1,5 +1,6 @@
 import { listNewsletters, getNewsletterHtml, stripEmailFooter } from '@/lib/archive';
 import Link from 'next/link';
+import Image from 'next/image';
 import type { Metadata } from 'next';
 import { SubscribeForm } from './SubscribeForm';
 import { Header } from './components/Header';
@@ -77,6 +78,18 @@ export default function Home() {
       />
 
       <Header lang="en" active="home" />
+
+      {/* Hero banner */}
+      <div style={{ position: 'relative', width: '100%', height: 340, maxHeight: '40vh' }}>
+        <Image
+          src="/hero-banner.png"
+          alt="Your curated guide to Porto — local insights, travel tips, and hidden gems"
+          fill
+          priority
+          style={{ objectFit: 'cover', objectPosition: 'center' }}
+          sizes="100vw"
+        />
+      </div>
 
       {/* Main layout */}
       <div style={{
