@@ -1,4 +1,5 @@
 import { listNewsletters, getNewsletterHtml, stripEmailFooter, replaceHeaderWithBanner } from '@/lib/archive';
+import { listBlogPosts } from '@/lib/blog';
 import Link from 'next/link';
 import type { Metadata } from 'next';
 import { SubscribeForm } from './SubscribeForm';
@@ -65,6 +66,7 @@ export default function Home() {
   const latest = newsletters[0] ?? null;
   const rawHtml = latest ? getNewsletterHtml(latest.slug) : null;
   const html = rawHtml ? replaceHeaderWithBanner(stripEmailFooter(rawHtml)) : null;
+  const recentPosts = listBlogPosts().slice(0, 3);
 
   const gold = '#c9a96e';
   const bg = '#1a1a2e';
@@ -158,6 +160,61 @@ export default function Home() {
               Browse all past editions →
             </Link>
           </div>
+
+          {/* Recent blog posts */}
+          {recentPosts.length > 0 && (
+            <div style={{
+              background: '#fff',
+              borderRadius: 10,
+              padding: '20px 18px',
+              marginTop: 20,
+              border: '1px solid #e8e4dd',
+            }}>
+              <h3 style={{
+                fontFamily: 'Georgia, serif',
+                fontSize: 14,
+                color: bg,
+                margin: '0 0 14px',
+                paddingBottom: 10,
+                borderBottom: `2px solid ${gold}`,
+              }}>
+                From the Blog
+              </h3>
+              {recentPosts.map((post, i) => (
+                <Link
+                  key={post.slug}
+                  href={`/blog/${post.slug}`}
+                  style={{
+                    display: 'block',
+                    textDecoration: 'none',
+                    padding: '10px 0',
+                    borderBottom: i < recentPosts.length - 1 ? '1px solid #f0ece4' : 'none',
+                  }}
+                >
+                  <div style={{ fontSize: 13, color: bg, fontWeight: 500, lineHeight: 1.4, marginBottom: 4 }}>
+                    {post.title}
+                  </div>
+                  <div style={{ fontSize: 11, color: '#999' }}>
+                    {new Date(post.publishedAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}
+                  </div>
+                </Link>
+              ))}
+              <Link
+                href="/blog"
+                style={{
+                  display: 'block',
+                  textAlign: 'center',
+                  fontSize: 12,
+                  color: gold,
+                  textDecoration: 'none',
+                  marginTop: 12,
+                  fontWeight: 600,
+                }}
+              >
+                All articles →
+              </Link>
+            </div>
+          )}
         </div>
 
       </div>
