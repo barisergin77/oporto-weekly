@@ -125,13 +125,25 @@ export async function pingWebSub(): Promise<void> {
 }
 
 // ---------------------------------------------------------------------------
-// Master export — call this after every new newsletter is published
+// Master export — call this after every new content is published.
+// Pass a path like "march-21-2026" for newsletters or "blog/my-post" for blog posts.
 // ---------------------------------------------------------------------------
 export async function notifySearchEngines(slug: string): Promise<void> {
+  // If slug already contains a path prefix (e.g. "blog/my-post"), use it directly.
+  // Otherwise assume it's a newsletter slug under /archive/.
+  const contentUrl = slug.includes('/')
+    ? `${SITE}/${slug}`
+    : `${SITE}/archive/${slug}`;
+
+  // Parent page (archive index or blog index)
+  const parentUrl = slug.startsWith('blog/')
+    ? `${SITE}/blog`
+    : `${SITE}/archive`;
+
   const urls = [
     SITE,
-    `${SITE}/archive`,
-    `${SITE}/archive/${slug}`,
+    parentUrl,
+    contentUrl,
   ];
 
   await Promise.allSettled([

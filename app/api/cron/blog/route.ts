@@ -4,7 +4,8 @@ export const maxDuration = 300;
 import { NextResponse } from 'next/server';
 import { generateBlogSlug, type BlogPost } from '@/lib/blog';
 import { generateImage } from '@/lib/imagen';
-import { commitFiles, archiveViaGitHub } from '@/lib/github';
+import { commitFiles } from '@/lib/github';
+import { notifySearchEngines } from '@/lib/search-engines';
 
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY!;
 const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`;
@@ -221,6 +222,11 @@ export async function GET() {
     // Atomic commit
     const commitSha = await commitFiles(files, `blog: ${meta.title}`);
     console.log(`[cron/blog] Committed ${slug} → ${commitSha.slice(0, 7)}`);
+
+    // Notify search engines (best-effort)
+    notifySearchEngines(`blog/${slug}`).catch(e =>
+      console.error('[cron/blog] Search engine notification failed:', e)
+    );
 
     return NextResponse.json({
       success: true,
