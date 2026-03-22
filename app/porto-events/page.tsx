@@ -2,6 +2,8 @@ import { listNewsletters, getNewsletterHtml, stripEmailFooter } from '@/lib/arch
 import Link from 'next/link';
 import type { Metadata } from 'next';
 import { SubscribeForm } from '../SubscribeForm';
+import { Header } from '../components/Header';
+import { Footer } from '../components/Footer';
 
 export const metadata: Metadata = {
   title: 'Porto Events This Week — Best Things To Do in Porto',
@@ -94,15 +96,7 @@ export default function PortoEventsPage() {
     <div style={{ background: '#f4f1ec', minHeight: '100vh', fontFamily: 'Inter, Arial, sans-serif' }}>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
-      {/* Top bar */}
-      <div style={{ background: bg, padding: '14px 32px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <Link href="/" style={{ fontFamily: 'Georgia, serif', fontSize: 20, color: gold, textDecoration: 'none' }}>
-          Oporto Weekly
-        </Link>
-        <Link href="/archive" style={{ fontSize: 12, color: '#9999bb', textDecoration: 'none', letterSpacing: 0.5 }}>
-          Archive →
-        </Link>
-      </div>
+      <Header lang="en" active="events" />
 
       {/* Hero intro — unique evergreen content for SEO */}
       <div style={{ background: bg, borderBottom: `1px solid ${gold}33`, padding: '40px 32px', textAlign: 'center' }}>
@@ -215,16 +209,7 @@ export default function PortoEventsPage() {
         </div>
       </div>
 
-      {/* Footer */}
-      <div style={{ background: '#0f0f1a', padding: '28px 32px', textAlign: 'center' }}>
-        <p style={{ fontFamily: 'Georgia, serif', fontSize: 16, color: gold, marginBottom: 8 }}>Oporto Weekly</p>
-        <p style={{ fontSize: 12, color: '#666899', lineHeight: 1.8, margin: 0 }}>
-          Curated every Thursday · Porto, Portugal<br />
-          <Link href="/archive" style={{ color: gold, textDecoration: 'none' }}>Browse all editions</Link>
-          {' · '}
-          <a href="mailto:hello@oportoweekly.com" style={{ color: '#666899', textDecoration: 'none' }}>hello@oportoweekly.com</a>
-        </p>
-      </div>
+      <Footer lang="en" />
     </div>
   );
 }

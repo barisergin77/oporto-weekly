@@ -2,6 +2,8 @@ import { listNewsletters, getNewsletterMeta, getNewsletterHtml, stripEmailFooter
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import type { Metadata } from 'next';
+import { Header } from '../../components/Header';
+import { Footer } from '../../components/Footer';
 
 export async function generateStaticParams() {
   const newsletters = listNewsletters();
@@ -83,15 +85,7 @@ export default function EditionPage({ params }: { params: { slug: string } }) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      {/* Nav bar */}
-      <div style={{ background: '#1a1a2e', padding: '14px 24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <Link href="/" style={{ fontFamily: 'Georgia, serif', fontSize: 18, color: '#c9a96e', textDecoration: 'none' }}>
-          Oporto Weekly
-        </Link>
-        <Link href="/archive" style={{ fontSize: 12, color: '#9999bb', textDecoration: 'none', letterSpacing: 0.5 }}>
-          ← All editions
-        </Link>
-      </div>
+      <Header lang="en" active="archive" />
 
       {/* Newsletter HTML */}
       <div dangerouslySetInnerHTML={{ __html: html }} />
@@ -149,6 +143,8 @@ export default function EditionPage({ params }: { params: { slug: string } }) {
           Subscribe free →
         </Link>
       </div>
+
+      <Footer lang="en" />
     </main>
   );
 }

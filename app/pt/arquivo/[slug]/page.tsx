@@ -2,6 +2,8 @@ import { listNewslettersPT, getNewsletterMetaPT, getNewsletterHtmlPT, stripEmail
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import type { Metadata } from 'next';
+import { Header } from '../../../components/Header';
+import { Footer } from '../../../components/Footer';
 
 export async function generateStaticParams() {
   return listNewslettersPT().map((n) => ({ slug: n.slug }));
@@ -42,20 +44,7 @@ export default function EdicaoPTPage({ params }: { params: { slug: string } }) {
 
   return (
     <main style={{ background: '#f4f1ec', minHeight: '100vh', fontFamily: 'Inter, Arial, sans-serif' }}>
-      {/* Nav bar */}
-      <div style={{ background: '#1a1a2e', padding: '14px 24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <Link href="/pt" style={{ fontFamily: 'Georgia, serif', fontSize: 18, color: '#c9a96e', textDecoration: 'none' }}>
-          Oporto Weekly
-        </Link>
-        <div style={{ display: 'flex', gap: 16, alignItems: 'center' }}>
-          <Link href="/pt/arquivo" style={{ fontSize: 12, color: '#9999bb', textDecoration: 'none', letterSpacing: 0.5 }}>
-            ← Todas as edições
-          </Link>
-          <Link href="/" style={{ fontSize: 12, color: '#c9a96e', textDecoration: 'none', fontWeight: 600 }}>
-            EN
-          </Link>
-        </div>
-      </div>
+      <Header lang="pt" active="archive" />
 
       {/* Newsletter HTML */}
       <div dangerouslySetInnerHTML={{ __html: html }} />
@@ -103,6 +92,8 @@ export default function EdicaoPTPage({ params }: { params: { slug: string } }) {
           Subscrever grátis →
         </Link>
       </div>
+
+      <Footer lang="pt" />
     </main>
   );
 }
