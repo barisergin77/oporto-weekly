@@ -6,11 +6,11 @@ import { Footer } from '../components/Footer';
 
 export const metadata: Metadata = {
   title: 'Archive — All Porto Events Editions',
-  description: 'Browse all past editions of Oporto Weekly — your curated Porto events, culture, food, and weekend guide, published every Thursday.',
+  description: 'Archive of all Oporto Weekly editions — your curated Porto events, culture, food, and weekend guide, published every Thursday.',
   alternates: { canonical: 'https://oportoweekly.com/archive' },
   openGraph: {
     title: 'Archive — Oporto Weekly',
-    description: 'Browse all past editions of Oporto Weekly — your curated Porto events guide.',
+    description: 'Archive of all Oporto Weekly editions — your curated Porto events guide.',
     url: 'https://oportoweekly.com/archive',
     type: 'website',
   },

@@ -157,7 +157,7 @@ export default function Home() {
           {/* Archive link below card */}
           <div style={{ textAlign: 'center', marginTop: 16 }}>
             <Link href="/archive" style={{ fontSize: 12, color: '#888', textDecoration: 'none' }}>
-              Browse all past editions →
+              Archive →
             </Link>
           </div>
 

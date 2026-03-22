@@ -45,7 +45,7 @@ export function Footer({ lang = 'en' }: FooterProps) {
         <Link href="/blog" style={goldLink}>Blog</Link>
         {sep}
         <Link href={isEN ? '/archive' : '/pt/arquivo'} style={linkStyle}>
-          {isEN ? 'Newsletter Archive' : 'Arquivo'}
+          {isEN ? 'Archive' : 'Arquivo'}
         </Link>
         {sep}
         <Link href={isEN ? '/pt' : '/'} style={linkStyle}>

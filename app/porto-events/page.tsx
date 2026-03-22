@@ -175,7 +175,7 @@ export default function PortoEventsPage() {
           </div>
           <div style={{ textAlign: 'center', marginTop: 16 }}>
             <Link href="/archive" style={{ fontSize: 12, color: '#888', textDecoration: 'none' }}>
-              Browse all past editions →
+              Archive →
             </Link>
           </div>
         </div>

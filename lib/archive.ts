@@ -26,9 +26,17 @@ export function getNewsletterHtml(slug: string): string | null {
   return fs.readFileSync(filePath, 'utf-8');
 }
 
-// Strips the email footer div before web rendering
+// Strips the email footer (unsubscribe/manage preferences) before web rendering.
+// Handles both <div class="footer"> and <td class="footer"> variants.
 export function stripEmailFooter(html: string): string {
-  return html.replace(/<div class="footer">[\s\S]*?<\/div>\s*(<\/div>\s*)?(<\/body>[\s\S]*)?$/, '</div>\n</body>\n</html>');
+  let result = html;
+  // Remove <td class="footer" ...>...</td> (table-based newsletters)
+  result = result.replace(/<td\s+class="footer"[^>]*>[\s\S]*?<\/td>/gi, '');
+  // Remove <div class="footer">...</div> (div-based newsletters)
+  result = result.replace(/<div\s+class="footer"[^>]*>[\s\S]*?<\/div>/gi, '');
+  // Remove standalone unsubscribe paragraphs that might not be in a footer container
+  result = result.replace(/<p[^>]*>[\s\S]*?(?:unsubscribe|manage your preferences)[\s\S]*?<\/p>/gi, '');
+  return result;
 }
 
 // Replaces the newsletter header (title + tagline) with the hero banner image,

@@ -26,7 +26,7 @@ export function Header({ lang = 'en', active }: HeaderProps) {
   const isEN = lang === 'en';
   const home = isEN ? '/' : '/pt';
   const archiveHref = isEN ? '/archive' : '/pt/arquivo';
-  const archiveLabel = isEN ? 'Newsletter' : 'Newsletter';
+  const archiveLabel = isEN ? 'Archive' : 'Arquivo';
   const langHref = isEN ? '/pt' : '/';
   const langLabel = isEN ? 'PT' : 'EN';
 
