@@ -79,18 +79,6 @@ export default function Home() {
 
       <Header lang="en" active="home" />
 
-      {/* Hero banner */}
-      <div style={{ position: 'relative', width: '100%', height: 340, maxHeight: '40vh' }}>
-        <Image
-          src="/hero-banner.png"
-          alt="Your curated guide to Porto — local insights, travel tips, and hidden gems"
-          fill
-          priority
-          style={{ objectFit: 'cover', objectPosition: 'center' }}
-          sizes="100vw"
-        />
-      </div>
-
       {/* Main layout */}
       <div style={{
         maxWidth: 1080,
@@ -103,6 +91,19 @@ export default function Home() {
 
         {/* Newsletter content — takes up most of the space */}
         <div style={{ flex: 1, minWidth: 0 }}>
+
+          {/* Hero banner */}
+          <div style={{ position: 'relative', width: '100%', height: 280, borderRadius: 10, overflow: 'hidden', marginBottom: 24 }}>
+            <Image
+              src="/hero-banner.png"
+              alt="Your curated guide to Porto — local insights, travel tips, and hidden gems"
+              fill
+              priority
+              style={{ objectFit: 'cover', objectPosition: 'center' }}
+              sizes="(max-width: 1080px) 100vw, 760px"
+            />
+          </div>
+
           {html ? (
             <div dangerouslySetInnerHTML={{ __html: html }} />
           ) : (
