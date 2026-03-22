@@ -29,10 +29,10 @@ async function githubApi(path: string, options: RequestInit = {}) {
 }
 
 // Create a blob (file content) in the repo
-async function createBlob(content: string): Promise<string> {
+async function createBlob(content: string, encoding: 'utf-8' | 'base64' = 'utf-8'): Promise<string> {
   const data = await githubApi('/git/blobs', {
     method: 'POST',
-    body: JSON.stringify({ content, encoding: 'utf-8' }),
+    body: JSON.stringify({ content, encoding }),
   });
   return data.sha;
 }
@@ -50,7 +50,7 @@ async function getCommitTreeSha(commitSha: string): Promise<string> {
 }
 
 // Get an existing file's content from the repo
-async function getFileContent(filePath: string): Promise<string | null> {
+export async function getFileContent(filePath: string): Promise<string | null> {
   try {
     const data = await githubApi(`/contents/${filePath}?ref=${BRANCH}`);
     return Buffer.from(data.content, 'base64').toString('utf-8');
@@ -62,6 +62,7 @@ async function getFileContent(filePath: string): Promise<string | null> {
 interface FileChange {
   path: string;
   content: string;
+  encoding?: 'utf-8' | 'base64';
 }
 
 /**
@@ -79,7 +80,7 @@ export async function commitFiles(
   // 2. Create blobs for each file
   const treeItems = await Promise.all(
     files.map(async (file) => {
-      const blobSha = await createBlob(file.content);
+      const blobSha = await createBlob(file.content, file.encoding ?? 'utf-8');
       return {
         path: file.path,
         mode: '100644' as const,

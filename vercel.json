@@ -3,6 +3,10 @@
     {
       "path": "/api/cron/newsletter",
       "schedule": "0 8 * * 4"
+    },
+    {
+      "path": "/api/cron/blog",
+      "schedule": "0 9 * * 2"
     }
   ]
 }
