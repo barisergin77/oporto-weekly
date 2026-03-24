@@ -15,7 +15,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   if (!post) return { title: 'Not Found' };
 
   return {
-    title: `${post.title} | Oporto Weekly`,
+    title: post.title,
     description: post.excerpt,
     keywords: post.tags,
     authors: [{ name: post.author }],
