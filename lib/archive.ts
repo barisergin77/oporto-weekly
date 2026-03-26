@@ -34,8 +34,8 @@ export function stripEmailFooter(html: string): string {
   result = result.replace(/<td\s+class="footer"[^>]*>[\s\S]*?<\/td>/gi, '');
   // Remove <div class="footer">...</div> (div-based newsletters)
   result = result.replace(/<div\s+class="footer"[^>]*>[\s\S]*?<\/div>/gi, '');
-  // Remove standalone unsubscribe paragraphs that might not be in a footer container
-  result = result.replace(/<p[^>]*>[\s\S]*?(?:unsubscribe|manage your preferences)[\s\S]*?<\/p>/gi, '');
+  // Remove standalone unsubscribe paragraphs (only short ones — avoid greedy cross-document matches)
+  result = result.replace(/<p[^>]*>[^<]{0,200}(?:unsubscribe|manage your preferences)[^<]{0,200}<\/p>/gi, '');
   return result;
 }
 
