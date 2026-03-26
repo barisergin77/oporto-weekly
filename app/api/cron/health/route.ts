@@ -20,8 +20,9 @@ async function checkPage(name: string, url: string, mustContain: string[]): Prom
     }
     const html = await res.text();
 
-    // Check page isn't a 404 soft-fail
-    if (html.includes('This page could not be found')) {
+    // Check page isn't a real 404 (not just the RSC error boundary template)
+    // A real 404 has the 404 title as the ONLY title and lacks the expected content
+    if (html.includes('<h2 style="font-size:14px') && html.includes('This page could not be found') && !mustContain.some(m => html.includes(m))) {
       return { name, ok: false, details: 'Renders as 404' };
     }
 
@@ -32,8 +33,10 @@ async function checkPage(name: string, url: string, mustContain: string[]): Prom
       }
     }
 
-    // Check content isn't suspiciously short (like the regex bug)
-    if (html.length < 5000) {
+    // Check HTML pages aren't suspiciously short (like the regex bug that ate content)
+    // XML feeds/sitemaps are naturally smaller, so only check HTML pages
+    const isHtmlPage = !url.includes('.xml');
+    if (isHtmlPage && html.length < 5000) {
       return { name, ok: false, details: `Page too short: ${html.length} bytes` };
     }
 
