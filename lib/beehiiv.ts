@@ -43,9 +43,8 @@ export async function getActiveSubscribers(lang?: 'en' | 'pt'): Promise<BeehiivS
   let page = 1;
   const limit = 100;
 
-  // For PT, filter server-side. For EN, fetch all and exclude PT client-side.
+  // Beehiiv API ignores utm_source filter — always fetch all, filter client-side
   const params = new URLSearchParams({ status: 'active', limit: String(limit) });
-  if (lang === 'pt') params.set('utm_source', 'website-pt');
 
   while (true) {
     params.set('page', String(page));
@@ -76,9 +75,14 @@ export async function getActiveSubscribers(lang?: 'en' | 'pt'): Promise<BeehiivS
     page++;
   }
 
-  // For EN: exclude PT-only subscribers (everyone else gets EN)
+  // All filtering done client-side since Beehiiv API ignores utm_source param
   if (lang === 'en') {
+    // EN = everyone EXCEPT website-pt subscribers
     return subscribers.filter(s => s.utm_source !== 'website-pt');
+  }
+  if (lang === 'pt') {
+    // PT = ONLY website-pt subscribers
+    return subscribers.filter(s => s.utm_source === 'website-pt');
   }
 
   return subscribers;
