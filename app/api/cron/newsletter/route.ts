@@ -85,7 +85,7 @@ DESIGN REQUIREMENTS:
 - Mobile-friendly, table-based layout for email clients
 - Footer must contain EXACTLY this HTML (copy verbatim, do not change URLs):
   <p>You are receiving this email because you subscribed to Oporto Weekly.</p>
-  <p><a href="mailto:hello@oportoweekly.com?subject=Unsubscribe" style="color:#c9a96e;">Unsubscribe</a> | <a href="https://oportoweekly.com" style="color:#c9a96e;">Visit website</a></p>
+  <p><a href="https://oportoweekly.com/api/unsubscribe?email=SUBSCRIBER_EMAIL" style="color:#c9a96e;">Unsubscribe</a> | <a href="https://oportoweekly.com" style="color:#c9a96e;">Visit website</a></p>
   <p>&copy; Oporto Weekly &middot; Porto, Portugal</p>
 - All <img> tags must have descriptive alt attributes (e.g., alt="Jazz concert at Casa da Música Porto")
 

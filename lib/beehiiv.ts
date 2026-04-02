@@ -2,6 +2,38 @@ const BEEHIIV_API_KEY = process.env.BEEHIIV_API_KEY!;
 const PUB_ID = 'pub_8e15aa9e-4215-4fe3-b803-d991916b0dd9';
 const BASE = 'https://api.beehiiv.com/v2';
 
+export async function removeSubscriber(email: string): Promise<void> {
+  // Beehiiv requires the subscription ID to update status. Find it first.
+  const res = await fetch(
+    `${BASE}/publications/${PUB_ID}/subscriptions?email=${encodeURIComponent(email)}`,
+    { headers: { Authorization: `Bearer ${BEEHIIV_API_KEY}` } }
+  );
+  if (!res.ok) {
+    const body = await res.text();
+    throw new Error(`Beehiiv lookup failed: ${res.status} ${body}`);
+  }
+  const data = await res.json();
+  const sub = (data.data ?? []).find((s: { email: string }) => s.email === email);
+  if (!sub) throw new Error(`Subscriber not found: ${email}`);
+
+  // Update status to inactive
+  const updateRes = await fetch(
+    `${BASE}/publications/${PUB_ID}/subscriptions/${sub.id}`,
+    {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${BEEHIIV_API_KEY}`,
+      },
+      body: JSON.stringify({ unsubscribe: true }),
+    }
+  );
+  if (!updateRes.ok) {
+    const body = await updateRes.text();
+    throw new Error(`Beehiiv unsubscribe failed: ${updateRes.status} ${body}`);
+  }
+}
+
 export async function addSubscriber(email: string, lang: 'en' | 'pt' = 'en'): Promise<void> {
   const res = await fetch(`${BASE}/publications/${PUB_ID}/subscriptions`, {
     method: 'POST',
