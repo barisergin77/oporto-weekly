@@ -83,7 +83,10 @@ DESIGN REQUIREMENTS:
 - Section headers: white text on #0f3460 background
 - Max width: 600px, centered
 - Mobile-friendly, table-based layout for email clients
-- Footer: unsubscribe note, "© Oporto Weekly · Porto, Portugal"
+- Footer must contain EXACTLY this HTML (copy verbatim, do not change URLs):
+  <p>You are receiving this email because you subscribed to Oporto Weekly.</p>
+  <p><a href="mailto:hello@oportoweekly.com?subject=Unsubscribe" style="color:#c9a96e;">Unsubscribe</a> | <a href="https://oportoweekly.com" style="color:#c9a96e;">Visit website</a></p>
+  <p>&copy; Oporto Weekly &middot; Porto, Portugal</p>
 - All <img> tags must have descriptive alt attributes (e.g., alt="Jazz concert at Casa da Música Porto")
 
 Output ONLY the complete HTML. No markdown, no explanation.`;
