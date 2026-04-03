@@ -144,13 +144,28 @@ ${enHtml}`;
   return html;
 }
 
+// Strip email-only footer content before saving to web
+// Removes: "You are receiving this email..." and "Unsubscribe | Manage preferences"
+// Keeps: copyright line and all other content
+function stripEmailFooter(html) {
+  // Remove the "receiving this email" paragraph
+  html = html.replace(/<p[^>]*>\s*You are receiving this email[^<]*<\/p>/gi, '');
+  // Remove the Unsubscribe | Manage preferences paragraph
+  html = html.replace(/<p[^>]*>\s*<a[^>]*>\s*Unsubscribe\s*<\/a>[^<]*<a[^>]*>[^<]*<\/a>\s*<\/p>/gi, '');
+  // PT versions
+  html = html.replace(/<p[^>]*>\s*Está a receber este e-mail[^<]*<\/p>/gi, '');
+  html = html.replace(/<p[^>]*>\s*<a[^>]*>\s*Cancelar subscri[^<]*<\/a>[^<]*<a[^>]*>[^<]*<\/a>\s*<\/p>/gi, '');
+  return html;
+}
+
 function generateSlug(str) {
   return str.toLowerCase().replace(/[–—]/g, '-').replace(/,/g, '').replace(/\s+/g, '-').replace(/-+/g, '-').trim();
 }
 
 function saveEdition(slug, meta, html, indexFile) {
   const htmlPath = path.join(ROOT, 'public', 'newsletters', `${slug}.html`);
-  fs.writeFileSync(htmlPath, html, 'utf-8');
+  const webHtml = stripEmailFooter(html);
+  fs.writeFileSync(htmlPath, webHtml, 'utf-8');
   console.log(`  Saved: ${htmlPath}`);
 
   const indexPath = path.join(ROOT, 'data', indexFile);
