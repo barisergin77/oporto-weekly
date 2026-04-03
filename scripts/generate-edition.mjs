@@ -152,6 +152,9 @@ function stripEmailFooter(html) {
   html = html.replace(/<p[^>]*>\s*You are receiving this email[^<]*<\/p>/gi, '');
   // Remove the Unsubscribe | Manage preferences paragraph
   html = html.replace(/<p[^>]*>\s*<a[^>]*>\s*Unsubscribe\s*<\/a>[^<]*<a[^>]*>[^<]*<\/a>\s*<\/p>/gi, '');
+  // Remove copyright line (website footer already has it)
+  html = html.replace(/<p[^>]*>\s*&copy;[^<]*Oporto Weekly[^<]*<\/p>/gi, '');
+  html = html.replace(/<p[^>]*>\s*©[^<]*Oporto Weekly[^<]*<\/p>/gi, '');
   // PT versions
   html = html.replace(/<p[^>]*>\s*Está a receber este e-mail[^<]*<\/p>/gi, '');
   html = html.replace(/<p[^>]*>\s*<a[^>]*>\s*Cancelar subscri[^<]*<\/a>[^<]*<a[^>]*>[^<]*<\/a>\s*<\/p>/gi, '');
