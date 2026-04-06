@@ -81,7 +81,7 @@ export default function Home() {
       <Header lang="en" active="home" />
 
       {/* Main layout */}
-      <div style={{
+      <div className="home-layout" style={{
         maxWidth: 1080,
         margin: '0 auto',
         padding: '40px 24px',
@@ -91,7 +91,7 @@ export default function Home() {
       }}>
 
         {/* Newsletter content — takes up most of the space */}
-        <div style={{ flex: 1, minWidth: 0 }}>
+        <div className="newsletter-content" style={{ flex: 1, minWidth: 0 }}>
           {html ? (
             <div dangerouslySetInnerHTML={{ __html: html }} />
           ) : (
@@ -102,7 +102,7 @@ export default function Home() {
         </div>
 
         {/* Sticky subscribe sidebar */}
-        <div style={{
+        <div className="home-sidebar" style={{
           width: 260,
           flexShrink: 0,
           position: 'sticky',

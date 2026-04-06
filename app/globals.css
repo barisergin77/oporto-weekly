@@ -1,0 +1,100 @@
+/* Mobile responsive styles for oportoweekly.com */
+
+/* Ensure images/tables don't overflow */
+img, table, iframe, video {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Mobile: stack homepage layout */
+@media (max-width: 768px) {
+  /* Homepage main layout - stack vertically */
+  .home-layout {
+    flex-direction: column !important;
+    gap: 24px !important;
+  }
+
+  /* Sidebar becomes full width on mobile */
+  .home-sidebar {
+    width: 100% !important;
+    position: static !important;
+    order: -1; /* Move subscribe form above newsletter content on mobile */
+  }
+
+  /* Header nav wraps on mobile */
+  .header-nav {
+    flex-wrap: wrap;
+    gap: 12px !important;
+  }
+
+  /* Footer links wrap */
+  .footer-links {
+    line-height: 2.4 !important;
+  }
+
+  /* Blog header smaller on mobile */
+  .blog-header h1 {
+    font-size: 28px !important;
+  }
+
+  /* Blog article title */
+  .blog-article-wrapper h1 {
+    font-size: 26px !important;
+  }
+}
+
+/* Small mobile (iPhone SE, iPhone 12/13/14/15 - 375px to 430px) */
+@media (max-width: 480px) {
+  /* Tighter padding on small screens */
+  .home-layout {
+    padding: 20px 16px !important;
+  }
+
+  /* Header adjustments */
+  .header-nav {
+    gap: 10px !important;
+  }
+
+  /* Newsletter content - ensure it doesn't overflow */
+  .newsletter-content {
+    overflow-x: auto;
+  }
+
+  /* Blog header even smaller */
+  .blog-header h1 {
+    font-size: 24px !important;
+  }
+
+  .blog-header p {
+    font-size: 14px !important;
+  }
+}
+
+/* Newsletter HTML content fixes - prevent overflow from embedded content */
+.newsletter-content table {
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+.newsletter-content td,
+.newsletter-content th {
+  word-break: break-word;
+}
+
+/* Fix images in newsletter content */
+.newsletter-content img {
+  max-width: 100% !important;
+  height: auto !important;
+}
+
+/* Ensure text doesn't overflow */
+* {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+/* Fix potential horizontal scroll from fixed-width elements in newsletters */
+.newsletter-content * {
+  max-width: 100%;
+  box-sizing: border-box;
+}

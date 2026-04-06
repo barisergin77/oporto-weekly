@@ -88,7 +88,7 @@ export default function EditionPage({ params }: { params: { slug: string } }) {
       <Header lang="en" active="archive" />
 
       {/* Newsletter HTML */}
-      <div dangerouslySetInnerHTML={{ __html: html }} />
+      <div className="newsletter-content" dangerouslySetInnerHTML={{ __html: html }} />
 
       {/* Prev / Next navigation */}
       <div style={{

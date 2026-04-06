@@ -30,7 +30,7 @@ export default function BlogIndex() {
       <Header lang="en" active="blog" />
 
       {/* Header */}
-      <div style={{ background: bg, padding: '48px 32px 56px', textAlign: 'center' }}>
+      <div className="blog-header" style={{ background: bg, padding: '48px 32px 56px', textAlign: 'center' }}>
         <h1 style={{ fontFamily: 'Georgia, serif', fontSize: 36, color: '#fff', margin: '0 0 12px' }}>
           Porto Guide
         </h1>

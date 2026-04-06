@@ -47,7 +47,7 @@ export default function EdicaoPTPage({ params }: { params: { slug: string } }) {
       <Header lang="pt" active="archive" />
 
       {/* Newsletter HTML */}
-      <div dangerouslySetInnerHTML={{ __html: html }} />
+      <div className="newsletter-content" dangerouslySetInnerHTML={{ __html: html }} />
 
       {/* Prev / Next */}
       {(older || newer) && (

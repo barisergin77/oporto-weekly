@@ -41,7 +41,7 @@ export function Footer({ lang = 'en' }: FooterProps) {
       <div style={{ width: 40, height: 1, background: `${gold}44`, margin: '12px auto' }} />
 
       {/* Nav links */}
-      <div style={{ lineHeight: 2.2 }}>
+      <div className="footer-links" style={{ lineHeight: 2.2 }}>
         <Link href="/blog" style={goldLink}>Blog</Link>
         {sep}
         <Link href={isEN ? '/archive' : '/pt/arquivo'} style={linkStyle}>

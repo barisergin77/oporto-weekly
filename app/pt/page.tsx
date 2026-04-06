@@ -48,7 +48,7 @@ export default function HomePT() {
       <Header lang="pt" active="home" />
 
       {/* Main layout */}
-      <div style={{
+      <div className="home-layout" style={{
         maxWidth: 1080,
         margin: '0 auto',
         padding: '40px 24px',
@@ -58,7 +58,7 @@ export default function HomePT() {
       }}>
 
         {/* Newsletter content */}
-        <div style={{ flex: 1, minWidth: 0 }}>
+        <div className="newsletter-content" style={{ flex: 1, minWidth: 0 }}>
           {html ? (
             <div dangerouslySetInnerHTML={{ __html: html }} />
           ) : (
@@ -69,7 +69,7 @@ export default function HomePT() {
         </div>
 
         {/* Sticky subscribe sidebar */}
-        <div style={{
+        <div className="home-sidebar" style={{
           width: 260,
           flexShrink: 0,
           position: 'sticky',

@@ -50,7 +50,7 @@ export function Header({ lang = 'en', active }: HeaderProps) {
       </Link>
 
       {/* Nav */}
-      <nav style={{ display: 'flex', gap: 18, alignItems: 'center' }}>
+      <nav className="header-nav" style={{ display: 'flex', gap: 18, alignItems: 'center' }}>
         <Link href="/blog" style={linkStyle(active === 'blog')}>
           Blog
         </Link>
