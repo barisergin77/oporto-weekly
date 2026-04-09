@@ -117,47 +117,6 @@ Output ONLY the complete HTML. No markdown, no explanation.`;
   return html;
 }
 
-async function translateNewsletter(enHtml: string): Promise<string> {
-  const prompt = `Translate the following HTML newsletter from English to European Portuguese (pt-PT).
-
-RULES:
-- Translate ALL text content to Portuguese, including section headers, descriptions, tips, footer text
-- Keep event names and venue names as-is (they are proper nouns)
-- Translate day abbreviations: Mon→Seg, Tue→Ter, Wed→Qua, Thu→Qui, Fri→Sex, Sat→Sáb, Sun→Dom
-- Translate "Free"→"Gratuito", "More info"→"Mais info", "Get tickets"→"Comprar bilhetes", "Book"→"Reservar"
-- Use 24h time format (9 PM → 21h)
-- Change <html lang="en"> to <html lang="pt">
-- Keep ALL HTML structure, CSS, classes, links, and styling exactly the same
-- Keep all URLs unchanged
-- Output ONLY the complete translated HTML. No markdown, no explanation.
-
-HTML TO TRANSLATE:
-${enHtml}`;
-
-  const res = await fetch(GEMINI_URL, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      contents: [{ parts: [{ text: prompt }] }],
-      generationConfig: { maxOutputTokens: 65536 },
-    }),
-  });
-
-  if (!res.ok) {
-    const err = await res.text();
-    throw new Error(`Gemini translation failed: ${res.status} ${err}`);
-  }
-
-  const data = await res.json();
-  let html: string =
-    data?.candidates?.[0]?.content?.parts
-      ?.map((p: { text?: string }) => p.text ?? '')
-      .join('') ?? '';
-
-  html = html.replace(/^```html\n?/i, '').replace(/\n?```$/, '').trim();
-  return html;
-}
-
 export async function GET() {
   try {
     // 1. Run Gemini searches sequentially to respect rate limits
@@ -204,36 +163,7 @@ export async function GET() {
       console.error('[cron/newsletter] EN archive failed:', archiveErr);
     }
 
-    // 6. Generate Portuguese translation, send to PT subscribers, archive
-    let sentPT = 0;
-    try {
-      const ptHtml = await translateNewsletter(html);
-      const ptWeekDate = now.toLocaleDateString('pt-PT', { day: 'numeric', month: 'long', year: 'numeric' });
-      const ptSubject = `Oporto Weekly — ${ptWeekDate}`;
-
-      // Send PT edition to PT subscribers
-      const ptSubscribers = await getActiveSubscribers('pt');
-      const ptEmails = ptSubscribers.map(s => s.email);
-      if (ptEmails.length > 0) {
-        sentPT = await sendBatch(ptEmails, ptSubject, ptHtml);
-        console.log(`[cron/newsletter] Sent PT to ${sentPT} subscribers`);
-      }
-
-      // Archive PT edition
-      const ptSlug = slug + '-pt';
-      await archiveViaGitHub({
-        slug: ptSlug,
-        title: `Oporto Weekly — ${ptWeekDate}`,
-        description: `Eventos no Porto: ${ptWeekDate}`,
-        sentAt: now.toISOString(),
-        weekRange: ptWeekDate,
-      }, ptHtml, 'newsletters-pt.json');
-      console.log(`[cron/newsletter] Archived PT as ${ptSlug}`);
-    } catch (ptErr) {
-      console.error('[cron/newsletter] PT translation/send/archive failed:', ptErr);
-    }
-
-    return NextResponse.json({ success: true, sent: { en: sentEN, pt: sentPT } });
+    return NextResponse.json({ success: true, sent: { en: sentEN } });
   } catch (err: unknown) {
     console.error('[cron/newsletter]', err);
     const message = err instanceof Error ? err.message : 'Internal server error';
