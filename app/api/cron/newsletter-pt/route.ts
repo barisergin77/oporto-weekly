@@ -1,9 +1,11 @@
 export const dynamic = 'force-dynamic';
 export const maxDuration = 300;
 import { NextResponse } from 'next/server';
-import { archiveViaGitHub, getFileContent, NewsletterMeta } from '@/lib/github';
+import { generateSlug } from '@/lib/archive';
+import { archiveViaGitHub } from '@/lib/github';
 import { getActiveSubscribers } from '@/lib/beehiiv';
 import { sendBatch } from '@/lib/resend-client';
+import { notifySearchEngines } from '@/lib/search-engines';
 
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY!;
 const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`;
@@ -25,22 +27,82 @@ async function geminiPost(url: string, body: object): Promise<Response> {
   return res;
 }
 
-async function translateNewsletter(enHtml: string): Promise<string> {
-  const prompt = `Translate the following HTML newsletter from English to European Portuguese (pt-PT).
+const SEARCH_QUERIES = [
+  'Porto events this week',
+  'Porto concerts this week',
+  'Porto art exhibitions this week',
+  'Porto food markets weekend',
+  'Porto family events this week',
+  'Porto nightlife this week',
+];
 
-RULES:
-- Translate ALL text content to Portuguese, including section headers, descriptions, tips, footer text
-- Keep event names and venue names as-is (they are proper nouns)
-- Translate day abbreviations: Mon→Seg, Tue→Ter, Wed→Qua, Thu→Qui, Fri→Sex, Sat→Sáb, Sun→Dom
-- Translate "Free"→"Gratuito", "More info"→"Mais info", "Get tickets"→"Comprar bilhetes", "Book"→"Reservar"
-- Use 24h time format (9 PM → 21h)
-- Change <html lang="en"> to <html lang="pt">
-- Keep ALL HTML structure, CSS, classes, links, and styling exactly the same
-- Keep all URLs unchanged
-- Output ONLY the complete translated HTML. No markdown, no explanation.
+async function geminiSearch(query: string): Promise<string> {
+  const res = await geminiPost(GEMINI_URL, {
+    contents: [{ parts: [{ text: query }] }],
+    tools: [{ google_search: {} }],
+  });
 
-HTML TO TRANSLATE:
-${enHtml}`;
+  if (!res.ok) {
+    const err = await res.text();
+    throw new Error(`Gemini search failed for "${query}": ${res.status} ${err}`);
+  }
+
+  const data = await res.json();
+  // Extract text from candidates
+  const text: string =
+    data?.candidates?.[0]?.content?.parts
+      ?.map((p: { text?: string }) => p.text ?? '')
+      .join('\n') ?? '';
+  return `=== ${query} ===\n${text}`;
+}
+
+async function generateNewsletter(researchData: string): Promise<string> {
+  const today = new Date().toLocaleDateString('en-GB', {
+    weekday: 'long', year: 'numeric', month: 'long', day: 'numeric',
+  });
+
+  const prompt = `You are the editor of "Oporto Weekly", a curated newsletter about events in Porto, Portugal.
+
+Today is ${today}. Based on the research below, generate a COMPLETE HTML email newsletter.
+
+RESEARCH DATA:
+${researchData}
+
+NEWSLETTER STRUCTURE (follow exactly):
+1. Dark header: background #1a1a2e, white title "Oporto Weekly", gold (#c9a96e) accents and week date
+2. Editor's Picks — top 5 must-see events this week
+3. Music & Concerts
+4. Art & Exhibitions
+5. Food Markets & Wine
+6. Family
+7. Nightlife
+8. Tip of the Week — one practical Porto insider tip
+
+For EACH event include:
+- Event name (bold)
+- Date & time
+- Venue name
+- Price (or "Free")
+- 1-2 sentence description
+- "More info →" link (use real URL from research if available, otherwise link to google search)
+
+DESIGN REQUIREMENTS:
+- Full HTML document with inline styles only (email-safe)
+- Background: #1a1a2e (dark navy)
+- Header bg: #1a1a2e with gold (#c9a96e) divider line
+- Card bg: #16213e
+- Body text: #ccd6f6
+- Accent/headings: #c9a96e (gold)
+- Section headers: white text on #0f3460 background
+- Max width: 600px, centered
+- Mobile-friendly, table-based layout for email clients
+- Footer must contain EXACTLY this HTML (copy verbatim, do not change URLs):
+  <p>You are receiving this email because you subscribed to Oporto Weekly.</p>
+  <p><a href="https://oportoweekly.com/api/unsubscribe?email=SUBSCRIBER_EMAIL" style="color:#c9a96e;">Unsubscribe</a> | <a href="https://oportoweekly.com" style="color:#c9a96e;">Visit website</a></p>
+  <p>&copy; Oporto Weekly &middot; Porto, Portugal</p>
+- All <img> tags must have descriptive alt attributes (e.g., alt="Jazz concert at Casa da Música Porto")
+
+Output ONLY the complete HTML. No markdown, no explanation.`;
 
   const res = await geminiPost(GEMINI_URL, {
     contents: [{ parts: [{ text: prompt }] }],
@@ -49,7 +111,7 @@ ${enHtml}`;
 
   if (!res.ok) {
     const err = await res.text();
-    throw new Error(`Gemini translation failed: ${res.status} ${err}`);
+    throw new Error(`Gemini newsletter generation failed: ${res.status} ${err}`);
   }
 
   const data = await res.json();
@@ -58,67 +120,61 @@ ${enHtml}`;
       ?.map((p: { text?: string }) => p.text ?? '')
       .join('') ?? '';
 
+  // Strip markdown code fences if model wraps output
   html = html.replace(/^```html\n?/i, '').replace(/\n?```$/, '').trim();
+
   return html;
 }
 
 export async function GET() {
   try {
-    // 1. Read the latest EN newsletter index from GitHub
-    const indexContent = await getFileContent('data/newsletters.json');
-    if (!indexContent) {
-      return NextResponse.json({ error: 'No EN newsletters found' }, { status: 404 });
+    // 1. Run Gemini searches sequentially to respect rate limits
+    const searchResults: string[] = [];
+    for (const query of SEARCH_QUERIES) {
+      const result = await geminiSearch(query);
+      searchResults.push(result);
+      await new Promise(r => setTimeout(r, 2000)); // 2s delay between calls
     }
+    const researchData = searchResults.join('\n\n');
 
-    const newsletters: NewsletterMeta[] = JSON.parse(indexContent);
-    if (newsletters.length === 0) {
-      return NextResponse.json({ error: 'No EN newsletters found' }, { status: 404 });
-    }
+    // 2. Generate newsletter HTML
+    const html = await generateNewsletter(researchData);
 
-    const latestEN = newsletters[0];
-    console.log(`[cron/newsletter-pt] Found latest EN edition: ${latestEN.slug}`);
+    // 3. Determine subject line
+    const weekDate = new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+    const subject = `Oporto Weekly — ${weekDate}`;
 
-    // 2. Read the EN HTML content
-    const enHtml = await getFileContent(`public/newsletters/${latestEN.slug}.html`);
-    if (!enHtml) {
-      return NextResponse.json({ error: `EN HTML not found: ${latestEN.slug}` }, { status: 404 });
-    }
+    // 4. Send EN edition to EN subscribers
+    const enSubscribers = await getActiveSubscribers('en');
+    const enEmails = enSubscribers.map(s => s.email);
+    const sentEN = await sendBatch(enEmails, subject, html);
+    console.log(`[cron/newsletter] Sent EN to ${sentEN} subscribers`);
 
-    // 3. Translate to Portuguese
-    console.log(`[cron/newsletter-pt] Translating ${latestEN.slug}...`);
-    const ptHtml = await translateNewsletter(enHtml);
-
-    // 4. Send to PT subscribers
+    // 5. Archive EN edition via GitHub API (commits to repo → triggers Vercel redeploy)
     const now = new Date();
-    const ptWeekDate = now.toLocaleDateString('pt-PT', { day: 'numeric', month: 'long', year: 'numeric' });
-    const ptSubject = `Oporto Weekly — ${ptWeekDate}`;
-
-    const ptSubscribers = await getActiveSubscribers('pt');
-    const ptEmails = ptSubscribers.map(s => s.email);
-    let sentPT = 0;
-    if (ptEmails.length > 0) {
-      sentPT = await sendBatch(ptEmails, ptSubject, ptHtml);
-      console.log(`[cron/newsletter-pt] Sent PT to ${sentPT} subscribers`);
-    }
-
-    // 5. Archive PT edition
-    const ptSlug = latestEN.slug + '-pt';
+    const weekRange = now.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+    const slug = generateSlug(weekRange);
     try {
       await archiveViaGitHub({
-        slug: ptSlug,
-        title: `Oporto Weekly — ${ptWeekDate}`,
-        description: `Eventos no Porto: ${ptWeekDate}`,
+        slug,
+        title: `Oporto Weekly — ${now.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}`,
+        description: subject,
         sentAt: now.toISOString(),
-        weekRange: ptWeekDate,
-      }, ptHtml, 'newsletters-pt.json');
-      console.log(`[cron/newsletter-pt] Archived PT as ${ptSlug}`);
+        weekRange,
+      }, html, 'newsletters.json');
+      console.log(`[cron/newsletter] Archived EN as ${slug}`);
+
+      // Notify search engines about the new edition (best-effort)
+      notifySearchEngines(slug).catch(e =>
+        console.error('[cron/newsletter] Search engine notification failed:', e)
+      );
     } catch (archiveErr) {
-      console.error('[cron/newsletter-pt] PT archive failed:', archiveErr);
+      console.error('[cron/newsletter] EN archive failed:', archiveErr);
     }
 
-    return NextResponse.json({ success: true, sent: { pt: sentPT }, source: latestEN.slug });
+    return NextResponse.json({ success: true, sent: { en: sentEN } });
   } catch (err: unknown) {
-    console.error('[cron/newsletter-pt]', err);
+    console.error('[cron/newsletter]', err);
     const message = err instanceof Error ? err.message : 'Internal server error';
     return NextResponse.json({ error: message }, { status: 500 });
   }
