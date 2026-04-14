@@ -1,7 +1,5 @@
 import Link from 'next/link';
-
-const gold = '#c9a96e';
-const bg = '#1a1a2e';
+import { colors, typography } from '@/lib/design';
 
 const InstagramIcon = () => (
   <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style={{ verticalAlign: 'middle' }}>
@@ -16,7 +14,7 @@ interface HeaderProps {
 
 const linkStyle = (isActive: boolean) => ({
   fontSize: 13,
-  color: isActive ? '#fff' : '#9999bb',
+  color: isActive ? colors.heading : colors.textSoft,
   textDecoration: 'none' as const,
   letterSpacing: 0.3,
   fontWeight: isActive ? 600 : 400,
@@ -32,25 +30,26 @@ export function Header({ lang = 'en', active }: HeaderProps) {
 
   return (
     <header style={{
-      background: bg,
-      padding: '12px 28px',
+      background: colors.bg,
+      padding: '14px 28px',
       display: 'flex',
       justifyContent: 'space-between',
       alignItems: 'center',
+      borderBottom: `1px solid ${colors.divider}`,
     }}>
       {/* Logo */}
       <Link href={home} style={{
-        fontFamily: 'Georgia, serif',
+        fontFamily: typography.serif,
         fontSize: 20,
-        color: gold,
+        color: colors.heading,
         textDecoration: 'none',
-        letterSpacing: 0.5,
+        letterSpacing: 0.3,
       }}>
         Oporto Weekly
       </Link>
 
       {/* Nav */}
-      <nav className="header-nav" style={{ display: 'flex', gap: 18, alignItems: 'center' }}>
+      <nav className="header-nav" style={{ display: 'flex', gap: 20, alignItems: 'center' }}>
         <Link href="/blog" style={linkStyle(active === 'blog')}>
           Blog
         </Link>
@@ -59,17 +58,17 @@ export function Header({ lang = 'en', active }: HeaderProps) {
         </Link>
 
         {/* Separator */}
-        <span style={{ color: '#333355', fontSize: 12 }}>|</span>
+        <span style={{ color: colors.divider, fontSize: 12 }}>|</span>
 
         {/* Language switcher */}
         <Link href={langHref} style={{
           fontSize: 12,
-          color: gold,
+          color: colors.heading,
           textDecoration: 'none',
           fontWeight: 600,
           letterSpacing: 0.5,
-          border: `1px solid ${gold}44`,
-          padding: '3px 8px',
+          border: `1px solid ${colors.accent}`,
+          padding: '3px 9px',
           borderRadius: 4,
         }}>
           {langLabel}
@@ -80,7 +79,7 @@ export function Header({ lang = 'en', active }: HeaderProps) {
           href="https://www.instagram.com/oportoweekly/"
           target="_blank"
           rel="noopener noreferrer"
-          style={{ color: '#9999bb', textDecoration: 'none', display: 'flex', alignItems: 'center' }}
+          style={{ color: colors.textSoft, textDecoration: 'none', display: 'flex', alignItems: 'center' }}
           aria-label="Instagram"
         >
           <InstagramIcon />

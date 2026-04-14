@@ -1,4 +1,5 @@
 import { listBlogPosts, getBlogPost, getBlogPostHtml } from '@/lib/blog';
+import { colors, typography } from '@/lib/design';
 import Link from 'next/link';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
@@ -38,9 +39,6 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   };
 }
 
-const gold = '#c9a96e';
-const bg = '#1a1a2e';
-
 export default function BlogPostPage({ params }: { params: { slug: string } }) {
   const post = getBlogPost(params.slug);
   if (!post) notFound();
@@ -73,29 +71,29 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
   };
 
   return (
-    <div style={{ background: '#f4f1ec', minHeight: '100vh', fontFamily: 'Inter, Arial, sans-serif' }}>
+    <div style={{ background: colors.bg, minHeight: '100vh', fontFamily: typography.sans, color: colors.text }}>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <style dangerouslySetInnerHTML={{ __html: `
-        .blog-article h2 { font-family: Georgia, serif; font-size: 24px; color: #1a1a2e; margin: 32px 0 12px; line-height: 1.3; }
-        .blog-article h3 { font-family: Georgia, serif; font-size: 19px; color: #1a1a2e; margin: 24px 0 8px; line-height: 1.3; }
-        .blog-article p { margin: 0 0 16px; }
-        .blog-article ul, .blog-article ol { margin: 0 0 16px; padding-left: 24px; }
-        .blog-article li { margin-bottom: 6px; }
-        .blog-article strong { color: #1a1a2e; }
-        .blog-article a { color: #c9a96e; text-decoration: underline; }
-        .blog-article img { max-width: 100%; height: auto; border-radius: 8px; }
-        .blog-article figure { margin: 24px 0; }
-        .blog-article blockquote { border-left: 3px solid #c9a96e; margin: 20px 0; padding: 12px 20px; background: #f9f7f2; font-style: italic; color: #555; }
+        .blog-article h2 { font-family: ${typography.serif}; font-size: 26px; color: ${colors.heading}; margin: 36px 0 14px; line-height: 1.3; letter-spacing: -0.3px; }
+        .blog-article h3 { font-family: ${typography.serif}; font-size: 20px; color: ${colors.heading}; margin: 28px 0 10px; line-height: 1.3; }
+        .blog-article p { margin: 0 0 18px; }
+        .blog-article ul, .blog-article ol { margin: 0 0 18px; padding-left: 24px; }
+        .blog-article li { margin-bottom: 8px; }
+        .blog-article strong { color: ${colors.heading}; }
+        .blog-article a { color: ${colors.heading}; border-bottom: 1.5px solid ${colors.accent}; text-decoration: none; padding-bottom: 1px; }
+        .blog-article img { max-width: 100%; height: auto; border-radius: 6px; }
+        .blog-article figure { margin: 28px 0; }
+        .blog-article blockquote { border-left: 3px solid ${colors.accent}; margin: 24px 0; padding: 14px 22px; background: ${colors.bgSoft}; font-style: italic; color: ${colors.textSoft}; font-family: ${typography.serif}; font-size: 17px; line-height: 1.6; }
       `}} />
 
       <Header lang="en" active="blog" />
 
       {/* Hero image */}
       {post.heroImage && (
-        <div style={{ position: 'relative', width: '100%', height: 400, maxHeight: '50vh' }}>
+        <div style={{ position: 'relative', width: '100%', height: 420, maxHeight: '52vh' }}>
           <Image
             src={post.heroImage}
             alt={post.title}
@@ -107,25 +105,25 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
           <div style={{
             position: 'absolute',
             inset: 0,
-            background: 'linear-gradient(transparent 40%, rgba(26,26,46,0.85) 100%)',
+            background: 'linear-gradient(transparent 40%, rgba(26,26,46,0.6) 100%)',
           }} />
         </div>
       )}
 
       {/* Article */}
-      <div style={{ maxWidth: 720, margin: '0 auto', padding: '40px 24px 60px' }}>
+      <div style={{ maxWidth: 720, margin: '0 auto', padding: '48px 24px 60px' }}>
         {/* Tags */}
-        <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 16 }}>
+        <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 20 }}>
           {post.tags.map(tag => (
             <span key={tag} style={{
               fontSize: 10,
-              letterSpacing: 1,
+              letterSpacing: 1.5,
               textTransform: 'uppercase',
-              color: gold,
-              background: `${gold}15`,
-              padding: '3px 8px',
+              color: colors.accent,
+              background: colors.bgSoft,
+              padding: '4px 10px',
               borderRadius: 3,
-              fontWeight: 600,
+              fontWeight: 700,
             }}>
               {tag}
             </span>
@@ -134,24 +132,27 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
 
         {/* Title */}
         <h1 style={{
-          fontFamily: 'Georgia, serif',
-          fontSize: 34,
-          color: bg,
-          margin: '0 0 16px',
-          lineHeight: 1.25,
+          fontFamily: typography.serif,
+          fontSize: 38,
+          color: colors.heading,
+          margin: '0 0 18px',
+          lineHeight: 1.2,
+          letterSpacing: -0.5,
         }}>
           {post.title}
         </h1>
 
         {/* Byline */}
         <div style={{
-          fontSize: 13,
-          color: '#888',
-          marginBottom: 32,
+          fontSize: 14,
+          color: colors.textSoft,
+          marginBottom: 36,
           paddingBottom: 24,
-          borderBottom: '1px solid #ddd',
+          borderBottom: `1px solid ${colors.divider}`,
         }}>
-          By <strong style={{ color: '#555' }}>{post.author}</strong> · {publishedDate}
+          By <strong style={{ color: colors.heading }}>{post.author}</strong>
+          <span style={{ color: colors.textMuted, margin: '0 8px' }}>·</span>
+          {publishedDate}
         </div>
 
         {/* Article body */}
@@ -159,74 +160,80 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
           className="blog-article"
           dangerouslySetInnerHTML={{ __html: html }}
           style={{
-            fontSize: 16,
+            fontSize: 17,
             lineHeight: 1.8,
-            color: '#333',
+            color: colors.text,
           }}
         />
 
         {/* Author signature */}
         <div style={{
-          marginTop: 48,
-          paddingTop: 24,
-          borderTop: `2px solid ${gold}`,
+          marginTop: 56,
+          paddingTop: 28,
+          borderTop: `2px solid ${colors.accent}`,
           display: 'flex',
           alignItems: 'center',
-          gap: 16,
+          gap: 18,
         }}>
           <div style={{
-            width: 48,
-            height: 48,
+            width: 52,
+            height: 52,
             borderRadius: '50%',
-            background: bg,
+            background: colors.bgSoft,
+            border: `2px solid ${colors.accent}`,
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            color: gold,
-            fontFamily: 'Georgia, serif',
-            fontSize: 18,
+            color: colors.accent,
+            fontFamily: typography.serif,
+            fontSize: 20,
             fontWeight: 700,
             flexShrink: 0,
           }}>
             BE
           </div>
           <div>
-            <div style={{ fontWeight: 600, color: bg, fontSize: 14 }}>{post.author}</div>
-            <div style={{ fontSize: 12, color: '#888' }}>Editor, Oporto Weekly — Porto, Portugal</div>
+            <div style={{ fontWeight: 600, color: colors.heading, fontSize: 15 }}>{post.author}</div>
+            <div style={{ fontSize: 13, color: colors.textSoft }}>Editor, Oporto Weekly — Porto, Portugal</div>
           </div>
         </div>
 
-        {/* Subscribe CTA */}
+        {/* Subscribe CTA — light themed */}
         <div style={{
-          background: bg,
-          borderRadius: 12,
-          padding: '28px 24px',
+          background: colors.bgSoft,
+          border: `1px solid ${colors.divider}`,
+          borderRadius: 8,
+          padding: '32px 28px',
           textAlign: 'center',
-          marginTop: 40,
+          marginTop: 48,
         }}>
-          <p style={{ fontFamily: 'Georgia, serif', fontSize: 18, color: '#fff', margin: '0 0 8px' }}>
+          <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: 3, textTransform: 'uppercase', color: colors.accent, marginBottom: 10 }}>
+            Weekly newsletter
+          </div>
+          <p style={{ fontFamily: typography.serif, fontSize: 22, color: colors.heading, margin: '0 0 8px', letterSpacing: -0.3 }}>
             Get Porto events in your inbox
           </p>
-          <p style={{ fontSize: 13, color: '#9999bb', margin: '0 0 16px' }}>
+          <p style={{ fontSize: 14, color: colors.textSoft, margin: '0 0 20px', lineHeight: 1.6 }}>
             Curated every Thursday morning — free, no spam.
           </p>
           <Link href="/" style={{
             display: 'inline-block',
-            background: gold,
-            color: bg,
+            background: colors.accent,
+            color: colors.heading,
             padding: '12px 28px',
-            borderRadius: 6,
+            borderRadius: 4,
             textDecoration: 'none',
             fontWeight: 700,
             fontSize: 13,
+            letterSpacing: 0.5,
           }}>
             Subscribe free →
           </Link>
         </div>
 
         {/* Back to blog */}
-        <div style={{ textAlign: 'center', marginTop: 24 }}>
-          <Link href="/blog" style={{ fontSize: 13, color: '#888', textDecoration: 'none' }}>
+        <div style={{ textAlign: 'center', marginTop: 28 }}>
+          <Link href="/blog" style={{ fontSize: 13, color: colors.textSoft, textDecoration: 'none' }}>
             ← Back to all articles
           </Link>
         </div>

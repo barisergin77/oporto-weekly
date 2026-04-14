@@ -1,5 +1,6 @@
 import { listNewsletters, getNewsletterHtml, stripEmailFooter, replaceHeaderWithBanner } from '@/lib/archive';
 import { listBlogPosts } from '@/lib/blog';
+import { colors, typography } from '@/lib/design';
 import Link from 'next/link';
 import type { Metadata } from 'next';
 import { SubscribeForm } from './SubscribeForm';
@@ -68,11 +69,8 @@ export default function Home() {
   const html = rawHtml ? replaceHeaderWithBanner(stripEmailFooter(rawHtml)) : null;
   const recentPosts = listBlogPosts().slice(0, 3);
 
-  const gold = '#c9a96e';
-  const bg = '#1a1a2e';
-
   return (
-    <div style={{ background: '#f4f1ec', minHeight: '100vh', fontFamily: 'Inter, Arial, sans-serif' }}>
+    <div style={{ background: colors.bg, minHeight: '100vh', fontFamily: typography.sans, color: colors.text }}>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
@@ -95,7 +93,7 @@ export default function Home() {
           {html ? (
             <div dangerouslySetInnerHTML={{ __html: html }} />
           ) : (
-            <div style={{ background: '#fff', borderRadius: 4, padding: 48, textAlign: 'center', color: '#888' }}>
+            <div style={{ background: colors.card, borderRadius: 4, padding: 48, textAlign: 'center', color: colors.textSoft, border: `1px solid ${colors.divider}` }}>
               First edition coming this Thursday!
             </div>
           )}
@@ -109,44 +107,47 @@ export default function Home() {
           top: 24,
           alignSelf: 'flex-start',
         }}>
+          {/* Subscribe card — light, editorial */}
           <div style={{
-            background: bg,
-            borderRadius: 12,
+            background: colors.card,
+            borderRadius: 8,
             padding: '28px 22px',
-            border: `1px solid ${gold}33`,
-            boxShadow: '0 4px 24px rgba(0,0,0,0.15)',
+            border: `1px solid ${colors.divider}`,
+            boxShadow: '0 2px 16px rgba(26,26,46,0.05)',
           }}>
             {/* Branding */}
             <div style={{ textAlign: 'center', marginBottom: 20 }}>
-
+              <div style={{ fontSize: 10, letterSpacing: 3, textTransform: 'uppercase', color: colors.accent, marginBottom: 8, fontWeight: 700 }}>
+                Get it Thursdays
+              </div>
               <h2 style={{
-                fontFamily: 'Georgia, serif',
-                fontSize: 18,
-                color: '#fff',
+                fontFamily: typography.serif,
+                fontSize: 20,
+                color: colors.heading,
                 margin: '0 0 6px',
+                letterSpacing: -0.3,
               }}>
                 Oporto Weekly
               </h2>
-              <div style={{ width: 40, height: 2, background: gold, margin: '8px auto 10px' }} />
-              <p style={{ fontSize: 13, color: '#9999bb', margin: 0, lineHeight: 1.6 }}>
+              <div style={{ width: 32, height: 2, background: colors.accent, margin: '10px auto 12px' }} />
+              <p style={{ fontSize: 13, color: colors.textSoft, margin: 0, lineHeight: 1.6 }}>
                 The best of Porto, every Thursday morning.
               </p>
             </div>
 
-            {/* What you're reading label */}
+            {/* Latest edition badge */}
             {latest && (
               <div style={{
-                background: `${gold}15`,
-                border: `1px solid ${gold}33`,
-                borderRadius: 6,
-                padding: '8px 12px',
+                background: colors.bgSoft,
+                border: `1px solid ${colors.divider}`,
+                borderLeft: `3px solid ${colors.accent}`,
+                padding: '10px 12px',
                 marginBottom: 18,
-                textAlign: 'center',
               }}>
-                <div style={{ fontSize: 10, letterSpacing: 2, textTransform: 'uppercase', color: gold, marginBottom: 3 }}>
+                <div style={{ fontSize: 10, letterSpacing: 2, textTransform: 'uppercase', color: colors.accent, marginBottom: 3, fontWeight: 700 }}>
                   Latest edition
                 </div>
-                <div style={{ fontSize: 12, color: '#ccd6f6' }}>{latest.weekRange}</div>
+                <div style={{ fontSize: 12, color: colors.text }}>{latest.weekRange}</div>
               </div>
             )}
 
@@ -156,7 +157,7 @@ export default function Home() {
 
           {/* Archive link below card */}
           <div style={{ textAlign: 'center', marginTop: 16 }}>
-            <Link href="/archive" style={{ fontSize: 12, color: '#888', textDecoration: 'none' }}>
+            <Link href="/archive" style={{ fontSize: 12, color: colors.textSoft, textDecoration: 'none' }}>
               Archive →
             </Link>
           </div>
@@ -164,19 +165,20 @@ export default function Home() {
           {/* Recent blog posts */}
           {recentPosts.length > 0 && (
             <div style={{
-              background: '#fff',
-              borderRadius: 10,
+              background: colors.card,
+              borderRadius: 8,
               padding: '20px 18px',
               marginTop: 20,
-              border: '1px solid #e8e4dd',
+              border: `1px solid ${colors.divider}`,
             }}>
               <h3 style={{
-                fontFamily: 'Georgia, serif',
-                fontSize: 14,
-                color: bg,
+                fontFamily: typography.serif,
+                fontSize: 16,
+                color: colors.heading,
                 margin: '0 0 14px',
                 paddingBottom: 10,
-                borderBottom: `2px solid ${gold}`,
+                borderBottom: `2px solid ${colors.accent}`,
+                letterSpacing: -0.2,
               }}>
                 From the Blog
               </h3>
@@ -188,13 +190,13 @@ export default function Home() {
                     display: 'block',
                     textDecoration: 'none',
                     padding: '10px 0',
-                    borderBottom: i < recentPosts.length - 1 ? '1px solid #f0ece4' : 'none',
+                    borderBottom: i < recentPosts.length - 1 ? `1px solid ${colors.divider}` : 'none',
                   }}
                 >
-                  <div style={{ fontSize: 13, color: bg, fontWeight: 500, lineHeight: 1.4, marginBottom: 4 }}>
+                  <div style={{ fontSize: 13, color: colors.heading, fontWeight: 500, lineHeight: 1.4, marginBottom: 4 }}>
                     {post.title}
                   </div>
-                  <div style={{ fontSize: 11, color: '#999' }}>
+                  <div style={{ fontSize: 11, color: colors.textSoft }}>
                     {new Date(post.publishedAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}
                   </div>
                 </Link>
@@ -205,10 +207,11 @@ export default function Home() {
                   display: 'block',
                   textAlign: 'center',
                   fontSize: 12,
-                  color: gold,
+                  color: colors.accent,
                   textDecoration: 'none',
-                  marginTop: 12,
+                  marginTop: 14,
                   fontWeight: 600,
+                  letterSpacing: 0.3,
                 }}
               >
                 All articles →

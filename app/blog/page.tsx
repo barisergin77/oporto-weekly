@@ -1,4 +1,5 @@
 import { listBlogPosts } from '@/lib/blog';
+import { colors, typography } from '@/lib/design';
 import Link from 'next/link';
 import Image from 'next/image';
 import type { Metadata } from 'next';
@@ -17,37 +18,36 @@ export const metadata: Metadata = {
   },
 };
 
-const gold = '#c9a96e';
-const bg = '#1a1a2e';
-const cardBg = '#16213e';
-
 export default function BlogIndex() {
   const posts = listBlogPosts();
 
   return (
-    <div style={{ background: '#f4f1ec', minHeight: '100vh', fontFamily: 'Inter, Arial, sans-serif' }}>
+    <div style={{ background: colors.bg, minHeight: '100vh', fontFamily: typography.sans, color: colors.text }}>
 
       <Header lang="en" active="blog" />
 
-      {/* Header */}
-      <div className="blog-header" style={{ background: bg, padding: '48px 32px 56px', textAlign: 'center' }}>
-        <h1 style={{ fontFamily: 'Georgia, serif', fontSize: 36, color: '#fff', margin: '0 0 12px' }}>
+      {/* Page title — light, editorial */}
+      <div className="blog-header" style={{ background: colors.bg, padding: '56px 32px 16px', textAlign: 'center' }}>
+        <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: 3, textTransform: 'uppercase', color: colors.accent, marginBottom: 12 }}>
+          In-depth guides
+        </div>
+        <h1 style={{ fontFamily: typography.serif, fontSize: 44, color: colors.heading, margin: '0 0 14px', letterSpacing: -0.5 }}>
           Porto Guide
         </h1>
-        <div style={{ width: 60, height: 2, background: gold, margin: '0 auto 16px' }} />
-        <p style={{ fontSize: 15, color: '#9999bb', margin: 0, maxWidth: 500, marginLeft: 'auto', marginRight: 'auto' }}>
-          In-depth articles about Porto — hidden gems, food, culture, and insider tips from the city we love.
+        <div style={{ width: 40, height: 2, background: colors.accent, margin: '0 auto 20px' }} />
+        <p style={{ fontSize: 16, color: colors.textSoft, margin: 0, maxWidth: 540, marginLeft: 'auto', marginRight: 'auto', lineHeight: 1.6 }}>
+          Hidden gems, food, culture, and insider tips from the city we love.
         </p>
       </div>
 
       {/* Blog grid */}
-      <div style={{ maxWidth: 900, margin: '0 auto', padding: '40px 24px 60px' }}>
+      <div style={{ maxWidth: 960, margin: '0 auto', padding: '32px 24px 60px' }}>
         {posts.length === 0 ? (
-          <div style={{ background: '#fff', borderRadius: 8, padding: 48, textAlign: 'center', color: '#888' }}>
+          <div style={{ background: colors.card, borderRadius: 6, padding: 48, textAlign: 'center', color: colors.textSoft, border: `1px solid ${colors.divider}` }}>
             First articles coming soon — stay tuned!
           </div>
         ) : (
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 24 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 28 }}>
             {posts.map((post) => (
               <Link
                 key={post.slug}
@@ -55,14 +55,18 @@ export default function BlogIndex() {
                 style={{ textDecoration: 'none', color: 'inherit' }}
               >
                 <article style={{
-                  background: '#fff',
-                  borderRadius: 8,
+                  background: colors.card,
+                  borderRadius: 6,
                   overflow: 'hidden',
-                  boxShadow: '0 2px 12px rgba(0,0,0,0.08)',
+                  border: `1px solid ${colors.divider}`,
+                  boxShadow: '0 1px 3px rgba(26,26,46,0.04)',
                   transition: 'transform 0.2s, box-shadow 0.2s',
+                  height: '100%',
+                  display: 'flex',
+                  flexDirection: 'column',
                 }}>
                   {post.heroImage && (
-                    <div style={{ position: 'relative', width: '100%', height: 180 }}>
+                    <div style={{ position: 'relative', width: '100%', height: 200 }}>
                       <Image
                         src={post.heroImage}
                         alt={post.title}
@@ -72,39 +76,40 @@ export default function BlogIndex() {
                       />
                     </div>
                   )}
-                  <div style={{ padding: '18px 20px 22px' }}>
-                    <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 10 }}>
+                  <div style={{ padding: '20px 22px 24px', flex: 1, display: 'flex', flexDirection: 'column' }}>
+                    <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 12 }}>
                       {post.tags.slice(0, 3).map(tag => (
                         <span key={tag} style={{
                           fontSize: 10,
-                          letterSpacing: 1,
+                          letterSpacing: 1.5,
                           textTransform: 'uppercase',
-                          color: gold,
-                          background: `${gold}15`,
-                          padding: '3px 8px',
+                          color: colors.accent,
+                          background: colors.bgSoft,
+                          padding: '3px 10px',
                           borderRadius: 3,
-                          fontWeight: 600,
+                          fontWeight: 700,
                         }}>
                           {tag}
                         </span>
                       ))}
                     </div>
                     <h2 style={{
-                      fontFamily: 'Georgia, serif',
-                      fontSize: 17,
-                      color: bg,
-                      margin: '0 0 8px',
-                      lineHeight: 1.4,
+                      fontFamily: typography.serif,
+                      fontSize: 19,
+                      color: colors.heading,
+                      margin: '0 0 10px',
+                      lineHeight: 1.3,
+                      letterSpacing: -0.2,
                     }}>
                       {post.title}
                     </h2>
-                    <p style={{ fontSize: 13, color: '#666', lineHeight: 1.6, margin: '0 0 12px' }}>
+                    <p style={{ fontSize: 14, color: colors.textSoft, lineHeight: 1.6, margin: '0 0 14px', flex: 1 }}>
                       {post.excerpt}
                     </p>
-                    <div style={{ fontSize: 11, color: '#999' }}>
+                    <div style={{ fontSize: 11, color: colors.textMuted, borderTop: `1px solid ${colors.divider}`, paddingTop: 10 }}>
                       {new Date(post.publishedAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}
                       {' · '}
-                      {post.author}
+                      <span style={{ color: colors.textSoft }}>{post.author}</span>
                     </div>
                   </div>
                 </article>

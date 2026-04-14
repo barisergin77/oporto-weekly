@@ -1,8 +1,5 @@
 import Link from 'next/link';
-
-const gold = '#c9a96e';
-const bg = '#1a1a2e';
-const muted = '#666899';
+import { colors, typography } from '@/lib/design';
 
 const InstagramIcon = () => (
   <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style={{ verticalAlign: 'middle' }}>
@@ -14,45 +11,52 @@ interface FooterProps {
   lang?: 'en' | 'pt';
 }
 
-const linkStyle = { color: muted, textDecoration: 'none' as const, fontSize: 12 };
-const goldLink = { ...linkStyle, color: gold };
-const sep = <span style={{ color: '#444466', margin: '0 2px' }}> · </span>;
+const linkStyle = { color: colors.heading, textDecoration: 'none' as const, fontSize: 12, borderBottom: `1px solid ${colors.accent}`, paddingBottom: 1 };
+const plainLink = { color: colors.textSoft, textDecoration: 'none' as const, fontSize: 12 };
+const sep = <span style={{ color: colors.textMuted, margin: '0 6px' }}>·</span>;
 
 export function Footer({ lang = 'en' }: FooterProps) {
   const isEN = lang === 'en';
 
   return (
     <footer style={{
-      background: bg,
-      padding: '32px 28px',
+      background: colors.bgAlt,
+      padding: '36px 28px',
       textAlign: 'center',
+      borderTop: `1px solid ${colors.divider}`,
     }}>
       {/* Logo */}
       <Link href={isEN ? '/' : '/pt'} style={{
-        fontFamily: 'Georgia, serif',
-        fontSize: 17,
-        color: gold,
+        fontFamily: typography.serif,
+        fontSize: 20,
+        color: colors.heading,
         textDecoration: 'none',
+        letterSpacing: 0.3,
       }}>
         Oporto Weekly
       </Link>
 
-      {/* Divider */}
-      <div style={{ width: 40, height: 1, background: `${gold}44`, margin: '12px auto' }} />
+      {/* Gold divider */}
+      <div style={{ width: 40, height: 2, background: colors.accent, margin: '12px auto 16px' }} />
+
+      {/* Tagline */}
+      <div style={{ fontSize: 13, color: colors.textSoft, marginBottom: 10 }}>
+        Curated every Thursday · Porto, Portugal
+      </div>
 
       {/* Nav links */}
-      <div className="footer-links" style={{ lineHeight: 2.2 }}>
-        <Link href="/blog" style={goldLink}>Blog</Link>
+      <div className="footer-links" style={{ fontSize: 12, lineHeight: 2 }}>
+        <Link href="/blog" style={linkStyle}>Blog</Link>
         {sep}
         <Link href={isEN ? '/archive' : '/pt/arquivo'} style={linkStyle}>
           {isEN ? 'Archive' : 'Arquivo'}
         </Link>
         {sep}
-        <Link href={isEN ? '/pt' : '/'} style={linkStyle}>
+        <Link href={isEN ? '/pt' : '/'} style={plainLink}>
           {isEN ? 'Português' : 'English'}
         </Link>
         {sep}
-        <a href="mailto:hello@oportoweekly.com" style={linkStyle}>
+        <a href="mailto:hello@oportoweekly.com" style={plainLink}>
           hello@oportoweekly.com
         </a>
         {sep}
@@ -60,7 +64,7 @@ export function Footer({ lang = 'en' }: FooterProps) {
           href="https://www.instagram.com/oportoweekly/"
           target="_blank"
           rel="noopener noreferrer"
-          style={{ ...linkStyle, verticalAlign: 'middle' }}
+          style={{ ...plainLink, verticalAlign: 'middle' }}
           aria-label="Instagram"
         >
           <InstagramIcon />
@@ -68,8 +72,8 @@ export function Footer({ lang = 'en' }: FooterProps) {
       </div>
 
       {/* Copyright */}
-      <p style={{ fontSize: 11, color: '#444466', marginTop: 12, marginBottom: 0 }}>
-        © {new Date().getFullYear()} Oporto Weekly · Porto, Portugal
+      <p style={{ fontSize: 11, color: colors.textMuted, marginTop: 20, marginBottom: 0 }}>
+        © {new Date().getFullYear()} Oporto Weekly · Made with ♡ in Porto
       </p>
     </footer>
   );

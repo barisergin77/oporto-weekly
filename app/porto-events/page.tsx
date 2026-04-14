@@ -1,4 +1,5 @@
 import { listNewsletters, getNewsletterHtml, stripEmailFooter } from '@/lib/archive';
+import { colors, typography } from '@/lib/design';
 import Link from 'next/link';
 import type { Metadata } from 'next';
 import { SubscribeForm } from '../SubscribeForm';
@@ -83,9 +84,6 @@ const jsonLd = {
   ],
 };
 
-const gold = '#c9a96e';
-const bg = '#1a1a2e';
-
 export default function PortoEventsPage() {
   const newsletters = listNewsletters();
   const latest = newsletters[0] ?? null;
@@ -93,33 +91,35 @@ export default function PortoEventsPage() {
   const html = rawHtml ? stripEmailFooter(rawHtml) : null;
 
   return (
-    <div style={{ background: '#f4f1ec', minHeight: '100vh', fontFamily: 'Inter, Arial, sans-serif' }}>
+    <div style={{ background: colors.bg, minHeight: '100vh', fontFamily: typography.sans, color: colors.text }}>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
       <Header lang="en" active="events" />
 
-      {/* Hero intro — unique evergreen content for SEO */}
-      <div style={{ background: bg, borderBottom: `1px solid ${gold}33`, padding: '40px 32px', textAlign: 'center' }}>
-        <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: 3, textTransform: 'uppercase', color: gold, marginBottom: 12 }}>
+      {/* Hero intro — light editorial */}
+      <div style={{ background: colors.bg, borderBottom: `1px solid ${colors.divider}`, padding: '48px 32px 40px', textAlign: 'center' }}>
+        <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: 3, textTransform: 'uppercase', color: colors.accent, marginBottom: 14 }}>
           Updated every Thursday
         </div>
-        <h1 style={{ fontFamily: 'Georgia, serif', fontSize: 38, color: '#fff', margin: '0 0 16px', lineHeight: 1.25 }}>
+        <h1 style={{ fontFamily: typography.serif, fontSize: 42, color: colors.heading, margin: '0 0 16px', lineHeight: 1.2, letterSpacing: -0.5 }}>
           Porto Events This Week
         </h1>
-        <p style={{ fontSize: 16, color: '#9999bb', maxWidth: 560, margin: '0 auto 24px', lineHeight: 1.7 }}>
+        <div style={{ width: 40, height: 2, background: colors.accent, margin: '0 auto 22px' }} />
+        <p style={{ fontSize: 16, color: colors.textSoft, maxWidth: 580, margin: '0 auto 28px', lineHeight: 1.7 }}>
           Porto is one of Europe&apos;s most vibrant cities — every week brings concerts at
           Casa da Música, gallery openings in Rua Miguel Bombarda, rooftop parties in
           Foz, and food markets along the Douro. Here&apos;s what&apos;s on this week.
         </p>
-        <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
+        <div style={{ display: 'flex', gap: 10, justifyContent: 'center', flexWrap: 'wrap' }}>
           {['🎵 Concerts', '🎨 Art', '🍷 Food & Wine', '👨‍👩‍👧 Family', '🌙 Nightlife'].map((tag) => (
             <span key={tag} style={{
-              background: `${gold}20`,
-              border: `1px solid ${gold}40`,
-              color: gold,
-              padding: '4px 14px',
+              background: colors.card,
+              border: `1px solid ${colors.divider}`,
+              color: colors.heading,
+              padding: '6px 14px',
               borderRadius: 20,
               fontSize: 13,
+              fontWeight: 500,
             }}>{tag}</span>
           ))}
         </div>
@@ -132,17 +132,18 @@ export default function PortoEventsPage() {
         <div style={{ flex: 1, minWidth: 0 }}>
           {latest && (
             <div style={{
-              background: '#fff',
-              borderRadius: 4,
+              background: colors.card,
+              borderRadius: 6,
               padding: '12px 20px',
               marginBottom: 24,
-              borderLeft: `4px solid ${gold}`,
+              border: `1px solid ${colors.divider}`,
+              borderLeft: `4px solid ${colors.accent}`,
               fontSize: 13,
-              color: '#555',
+              color: colors.textSoft,
             }}>
-              📅 <strong style={{ color: '#1a1a2e' }}>Edition: {latest.weekRange}</strong>
+              📅 <strong style={{ color: colors.heading }}>Edition: {latest.weekRange}</strong>
               {' — '}
-              <Link href={`/archive/${latest.slug}`} style={{ color: gold, textDecoration: 'none' }}>
+              <Link href={`/archive/${latest.slug}`} style={{ color: colors.heading, textDecoration: 'none', borderBottom: `1.5px solid ${colors.accent}`, paddingBottom: 1 }}>
                 Permanent link →
               </Link>
             </div>
@@ -150,7 +151,7 @@ export default function PortoEventsPage() {
           {html ? (
             <div dangerouslySetInnerHTML={{ __html: html }} />
           ) : (
-            <div style={{ background: '#fff', borderRadius: 4, padding: 48, textAlign: 'center', color: '#888' }}>
+            <div style={{ background: colors.card, borderRadius: 4, padding: 48, textAlign: 'center', color: colors.textSoft, border: `1px solid ${colors.divider}` }}>
               First edition coming this Thursday!
             </div>
           )}
@@ -159,34 +160,45 @@ export default function PortoEventsPage() {
         {/* Sticky subscribe sidebar */}
         <div style={{ width: 260, flexShrink: 0, position: 'sticky', top: 24, alignSelf: 'flex-start' }}>
           <div style={{
-            background: bg, borderRadius: 12, padding: '28px 22px',
-            border: `1px solid ${gold}33`, boxShadow: '0 4px 24px rgba(0,0,0,0.15)',
+            background: colors.card,
+            borderRadius: 8,
+            padding: '28px 22px',
+            border: `1px solid ${colors.divider}`,
+            boxShadow: '0 2px 16px rgba(26,26,46,0.05)',
           }}>
             <div style={{ textAlign: 'center', marginBottom: 20 }}>
-              <h2 style={{ fontFamily: 'Georgia, serif', fontSize: 18, color: '#fff', margin: '0 0 6px' }}>
+              <div style={{ fontSize: 10, letterSpacing: 3, textTransform: 'uppercase', color: colors.accent, marginBottom: 8, fontWeight: 700 }}>
+                Weekly newsletter
+              </div>
+              <h2 style={{ fontFamily: typography.serif, fontSize: 20, color: colors.heading, margin: '0 0 6px', letterSpacing: -0.3 }}>
                 Never miss a week
               </h2>
-              <div style={{ width: 40, height: 2, background: gold, margin: '8px auto 10px' }} />
-              <p style={{ fontSize: 13, color: '#9999bb', margin: 0, lineHeight: 1.6 }}>
+              <div style={{ width: 32, height: 2, background: colors.accent, margin: '10px auto 12px' }} />
+              <p style={{ fontSize: 13, color: colors.textSoft, margin: 0, lineHeight: 1.6 }}>
                 Porto events guide delivered free every Thursday morning.
               </p>
             </div>
             <SubscribeForm />
           </div>
           <div style={{ textAlign: 'center', marginTop: 16 }}>
-            <Link href="/archive" style={{ fontSize: 12, color: '#888', textDecoration: 'none' }}>
+            <Link href="/archive" style={{ fontSize: 12, color: colors.textSoft, textDecoration: 'none' }}>
               Archive →
             </Link>
           </div>
         </div>
       </div>
 
-      {/* FAQ section */}
-      <div style={{ background: bg, padding: '56px 32px', marginTop: 16 }}>
+      {/* FAQ section — light */}
+      <div style={{ background: colors.bgAlt, padding: '64px 32px', marginTop: 16, borderTop: `1px solid ${colors.divider}` }}>
         <div style={{ maxWidth: 720, margin: '0 auto' }}>
-          <h2 style={{ fontFamily: 'Georgia, serif', fontSize: 26, color: '#fff', textAlign: 'center', marginBottom: 40 }}>
-            About Porto Events
-          </h2>
+          <div style={{ textAlign: 'center', marginBottom: 40 }}>
+            <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: 3, textTransform: 'uppercase', color: colors.accent, marginBottom: 10 }}>
+              FAQ
+            </div>
+            <h2 style={{ fontFamily: typography.serif, fontSize: 32, color: colors.heading, margin: 0, letterSpacing: -0.3 }}>
+              About Porto Events
+            </h2>
+          </div>
           {[
             {
               q: 'What kinds of events happen in Porto every week?',
@@ -201,9 +213,9 @@ export default function PortoEventsPage() {
               a: 'Yes — every edition is archived and available to read at oportoweekly.com/archive.'
             },
           ].map(({ q, a }) => (
-            <div key={q} style={{ marginBottom: 32, borderBottom: `1px solid ${gold}22`, paddingBottom: 32 }}>
-              <h3 style={{ fontFamily: 'Georgia, serif', fontSize: 18, color: gold, marginBottom: 10 }}>{q}</h3>
-              <p style={{ fontSize: 14, color: '#9999bb', lineHeight: 1.8, margin: 0 }}>{a}</p>
+            <div key={q} style={{ marginBottom: 28, borderBottom: `1px solid ${colors.divider}`, paddingBottom: 28 }}>
+              <h3 style={{ fontFamily: typography.serif, fontSize: 20, color: colors.heading, margin: '0 0 10px', letterSpacing: -0.2 }}>{q}</h3>
+              <p style={{ fontSize: 15, color: colors.textSoft, lineHeight: 1.8, margin: 0 }}>{a}</p>
             </div>
           ))}
         </div>

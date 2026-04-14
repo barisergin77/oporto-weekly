@@ -1,4 +1,5 @@
 import { listNewslettersPT, getNewsletterHtmlPT, stripEmailFooter } from '@/lib/archive';
+import { colors, typography } from '@/lib/design';
 import Link from 'next/link';
 import type { Metadata } from 'next';
 import { SubscribeFormPT } from '../SubscribeFormPT';
@@ -39,11 +40,8 @@ export default function HomePT() {
   const rawHtml = latest ? getNewsletterHtmlPT(latest.slug) : null;
   const html = rawHtml ? stripEmailFooter(rawHtml) : null;
 
-  const gold = '#c9a96e';
-  const bg = '#1a1a2e';
-
   return (
-    <div style={{ background: '#f4f1ec', minHeight: '100vh', fontFamily: 'Inter, Arial, sans-serif' }}>
+    <div style={{ background: colors.bg, minHeight: '100vh', fontFamily: typography.sans, color: colors.text }}>
 
       <Header lang="pt" active="home" />
 
@@ -62,7 +60,7 @@ export default function HomePT() {
           {html ? (
             <div dangerouslySetInnerHTML={{ __html: html }} />
           ) : (
-            <div style={{ background: '#fff', borderRadius: 4, padding: 48, textAlign: 'center', color: '#888' }}>
+            <div style={{ background: colors.card, borderRadius: 4, padding: 48, textAlign: 'center', color: colors.textSoft, border: `1px solid ${colors.divider}` }}>
               Primeira edição a caminho esta quinta-feira!
             </div>
           )}
@@ -77,40 +75,43 @@ export default function HomePT() {
           alignSelf: 'flex-start',
         }}>
           <div style={{
-            background: bg,
-            borderRadius: 12,
+            background: colors.card,
+            borderRadius: 8,
             padding: '28px 22px',
-            border: `1px solid ${gold}33`,
-            boxShadow: '0 4px 24px rgba(0,0,0,0.15)',
+            border: `1px solid ${colors.divider}`,
+            boxShadow: '0 2px 16px rgba(26,26,46,0.05)',
           }}>
             <div style={{ textAlign: 'center', marginBottom: 20 }}>
+              <div style={{ fontSize: 10, letterSpacing: 3, textTransform: 'uppercase', color: colors.accent, marginBottom: 8, fontWeight: 700 }}>
+                Todas as quintas
+              </div>
               <h2 style={{
-                fontFamily: 'Georgia, serif',
-                fontSize: 18,
-                color: '#fff',
+                fontFamily: typography.serif,
+                fontSize: 20,
+                color: colors.heading,
                 margin: '0 0 6px',
+                letterSpacing: -0.3,
               }}>
                 Oporto Weekly
               </h2>
-              <div style={{ width: 40, height: 2, background: gold, margin: '8px auto 10px' }} />
-              <p style={{ fontSize: 13, color: '#9999bb', margin: 0, lineHeight: 1.6 }}>
+              <div style={{ width: 32, height: 2, background: colors.accent, margin: '10px auto 12px' }} />
+              <p style={{ fontSize: 13, color: colors.textSoft, margin: 0, lineHeight: 1.6 }}>
                 O melhor do Porto, toda quinta-feira de manhã.
               </p>
             </div>
 
             {latest && (
               <div style={{
-                background: `${gold}15`,
-                border: `1px solid ${gold}33`,
-                borderRadius: 6,
-                padding: '8px 12px',
+                background: colors.bgSoft,
+                border: `1px solid ${colors.divider}`,
+                borderLeft: `3px solid ${colors.accent}`,
+                padding: '10px 12px',
                 marginBottom: 18,
-                textAlign: 'center',
               }}>
-                <div style={{ fontSize: 10, letterSpacing: 2, textTransform: 'uppercase', color: gold, marginBottom: 3 }}>
+                <div style={{ fontSize: 10, letterSpacing: 2, textTransform: 'uppercase', color: colors.accent, marginBottom: 3, fontWeight: 700 }}>
                   Última edição
                 </div>
-                <div style={{ fontSize: 12, color: '#ccd6f6' }}>{latest.weekRange}</div>
+                <div style={{ fontSize: 12, color: colors.text }}>{latest.weekRange}</div>
               </div>
             )}
 
@@ -118,7 +119,7 @@ export default function HomePT() {
           </div>
 
           <div style={{ textAlign: 'center', marginTop: 16 }}>
-            <Link href="/pt/arquivo" style={{ fontSize: 12, color: '#888', textDecoration: 'none' }}>
+            <Link href="/pt/arquivo" style={{ fontSize: 12, color: colors.textSoft, textDecoration: 'none' }}>
               Ver todas as edições →
             </Link>
           </div>
