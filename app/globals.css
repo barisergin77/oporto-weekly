@@ -98,3 +98,97 @@ img, table, iframe, video {
   max-width: 100%;
   box-sizing: border-box;
 }
+
+/* =====================================================================
+   NEWSLETTER CONTENT RECOLOR — make old dark-theme newsletters look
+   like the new travel-magazine theme on the web, without regenerating
+   the email HTML. CSS only, with !important to beat inline styles.
+   ===================================================================== */
+
+/* Outer body background (email wrapper) */
+.newsletter-content body[style*="#f4f1ec"],
+.newsletter-content body {
+  background: transparent !important;
+}
+
+/* Any element with dark navy/near-black background → warm cream */
+.newsletter-content [style*="background-color: #1a1a2e"],
+.newsletter-content [style*="background-color:#1a1a2e"],
+.newsletter-content [style*="background:#1a1a2e"],
+.newsletter-content [style*="background: #1a1a2e"],
+.newsletter-content [style*="background-color: #16213e"],
+.newsletter-content [style*="background-color:#16213e"],
+.newsletter-content [style*="background: #16213e"],
+.newsletter-content [style*="background:#16213e"],
+.newsletter-content [style*="background-color: #0f3460"],
+.newsletter-content [style*="background-color:#0f3460"],
+.newsletter-content [style*="background:#0f3460"],
+.newsletter-content [style*="background: #0f3460"] {
+  background-color: #ffffff !important;
+  background: #ffffff !important;
+  border: 1px solid #e5dfd3 !important;
+  border-radius: 6px !important;
+}
+
+/* Header cell of newsletter: treat as top-of-card */
+.newsletter-content td.header,
+.newsletter-content div.header,
+.newsletter-content .header-eyebrow {
+  background-color: #faf7f0 !important;
+  background: #faf7f0 !important;
+  border-bottom: 1px solid #e5dfd3 !important;
+}
+
+/* Any white-on-dark text → dark ink (Inter/Georgia system) */
+.newsletter-content [style*="color: #ffffff"],
+.newsletter-content [style*="color:#ffffff"],
+.newsletter-content [style*="color: #fff"],
+.newsletter-content [style*="color:#fff"],
+.newsletter-content [style*="color: white"] {
+  color: #1a1a2e !important;
+}
+
+/* Soft/muted light-on-dark text → warm secondary gray */
+.newsletter-content [style*="color: #ccd6f6"],
+.newsletter-content [style*="color:#ccd6f6"],
+.newsletter-content [style*="color: #9999bb"],
+.newsletter-content [style*="color:#9999bb"],
+.newsletter-content [style*="color: #d0cbbd"],
+.newsletter-content [style*="color:#d0cbbd"],
+.newsletter-content [style*="color: #bbbbcc"],
+.newsletter-content [style*="color:#bbbbcc"] {
+  color: #5a5a5a !important;
+}
+
+/* Gold text stays gold (it already reads well on light) */
+
+/* Section header cells (dark blue) — convert to eyebrow styling */
+.newsletter-content td[class*="section-header"],
+.newsletter-content .section-header {
+  background-color: transparent !important;
+  background: transparent !important;
+  color: #1a1a2e !important;
+  border-bottom: 2px solid #1a1a2e !important;
+  border-radius: 0 !important;
+  padding-top: 20px !important;
+  padding-bottom: 10px !important;
+  font-family: Georgia, serif !important;
+}
+
+/* Borders that were dark → warm beige */
+.newsletter-content [style*="border: 1px solid #1a1a2e"],
+.newsletter-content [style*="border: 1px solid #16213e"],
+.newsletter-content [style*="border-bottom: 1px solid #1a1a2e"] {
+  border-color: #e5dfd3 !important;
+}
+
+/* Event/pick separators inside dark cards */
+.newsletter-content [style*="border-bottom: 1px solid rgba(255,255,255"] {
+  border-bottom-color: #e5dfd3 !important;
+}
+
+/* The whole wrapper — give it light page feel */
+.newsletter-content .wrapper {
+  background: #ffffff !important;
+  box-shadow: 0 2px 16px rgba(26,26,46,0.05) !important;
+}
