@@ -136,8 +136,8 @@ Output format:
 
 [hashtag block]`;
 
-  // Fallback chain: try flash-lite (highest quota) → flash → pro. Caption quality requirements are modest.
-  const MODELS = ['gemini-2.5-flash-lite', 'gemini-2.5-flash', 'gemini-2.5-pro'];
+  // Fallback chain: Pro for best writing quality, drop to flash variants only if rate-limited.
+  const MODELS = ['gemini-2.5-pro', 'gemini-2.5-flash', 'gemini-2.5-flash-lite'];
   const errors: string[] = [];
 
   for (const model of MODELS) {
