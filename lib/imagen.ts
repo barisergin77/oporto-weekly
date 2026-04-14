@@ -2,10 +2,10 @@
 // Uses the same GEMINI_API_KEY as the newsletter pipeline.
 
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY!;
-const IMAGEN_URL = `https://generativelanguage.googleapis.com/v1beta/models/imagen-3.0-generate-001:predict?key=${GEMINI_API_KEY}`;
+const IMAGEN_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-pro-image-preview:generateContent?key=${GEMINI_API_KEY}`; // Using Nano Banana Pro
 
 /**
- * Generates an image using Google Imagen 3.
+ * Generates an image using Google Gemini-3-Pro-Image.
  * Returns the raw image bytes as a base64 string.
  */
 export async function generateImage(
@@ -16,13 +16,18 @@ export async function generateImage(
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      instances: [{ prompt }],
-      parameters: {
-        sampleCount: 1,
-        aspectRatio,
-        // Keep safety filter at moderate level
-        safetyFilterLevel: 'block_medium_and_above',
+      contents: [{ parts: [{ text: `Generate an image for: ${prompt}. Aspect ratio: ${aspectRatio}.` }] }],
+      generationConfig: {
+        responseMimeType: 'image/png', // Request image output
+        maxOutputTokens: 2048, // Sufficient for image data
+        stopSequences: [], // No stop sequences needed for image output
       },
+      safetySettings: [
+        { category: 'HARM_CATEGORY_HARASSMENT', threshold: 'BLOCK_MEDIUM_AND_ABOVE' },
+        { category: 'HARM_CATEGORY_HATE_SPEECH', threshold: 'BLOCK_MEDIUM_AND_ABOVE' },
+        { category: 'HARM_CATEGORY_SEXUALLY_EXPLICIT', threshold: 'BLOCK_MEDIUM_AND_ABOVE' },
+        { category: 'HARM_CATEGORY_DANGEROUS_CONTENT', threshold: 'BLOCK_MEDIUM_AND_ABOVE' },
+      ],
     }),
   });
 
@@ -32,14 +37,13 @@ export async function generateImage(
   }
 
   const data = await res.json();
-  const prediction = data?.predictions?.[0];
+  const imagePart = data?.candidates?.[0]?.content?.parts?.[0]?.inlineData;
 
-  if (!prediction?.bytesBase64Encoded) {
-    throw new Error('Imagen 3 returned no image data');
+  if (!imagePart?.data) {
+    throw new Error('Gemini Image returned no image data');
   }
 
   return {
-    base64: prediction.bytesBase64Encoded,
-    mimeType: prediction.mimeType ?? 'image/png',
+    base64: imagePart.data,
+    mimeType: imagePart.mimeType ?? 'image/png',
   };
-}
