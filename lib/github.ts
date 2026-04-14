@@ -72,71 +72,68 @@ interface FileChange {
 export async function commitFiles(
   files: FileChange[],
   message: string,
-  retries = 10 // Further increased retries
+  retries = 5
 ): Promise<string> {
   for (let i = 0; i < retries; i++) {
     try {
-      // Small delay to account for GitHub eventual consistency if a very recent commit just landed
       if (i > 0) {
-        console.log(`[commitFiles] Retrying commit (attempt ${i + 1}/${retries})...`);
-        await new Promise(r => setTimeout(r, i * 10000)); // Further increased exponential backoff
+        const wait = Math.min(2000 + i * 1500, 8000); // 2s, 3.5s, 5s, 6.5s, 8s — total max 25s
+        console.log(`[commitFiles] Retrying commit (attempt ${i + 1}/${retries}) after ${wait}ms...`);
+        await new Promise(r => setTimeout(r, wait));
       }
 
-      // 1. Get current HEAD
+      // 1. Get current HEAD (fresh on each retry)
       const headSha = await getHeadSha();
       const baseTreeSha = await getCommitTreeSha(headSha);
 
-      // 2. Create blobs for each file
-  const treeItems = await Promise.all(
-    files.map(async (file) => {
-      const blobSha = await createBlob(file.content, file.encoding ?? 'utf-8');
-      return {
-        path: file.path,
-        mode: '100644' as const,
-        type: 'blob' as const,
-        sha: blobSha,
-      };
-    })
-  );
+      // 2. Create blobs (idempotent — same content produces same SHA)
+      const treeItems = await Promise.all(
+        files.map(async (file) => {
+          const blobSha = await createBlob(file.content, file.encoding ?? 'utf-8');
+          return {
+            path: file.path,
+            mode: '100644' as const,
+            type: 'blob' as const,
+            sha: blobSha,
+          };
+        })
+      );
 
-  // 3. Create a new tree
-  const tree = await githubApi('/git/trees', {
-    method: 'POST',
-    body: JSON.stringify({ base_tree: baseTreeSha, tree: treeItems }),
-  });
+      // 3. Create tree based on current HEAD
+      const tree = await githubApi('/git/trees', {
+        method: 'POST',
+        body: JSON.stringify({ base_tree: baseTreeSha, tree: treeItems }),
+      });
 
-  // 4. Create a new commit
-  // Re-fetch headSha and baseTreeSha to ensure we're always working with the latest state for the commit
-  const latestHeadSha = await getHeadSha(); // Re-fetch
-  const latestBaseTreeSha = await getCommitTreeSha(latestHeadSha); // Re-fetch
+      // 4. Create commit with headSha as parent
+      const commit = await githubApi('/git/commits', {
+        method: 'POST',
+        body: JSON.stringify({
+          message,
+          tree: tree.sha,
+          parents: [headSha],
+        }),
+      });
 
-  const commit = await githubApi('/git/commits', {
-    method: 'POST',
-    body: JSON.stringify({
-      message,
-      tree: tree.sha,
-      parents: [latestHeadSha], // Use the latest headSha for parent
-    }),
-  });
+      // 5. Update branch ref
+      await githubApi(`/git/refs/heads/${BRANCH}`, {
+        method: 'PATCH',
+        body: JSON.stringify({ sha: commit.sha }),
+      });
 
-  // 5. Update the branch ref
-  await githubApi(`/git/refs/heads/${BRANCH}`, {
-    method: 'PATCH',
-    body: JSON.stringify({ sha: commit.sha }),
-  });
+      return commit.sha;
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : String(err);
+      const retryable =
+        msg.includes('sha_invalid') ||
+        msg.includes('Update is not a fast forward') ||
+        msg.includes('422');
 
-  return commit.sha;
-    } catch (err: any) {
-      if (
-        err.message &&
-        (err.message.includes('sha_invalid') || err.message.includes('Update is not a fast forward')) &&
-        i < retries - 1
-      ) {
-        console.warn(`[commitFiles] Encountered Git API error, retrying: ${err.message}`);
-        // Continue to next loop iteration for retry
-      } else {
-        throw err; // Re-throw if not a 'sha_invalid' error or out of retries
+      if (retryable && i < retries - 1) {
+        console.warn(`[commitFiles] Retryable Git error: ${msg.slice(0, 200)}`);
+        continue;
       }
+      throw err;
     }
   }
   throw new Error(`Failed to commit files after ${retries} attempts.`);
