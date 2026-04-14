@@ -4,11 +4,11 @@ export const maxDuration = 300;
 import { NextResponse } from 'next/server';
 import { listNewsletters, getNewsletterHtml } from '@/lib/archive';
 import { generateImage } from '@/lib/imagen';
+import { uploadImageToImgur } from '@/lib/imgur';
 
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY!;
 const BUFFER_API_KEY = process.env.BUFFER_API_KEY!;
 const BUFFER_CHANNEL_ID = process.env.BUFFER_CHANNEL_ID!;
-const IMGUR_CLIENT_ID = process.env.IMGUR_CLIENT_ID!;
 
 interface Pick {
   name: string;
@@ -92,23 +92,6 @@ EVENTS TO LIST (with thumbnail visual guide):
 ${picksBlock}
 
 CRITICAL: Each thumbnail on the right MUST be a real-looking atmospheric photo. No placeholder boxes. No empty rectangles. No "IMAGE" text. Actual photographic-style imagery.`;
-}
-
-// --- Upload image buffer to Imgur to get a public URL (Buffer requires one) ---
-async function uploadToImgur(imageBase64: string): Promise<string> {
-  const res = await fetch('https://api.imgur.com/3/image', {
-    method: 'POST',
-    headers: {
-      Authorization: `Client-ID ${IMGUR_CLIENT_ID}`,
-      'Content-Type': 'application/x-www-form-urlencoded',
-    },
-    body: `image=${encodeURIComponent(imageBase64)}&type=base64`,
-  });
-  const data = await res.json();
-  if (!data.success || !data.data?.link) {
-    throw new Error(`Imgur upload failed: ${JSON.stringify(data).slice(0, 300)}`);
-  }
-  return data.data.link as string;
 }
 
 // --- Generate EN + PT caption via Gemini with fallback chain ---
@@ -252,7 +235,7 @@ export async function GET() {
 
     // 4. Upload to Imgur for a public URL
     console.log('[cron/instagram] Uploading image to Imgur...');
-    const imgurUrl = await uploadToImgur(base64);
+    const imgurUrl = await uploadImageToImgur(base64);
     console.log(`[cron/instagram] Imgur URL: ${imgurUrl}`);
 
     // 5. Generate bilingual caption
