@@ -72,14 +72,14 @@ interface FileChange {
 export async function commitFiles(
   files: FileChange[],
   message: string,
-  retries = 5 // Increased retries
+  retries = 10 // Further increased retries
 ): Promise<string> {
   for (let i = 0; i < retries; i++) {
     try {
       // Small delay to account for GitHub eventual consistency if a very recent commit just landed
       if (i > 0) {
         console.log(`[commitFiles] Retrying commit (attempt ${i + 1}/${retries})...`);
-        await new Promise(r => setTimeout(r, i * 5000)); // Increased exponential backoff
+        await new Promise(r => setTimeout(r, i * 10000)); // Further increased exponential backoff
       }
 
       // 1. Get current HEAD
@@ -106,14 +106,16 @@ export async function commitFiles(
   });
 
   // 4. Create a new commit
+  // Re-fetch headSha and baseTreeSha to ensure we're always working with the latest state for the commit
+  const latestHeadSha = await getHeadSha(); // Re-fetch
+  const latestBaseTreeSha = await getCommitTreeSha(latestHeadSha); // Re-fetch
+
   const commit = await githubApi('/git/commits', {
     method: 'POST',
     body: JSON.stringify({
       message,
       tree: tree.sha,
-      parents: [headSha],
-    }),
-  });
+      parents: [latestHeadSha], // Use the latest headSha for parent
 
   // 5. Update the branch ref
   await githubApi(`/git/refs/heads/${BRANCH}`, {
