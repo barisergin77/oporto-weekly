@@ -71,13 +71,22 @@ interface FileChange {
  */
 export async function commitFiles(
   files: FileChange[],
-  message: string
+  message: string,
+  retries = 3
 ): Promise<string> {
-  // 1. Get current HEAD
-  const headSha = await getHeadSha();
-  const baseTreeSha = await getCommitTreeSha(headSha);
+  for (let i = 0; i < retries; i++) {
+    try {
+      // Small delay to account for GitHub eventual consistency if a very recent commit just landed
+      if (i > 0) {
+        console.log(`[commitFiles] Retrying commit (attempt ${i + 1}/${retries})...`);
+        await new Promise(r => setTimeout(r, i * 2000)); // Exponential backoff
+      }
 
-  // 2. Create blobs for each file
+      // 1. Get current HEAD
+      const headSha = await getHeadSha();
+      const baseTreeSha = await getCommitTreeSha(headSha);
+
+      // 2. Create blobs for each file
   const treeItems = await Promise.all(
     files.map(async (file) => {
       const blobSha = await createBlob(file.content, file.encoding ?? 'utf-8');
@@ -113,6 +122,16 @@ export async function commitFiles(
   });
 
   return commit.sha;
+    } catch (err: any) {
+      if (err.message && err.message.includes('sha_invalid') && i < retries - 1) {
+        console.warn(`[commitFiles] Encountered 'sha_invalid' error, retrying: ${err.message}`);
+        // Continue to next loop iteration for retry
+      } else {
+        throw err; // Re-throw if not a 'sha_invalid' error or out of retries
+      }
+    }
+  }
+  throw new Error(`Failed to commit files after ${retries} attempts.`);
 }
 
 export interface NewsletterMeta {
