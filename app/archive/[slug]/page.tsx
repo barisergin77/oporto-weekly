@@ -1,8 +1,10 @@
 import { listNewsletters, getNewsletterMeta, getNewsletterHtml, stripEmailFooter } from '@/lib/archive';
+import { listBlogPosts } from '@/lib/blog';
 import { colors, typography } from '@/lib/design';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import type { Metadata } from 'next';
+import { SubscribeForm } from '../../SubscribeForm';
 import { Header } from '../../components/Header';
 import { Footer } from '../../components/Footer';
 
@@ -47,6 +49,7 @@ export default function EditionPage({ params }: { params: { slug: string } }) {
   const idx = all.findIndex((n) => n.slug === params.slug);
   const newer = idx > 0 ? all[idx - 1] : null;
   const older = idx < all.length - 1 ? all[idx + 1] : null;
+  const recentPosts = listBlogPosts().slice(0, 3);
 
   const pageUrl = `https://oportoweekly.com/archive/${meta.slug}`;
   const jsonLd = {
@@ -88,9 +91,125 @@ export default function EditionPage({ params }: { params: { slug: string } }) {
       />
       <Header lang="en" active="archive" />
 
-      {/* Newsletter HTML — constrained width, matches homepage feel */}
-      <div style={{ maxWidth: 720, margin: '0 auto', padding: '40px 24px' }}>
-        <div className="newsletter-content" dangerouslySetInnerHTML={{ __html: html }} />
+      {/* Main layout — matches homepage (newsletter + sticky sidebar) */}
+      <div className="home-layout" style={{
+        maxWidth: 1080,
+        margin: '0 auto',
+        padding: '40px 24px',
+        display: 'flex',
+        gap: 32,
+        alignItems: 'flex-start',
+      }}>
+
+        {/* Newsletter content */}
+        <div className="newsletter-content" style={{ flex: 1, minWidth: 0 }} dangerouslySetInnerHTML={{ __html: html }} />
+
+        {/* Sticky sidebar */}
+        <div className="home-sidebar" style={{
+          width: 260,
+          flexShrink: 0,
+          position: 'sticky',
+          top: 24,
+          alignSelf: 'flex-start',
+        }}>
+          {/* Subscribe card */}
+          <div style={{
+            background: colors.card,
+            borderRadius: 8,
+            padding: '28px 22px',
+            border: `1px solid ${colors.divider}`,
+            boxShadow: '0 2px 16px rgba(26,26,46,0.05)',
+          }}>
+            <div style={{ textAlign: 'center', marginBottom: 20 }}>
+              <div style={{ fontSize: 10, letterSpacing: 3, textTransform: 'uppercase', color: colors.accent, marginBottom: 8, fontWeight: 700 }}>
+                Get it Thursdays
+              </div>
+              <h2 style={{ fontFamily: typography.serif, fontSize: 20, color: colors.heading, margin: '0 0 6px', letterSpacing: -0.3 }}>
+                Oporto Weekly
+              </h2>
+              <div style={{ width: 32, height: 2, background: colors.accent, margin: '10px auto 12px' }} />
+              <p style={{ fontSize: 13, color: colors.textSoft, margin: 0, lineHeight: 1.6 }}>
+                The best of Porto, every Thursday morning.
+              </p>
+            </div>
+            <div style={{
+              background: colors.bgSoft,
+              border: `1px solid ${colors.divider}`,
+              borderLeft: `3px solid ${colors.accent}`,
+              padding: '10px 12px',
+              marginBottom: 18,
+            }}>
+              <div style={{ fontSize: 10, letterSpacing: 2, textTransform: 'uppercase', color: colors.accent, marginBottom: 3, fontWeight: 700 }}>
+                You are reading
+              </div>
+              <div style={{ fontSize: 12, color: colors.text }}>{meta.weekRange}</div>
+            </div>
+            <SubscribeForm />
+          </div>
+
+          <div style={{ textAlign: 'center', marginTop: 16 }}>
+            <Link href="/archive" style={{ fontSize: 12, color: colors.textSoft, textDecoration: 'none' }}>
+              All editions →
+            </Link>
+          </div>
+
+          {/* Recent blog posts */}
+          {recentPosts.length > 0 && (
+            <div style={{
+              background: colors.card,
+              borderRadius: 8,
+              padding: '20px 18px',
+              marginTop: 20,
+              border: `1px solid ${colors.divider}`,
+            }}>
+              <h3 style={{
+                fontFamily: typography.serif,
+                fontSize: 16,
+                color: colors.heading,
+                margin: '0 0 14px',
+                paddingBottom: 10,
+                borderBottom: `2px solid ${colors.accent}`,
+                letterSpacing: -0.2,
+              }}>
+                From the Blog
+              </h3>
+              {recentPosts.map((post, i) => (
+                <Link
+                  key={post.slug}
+                  href={`/blog/${post.slug}`}
+                  style={{
+                    display: 'block',
+                    textDecoration: 'none',
+                    padding: '10px 0',
+                    borderBottom: i < recentPosts.length - 1 ? `1px solid ${colors.divider}` : 'none',
+                  }}
+                >
+                  <div style={{ fontSize: 13, color: colors.heading, fontWeight: 500, lineHeight: 1.4, marginBottom: 4 }}>
+                    {post.title}
+                  </div>
+                  <div style={{ fontSize: 11, color: colors.textSoft }}>
+                    {new Date(post.publishedAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}
+                  </div>
+                </Link>
+              ))}
+              <Link
+                href="/blog"
+                style={{
+                  display: 'block',
+                  textAlign: 'center',
+                  fontSize: 12,
+                  color: colors.accent,
+                  textDecoration: 'none',
+                  marginTop: 14,
+                  fontWeight: 600,
+                  letterSpacing: 0.3,
+                }}
+              >
+                All articles →
+              </Link>
+            </div>
+          )}
+        </div>
       </div>
 
       {/* Prev / Next navigation — light themed */}
