@@ -229,7 +229,7 @@ export async function GET() {
     files.push({ path: 'data/blog-posts.json', content: updatedIndex });
 
     // Atomic commit
-    const commitSha = await commitFiles(files, `blog: ${meta.title}`);
+    const commitSha = await commitFiles(files, `feat: new blog post - ${slug}`);
     console.log(`[cron/blog] Committed ${slug} → ${commitSha.slice(0, 7)}`);
 
     // Notify search engines (best-effort)
