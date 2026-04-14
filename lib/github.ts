@@ -116,6 +116,8 @@ export async function commitFiles(
       message,
       tree: tree.sha,
       parents: [latestHeadSha], // Use the latest headSha for parent
+    }),
+  });
 
   // 5. Update the branch ref
   await githubApi(`/git/refs/heads/${BRANCH}`, {
