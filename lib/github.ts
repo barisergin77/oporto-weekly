@@ -85,6 +85,7 @@ export async function commitFiles(
       // 1. Get current HEAD (fresh on each retry)
       const headSha = await getHeadSha();
       const baseTreeSha = await getCommitTreeSha(headSha);
+      console.log(`[commitFiles] attempt ${i + 1}: HEAD=${headSha.slice(0, 7)}`);
 
       // 2. Create blobs (idempotent — same content produces same SHA)
       const treeItems = await Promise.all(
@@ -114,12 +115,21 @@ export async function commitFiles(
           parents: [headSha],
         }),
       });
+      console.log(`[commitFiles] created commit ${commit.sha.slice(0, 7)} parent=${headSha.slice(0, 7)}`);
 
-      // 5. Update branch ref
+      // 5. Verify HEAD hasn't moved before updating ref
+      const headBeforeUpdate = await getHeadSha();
+      if (headBeforeUpdate !== headSha) {
+        console.warn(`[commitFiles] HEAD moved during operation: ${headSha.slice(0, 7)} → ${headBeforeUpdate.slice(0, 7)}`);
+        throw new Error('Update is not a fast forward');
+      }
+
+      // 6. Update branch ref
       await githubApi(`/git/refs/heads/${BRANCH}`, {
         method: 'PATCH',
         body: JSON.stringify({ sha: commit.sha }),
       });
+      console.log(`[commitFiles] ref updated to ${commit.sha.slice(0, 7)}`);
 
       return commit.sha;
     } catch (err: unknown) {
