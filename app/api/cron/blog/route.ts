@@ -8,7 +8,24 @@ import { commitFiles } from '@/lib/github';
 import { notifySearchEngines } from '@/lib/search-engines';
 
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY!;
-const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`;
+const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro:generateContent?key=${GEMINI_API_KEY}`;
+const GEMINI_URL_FALLBACK = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`;
+
+async function geminiPost(url: string, body: object): Promise<Response> {
+  const res = await fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body),
+  });
+
+  if (res.status === 429 && url === GEMINI_URL) {
+    console.log('[geminiPost] 429 on gemini-2.5-pro, retrying with gemini-2.5-flash');
+    return geminiPost(GEMINI_URL_FALLBACK, body);
+  }
+
+  console.log(`[geminiPost] Used model: ${url.includes('2.5-pro') ? 'gemini-2.5-pro' : 'gemini-2.5-flash'}`);
+  return res;
+}
 
 const AUTHOR = 'Baris Ergin';
 
@@ -32,13 +49,9 @@ const TOPIC_POOLS = [
 ];
 
 async function geminiGenerate(prompt: string): Promise<string> {
-  const res = await fetch(GEMINI_URL, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      contents: [{ parts: [{ text: prompt }] }],
-      generationConfig: { maxOutputTokens: 16384 },
-    }),
+  const res = await geminiPost(GEMINI_URL, {
+    contents: [{ parts: [{ text: prompt }] }],
+    generationConfig: { maxOutputTokens: 16384 },
   });
 
   if (!res.ok) {
@@ -55,14 +68,10 @@ async function geminiGenerate(prompt: string): Promise<string> {
 }
 
 async function geminiSearchAndGenerate(prompt: string): Promise<string> {
-  const res = await fetch(GEMINI_URL, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      contents: [{ parts: [{ text: prompt }] }],
-      tools: [{ google_search: {} }],
-      generationConfig: { maxOutputTokens: 16384 },
-    }),
+  const res = await geminiPost(GEMINI_URL, {
+    contents: [{ parts: [{ text: prompt }] }],
+    tools: [{ google_search: {} }],
+    generationConfig: { maxOutputTokens: 16384 },
   });
 
   if (!res.ok) {

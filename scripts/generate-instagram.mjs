@@ -32,6 +32,7 @@ for (const line of envFile.split('\n')) {
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 const BUFFER_API_KEY = 'zhR3BWV7iy_fOGH6-lfwCPQMrSmA6_vuplUZYnz0jSW';
 const BUFFER_CHANNEL_ID = '69bfb432af47dacb69420430';
+const IMGUR_CLIENT_ID = '546c25a59c58ad7';
 
 const slugArg = process.argv[2];
 const doPost = process.argv.includes('--post');
@@ -56,8 +57,8 @@ const html = fs.readFileSync(htmlPath, 'utf-8');
 
 function parseTopPicks(html) {
   const picks = [];
-  // Match event name + venue + price blocks
-  const eventRegex = /<strong[^>]*color:\s*#c9a96e[^>]*>([^<]+)<\/strong>[\s\S]*?<strong>(?:Venue|Local):<\/strong>\s*([^<]+)<\/p>[\s\S]*?<strong>(?:Price|Preço):<\/strong>\s*([^<]+)<\/p>/g;
+  // NEW Regex for card-based layout
+  const eventRegex = /<h3[^>]*color:\s*#c9a96e[^>]*>([^<]+)<\/h3>[\s\S]*?<strong[^>]*>Venue:<\/strong>\s*([^<]+)<br>[\s\S]*?<strong[^>]*>Price:<\/strong>\s*([^<]+)<\/p>/g;
   let match;
   while ((match = eventRegex.exec(html)) !== null && picks.length < 5) {
     picks.push({
@@ -224,22 +225,82 @@ console.log('--- END CAPTION ---\n');
 // ─── Step 5: Post via Buffer (optional) ─────────────────────────────────────
 
 if (doPost) {
-  console.log('\nPosting to Buffer...');
+  console.log('\n✅ Content generation complete. Ready to post.');
 
-  // Buffer requires a public image URL — host locally or use a file upload approach
-  // For now, we output instructions since Buffer needs a public URL
-  console.log(`
-⚠️  Buffer requires a publicly-accessible image URL.
-Image saved at: ${outputPath}
+  // The Buffer API requires a public image URL.
+  // The current script saves the image locally.
+  // ── Upload to Imgur ──────────────────────────────────────────────────────
+  console.log('\nUploading image to Imgur...');
+  let imgurUrl;
+  try {
+    const imgurResponse = execSync(
+      `curl -s -X POST 'https://api.imgur.com/3/image' -H 'Authorization: Client-ID ${IMGUR_CLIENT_ID}' -F 'image=@${outputPath}'`,
+      { encoding: 'utf-8', timeout: 60000 }
+    );
+    const imgurData = JSON.parse(imgurResponse);
+    if (imgurData.success && imgurData.data && imgurData.data.link) {
+      imgurUrl = imgurData.data.link;
+      console.log(`Imgur URL: ${imgurUrl}`);
+    } else {
+      throw new Error(`Imgur upload failed: ${JSON.stringify(imgurData)}`);
+    }
+  } catch (err) {
+    console.error('Imgur upload failed:', err.message);
+    process.exit(1);
+  }
 
-To post manually:
-1. Open Buffer (buffer.com)
-2. Upload: ${outputPath}
-3. Paste caption from: ${captionPath}
-4. Schedule for Friday morning
+  // ── Schedule via Buffer GraphQL ──────────────────────────────────────────
+  console.log('\nScheduling post via Buffer...');
+  try {
+    const payload = {
+      query: `mutation CreatePost($input: CreatePostInput!) {
+        createPost(input: $input) {
+          ... on PostActionSuccess { post { id status dueAt } }
+          ... on NotFoundError { message }
+          ... on UnauthorizedError { message }
+          ... on UnexpectedError { message }
+          ... on RestProxyError { message code }
+          ... on LimitReachedError { message }
+          ... on InvalidInputError { message }
+        }
+      }`,
+      variables: {
+        input: {
+          channelId: BUFFER_CHANNEL_ID,
+          schedulingType: 'automatic',
+          mode: 'addToQueue',
+          metadata: { instagram: { type: 'post', shouldShareToFeed: true } },
+          text: caption,
+          assets: { images: [{ url: imgurUrl }] },
+        },
+      },
+    };
 
-OR: Deploy the image to oportoweekly.com/public/ and pass the URL to Buffer API.
-  `);
+    const { execFileSync } = await import('child_process');
+    const bufferResponse = execFileSync('curl', [
+      '-s', '-X', 'POST', 'https://api.buffer.com/graphql',
+      '-H', 'Content-Type: application/json',
+      '-H', `Authorization: Bearer ${BUFFER_API_KEY}`,
+      '-d', JSON.stringify(payload),
+    ], { encoding: 'utf-8', timeout: 60000 });
+
+    const bufferData = JSON.parse(bufferResponse);
+
+    if (bufferData.data && bufferData.data.createPost && bufferData.data.createPost.post) {
+      const post = bufferData.data.createPost.post;
+      console.log(`\n✅ Instagram post successfully scheduled to Buffer!`);
+      console.log(`Buffer Post ID: ${post.id}`);
+      console.log(`Status: ${post.status}`);
+      console.log(`Due At: ${post.dueAt}`);
+    } else if (bufferData.data && bufferData.data.createPost && bufferData.data.createPost.message) {
+      throw new Error(`Buffer error: ${bufferData.data.createPost.message}`);
+    } else {
+      throw new Error(`Buffer scheduling failed: ${JSON.stringify(bufferData.errors || bufferData)}`);
+    }
+  } catch (err) {
+    console.error('Buffer scheduling failed:', err.message);
+    process.exit(1);
+  }
 } else {
   console.log(`\nDone! To schedule via Buffer, run with --post flag.`);
   console.log(`\nSummary:`);

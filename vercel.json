@@ -15,6 +15,10 @@
     {
       "path": "/api/cron/health",
       "schedule": "30 8 * * 4"
+    },
+    {
+      "path": "/api/cron/instagram",
+      "schedule": "45 8 * * 4"
     }
   ]
 }
