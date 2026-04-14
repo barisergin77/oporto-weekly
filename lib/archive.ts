@@ -27,15 +27,30 @@ export function getNewsletterHtml(slug: string): string | null {
 }
 
 // Strips the email footer (unsubscribe/manage preferences) before web rendering.
-// Handles both <div class="footer"> and <td class="footer"> variants.
+// Handles multiple markup variants: class="footer", <tr> blocks containing
+// the unsubscribe link, and standalone paragraphs.
 export function stripEmailFooter(html: string): string {
   let result = html;
-  // Remove <td class="footer" ...>...</td> (table-based newsletters)
+
+  // 1. Remove <td class="footer"> cells
   result = result.replace(/<td\s+class="footer"[^>]*>[\s\S]*?<\/td>/gi, '');
-  // Remove <div class="footer">...</div> (div-based newsletters)
+
+  // 2. Remove <div class="footer"> divs
   result = result.replace(/<div\s+class="footer"[^>]*>[\s\S]*?<\/div>/gi, '');
-  // Remove standalone unsubscribe paragraphs (only short ones — avoid greedy cross-document matches)
-  result = result.replace(/<p[^>]*>[^<]{0,200}(?:unsubscribe|manage your preferences)[^<]{0,200}<\/p>/gi, '');
+
+  // 3. Remove <tr> rows containing Unsubscribe / Manage preferences / "receiving this email"
+  //    (negative lookahead prevents crossing <tr> boundaries)
+  result = result.replace(
+    /<tr\b[^>]*>(?:(?!<\/?tr\b)[\s\S])*?(?:[Uu]nsubscribe|[Mm]anage\s+preferences|receiving\s+this\s+email)(?:(?!<\/?tr\b)[\s\S])*?<\/tr>/g,
+    ''
+  );
+
+  // 4. Remove standalone <p> paragraphs mentioning unsubscribe/manage preferences
+  result = result.replace(
+    /<p[^>]*>[^<]{0,200}(?:[Uu]nsubscribe|[Mm]anage\s+your\s+preferences|receiving\s+this\s+email)[^<]{0,200}<\/p>/g,
+    ''
+  );
+
   return result;
 }
 

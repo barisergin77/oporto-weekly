@@ -205,3 +205,17 @@ img, table, iframe, video {
   background: #ffffff !important;
   box-shadow: 0 2px 16px rgba(26,26,46,0.05) !important;
 }
+
+/* Safety net: hide any unsubscribe links/blocks that slip through the HTML stripper.
+   :has() has good modern browser support (Chrome 105+, Safari 15.4+, FF 121+). */
+.newsletter-content tr:has(a[href*="unsubscribe"]),
+.newsletter-content tr:has(a[href*="preferences"]),
+.newsletter-content tr:has(> td a[href*="unsubscribe"]),
+.newsletter-content td.footer,
+.newsletter-content div.footer {
+  display: none !important;
+}
+
+.newsletter-content a[href*="unsubscribe"] {
+  display: none !important;
+}
