@@ -123,8 +123,12 @@ export async function commitFiles(
 
   return commit.sha;
     } catch (err: any) {
-      if (err.message && err.message.includes('sha_invalid') && i < retries - 1) {
-        console.warn(`[commitFiles] Encountered 'sha_invalid' error, retrying: ${err.message}`);
+      if (
+        err.message &&
+        (err.message.includes('sha_invalid') || err.message.includes('Update is not a fast forward')) &&
+        i < retries - 1
+      ) {
+        console.warn(`[commitFiles] Encountered Git API error, retrying: ${err.message}`);
         // Continue to next loop iteration for retry
       } else {
         throw err; // Re-throw if not a 'sha_invalid' error or out of retries
