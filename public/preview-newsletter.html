@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Oporto Weekly — Design Preview</title>
+<style>
+  body { margin:0; padding:0; background:#efe8da; font-family:'Inter', Arial, sans-serif; color:#1a1a1a; -webkit-font-smoothing:antialiased; }
+  .wrapper { max-width:640px; margin:32px auto; background:#faf7f0; box-shadow:0 4px 40px rgba(26,26,46,0.08); }
+
+  /* Hero */
+  .hero { position:relative; overflow:hidden; }
+  .hero img { width:100%; height:420px; object-fit:cover; display:block; }
+  .hero-overlay { position:absolute; bottom:0; left:0; right:0; padding:48px 40px 40px; background:linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(26,26,46,0.72) 70%, rgba(26,26,46,0.88) 100%); color:#fff; }
+  .hero-eyebrow { font-size:11px; font-weight:700; letter-spacing:4px; text-transform:uppercase; color:#c9a96e; margin-bottom:12px; }
+  .hero h1 { font-family:Georgia, 'Playfair Display', serif; font-size:44px; line-height:1.05; font-weight:700; margin:0 0 8px; letter-spacing:-0.5px; }
+  .hero-date { font-size:14px; color:#e5dfd3; letter-spacing:1px; }
+
+  /* Editor's note */
+  .editors-note { padding:40px 48px 32px; background:#faf7f0; border-bottom:1px solid #e5dfd3; }
+  .editors-note-label { font-size:10px; font-weight:700; letter-spacing:3px; text-transform:uppercase; color:#c9a96e; margin-bottom:12px; }
+  .editors-note p { font-family:Georgia, serif; font-size:18px; line-height:1.6; color:#2a2a2a; margin:0; font-style:italic; }
+
+  /* Editor's picks */
+  .picks { padding:40px 48px; background:#faf7f0; }
+  .section-heading { display:flex; align-items:baseline; gap:16px; margin-bottom:32px; padding-bottom:16px; border-bottom:2px solid #1a1a2e; }
+  .section-heading-icon { font-size:22px; }
+  .section-heading h2 { font-family:Georgia, serif; font-size:28px; color:#1a1a2e; margin:0; letter-spacing:-0.5px; flex:1; }
+  .section-heading-vol { font-size:10px; letter-spacing:2px; text-transform:uppercase; color:#999; }
+
+  .pick { display:flex; gap:20px; padding:20px 0; border-bottom:1px solid #e5dfd3; }
+  .pick:last-child { border-bottom:none; }
+  .pick-number { flex-shrink:0; width:48px; height:48px; border:2px solid #c9a96e; border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:Georgia, serif; font-size:22px; color:#c9a96e; font-weight:700; }
+  .pick-content { flex:1; }
+  .pick-content h3 { font-family:Georgia, serif; font-size:19px; color:#1a1a2e; margin:0 0 6px; line-height:1.3; }
+  .pick-meta { font-size:12px; color:#6b6b6b; margin-bottom:8px; letter-spacing:0.3px; }
+  .pick-meta .divider { color:#c9a96e; margin:0 6px; }
+  .pick-price { color:#c9a96e; font-weight:600; }
+  .pick-content p { font-size:14px; line-height:1.6; color:#3a3a3a; margin:0 0 10px; }
+  .pick-content a { color:#1a1a2e; text-decoration:none; font-size:12px; font-weight:600; letter-spacing:1px; text-transform:uppercase; border-bottom:1.5px solid #c9a96e; padding-bottom:2px; }
+
+  /* Section (Music, Art, etc.) */
+  .section { padding:40px 48px; background:#faf7f0; border-top:1px solid #e5dfd3; }
+  .section.alt { background:#fffdf7; }
+
+  .event { display:flex; gap:20px; padding:18px 0; border-bottom:1px solid #e5dfd3; }
+  .event:last-child { border-bottom:none; }
+  .event-date { flex-shrink:0; width:60px; text-align:center; padding-top:2px; }
+  .event-date-day { font-family:Georgia, serif; font-size:28px; font-weight:700; color:#1a1a2e; line-height:1; }
+  .event-date-month { font-size:10px; letter-spacing:2px; text-transform:uppercase; color:#c9a96e; margin-top:4px; font-weight:600; }
+  .event-content { flex:1; }
+  .event-content h3 { font-family:Georgia, serif; font-size:17px; color:#1a1a2e; margin:0 0 4px; line-height:1.35; }
+  .event-meta { font-size:12px; color:#6b6b6b; margin-bottom:6px; }
+  .event-content p { font-size:14px; line-height:1.6; color:#3a3a3a; margin:0 0 8px; }
+  .event-content a { color:#c9a96e; text-decoration:none; font-size:12px; font-weight:600; letter-spacing:0.5px; }
+  .event-content a::after { content:' →'; }
+
+  /* Tip of the week */
+  .tip { margin:0 48px 40px; background:#1a1a2e; color:#f0ebe0; padding:32px; position:relative; }
+  .tip-label { font-size:10px; font-weight:700; letter-spacing:3px; text-transform:uppercase; color:#c9a96e; margin-bottom:12px; }
+  .tip h3 { font-family:Georgia, serif; font-size:22px; color:#fff; margin:0 0 10px; }
+  .tip p { font-size:14px; line-height:1.7; color:#d0cbbd; margin:0; }
+
+  /* Footer */
+  .footer { padding:32px 48px; background:#1a1a2e; color:#999; text-align:center; font-size:12px; line-height:1.7; }
+  .footer-logo { font-family:Georgia, serif; font-size:18px; color:#c9a96e; margin-bottom:14px; letter-spacing:0.5px; }
+  .footer a { color:#c9a96e; text-decoration:none; }
+  .footer-note { color:#777; margin-top:14px; font-size:11px; }
+
+  /* Preview banner (remove in production) */
+  .preview-banner { position:fixed; top:0; left:0; right:0; background:#c9a96e; color:#1a1a2e; padding:10px; text-align:center; font-weight:700; font-size:13px; letter-spacing:1px; z-index:1000; }
+
+  @media (max-width: 640px) {
+    .wrapper { margin:0; }
+    .hero img { height:280px; }
+    .hero-overlay { padding:32px 24px 24px; }
+    .hero h1 { font-size:32px; }
+    .editors-note, .picks, .section { padding:32px 24px; }
+    .tip { margin:0 24px 32px; padding:24px; }
+    .footer { padding:24px; }
+    .pick { gap:14px; }
+    .pick-number { width:40px; height:40px; font-size:18px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="preview-banner">DESIGN PREVIEW — Not a real edition</div>
+
+<div class="wrapper">
+
+  <!-- HERO -->
+  <div class="hero">
+    <img src="/newsletters/images/preview-hero.jpg" alt="Ribeira Porto at sunset" onerror="this.src='https://images.unsplash.com/photo-1555881400-74d7acaacd8b?w=1280&q=80';">
+    <div class="hero-overlay">
+      <div class="hero-eyebrow">Issue 008 · Your Weekly Porto Guide</div>
+      <h1>Spring in the City</h1>
+      <div class="hero-date">April 16 – 22, 2026</div>
+    </div>
+  </div>
+
+  <!-- EDITOR'S NOTE -->
+  <div class="editors-note">
+    <div class="editors-note-label">From the Editor</div>
+    <p>Porto shrugs off the last chill this week. Six Bridges Fest takes over the Douro, the Serralves gardens are finally in full bloom, and the first rooftop season of the year kicks off at Pestana Vintage. Below, the week's must-dos.</p>
+  </div>
+
+  <!-- EDITOR'S PICKS -->
+  <div class="picks">
+    <div class="section-heading">
+      <div class="section-heading-icon">✦</div>
+      <h2>Editor's Picks</h2>
+      <div class="section-heading-vol">THE TOP FIVE</div>
+    </div>
+
+    <div class="pick">
+      <div class="pick-number">1</div>
+      <div class="pick-content">
+        <h3>Six Bridges Jazz Festival</h3>
+        <div class="pick-meta">Fri 18 Apr, 20:00<span class="divider">·</span>Casa da Música<span class="divider">·</span><span class="pick-price">€25</span></div>
+        <p>Four evenings of Portuguese and international jazz under the Douro's bridges. Highlights: Maria João's closing set, Salvador Sobral guest appearance, and a free riverside stage in Vila Nova de Gaia.</p>
+        <a href="#">More info</a>
+      </div>
+    </div>
+
+    <div class="pick">
+      <div class="pick-number">2</div>
+      <div class="pick-content">
+        <h3>Serralves em Festa</h3>
+        <div class="pick-meta">Sat–Sun, all day<span class="divider">·</span>Serralves Gardens<span class="divider">·</span><span class="pick-price">Free</span></div>
+        <p>40 hours of non-stop theatre, dance, circus, and music across the gardens. Pack a picnic — the rose garden is open until midnight.</p>
+        <a href="#">More info</a>
+      </div>
+    </div>
+
+    <div class="pick">
+      <div class="pick-number">3</div>
+      <div class="pick-content">
+        <h3>Mercado Porto Belo</h3>
+        <div class="pick-meta">Sat 19 Apr, 10:00–19:00<span class="divider">·</span>Praça Carlos Alberto<span class="divider">·</span><span class="pick-price">Free</span></div>
+        <p>Vintage vinyl, second-hand books, handmade ceramics, and the best pastel de nata queue in the city (at Manteigaria's stall).</p>
+        <a href="#">More info</a>
+      </div>
+    </div>
+
+    <div class="pick">
+      <div class="pick-number">4</div>
+      <div class="pick-content">
+        <h3>Salvador Sobral at Hard Club</h3>
+        <div class="pick-meta">Thu 17 Apr, 21:30<span class="divider">·</span>Hard Club<span class="divider">·</span><span class="pick-price">€35</span></div>
+        <p>Intimate acoustic set from the Eurovision winner. New album material plus a rumoured collaboration with a mystery Porto-born guitarist.</p>
+        <a href="#">More info</a>
+      </div>
+    </div>
+
+    <div class="pick">
+      <div class="pick-number">5</div>
+      <div class="pick-content">
+        <h3>Opening: Pestana Vintage Rooftop</h3>
+        <div class="pick-meta">Fri 18 Apr, 18:00–01:00<span class="divider">·</span>Praça da Ribeira<span class="divider">·</span><span class="pick-price">Cocktails €10</span></div>
+        <p>The city's most photogenic sunset bar reopens. Bring a light jacket — still chilly after 22:00.</p>
+        <a href="#">More info</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- MUSIC -->
+  <div class="section alt">
+    <div class="section-heading">
+      <div class="section-heading-icon">🎵</div>
+      <h2>Music &amp; Concerts</h2>
+      <div class="section-heading-vol">4 EVENTS</div>
+    </div>
+
+    <div class="event">
+      <div class="event-date">
+        <div class="event-date-day">16</div>
+        <div class="event-date-month">Thu</div>
+      </div>
+      <div class="event-content">
+        <h3>Capitão Fausto at Coliseu</h3>
+        <div class="event-meta">21:30 · Coliseu do Porto · €28</div>
+        <p>The Lisbon indie favourites bring their new tour up north. Last time they played here, the balcony shook.</p>
+        <a href="#">More info</a>
+      </div>
+    </div>
+
+    <div class="event">
+      <div class="event-date">
+        <div class="event-date-day">18</div>
+        <div class="event-date-month">Sat</div>
+      </div>
+      <div class="event-content">
+        <h3>Orquestra Sinfónica do Porto — Beethoven 7</h3>
+        <div class="event-meta">21:00 · Casa da Música, Sala Suggia · €20–€45</div>
+        <p>Baldur Brönnimann conducts. Pair with a drink on the rooftop terrace before the show.</p>
+        <a href="#">More info</a>
+      </div>
+    </div>
+
+    <div class="event">
+      <div class="event-date">
+        <div class="event-date-day">19</div>
+        <div class="event-date-month">Sun</div>
+      </div>
+      <div class="event-content">
+        <h3>Fado ao Centro</h3>
+        <div class="event-meta">18:00 · Museu Romântico · €12</div>
+        <p>Weekly sunset fado session. 50 minutes, six musicians, no mic needed. Arrive 15 minutes early for a seat.</p>
+        <a href="#">More info</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ART -->
+  <div class="section">
+    <div class="section-heading">
+      <div class="section-heading-icon">🎨</div>
+      <h2>Art &amp; Exhibitions</h2>
+      <div class="section-heading-vol">3 OPENINGS</div>
+    </div>
+
+    <div class="event">
+      <div class="event-date">
+        <div class="event-date-day">17</div>
+        <div class="event-date-month">Fri</div>
+      </div>
+      <div class="event-content">
+        <h3>"Porto Luminoso" — Opening Night</h3>
+        <div class="event-meta">19:00 · Galeria Municipal · Free</div>
+        <p>New photography show from six Porto-based image-makers. Through 20 July.</p>
+        <a href="#">More info</a>
+      </div>
+    </div>
+
+    <div class="event">
+      <div class="event-date">
+        <div class="event-date-day">20</div>
+        <div class="event-date-month">Mon</div>
+      </div>
+      <div class="event-content">
+        <h3>Late Hours at Museu Soares dos Reis</h3>
+        <div class="event-meta">18:00–22:00 · Every Monday · €5</div>
+        <p>Half-price entry and live cello in the main hall. The perfect low-key Monday.</p>
+        <a href="#">More info</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOD -->
+  <div class="section alt">
+    <div class="section-heading">
+      <div class="section-heading-icon">🍷</div>
+      <h2>Food &amp; Wine</h2>
+      <div class="section-heading-vol">3 TABLES</div>
+    </div>
+
+    <div class="event">
+      <div class="event-date">
+        <div class="event-date-day">19</div>
+        <div class="event-date-month">Sat</div>
+      </div>
+      <div class="event-content">
+        <h3>Mercado do Bolhão — Douro Producers Day</h3>
+        <div class="event-meta">10:00–16:00 · Mercado do Bolhão · Free entry</div>
+        <p>Thirty small Douro wineries with open pours. €15 buys you a glass and all-you-can-taste.</p>
+        <a href="#">More info</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- FAMILY -->
+  <div class="section">
+    <div class="section-heading">
+      <div class="section-heading-icon">👨‍👩‍👧</div>
+      <h2>Family</h2>
+      <div class="section-heading-vol">2 PICKS</div>
+    </div>
+
+    <div class="event">
+      <div class="event-date">
+        <div class="event-date-day">20</div>
+        <div class="event-date-month">Sun</div>
+      </div>
+      <div class="event-content">
+        <h3>Sea Life Porto — Behind the Scenes</h3>
+        <div class="event-meta">10:00 · Castelo do Queijo · €18 / €10 kids</div>
+        <p>Feed the turtles, watch the sharks. Book ahead, it sells out.</p>
+        <a href="#">More info</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- TIP OF THE WEEK -->
+  <div class="tip">
+    <div class="tip-label">Tip of the Week</div>
+    <h3>Ribeira at sunrise</h3>
+    <p>Skip the queues and head to the riverside at 7am. The bakery on Rua da Reboleira opens at 7:30 with the best broa de milho in town. Eat it on the quay, watch the rabelo boats wake up. Free, magical, not on TripAdvisor.</p>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div class="footer-logo">Oporto Weekly</div>
+    <div>Curated every Thursday · Porto, Portugal</div>
+    <div style="margin-top:14px;">
+      <a href="https://oportoweekly.com">Visit website</a>
+      &nbsp;·&nbsp;
+      <a href="#">Unsubscribe</a>
+    </div>
+    <div class="footer-note">&copy; Oporto Weekly 2026 · Made with ♡ in Porto</div>
+  </div>
+
+</div>
+
+</body>
+</html>
