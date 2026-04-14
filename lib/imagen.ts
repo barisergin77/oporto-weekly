@@ -47,3 +47,4 @@ export async function generateImage(
     base64: imagePart.data,
     mimeType: imagePart.mimeType ?? 'image/png',
   };
+}
