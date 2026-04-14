@@ -88,8 +88,10 @@ export default function EditionPage({ params }: { params: { slug: string } }) {
       />
       <Header lang="en" active="archive" />
 
-      {/* Newsletter HTML */}
-      <div className="newsletter-content" dangerouslySetInnerHTML={{ __html: html }} />
+      {/* Newsletter HTML — constrained width, matches homepage feel */}
+      <div style={{ maxWidth: 720, margin: '0 auto', padding: '40px 24px' }}>
+        <div className="newsletter-content" dangerouslySetInnerHTML={{ __html: html }} />
+      </div>
 
       {/* Prev / Next navigation — light themed */}
       <div style={{

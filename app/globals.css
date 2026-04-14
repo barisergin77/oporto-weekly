@@ -105,38 +105,64 @@ img, table, iframe, video {
    the email HTML. CSS only, with !important to beat inline styles.
    ===================================================================== */
 
-/* Outer body background (email wrapper) */
-.newsletter-content body[style*="#f4f1ec"],
-.newsletter-content body {
+/* Outer wrappers (body, full-width outermost table) — transparent */
+.newsletter-content body,
+.newsletter-content > body,
+.newsletter-content > table[width="100%"],
+.newsletter-content > table[width="100%"] > tbody > tr > td {
   background: transparent !important;
+  background-color: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
 }
 
-/* Any element with dark navy/near-black background → warm cream */
-.newsletter-content [style*="background-color: #1a1a2e"],
-.newsletter-content [style*="background-color:#1a1a2e"],
-.newsletter-content [style*="background:#1a1a2e"],
-.newsletter-content [style*="background: #1a1a2e"],
-.newsletter-content [style*="background-color: #16213e"],
-.newsletter-content [style*="background-color:#16213e"],
-.newsletter-content [style*="background: #16213e"],
-.newsletter-content [style*="background:#16213e"],
-.newsletter-content [style*="background-color: #0f3460"],
-.newsletter-content [style*="background-color:#0f3460"],
-.newsletter-content [style*="background:#0f3460"],
-.newsletter-content [style*="background: #0f3460"] {
+/* Inner dark cards (event cards, section boxes) → white cards */
+.newsletter-content td[style*="background-color: #16213e"],
+.newsletter-content td[style*="background-color:#16213e"],
+.newsletter-content div[style*="background-color: #16213e"],
+.newsletter-content table[style*="background-color: #16213e"],
+.newsletter-content table[style*="background:#16213e"],
+.newsletter-content table[style*="background: #16213e"] {
   background-color: #ffffff !important;
   background: #ffffff !important;
   border: 1px solid #e5dfd3 !important;
   border-radius: 6px !important;
 }
 
-/* Header cell of newsletter: treat as top-of-card */
-.newsletter-content td.header,
-.newsletter-content div.header,
-.newsletter-content .header-eyebrow {
+/* The 600px content table itself — keep it card-like white */
+.newsletter-content table.content,
+.newsletter-content table[width="600"] {
+  background-color: #ffffff !important;
+  background: #ffffff !important;
+  border: 1px solid #e5dfd3 !important;
+  border-radius: 6px !important;
+  box-shadow: 0 2px 16px rgba(26,26,46,0.05) !important;
+  overflow: hidden !important;
+}
+
+/* Any other dark navy background → cream (for cells inside) */
+.newsletter-content td[style*="background-color: #1a1a2e"],
+.newsletter-content td[style*="background-color:#1a1a2e"],
+.newsletter-content td[style*="background:#1a1a2e"],
+.newsletter-content td[style*="background: #1a1a2e"] {
   background-color: #faf7f0 !important;
   background: #faf7f0 !important;
-  border-bottom: 1px solid #e5dfd3 !important;
+}
+
+/* Section header cells (dark blue) — convert to eyebrow styling */
+.newsletter-content td[style*="background-color: #0f3460"],
+.newsletter-content td[style*="background-color:#0f3460"],
+.newsletter-content td[style*="background: #0f3460"],
+.newsletter-content td[style*="background:#0f3460"] {
+  background-color: transparent !important;
+  background: transparent !important;
+  color: #1a1a2e !important;
+  border-bottom: 2px solid #1a1a2e !important;
+  border-radius: 0 !important;
+  padding-top: 20px !important;
+  padding-bottom: 10px !important;
+  font-family: Georgia, serif !important;
 }
 
 /* Any white-on-dark text → dark ink (Inter/Georgia system) */
@@ -161,19 +187,6 @@ img, table, iframe, video {
 }
 
 /* Gold text stays gold (it already reads well on light) */
-
-/* Section header cells (dark blue) — convert to eyebrow styling */
-.newsletter-content td[class*="section-header"],
-.newsletter-content .section-header {
-  background-color: transparent !important;
-  background: transparent !important;
-  color: #1a1a2e !important;
-  border-bottom: 2px solid #1a1a2e !important;
-  border-radius: 0 !important;
-  padding-top: 20px !important;
-  padding-bottom: 10px !important;
-  font-family: Georgia, serif !important;
-}
 
 /* Borders that were dark → warm beige */
 .newsletter-content [style*="border: 1px solid #1a1a2e"],

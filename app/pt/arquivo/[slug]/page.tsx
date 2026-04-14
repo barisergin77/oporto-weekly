@@ -47,8 +47,10 @@ export default function EdicaoPTPage({ params }: { params: { slug: string } }) {
     <main style={{ background: colors.bg, minHeight: '100vh', fontFamily: typography.sans, color: colors.text }}>
       <Header lang="pt" active="archive" />
 
-      {/* Newsletter HTML */}
-      <div className="newsletter-content" dangerouslySetInnerHTML={{ __html: html }} />
+      {/* Newsletter HTML — constrained width */}
+      <div style={{ maxWidth: 720, margin: '0 auto', padding: '40px 24px' }}>
+        <div className="newsletter-content" dangerouslySetInnerHTML={{ __html: html }} />
+      </div>
 
       {/* Prev / Next */}
       {(older || newer) && (
