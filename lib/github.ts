@@ -72,14 +72,14 @@ interface FileChange {
 export async function commitFiles(
   files: FileChange[],
   message: string,
-  retries = 3
+  retries = 5 // Increased retries
 ): Promise<string> {
   for (let i = 0; i < retries; i++) {
     try {
       // Small delay to account for GitHub eventual consistency if a very recent commit just landed
       if (i > 0) {
         console.log(`[commitFiles] Retrying commit (attempt ${i + 1}/${retries})...`);
-        await new Promise(r => setTimeout(r, i * 2000)); // Exponential backoff
+        await new Promise(r => setTimeout(r, i * 5000)); // Increased exponential backoff
       }
 
       // 1. Get current HEAD
