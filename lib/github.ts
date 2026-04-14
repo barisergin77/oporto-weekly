@@ -14,6 +14,8 @@ function getToken() {
 async function githubApi(path: string, options: RequestInit = {}) {
   const res = await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}${path}`, {
     ...options,
+    // Disable Next.js fetch caching — we need fresh HEAD SHAs every time
+    cache: 'no-store',
     headers: {
       Authorization: `Bearer ${getToken()}`,
       Accept: 'application/vnd.github+json',
