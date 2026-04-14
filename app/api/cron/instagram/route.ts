@@ -111,7 +111,7 @@ async function uploadToImgur(imageBase64: string): Promise<string> {
   return data.data.link as string;
 }
 
-// --- Generate EN + PT caption via Gemini ---
+// --- Generate EN + PT caption via Gemini with fallback chain ---
 async function generateCaption(picks: Pick[], weekRange: string): Promise<string> {
   const picksForCaption = picks.map((p, i) => `${i + 1}. ${p.name} @ ${p.venue}`).join('\n');
   const prompt = `Write a short Instagram caption for Oporto Weekly's weekly post.
@@ -136,18 +136,43 @@ Output format:
 
 [hashtag block]`;
 
-  const res = await fetch(
-    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`,
-    {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] }),
-      cache: 'no-store',
+  // Fallback chain: try flash-lite (highest quota) → flash → pro. Caption quality requirements are modest.
+  const MODELS = ['gemini-2.5-flash-lite', 'gemini-2.5-flash', 'gemini-2.5-pro'];
+  const errors: string[] = [];
+
+  for (const model of MODELS) {
+    const res = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${GEMINI_API_KEY}`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] }),
+        cache: 'no-store',
+      }
+    );
+
+    if (res.status === 429) {
+      const msg = `${model} rate-limited (429)`;
+      console.warn(`[cron/instagram] ${msg} — trying next model`);
+      errors.push(msg);
+      continue;
     }
-  );
-  if (!res.ok) throw new Error(`Gemini caption generation failed: ${res.status} ${await res.text()}`);
-  const data = await res.json();
-  return data?.candidates?.[0]?.content?.parts?.map((p: { text?: string }) => p.text ?? '').join('') ?? '';
+
+    if (!res.ok) {
+      const body = await res.text();
+      throw new Error(`Gemini caption (${model}) failed: ${res.status} ${body}`);
+    }
+
+    const data = await res.json();
+    const text = data?.candidates?.[0]?.content?.parts?.map((p: { text?: string }) => p.text ?? '').join('') ?? '';
+    if (text.trim()) {
+      console.log(`[cron/instagram] Caption generated via ${model}`);
+      return text;
+    }
+    errors.push(`${model} returned empty`);
+  }
+
+  throw new Error(`Gemini caption generation failed (all models): ${errors.join(', ')}`);
 }
 
 // --- Schedule the post via Buffer GraphQL API ---
