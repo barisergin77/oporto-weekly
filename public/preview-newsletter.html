@@ -56,16 +56,17 @@
   .event-content a::after { content:' →'; }
 
   /* Tip of the week */
-  .tip { margin:0 48px 40px; background:#1a1a2e; color:#f0ebe0; padding:32px; position:relative; }
+  .tip { margin:0 48px 40px; background:#f4ede0; border:1px solid #e5dfd3; border-left:4px solid #c9a96e; padding:32px; position:relative; }
   .tip-label { font-size:10px; font-weight:700; letter-spacing:3px; text-transform:uppercase; color:#c9a96e; margin-bottom:12px; }
-  .tip h3 { font-family:Georgia, serif; font-size:22px; color:#fff; margin:0 0 10px; }
-  .tip p { font-size:14px; line-height:1.7; color:#d0cbbd; margin:0; }
+  .tip h3 { font-family:Georgia, serif; font-size:22px; color:#1a1a2e; margin:0 0 10px; }
+  .tip p { font-size:14px; line-height:1.7; color:#3a3a3a; margin:0; }
 
   /* Footer */
-  .footer { padding:32px 48px; background:#1a1a2e; color:#999; text-align:center; font-size:12px; line-height:1.7; }
-  .footer-logo { font-family:Georgia, serif; font-size:18px; color:#c9a96e; margin-bottom:14px; letter-spacing:0.5px; }
-  .footer a { color:#c9a96e; text-decoration:none; }
-  .footer-note { color:#777; margin-top:14px; font-size:11px; }
+  .footer { padding:36px 48px; background:#efe8da; color:#5a5a5a; text-align:center; font-size:12px; line-height:1.7; border-top:1px solid #e5dfd3; }
+  .footer-logo { font-family:Georgia, serif; font-size:20px; color:#1a1a2e; margin-bottom:10px; letter-spacing:0.3px; }
+  .footer-divider { width:40px; height:2px; background:#c9a96e; margin:10px auto 14px; }
+  .footer a { color:#1a1a2e; text-decoration:none; border-bottom:1px solid #c9a96e; padding-bottom:1px; }
+  .footer-note { color:#8a8170; margin-top:16px; font-size:11px; }
 
   /* Preview banner (remove in production) */
   .preview-banner { position:fixed; top:0; left:0; right:0; background:#c9a96e; color:#1a1a2e; padding:10px; text-align:center; font-weight:700; font-size:13px; letter-spacing:1px; z-index:1000; }
@@ -301,6 +302,7 @@
   <!-- FOOTER -->
   <div class="footer">
     <div class="footer-logo">Oporto Weekly</div>
+    <div class="footer-divider"></div>
     <div>Curated every Thursday · Porto, Portugal</div>
     <div style="margin-top:14px;">
       <a href="https://oportoweekly.com">Visit website</a>
