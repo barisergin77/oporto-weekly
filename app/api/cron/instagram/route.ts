@@ -11,8 +11,8 @@ export async function GET() {
     console.log(`[cron/instagram] Executing script: ${scriptPath}`);
 
     // Execute the Node.js script
-    const { stdout, stderr } = await new Promise< { stdout: string; stderr: string }>((resolve, reject) => {
-      exec(`node ${scriptPath}`, (error, stdout, stderr) => {
+    const { stdout, stderr } = await new Promise<{ stdout: string; stderr: string }>((resolve, reject) => {
+      exec(`node ${scriptPath}`, (error: Error | null, stdout: string, stderr: string) => {
         if (error) {
           console.error(`[cron/instagram] Script execution failed: ${error.message}`);
           return reject(error);
