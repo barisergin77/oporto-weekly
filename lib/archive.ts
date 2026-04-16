@@ -136,6 +136,42 @@ export function generateSlug(weekRange: string): string {
     .trim();
 }
 
+// Format a Thursday-publish date as a 7-day range, e.g. "April 16-22, 2026".
+// If the range crosses a month boundary: "April 30 - May 6, 2026".
+export function formatWeekRange(start: Date): string {
+  const end = new Date(start);
+  end.setDate(start.getDate() + 6);
+
+  const startMonth = start.toLocaleDateString('en-US', { month: 'long' });
+  const endMonth = end.toLocaleDateString('en-US', { month: 'long' });
+  const startDay = start.getDate();
+  const endDay = end.getDate();
+  const year = end.getFullYear();
+
+  if (startMonth === endMonth) {
+    return `${startMonth} ${startDay}-${endDay}, ${year}`;
+  }
+  return `${startMonth} ${startDay} - ${endMonth} ${endDay}, ${year}`;
+}
+
+// Portuguese variant, e.g. "16-22 de abril de 2026" or
+// "30 de abril - 6 de maio de 2026".
+export function formatWeekRangePT(start: Date): string {
+  const end = new Date(start);
+  end.setDate(start.getDate() + 6);
+
+  const startMonth = start.toLocaleDateString('pt-PT', { month: 'long' });
+  const endMonth = end.toLocaleDateString('pt-PT', { month: 'long' });
+  const startDay = start.getDate();
+  const endDay = end.getDate();
+  const year = end.getFullYear();
+
+  if (startMonth === endMonth) {
+    return `${startDay}-${endDay} de ${startMonth} de ${year}`;
+  }
+  return `${startDay} de ${startMonth} - ${endDay} de ${endMonth} de ${year}`;
+}
+
 // Called by cron after sending — appends to newsletters.json and writes HTML file
 export function saveNewsletter(
   meta: Omit<NewsletterMeta, never>,

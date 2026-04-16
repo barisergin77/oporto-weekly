@@ -1,7 +1,7 @@
 export const dynamic = 'force-dynamic';
 export const maxDuration = 300;
 import { NextRequest, NextResponse } from 'next/server';
-import { generateSlug } from '@/lib/archive';
+import { generateSlug, formatWeekRange } from '@/lib/archive';
 import { archiveViaGitHub } from '@/lib/github';
 import { getActiveSubscribers } from '@/lib/beehiiv';
 import { sendBatch } from '@/lib/resend-client';
@@ -145,7 +145,7 @@ STRUCTURE (in this exact order):
    - Below it (or overlaid via table position), a dark-to-transparent gradient band with:
      - Gold eyebrow: "YOUR WEEKLY PORTO GUIDE" (11px, letter-spacing 4px, uppercase, color #c9a96e)
      - Georgia serif h1 title (write a 2-4 word creative title riffing on the week's events/theme, NOT just "Oporto Weekly", ~40px white)
-     - Week date line in soft beige: "${weekRange}" (14px, letter-spacing 1px)
+     - Week date line in gold #c9a96e (MUST be this color for readability on both dark and light themes): "${weekRange}" (14px, letter-spacing 1px, color:#c9a96e)
 
 2. EDITOR'S NOTE (~40px top padding, italic serif)
    - Small gold eyebrow "FROM THE EDITOR" (10px uppercase, letter-spacing 3px, gold)
@@ -243,9 +243,11 @@ export async function GET(req: NextRequest) {
   if (authError) return NextResponse.json({ error: authError }, { status: 401 });
 
   try {
-    // 0. Determine week range for everything downstream
+    // 0. Determine week range for everything downstream.
+    //    Publish day is Thursday; the range covers Thursday + 6 days.
+    //    e.g. "April 16-22, 2026" → slug "april-16-22-2026"
     const now = new Date();
-    const weekRange = now.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+    const weekRange = formatWeekRange(now);
     const slug = generateSlug(weekRange);
 
     // 1. Run Gemini searches (sequential). Individual failures are tolerated —

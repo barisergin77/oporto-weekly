@@ -1,7 +1,7 @@
 export const dynamic = 'force-dynamic';
 export const maxDuration = 300;
 import { NextRequest, NextResponse } from 'next/server';
-import { generateSlug } from '@/lib/archive';
+import { generateSlug, formatWeekRange, formatWeekRangePT } from '@/lib/archive';
 import { archiveViaGitHub, getFileContent } from '@/lib/github';
 import { getActiveSubscribers } from '@/lib/beehiiv';
 import { sendBatch } from '@/lib/resend-client';
@@ -72,9 +72,10 @@ export async function GET(req: NextRequest) {
   if (authError) return NextResponse.json({ error: authError }, { status: 401 });
 
   try {
-    // 1. Determine current week's slug (same logic as EN cron)
+    // 1. Determine current week's slug (MUST match EN cron exactly so we can
+    //    fetch today's EN HTML file to translate).
     const now = new Date();
-    const weekRange = now.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+    const weekRange = formatWeekRange(now);
     const slug = generateSlug(weekRange);
     const ptSlug = `${slug}-pt`;
 
@@ -90,7 +91,7 @@ export async function GET(req: NextRequest) {
     console.log(`[cron/newsletter-pt] Translated to PT (${ptHtml.length} bytes)`);
 
     // 4. Send PT edition to PT subscribers
-    const ptWeekDate = now.toLocaleDateString('pt-PT', { day: 'numeric', month: 'long', year: 'numeric' });
+    const ptWeekDate = formatWeekRangePT(now);
     const ptSubject = `Oporto Weekly — ${ptWeekDate}`;
 
     const ptSubscribers = await getActiveSubscribers('pt');
