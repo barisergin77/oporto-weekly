@@ -18,26 +18,60 @@ interface Pick {
 }
 
 // --- Parse top 5 picks from the latest newsletter HTML ---
+// Supports both the new travel-magazine format (Apr 2026+) and the older dark-navy format.
 function parseTopPicks(html: string): Pick[] {
   const picks: Pick[] = [];
 
-  // Pattern 1: newer format — <h3 color:#c9a96e>name</h3>…<strong>Venue:</strong>…<strong>Price:</strong>
-  const patternA = /<h3[^>]*color:\s*#c9a96e[^>]*>([^<]+)<\/h3>[\s\S]*?<strong[^>]*>\s*Venue:\s*<\/strong>\s*([^<]+)<br[^>]*>[\s\S]*?<strong[^>]*>\s*Price:\s*<\/strong>\s*([^<]+)<\/p>/gi;
+  // Pattern NEW (travel-magazine, Apr 2026+):
+  //   <p Georgia,serif color:#1a1a2e>NAME</p> <p color:#6b6b6b>DATE · VENUE · PRICE</p>
+  const patternNew = /<p[^>]*Georgia,serif[^>]*color:#1a1a2e[^>]*>([^<]+)<\/p>\s*<p[^>]*color:#6b6b6b[^>]*>([\s\S]*?)<\/p>/gi;
 
-  // Pattern 2: generic — any h3 inside a dark card + <strong>Venue:</strong> …
-  const patternB = /<h3[^>]*>([^<]{3,120})<\/h3>[\s\S]*?Venue:\s*<\/strong>\s*([^<]+)[\s\S]*?Price:\s*<\/strong>\s*([^<]+)/gi;
+  // Pattern OLD-A: <h3 color:#c9a96e>name</h3>…<strong>Venue:</strong>…<strong>Price:</strong>
+  const patternOldA = /<h3[^>]*color:\s*#c9a96e[^>]*>([^<]+)<\/h3>[\s\S]*?<strong[^>]*>\s*Venue:\s*<\/strong>\s*([^<]+)<br[^>]*>[\s\S]*?<strong[^>]*>\s*Price:\s*<\/strong>\s*([^<]+)<\/p>/gi;
 
-  for (const pattern of [patternA, patternB]) {
-    let match: RegExpExecArray | null;
-    while ((match = pattern.exec(html)) !== null && picks.length < 5) {
-      const name = match[1].trim().replace(/&amp;/g, '&').replace(/&nbsp;/g, ' ');
-      const venue = match[2].trim().replace(/<[^>]+>/g, '').replace(/&amp;/g, '&');
-      const price = match[3].trim().replace(/<[^>]+>/g, '').replace(/&nbsp;/g, ' ');
-      if (name && !picks.some(p => p.name === name)) {
-        picks.push({ name, venue, price });
+  // Pattern OLD-B: generic h3 + Venue:/Price: strongs
+  const patternOldB = /<h3[^>]*>([^<]{3,120})<\/h3>[\s\S]*?Venue:\s*<\/strong>\s*([^<]+)[\s\S]*?Price:\s*<\/strong>\s*([^<]+)/gi;
+
+  const cleanText = (s: string) =>
+    s.replace(/<[^>]+>/g, '')
+     .replace(/&bull;/g, '•')
+     .replace(/&nbsp;/g, ' ')
+     .replace(/&amp;/g, '&')
+     .replace(/\s+/g, ' ')
+     .trim();
+
+  // Try NEW pattern first
+  let match: RegExpExecArray | null;
+  while ((match = patternNew.exec(html)) !== null && picks.length < 5) {
+    const name = cleanText(match[1]);
+    // Meta line: "Date · Venue · Price" separated by bullets (possibly inside spans)
+    const metaText = cleanText(match[2]);
+    const parts = metaText.split(/\s*•\s*/).map(s => s.trim()).filter(Boolean);
+    if (name && parts.length >= 2) {
+      const date = parts[0] ?? '';
+      const venue = parts[1] ?? '';
+      const price = parts[2] ?? '';
+      // We store venue + date in the venue slot so the IG image prompt has context
+      if (!picks.some(p => p.name === name)) {
+        picks.push({ name, venue: venue || date, price });
       }
     }
-    if (picks.length >= 3) break; // Good enough with first pattern that matches
+  }
+
+  // Fall back to OLD patterns if NEW didn't match
+  if (picks.length < 3) {
+    for (const pattern of [patternOldA, patternOldB]) {
+      let m: RegExpExecArray | null;
+      while ((m = pattern.exec(html)) !== null && picks.length < 5) {
+        const name = cleanText(m[1]);
+        const venue = cleanText(m[2]);
+        const price = cleanText(m[3]);
+        if (name && !picks.some(p => p.name === name)) {
+          picks.push({ name, venue, price });
+        }
+      }
+      if (picks.length >= 3) break;
+    }
   }
 
   return picks;
