@@ -1,0 +1,36 @@
+# Re-pings search engines with every canonical URL on the site.
+#
+# Runs daily so that GSC re-fetches the sitemap and IndexNow stays fresh
+# between Thursday newsletter publishes. The per-publish cron already pings,
+# but this workflow is the belt-and-suspenders that catches:
+#   - days where the newsletter cron was skipped
+#   - newly added blog posts that weren't picked up
+#   - env-var changes (e.g. you just added GOOGLE_SERVICE_ACCOUNT_JSON)
+#
+# Also exposes workflow_dispatch so you can push everything to GSC on demand,
+# e.g. right after verifying a new GSC property.
+name: Search Engines · Full Re-submit
+
+on:
+  schedule:
+    - cron: '0 6 * * *' # Every day at 06:00 UTC (before typical GSC crawl peaks)
+  workflow_dispatch:
+
+jobs:
+  resubmit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - name: Call /api/search-engines/resubmit
+        run: |
+          response=$(curl -s -w "\nHTTP_STATUS:%{http_code}" --max-time 300 \
+            -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" \
+            https://oportoweekly.com/api/search-engines/resubmit)
+          status=$(echo "$response" | tail -n1 | cut -d: -f2)
+          body=$(echo "$response" | sed '$d')
+          echo "Status: $status"
+          echo "Body: $body"
+          if [ "$status" != "200" ]; then
+            echo "::error::Search engine resubmit failed with HTTP $status"
+            exit 1
+          fi
