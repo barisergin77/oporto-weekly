@@ -105,6 +105,10 @@ async function generateNewsletter(researchData: string, heroImageUrl: string, we
     weekday: 'long', year: 'numeric', month: 'long', day: 'numeric',
   });
 
+  // Use a placeholder so Gemini doesn't hallucinate/truncate the real URL.
+  // We substitute after generation.
+  const HERO_PLACEHOLDER = '__HERO_IMAGE_URL_PLACEHOLDER__';
+
   const prompt = `You are the editor of "Oporto Weekly", a curated travel-magazine newsletter about events in Porto, Portugal.
 
 Today is ${today}. Based on the research below, generate a COMPLETE HTML email newsletter in the LIGHT TRAVEL-MAGAZINE style described below.
@@ -112,8 +116,7 @@ Today is ${today}. Based on the research below, generate a COMPLETE HTML email n
 RESEARCH DATA:
 ${researchData}
 
-HERO IMAGE URL (use this EXACT URL in the hero img tag):
-${heroImageUrl}
+HERO IMAGE URL: Use the EXACT literal string ${HERO_PLACEHOLDER} as the src attribute in the hero <img> tag. Do not substitute anything — copy the placeholder verbatim including the underscores. We will replace it after generation.
 
 WEEK RANGE: ${weekRange}
 
@@ -138,7 +141,7 @@ PALETTE (use these exact colors):
 STRUCTURE (in this exact order):
 
 1. HERO (full-width image with overlay)
-   - <img src="${heroImageUrl}" alt="Porto ${weekRange}" width="640" height="420" style="width:100%;height:420px;object-fit:cover;display:block;" />
+   - <img src="${HERO_PLACEHOLDER}" alt="Porto ${weekRange}" width="640" height="420" style="width:100%;height:420px;object-fit:cover;display:block;" />
    - Below it (or overlaid via table position), a dark-to-transparent gradient band with:
      - Gold eyebrow: "YOUR WEEKLY PORTO GUIDE" (11px, letter-spacing 4px, uppercase, color #c9a96e)
      - Georgia serif h1 title (write a 2-4 word creative title riffing on the week's events/theme, NOT just "Oporto Weekly", ~40px white)
@@ -217,6 +220,20 @@ Return ONLY the complete HTML. No markdown fences, no commentary, no code blocks
 
   // Strip markdown code fences if model wraps output
   html = html.replace(/^```html\n?/i, '').replace(/\n?```$/, '').trim();
+
+  // Replace hero image placeholder with the real URL.
+  // LLMs often truncate/hallucinate long URLs, so we never let them write the real one.
+  const placeholderCount = (html.match(new RegExp(HERO_PLACEHOLDER, 'g')) ?? []).length;
+  if (placeholderCount === 0) {
+    console.warn(`[cron/newsletter] Hero placeholder missing from generated HTML — Gemini dropped it. Injecting before <table>.`);
+    // Fallback: inject the hero image at the top if Gemini dropped the placeholder
+    html = html.replace(/<body[^>]*>/i, (match) =>
+      `${match}<img src="${heroImageUrl}" alt="Porto this week" style="width:100%;max-width:640px;height:auto;display:block;margin:0 auto;" />`
+    );
+  } else {
+    html = html.split(HERO_PLACEHOLDER).join(heroImageUrl);
+    console.log(`[cron/newsletter] Replaced ${placeholderCount} hero URL placeholder(s)`);
+  }
 
   return html;
 }
