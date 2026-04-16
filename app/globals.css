@@ -207,15 +207,13 @@ img, table, iframe, video {
 }
 
 /* Safety net: hide any unsubscribe links/blocks that slip through the HTML stripper.
-   :has() has good modern browser support (Chrome 105+, Safari 15.4+, FF 121+). */
-.newsletter-content tr:has(a[href*="unsubscribe"]),
-.newsletter-content tr:has(a[href*="preferences"]),
-.newsletter-content tr:has(> td a[href*="unsubscribe"]),
+   IMPORTANT: never use `:has(a[href*="unsubscribe"])` on ancestors like <tr> or
+   generic <div> — the current template wraps the entire newsletter in one outer
+   <tr>/<div>, and `:has()` walks the full subtree, so it would hide the whole
+   edition. Hide only the leaf link and explicit `.footer` classed containers. */
 .newsletter-content td.footer,
-.newsletter-content div.footer {
-  display: none !important;
-}
-
-.newsletter-content a[href*="unsubscribe"] {
+.newsletter-content div.footer,
+.newsletter-content a[href*="unsubscribe"],
+.newsletter-content a[href*="preferences"] {
   display: none !important;
 }

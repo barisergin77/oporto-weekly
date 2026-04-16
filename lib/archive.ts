@@ -27,25 +27,30 @@ export function getNewsletterHtml(slug: string): string | null {
 }
 
 // Strips the email footer (unsubscribe/manage preferences) before web rendering.
-// Handles multiple markup variants: class="footer", <tr> blocks containing
-// the unsubscribe link, and standalone paragraphs.
+// Handles multiple markup variants used across newsletter generations:
+//   - New format (travel-magazine theme): <!-- FOOTER --> ... <!-- END FOOTER -->
+//   - Legacy: class="footer", <tr> rows with unsubscribe, bare <p> paragraphs
 export function stripEmailFooter(html: string): string {
   let result = html;
 
-  // 1. Remove <td class="footer"> cells
+  // 1. Remove the whole `<!-- FOOTER --> ... <!-- END FOOTER -->` block used by
+  //    the current travel-magazine template (footer is a bare <div>, not class=footer).
+  result = result.replace(/<!--\s*FOOTER\s*-->[\s\S]*?<!--\s*END\s+FOOTER\s*-->/gi, '');
+
+  // 2. Remove <td class="footer"> cells
   result = result.replace(/<td\s+class="footer"[^>]*>[\s\S]*?<\/td>/gi, '');
 
-  // 2. Remove <div class="footer"> divs
+  // 3. Remove <div class="footer"> divs
   result = result.replace(/<div\s+class="footer"[^>]*>[\s\S]*?<\/div>/gi, '');
 
-  // 3. Remove <tr> rows containing Unsubscribe / Manage preferences / "receiving this email"
-  //    (negative lookahead prevents crossing <tr> boundaries)
+  // 4. Remove <tr> rows containing Unsubscribe / Manage preferences / "receiving this email"
+  //    (negative lookahead prevents crossing <tr> boundaries so we never eat siblings)
   result = result.replace(
     /<tr\b[^>]*>(?:(?!<\/?tr\b)[\s\S])*?(?:[Uu]nsubscribe|[Mm]anage\s+preferences|receiving\s+this\s+email)(?:(?!<\/?tr\b)[\s\S])*?<\/tr>/g,
     ''
   );
 
-  // 4. Remove standalone <p> paragraphs mentioning unsubscribe/manage preferences
+  // 5. Remove standalone <p> paragraphs mentioning unsubscribe/manage preferences
   result = result.replace(
     /<p[^>]*>[^<]{0,200}(?:[Uu]nsubscribe|[Mm]anage\s+your\s+preferences|receiving\s+this\s+email)[^<]{0,200}<\/p>/g,
     ''
