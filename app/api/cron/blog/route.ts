@@ -1,11 +1,12 @@
 export const dynamic = 'force-dynamic';
 export const maxDuration = 300;
 
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { generateBlogSlug, type BlogPost } from '@/lib/blog';
 import { generateImage } from '@/lib/imagen';
 import { commitFiles } from '@/lib/github';
 import { notifySearchEngines } from '@/lib/search-engines';
+import { checkCronAuth } from '@/lib/cron-auth';
 
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY!;
 const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro:generateContent?key=${GEMINI_API_KEY}`;
@@ -87,7 +88,10 @@ async function geminiSearchAndGenerate(prompt: string): Promise<string> {
   );
 }
 
-export async function GET() {
+export async function GET(req: NextRequest) {
+  const authError = checkCronAuth(req);
+  if (authError) return NextResponse.json({ error: authError }, { status: 401 });
+
   try {
     // 1. Pick a topic — use day of year to rotate through the pool
     const dayOfYear = Math.floor(

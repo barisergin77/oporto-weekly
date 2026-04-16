@@ -1,0 +1,31 @@
+# Generates IG image + caption from the latest edition and schedules to Buffer.
+# Fires 45 min after EN newsletter so the edition is committed and live.
+name: Cron · Instagram Post
+
+on:
+  schedule:
+    - cron: '45 8 * * 4' # Thu 08:45 UTC
+  workflow_dispatch:
+
+concurrency:
+  group: cron-instagram
+  cancel-in-progress: false
+
+jobs:
+  trigger:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - name: Call /api/cron/instagram
+        run: |
+          response=$(curl -s -w "\nHTTP_STATUS:%{http_code}" --max-time 300 \
+            -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" \
+            https://oportoweekly.com/api/cron/instagram)
+          status=$(echo "$response" | tail -n1 | cut -d: -f2)
+          body=$(echo "$response" | sed '$d')
+          echo "Status: $status"
+          echo "Body: $body"
+          if [ "$status" != "200" ]; then
+            echo "::error::Instagram cron failed with HTTP $status"
+            exit 1
+          fi

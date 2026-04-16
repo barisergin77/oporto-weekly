@@ -1,0 +1,31 @@
+# Triggers the PT newsletter cron every Thursday at 08:15 UTC.
+# 15 minutes after EN so the EN HTML is committed and available via GitHub API.
+name: Cron · Newsletter (PT)
+
+on:
+  schedule:
+    - cron: '15 8 * * 4' # Thu 08:15 UTC
+  workflow_dispatch:
+
+concurrency:
+  group: cron-newsletter-pt
+  cancel-in-progress: false
+
+jobs:
+  trigger:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - name: Call /api/cron/newsletter-pt
+        run: |
+          response=$(curl -s -w "\nHTTP_STATUS:%{http_code}" --max-time 300 \
+            -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" \
+            https://oportoweekly.com/api/cron/newsletter-pt)
+          status=$(echo "$response" | tail -n1 | cut -d: -f2)
+          body=$(echo "$response" | sed '$d')
+          echo "Status: $status"
+          echo "Body: $body"
+          if [ "$status" != "200" ]; then
+            echo "::error::Newsletter PT cron failed with HTTP $status"
+            exit 1
+          fi

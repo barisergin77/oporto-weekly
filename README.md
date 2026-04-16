@@ -83,21 +83,11 @@ Separately, every Tuesday: generates a long-form blog article with two AI-genera
 
 ---
 
-## Cron Schedule (Vercel)
+## Cron Schedule (GitHub Actions)
 
-`vercel.json`:
+Vercel Hobby plan caps projects at 2 cron jobs with 10s max duration — our pipelines need 5 crons and 3+ minutes. So we schedule via GitHub Actions (free, unlimited) that simply `curl` our Vercel endpoints. The actual work runs on Vercel as a regular API invocation (300s duration).
 
-```json
-{
-  "crons": [
-    { "path": "/api/cron/newsletter",    "schedule": "0 8 * * 4"  },
-    { "path": "/api/cron/newsletter-pt", "schedule": "15 8 * * 4" },
-    { "path": "/api/cron/health",        "schedule": "30 8 * * 4" },
-    { "path": "/api/cron/instagram",     "schedule": "45 8 * * 4" },
-    { "path": "/api/cron/blog",          "schedule": "0 9 * * 2"  }
-  ]
-}
-```
+Workflows live in `.github/workflows/cron-*.yml`. Each one passes `Authorization: Bearer ${CRON_SECRET}` (stored as a GitHub Actions secret). Endpoints reject requests without the valid secret (`lib/cron-auth.ts`).
 
 | Time (UTC) | Time (Porto local, WEST) | Cron | What it does |
 |---|---|---|---|

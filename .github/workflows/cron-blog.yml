@@ -1,0 +1,30 @@
+# Generates a long-form blog article every Tuesday morning.
+name: Cron · Blog Article
+
+on:
+  schedule:
+    - cron: '0 9 * * 2' # Tue 09:00 UTC
+  workflow_dispatch:
+
+concurrency:
+  group: cron-blog
+  cancel-in-progress: false
+
+jobs:
+  trigger:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - name: Call /api/cron/blog
+        run: |
+          response=$(curl -s -w "\nHTTP_STATUS:%{http_code}" --max-time 300 \
+            -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" \
+            https://oportoweekly.com/api/cron/blog)
+          status=$(echo "$response" | tail -n1 | cut -d: -f2)
+          body=$(echo "$response" | sed '$d')
+          echo "Status: $status"
+          echo "Body: $body"
+          if [ "$status" != "200" ]; then
+            echo "::error::Blog cron failed with HTTP $status"
+            exit 1
+          fi

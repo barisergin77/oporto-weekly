@@ -1,11 +1,12 @@
 export const dynamic = 'force-dynamic';
 export const maxDuration = 300;
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { generateSlug } from '@/lib/archive';
 import { archiveViaGitHub, getFileContent } from '@/lib/github';
 import { getActiveSubscribers } from '@/lib/beehiiv';
 import { sendBatch } from '@/lib/resend-client';
 import { notifySearchEngines } from '@/lib/search-engines';
+import { checkCronAuth } from '@/lib/cron-auth';
 
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY!;
 const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro:generateContent?key=${GEMINI_API_KEY}`;
@@ -66,7 +67,10 @@ ${enHtml}`;
   return html;
 }
 
-export async function GET() {
+export async function GET(req: NextRequest) {
+  const authError = checkCronAuth(req);
+  if (authError) return NextResponse.json({ error: authError }, { status: 401 });
+
   try {
     // 1. Determine current week's slug (same logic as EN cron)
     const now = new Date();

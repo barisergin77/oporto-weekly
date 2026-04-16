@@ -1,10 +1,11 @@
 export const dynamic = 'force-dynamic';
 export const maxDuration = 300;
 
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { listNewsletters, getNewsletterHtml } from '@/lib/archive';
 import { generateImage } from '@/lib/imagen';
 import { uploadImageToImgur } from '@/lib/imgur';
+import { checkCronAuth } from '@/lib/cron-auth';
 
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY!;
 const BUFFER_API_KEY = process.env.BUFFER_API_KEY!;
@@ -206,7 +207,10 @@ async function scheduleBufferPost(imageUrl: string, caption: string): Promise<{ 
   throw new Error(`Buffer scheduling failed: ${errMsg}`);
 }
 
-export async function GET() {
+export async function GET(req: NextRequest) {
+  const authError = checkCronAuth(req);
+  if (authError) return NextResponse.json({ error: authError }, { status: 401 });
+
   try {
     // 1. Load the latest newsletter edition
     const newsletters = listNewsletters();

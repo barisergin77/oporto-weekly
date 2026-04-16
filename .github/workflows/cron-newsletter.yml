@@ -1,0 +1,31 @@
+# Triggers the EN newsletter cron every Thursday at 08:00 UTC.
+# Works around Vercel Hobby's 2-cron-per-project limit by using GitHub Actions as the scheduler.
+name: Cron · Newsletter (EN)
+
+on:
+  schedule:
+    - cron: '0 8 * * 4' # Thu 08:00 UTC
+  workflow_dispatch: # allow manual trigger from GitHub UI
+
+concurrency:
+  group: cron-newsletter
+  cancel-in-progress: false
+
+jobs:
+  trigger:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - name: Call /api/cron/newsletter
+        run: |
+          response=$(curl -s -w "\nHTTP_STATUS:%{http_code}" --max-time 300 \
+            -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" \
+            https://oportoweekly.com/api/cron/newsletter)
+          status=$(echo "$response" | tail -n1 | cut -d: -f2)
+          body=$(echo "$response" | sed '$d')
+          echo "Status: $status"
+          echo "Body: $body"
+          if [ "$status" != "200" ]; then
+            echo "::error::Newsletter cron failed with HTTP $status"
+            exit 1
+          fi

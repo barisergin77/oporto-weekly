@@ -1,0 +1,27 @@
+# Smoke-tests every key page 30 min after the newsletter sends.
+# If any check fails, the cron endpoint itself emails an alert to the editor.
+name: Cron · Health Check
+
+on:
+  schedule:
+    - cron: '30 8 * * 4' # Thu 08:30 UTC
+  workflow_dispatch:
+
+jobs:
+  trigger:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - name: Call /api/cron/health
+        run: |
+          response=$(curl -s -w "\nHTTP_STATUS:%{http_code}" --max-time 60 \
+            -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" \
+            https://oportoweekly.com/api/cron/health)
+          status=$(echo "$response" | tail -n1 | cut -d: -f2)
+          body=$(echo "$response" | sed '$d')
+          echo "Status: $status"
+          echo "Body: $body"
+          if [ "$status" != "200" ]; then
+            echo "::error::Health check failed with HTTP $status"
+            exit 1
+          fi

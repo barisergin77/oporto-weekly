@@ -1,7 +1,8 @@
 export const dynamic = 'force-dynamic';
 export const maxDuration = 60;
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { sendEmail } from '@/lib/resend-client';
+import { checkCronAuth } from '@/lib/cron-auth';
 
 const SITE = 'https://oportoweekly.com';
 const ALERT_EMAIL = 'barisergin@gmail.com';
@@ -46,7 +47,10 @@ async function checkPage(name: string, url: string, mustContain: string[]): Prom
   }
 }
 
-export async function GET() {
+export async function GET(req: NextRequest) {
+  const authError = checkCronAuth(req);
+  if (authError) return NextResponse.json({ error: authError }, { status: 401 });
+
   const checks: CheckResult[] = await Promise.all([
     checkPage('Homepage (EN)', SITE, ['Oporto Weekly', 'Subscribe']),
     checkPage('Homepage (PT)', `${SITE}/pt`, ['Oporto Weekly', 'Subscrever']),
