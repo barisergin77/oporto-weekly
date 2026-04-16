@@ -1,4 +1,4 @@
-import { listNewsletters, getNewsletterHtml, stripEmailFooter, replaceHeaderWithBanner } from '@/lib/archive';
+import { listNewsletters, getNewsletterHtml, stripEmailFooter } from '@/lib/archive';
 import { listBlogPosts } from '@/lib/blog';
 import { colors, typography } from '@/lib/design';
 import Link from 'next/link';
@@ -66,7 +66,7 @@ export default function Home() {
   const newsletters = listNewsletters();
   const latest = newsletters[0] ?? null;
   const rawHtml = latest ? getNewsletterHtml(latest.slug) : null;
-  const html = rawHtml ? replaceHeaderWithBanner(stripEmailFooter(rawHtml)) : null;
+  const html = rawHtml ? stripEmailFooter(rawHtml) : null;
   const recentPosts = listBlogPosts().slice(0, 3);
 
   return (
