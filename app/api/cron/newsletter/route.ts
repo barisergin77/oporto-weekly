@@ -14,19 +14,28 @@ const GEMINI_API_KEY = process.env.GEMINI_API_KEY!;
 const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro:generateContent?key=${GEMINI_API_KEY}`;
 const GEMINI_URL_FALLBACK = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`;
 
-async function geminiPost(url: string, body: object): Promise<Response> {
+async function geminiPost(url: string, body: object, attempt = 0): Promise<Response> {
   const res = await fetch(url, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(body),
   });
 
-  if (res.status === 429 && url === GEMINI_URL) {
-    console.log('[geminiPost] 429 on gemini-2.5-pro, retrying with gemini-2.5-flash');
-    return geminiPost(GEMINI_URL_FALLBACK, body);
+  // Fall back from Pro to Flash on rate-limit or overload
+  if ((res.status === 429 || res.status === 503) && url === GEMINI_URL) {
+    console.log(`[geminiPost] ${res.status} on gemini-2.5-pro, falling back to gemini-2.5-flash`);
+    return geminiPost(GEMINI_URL_FALLBACK, body, attempt);
   }
 
-  console.log(`[geminiPost] Used model: ${url.includes('2.5-pro') ? 'gemini-2.5-pro' : 'gemini-2.5-flash'}`);
+  // If flash is also overloaded, retry once after a short wait
+  if (res.status === 503 && url === GEMINI_URL_FALLBACK && attempt < 2) {
+    const wait = 3000 * (attempt + 1);
+    console.log(`[geminiPost] 503 on gemini-2.5-flash, retrying in ${wait}ms (attempt ${attempt + 1}/2)`);
+    await new Promise(r => setTimeout(r, wait));
+    return geminiPost(url, body, attempt + 1);
+  }
+
+  console.log(`[geminiPost] Used model: ${url.includes('2.5-pro') ? 'gemini-2.5-pro' : 'gemini-2.5-flash'} (status ${res.status})`);
   return res;
 }
 
@@ -222,12 +231,26 @@ export async function GET(req: NextRequest) {
     const weekRange = now.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
     const slug = generateSlug(weekRange);
 
-    // 1. Run Gemini searches (sequential to avoid rate limits)
+    // 1. Run Gemini searches (sequential). Individual failures are tolerated —
+    //    if one query fails the cron continues with whatever succeeded.
     const searchResults: string[] = [];
+    const searchFailures: string[] = [];
     for (const query of SEARCH_QUERIES) {
-      const result = await geminiSearch(query);
-      searchResults.push(result);
+      try {
+        const result = await geminiSearch(query);
+        searchResults.push(result);
+      } catch (err) {
+        const msg = err instanceof Error ? err.message : String(err);
+        console.error(`[cron/newsletter] Search failed for "${query}": ${msg}`);
+        searchFailures.push(query);
+      }
       await new Promise(r => setTimeout(r, 2000));
+    }
+    if (searchResults.length === 0) {
+      throw new Error('All 6 Gemini searches failed — aborting.');
+    }
+    if (searchFailures.length > 0) {
+      console.warn(`[cron/newsletter] Continuing with ${searchResults.length}/${SEARCH_QUERIES.length} successful searches. Failed: ${searchFailures.join(', ')}`);
     }
     const researchData = searchResults.join('\n\n');
 
