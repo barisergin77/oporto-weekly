@@ -30,6 +30,7 @@ Deep-dive docs live in [`docs/`](./docs/). These are the canonical references wh
 
 - [`docs/subscribers.md`](./docs/subscribers.md) — Resend Audiences (previously Beehiiv), migration script, ops runbook, disaster recovery.
 - [`docs/search-engines.md`](./docs/search-engines.md) — sitemap, IndexNow / Google Indexing API / GSC / WebSub pipeline, manual + daily re-submit, diagnostics.
+- [`docs/reddit.md`](./docs/reddit.md) — weekly r/porto post draft generator (manual paste, not auto-posted), posting etiquette, regenerate-on-demand.
 
 The README stays high-level (what + where); details live in the subsystem doc.
 
@@ -106,6 +107,7 @@ Workflows live in `.github/workflows/cron-*.yml`. Each one passes `Authorization
 | Thu 08:15 | Thu 09:15 | `newsletter-pt` | Read EN HTML from repo → translate via Gemini → send PT → archive |
 | Thu 08:30 | Thu 09:30 | `health` | Fetch every page; if any fail → email alert |
 | Thu 08:45 | Thu 09:45 | `instagram` | Parse top 5 picks from newsletter → generate IG image → upload to Imgur → caption → schedule via Buffer |
+| Thu 08:50 | Thu 09:50 | `reddit-draft` | Format this week's events as r/porto markdown → email two versions to editor (manual paste, not auto-posted) |
 | Tue 09:00 | Tue 10:00 | `blog` | Research topic → generate article → 2 images → commit via GitHub API |
 
 ---
@@ -172,6 +174,7 @@ oporto-weekly-app/
 │           ├── newsletter-pt/route.ts       # Thursday 08:15 — PT translation + send
 │           ├── health/route.ts              # Thursday 08:30 — smoke test
 │           ├── instagram/route.ts           # Thursday 08:45 — IG post via Buffer
+│           ├── reddit-draft/route.ts        # Thursday 08:50 — r/porto draft email (manual paste)
 │           └── blog/route.ts                # Tuesday 09:00 — blog article
 ├── lib/
 │   ├── archive.ts                           # Newsletter read/write helpers, stripEmailFooter, replaceHeaderWithBanner

@@ -1,0 +1,33 @@
+# Generates a copy-pasteable r/porto post draft from this week's newsletter
+# and emails it to the editor. Runs Thursday 08:50 UTC — after the EN and PT
+# newsletter crons have committed the HTML to the repo, and after the
+# Instagram cron has picked up its share.
+#
+# We deliberately do NOT auto-post to Reddit. r/porto and related community
+# subs auto-flag bot self-promo, and manual posting reads as more
+# conversational anyway. See docs/reddit.md.
+name: Cron · Reddit Draft
+
+on:
+  schedule:
+    - cron: '50 8 * * 4' # Thu 08:50 UTC
+  workflow_dispatch:
+
+jobs:
+  trigger:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Call /api/cron/reddit-draft
+        run: |
+          response=$(curl -s -w "\nHTTP_STATUS:%{http_code}" --max-time 120 \
+            -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" \
+            https://oportoweekly.com/api/cron/reddit-draft)
+          status=$(echo "$response" | tail -n1 | cut -d: -f2)
+          body=$(echo "$response" | sed '$d')
+          echo "Status: $status"
+          echo "Body: $body"
+          if [ "$status" != "200" ]; then
+            echo "::error::Reddit draft cron failed with HTTP $status"
+            exit 1
+          fi
