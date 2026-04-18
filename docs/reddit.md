@@ -21,14 +21,12 @@ Manual posting sidesteps all of it. Reading as a helpful local sharing a weekly 
 
 **Thursday 08:50 UTC** — `.github/workflows/cron-reddit-draft.yml` hits `/api/cron/reddit-draft`. The endpoint:
 
-1. Reads the current week's EN newsletter HTML from the repo (committed by the main newsletter cron ~50 min earlier).
-2. Strips the footer, passes the HTML to Gemini 2.5 Pro (with Flash fallback).
-3. Gemini returns **two** Reddit-markdown versions:
-   - **Version A** — pure events, no self-reference. Safest for r/porto.
-   - **Version B** — events + one soft newsletter mention at the end.
-4. Emails both to the editor (`barisergin@gmail.com`) as a pre-formatted monospace block ready to copy.
-
-The email arrives before 10:00 local time; post when you want during the week.
+1. Pulls the **latest** newsletter from `data/newsletters.json` via the GitHub API (not "today's computed slug", so on-demand regeneration works any day).
+2. Fetches that edition's HTML, strips the footer.
+3. Passes it to Gemini 2.5 Flash with `thinkingBudget: 0` (this is a reformat task — Pro's mandatory thinking budget consumed the entire output budget on the first try). Fallback: Flash-Lite.
+4. The Gemini prompt is few-shot'd on a real r/porto post that performed well (thread [1sc7d4m](https://www.reddit.com/r/porto/comments/1sc7d4m), 8 upvotes). It also carries a compact "AI writing tells to avoid" list distilled from the humanizer skill, since early runs produced press-release prose ("rich tapestry", "breathtaking").
+5. Output is ONE bilingual post (EN + PT), ~5 events curated from the full newsletter, no category grid, no emoji — matching the reference's format.
+6. Emails the title and body separately to the editor (`barisergin@gmail.com`) so they can be pasted into Reddit's "Title" and "Body" fields directly.
 
 ---
 
@@ -36,7 +34,7 @@ The email arrives before 10:00 local time; post when you want during the week.
 
 Subject: `Reddit draft · r/porto · April 16-22, 2026`
 
-Body: short header + the two versions in a code-block-styled `<pre>`. Select the block for the version you want, copy, paste into Reddit's markdown editor. Reddit respects the `**bold**` + `-` bullets + emoji verbatim.
+Body: short header, a monospace block with the **title** (paste into Reddit's Title field), a monospace block with the **body** in markdown (paste into the body field). Reddit respects the `**bold**` + `*` bullets verbatim.
 
 Tagged `type=reddit-draft` so it doesn't pollute newsletter open-rate stats in the Resend dashboard.
 
