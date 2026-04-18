@@ -56,10 +56,14 @@ export async function POST(req: NextRequest) {
     // Add to Beehiiv with language tag
     await addSubscriber(email, lang);
 
-    // Send welcome email in the right language
+    // Send welcome email in the right language, tagged so welcome-flow opens
+    // don't pollute newsletter analytics on the Resend dashboard.
     const subject = lang === 'pt' ? 'Bem-vindo ao Oporto Weekly' : 'Welcome to Oporto Weekly';
     const html = lang === 'pt' ? WELCOME_HTML_PT : WELCOME_HTML_EN;
-    await sendEmail(email, subject, html);
+    await sendEmail(email, subject, html, [
+      { name: 'type', value: 'welcome' },
+      { name: 'lang', value: lang },
+    ]);
 
     return NextResponse.json({ success: true });
   } catch (err: unknown) {

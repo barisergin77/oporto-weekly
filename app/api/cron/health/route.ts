@@ -93,7 +93,8 @@ export async function GET(req: NextRequest) {
       await sendEmail(
         ALERT_EMAIL,
         `⚠️ Site health check failed — ${failures.length} issue${failures.length > 1 ? 's' : ''}`,
-        alertHtml
+        alertHtml,
+        [{ name: 'type', value: 'health-alert' }]
       );
       console.log(`[health] Alert email sent to ${ALERT_EMAIL}`);
     } catch (emailErr) {

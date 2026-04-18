@@ -283,10 +283,15 @@ export async function GET(req: NextRequest) {
     const weekDate = now.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
     const subject = `Oporto Weekly — ${weekDate}`;
 
-    // 5. Send EN edition to EN subscribers
+    // 5. Send EN edition to EN subscribers. Tag each send so the Resend
+    //    dashboard can slice open/click rates by edition, language, and type.
     const enSubscribers = await getActiveSubscribers('en');
     const enEmails = enSubscribers.map(s => s.email);
-    const sentEN = await sendBatch(enEmails, subject, html);
+    const sentEN = await sendBatch(enEmails, subject, html, [
+      { name: 'type', value: 'newsletter' },
+      { name: 'lang', value: 'en' },
+      { name: 'edition', value: slug },
+    ]);
     console.log(`[cron/newsletter] Sent EN to ${sentEN} subscribers`);
 
     // 6. Archive EN edition via GitHub API (commits to repo → triggers Vercel redeploy)

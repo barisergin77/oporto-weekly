@@ -98,7 +98,14 @@ export async function GET(req: NextRequest) {
     const ptEmails = ptSubscribers.map(s => s.email);
     let sentPT = 0;
     if (ptEmails.length > 0) {
-      sentPT = await sendBatch(ptEmails, ptSubject, ptHtml);
+      // Tagged identically to EN so dashboard filters treat EN+PT as sibling
+      // dimensions of the same edition. `edition` uses ptSlug (e.g.
+      // "april-16-22-2026-pt") to differentiate from EN in per-edition views.
+      sentPT = await sendBatch(ptEmails, ptSubject, ptHtml, [
+        { name: 'type', value: 'newsletter' },
+        { name: 'lang', value: 'pt' },
+        { name: 'edition', value: ptSlug },
+      ]);
       console.log(`[cron/newsletter-pt] Sent PT to ${sentPT} subscribers`);
     } else {
       console.log('[cron/newsletter-pt] No PT subscribers — skipping send');
