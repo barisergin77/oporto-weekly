@@ -24,8 +24,11 @@ import { checkCronAuth } from '@/lib/cron-auth';
 
 const EDITOR_EMAIL = 'barisergin@gmail.com';
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY!;
-const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro:generateContent?key=${GEMINI_API_KEY}`;
-const GEMINI_URL_FALLBACK = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`;
+// This is a reformat-only task (HTML → Reddit markdown), no reasoning needed.
+// Flash with thinking disabled is the right tool — Pro's internal "thinking"
+// budget consumed ALL of maxOutputTokens and returned empty the first time.
+const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`;
+const GEMINI_URL_FALLBACK = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key=${GEMINI_API_KEY}`;
 
 async function geminiPost(url: string, body: object): Promise<Response> {
   return fetch(url, {
@@ -78,12 +81,21 @@ ${html}`;
 
   const body = {
     contents: [{ parts: [{ text: prompt }] }],
-    generationConfig: { temperature: 0.4, maxOutputTokens: 3000 },
+    generationConfig: {
+      temperature: 0.4,
+      maxOutputTokens: 8000,
+      // CRITICAL: Gemini 2.5 models default to spending tokens on internal
+      // "thinking" before producing visible output. Zero-thinking is correct
+      // for this task (pure reformatting). Without this, the first run hit
+      // finishReason: MAX_TOKENS with 0 output tokens because thinking ate
+      // the whole budget.
+      thinkingConfig: { thinkingBudget: 0 },
+    },
   };
 
   let res = await geminiPost(GEMINI_URL, body);
   if (res.status === 503 || res.status === 429) {
-    console.log('[cron/reddit-draft] Pro model busy, falling back to Flash');
+    console.log('[cron/reddit-draft] Flash busy, falling back to Flash-Lite');
     res = await geminiPost(GEMINI_URL_FALLBACK, body);
   }
   if (!res.ok) {
@@ -92,7 +104,13 @@ ${html}`;
 
   const data = await res.json();
   const text: string = data?.candidates?.[0]?.content?.parts?.[0]?.text ?? '';
-  if (!text.trim()) throw new Error('Gemini returned empty draft');
+  const finishReason: string = data?.candidates?.[0]?.finishReason ?? '';
+  if (!text.trim()) {
+    throw new Error(
+      `Gemini returned empty draft (finishReason=${finishReason}). ` +
+      `Likely the thinking budget consumed all output tokens — check thinkingBudget.`
+    );
+  }
   return text.trim();
 }
 
