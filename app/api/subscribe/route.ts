@@ -1,6 +1,6 @@
 export const dynamic = 'force-dynamic';
 import { NextRequest, NextResponse } from 'next/server';
-import { addSubscriber } from '@/lib/beehiiv';
+import { addSubscriber } from '@/lib/audiences';
 import { sendEmail } from '@/lib/resend-client';
 
 const WELCOME_HTML_EN = `

@@ -1,6 +1,6 @@
 export const dynamic = 'force-dynamic';
 import { NextRequest, NextResponse } from 'next/server';
-import { getActiveSubscribers } from '@/lib/beehiiv';
+import { getActiveSubscribers } from '@/lib/audiences';
 import { sendBatch } from '@/lib/resend-client';
 
 export async function POST(req: NextRequest) {

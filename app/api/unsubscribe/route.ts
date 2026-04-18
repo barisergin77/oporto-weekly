@@ -1,6 +1,6 @@
 export const dynamic = 'force-dynamic';
 import { NextRequest, NextResponse } from 'next/server';
-import { removeSubscriber } from '@/lib/beehiiv';
+import { removeSubscriber } from '@/lib/audiences';
 
 /**
  * One-click unsubscribe endpoint.

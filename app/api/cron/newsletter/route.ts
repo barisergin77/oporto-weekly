@@ -3,7 +3,7 @@ export const maxDuration = 300;
 import { NextRequest, NextResponse } from 'next/server';
 import { generateSlug, formatWeekRange } from '@/lib/archive';
 import { archiveViaGitHub } from '@/lib/github';
-import { getActiveSubscribers } from '@/lib/beehiiv';
+import { getActiveSubscribers } from '@/lib/audiences';
 import { sendBatch } from '@/lib/resend-client';
 import { notifySearchEngines } from '@/lib/search-engines';
 import { generateImage } from '@/lib/imagen';

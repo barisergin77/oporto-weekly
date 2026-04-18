@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "seed-archive": "tsx scripts/seed-archive.ts"
+    "seed-archive": "tsx scripts/seed-archive.ts",
+    "migrate-subs": "tsx --env-file=.env.local scripts/migrate-beehiiv-to-resend.ts"
   },
   "dependencies": {
     "google-auth-library": "^10.6.2",
