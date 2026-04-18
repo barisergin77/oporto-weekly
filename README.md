@@ -24,6 +24,17 @@ Separately, every Tuesday: generates a long-form blog article with two AI-genera
 
 ---
 
+## Subsystem docs
+
+Deep-dive docs live in [`docs/`](./docs/). These are the canonical references when reviewing a specific part of the project later:
+
+- [`docs/subscribers.md`](./docs/subscribers.md) — Resend Audiences (previously Beehiiv), migration script, ops runbook, disaster recovery.
+- [`docs/search-engines.md`](./docs/search-engines.md) — sitemap, IndexNow / Google Indexing API / GSC / WebSub pipeline, manual + daily re-submit, diagnostics.
+
+The README stays high-level (what + where); details live in the subsystem doc.
+
+---
+
 ## Architecture
 
 ```
