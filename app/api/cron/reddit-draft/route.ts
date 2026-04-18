@@ -18,7 +18,7 @@ export const maxDuration = 120;
 
 import { NextRequest, NextResponse } from 'next/server';
 import { getFileContent } from '@/lib/github';
-import { generateSlug, formatWeekRange, stripEmailFooter } from '@/lib/archive';
+import { stripEmailFooter, type NewsletterMeta } from '@/lib/archive';
 import { sendEmail } from '@/lib/resend-client';
 import { checkCronAuth } from '@/lib/cron-auth';
 
@@ -126,16 +126,24 @@ export async function GET(req: NextRequest) {
   if (authError) return NextResponse.json({ error: authError }, { status: 401 });
 
   try {
-    const now = new Date();
-    const weekRange = formatWeekRange(now);
-    const slug = generateSlug(weekRange);
+    // Always use the LATEST EN newsletter, not "today's" computed slug.
+    // This makes the cron correct on Thursday (picks up the edition that just
+    // committed) AND for on-demand regeneration any other day of the week.
+    // Fetched via GitHub API so a mid-deploy Vercel doesn't serve a stale index.
+    const indexRaw = await getFileContent('data/newsletters.json');
+    if (!indexRaw) throw new Error('data/newsletters.json not found in repo');
+    const index = JSON.parse(indexRaw) as NewsletterMeta[];
+    const latest = index[0];
+    if (!latest) throw new Error('No newsletters in the index yet');
 
-    // Pull the EN newsletter the main cron committed ~50 min earlier.
+    const slug = latest.slug;
+    const weekRange = latest.weekRange;
+
     const rawHtml = await getFileContent(`public/newsletters/${slug}.html`);
     if (!rawHtml) {
       throw new Error(
-        `Newsletter not found for slug "${slug}". Either the EN newsletter ` +
-        `cron hasn't run yet this Thursday, or the week range formatting drifted.`
+        `Newsletter HTML not found for slug "${slug}" — index points to it ` +
+        `but the file is missing in the repo.`
       );
     }
     // Strip the footer before handing to Gemini — no point burning tokens
