@@ -87,9 +87,30 @@ export function listEventsByVenue(venueSlug: string): EventRecord[] {
   return listEvents().filter((e) => e.venueSlug === venueSlug);
 }
 
-/** Normalise "Casa da Música" / "Einstein's" → "casa-da-musica" / "einsteins". */
+/**
+ * Normalise a venue name into a slug. Canonicalises sub-rooms into the
+ * parent venue:
+ *   "Casa da Música"                → casa-da-musica
+ *   "Casa da Música, Sala 2"        → casa-da-musica  (strip after comma)
+ *   "Casa da Música, Sala Suggia"   → casa-da-musica
+ *   "Casa da Música Café"           → casa-da-musica  (strip " Café")
+ *   "Hilton Porto Gaia / Pestana"   → hilton-porto-gaia (strip after slash)
+ *   "Einstein's"                    → einsteins       (strip apostrophe)
+ *
+ * Keeping rooms merged means /venue/casa-da-musica aggregates every Casa da
+ * Música event regardless of which room, which is what visitors search for.
+ */
 export function venueToSlug(venue: string): string {
-  return venue
+  // Keep only the "root" venue name: strip after the first comma or slash,
+  // and strip a handful of trailing room-denoting suffixes that some sources
+  // concatenate without a comma.
+  const root = venue
+    .split(/[,/]/)[0]
+    .trim()
+    .replace(/\s+(Café|Cafe|Sala\s+\w+|Main\s+Hall|Auditorium\s+\w+)$/i, '')
+    .trim();
+
+  return root
     .toLowerCase()
     .normalize('NFD')
     .replace(/[\u0300-\u036f]/g, '')  // strip diacritics (ó → o, ã → a)

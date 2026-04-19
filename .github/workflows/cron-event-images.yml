@@ -1,0 +1,31 @@
+# Thursday 09:15 UTC — after the newsletter + PT + health + instagram +
+# reddit-draft crons have run. Tries to acquire press photos for any events
+# that don't have one yet, commits updates atomically.
+#
+# Also schedule-dispatched: run on demand to backfill images for historical
+# events after we improve the image-sourcing logic.
+name: Cron · Event Images
+
+on:
+  schedule:
+    - cron: '15 9 * * 4' # Thu 09:15 UTC
+  workflow_dispatch:
+
+jobs:
+  trigger:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - name: Call /api/cron/event-images
+        run: |
+          response=$(curl -s -w "\nHTTP_STATUS:%{http_code}" --max-time 300 \
+            -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" \
+            https://oportoweekly.com/api/cron/event-images)
+          status=$(echo "$response" | tail -n1 | cut -d: -f2)
+          body=$(echo "$response" | sed '$d')
+          echo "Status: $status"
+          echo "Body: $body"
+          if [ "$status" != "200" ]; then
+            echo "::error::Event images cron failed with HTTP $status"
+            exit 1
+          fi

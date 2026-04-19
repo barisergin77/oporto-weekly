@@ -294,16 +294,43 @@ export async function GET(req: NextRequest) {
     ]);
     console.log(`[cron/newsletter] Sent EN to ${sentEN} subscribers`);
 
-    // 6. Archive EN edition via GitHub API (commits to repo → triggers Vercel redeploy)
+    // 6. Extract structured event records from the HTML. This is a ~5s Gemini
+    //    Flash call with thinking disabled; events are committed atomically
+    //    with the HTML below so the sitemap, event pages, and archive stay
+    //    in sync. If extraction fails, we still archive the HTML — event
+    //    pages for this edition can be rebuilt later via
+    //    `npm run extract-events -- <slug>`.
+    let eventFiles: Array<{ path: string; content: string }> = [];
+    let extractedCount = 0;
     try {
-      await archiveViaGitHub({
-        slug,
-        title: `Oporto Weekly — ${now.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}`,
-        description: subject,
-        sentAt: now.toISOString(),
-        weekRange,
-      }, html, 'newsletters.json');
-      console.log(`[cron/newsletter] Archived EN as ${slug}`);
+      const { extractEventsFromHtml } = await import('@/lib/events-pipeline');
+      const events = await extractEventsFromHtml(html, slug);
+      extractedCount = events.length;
+      eventFiles = events.map((e) => ({
+        path: `data/events/${e.slug}.json`,
+        content: JSON.stringify(e, null, 2),
+      }));
+      console.log(`[cron/newsletter] Extracted ${extractedCount} events`);
+    } catch (extractErr) {
+      console.error('[cron/newsletter] Event extraction failed (non-fatal):', extractErr);
+    }
+
+    // 7. Archive EN edition + per-event JSONs via GitHub API in one atomic
+    //    commit. Triggers Vercel redeploy → event pages go live.
+    try {
+      await archiveViaGitHub(
+        {
+          slug,
+          title: `Oporto Weekly — ${now.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}`,
+          description: subject,
+          sentAt: now.toISOString(),
+          weekRange,
+        },
+        html,
+        'newsletters.json',
+        eventFiles
+      );
+      console.log(`[cron/newsletter] Archived EN as ${slug}${eventFiles.length ? ` with ${eventFiles.length} events` : ''}`);
 
       notifySearchEngines(slug).catch(e =>
         console.error('[cron/newsletter] Search engine notification failed:', e)
@@ -316,6 +343,7 @@ export async function GET(req: NextRequest) {
       success: true,
       slug,
       heroImageUrl,
+      extractedEvents: extractedCount,
       sent: { en: sentEN },
     });
   } catch (err: unknown) {

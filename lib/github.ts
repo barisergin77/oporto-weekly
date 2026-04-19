@@ -162,11 +162,16 @@ export interface NewsletterMeta {
 /**
  * Archives a newsletter edition by committing the HTML file and updating
  * the JSON index via the GitHub API. Works on Vercel's read-only filesystem.
+ *
+ * Optional `extraFiles` are committed in the same atomic commit — used by the
+ * newsletter cron to include the edition's per-event JSON records alongside
+ * the HTML, so they ship together and stay in sync.
  */
 export async function archiveViaGitHub(
   meta: NewsletterMeta,
   html: string,
-  indexFile: 'newsletters.json' | 'newsletters-pt.json' = 'newsletters.json'
+  indexFile: 'newsletters.json' | 'newsletters-pt.json' = 'newsletters.json',
+  extraFiles: FileChange[] = []
 ): Promise<string> {
   // Read the current index from the repo
   const currentIndex = await getFileContent(`data/${indexFile}`);
@@ -174,15 +179,15 @@ export async function archiveViaGitHub(
   const filtered = existing.filter((e) => e.slug !== meta.slug);
   const updatedIndex = JSON.stringify([meta, ...filtered], null, 2);
 
-  // Commit both the HTML file and updated index atomically
-  const commitSha = await commitFiles(
-    [
-      { path: `public/newsletters/${meta.slug}.html`, content: html },
-      { path: `data/${indexFile}`, content: updatedIndex },
-    ],
-    `chore: archive ${meta.slug} edition`
-  );
+  const files: FileChange[] = [
+    { path: `public/newsletters/${meta.slug}.html`, content: html },
+    { path: `data/${indexFile}`, content: updatedIndex },
+    ...extraFiles,
+  ];
 
-  console.log(`[github] Committed ${meta.slug} → ${commitSha.slice(0, 7)}`);
+  const extraSummary = extraFiles.length ? ` + ${extraFiles.length} event records` : '';
+  const commitSha = await commitFiles(files, `chore: archive ${meta.slug} edition${extraSummary}`);
+
+  console.log(`[github] Committed ${meta.slug}${extraSummary} → ${commitSha.slice(0, 7)}`);
   return commitSha;
 }

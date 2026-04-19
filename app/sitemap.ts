@@ -24,13 +24,35 @@ export default function sitemap(): MetadataRoute.Sitemap {
   // upcoming events match specific high-intent searches ("tito paris porto");
   // past ones are evergreen archive.
   const today = new Date().toISOString().slice(0, 10);
-  const eventUrls = listEvents().map((e) => {
+  const events = listEvents();
+  const eventUrls = events.map((e) => {
     const isPast = (e.endDate ?? e.date) < today;
     return {
       url: `https://oportoweekly.com/event/${e.slug}`,
       lastModified: new Date(e.addedAt),
       changeFrequency: (isPast ? 'never' : 'weekly') as 'never' | 'weekly',
       priority: isPast ? 0.6 : 0.9,
+    };
+  });
+
+  // Venue aggregation pages — dedupe by venueSlug, one URL per venue.
+  // High priority (0.85) because they rank well for "<venue> events" queries
+  // and stay useful over time (always up to date as new events are indexed).
+  const venueSlugs = Array.from(
+    new Set(events.map((e) => e.venueSlug).filter((s): s is string => Boolean(s)))
+  );
+  const venueUrls = venueSlugs.map((slug) => {
+    const venueEvents = events.filter((e) => e.venueSlug === slug);
+    // lastModified = most recently added event at this venue
+    const lastAdded = venueEvents
+      .map((e) => e.addedAt)
+      .sort()
+      .pop();
+    return {
+      url: `https://oportoweekly.com/venue/${slug}`,
+      lastModified: lastAdded ? new Date(lastAdded) : new Date(),
+      changeFrequency: 'weekly' as const,
+      priority: 0.85,
     };
   });
 
@@ -41,6 +63,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: 'https://oportoweekly.com/pt', lastModified: new Date(), changeFrequency: 'weekly', priority: 0.9 },
     { url: 'https://oportoweekly.com/archive', lastModified: new Date(), changeFrequency: 'weekly', priority: 0.8 },
     ...eventUrls,
+    ...venueUrls,
     ...blogUrls,
     ...archiveUrls,
     { url: 'https://oportoweekly.com/pt/arquivo', lastModified: new Date(), changeFrequency: 'weekly' as const, priority: 0.7 },
