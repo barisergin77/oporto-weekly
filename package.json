@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "seed-archive": "tsx scripts/seed-archive.ts",
-    "migrate-subs": "tsx --env-file=.env.local scripts/migrate-beehiiv-to-resend.ts"
+    "migrate-subs": "tsx --env-file=.env.local scripts/migrate-beehiiv-to-resend.ts",
+    "extract-events": "tsx --env-file=.env.local scripts/extract-events-from-newsletter.ts"
   },
   "dependencies": {
     "google-auth-library": "^10.6.2",
