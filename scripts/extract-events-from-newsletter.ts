@@ -20,6 +20,7 @@ import {
   type EventCategory,
   composeEventSlug,
   venueToSlug,
+  isRealEventUrl,
 } from '../lib/events';
 
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
@@ -65,7 +66,7 @@ Output ONLY a JSON array with this exact shape (no markdown, no prose, no wrappi
     "currency": "EUR" (only if priceFrom is set),
     "category": "music" | "art" | "food" | "family" | "nightlife" | "sports" | "other",
     "description": "1-2 factual sentences describing the event. No editorial adjectives.",
-    "externalLink": "https://..." (if the newsletter links to an official ticket/event page; omit otherwise)
+    "externalLink": "https://..." (ONLY if the newsletter embeds an actual ticketing / venue / press page link — see rules below)
   }
 ]
 
@@ -77,6 +78,13 @@ RULES:
 - Categorize based on which section the event appears in, NOT by guessing. Editor's Picks events: use the section topic from the surrounding context.
 - Description should be FACTUAL. No "unmissable", "stunning", "vibrant". Just what it is.
 - If a field isn't in the HTML, OMIT the field rather than inventing. Never write "TBA" or "check website".
+
+- **externalLink rules (IMPORTANT — strict):**
+  * ONLY use a URL that is actually present as an <a href="..."> in the HTML.
+  * The URL must point to an official ticketing page (casadamusica.com, feverup.com, ticketline.pt, bol.pt, seticketstoday.com), a venue's own event page (cpf.pt, mercadobolhao.pt, worldofdiscoveries.pt, etc.), or an official press release.
+  * NEVER return a google.com / google.pt URL, NEVER return a Google Search URL, NEVER fabricate a "likely" URL. If no real link is embedded in the HTML, OMIT the externalLink field entirely.
+  * Do not guess or construct URLs — only copy what's literally there.
+
 - Do not wrap the array in any object or markdown fence. First character of your output must be "[".
 
 Newsletter HTML:
@@ -119,6 +127,9 @@ ${html}`;
 
 function toEventRecord(raw: RawEvent, sourceEdition: string): EventRecord {
   const slug = composeEventSlug(raw.name, raw.venue, raw.date);
+  // Final guard: even if the prompt says not to, if Gemini still emits a
+  // google.com URL, drop it here. Never persist a bad link.
+  const externalLink = isRealEventUrl(raw.externalLink) ? raw.externalLink : undefined;
   return {
     slug,
     name: raw.name,
@@ -132,7 +143,7 @@ function toEventRecord(raw: RawEvent, sourceEdition: string): EventRecord {
     category: raw.category,
     description: raw.description,
     sourceEdition,
-    externalLink: raw.externalLink,
+    externalLink,
     addedAt: new Date().toISOString(),
   };
 }

@@ -99,6 +99,30 @@ export function venueToSlug(venue: string): string {
 }
 
 /**
+ * True only for a real ticketing / venue / press page URL.
+ * Rejects google.com search URLs (Gemini sometimes returns those as a fallback),
+ * file: URLs, relative paths, and anything non-http(s).
+ *
+ * Used both at page-render time (don't show the "Get tickets" CTA for a
+ * google search URL) and at image-acquisition time (don't try to scrape
+ * og:image from a search results page).
+ */
+export function isRealEventUrl(url: string | undefined | null): url is string {
+  if (!url) return false;
+  try {
+    const u = new URL(url);
+    if (u.protocol !== 'http:' && u.protocol !== 'https:') return false;
+    const host = u.hostname.toLowerCase();
+    if (host === 'google.com' || host.endsWith('.google.com')) return false;
+    if (host === 'google.pt' || host.endsWith('.google.pt')) return false;
+    if (host.includes('google.') && u.pathname.startsWith('/search')) return false;
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+/**
  * Compose an event slug like `tito-paris-casa-da-musica-apr-17-2026`.
  * Uses abbreviated month to keep it short but chronologically sortable.
  */

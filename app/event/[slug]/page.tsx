@@ -6,6 +6,7 @@ import {
   getEvent,
   listEventsByVenue,
   toEventJsonLd,
+  isRealEventUrl,
   CATEGORY_EMOJI,
   CATEGORY_LABEL,
   type EventRecord,
@@ -143,8 +144,9 @@ export default function EventPage({ params }: { params: { slug: string } }) {
           {ev.description}
         </p>
 
-        {/* External link CTA */}
-        {ev.externalLink && (
+        {/* External link CTA — only for a real event page, never for a
+            google.com/search fallback URL that occasionally slips through. */}
+        {isRealEventUrl(ev.externalLink) && (
           <a
             href={ev.externalLink}
             target="_blank"

@@ -11,5 +11,10 @@
   "description": "Experience the magic of a candlelit tribute to two iconic groups, Queen and ABBA, in a beautiful Porto setting. A truly unique and atmospheric concert.",
   "sourceEdition": "april-16-2026",
   "externalLink": "https://www.feverup.com/porto/candlelight",
-  "addedAt": "2026-04-19T17:23:29.171Z"
+  "addedAt": "2026-04-19T17:23:29.171Z",
+  "image": {
+    "url": "https://i.imgur.com/HeoHipb.jpeg",
+    "credit": "Photo: FEVER",
+    "sourceUrl": "https://www.feverup.com/porto/candlelight"
+  }
 }

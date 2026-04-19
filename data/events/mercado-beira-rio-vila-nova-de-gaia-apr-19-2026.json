@@ -9,5 +9,10 @@
   "description": "Cross the river to Vila Nova de Gaia for this foodie's dream, an indoor market with various restaurants, food stands, and local products.",
   "sourceEdition": "april-16-2026",
   "externalLink": "https://www.mercadobeirario.pt/",
-  "addedAt": "2026-04-19T17:23:29.171Z"
+  "addedAt": "2026-04-19T17:23:29.171Z",
+  "image": {
+    "url": "https://i.imgur.com/qlsbqnO.jpeg",
+    "credit": "Photo: Mercado Beira-Rio",
+    "sourceUrl": "https://www.mercadobeirario.pt/"
+  }
 }

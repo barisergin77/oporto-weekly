@@ -9,5 +9,10 @@
   "description": "Explore Porto's iconic historic market, brimming with fresh produce, cheeses, meats, fish, and local delights. A true feast for the senses.",
   "sourceEdition": "april-16-2026",
   "externalLink": "https://mercadobolhao.pt/en/",
-  "addedAt": "2026-04-19T17:23:29.171Z"
+  "addedAt": "2026-04-19T17:23:29.171Z",
+  "image": {
+    "url": "https://i.imgur.com/BAUnj70.jpeg",
+    "credit": "Photo: Mercado do Bolhão",
+    "sourceUrl": "https://mercadobolhao.pt/en/"
+  }
 }
