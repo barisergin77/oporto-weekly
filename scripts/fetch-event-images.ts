@@ -48,9 +48,9 @@ async function main() {
 
       if (result.status === 'imaged') {
         if (dryRun) {
-          console.log(`    [dry-run] source=${result.resolvedUrl}`);
+          console.log(`    [dry-run] scraped source=${result.resolvedUrl}`);
         } else {
-          // Persist: image + also overwrite the stale externalLink if we
+          // Persist image + also overwrite the stale externalLink if we
           // discovered a real one via Gemini.
           const updated: EventRecord = {
             ...ev,
@@ -58,7 +58,15 @@ async function main() {
             externalLink: isRealEventUrl(ev.externalLink) ? ev.externalLink : result.resolvedUrl,
           };
           fs.writeFileSync(path.join(dir, `${ev.slug}.json`), JSON.stringify(updated, null, 2));
-          console.log(`    → ${result.image.url} (${result.image.credit})`);
+          console.log(`    → scraped: ${result.image.url} (${result.image.credit})`);
+        }
+      } else if (result.status === 'generated') {
+        if (dryRun) {
+          console.log(`    [dry-run] generated fallback image`);
+        } else {
+          const updated: EventRecord = { ...ev, image: result.image };
+          fs.writeFileSync(path.join(dir, `${ev.slug}.json`), JSON.stringify(updated, null, 2));
+          console.log(`    → generated: ${result.image.url} (${result.image.credit})`);
         }
       } else if (result.status === 'already') {
         console.log(`    (already imaged — use --force to refetch)`);

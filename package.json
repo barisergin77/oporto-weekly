@@ -12,7 +12,8 @@
     "extract-events": "tsx --env-file=.env.local scripts/extract-events-from-newsletter.ts",
     "fetch-event-images": "tsx --env-file=.env.local scripts/fetch-event-images.ts",
     "link-existing-newsletters": "tsx scripts/link-existing-newsletters.ts",
-    "enrich-event-descriptions": "tsx --env-file=.env.local scripts/enrich-event-descriptions.ts"
+    "enrich-event-descriptions": "tsx --env-file=.env.local scripts/enrich-event-descriptions.ts",
+    "validate-event-links": "tsx --env-file=.env.local scripts/validate-event-links.ts"
   },
   "dependencies": {
     "google-auth-library": "^10.6.2",

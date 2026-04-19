@@ -104,7 +104,14 @@ export async function GET(req: NextRequest) {
             path: `data/events/${ev.slug}.json`,
             content: JSON.stringify(updated, null, 2),
           });
-          console.log(`[cron/event-images] ✓ ${ev.slug} → ${result.image.url}`);
+          console.log(`[cron/event-images] ✓ scraped ${ev.slug} → ${result.image.url}`);
+        } else if (result.status === 'generated') {
+          const updated: EventRecord = { ...ev, image: result.image };
+          updatedFiles.push({
+            path: `data/events/${ev.slug}.json`,
+            content: JSON.stringify(updated, null, 2),
+          });
+          console.log(`[cron/event-images] ✓ generated ${ev.slug} → ${result.image.url}`);
         } else {
           console.log(`[cron/event-images] ⚠ ${ev.slug}: ${result.status}`);
         }

@@ -208,26 +208,101 @@ async function fetchPage(url: string): Promise<string | null> {
   }
 }
 
+/**
+ * Extract a hero image URL from an event page. Tries several sources in
+ * order — og:image is the nicest but many SSR-light pages don't emit it,
+ * so we fall through to JSON-LD, legacy link tags, and finally to heuristic
+ * <img> selection.
+ */
 function extractOgImage(html: string, pageUrl: string): string | null {
-  const patterns: RegExp[] = [
+  const resolve = (raw: string | undefined | null): string | null => {
+    if (!raw) return null;
+    const trimmed = raw.trim();
+    if (!trimmed || trimmed.startsWith('data:')) return null;
+    try {
+      const url = new URL(trimmed, pageUrl).toString();
+      // Skip obvious placeholder / tracking pixels
+      if (/\/pixel\.|\/spacer\.|\/blank\.|1x1\.(png|gif)/.test(url)) return null;
+      return url;
+    } catch {
+      return null;
+    }
+  };
+
+  // 1) Open Graph meta (+ Twitter)
+  const metaPatterns: RegExp[] = [
     /<meta[^>]+property=["']og:image["'][^>]+content=["']([^"']+)["']/i,
     /<meta[^>]+content=["']([^"']+)["'][^>]+property=["']og:image["']/i,
     /<meta[^>]+name=["']og:image["'][^>]+content=["']([^"']+)["']/i,
     /<meta[^>]+property=["']og:image:secure_url["'][^>]+content=["']([^"']+)["']/i,
     /<meta[^>]+name=["']twitter:image["'][^>]+content=["']([^"']+)["']/i,
     /<meta[^>]+content=["']([^"']+)["'][^>]+name=["']twitter:image["']/i,
+    /<meta[^>]+itemprop=["']image["'][^>]+content=["']([^"']+)["']/i,
   ];
-  for (const re of patterns) {
+  for (const re of metaPatterns) {
     const m = html.match(re);
-    if (!m) continue;
-    const raw = m[1].trim();
-    if (!raw || raw.startsWith('data:')) continue;
-    try {
-      return new URL(raw, pageUrl).toString();
-    } catch {
-      continue;
+    const url = resolve(m?.[1]);
+    if (url) return url;
+  }
+
+  // 2) JSON-LD — many venue CMSes emit schema.org Event with an image
+  // field even when they skip og:image. Parse each LD block, look for an
+  // image field (can be string, array, or { url } object).
+  const ldMatches = html.match(/<script[^>]+type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi);
+  if (ldMatches) {
+    for (const ld of ldMatches) {
+      const body = ld.replace(/<script[^>]*>/i, '').replace(/<\/script>/i, '').trim();
+      try {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const parsed = JSON.parse(body) as any;
+        // Flatten @graph if present
+        const candidates: unknown[] = Array.isArray(parsed)
+          ? parsed
+          : parsed?.['@graph']
+            ? [parsed, ...parsed['@graph']]
+            : [parsed];
+        for (const c of candidates) {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          const obj = c as any;
+          if (!obj?.image) continue;
+          const img = obj.image;
+          let candidateUrl: string | null = null;
+          if (typeof img === 'string') candidateUrl = img;
+          else if (Array.isArray(img))
+            candidateUrl = typeof img[0] === 'string' ? img[0] : img[0]?.url ?? null;
+          else if (typeof img === 'object' && img?.url) candidateUrl = img.url;
+
+          const resolved = resolve(candidateUrl);
+          if (resolved) return resolved;
+        }
+      } catch {
+        /* malformed JSON-LD — ignore, try next block */
+      }
     }
   }
+
+  // 3) Legacy <link rel="image_src">
+  const linkMatch = html.match(/<link[^>]+rel=["']image_src["'][^>]+href=["']([^"']+)["']/i);
+  const linkUrl = resolve(linkMatch?.[1]);
+  if (linkUrl) return linkUrl;
+
+  // 4) Heuristic: first <img> with a real src. Skip obvious logos and tiny
+  // icons. Prefer tags with explicit width ≥ 400 or class/alt containing
+  // the event-y keywords. This catches pages that just plonk a hero image
+  // at the top of the <main> area.
+  const imgTags = html.match(/<img[^>]+>/gi) ?? [];
+  const SKIP = /logo|icon|avatar|badge|sprite|favicon|menu-toggle/i;
+  for (const tag of imgTags) {
+    const srcMatch = tag.match(/\bsrc=["']([^"']+)["']/i);
+    const src = resolve(srcMatch?.[1]);
+    if (!src) continue;
+    if (SKIP.test(tag)) continue;
+    // Skip tiny images where we can tell from the attributes
+    const widthMatch = tag.match(/\bwidth=["']?(\d+)/i);
+    if (widthMatch && parseInt(widthMatch[1], 10) < 300) continue;
+    return src;
+  }
+
   return null;
 }
 
@@ -520,54 +595,110 @@ STRICT RULES:
   return text;
 }
 
+// ---------------------------------------------------------------------------
+// Category-specific prompts for generated fallback images
+// ---------------------------------------------------------------------------
+const CATEGORY_PROMPT: Record<EventRecord['category'], string> = {
+  music: 'intimate concert setting, warm amber stage lighting, audience silhouettes, atmospheric',
+  art: 'gallery interior, soft museum lighting, contemporary artwork, minimal',
+  food: 'Portuguese market scene, fresh produce on wooden counters, natural daylight',
+  family: 'welcoming community gathering, daytime, relaxed atmosphere',
+  nightlife: 'Porto nightscape, riverside lights, moody evening atmosphere',
+  sports: 'dynamic sports moment, action frozen, dramatic light',
+  other: 'atmospheric Porto scene, cultural event setting, editorial style',
+};
+
+async function generateFallbackImage(
+  ev: EventRecord
+): Promise<{ base64: string; mimeType: string } | null> {
+  try {
+    const { generateImage } = await import('./imagen');
+    const modifier = CATEGORY_PROMPT[ev.category] ?? CATEGORY_PROMPT.other;
+    const prompt =
+      `Editorial press photograph evoking the event "${ev.name}" at ${ev.venue} in Porto, Portugal. ` +
+      `${modifier}. No text overlays, no logos, no people's faces in close-up. ` +
+      `Cinematic, warm colour palette matching a travel-magazine aesthetic.`;
+    return await generateImage(prompt, '16:9');
+  } catch (err) {
+    console.error('[events-pipeline] Fallback image generation failed:', err);
+    return null;
+  }
+}
+
 export type ImageAcquireResult =
   | { status: 'imaged'; image: EventImage; resolvedUrl: string }
+  | { status: 'generated'; image: EventImage }
   | { status: 'already' }
-  | { status: 'no-url' | 'no-og' | 'no-download' | 'no-upload' };
+  | { status: 'no-url' | 'no-og' | 'no-download' | 'no-upload' | 'no-generation' };
 
 /**
- * For a single event, try to find + re-host a press photo. Idempotent —
- * returns 'already' if the event is already imaged (unless `force` is true).
+ * For a single event, try to find + re-host a press photo. If no press photo
+ * is available, generates one via Gemini 3 Pro Image so every event ends up
+ * with SOMETHING visual rather than a category placeholder.
  *
- * The returned image is always re-hosted on Imgur. The discovered URL is
- * returned too (separately from the image) so the caller can persist it
- * back into the event's `externalLink` — handy when the existing link was
- * missing or stale.
+ * Pipeline order:
+ *   1. Known-good externalLink / Gemini-found URL → scrape og:image, JSON-LD,
+ *      link[rel=image_src], or first <img>. Reuse on Imgur with press credit.
+ *   2. If all scraping fails: Gemini 3 Pro Image generates a category-
+ *      appropriate editorial photo, uploaded to Imgur with an AI credit.
+ *
+ * Idempotent — returns 'already' if the event is already imaged (unless
+ * `force` is true).
  */
 export async function acquireEventImage(
   ev: EventRecord,
-  opts: { force?: boolean } = {}
+  opts: { force?: boolean; allowGenerated?: boolean } = {}
 ): Promise<ImageAcquireResult> {
+  const allowGenerated = opts.allowGenerated ?? true;
   if (ev.image && !opts.force) return { status: 'already' };
 
-  // 1. Pick a source URL
+  // 1. Try to scrape a press photo from a real event/venue page.
   let sourceUrl: string | null = null;
   if (isRealEventUrl(ev.externalLink)) {
     sourceUrl = ev.externalLink;
   } else {
     sourceUrl = await findEventUrlViaGemini(ev);
   }
-  if (!sourceUrl) return { status: 'no-url' };
 
-  // 2. Fetch page + og:image
-  const html = await fetchPage(sourceUrl);
-  if (!html) return { status: 'no-og' };
-  const ogImage = extractOgImage(html, sourceUrl);
-  if (!ogImage) return { status: 'no-og' };
+  if (sourceUrl) {
+    const html = await fetchPage(sourceUrl);
+    if (html) {
+      const ogImage = extractOgImage(html, sourceUrl);
+      if (ogImage) {
+        const base64 = await downloadImageBase64(ogImage);
+        if (base64) {
+          const imgurUrl = await uploadToImgur(base64);
+          if (imgurUrl) {
+            return {
+              status: 'imaged',
+              image: {
+                url: imgurUrl,
+                credit: creditFromHost(new URL(sourceUrl).hostname),
+                sourceUrl,
+              },
+              resolvedUrl: sourceUrl,
+            };
+          }
+        }
+      }
+    }
+  }
 
-  // 3. Download + upload to Imgur
-  const base64 = await downloadImageBase64(ogImage);
-  if (!base64) return { status: 'no-download' };
-  const imgurUrl = await uploadToImgur(base64);
+  // 2. No press photo — generate one via Gemini 3 Pro Image.
+  if (!allowGenerated) {
+    return { status: sourceUrl ? 'no-og' : 'no-url' };
+  }
+  const generated = await generateFallbackImage(ev);
+  if (!generated) return { status: 'no-generation' };
+  const imgurUrl = await uploadToImgur(generated.base64);
   if (!imgurUrl) return { status: 'no-upload' };
 
   return {
-    status: 'imaged',
+    status: 'generated',
     image: {
       url: imgurUrl,
-      credit: creditFromHost(new URL(sourceUrl).hostname),
-      sourceUrl,
+      credit: 'AI illustration · Oporto Weekly',
+      // No sourceUrl — generated, not scraped.
     },
-    resolvedUrl: sourceUrl,
   };
 }
