@@ -449,6 +449,77 @@ export function injectEventLinks(
   return { html: out, linked, moreInfoRewritten };
 }
 
+// ---------------------------------------------------------------------------
+// Long-form description — 3-paragraph detail-page copy
+// ---------------------------------------------------------------------------
+
+/**
+ * Generate a 3-paragraph long-form description for an event's detail page.
+ *
+ * Distinct from the 1-2 sentence `description` field that gets emitted in the
+ * newsletter / listings / cards / OG image. The long form lives only on
+ * /event/<slug> and gives a visitor enough context to decide whether to go.
+ *
+ * Source: Gemini Flash with thinking disabled + general knowledge (no search
+ * grounding yet — ~5s/event, keeps the cron cheap). For events Gemini doesn't
+ * know the specifics of, it produces a shorter, safer description rather than
+ * hallucinating. Fresh research grounding can be added later if the output
+ * quality matters more than speed/cost.
+ */
+export async function generateLongDescription(event: EventRecord): Promise<string> {
+  if (!process.env.GEMINI_API_KEY) throw new Error('GEMINI_API_KEY not set');
+
+  const dateStr = event.endDate
+    ? `${event.date} to ${event.endDate}`
+    : event.date;
+
+  const prompt = `Write a detail-page description for this Porto event.
+
+Event: ${event.name}
+Venue: ${event.venue}
+Date: ${dateStr}
+Category: ${event.category}
+Short description (do not repeat verbatim): ${event.description}
+${event.price ? `Price: ${event.price}` : ''}
+
+Output THREE paragraphs, separated by blank lines, matching this structure:
+
+Paragraph 1 — What it is. The format, who's behind it, why it exists. For concerts: who the artist is and their background. For exhibitions: the subject matter and curatorial angle. For markets/festivals: the scale, regularity, and character.
+
+Paragraph 2 — What visitors experience. The vibe, length, language (if relevant), audience type. Character of the venue if notable (intimate / grand / outdoor / historic building).
+
+Paragraph 3 — Practical notes. Ticketing situation (sold out fast? walk-in welcome?), how to get there (metro / tram / bus / walking distance from where), accessibility if you know it, family-friendliness if relevant. Keep it concrete — "Trindade metro, 5 min walk" is better than "easily reached by public transport".
+
+STRICT RULES:
+- Neutral, factual, observational voice. No press-release adjectives like "unmissable", "vibrant", "breathtaking", "stunning", "rich tapestry". No "you won't want to miss", "a must-see", "experience the magic".
+- If you don't know a detail, OMIT it. A shorter paragraph is better than a fabricated one. It's fine if paragraph 3 is two short sentences.
+- Do NOT repeat phrases from the short description above. Expand, don't rephrase.
+- Use "Porto" (not "Oporto"). European Portuguese context.
+- Output: plain prose only. No headings, no "Paragraph 1:" prefixes, no markdown, no bullet lists. Separate paragraphs with a blank line.
+- Total length target: 180–280 words across all three paragraphs. Quality over length.`;
+
+  const res = await fetch(geminiUrl('gemini-2.5-flash'), {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      contents: [{ parts: [{ text: prompt }] }],
+      generationConfig: {
+        temperature: 0.3,
+        maxOutputTokens: 2000,
+        thinkingConfig: { thinkingBudget: 0 },
+      },
+    }),
+  });
+
+  if (!res.ok) {
+    throw new Error(`Gemini long description failed: ${res.status} ${await res.text()}`);
+  }
+  const data = await res.json();
+  const text: string = (data?.candidates?.[0]?.content?.parts?.[0]?.text ?? '').trim();
+  if (!text) throw new Error('Gemini returned empty long description');
+  return text;
+}
+
 export type ImageAcquireResult =
   | { status: 'imaged'; image: EventImage; resolvedUrl: string }
   | { status: 'already' }

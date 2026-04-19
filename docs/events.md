@@ -34,7 +34,8 @@ interface EventRecord {
   priceFrom?: number;        // 20 (used in JSON-LD Offer)
   currency?: string;         // "EUR"
   category: EventCategory;   // music | art | food | family | nightlife | sports | other
-  description: string;       // 1-2 factual sentences
+  description: string;       // 1-2 factual sentences (listings, cards, newsletter, OG)
+  longDescription?: string;  // 3-paragraph detail-page copy (enriched via separate cron)
   sourceEdition: string;     // "april-16-22-2026"
   image?: EventImage;        // { url, credit, sourceUrl }
   externalLink?: string;     // Official ticketing / venue page
@@ -79,6 +80,14 @@ After generating + sending the newsletter HTML:
 5. Vercel auto-deploys; event pages + venue pages go live within ~60s
 
 Non-fatal: if extraction fails, the newsletter still archives. Events can be rebuilt later via `npm run extract-events -- <slug>`.
+
+### Thursday 09:30 UTC — `cron/event-descriptions`
+
+For events missing `longDescription`, generates 3 paragraphs of detail-page copy via Gemini Flash (no thinking, no search grounding — fast, ~5s/event). Caps at 25/run, 260s time budget. Commits updates atomically.
+
+Two-paragraph structure, no adjectives, no hallucinated specifics — see `generateLongDescription()` in `lib/events-pipeline.ts` for the strict prompt.
+
+The event detail page falls back to the short `description` when `longDescription` isn't populated yet, so pages never appear broken mid-enrichment.
 
 ### Thursday 09:15 UTC — `cron/event-images`
 

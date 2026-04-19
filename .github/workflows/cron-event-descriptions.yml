@@ -1,0 +1,28 @@
+# Thursday 09:30 UTC — after event-images has run. Generates 3-paragraph
+# long-form descriptions for event detail pages that don't have one yet.
+# Commits updates atomically.
+name: Cron · Event Descriptions
+
+on:
+  schedule:
+    - cron: '30 9 * * 4' # Thu 09:30 UTC
+  workflow_dispatch:
+
+jobs:
+  trigger:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - name: Call /api/cron/event-descriptions
+        run: |
+          response=$(curl -s -w "\nHTTP_STATUS:%{http_code}" --max-time 300 \
+            -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" \
+            https://oportoweekly.com/api/cron/event-descriptions)
+          status=$(echo "$response" | tail -n1 | cut -d: -f2)
+          body=$(echo "$response" | sed '$d')
+          echo "Status: $status"
+          echo "Body: $body"
+          if [ "$status" != "200" ]; then
+            echo "::error::Event descriptions cron failed with HTTP $status"
+            exit 1
+          fi

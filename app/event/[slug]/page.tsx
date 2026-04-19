@@ -135,17 +135,17 @@ export default function EventPage({ params }: { params: { slug: string } }) {
           <MetaPin icon="📅" text={formatLongDate(ev.date, ev.endDate)} />
         </div>
 
-        {/* Description */}
-        <p
-          style={{
-            fontSize: 17,
-            lineHeight: 1.7,
-            color: colors.text,
-            margin: '0 0 28px',
-          }}
-        >
-          {ev.description}
-        </p>
+        {/* Description. Prefer the 3-paragraph long form when available —
+            gives the visitor enough context to decide whether to go. Falls
+            back to the short newsletter description when long hasn't been
+            generated yet (backfill cron runs separately). */}
+        <EventDescription event={ev} />
+
+        {/* Short-description callout when we have both — displayed above the
+            long form as a 1-line summary for scanners who don't want to read
+            the full prose. */}
+        {/* (Intentionally not rendering a second copy when longDescription
+            is absent, since the fallback above already shows `description`.) */}
 
         {/* External link CTA — only for a real event page, never for a
             google.com/search fallback URL that occasionally slips through. */}
@@ -242,6 +242,33 @@ export default function EventPage({ params }: { params: { slug: string } }) {
 // ---------------------------------------------------------------------------
 // Subcomponents
 // ---------------------------------------------------------------------------
+
+function EventDescription({ event }: { event: EventRecord }) {
+  // Pull paragraphs out of the long description if we have one. We store it
+  // as plain text with \n\n paragraph separators, so split and render as <p>.
+  // When longDescription is absent, fall back to the single short description.
+  const paragraphs = event.longDescription
+    ? event.longDescription.split(/\n{2,}/).map((p) => p.trim()).filter(Boolean)
+    : [event.description];
+
+  return (
+    <div style={{ margin: '0 0 32px' }}>
+      {paragraphs.map((p, i) => (
+        <p
+          key={i}
+          style={{
+            fontSize: 17,
+            lineHeight: 1.75,
+            color: colors.text,
+            margin: i === paragraphs.length - 1 ? 0 : '0 0 16px',
+          }}
+        >
+          {p}
+        </p>
+      ))}
+    </div>
+  );
+}
 
 function EventHero({ event }: { event: EventRecord }) {
   if (event.image) {

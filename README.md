@@ -110,6 +110,7 @@ Workflows live in `.github/workflows/cron-*.yml`. Each one passes `Authorization
 | Thu 08:45 | Thu 09:45 | `instagram` | Parse top 5 picks from newsletter → generate IG image → upload to Imgur → caption → schedule via Buffer |
 | Thu 08:50 | Thu 09:50 | `reddit-draft` | Format this week's events as r/porto markdown → email two versions to editor (manual paste, not auto-posted) |
 | Thu 09:15 | Thu 10:15 | `event-images` | Backfill press photos for new events → scrape og:image → upload to Imgur → atomic commit |
+| Thu 09:30 | Thu 10:30 | `event-descriptions` | 3-paragraph long-form detail-page copy for new events → atomic commit |
 | Tue 09:00 | Tue 10:00 | `blog` | Research topic → generate article → 2 images → commit via GitHub API |
 
 ---

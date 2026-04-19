@@ -47,8 +47,15 @@ export interface EventRecord {
   priceFrom?: number;
   currency?: string;
   category: EventCategory;
-  /** 1-3 sentence editorial description. */
+  /** 1-2 sentence short description — for listings, cards, newsletter, OG. */
   description: string;
+  /**
+   * 3-paragraph long-form description for the /event/<slug> detail page.
+   * Populated separately from extraction via the event-descriptions cron or
+   * scripts/enrich-event-descriptions.ts. Falls back to `description` on
+   * the detail page when absent.
+   */
+  longDescription?: string;
   /** Slug of the newsletter edition this event was extracted from. */
   sourceEdition: string;
   /** Populated by the photo-acquisition step (phase 2). */
