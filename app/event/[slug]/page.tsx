@@ -33,6 +33,11 @@ export async function generateMetadata({
   const description = ev.description.slice(0, 155);
   const url = `https://oportoweekly.com/event/${ev.slug}`;
 
+  // OG image: Next.js auto-detects the co-located opengraph-image.tsx and
+  // populates openGraph.images (and twitter.images) with it. We intentionally
+  // don't set images here — the dynamic OG card composes the photo + title +
+  // venue + date into a single branded card, which looks better than the raw
+  // Imgur URL would on social shares.
   return {
     title,
     description,
@@ -42,13 +47,11 @@ export async function generateMetadata({
       description,
       url,
       type: 'article',
-      images: ev.image ? [{ url: ev.image.url, alt: ev.name }] : undefined,
     },
     twitter: {
       card: 'summary_large_image',
       title,
       description,
-      images: ev.image ? [ev.image.url] : undefined,
     },
   };
 }

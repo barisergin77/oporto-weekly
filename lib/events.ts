@@ -168,7 +168,7 @@ export const CATEGORY_EMOJI: Record<EventCategory, string> = {
   family: '👨‍👩‍👧',
   nightlife: '🌙',
   sports: '⚽',
-  other: '✦',
+  other: '🎭',
 };
 
 export const CATEGORY_LABEL: Record<EventCategory, string> = {
