@@ -339,9 +339,11 @@ function nameVariants(name: string): string[] {
 export function injectEventLinks(
   html: string,
   events: EventRecord[]
-): { html: string; linked: number } {
+): { html: string; linked: number; moreInfoRewritten: number } {
   let out = html;
   let linked = 0;
+
+  // --- Pass 1: wrap event titles in <a href="/event/<slug>"> ---
 
   // Longer names first — prevents "Tito Paris" accidentally wrapping inside
   // a hypothetical "Tito Paris and Friends" heading before that one is seen.
@@ -375,16 +377,76 @@ export function injectEventLinks(
         'gi'
       );
       out = out.replace(pPattern, (_m, openTag, innerName, closeTag) => {
-        // Idempotency guard — if the open tag already wraps its content in
-        // an anchor, skip. This shouldn't happen because the open-tag regex
-        // doesn't include the anchor, but belt-and-braces.
         linked++;
         return `${openTag}<a href="${href}" style="color:inherit;text-decoration:none;">${innerName}</a>${closeTag}`;
       });
     }
   }
 
-  return { html: out, linked };
+  // --- Pass 2: rewrite "MORE INFO" anchors to the event detail page.
+  // The newsletter template emits a "MORE INFO" link under each event card
+  // pointing at whatever URL Gemini found during generation — often a
+  // google.com/search fallback (useless) or a hallucinated ticketing URL
+  // that 404s. The canonical "more info" destination is OUR event detail
+  // page, which in turn has a verified "Get tickets" CTA if we have a
+  // real ticketing link.
+  //
+  // Association rule: for each "MORE INFO" anchor, the event it belongs to
+  // is the nearest event-title anchor PRECEDING it in document order. This
+  // matches the template's rendering — each event card is:
+  //   <p><a href="/event/…">Title</a></p>
+  //   <p>meta line</p>
+  //   <p>description</p>
+  //   <p><a …>MORE INFO</a></p>
+  const moreInfoRewritten = (() => {
+    const eventAnchorRe = new RegExp(`<a\\s+href="${escapeRegex(SITE)}/event/([^"]+)"`, 'g');
+    const eventAnchors: Array<{ pos: number; slug: string }> = [];
+    let m: RegExpExecArray | null;
+    while ((m = eventAnchorRe.exec(out)) !== null) {
+      eventAnchors.push({ pos: m.index, slug: m[1] });
+    }
+    if (eventAnchors.length === 0) return 0;
+
+    // Match "more info" anchors regardless of case / trailing glyph.
+    // The template uses TWO variants:
+    //   <a>MORE INFO</a>       — Editor's Picks (uppercase, no arrow)
+    //   <a>More info →</a>     — category sections (mixed case, arrow)
+    // Both need to be redirected to /event/<slug>. We capture the attrs
+    // (preserving inline styling) and the inner text (preserving whatever
+    // casing + arrow the template used).
+    const miRe = /<a\s+href="[^"]+"([^>]*)>\s*(more\s+info[^<]*?)\s*<\/a>/gi;
+    const moreInfos: Array<{
+      pos: number;
+      length: number;
+      attrs: string;
+      innerText: string;
+    }> = [];
+    while ((m = miRe.exec(out)) !== null) {
+      moreInfos.push({
+        pos: m.index,
+        length: m[0].length,
+        attrs: m[1],
+        innerText: m[2],
+      });
+    }
+
+    // Rewrite in REVERSE order so earlier replacements don't shift later
+    // positions.
+    let rewritten = 0;
+    for (const mi of [...moreInfos].reverse()) {
+      const preceding = eventAnchors.filter((ea) => ea.pos < mi.pos).pop();
+      if (!preceding) continue;
+      const newHref = `${SITE}/event/${preceding.slug}`;
+      // Preserve the original inner text ("MORE INFO" vs "More info →") so
+      // each section keeps its visual identity.
+      const newAnchor = `<a href="${newHref}"${mi.attrs}>${mi.innerText}</a>`;
+      out = out.slice(0, mi.pos) + newAnchor + out.slice(mi.pos + mi.length);
+      rewritten++;
+    }
+    return rewritten;
+  })();
+
+  return { html: out, linked, moreInfoRewritten };
 }
 
 export type ImageAcquireResult =

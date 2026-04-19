@@ -47,6 +47,7 @@ function main() {
   console.log(`Processing ${editions.length} edition${editions.length === 1 ? '' : 's'}${dryRun ? ' [dry-run]' : ''}`);
 
   let totalLinked = 0;
+  let totalRewritten = 0;
   let totalChanged = 0;
   for (const edition of editions) {
     const events = byEdition.get(edition) ?? [];
@@ -56,23 +57,24 @@ function main() {
       continue;
     }
     const before = fs.readFileSync(htmlPath, 'utf-8');
-    const { html: after, linked } = injectEventLinks(before, events);
+    const { html: after, linked, moreInfoRewritten } = injectEventLinks(before, events);
 
     const changed = after !== before;
     console.log(
-      `  ${changed ? '✓' : '·'} ${edition}: ${events.length} events, ${linked} link${linked === 1 ? '' : 's'} injected` +
+      `  ${changed ? '✓' : '·'} ${edition}: ${events.length} events · ${linked} title link${linked === 1 ? '' : 's'} · ${moreInfoRewritten} MORE INFO rewrite${moreInfoRewritten === 1 ? '' : 's'}` +
       (changed ? '' : ' (no changes)')
     );
     if (changed) {
       totalLinked += linked;
+      totalRewritten += moreInfoRewritten;
       totalChanged++;
       if (!dryRun) fs.writeFileSync(htmlPath, after, 'utf-8');
     }
   }
 
   console.log(
-    `\n${dryRun ? 'Would update' : 'Updated'} ${totalChanged} edition${totalChanged === 1 ? '' : 's'} ` +
-    `with ${totalLinked} total anchor${totalLinked === 1 ? '' : 's'}.`
+    `\n${dryRun ? 'Would update' : 'Updated'} ${totalChanged} edition${totalChanged === 1 ? '' : 's'}: ` +
+    `${totalLinked} title link${totalLinked === 1 ? '' : 's'}, ${totalRewritten} MORE INFO rewrite${totalRewritten === 1 ? '' : 's'}.`
   );
 }
 

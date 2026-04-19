@@ -304,7 +304,10 @@ export async function GET(req: NextRequest) {
       const injected = injectEventLinks(rawHtml, events);
       html = injected.html;
       linkedCount = injected.linked;
-      console.log(`[cron/newsletter] Extracted ${extractedCount} events · linked ${linkedCount} anchor(s) in HTML`);
+      console.log(
+        `[cron/newsletter] Extracted ${extractedCount} events · ` +
+        `wrapped ${linkedCount} title link(s) · rewrote ${injected.moreInfoRewritten} MORE INFO href(s)`
+      );
     } catch (extractErr) {
       // Non-fatal: fall back to unlinked HTML so the newsletter still ships.
       console.error('[cron/newsletter] Event extraction/linking failed (non-fatal):', extractErr);
