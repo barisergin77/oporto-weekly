@@ -287,6 +287,106 @@ function creditFromHost(host: string): string {
   return `Photo: ${bare.charAt(0).toUpperCase() + bare.slice(1)}`;
 }
 
+// ---------------------------------------------------------------------------
+// Newsletter HTML post-processing — wrap event headings in <a href="/event/...">
+// ---------------------------------------------------------------------------
+
+const SITE = 'https://oportoweekly.com';
+
+/**
+ * Escape a string for safe use inside a RegExp.
+ */
+function escapeRegex(s: string): string {
+  return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+/**
+ * HTML-encode &, <, > inside an event name so the regex matches both raw
+ * ("Queen & ABBA") and entity-encoded ("Queen &amp; ABBA") versions.
+ * We keep the original as a variant too since Gemini's extraction sometimes
+ * preserves entities and sometimes doesn't.
+ */
+function nameVariants(name: string): string[] {
+  const trimmed = name.trim();
+  const encoded = trimmed
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+  return trimmed === encoded ? [trimmed] : [encoded, trimmed];
+}
+
+/**
+ * Inject <a href="/event/<slug>"> anchors around event titles inside
+ * newsletter-generation HTML.
+ *
+ * The template uses TWO patterns for event headings:
+ *
+ *   1) Semantic headings <h2>/<h3>/<h4> — substring match (titles can have
+ *      surrounding text like a category emoji).
+ *
+ *   2) Styled paragraphs <p style="...font-family:Georgia,serif...">Event
+ *      Name</p> — this is the travel-magazine template's main pattern for
+ *      event names. We EXACT-match the trimmed inner text to avoid wrapping
+ *      descriptive <p> paragraphs whose text happens to mention an event.
+ *
+ * Each event is matched globally so both the Editor's Picks and category
+ * section occurrences get linked.
+ *
+ * - Uses absolute URLs (emails break on relative hrefs).
+ * - color:inherit + text-decoration:none to preserve heading styling.
+ * - Skips elements that already contain an <a> (idempotent).
+ */
+export function injectEventLinks(
+  html: string,
+  events: EventRecord[]
+): { html: string; linked: number } {
+  let out = html;
+  let linked = 0;
+
+  // Longer names first — prevents "Tito Paris" accidentally wrapping inside
+  // a hypothetical "Tito Paris and Friends" heading before that one is seen.
+  const sorted = [...events].sort((a, b) => b.name.length - a.name.length);
+
+  for (const ev of sorted) {
+    if (!ev.slug || !ev.name) continue;
+    const href = `${SITE}/event/${ev.slug}`;
+    const variants = nameVariants(ev.name);
+
+    // --- Pattern A: semantic headings (substring match) ---
+    for (const variant of variants) {
+      const hPattern = new RegExp(
+        `(<(h[234])([^>]*)>)(?![\\s\\S]*?<a\\b)([\\s\\S]*?${escapeRegex(variant)}[\\s\\S]*?)(<\\/\\2>)`,
+        'gi'
+      );
+      out = out.replace(hPattern, (_m, openTag, _tag, _attrs, inner, closeTag) => {
+        linked++;
+        return `${openTag}<a href="${href}" style="color:inherit;text-decoration:none;">${inner}</a>${closeTag}`;
+      });
+    }
+
+    // --- Pattern B: serif <p> whose trimmed inner text EXACTLY equals the
+    // event name. This is how the travel-magazine template actually marks
+    // event titles (Georgia serif at 17px/19px with #1a1a2e ink). Exact match
+    // because <p> is generic — description paragraphs also use <p> and we
+    // must not wrap those. ---
+    for (const variant of variants) {
+      const pPattern = new RegExp(
+        `(<p\\b[^>]*font-family:Georgia[^>]*>)\\s*(${escapeRegex(variant)})\\s*(<\\/p>)`,
+        'gi'
+      );
+      out = out.replace(pPattern, (_m, openTag, innerName, closeTag) => {
+        // Idempotency guard — if the open tag already wraps its content in
+        // an anchor, skip. This shouldn't happen because the open-tag regex
+        // doesn't include the anchor, but belt-and-braces.
+        linked++;
+        return `${openTag}<a href="${href}" style="color:inherit;text-decoration:none;">${innerName}</a>${closeTag}`;
+      });
+    }
+  }
+
+  return { html: out, linked };
+}
+
 export type ImageAcquireResult =
   | { status: 'imaged'; image: EventImage; resolvedUrl: string }
   | { status: 'already' }

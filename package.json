@@ -10,7 +10,8 @@
     "seed-archive": "tsx scripts/seed-archive.ts",
     "migrate-subs": "tsx --env-file=.env.local scripts/migrate-beehiiv-to-resend.ts",
     "extract-events": "tsx --env-file=.env.local scripts/extract-events-from-newsletter.ts",
-    "fetch-event-images": "tsx --env-file=.env.local scripts/fetch-event-images.ts"
+    "fetch-event-images": "tsx --env-file=.env.local scripts/fetch-event-images.ts",
+    "link-existing-newsletters": "tsx scripts/link-existing-newsletters.ts"
   },
   "dependencies": {
     "google-auth-library": "^10.6.2",

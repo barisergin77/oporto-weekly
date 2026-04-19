@@ -277,14 +277,46 @@ export async function GET(req: NextRequest) {
     const heroImageUrl = await generateHeroImage(weekRange);
 
     // 3. Generate newsletter HTML (embedded hero URL)
-    const html = await generateNewsletter(researchData, heroImageUrl, weekRange);
+    const rawHtml = await generateNewsletter(researchData, heroImageUrl, weekRange);
 
-    // 4. Subject line
+    // 4. Extract structured event records + inject click-through anchors into
+    //    the HTML. Both extraction and injection happen BEFORE send so the
+    //    email that goes out has live event links, and so extraction failures
+    //    can't block-but-also-can't-block-send (we have the unlinked rawHtml
+    //    as a fallback).
+    //
+    //    Doing this pre-send costs ~5-10s of Gemini Flash time — well within
+    //    the 300s Vercel budget — but gives email readers one-click access to
+    //    the richer event pages. Big UX + retention win.
+    let eventFiles: Array<{ path: string; content: string }> = [];
+    let extractedCount = 0;
+    let linkedCount = 0;
+    let html = rawHtml;
+    try {
+      const { extractEventsFromHtml, injectEventLinks } = await import('@/lib/events-pipeline');
+      const events = await extractEventsFromHtml(rawHtml, slug);
+      extractedCount = events.length;
+      eventFiles = events.map((e) => ({
+        path: `data/events/${e.slug}.json`,
+        content: JSON.stringify(e, null, 2),
+      }));
+
+      const injected = injectEventLinks(rawHtml, events);
+      html = injected.html;
+      linkedCount = injected.linked;
+      console.log(`[cron/newsletter] Extracted ${extractedCount} events · linked ${linkedCount} anchor(s) in HTML`);
+    } catch (extractErr) {
+      // Non-fatal: fall back to unlinked HTML so the newsletter still ships.
+      console.error('[cron/newsletter] Event extraction/linking failed (non-fatal):', extractErr);
+    }
+
+    // 5. Subject line
     const weekDate = now.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
     const subject = `Oporto Weekly — ${weekDate}`;
 
-    // 5. Send EN edition to EN subscribers. Tag each send so the Resend
-    //    dashboard can slice open/click rates by edition, language, and type.
+    // 6. Send EN edition to EN subscribers — with event links baked in.
+    //    Tagged so the Resend dashboard can slice opens/clicks by edition,
+    //    language, and type.
     const enSubscribers = await getActiveSubscribers('en');
     const enEmails = enSubscribers.map(s => s.email);
     const sentEN = await sendBatch(enEmails, subject, html, [
@@ -294,29 +326,10 @@ export async function GET(req: NextRequest) {
     ]);
     console.log(`[cron/newsletter] Sent EN to ${sentEN} subscribers`);
 
-    // 6. Extract structured event records from the HTML. This is a ~5s Gemini
-    //    Flash call with thinking disabled; events are committed atomically
-    //    with the HTML below so the sitemap, event pages, and archive stay
-    //    in sync. If extraction fails, we still archive the HTML — event
-    //    pages for this edition can be rebuilt later via
-    //    `npm run extract-events -- <slug>`.
-    let eventFiles: Array<{ path: string; content: string }> = [];
-    let extractedCount = 0;
-    try {
-      const { extractEventsFromHtml } = await import('@/lib/events-pipeline');
-      const events = await extractEventsFromHtml(html, slug);
-      extractedCount = events.length;
-      eventFiles = events.map((e) => ({
-        path: `data/events/${e.slug}.json`,
-        content: JSON.stringify(e, null, 2),
-      }));
-      console.log(`[cron/newsletter] Extracted ${extractedCount} events`);
-    } catch (extractErr) {
-      console.error('[cron/newsletter] Event extraction failed (non-fatal):', extractErr);
-    }
-
     // 7. Archive EN edition + per-event JSONs via GitHub API in one atomic
-    //    commit. Triggers Vercel redeploy → event pages go live.
+    //    commit. The archived HTML is the SAME linked HTML that was emailed,
+    //    so the homepage, archive pages, and email all show matching links.
+    //    Triggers Vercel redeploy → event pages go live.
     try {
       await archiveViaGitHub(
         {
@@ -344,6 +357,7 @@ export async function GET(req: NextRequest) {
       slug,
       heroImageUrl,
       extractedEvents: extractedCount,
+      linkedAnchors: linkedCount,
       sent: { en: sentEN },
     });
   } catch (err: unknown) {
