@@ -1,0 +1,31 @@
+# Tuesday 09:30 UTC — 30 min after the blog cron at 09:00 UTC, so the blog
+# post has had time to archive to GitHub + auto-deploy on Vercel before we
+# generate promotional Instagram content pointing at it.
+#
+# Guarded: the endpoint self-skips if the latest blog post is >48h old,
+# which means a failed blog-cron week doesn't re-promote last week's post.
+name: Cron · Instagram (Blog Promo)
+
+on:
+  schedule:
+    - cron: '30 9 * * 2' # Tue 09:30 UTC
+  workflow_dispatch:
+
+jobs:
+  trigger:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - name: Call /api/cron/instagram-blog
+        run: |
+          response=$(curl -s -w "\nHTTP_STATUS:%{http_code}" --max-time 300 \
+            -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" \
+            https://oportoweekly.com/api/cron/instagram-blog)
+          status=$(echo "$response" | tail -n1 | cut -d: -f2)
+          body=$(echo "$response" | sed '$d')
+          echo "Status: $status"
+          echo "Body: $body"
+          if [ "$status" != "200" ]; then
+            echo "::error::Instagram-blog cron failed with HTTP $status"
+            exit 1
+          fi

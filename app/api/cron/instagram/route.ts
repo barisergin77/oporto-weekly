@@ -5,11 +5,10 @@ import { NextRequest, NextResponse } from 'next/server';
 import { listNewsletters, getNewsletterHtml } from '@/lib/archive';
 import { generateImage } from '@/lib/imagen';
 import { uploadImageToImgur } from '@/lib/imgur';
+import { scheduleBufferPost } from '@/lib/buffer';
 import { checkCronAuth } from '@/lib/cron-auth';
 
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY!;
-const BUFFER_API_KEY = process.env.BUFFER_API_KEY!;
-const BUFFER_CHANNEL_ID = process.env.BUFFER_CHANNEL_ID!;
 
 interface Pick {
   name: string;
@@ -193,53 +192,7 @@ Output format:
   throw new Error(`Gemini caption generation failed (all models): ${errors.join(', ')}`);
 }
 
-// --- Schedule the post via Buffer GraphQL API ---
-async function scheduleBufferPost(imageUrl: string, caption: string): Promise<{ id: string; status: string; dueAt?: string }> {
-  const payload = {
-    query: `mutation CreatePost($input: CreatePostInput!) {
-      createPost(input: $input) {
-        __typename
-        ... on PostActionSuccess { post { id status dueAt } }
-        ... on NotFoundError { message }
-        ... on UnauthorizedError { message }
-        ... on UnexpectedError { message }
-        ... on RestProxyError { message code }
-        ... on LimitReachedError { message }
-        ... on InvalidInputError { message }
-      }
-    }`,
-    variables: {
-      input: {
-        channelId: BUFFER_CHANNEL_ID,
-        schedulingType: 'automatic',
-        mode: 'addToQueue',
-        metadata: { instagram: { type: 'post', shouldShareToFeed: true } },
-        text: caption,
-        assets: { images: [{ url: imageUrl }] },
-      },
-    },
-  };
-
-  const res = await fetch('https://api.buffer.com/graphql', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${BUFFER_API_KEY}`,
-    },
-    body: JSON.stringify(payload),
-    cache: 'no-store',
-  });
-
-  if (!res.ok) throw new Error(`Buffer API ${res.status}: ${await res.text()}`);
-  const data = await res.json();
-  const result = data?.data?.createPost;
-
-  if (result?.post?.id) {
-    return { id: result.post.id, status: result.post.status, dueAt: result.post.dueAt };
-  }
-  const errMsg = result?.message || JSON.stringify(data?.errors || data).slice(0, 400);
-  throw new Error(`Buffer scheduling failed: ${errMsg}`);
-}
+// Buffer scheduler lives in lib/buffer.ts now — shared with instagram-blog.
 
 export async function GET(req: NextRequest) {
   const authError = checkCronAuth(req);

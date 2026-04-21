@@ -113,6 +113,7 @@ Workflows live in `.github/workflows/cron-*.yml`. Each one passes `Authorization
 | Thu 09:30 | Thu 10:30 | `event-descriptions` | 3-paragraph long-form detail-page copy for new events → atomic commit |
 | Thu 10:30 | Thu 11:30 | `validate-links` | HEAD-check every event's externalLink → replace via Gemini or clear if dead |
 | Tue 09:00 | Tue 10:00 | `blog` | Research topic → generate article → 2 images → commit via GitHub API |
+| Tue 09:30 | Tue 10:30 | `instagram-blog` | 30 min after blog archives → generate 1:1 IG image + bilingual caption → queue via Buffer |
 
 ---
 
