@@ -1,0 +1,29 @@
+# Thursday 10:30 UTC — one hour after the last Thursday pipeline cron
+# (event-descriptions at 09:30). HEAD-checks every event's externalLink,
+# replaces dead ones via Gemini Search when possible, clears them otherwise.
+# Commits all updates in one atomic git commit.
+name: Cron · Validate Event Links
+
+on:
+  schedule:
+    - cron: '30 10 * * 4' # Thu 10:30 UTC
+  workflow_dispatch:
+
+jobs:
+  trigger:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - name: Call /api/cron/validate-links
+        run: |
+          response=$(curl -s -w "\nHTTP_STATUS:%{http_code}" --max-time 300 \
+            -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" \
+            https://oportoweekly.com/api/cron/validate-links)
+          status=$(echo "$response" | tail -n1 | cut -d: -f2)
+          body=$(echo "$response" | sed '$d')
+          echo "Status: $status"
+          echo "Body: $body"
+          if [ "$status" != "200" ]; then
+            echo "::error::Validate-links cron failed with HTTP $status"
+            exit 1
+          fi
