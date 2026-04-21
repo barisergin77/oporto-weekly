@@ -42,10 +42,25 @@ export async function notifyIndexNow(urls: string[]): Promise<void> {
 // Google helpers
 // ---------------------------------------------------------------------------
 async function getGoogleToken(scope: string): Promise<string | null> {
-  const json = process.env.GOOGLE_SERVICE_ACCOUNT_JSON;
-  if (!json) return null;
+  const raw = process.env.GOOGLE_SERVICE_ACCOUNT_JSON;
+  if (!raw) return null;
 
   try {
+    // The service-account JSON contains a PEM private_key with embedded
+    // newlines. Setting that via `vercel env add` / shell pipes mangles the
+    // `\n` escape sequences (actual newlines leak into the string literal,
+    // causing JSON.parse to fail with "Bad control character").
+    //
+    // To avoid the shell-roundtrip fragility, we accept two formats:
+    //   1. A base64-encoded JSON string (preferred — bulletproof transit).
+    //   2. Raw JSON (legacy; works if the value survived unescaped).
+    //
+    // Heuristic: if the value starts with `{`, treat as raw JSON; otherwise
+    // assume base64 and decode first.
+    const json = raw.trimStart().startsWith('{')
+      ? raw
+      : Buffer.from(raw, 'base64').toString('utf-8');
+
     const { GoogleAuth } = await import('google-auth-library');
     const auth = new GoogleAuth({ credentials: JSON.parse(json), scopes: [scope] });
     const client = await auth.getClient();
