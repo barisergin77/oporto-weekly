@@ -17,7 +17,7 @@ async function handleUnsubscribe(email: string | null) {
   try {
     await removeSubscriber(email.trim().toLowerCase());
   } catch (err) {
-    // Even if Beehiiv fails, show success to the user — don't leak internal errors
+    // Even if the audience update fails, show success to the user — don't leak internal errors
     console.error('[unsubscribe]', err);
   }
 

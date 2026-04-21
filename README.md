@@ -28,7 +28,7 @@ Separately, every Tuesday: generates a long-form blog article with two AI-genera
 
 Deep-dive docs live in [`docs/`](./docs/). These are the canonical references when reviewing a specific part of the project later:
 
-- [`docs/subscribers.md`](./docs/subscribers.md) — Resend Audiences (previously Beehiiv), migration script, ops runbook, disaster recovery.
+- [`docs/subscribers.md`](./docs/subscribers.md) — Resend Audiences architecture, ops runbook, Beehiiv decommission history.
 - [`docs/search-engines.md`](./docs/search-engines.md) — sitemap, IndexNow / Google Indexing API / GSC / WebSub pipeline, manual + daily re-submit, diagnostics.
 - [`docs/reddit.md`](./docs/reddit.md) — weekly r/porto post draft generator (manual paste, not auto-posted), posting etiquette, regenerate-on-demand.
 - [`docs/events.md`](./docs/events.md) — per-event + per-venue pages, extraction/image pipeline, venue slug canonicalisation, ops runbook.
@@ -85,7 +85,7 @@ The README stays high-level (what + where); details live in the subsystem doc.
 |---|---|---|
 | Framework | Next.js 14 (App Router, TypeScript) | |
 | Hosting | Vercel | Cron jobs, serverless functions, CDN |
-| Subscribers | Resend Audiences | One audience per language (EN, PT). IDs in `RESEND_AUDIENCE_EN` / `RESEND_AUDIENCE_PT`. Same API key as sending. Beehiiv is the previous vendor — `BEEHIIV_API_KEY` is kept in env as a fallback in case we ever migrate back; nothing in production reads it. |
+| Subscribers | Resend Audiences | One audience per language (EN, PT). IDs in `RESEND_AUDIENCE_EN` / `RESEND_AUDIENCE_PT`. Same API key as sending (Full Access scope). Previously Beehiiv — fully decommissioned April 2026. |
 | Email delivery | Resend | From `hello@oportoweekly.com` (Cloudflare forwards → Gmail). Includes `List-Unsubscribe` + `List-Unsubscribe-Post` headers for Gmail's native one-click unsubscribe. |
 | AI text | Gemini 2.5 Pro (primary) → Flash → Flash-Lite (fallback chain) | |
 | AI images | Gemini 3 Pro Image (Nano Banana Pro) via `gemini-3-pro-image-preview:generateContent` with `responseModalities: ['TEXT','IMAGE']` | |
@@ -124,9 +124,8 @@ All set in Vercel (Production). Copy `.env.example` for local dev.
 |---|---|---|
 | `GEMINI_API_KEY` | Gemini research, content, images | [aistudio.google.com](https://aistudio.google.com) |
 | `RESEND_API_KEY` | Send emails + read/write Audiences (subscriber storage) | [resend.com/api-keys](https://resend.com/api-keys) |
-| `RESEND_AUDIENCE_EN` | Audience id for English subscribers | `npm run migrate-subs setup` prints this |
-| `RESEND_AUDIENCE_PT` | Audience id for Portuguese subscribers | `npm run migrate-subs setup` prints this |
-| `BEEHIIV_API_KEY` | **Kept as fallback** — previous subscriber vendor. Not read in production. Needed locally if you ever run the migration script to restore from Beehiiv. | Beehiiv → Settings → API |
+| `RESEND_AUDIENCE_EN` | Audience id for English subscribers | Resend dashboard → Audiences |
+| `RESEND_AUDIENCE_PT` | Audience id for Portuguese subscribers | Resend dashboard → Audiences |
 | `GITHUB_TOKEN` | Commit archives via Git Data API | Personal access token, scope: `Contents: Read and write` on `oporto-weekly` repo |
 | `GOOGLE_SERVICE_ACCOUNT_JSON` | Google Indexing API + GSC sitemap submit | GCP → IAM → Service Accounts → Keys → JSON |
 | `INDEXNOW_KEY` | Bing/Yandex instant indexing | Arbitrary string, also saved in `public/<KEY>.txt` |
@@ -291,18 +290,12 @@ vercel logs --environment production --since 10m --no-follow --no-branch --expan
 
 ### List subscribers
 
-```bash
-# Resend dashboard: https://resend.com/audiences — filter by audience.
-# Or programmatically:
-npm run migrate-subs verify    # shows EN/PT active counts + any drift
-```
-
-Legacy Beehiiv list (kept in case we restore from there):
+Resend dashboard → Audiences → filter by audience. Or programmatically:
 
 ```bash
-curl -s "https://api.beehiiv.com/v2/publications/pub_8e15aa9e-4215-4fe3-b803-d991916b0dd9/subscriptions" \
-  -H "Authorization: Bearer $BEEHIIV_API_KEY" \
-  | jq -r '.data[] | "\(.email) | \(.status) | utm_source=\(.utm_source)"'
+curl -sS -H "Authorization: Bearer $RESEND_API_KEY" \
+  "https://api.resend.com/audiences/$RESEND_AUDIENCE_EN/contacts" \
+  | jq -r '.data[] | select(.unsubscribed==false) | .email'
 ```
 
 ### Add an env var
@@ -325,7 +318,7 @@ Common issues we've hit and how they were fixed — documented so we don't re-so
 
 **Next.js fetch caching returns stale GitHub HEAD SHA.** Next.js 14 App Router caches `fetch()` GET responses by default. `lib/github.ts` passes `cache: 'no-store'` to every GitHub API call — don't remove this or commits will fail with "Update is not a fast forward".
 
-**Subscriber storage lives in Resend Audiences, not Beehiiv.** One audience per language (`RESEND_AUDIENCE_EN` / `RESEND_AUDIENCE_PT`). The migration script at `scripts/migrate-beehiiv-to-resend.ts` is idempotent — re-running it after Beehiiv → Resend is one-way safe. `BEEHIIV_API_KEY` is kept in env as a fallback but no production code reads it.
+**Subscriber storage lives in Resend Audiences.** One audience per language (`RESEND_AUDIENCE_EN` / `RESEND_AUDIENCE_PT`), using the same `RESEND_API_KEY` (Full Access scope) as email sending. Beehiiv was the previous vendor; fully decommissioned April 2026 — see `docs/subscribers.md` history section.
 
 **Resend `contacts.update` takes an `id`, not an `email`** (SDK v3.2.0). `lib/audiences.ts` looks up the id via `contacts.list` before every update. That's O(N) per unsubscribe; fine for <1k contacts, revisit if the list grows past Resend's default list-page size.
 

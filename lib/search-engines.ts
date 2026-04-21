@@ -92,7 +92,12 @@ export async function submitSitemapToGSC(): Promise<void> {
     return;
   }
 
-  const siteUrl = encodeURIComponent(`${SITE}/`);
+  // The site identifier must match the GSC property format the service account
+  // has Owner access to. The oporto-weekly SA is granted on a DOMAIN property
+  // (`sc-domain:oportoweekly.com`), which covers http + https + all subdomains
+  // under one property. URL-prefix properties (`https://oportoweekly.com/`)
+  // require a separate explicit grant, so we hard-code the domain form here.
+  const siteUrl = encodeURIComponent('sc-domain:oportoweekly.com');
   const sitemapUrl = encodeURIComponent(`${SITE}/sitemap.xml`);
   const endpoint = `https://www.googleapis.com/webmasters/v3/sites/${siteUrl}/sitemaps/${sitemapUrl}`;
 

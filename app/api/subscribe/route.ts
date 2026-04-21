@@ -53,7 +53,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Invalid email address' }, { status: 400 });
     }
 
-    // Add to Beehiiv with language tag
+    // Add to the Resend Audience for this language
     await addSubscriber(email, lang);
 
     // Send welcome email in the right language, tagged so welcome-flow opens
