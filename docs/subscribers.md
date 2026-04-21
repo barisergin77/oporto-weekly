@@ -24,7 +24,7 @@ Three functions, same signatures the earlier Beehiiv client exposed so migrating
 |---|---|---|
 | `addSubscriber(email, lang)` | `/api/subscribe` | Idempotent. If contact exists, flips `unsubscribed: false` (re-subscribe after opt-out). |
 | `removeSubscriber(email)` | `/api/unsubscribe` | Flips `unsubscribed: true` in BOTH audiences. Missing from one is not an error. |
-| `getActiveSubscribers(lang?)` | both newsletter crons, legacy `send-newsletter` | Returns only `unsubscribed: false` contacts. |
+| `getActiveSubscribers(lang?)` | both newsletter crons | Returns only `unsubscribed: false` contacts. |
 
 ### Resend SDK quirk
 
@@ -93,7 +93,6 @@ app/api/subscribe/route.ts             — calls addSubscriber
 app/api/unsubscribe/route.ts           — calls removeSubscriber
 app/api/cron/newsletter/route.ts       — calls getActiveSubscribers('en')
 app/api/cron/newsletter-pt/route.ts    — calls getActiveSubscribers('pt')
-app/api/send-newsletter/route.ts       — legacy; calls getActiveSubscribers()
 ```
 
 ---

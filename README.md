@@ -132,7 +132,6 @@ All set in Vercel (Production). Copy `.env.example` for local dev.
 | `IMGUR_CLIENT_ID` | Upload newsletter hero + IG images | [api.imgur.com/oauth2/addclient](https://api.imgur.com/oauth2/addclient) |
 | `BUFFER_API_KEY` | Schedule Instagram posts | Buffer → Developers → Generate token |
 | `BUFFER_CHANNEL_ID` | Target Buffer channel (IG) | Buffer → channel URL query param |
-| `NEWSLETTER_SECRET` | Bearer auth for `/api/send-newsletter` (legacy, optional) | `openssl rand -hex 32` |
 
 ---
 
@@ -171,7 +170,6 @@ oporto-weekly-app/
 │   └── api/
 │       ├── subscribe/route.ts               # POST {email, lang} → Resend Audience + welcome email
 │       ├── unsubscribe/route.ts             # GET/POST → flips `unsubscribed` in Resend Audiences + confirmation page
-│       ├── send-newsletter/route.ts         # Legacy manual send endpoint (bearer-auth'd)
 │       └── cron/
 │           ├── newsletter/route.ts          # Thursday 08:00 — EN newsletter
 │           ├── newsletter-pt/route.ts       # Thursday 08:15 — PT translation + send
