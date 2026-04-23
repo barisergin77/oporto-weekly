@@ -27,7 +27,15 @@ import { acquireEventImage } from '@/lib/events-pipeline';
 import { getFileContent, commitFiles } from '@/lib/github';
 import { checkCronAuth } from '@/lib/cron-auth';
 
-const MAX_PER_RUN = 20; // cap so one cron can't blow the 300s budget
+// Per-run cap. Each new event's image acquisition can take:
+//   - scrape successful: ~2-5s
+//   - fallback to Gemini 3 Pro Image generation: ~10-25s (with 45s hard cap)
+//   - upload to Imgur: ~2-5s
+// Worst case 30s per event. 10 events × 30s = 300s, which is the Vercel
+// maxDuration ceiling. Capping at 10 guarantees we can't time out even
+// if every event falls to the slowest path. Any leftover events get
+// picked up on the next scheduled run (or via the scheduler-watchdog).
+const MAX_PER_RUN = 10;
 
 async function listEventsFromGithub(): Promise<EventRecord[]> {
   // List the events directory via the contents API.

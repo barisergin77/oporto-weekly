@@ -5,9 +5,20 @@ const GEMINI_API_KEY = process.env.GEMINI_API_KEY!;
 const MODEL = 'gemini-3-pro-image-preview';
 const IMAGEN_URL = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent?key=${GEMINI_API_KEY}`;
 
+// Hard ceiling on how long we'll wait for one image. Gemini 3 Pro Image
+// typically completes in 10-25s; a hung call (observed on 2026-04-23
+// pushing the event-images cron past Vercel's 300s ceiling) was what
+// caused the cron to timeout entirely. 45s is generous for the happy
+// path while short enough that a slow call fails fast and lets the
+// caller skip to the next event.
+const REQUEST_TIMEOUT_MS = 45_000;
+
 /**
  * Generates an image using Google Gemini 3 Pro Image (Nano Banana Pro).
  * Returns the raw image bytes as a base64 string.
+ *
+ * Throws on timeout / HTTP failure / empty response so callers can
+ * decide whether to retry, fall back, or skip.
  */
 export async function generateImage(
   prompt: string,
@@ -24,6 +35,7 @@ export async function generateImage(
         responseModalities: ['TEXT', 'IMAGE'],
       },
     }),
+    signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
   });
 
   if (!res.ok) {

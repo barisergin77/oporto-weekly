@@ -1,14 +1,15 @@
-# Thursday 09:15 UTC — after the newsletter + PT + health + instagram +
-# reddit-draft crons have run. Tries to acquire press photos for any events
-# that don't have one yet, commits updates atomically.
+# Thursday 09:15 and 09:45 UTC — two passes, 30 min apart. Each run caps
+# at 10 events so it can't time out (image generation can take ~25s per
+# event × 10 = 250s, under Vercel's 300s ceiling). A typical Thursday has
+# ~16 new events to image; two passes clear them all with headroom.
 #
-# Also schedule-dispatched: run on demand to backfill images for historical
-# events after we improve the image-sourcing logic.
+# Also schedule-dispatched: run on demand to backfill.
 name: Cron · Event Images
 
 on:
   schedule:
-    - cron: '15 9 * * 4' # Thu 09:15 UTC
+    - cron: '15 9 * * 4' # Thu 09:15 UTC (pass 1)
+    - cron: '45 9 * * 4' # Thu 09:45 UTC (pass 2 — catches what pass 1 didn't fit)
   workflow_dispatch:
 
 jobs:
