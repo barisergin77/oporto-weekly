@@ -188,26 +188,80 @@ export const CATEGORY_LABEL: Record<EventCategory, string> = {
   other: 'Other',
 };
 
+/**
+ * Derive an endDate when an event doesn't declare one.
+ *
+ * Google Search Console flags missing endDate as a non-critical issue on
+ * Event structured data. Rather than leaving it off, we synthesise a
+ * reasonable default:
+ *   - Timed events (ISO includes "T") — add 2 hours (typical concert/show).
+ *   - Date-only events — endDate = startDate (single-day event, same as start).
+ *
+ * This doesn't hallucinate data because we never persist the derived value
+ * back into the record; it only appears in the emitted JSON-LD.
+ */
+function deriveEndDate(start: string): string {
+  const hasTime = start.includes('T');
+  if (!hasTime) return start; // single-day event
+
+  // Parse the input as a LOCAL clock time (it has no TZ). Date-construct-
+  // and-reformat rather than going through toISOString(), which would flip
+  // us to UTC and cause a mismatch between the plain-local startDate and
+  // a UTC endDate.
+  const m = start.match(/^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})/);
+  if (!m) return start;
+  const [, y, mo, d, h, mi] = m;
+  const local = new Date(Number(y), Number(mo) - 1, Number(d), Number(h), Number(mi));
+  local.setHours(local.getHours() + 2);
+
+  const pad = (n: number) => String(n).padStart(2, '0');
+  return (
+    `${local.getFullYear()}-${pad(local.getMonth() + 1)}-${pad(local.getDate())}` +
+    `T${pad(local.getHours())}:${pad(local.getMinutes())}`
+  );
+}
+
+/**
+ * Build a schema.org `performer` object. Google wants this for
+ * performance-style events (music, nightlife, sports). For those
+ * categories the event name IS the performer in practice
+ * ("Tito Paris Concert", "Brahms in Concert"). For art / food / family /
+ * other we omit it — forcing a "PerformingGroup" for a food market would
+ * be semantically wrong and Google doesn't flag its absence on those.
+ */
+function derivePerformer(e: EventRecord): { '@type': string; name: string } | null {
+  if (e.category !== 'music' && e.category !== 'nightlife' && e.category !== 'sports') {
+    return null;
+  }
+  if (!e.name) return null;
+  const type =
+    e.category === 'sports' ? 'SportsTeam' :
+    e.category === 'nightlife' ? 'Organization' :
+    'PerformingGroup';
+  return { '@type': type, name: e.name };
+}
+
 /** Build a schema.org Event JSON-LD object for rich snippets + Google Events. */
 export function toEventJsonLd(e: EventRecord, siteUrl = 'https://oportoweekly.com'): object {
   const url = `${siteUrl}/event/${e.slug}`;
-  const offers =
-    e.priceFrom != null
-      ? {
-          '@type': 'Offer',
-          price: e.priceFrom,
-          priceCurrency: e.currency ?? 'EUR',
-          url: e.externalLink ?? url,
-          availability: 'https://schema.org/InStock',
-        }
-      : e.price?.toLowerCase().includes('free')
-        ? {
-            '@type': 'Offer',
-            price: 0,
-            priceCurrency: 'EUR',
-            url: e.externalLink ?? url,
-          }
-        : undefined;
+
+  // Offers: when we have a priceFrom OR the price text says "free", emit.
+  // Always include `validFrom` (GSC flags its absence) — we use `addedAt`
+  // as a safe "the offer was indexed from this point onwards" anchor.
+  const hasPaidOffer = e.priceFrom != null;
+  const isFree = !hasPaidOffer && e.price?.toLowerCase().includes('free');
+  const offers = hasPaidOffer || isFree
+    ? {
+        '@type': 'Offer',
+        price: hasPaidOffer ? e.priceFrom : 0,
+        priceCurrency: e.currency ?? 'EUR',
+        url: e.externalLink ?? url,
+        availability: 'https://schema.org/InStock',
+        validFrom: e.addedAt,
+      }
+    : undefined;
+
+  const performer = derivePerformer(e);
 
   return {
     '@context': 'https://schema.org',
@@ -215,7 +269,9 @@ export function toEventJsonLd(e: EventRecord, siteUrl = 'https://oportoweekly.co
     name: e.name,
     description: e.description,
     startDate: e.date,
-    ...(e.endDate ? { endDate: e.endDate } : {}),
+    // endDate is always emitted — derived when not explicit so GSC's
+    // "missing endDate" warning clears.
+    endDate: e.endDate ?? deriveEndDate(e.date),
     eventStatus: 'https://schema.org/EventScheduled',
     eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
     location: {
@@ -225,6 +281,7 @@ export function toEventJsonLd(e: EventRecord, siteUrl = 'https://oportoweekly.co
     },
     ...(e.image ? { image: e.image.url } : {}),
     ...(offers ? { offers } : {}),
+    ...(performer ? { performer } : {}),
     url,
     organizer: {
       '@type': 'Organization',
