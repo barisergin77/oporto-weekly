@@ -9,5 +9,11 @@
   "description": "Experience the heart of Porto's culinary scene at this beautifully restored historic market.",
   "sourceEdition": "april-23-29-2026",
   "addedAt": "2026-04-23T09:23:55.758Z",
-  "longDescription": "Mercado do Bolhão is a historic public market in Central Porto, operating since 1914. Recently undergoing extensive restoration, it serves as a central hub for local vendors selling fresh produce, meat, fish, and flowers. The market is a daily fixture in the city's commercial life, offering a direct connection to regional food traditions and local commerce.\n\nVisitors can expect a bustling atmosphere within the multi-level historic building. The market provides an opportunity to observe daily life in Porto and sample local delicacies from various stalls. The environment is generally lively, with vendors interacting with shoppers. The market is suitable for all ages and offers a glimpse into the city's culinary heritage.\n\nEntry to Mercado do Bolhão is free. The market is located in Central Porto, a short walk from the Bolhão metro station (line A, B, C, E, F). It is also easily accessible by numerous bus routes. The venue is generally accessible, with lifts available between floors."
+  "longDescription": "Mercado do Bolhão is a historic public market in Central Porto, operating since 1914. Recently undergoing extensive restoration, it serves as a central hub for local vendors selling fresh produce, meat, fish, and flowers. The market is a daily fixture in the city's commercial life, offering a direct connection to regional food traditions and local commerce.\n\nVisitors can expect a bustling atmosphere within the multi-level historic building. The market provides an opportunity to observe daily life in Porto and sample local delicacies from various stalls. The environment is generally lively, with vendors interacting with shoppers. The market is suitable for all ages and offers a glimpse into the city's culinary heritage.\n\nEntry to Mercado do Bolhão is free. The market is located in Central Porto, a short walk from the Bolhão metro station (line A, B, C, E, F). It is also easily accessible by numerous bus routes. The venue is generally accessible, with lifts available between floors.",
+  "image": {
+    "url": "https://i.imgur.com/Cm4t2v5.jpeg",
+    "credit": "Photo: Mercado do Bolhão",
+    "sourceUrl": "https://mercadobolhao.pt/en/"
+  },
+  "externalLink": "https://mercadobolhao.pt/en/"
 }
