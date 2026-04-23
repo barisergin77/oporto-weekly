@@ -2,7 +2,8 @@ export const dynamic = 'force-dynamic';
 export const maxDuration = 300;
 
 import { NextRequest, NextResponse } from 'next/server';
-import { listNewsletters, getNewsletterHtml } from '@/lib/archive';
+import { listNewsletters } from '@/lib/archive';
+import { listEvents, type EventRecord } from '@/lib/events';
 import { generateImage } from '@/lib/imagen';
 import { uploadImageToImgur } from '@/lib/imgur';
 import { scheduleBufferPost } from '@/lib/buffer';
@@ -16,64 +17,40 @@ interface Pick {
   price: string;
 }
 
-// --- Parse top 5 picks from the latest newsletter HTML ---
-// Supports both the new travel-magazine format (Apr 2026+) and the older dark-navy format.
-function parseTopPicks(html: string): Pick[] {
-  const picks: Pick[] = [];
+// --- Top 5 picks for an edition ---
+// Sourced from data/events/<slug>.json records produced by the newsletter
+// cron's extraction pass. Way more reliable than scraping the HTML (the
+// template evolves and broke the parser twice), and aligns with the rest
+// of the pipeline that already reads these records.
+//
+// Selection: earliest upcoming events at the top (soonest-first), cap 5.
+// If fewer than 5 upcoming, fills from same-edition events by date.
+function pickTopEvents(sourceEdition: string): Pick[] {
+  const todayIso = new Date().toISOString().slice(0, 10);
+  const all = listEvents().filter((e) => e.sourceEdition === sourceEdition);
 
-  // Pattern NEW (travel-magazine, Apr 2026+):
-  //   <p Georgia,serif color:#1a1a2e>NAME</p> <p color:#6b6b6b>DATE · VENUE · PRICE</p>
-  const patternNew = /<p[^>]*Georgia,serif[^>]*color:#1a1a2e[^>]*>([^<]+)<\/p>\s*<p[^>]*color:#6b6b6b[^>]*>([\s\S]*?)<\/p>/gi;
+  // Prefer upcoming events this week, soonest-first.
+  const upcoming = all
+    .filter((e) => (e.endDate ?? e.date) >= todayIso)
+    .sort((a, b) => a.date.localeCompare(b.date));
 
-  // Pattern OLD-A: <h3 color:#c9a96e>name</h3>…<strong>Venue:</strong>…<strong>Price:</strong>
-  const patternOldA = /<h3[^>]*color:\s*#c9a96e[^>]*>([^<]+)<\/h3>[\s\S]*?<strong[^>]*>\s*Venue:\s*<\/strong>\s*([^<]+)<br[^>]*>[\s\S]*?<strong[^>]*>\s*Price:\s*<\/strong>\s*([^<]+)<\/p>/gi;
+  const chosen: EventRecord[] = upcoming.slice(0, 5);
 
-  // Pattern OLD-B: generic h3 + Venue:/Price: strongs
-  const patternOldB = /<h3[^>]*>([^<]{3,120})<\/h3>[\s\S]*?Venue:\s*<\/strong>\s*([^<]+)[\s\S]*?Price:\s*<\/strong>\s*([^<]+)/gi;
-
-  const cleanText = (s: string) =>
-    s.replace(/<[^>]+>/g, '')
-     .replace(/&bull;/g, '•')
-     .replace(/&nbsp;/g, ' ')
-     .replace(/&amp;/g, '&')
-     .replace(/\s+/g, ' ')
-     .trim();
-
-  // Try NEW pattern first
-  let match: RegExpExecArray | null;
-  while ((match = patternNew.exec(html)) !== null && picks.length < 5) {
-    const name = cleanText(match[1]);
-    // Meta line: "Date · Venue · Price" separated by bullets (possibly inside spans)
-    const metaText = cleanText(match[2]);
-    const parts = metaText.split(/\s*•\s*/).map(s => s.trim()).filter(Boolean);
-    if (name && parts.length >= 2) {
-      const date = parts[0] ?? '';
-      const venue = parts[1] ?? '';
-      const price = parts[2] ?? '';
-      // We store venue + date in the venue slot so the IG image prompt has context
-      if (!picks.some(p => p.name === name)) {
-        picks.push({ name, venue: venue || date, price });
-      }
+  // If the edition shipped already-ended events (common for published-
+  // week roundups where some days are in the past), pad from the full list.
+  if (chosen.length < 5) {
+    for (const e of all) {
+      if (chosen.some((c) => c.slug === e.slug)) continue;
+      chosen.push(e);
+      if (chosen.length >= 5) break;
     }
   }
 
-  // Fall back to OLD patterns if NEW didn't match
-  if (picks.length < 3) {
-    for (const pattern of [patternOldA, patternOldB]) {
-      let m: RegExpExecArray | null;
-      while ((m = pattern.exec(html)) !== null && picks.length < 5) {
-        const name = cleanText(m[1]);
-        const venue = cleanText(m[2]);
-        const price = cleanText(m[3]);
-        if (name && !picks.some(p => p.name === name)) {
-          picks.push({ name, venue, price });
-        }
-      }
-      if (picks.length >= 3) break;
-    }
-  }
-
-  return picks;
+  return chosen.map((e) => ({
+    name: e.name,
+    venue: e.venue,
+    price: e.price ?? '',
+  }));
 }
 
 // --- Map event type to a visual thumbnail description for the Instagram image ---
@@ -205,18 +182,17 @@ export async function GET(req: NextRequest) {
     if (!latest) {
       return NextResponse.json({ error: 'No newsletters found' }, { status: 404 });
     }
-    const html = getNewsletterHtml(latest.slug);
-    if (!html) {
-      return NextResponse.json({ error: `Newsletter HTML not found for ${latest.slug}` }, { status: 404 });
-    }
     console.log(`[cron/instagram] Using edition: ${latest.slug}`);
 
-    // 2. Parse top 5 picks from the HTML
-    const picks = parseTopPicks(html);
+    // 2. Pull top 5 picks from the structured event records (committed by
+    //    the newsletter cron's extraction pass). Replaces the earlier
+    //    HTML-scraping approach, which broke every time the newsletter
+    //    template changed (e.g. April 23 switched <p Georgia> → <h4>).
+    const picks = pickTopEvents(latest.slug);
     if (picks.length === 0) {
-      throw new Error('Could not parse any events from newsletter HTML');
+      throw new Error(`No event records found for edition ${latest.slug} — newsletter cron extraction may have failed`);
     }
-    console.log(`[cron/instagram] Parsed ${picks.length} picks:`, picks.map(p => p.name).join(' | '));
+    console.log(`[cron/instagram] ${picks.length} picks:`, picks.map(p => p.name).join(' | '));
 
     // 3. Generate Instagram image via Gemini 3 Pro Image
     const imagePrompt = buildImagePrompt(picks, latest.weekRange);
