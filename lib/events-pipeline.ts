@@ -429,29 +429,37 @@ export function injectEventLinks(
     const href = `${SITE}/event/${ev.slug}`;
     const variants = nameVariants(ev.name);
 
-    // --- Pattern A: semantic headings (substring match) ---
+    // --- Pattern A: any semantic heading h1–h6 whose trimmed inner text
+    // EXACTLY equals the event name. Exact match (not substring) because
+    // substring + backref + lazy quantifier can greedy-span multiple
+    // adjacent headings when a short name only appears in a later block —
+    // the regex engine finds the name several headings down and wraps
+    // everything in between, then subsequent names get disqualified by the
+    // idempotency check on that oversized span. Exact match has no such
+    // failure mode: one heading, one event. ---
     for (const variant of variants) {
       const hPattern = new RegExp(
-        `(<(h[234])([^>]*)>)(?![\\s\\S]*?<a\\b)([\\s\\S]*?${escapeRegex(variant)}[\\s\\S]*?)(<\\/\\2>)`,
+        `(<(h[1-6])([^>]*)>)\\s*(${escapeRegex(variant)})\\s*(<\\/\\2>)`,
         'gi'
       );
-      out = out.replace(hPattern, (_m, openTag, _tag, _attrs, inner, closeTag) => {
+      out = out.replace(hPattern, (match, openTag, _tag, _attrs, innerName, closeTag) => {
+        if (/<a\b/i.test(openTag)) return match; // already linked
         linked++;
-        return `${openTag}<a href="${href}" style="color:inherit;text-decoration:none;">${inner}</a>${closeTag}`;
+        return `${openTag}<a href="${href}" style="color:inherit;text-decoration:none;">${innerName}</a>${closeTag}`;
       });
     }
 
     // --- Pattern B: serif <p> whose trimmed inner text EXACTLY equals the
-    // event name. This is how the travel-magazine template actually marks
-    // event titles (Georgia serif at 17px/19px with #1a1a2e ink). Exact match
-    // because <p> is generic — description paragraphs also use <p> and we
-    // must not wrap those. ---
+    // event name. Kept for compatibility with the earlier travel-magazine
+    // template (Apr 2026 editions) that marked titles with Georgia serif
+    // <p> at 17px/19px. Newer editions use <h4> (caught by Pattern A). ---
     for (const variant of variants) {
       const pPattern = new RegExp(
-        `(<p\\b[^>]*font-family:Georgia[^>]*>)\\s*(${escapeRegex(variant)})\\s*(<\\/p>)`,
+        `(<p\\b[^>]*font-family:\\s*Georgia[^>]*>)\\s*(${escapeRegex(variant)})\\s*(<\\/p>)`,
         'gi'
       );
-      out = out.replace(pPattern, (_m, openTag, innerName, closeTag) => {
+      out = out.replace(pPattern, (match, openTag, innerName, closeTag) => {
+        if (/<a\b/i.test(openTag)) return match;
         linked++;
         return `${openTag}<a href="${href}" style="color:inherit;text-decoration:none;">${innerName}</a>${closeTag}`;
       });
