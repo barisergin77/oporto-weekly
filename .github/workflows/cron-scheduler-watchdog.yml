@@ -1,0 +1,33 @@
+# Daily 10:30 UTC — sanity-checks that every scheduled GitHub Actions
+# workflow fired on time. Dispatches any that GitHub's scheduler dropped,
+# emails the editor when a rescue happens.
+#
+# Runs after every other scheduled cron has had its window + a 90 min
+# grace period. At 11:30 UTC, all morning crons (06:00 daily → 09:30
+# Thursday/Tuesday) have passed their grace, so the watchdog can check
+# them all in a single pass.
+name: Cron · Scheduler Watchdog
+
+on:
+  schedule:
+    - cron: '30 11 * * *' # Daily 11:30 UTC
+  workflow_dispatch:
+
+jobs:
+  trigger:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - name: Call /api/cron/scheduler-watchdog
+        run: |
+          response=$(curl -s -w "\nHTTP_STATUS:%{http_code}" --max-time 120 \
+            -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" \
+            https://oportoweekly.com/api/cron/scheduler-watchdog)
+          status=$(echo "$response" | tail -n1 | cut -d: -f2)
+          body=$(echo "$response" | sed '$d')
+          echo "Status: $status"
+          echo "Body: $body"
+          if [ "$status" != "200" ]; then
+            echo "::error::Scheduler watchdog failed with HTTP $status"
+            exit 1
+          fi

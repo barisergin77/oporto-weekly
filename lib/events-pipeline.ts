@@ -520,9 +520,16 @@ export function injectEventLinks(
       const preceding = eventAnchors.filter((ea) => ea.pos < mi.pos).pop();
       if (!preceding) continue;
       const newHref = `${SITE}/event/${preceding.slug}`;
+      // Strip target="_blank" and rel="noopener/noreferrer" from the preserved
+      // attrs: the href is now internal (our own /event/ page), so there's no
+      // reason to spawn a new tab. Keeps the click-through behavior consistent
+      // with the event-title link above it, which opens in the same window.
+      const internalAttrs = mi.attrs
+        .replace(/\s+target\s*=\s*(["'])[^"']*\1/gi, '')
+        .replace(/\s+rel\s*=\s*(["'])[^"']*\1/gi, '');
       // Preserve the original inner text ("MORE INFO" vs "More info →") so
       // each section keeps its visual identity.
-      const newAnchor = `<a href="${newHref}"${mi.attrs}>${mi.innerText}</a>`;
+      const newAnchor = `<a href="${newHref}"${internalAttrs}>${mi.innerText}</a>`;
       out = out.slice(0, mi.pos) + newAnchor + out.slice(mi.pos + mi.length);
       rewritten++;
     }
