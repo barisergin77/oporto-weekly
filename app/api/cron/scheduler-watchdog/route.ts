@@ -110,9 +110,13 @@ async function githubFetch(path: string, init: RequestInit = {}): Promise<Respon
 }
 
 /**
- * Did the workflow have a schedule-triggered run that started within the
- * window [expected - GRACE, expected + GRACE]? If yes, it fired on time
- * (or close enough). If no, we consider the window missed.
+ * Did the workflow run within [expected - GRACE, expected + GRACE]? We count
+ * ANY trigger type (schedule OR workflow_dispatch OR push), not just
+ * `event=schedule`. Reason: if the user (or an earlier watchdog rescue)
+ * already manually dispatched the workflow within the grace window, the
+ * work got done — re-dispatching now would produce a duplicate (a real
+ * failure mode we hit: duplicate PT newsletter email). The only thing
+ * that matters is "did the workflow execute once in its window."
  */
 async function ranNearExpected(file: string, expected: Date): Promise<boolean> {
   const since = new Date(expected.getTime() - GRACE_MIN * 60_000);
@@ -120,13 +124,15 @@ async function ranNearExpected(file: string, expected: Date): Promise<boolean> {
   const createdFilter = `>=${since.toISOString()}`;
   const url =
     `/repos/${REPO_OWNER}/${REPO_NAME}/actions/workflows/${file}/runs` +
-    `?event=schedule&per_page=5&created=${encodeURIComponent(createdFilter)}`;
+    `?per_page=10&created=${encodeURIComponent(createdFilter)}`;
   const res = await githubFetch(url);
   if (!res.ok) return false;
   const body = (await res.json()) as {
-    workflow_runs?: Array<{ run_started_at?: string; created_at?: string }>;
+    workflow_runs?: Array<{ run_started_at?: string; created_at?: string; conclusion?: string | null }>;
   };
   for (const r of body.workflow_runs ?? []) {
+    // A cancelled run doesn't count — it didn't do the work.
+    if (r.conclusion === 'cancelled') continue;
     const ts = r.run_started_at ?? r.created_at;
     if (!ts) continue;
     const t = new Date(ts);

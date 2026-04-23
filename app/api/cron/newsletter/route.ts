@@ -87,11 +87,23 @@ async function generateHeroImage(weekRange: string): Promise<string> {
   const weekOfYear = Math.floor(Date.now() / (7 * 24 * 3600 * 1000)) % HERO_LOCATIONS.length;
   const location = HERO_LOCATIONS[weekOfYear];
 
-  const prompt = `Editorial travel magazine cover photograph of Porto, Portugal, for the week of ${weekRange}.
+  // IMPORTANT: the prompt must NOT frame this as a "magazine cover" or
+  // reference real magazine brands. Gemini 3 Pro Image has a strong bias
+  // toward adding title/masthead text when it sees "cover" + a brand name,
+  // and has produced outputs with fake mastheads like "PORTO TRAVELER"
+  // despite "no text or watermarks" being in the prompt. Frame it as a
+  // single-scene editorial photograph instead, and triple-emphasize text-free.
+  const prompt = `A clean editorial photograph of Porto, Portugal — a single documentary-style scene.
 Scene: ${location}.
-Style: warm cinematic tones, soft natural light, rich detail, Nat Geo Travel / Condé Nast Traveler aesthetic.
-Professional photography, shallow depth of field, no text or watermarks, no people's faces identifiable.
-Wide 16:9 composition suitable as a magazine cover image.`;
+Style: warm cinematic tones, soft natural light, rich textural detail, shallow depth of field, atmospheric travel-photography look. 16:9 wide composition.
+CRITICAL RULES — the generated image must be ENTIRELY TEXT-FREE:
+- NO title, NO headline, NO masthead, NO brand name of any kind.
+- NO watermarks, NO logos, NO captions, NO date stamps.
+- NO overlay text of any kind, anywhere in the frame.
+- NO magazine-cover styling. This is a photograph only, not a cover layout.
+- NO people's faces in close-up identifiable detail.
+- NO graphic elements, borders, or decorative frames.
+Output: a pure photograph. Just the scene.`;
 
   console.log(`[cron/newsletter] Generating hero image: ${location.slice(0, 60)}...`);
   const { base64 } = await generateImage(prompt, '16:9');
