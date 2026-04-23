@@ -18,28 +18,32 @@ interface Pick {
 }
 
 // --- Top 5 picks for an edition ---
-// Sourced from data/events/<slug>.json records produced by the newsletter
-// cron's extraction pass. Way more reliable than scraping the HTML (the
-// template evolves and broke the parser twice), and aligns with the rest
-// of the pipeline that already reads these records.
+// Selection priority:
+//   1. Events flagged isEditorPick=true during extraction (the newsletter's
+//      curated "Top Five" section — the whole point of this IG post).
+//   2. If fewer than 5 picks were flagged (older editions, extraction miss),
+//      pad with earliest upcoming events for the same edition.
 //
-// Selection: earliest upcoming events at the top (soonest-first), cap 5.
-// If fewer than 5 upcoming, fills from same-edition events by date.
+// Sourced from data/events/<slug>.json records rather than HTML scraping —
+// way more stable across newsletter-template changes.
 function pickTopEvents(sourceEdition: string): Pick[] {
   const todayIso = new Date().toISOString().slice(0, 10);
   const all = listEvents().filter((e) => e.sourceEdition === sourceEdition);
 
-  // Prefer upcoming events this week, soonest-first.
-  const upcoming = all
-    .filter((e) => (e.endDate ?? e.date) >= todayIso)
+  // Primary: curated Editor's Picks, in extraction order (which matches
+  // the newsletter's Pick 1–5 order).
+  const editorsPicks = all
+    .filter((e) => e.isEditorPick === true)
     .sort((a, b) => a.date.localeCompare(b.date));
+  const chosen: EventRecord[] = editorsPicks.slice(0, 5);
 
-  const chosen: EventRecord[] = upcoming.slice(0, 5);
-
-  // If the edition shipped already-ended events (common for published-
-  // week roundups where some days are in the past), pad from the full list.
+  // Fallback if fewer than 5 picks were flagged — pad with upcoming events
+  // by date, skipping anything already chosen.
   if (chosen.length < 5) {
-    for (const e of all) {
+    const upcoming = all
+      .filter((e) => (e.endDate ?? e.date) >= todayIso)
+      .sort((a, b) => a.date.localeCompare(b.date));
+    for (const e of upcoming) {
       if (chosen.some((c) => c.slug === e.slug)) continue;
       chosen.push(e);
       if (chosen.length >= 5) break;

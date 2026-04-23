@@ -58,6 +58,12 @@ export interface EventRecord {
   longDescription?: string;
   /** Slug of the newsletter edition this event was extracted from. */
   sourceEdition: string;
+  /**
+   * True if the event appeared in the newsletter's Editor's Picks section
+   * (the numbered "Top Five" list at the top). Used by the Instagram cron
+   * to prioritise the picks over random upcoming events.
+   */
+  isEditorPick?: boolean;
   /** Populated by the photo-acquisition step (phase 2). */
   image?: EventImage;
   /** External ticket / event URL for the "Get tickets →" link. */
