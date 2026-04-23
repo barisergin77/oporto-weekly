@@ -30,11 +30,12 @@ function pickTopEvents(sourceEdition: string): Pick[] {
   const todayIso = new Date().toISOString().slice(0, 10);
   const all = listEvents().filter((e) => e.sourceEdition === sourceEdition);
 
-  // Primary: curated Editor's Picks, in extraction order (which matches
-  // the newsletter's Pick 1–5 order).
+  // Primary: curated Editor's Picks sorted by editorPickRank (Pick 1
+  // first, Pick 5 last) so the IG grid matches what readers saw at the
+  // top of the newsletter.
   const editorsPicks = all
-    .filter((e) => e.isEditorPick === true)
-    .sort((a, b) => a.date.localeCompare(b.date));
+    .filter((e): e is EventRecord & { editorPickRank: number } => typeof e.editorPickRank === 'number')
+    .sort((a, b) => a.editorPickRank - b.editorPickRank);
   const chosen: EventRecord[] = editorsPicks.slice(0, 5);
 
   // Fallback if fewer than 5 picks were flagged — pad with upcoming events

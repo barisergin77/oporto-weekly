@@ -43,7 +43,7 @@ interface RawEvent {
   category: EventCategory;
   description: string;
   externalLink?: string;
-  isEditorPick?: boolean;
+  editorPickRank?: number;
 }
 
 /**
@@ -76,7 +76,7 @@ Output ONLY a JSON array with this exact shape (no markdown, no prose, no wrappi
     "category": "music" | "art" | "food" | "family" | "nightlife" | "sports" | "other",
     "description": "1-2 factual sentences describing the event. No editorial adjectives.",
     "externalLink": "https://..." (ONLY if the newsletter embeds an actual ticketing / venue / press page link — see rules below),
-    "isEditorPick": true (ONLY for events that appear under the "Editor's Picks" / "Top Five" section at the top of the newsletter; OMIT for every other event)
+    "editorPickRank": 1 (ONLY for events that appear under the "Editor's Picks" / "Top Five" section; the number is the 1-based position in that section — Pick 1 → 1, Pick 2 → 2, …, Pick 5 → 5. OMIT for every other event)
   }
 ]
 
@@ -84,8 +84,8 @@ RULES:
 - Year is ${year}. If a date in the HTML says "April 17" or "Fri 17", output "${year}-04-17".
 - SKIP: the editor's note, tip-of-the-week, hero section, footer, any promotional or editorial commentary.
 - INCLUDE: everything under Editor's Picks (the numbered top 5) + every event inside the 5 category sections (🎵🎨🍷👨‍👩‍👧🌙).
-- If the same event appears in both Editor's Picks and a category section, include it ONCE (prefer the category section's data since it's usually more detailed) — BUT set isEditorPick: true on it.
-- The Editor's Picks section is identified by: an "Editor's Picks" heading, "THE TOP FIVE" eyebrow, numbered gold-outlined circles (1–5), and/or <!-- Pick N --> HTML comments. Events in that section get isEditorPick: true. Events anywhere else get isEditorPick omitted (or false).
+- If the same event appears in both Editor's Picks and a category section, include it ONCE (prefer the category section's data since it's usually more detailed) — BUT set editorPickRank on it matching its position in the Editor's Picks section.
+- The Editor's Picks section is identified by: an "Editor's Picks" heading, "THE TOP FIVE" eyebrow, numbered gold-outlined circles (1–5), and/or <!-- Pick N --> HTML comments. Events in that section get editorPickRank matching their number (1–5). The FIRST event there gets editorPickRank: 1, the second gets 2, etc. Events anywhere else get editorPickRank OMITTED.
 - Categorize based on which section the event appears in, NOT by guessing. Editor's Picks events: use the section topic from the surrounding context.
 - Description should be FACTUAL. No "unmissable", "stunning", "vibrant". Just what it is.
 - If a field isn't in the HTML, OMIT the field rather than inventing. Never write "TBA" or "check website".
@@ -152,7 +152,10 @@ ${html}`;
       sourceEdition,
       // Final guard: never persist a google/search URL even if the prompt slipped.
       externalLink: isRealEventUrl(r.externalLink) ? r.externalLink : undefined,
-      isEditorPick: r.isEditorPick === true ? true : undefined,
+      editorPickRank:
+        typeof r.editorPickRank === 'number' && r.editorPickRank >= 1 && r.editorPickRank <= 5
+          ? Math.round(r.editorPickRank)
+          : undefined,
       addedAt: new Date().toISOString(),
     });
   }

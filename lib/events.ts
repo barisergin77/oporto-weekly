@@ -59,11 +59,14 @@ export interface EventRecord {
   /** Slug of the newsletter edition this event was extracted from. */
   sourceEdition: string;
   /**
-   * True if the event appeared in the newsletter's Editor's Picks section
-   * (the numbered "Top Five" list at the top). Used by the Instagram cron
-   * to prioritise the picks over random upcoming events.
+   * If the event appears in the newsletter's Editor's Picks section
+   * (the numbered "Top Five" list at the top), this holds its 1-based
+   * rank — 1 for Pick #1, 2 for Pick #2, etc. Missing means the event
+   * is not an Editor's Pick. Used by the Instagram cron to prioritise
+   * picks over random upcoming events AND to preserve the editor's
+   * intended presentation order.
    */
-  isEditorPick?: boolean;
+  editorPickRank?: number;
   /** Populated by the photo-acquisition step (phase 2). */
   image?: EventImage;
   /** External ticket / event URL for the "Get tickets →" link. */
