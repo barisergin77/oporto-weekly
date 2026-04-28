@@ -10,22 +10,40 @@ import { checkCronAuth } from '@/lib/cron-auth';
 
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY!;
 const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro:generateContent?key=${GEMINI_API_KEY}`;
-const GEMINI_URL_FALLBACK = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`;
+
+// Blog stays on Pro — long-form research + writing benefits more from
+// reasoning-tier than from speed. Instead of falling through to Flash on
+// transient overload, we retry the SAME model with backoff, so the post
+// keeps Pro's quality even on busy days. Three attempts spaced 0 / 30s /
+// 90s = ~2 min worst-case wait, well inside Vercel's 300s budget while
+// leaving 3 min for the actual research + generation + image work.
+const RETRYABLE = new Set([429, 503]);
+const RETRY_DELAYS_MS = [0, 30_000, 90_000];
 
 async function geminiPost(url: string, body: object): Promise<Response> {
-  const res = await fetch(url, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(body),
-  });
-
-  if (res.status === 429 && url === GEMINI_URL) {
-    console.log('[geminiPost] 429 on gemini-2.5-pro, retrying with gemini-2.5-flash');
-    return geminiPost(GEMINI_URL_FALLBACK, body);
+  let lastRes: Response | null = null;
+  for (let attempt = 0; attempt < RETRY_DELAYS_MS.length; attempt++) {
+    if (RETRY_DELAYS_MS[attempt] > 0) {
+      console.log(`[geminiPost] backoff ${RETRY_DELAYS_MS[attempt] / 1000}s before attempt ${attempt + 1}/${RETRY_DELAYS_MS.length}`);
+      await new Promise((r) => setTimeout(r, RETRY_DELAYS_MS[attempt]));
+    }
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    });
+    if (!RETRYABLE.has(res.status)) {
+      console.log(`[geminiPost] attempt ${attempt + 1} → ${res.status}${attempt > 0 ? ' (recovered after retries)' : ''}`);
+      return res;
+    }
+    console.log(`[geminiPost] attempt ${attempt + 1} → ${res.status} (retryable)`);
+    lastRes = res;
   }
-
-  console.log(`[geminiPost] Used model: ${url.includes('2.5-pro') ? 'gemini-2.5-pro' : 'gemini-2.5-flash'}`);
-  return res;
+  // All retries exhausted — return the last response so the caller surfaces
+  // a real error rather than swallowing it. Watchdog will re-dispatch later
+  // when Pro recovers.
+  console.log('[geminiPost] all retries exhausted, returning last response');
+  return lastRes!;
 }
 
 const AUTHOR = 'Baris Ergin';
