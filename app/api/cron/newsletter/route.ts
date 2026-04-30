@@ -130,10 +130,55 @@ Output: a pure photograph. Just the scene.`;
   return url;
 }
 
+/**
+ * Returns the names of events that were Editor's Picks in any of the last
+ * `lookbackEditions` editions. Used to tell Gemini "don't reuse these" so
+ * we don't end up with the same evergreen exhibition (Monet, Klimt, Bolhão
+ * market) showing up week after week.
+ *
+ * Reads from the deployed bundle's data/events/*.json. On Vercel that's the
+ * snapshot from the last successful build, which is fine — picks for the
+ * current week haven't been written yet at this point in the pipeline.
+ */
+async function recentPickNames(lookbackEditions = 4): Promise<string[]> {
+  try {
+    const { listEvents } = await import('@/lib/events');
+    const all = listEvents();
+    // Group picks by edition, sort editions desc by any pick's addedAt.
+    const editionsWithPicks = new Map<string, { addedAt: string; names: string[] }>();
+    for (const e of all) {
+      if (typeof e.editorPickRank !== 'number') continue;
+      const cur = editionsWithPicks.get(e.sourceEdition);
+      if (cur) {
+        cur.names.push(e.name);
+        if (e.addedAt > cur.addedAt) cur.addedAt = e.addedAt;
+      } else {
+        editionsWithPicks.set(e.sourceEdition, { addedAt: e.addedAt, names: [e.name] });
+      }
+    }
+    const recent = Array.from(editionsWithPicks.entries())
+      .sort((a, b) => b[1].addedAt.localeCompare(a[1].addedAt))
+      .slice(0, lookbackEditions)
+      .flatMap(([, v]) => v.names);
+    return Array.from(new Set(recent));
+  } catch (err) {
+    console.warn('[cron/newsletter] recentPickNames failed (non-fatal):', err);
+    return [];
+  }
+}
+
 async function generateNewsletter(researchData: string, heroImageUrl: string, weekRange: string): Promise<string> {
   const today = new Date().toLocaleDateString('en-GB', {
     weekday: 'long', year: 'numeric', month: 'long', day: 'numeric',
   });
+
+  // Pull recent picks so Gemini knows what NOT to repick. Without this the
+  // same evergreen exhibitions keep winning Editor's Picks slots — Monet was
+  // a pick two weeks running before we caught it.
+  const excluded = await recentPickNames(4);
+  const exclusionBlock = excluded.length > 0
+    ? `\n\nDO NOT include these as Editor's Picks — they were picks in the last 4 editions. Any of them can still be MENTIONED in a category section if relevant, but they MUST NOT take a Pick #1–5 slot:\n${excluded.map(n => `  - ${n}`).join('\n')}`
+    : '';
 
   // Use a placeholder so Gemini doesn't hallucinate/truncate the real URL.
   // We substitute after generation.
@@ -249,6 +294,19 @@ CONTENT RULES:
 - Descriptions: punchy, warm, editorial — like a travel magazine, not a listing.
 - All <img> tags must have descriptive alt text.
 - Use tables for layout (email client compatibility), not flexbox.
+
+EDITOR'S PICKS QUALITY BAR (this is what readers come for — be selective):
+- Each Pick #1–5 must be SPECIFIC and TIME-SENSITIVE: a concert on a date, a
+  festival opening, a one-off premiere, a traditional event tied to this
+  particular weekend. Single-day or single-week shows are ideal.
+- DO NOT pick evergreen exhibitions, weekly markets, or year-round museum
+  visits as Editor's Picks. They can be MENTIONED in the relevant category
+  section ("Art" or "Food"), but they should not take a Pick slot — Pick
+  slots are for "this week is special because of X".
+- If the research surfaces a tentpole student / civic / religious event
+  this week (Queima das Fitas, São João, Festa de São Bartolomeu, FITUR,
+  Fantasporto, etc.), it gets a Pick slot. These are unmissable cultural
+  moments and the whole reason readers subscribe.${exclusionBlock}
 
 CRITICAL OUTPUT:
 Return ONLY the complete HTML. No markdown fences, no commentary, no code blocks.`;
@@ -394,31 +452,49 @@ export async function GET(req: NextRequest) {
         `[cron/newsletter] Extracted ${extractedCount} events · ` +
         `wrapped ${linkedCount} title link(s) · rewrote ${injected.moreInfoRewritten} MORE INFO href(s)`
       );
+
     } catch (extractErr) {
       // Non-fatal: fall back to unlinked HTML so the newsletter still ships.
       console.error('[cron/newsletter] Event extraction/linking failed (non-fatal):', extractErr);
+    }
+
+    // 4.5. Rank consistency check — must have exactly one event per rank 1–5.
+    // Outside the extraction try/catch on purpose: extraction failure is
+    // non-fatal (we ship without anchors), but a malformed pick set IS fatal —
+    // it would silently pollute the Instagram cron's Top Five and create
+    // EN-vs-PT-vs-IG drift exactly like the 2026-04-30 incident. Better to
+    // surface a 500 and have a human look than to ship a bad edition.
+    if (eventFiles.length > 0) {
+      const events = eventFiles.map((f) => JSON.parse(f.content) as { editorPickRank?: number; name: string });
+      const ranks = events.filter((e) => typeof e.editorPickRank === 'number').map((e) => e.editorPickRank!);
+      const seen = new Set<number>();
+      const dupes: number[] = [];
+      for (const r of ranks) {
+        if (seen.has(r)) dupes.push(r);
+        else seen.add(r);
+      }
+      const missing = [1, 2, 3, 4, 5].filter((r) => !seen.has(r));
+      if (dupes.length > 0 || missing.length > 0) {
+        throw new Error(
+          `Editor's Pick rank validation failed before send: dupes=[${dupes.join(',')}] missing=[${missing.join(',')}]. ` +
+          `Extracted ranks were [${[...ranks].sort().join(',')}]. ` +
+          `Aborting so a malformed Top Five doesn't ship.`
+        );
+      }
     }
 
     // 5. Subject line
     const weekDate = now.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
     const subject = `Oporto Weekly — ${weekDate}`;
 
-    // 6. Send EN edition to EN subscribers — with event links baked in.
-    //    Tagged so the Resend dashboard can slice opens/clicks by edition,
-    //    language, and type.
-    const enSubscribers = await getActiveSubscribers('en');
-    const enEmails = enSubscribers.map(s => s.email);
-    const sentEN = await sendBatch(enEmails, subject, html, [
-      { name: 'type', value: 'newsletter' },
-      { name: 'lang', value: 'en' },
-      { name: 'edition', value: slug },
-    ]);
-    console.log(`[cron/newsletter] Sent EN to ${sentEN} subscribers`);
-
-    // 7. Archive EN edition + per-event JSONs via GitHub API in one atomic
-    //    commit. The archived HTML is the SAME linked HTML that was emailed,
-    //    so the homepage, archive pages, and email all show matching links.
-    //    Triggers Vercel redeploy → event pages go live.
+    // 6. Archive FIRST, then send. Order is deliberate: the idempotency
+    //    guard at step 0.5 checks `public/newsletters/<slug>.html` on
+    //    GitHub. If we sent first and archived after, two crons firing
+    //    within a minute could both pass the guard and both send. By
+    //    archiving first, the second run sees the archive and bails before
+    //    touching Resend. Trade-off: if archive succeeds but send fails,
+    //    the next run skips and a human must re-send manually — but that's
+    //    a much better failure mode than silently double-sending.
     try {
       await archiveViaGitHub(
         {
@@ -438,8 +514,22 @@ export async function GET(req: NextRequest) {
         console.error('[cron/newsletter] Search engine notification failed:', e)
       );
     } catch (archiveErr) {
-      console.error('[cron/newsletter] EN archive failed:', archiveErr);
+      // Archive failure is fatal — without the marker, the next run would
+      // re-send. Surface a 500 so we know something went wrong.
+      console.error('[cron/newsletter] EN archive failed — aborting before send:', archiveErr);
+      throw archiveErr;
     }
+
+    // 7. Now send. The archive commit is locked in; the guard will block
+    //    any further runs.
+    const enSubscribers = await getActiveSubscribers('en');
+    const enEmails = enSubscribers.map(s => s.email);
+    const sentEN = await sendBatch(enEmails, subject, html, [
+      { name: 'type', value: 'newsletter' },
+      { name: 'lang', value: 'en' },
+      { name: 'edition', value: slug },
+    ]);
+    console.log(`[cron/newsletter] Sent EN to ${sentEN} subscribers`);
 
     return NextResponse.json({
       success: true,

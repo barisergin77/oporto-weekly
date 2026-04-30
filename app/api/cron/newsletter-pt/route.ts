@@ -117,28 +117,11 @@ export async function GET(req: NextRequest) {
     const ptHtml = await translateNewsletter(enHtml);
     console.log(`[cron/newsletter-pt] Translated to PT (${ptHtml.length} bytes)`);
 
-    // 4. Send PT edition to PT subscribers
     const ptWeekDate = formatWeekRangePT(now);
     const ptSubject = `Oporto Weekly — ${ptWeekDate}`;
 
-    const ptSubscribers = await getActiveSubscribers('pt');
-    const ptEmails = ptSubscribers.map(s => s.email);
-    let sentPT = 0;
-    if (ptEmails.length > 0) {
-      // Tagged identically to EN so dashboard filters treat EN+PT as sibling
-      // dimensions of the same edition. `edition` uses ptSlug (e.g.
-      // "april-16-22-2026-pt") to differentiate from EN in per-edition views.
-      sentPT = await sendBatch(ptEmails, ptSubject, ptHtml, [
-        { name: 'type', value: 'newsletter' },
-        { name: 'lang', value: 'pt' },
-        { name: 'edition', value: ptSlug },
-      ]);
-      console.log(`[cron/newsletter-pt] Sent PT to ${sentPT} subscribers`);
-    } else {
-      console.log('[cron/newsletter-pt] No PT subscribers — skipping send');
-    }
-
-    // 5. Archive PT edition via GitHub API
+    // 4. Archive FIRST, then send — same atomic-guard pattern as EN cron.
+    //    See app/api/cron/newsletter/route.ts step 6 for the full rationale.
     try {
       await archiveViaGitHub({
         slug: ptSlug,
@@ -154,7 +137,28 @@ export async function GET(req: NextRequest) {
         console.error('[cron/newsletter-pt] Search engine notification failed:', e)
       );
     } catch (archiveErr) {
-      console.error('[cron/newsletter-pt] PT archive failed:', archiveErr);
+      // Archive failure is fatal — without the marker, the next run would
+      // re-send. Surface a 500 so we know.
+      console.error('[cron/newsletter-pt] PT archive failed — aborting before send:', archiveErr);
+      throw archiveErr;
+    }
+
+    // 5. Now send. The archive is locked in; the guard will block re-runs.
+    const ptSubscribers = await getActiveSubscribers('pt');
+    const ptEmails = ptSubscribers.map(s => s.email);
+    let sentPT = 0;
+    if (ptEmails.length > 0) {
+      // Tagged identically to EN so dashboard filters treat EN+PT as sibling
+      // dimensions of the same edition. `edition` uses ptSlug (e.g.
+      // "april-16-22-2026-pt") to differentiate from EN in per-edition views.
+      sentPT = await sendBatch(ptEmails, ptSubject, ptHtml, [
+        { name: 'type', value: 'newsletter' },
+        { name: 'lang', value: 'pt' },
+        { name: 'edition', value: ptSlug },
+      ]);
+      console.log(`[cron/newsletter-pt] Sent PT to ${sentPT} subscribers`);
+    } else {
+      console.log('[cron/newsletter-pt] No PT subscribers — skipping send');
     }
 
     return NextResponse.json({ success: true, slug: ptSlug, sent: { pt: sentPT } });
