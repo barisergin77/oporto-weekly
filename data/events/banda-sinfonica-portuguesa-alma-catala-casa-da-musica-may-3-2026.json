@@ -4,16 +4,9 @@
   "date": "2026-05-03T12:00",
   "venue": "Casa da Música",
   "venueSlug": "casa-da-musica",
-  "price": "Ticketed",
+  "price": "Tickets Required",
   "category": "music",
-  "description": "A vibrant Sunday matinee performance celebrating Catalan soul, conducted by Salvador Brotons.",
+  "description": "The Portuguese Symphonic Band presents \"Catalan Soul,\" a vibrant concert conducted by Salvador Brotons, perfect for a Sunday afternoon.",
   "sourceEdition": "april-30-may-6-2026",
-  "addedAt": "2026-04-30T10:04:45.167Z",
-  "image": {
-    "url": "https://i.imgur.com/4c8m5zM.jpeg",
-    "credit": "Photo: Casa da Música",
-    "sourceUrl": "https://casadamusica.com/event/banda-sinfonica-portuguesa-20260503/?selected_session=44920"
-  },
-  "externalLink": "https://casadamusica.com/event/banda-sinfonica-portuguesa-20260503/?selected_session=44920",
-  "longDescription": "The Banda Sinfónica Portuguesa presents \"ALMA CATALÃ,\" a concert featuring symphonic band music. This performance highlights works by Catalan composers, led by conductor Salvador Brotons. The Banda Sinfónica Portuguesa is a professional ensemble dedicated to the symphonic band repertoire, performing regularly across Portugal.\n\nAttendees will experience a Sunday matinee concert at Casa da Música, a venue known for its modern architecture and acoustics. The performance is scheduled for midday. The program focuses on the musical heritage of Catalonia, interpreted by a full symphonic band.\n\nThis is a ticketed event. Casa da Música is located near the Casa da Música metro station, accessible via lines A, B, C, E, and F. The venue is generally accessible."
+  "addedAt": "2026-04-30T13:10:42.428Z"
 }
