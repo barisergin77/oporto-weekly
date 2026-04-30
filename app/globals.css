@@ -165,12 +165,18 @@ img, table, iframe, video {
   font-family: Georgia, serif !important;
 }
 
-/* Any white-on-dark text → dark ink (Inter/Georgia system) */
-.newsletter-content [style*="color: #ffffff"],
-.newsletter-content [style*="color:#ffffff"],
-.newsletter-content [style*="color: #fff"],
-.newsletter-content [style*="color:#fff"],
-.newsletter-content [style*="color: white"] {
+/* Any white-on-dark text → dark ink (Inter/Georgia system).
+   EXEMPT the hero <h1>: from April 30, 2026 onwards the new hero uses a
+   stacked dark-navy <td> as the title band, with white h1 text on it.
+   We want that white preserved (it sits on a #1a1a2e background, not on
+   our cream page). Older newsletters didn't have an <h1> inside the body
+   content (only h2/h3 for sections), so exempting h1 doesn't regress
+   anything historical. */
+.newsletter-content [style*="color: #ffffff"]:not(h1),
+.newsletter-content [style*="color:#ffffff"]:not(h1),
+.newsletter-content [style*="color: #fff"]:not(h1),
+.newsletter-content [style*="color:#fff"]:not(h1),
+.newsletter-content [style*="color: white"]:not(h1) {
   color: #1a1a2e !important;
 }
 

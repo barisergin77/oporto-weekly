@@ -152,12 +152,33 @@ PALETTE (use these exact colors):
 
 STRUCTURE (in this exact order):
 
-1. HERO (full-width image with overlay)
-   - <img src="${HERO_PLACEHOLDER}" alt="Porto ${weekRange}" width="640" height="420" style="width:100%;height:420px;object-fit:cover;display:block;" />
-   - Below it (or overlaid via table position), a dark-to-transparent gradient band with:
-     - Gold eyebrow: "YOUR WEEKLY PORTO GUIDE" (11px, letter-spacing 4px, uppercase, color #c9a96e)
-     - Georgia serif h1 title (write a 2-4 word creative title riffing on the week's events/theme, NOT just "Oporto Weekly", ~40px white)
-     - Week date line in gold #c9a96e (MUST be this color for readability on both dark and light themes): "${weekRange}" (14px, letter-spacing 1px, color:#c9a96e)
+1. HERO (image stacked above a dark text band — NEVER use position: absolute)
+   CRITICAL EMAIL-SAFETY RULE: do NOT use \`position: absolute\` or any
+   overlay technique to put text on top of the image. Email clients
+   (Gmail, Outlook, Apple Mail) strip absolute positioning, which makes
+   the title spill into the page flow and the gradient render as a giant
+   gray block above the image. Instead, use the email-bulletproof
+   STACKED pattern: image on top, dark navy <td> with the title BELOW it.
+
+   EXACT MARKUP (use this structure verbatim, do not invent your own):
+
+   <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
+     <tr>
+       <td style="padding:0;">
+         <img src="${HERO_PLACEHOLDER}" alt="Porto ${weekRange}" width="640" height="420" style="width:100%;height:420px;object-fit:cover;display:block;border:0;" />
+       </td>
+     </tr>
+     <tr>
+       <td bgcolor="#1a1a2e" style="background:#1a1a2e;text-align:center;padding:28px 28px 24px;">
+         <p style="font-family:'Inter', Arial, sans-serif;font-size:11px;letter-spacing:4px;text-transform:uppercase;color:#c9a96e;margin:0 0 8px 0;">YOUR WEEKLY PORTO GUIDE</p>
+         <h1 style="font-family:Georgia,'Playfair Display',serif;font-size:40px;color:#ffffff;margin:0 0 10px 0;font-weight:700;line-height:1.2;">[2-4 word creative title riffing on this week's theme — NOT just "Oporto Weekly"]</h1>
+         <p style="font-family:'Inter', Arial, sans-serif;font-size:14px;letter-spacing:1px;color:#c9a96e;margin:0;">${weekRange}</p>
+       </td>
+     </tr>
+   </table>
+
+   The dark navy band's white title + gold subtitle stays readable in
+   every email client AND on the website's light page. No fragility.
 
 2. EDITOR'S NOTE (~40px top padding, italic serif)
    - Small gold eyebrow "FROM THE EDITOR" (10px uppercase, letter-spacing 3px, gold)
