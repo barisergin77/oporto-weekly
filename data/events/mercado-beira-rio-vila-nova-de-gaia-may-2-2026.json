@@ -9,5 +9,9 @@
   "category": "food",
   "description": "Cross the bridge to Gaia for this vibrant market, famous for its petiscos. It's the perfect stop after a Port wine tasting.",
   "sourceEdition": "april-30-may-6-2026",
-  "addedAt": "2026-04-30T10:04:45.168Z"
+  "addedAt": "2026-04-30T10:04:45.168Z",
+  "image": {
+    "url": "https://i.imgur.com/LXAR2gs.jpeg",
+    "credit": "AI illustration · Oporto Weekly"
+  }
 }

@@ -8,5 +8,11 @@
   "category": "food",
   "description": "Immerse yourself in the bustling heart of Porto's food scene. A perfect Saturday outing for fresh oysters, local cheeses, and a classic bacalhau lunch.",
   "sourceEdition": "april-30-may-6-2026",
-  "addedAt": "2026-04-30T10:04:45.168Z"
+  "addedAt": "2026-04-30T10:04:45.168Z",
+  "image": {
+    "url": "https://i.imgur.com/h7W58pg.jpeg",
+    "credit": "Photo: Mercado do Bolhão",
+    "sourceUrl": "https://www.mercadobolhao.pt"
+  },
+  "externalLink": "https://www.mercadobolhao.pt"
 }

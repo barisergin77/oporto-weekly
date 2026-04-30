@@ -8,5 +8,9 @@
   "category": "art",
   "description": "Join a guided tour of the gallery's three current exhibitions, including works by Leonor Parda and Augustas Serapinas.",
   "sourceEdition": "april-30-may-6-2026",
-  "addedAt": "2026-04-30T10:04:45.168Z"
+  "addedAt": "2026-04-30T10:04:45.168Z",
+  "image": {
+    "url": "https://i.imgur.com/6kFk6yw.jpeg",
+    "credit": "AI illustration · Oporto Weekly"
+  }
 }

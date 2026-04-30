@@ -8,5 +8,11 @@
   "category": "music",
   "description": "A vibrant Sunday matinee performance celebrating Catalan soul, conducted by Salvador Brotons.",
   "sourceEdition": "april-30-may-6-2026",
-  "addedAt": "2026-04-30T10:04:45.167Z"
+  "addedAt": "2026-04-30T10:04:45.167Z",
+  "image": {
+    "url": "https://i.imgur.com/SQpewG4.jpeg",
+    "credit": "Photo: Casa da Música",
+    "sourceUrl": "https://casadamusica.com/event/banda-sinfonica-portuguesa-20260503/?selected_session=44920"
+  },
+  "externalLink": "https://casadamusica.com/event/banda-sinfonica-portuguesa-20260503/?selected_session=44920"
 }

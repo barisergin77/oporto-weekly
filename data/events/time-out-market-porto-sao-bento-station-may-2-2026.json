@@ -9,5 +9,9 @@
   "category": "food",
   "description": "Taste creations from some of Porto's top chefs, all under the historic roof of São Bento station. A curated culinary experience.",
   "sourceEdition": "april-30-may-6-2026",
-  "addedAt": "2026-04-30T10:04:45.168Z"
+  "addedAt": "2026-04-30T10:04:45.168Z",
+  "image": {
+    "url": "https://i.imgur.com/cQ5KreR.jpeg",
+    "credit": "AI illustration · Oporto Weekly"
+  }
 }
