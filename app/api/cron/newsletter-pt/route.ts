@@ -36,7 +36,13 @@ async function translateNewsletter(enHtml: string): Promise<string> {
 
 RULES:
 - Translate ALL visible text to European Portuguese (pt-PT, not Brazilian).
-- Keep event names, venue names, band names, and place names exactly as-is (proper nouns).
+- Keep ONLY THESE as-is — they are real proper nouns:
+  * Specific event/show titles ("Tame Impala", "Black Sea Dahu", "Fatboy Slim", "Fi Tango")
+  * Venue names ("Casa da Música", "Alfândega Congress Center", "WOW")
+  * Place names ("Porto", "Vila Nova de Gaia", "Avenida dos Aliados")
+- DO translate the editorial newsletter title in <h1> at the top of the hero
+  (e.g. "Porto In Bloom" → "Porto em Flor", "Porto's Vibrant Palette" →
+  "A Paleta Vibrante do Porto"). It's an editorial headline, not a proper noun.
 - Translate day abbreviations: Mon→Seg, Tue→Ter, Wed→Qua, Thu→Qui, Fri→Sex, Sat→Sáb, Sun→Dom.
 - Translate common phrases: "Free"→"Gratuito", "More info"→"Mais info", "Get tickets"→"Comprar bilhetes", "Book"→"Reservar", "Unsubscribe"→"Cancelar subscrição", "Visit website"→"Visitar site".
 - Use 24h time format (9 PM → 21h00).
