@@ -105,7 +105,11 @@ img, table, iframe, video {
    the email HTML. CSS only, with !important to beat inline styles.
    ===================================================================== */
 
-/* Outer wrappers (body, full-width outermost table) — transparent */
+/* Outer wrappers (body, full-width outermost table) — transparent.
+   NOTE: do NOT zero-out padding here. Newer templates put intentional
+   inline padding on direct-child <td>s (e.g. Editor's Picks at 30px 40px),
+   and stripping it pushes content flush against the page edge — observed
+   visibly with Pick 1's "1" circle touching the left border. */
 .newsletter-content body,
 .newsletter-content > body,
 .newsletter-content > table[width="100%"],
@@ -114,7 +118,6 @@ img, table, iframe, video {
   background-color: transparent !important;
   border: none !important;
   border-radius: 0 !important;
-  padding: 0 !important;
 }
 
 /* Inner dark cards (event cards, section boxes) → white cards */
@@ -141,11 +144,15 @@ img, table, iframe, video {
   overflow: hidden !important;
 }
 
-/* Any other dark navy background → cream (for cells inside) */
-.newsletter-content td[style*="background-color: #1a1a2e"],
-.newsletter-content td[style*="background-color:#1a1a2e"],
-.newsletter-content td[style*="background:#1a1a2e"],
-.newsletter-content td[style*="background: #1a1a2e"] {
+/* Any other dark navy background → cream (for cells inside).
+   EXEMPT: the new hero band (since April 30, 2026) is a <td> with
+   bgcolor="#1a1a2e" containing an <h1>. We INTENTIONALLY want it dark
+   so the white title + gold accents pop against the warm photo above.
+   :has() is supported in Chrome 105+, Safari 15.4+, Firefox 121+. */
+.newsletter-content td[style*="background-color: #1a1a2e"]:not(:has(h1)),
+.newsletter-content td[style*="background-color:#1a1a2e"]:not(:has(h1)),
+.newsletter-content td[style*="background:#1a1a2e"]:not(:has(h1)),
+.newsletter-content td[style*="background: #1a1a2e"]:not(:has(h1)) {
   background-color: #faf7f0 !important;
   background: #faf7f0 !important;
 }
