@@ -39,6 +39,13 @@ async function geminiPost(url: string, body: object, attempt = 0): Promise<Respo
   return res;
 }
 
+// Source-aware queries. 2026-04-30 retrospective: we missed the Monumental
+// Serenata that opened Queima das Fitas — a tentpole U.Porto event that
+// doesn't surface from generic "Porto events" queries because the canonical
+// information lives on federacaoacademicaporto.pt + queimadasfitasporto.com,
+// not on ticketing aggregators. Adding site:-targeted queries pulls those
+// authoritative sources into the search results, plus broader local-press
+// queries to catch civic + traditional events the aggregators miss.
 const SEARCH_QUERIES = [
   'Porto events this week',
   'Porto concerts this week',
@@ -46,6 +53,17 @@ const SEARCH_QUERIES = [
   'Porto food markets weekend',
   'Porto family events this week',
   'Porto nightlife this week',
+  // Authoritative civic + tourism sources
+  'site:visitporto.travel events Porto this week',
+  'site:cm-porto.pt agenda eventos Porto esta semana',
+  'site:portoalive.pt eventos Porto esta semana',
+  // Local press — catches traditional / festival / civic events
+  'site:jn.pt OR site:publico.pt Porto agenda fim de semana',
+  'site:timeout.pt Porto this week',
+  // University + traditional festivals (Queima das Fitas, São João, Festa de São Bartolomeu)
+  'Queima das Fitas Porto 2026 schedule serenata',
+  'site:federacaoacademicaporto.pt OR site:queimadasfitasporto.com Porto',
+  'Porto traditional festival this week santo populares',
 ];
 
 async function geminiSearch(query: string): Promise<string> {
@@ -309,23 +327,32 @@ export async function GET(req: NextRequest) {
       }
     }
 
-    // 1. Run Gemini searches (sequential). Individual failures are tolerated —
-    //    if one query fails the cron continues with whatever succeeded.
+    // 1. Run Gemini searches in batches of 4 (sequential batches, parallel within).
+    //    Individual failures are tolerated — one bad query doesn't abort the run.
+    //    Batched (not full parallel) to stay polite to Gemini quotas: 14 simultaneous
+    //    grounded-search calls would burst past the per-minute limits.
     const searchResults: string[] = [];
     const searchFailures: string[] = [];
-    for (const query of SEARCH_QUERIES) {
-      try {
-        const result = await geminiSearch(query);
-        searchResults.push(result);
-      } catch (err) {
-        const msg = err instanceof Error ? err.message : String(err);
-        console.error(`[cron/newsletter] Search failed for "${query}": ${msg}`);
-        searchFailures.push(query);
+    const BATCH_SIZE = 4;
+    for (let i = 0; i < SEARCH_QUERIES.length; i += BATCH_SIZE) {
+      const batch = SEARCH_QUERIES.slice(i, i + BATCH_SIZE);
+      const settled = await Promise.allSettled(batch.map(q => geminiSearch(q)));
+      settled.forEach((s, idx) => {
+        if (s.status === 'fulfilled') {
+          searchResults.push(s.value);
+        } else {
+          const msg = s.reason instanceof Error ? s.reason.message : String(s.reason);
+          console.error(`[cron/newsletter] Search failed for "${batch[idx]}": ${msg}`);
+          searchFailures.push(batch[idx]);
+        }
+      });
+      // Brief pause between batches to spread out quota usage
+      if (i + BATCH_SIZE < SEARCH_QUERIES.length) {
+        await new Promise(r => setTimeout(r, 1500));
       }
-      await new Promise(r => setTimeout(r, 2000));
     }
     if (searchResults.length === 0) {
-      throw new Error('All 6 Gemini searches failed — aborting.');
+      throw new Error(`All ${SEARCH_QUERIES.length} Gemini searches failed — aborting.`);
     }
     if (searchFailures.length > 0) {
       console.warn(`[cron/newsletter] Continuing with ${searchResults.length}/${SEARCH_QUERIES.length} successful searches. Failed: ${searchFailures.join(', ')}`);
