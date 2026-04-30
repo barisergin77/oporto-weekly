@@ -28,14 +28,14 @@ import { getFileContent, commitFiles } from '@/lib/github';
 import { checkCronAuth } from '@/lib/cron-auth';
 
 // Per-run cap. Each new event's image acquisition can take:
-//   - scrape successful: ~2-5s
-//   - fallback to Gemini 3 Pro Image generation: ~10-25s (with 45s hard cap)
-//   - upload to Imgur: ~2-5s
-// Worst case 30s per event. 10 events × 30s = 300s, which is the Vercel
-// maxDuration ceiling. Capping at 10 guarantees we can't time out even
-// if every event falls to the slowest path. Any leftover events get
-// picked up on the next scheduled run (or via the scheduler-watchdog).
-const MAX_PER_RUN = 10;
+//   - scrape successful: ~5-15s (page fetch + og scrape + Imgur upload)
+//   - fallback to Gemini 3 Pro Image generation: ~30-40s (page-fetch try
+//     that fails first, then Gemini imagen, then Imgur upload)
+// Realised per-event time on 2026-04-30 was ~60s — 10 cap blew the 300s
+// budget after only 5 events. Tightening to 5/run + tighter time-budget
+// bail below = guaranteed fit. Leftovers picked up by the 09:45 second
+// schedule + 11:30 daily watchdog.
+const MAX_PER_RUN = 5;
 
 async function listEventsFromGithub(): Promise<EventRecord[]> {
   // List the events directory via the contents API.
@@ -129,7 +129,11 @@ export async function GET(req: NextRequest) {
       }
 
       // Budget check — leave a 30s buffer before Vercel kills us.
-      if (Date.now() - startedAt > 270_000) {
+      // Bail at 220s (was 270s) so we have 80s of margin to commit the
+      // accumulated updates before Vercel's 300s ceiling. Observed the
+      // earlier 270s budget combined with a single slow event was enough
+      // to overshoot.
+      if (Date.now() - startedAt > 220_000) {
         console.warn('[cron/event-images] Time budget exhausted, stopping early');
         break;
       }

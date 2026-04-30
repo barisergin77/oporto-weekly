@@ -6,12 +6,13 @@ const MODEL = 'gemini-3-pro-image-preview';
 const IMAGEN_URL = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent?key=${GEMINI_API_KEY}`;
 
 // Hard ceiling on how long we'll wait for one image. Gemini 3 Pro Image
-// typically completes in 10-25s; a hung call (observed on 2026-04-23
-// pushing the event-images cron past Vercel's 300s ceiling) was what
-// caused the cron to timeout entirely. 45s is generous for the happy
-// path while short enough that a slow call fails fast and lets the
-// caller skip to the next event.
-const REQUEST_TIMEOUT_MS = 45_000;
+// typically completes in 10-25s. We saw 45s set originally, but the
+// 2026-04-30 event-images cron still hit Vercel's 300s wall after 5
+// events because the realised per-event time was ~60s once you add
+// page-fetch + og scraping + Imgur upload + retries. Tightening to
+// 30s keeps the per-event ceiling at ~40s, so 5 events fit in 200s
+// with margin.
+const REQUEST_TIMEOUT_MS = 30_000;
 
 /**
  * Generates an image using Google Gemini 3 Pro Image (Nano Banana Pro).
