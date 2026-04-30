@@ -283,6 +283,32 @@ export async function GET(req: NextRequest) {
     const weekRange = formatWeekRange(now);
     const slug = generateSlug(weekRange);
 
+    // 0.5. IDEMPOTENCY GUARD — never publish/send the same week twice.
+    //
+    // Background: 2026-04-30 had this cron fire twice (09:59 schedule
+    // + 13:06 dispatch). Each run regenerated content from scratch
+    // (Gemini's non-deterministic) AND re-sent emails to all
+    // subscribers. Subscribers got two different versions of the same
+    // edition, with different Editor's Picks each time.
+    //
+    // Check via GitHub API (NOT local fs which is bundle-stale on
+    // Vercel) whether this week's HTML is already archived. If yes,
+    // bail with 200 + skipped:true. The watchdog and any manual
+    // dispatch are now no-ops once the week's edition has shipped.
+    {
+      const { getFileContent } = await import('@/lib/github');
+      const existing = await getFileContent(`public/newsletters/${slug}.html`);
+      if (existing) {
+        console.log(`[cron/newsletter] ${slug} already archived — skipping (idempotency guard)`);
+        return NextResponse.json({
+          skipped: true,
+          reason: 'already-archived',
+          slug,
+          weekRange,
+        });
+      }
+    }
+
     // 1. Run Gemini searches (sequential). Individual failures are tolerated —
     //    if one query fails the cron continues with whatever succeeded.
     const searchResults: string[] = [];

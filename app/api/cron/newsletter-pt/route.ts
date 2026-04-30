@@ -85,6 +85,27 @@ export async function GET(req: NextRequest) {
     const slug = generateSlug(weekRange);
     const ptSlug = `${slug}-pt`;
 
+    // 1.5. IDEMPOTENCY GUARD — never translate/send the same week twice.
+    //
+    // Background: 2026-04-30 the PT cron fired three times (schedule +
+    // two dispatches), re-translating and re-sending each time.
+    // Subscribers got duplicate emails with drifting wording.
+    //
+    // Check via GitHub API whether this week's PT HTML is already
+    // archived. If yes, bail with 200 + skipped:true. Mirrors the EN
+    // cron's guard.
+    {
+      const existingPt = await getFileContent(`public/newsletters/${ptSlug}.html`);
+      if (existingPt) {
+        console.log(`[cron/newsletter-pt] ${ptSlug} already archived — skipping (idempotency guard)`);
+        return NextResponse.json({
+          skipped: true,
+          reason: 'already-archived',
+          slug: ptSlug,
+        });
+      }
+    }
+
     // 2. Fetch EN newsletter HTML from GitHub (EN cron committed it 15 min earlier)
     const enHtml = await getFileContent(`public/newsletters/${slug}.html`);
     if (!enHtml) {
