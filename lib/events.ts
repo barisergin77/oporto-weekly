@@ -254,21 +254,34 @@ function derivePerformer(e: EventRecord): { '@type': string; name: string } | nu
 export function toEventJsonLd(e: EventRecord, siteUrl = 'https://oportoweekly.com'): object {
   const url = `${siteUrl}/event/${e.slug}`;
 
-  // Offers: when we have a priceFrom OR the price text says "free", emit.
-  // Always include `validFrom` (GSC flags its absence) — we use `addedAt`
-  // as a safe "the offer was indexed from this point onwards" anchor.
+  // Offers: ALWAYS emit. Google Search Console warns "Missing field 'offers'"
+  // for Event records without one — we previously only emitted when we had
+  // a numeric priceFrom or the word "free", which left ~60% of records
+  // unflagged. The fix: always include an Offer with availability + url +
+  // validFrom (the minimum Google accepts), and add price/priceCurrency
+  // only when we actually know them.
+  //
+  // Three shapes:
+  //   - Known paid price (priceFrom set): price = priceFrom, currency = EUR.
+  //   - Free (price text contains "free"): price = 0, currency = EUR.
+  //   - Unknown ("Tickets Required", "Varies", undefined): no price field —
+  //     just url + availability + validFrom. Google's Event rich result
+  //     spec lists price as recommended, not required.
   const hasPaidOffer = e.priceFrom != null;
   const isFree = !hasPaidOffer && e.price?.toLowerCase().includes('free');
-  const offers = hasPaidOffer || isFree
-    ? {
-        '@type': 'Offer',
-        price: hasPaidOffer ? e.priceFrom : 0,
-        priceCurrency: e.currency ?? 'EUR',
-        url: e.externalLink ?? url,
-        availability: 'https://schema.org/InStock',
-        validFrom: e.addedAt,
-      }
-    : undefined;
+  const offers: Record<string, unknown> = {
+    '@type': 'Offer',
+    url: e.externalLink ?? url,
+    availability: 'https://schema.org/InStock',
+    validFrom: e.addedAt,
+  };
+  if (hasPaidOffer) {
+    offers.price = e.priceFrom;
+    offers.priceCurrency = e.currency ?? 'EUR';
+  } else if (isFree) {
+    offers.price = 0;
+    offers.priceCurrency = e.currency ?? 'EUR';
+  }
 
   const performer = derivePerformer(e);
 
@@ -289,7 +302,7 @@ export function toEventJsonLd(e: EventRecord, siteUrl = 'https://oportoweekly.co
       address: { '@type': 'PostalAddress', addressLocality: 'Porto', addressCountry: 'PT' },
     },
     ...(e.image ? { image: e.image.url } : {}),
-    ...(offers ? { offers } : {}),
+    offers,
     ...(performer ? { performer } : {}),
     url,
     organizer: {
