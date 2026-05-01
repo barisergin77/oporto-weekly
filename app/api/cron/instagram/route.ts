@@ -189,6 +189,20 @@ export async function GET(req: NextRequest) {
     }
     console.log(`[cron/instagram] Using edition: ${latest.slug}`);
 
+    // 1.5. Run-ledger guard — skip if instagram step is already complete
+    //      for this edition. See lib/run-ledger.ts for design.
+    const { isStepComplete, markStepComplete, getWeekEntry } = await import('@/lib/run-ledger');
+    if (await isStepComplete(latest.slug, 'instagram')) {
+      const entry = await getWeekEntry(latest.slug);
+      console.log(`[cron/instagram] instagram already complete for ${latest.slug} — skipping`);
+      return NextResponse.json({
+        skipped: true,
+        reason: 'instagram-already-complete',
+        edition: latest.slug,
+        ledger: entry,
+      });
+    }
+
     // 2. Pull top 5 picks from the structured event records (committed by
     //    the newsletter cron's extraction pass). Replaces the earlier
     //    HTML-scraping approach, which broke every time the newsletter
@@ -218,6 +232,7 @@ export async function GET(req: NextRequest) {
     console.log('[cron/instagram] Scheduling post via Buffer...');
     const bufferResult = await scheduleBufferPost(imgurUrl, caption);
     console.log(`[cron/instagram] Scheduled: ${bufferResult.id} (${bufferResult.status}, due ${bufferResult.dueAt})`);
+    await markStepComplete(latest.slug, 'instagram');
 
     return NextResponse.json({
       success: true,

@@ -102,25 +102,17 @@ export async function GET(req: NextRequest) {
     const ptSlug = `${slug}-pt`;
     console.log(`[cron/newsletter-pt] now=${now.toISOString()} dayOfWeek=${dayOfWeek} thursday=${weekStart.toISOString().slice(0,10)} slug=${slug}`);
 
-    // 1.5. IDEMPOTENCY GUARD — never translate/send the same week twice.
-    //
-    // Background: 2026-04-30 the PT cron fired three times (schedule +
-    // two dispatches), re-translating and re-sending each time.
-    // Subscribers got duplicate emails with drifting wording.
-    //
-    // Check via GitHub API whether this week's PT HTML is already
-    // archived. If yes, bail with 200 + skipped:true. Mirrors the EN
-    // cron's guard.
-    {
-      const existingPt = await getFileContent(`public/newsletters/${ptSlug}.html`);
-      if (existingPt) {
-        console.log(`[cron/newsletter-pt] ${ptSlug} already archived — skipping (idempotency guard)`);
-        return NextResponse.json({
-          skipped: true,
-          reason: 'already-archived',
-          slug: ptSlug,
-        });
-      }
+    // 1.5. RUN-LEDGER GUARD — see EN cron for full rationale.
+    const { isStepComplete, markStepComplete, getWeekEntry } = await import('@/lib/run-ledger');
+    if (await isStepComplete(slug, 'pt-email')) {
+      const entry = await getWeekEntry(slug);
+      console.log(`[cron/newsletter-pt] pt-email already complete for ${slug} — skipping`);
+      return NextResponse.json({
+        skipped: true,
+        reason: 'pt-email-already-complete',
+        slug: ptSlug,
+        ledger: entry,
+      });
     }
 
     // 2. Fetch EN newsletter HTML from GitHub (EN cron committed it 15 min earlier)
@@ -148,6 +140,7 @@ export async function GET(req: NextRequest) {
         weekRange: ptWeekDate,
       }, ptHtml, 'newsletters-pt.json');
       console.log(`[cron/newsletter-pt] Archived PT as ${ptSlug}`);
+      await markStepComplete(slug, 'pt-web');
 
       // Notify search engines (best-effort)
       notifySearchEngines(`pt/arquivo/${ptSlug}`).catch(e =>
@@ -177,6 +170,9 @@ export async function GET(req: NextRequest) {
     } else {
       console.log('[cron/newsletter-pt] No PT subscribers — skipping send');
     }
+    // Mark pt-email complete even when there are no subscribers — the step
+    // ran successfully (just had nothing to send), so we shouldn't re-run.
+    await markStepComplete(slug, 'pt-email');
 
     return NextResponse.json({ success: true, slug: ptSlug, sent: { pt: sentPT } });
   } catch (err: unknown) {

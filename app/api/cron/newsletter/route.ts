@@ -388,30 +388,29 @@ export async function GET(req: NextRequest) {
     const slug = generateSlug(weekRange);
     console.log(`[cron/newsletter] now=${now.toISOString()} dayOfWeek=${dayOfWeek} thursday=${weekStart.toISOString().slice(0,10)} slug=${slug}`);
 
-    // 0.5. IDEMPOTENCY GUARD — never publish/send the same week twice.
+    // 0.5. RUN-LEDGER GUARD — the calendar-fact source of truth.
     //
-    // Background: 2026-04-30 had this cron fire twice (09:59 schedule
-    // + 13:06 dispatch). Each run regenerated content from scratch
-    // (Gemini's non-deterministic) AND re-sent emails to all
-    // subscribers. Subscribers got two different versions of the same
-    // edition, with different Editor's Picks each time.
+    // We check data/run-ledger.json for "is en-email done for this week?"
+    // before doing anything. If yes, bail. Each substep also marks itself
+    // complete in the ledger as it finishes, so a partial-run recovery
+    // (e.g. archive succeeded but send failed) can re-enter and only
+    // re-do the missing steps.
     //
-    // Check via GitHub API (NOT local fs which is bundle-stale on
-    // Vercel) whether this week's HTML is already archived. If yes,
-    // bail with 200 + skipped:true. The watchdog and any manual
-    // dispatch are now no-ops once the week's edition has shipped.
-    {
-      const { getFileContent } = await import('@/lib/github');
-      const existing = await getFileContent(`public/newsletters/${slug}.html`);
-      if (existing) {
-        console.log(`[cron/newsletter] ${slug} already archived — skipping (idempotency guard)`);
-        return NextResponse.json({
-          skipped: true,
-          reason: 'already-archived',
-          slug,
-          weekRange,
-        });
-      }
+    // Background: previous guards inferred "did we publish?" from file
+    // existence + slug computation. The slug bug on 2026-05-01 broke
+    // that inference. The ledger doesn't infer — it's the recorded fact
+    // of which step finished when.
+    const { isStepComplete, markStepComplete, getWeekEntry } = await import('@/lib/run-ledger');
+    if (await isStepComplete(slug, 'en-email')) {
+      const entry = await getWeekEntry(slug);
+      console.log(`[cron/newsletter] en-email already complete for ${slug} — skipping`);
+      return NextResponse.json({
+        skipped: true,
+        reason: 'en-email-already-complete',
+        slug,
+        weekRange,
+        ledger: entry,
+      });
     }
 
     // 1. Run Gemini searches in batches of 4 (sequential batches, parallel within).
@@ -445,6 +444,7 @@ export async function GET(req: NextRequest) {
       console.warn(`[cron/newsletter] Continuing with ${searchResults.length}/${SEARCH_QUERIES.length} successful searches. Failed: ${searchFailures.join(', ')}`);
     }
     const researchData = searchResults.join('\n\n');
+    await markStepComplete(slug, 'research');
 
     // 2. Generate hero image in parallel with... actually do it first so the prompt has the URL
     const heroImageUrl = await generateHeroImage(weekRange);
@@ -540,6 +540,7 @@ export async function GET(req: NextRequest) {
         eventFiles
       );
       console.log(`[cron/newsletter] Archived EN as ${slug}${eventFiles.length ? ` with ${eventFiles.length} events` : ''}`);
+      await markStepComplete(slug, 'en-web');
 
       notifySearchEngines(slug).catch(e =>
         console.error('[cron/newsletter] Search engine notification failed:', e)
@@ -561,6 +562,7 @@ export async function GET(req: NextRequest) {
       { name: 'edition', value: slug },
     ]);
     console.log(`[cron/newsletter] Sent EN to ${sentEN} subscribers`);
+    await markStepComplete(slug, 'en-email');
 
     return NextResponse.json({
       success: true,
