@@ -78,12 +78,29 @@ export async function GET(req: NextRequest) {
   if (authError) return NextResponse.json({ error: authError }, { status: 401 });
 
   try {
-    // 1. Determine current week's slug (MUST match EN cron exactly so we can
-    //    fetch today's EN HTML file to translate).
+    // 1. Day-of-week guard + slug computation. See EN cron for full
+    //    rationale — short version: snap to most-recent Thursday so the
+    //    slug matches the EN edition regardless of which day this fires.
     const now = new Date();
-    const weekRange = formatWeekRange(now);
+    const dayOfWeek = now.getUTCDay(); // 0=Sun, 4=Thu
+    const force = new URL(req.url).searchParams.get('force') === 'true';
+    if (dayOfWeek !== 4 && !force) {
+      console.log(`[cron/newsletter-pt] Today is dayOfWeek=${dayOfWeek} (not Thursday) — skipping. Pass ?force=true to override.`);
+      return NextResponse.json({
+        skipped: true,
+        reason: 'not-thursday',
+        dayOfWeek,
+      });
+    }
+
+    const weekStart = new Date(now);
+    const daysSinceThursday = (dayOfWeek - 4 + 7) % 7;
+    weekStart.setUTCDate(weekStart.getUTCDate() - daysSinceThursday);
+
+    const weekRange = formatWeekRange(weekStart);
     const slug = generateSlug(weekRange);
     const ptSlug = `${slug}-pt`;
+    console.log(`[cron/newsletter-pt] now=${now.toISOString()} dayOfWeek=${dayOfWeek} thursday=${weekStart.toISOString().slice(0,10)} slug=${slug}`);
 
     // 1.5. IDEMPOTENCY GUARD — never translate/send the same week twice.
     //
@@ -117,7 +134,7 @@ export async function GET(req: NextRequest) {
     const ptHtml = await translateNewsletter(enHtml);
     console.log(`[cron/newsletter-pt] Translated to PT (${ptHtml.length} bytes)`);
 
-    const ptWeekDate = formatWeekRangePT(now);
+    const ptWeekDate = formatWeekRangePT(weekStart);
     const ptSubject = `Oporto Weekly — ${ptWeekDate}`;
 
     // 4. Archive FIRST, then send — same atomic-guard pattern as EN cron.

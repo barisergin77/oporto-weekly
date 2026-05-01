@@ -352,12 +352,41 @@ export async function GET(req: NextRequest) {
   if (authError) return NextResponse.json({ error: authError }, { status: 401 });
 
   try {
-    // 0. Determine week range for everything downstream.
-    //    Publish day is Thursday; the range covers Thursday + 6 days.
-    //    e.g. "April 16-22, 2026" → slug "april-16-22-2026"
+    // 0. Day-of-week guard — only publish on Thursdays.
+    //
+    // Background: 2026-05-01 (Friday) the cron was workflow_dispatched
+    // and ran the FULL pipeline because formatWeekRange() used `now` as
+    // the week START. That produced slug `may-1-7-2026` instead of
+    // `april-30-may-6-2026`, the idempotency guard saw no archive at
+    // that new slug, and it generated a fresh edition + re-sent the
+    // whole subscriber list. Two layers of defence:
+    //
+    //   (1) bail on non-Thursday runs unless ?force=true is passed;
+    //   (2) snap `now` to the most recent Thursday so even a Thursday
+    //       afternoon dispatch produces the morning's slug.
     const now = new Date();
-    const weekRange = formatWeekRange(now);
+    const dayOfWeek = now.getUTCDay(); // 0=Sun, 4=Thu
+    const force = new URL(req.url).searchParams.get('force') === 'true';
+    if (dayOfWeek !== 4 && !force) {
+      console.log(`[cron/newsletter] Today is dayOfWeek=${dayOfWeek} (not Thursday) — skipping. Pass ?force=true to override.`);
+      return NextResponse.json({
+        skipped: true,
+        reason: 'not-thursday',
+        dayOfWeek,
+      });
+    }
+
+    // Snap to most-recent Thursday so ANY day's run computes the same
+    // slug as that Thursday's run. Critical for idempotency: a Friday
+    // ?force=true run still yields Thursday's slug → guard hits → no
+    // duplicate send.
+    const weekStart = new Date(now);
+    const daysSinceThursday = (dayOfWeek - 4 + 7) % 7; // Thu=0, Fri=1, ..., Wed=6
+    weekStart.setUTCDate(weekStart.getUTCDate() - daysSinceThursday);
+
+    const weekRange = formatWeekRange(weekStart);
     const slug = generateSlug(weekRange);
+    console.log(`[cron/newsletter] now=${now.toISOString()} dayOfWeek=${dayOfWeek} thursday=${weekStart.toISOString().slice(0,10)} slug=${slug}`);
 
     // 0.5. IDEMPOTENCY GUARD — never publish/send the same week twice.
     //
@@ -484,7 +513,9 @@ export async function GET(req: NextRequest) {
     }
 
     // 5. Subject line
-    const weekDate = now.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+    // Display dates derive from Thursday (weekStart), not now() — so a
+    // forced Friday re-send still labels the edition with Thursday's date.
+    const weekDate = weekStart.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
     const subject = `Oporto Weekly — ${weekDate}`;
 
     // 6. Archive FIRST, then send. Order is deliberate: the idempotency
@@ -499,7 +530,7 @@ export async function GET(req: NextRequest) {
       await archiveViaGitHub(
         {
           slug,
-          title: `Oporto Weekly — ${now.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}`,
+          title: `Oporto Weekly — ${weekStart.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}`,
           description: subject,
           sentAt: now.toISOString(),
           weekRange,
