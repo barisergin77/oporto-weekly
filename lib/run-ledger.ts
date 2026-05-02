@@ -32,9 +32,24 @@
 
 import { getFileContent, commitFiles } from './github';
 
-export type Step = 'research' | 'en-web' | 'en-email' | 'pt-web' | 'pt-email' | 'instagram';
+export type Step =
+  | 'research'
+  | 'en-web'
+  | 'en-email'
+  | 'pt-web'
+  | 'pt-email'
+  | 'instagram'
+  | 'reddit-draft';
 
-export const STEPS: readonly Step[] = ['research', 'en-web', 'en-email', 'pt-web', 'pt-email', 'instagram'];
+export const STEPS: readonly Step[] = [
+  'research',
+  'en-web',
+  'en-email',
+  'pt-web',
+  'pt-email',
+  'instagram',
+  'reddit-draft',
+];
 
 const LEDGER_PATH = 'data/run-ledger.json';
 

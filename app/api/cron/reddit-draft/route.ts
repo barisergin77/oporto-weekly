@@ -272,6 +272,21 @@ export async function GET(req: NextRequest) {
     const slug = latest.slug;
     const weekRange = latest.weekRange;
 
+    // Run-ledger guard. Without this, a watchdog re-dispatch (or any
+    // workflow_dispatch) drafts a fresh post and spams the editor's
+    // inbox. See lib/run-ledger.ts.
+    const { isStepComplete, markStepComplete, getWeekEntry } = await import('@/lib/run-ledger');
+    if (await isStepComplete(slug, 'reddit-draft')) {
+      const entry = await getWeekEntry(slug);
+      console.log(`[cron/reddit-draft] reddit-draft already complete for ${slug} — skipping`);
+      return NextResponse.json({
+        skipped: true,
+        reason: 'reddit-draft-already-complete',
+        slug,
+        ledger: entry,
+      });
+    }
+
     const rawHtml = await getFileContent(`public/newsletters/${slug}.html`);
     if (!rawHtml) {
       throw new Error(
@@ -294,6 +309,7 @@ export async function GET(req: NextRequest) {
     );
 
     console.log(`[cron/reddit-draft] Sent draft for ${slug} (${draft.length} bytes)`);
+    await markStepComplete(slug, 'reddit-draft');
     return NextResponse.json({
       ok: true,
       slug,

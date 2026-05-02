@@ -27,10 +27,10 @@ const REPO_OWNER = 'barisergin77';
 const REPO_NAME = 'oporto-weekly';
 const EDITOR_EMAIL = 'barisergin@gmail.com';
 
-// Schedule grace: how late a workflow can legitimately fire before we
-// consider the window missed. GitHub's own delay can reach ~60 min, and
-// we observed 79 min once — 90 gives ~10 min headroom without being so
-// permissive that the watchdog refuses to check late-morning crons.
+// Future-fire grace: how long after `expected` a workflow can legitimately
+// still NOT have fired before the watchdog considers the period missed.
+// Used only as a "is the period over?" check (line ~191). Run-detection
+// itself uses ranSinceExpected which has no upper bound.
 const GRACE_MIN = 90;
 
 // Watched workflows + their scheduled cron expressions. Keep in sync
@@ -110,33 +110,47 @@ async function githubFetch(path: string, init: RequestInit = {}): Promise<Respon
 }
 
 /**
- * Did the workflow run within [expected - GRACE, expected + GRACE]? We count
- * ANY trigger type (schedule OR workflow_dispatch OR push), not just
- * `event=schedule`. Reason: if the user (or an earlier watchdog rescue)
- * already manually dispatched the workflow within the grace window, the
- * work got done — re-dispatching now would produce a duplicate (a real
- * failure mode we hit: duplicate PT newsletter email). The only thing
- * that matters is "did the workflow execute once in its window."
+ * Did the workflow run AT ANY POINT since this period's expected fire
+ * time? (With a small clock-skew buffer on the lower bound so a run that
+ * fired a few minutes early still counts.)
+ *
+ * Why "since expected" and not "within ±GRACE": the original implementation
+ * checked a tight ±90 min window around `expected`. GitHub Actions schedules
+ * regularly drift past that — we observed the EN newsletter actually firing
+ * at 09:59 on a 08:00 schedule (119 min late). The narrow window declared
+ * the run "missed" and re-dispatched it days later, even though the work
+ * had been done. On 2026-05-02 that re-dispatched 9 weekly workflows and
+ * sent the user a duplicate Reddit-draft email.
+ *
+ * The new rule: if there's been ANY non-cancelled run between
+ * `expected - SKEW` and `now`, the work happened. Re-dispatching would
+ * just create duplicates. The watchdog's job is to detect TOTAL ABSENCE
+ * (the workflow didn't run all week), not to police precise timing.
+ *
+ * For weekly schedules, this means "ran sometime since last Thursday
+ * morning" → fine. For daily schedules it means "ran sometime today"
+ * → fine. Both correct.
  */
-async function ranNearExpected(file: string, expected: Date): Promise<boolean> {
-  const since = new Date(expected.getTime() - GRACE_MIN * 60_000);
-  const until = new Date(expected.getTime() + GRACE_MIN * 60_000);
+const SKEW_MIN = 10; // small buffer for clock skew + scheduler "early" fires
+
+async function ranSinceExpected(file: string, expected: Date, now: Date): Promise<boolean> {
+  const since = new Date(expected.getTime() - SKEW_MIN * 60_000);
   const createdFilter = `>=${since.toISOString()}`;
   const url =
     `/repos/${REPO_OWNER}/${REPO_NAME}/actions/workflows/${file}/runs` +
-    `?per_page=10&created=${encodeURIComponent(createdFilter)}`;
+    `?per_page=20&created=${encodeURIComponent(createdFilter)}`;
   const res = await githubFetch(url);
   if (!res.ok) return false;
   const body = (await res.json()) as {
     workflow_runs?: Array<{ run_started_at?: string; created_at?: string; conclusion?: string | null }>;
   };
   for (const r of body.workflow_runs ?? []) {
-    // A cancelled run doesn't count — it didn't do the work.
+    // Cancelled runs don't count — they didn't do the work.
     if (r.conclusion === 'cancelled') continue;
     const ts = r.run_started_at ?? r.created_at;
     if (!ts) continue;
     const t = new Date(ts);
-    if (t >= since && t <= until) return true;
+    if (t >= since && t <= now) return true;
   }
   return false;
 }
@@ -198,7 +212,7 @@ export async function GET(req: NextRequest) {
       continue;
     }
 
-    const onTime = await ranNearExpected(w.file, expected);
+    const onTime = await ranSinceExpected(w.file, expected, now);
     if (onTime) {
       checks.push({ label: w.label, file: w.file, expected: expected.toISOString(), ranOnTime: true });
       continue;
