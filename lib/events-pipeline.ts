@@ -18,6 +18,7 @@ import {
   isRealEventUrl,
   composeEventSlug,
   venueToSlug,
+  findExistingEventByIdentity,
 } from './events';
 
 const UA =
@@ -129,14 +130,54 @@ ${html}`;
   }
   const rawEvents = JSON.parse(text.slice(jsonStart, jsonEnd + 1)) as RawEvent[];
 
-  // De-dupe by composed slug in case Gemini returns the same event twice.
+  // De-dupe in two passes:
+  //   (1) Within this run — Gemini occasionally returns the same event
+  //       twice (e.g. once in Editor's Picks, once in a category section).
+  //       We collapse on composed slug.
+  //   (2) Across runs — long-running exhibitions ("It's a Pink Area" runs
+  //       Apr 11 → Oct 4) get re-surfaced by future weeks' research and
+  //       would otherwise produce a fresh duplicate slug each week. We
+  //       look up the canonical record by (name, venue) identity and
+  //       reuse its slug. Newsletter HTML links then point to the existing
+  //       page; the JSON file is updated in-place rather than orphaned.
+  //
+  //   Existing-record fields are preserved on top of the new extraction —
+  //   that protects accumulated enrichment (longDescription, image,
+  //   externalLink, real dates for long-running events). What DOES get
+  //   updated is sourceEdition (so this week is recorded as the latest
+  //   surface) and editorPickRank (this week's pick position).
   const seen = new Set<string>();
   const records: EventRecord[] = [];
   for (const r of rawEvents) {
-    if (!r.name || !r.date || !r.venue) continue; // skip incomplete rows
-    const slug = composeEventSlug(r.name, r.venue, r.date);
+    if (!r.name || !r.date || !r.venue) continue;
+
+    // Dedup pass (2): is this event already canonical somewhere?
+    const existing = findExistingEventByIdentity(r.name, r.venue);
+    const slug = existing?.slug ?? composeEventSlug(r.name, r.venue, r.date);
     if (seen.has(slug)) continue;
     seen.add(slug);
+
+    const editorPickRank =
+      typeof r.editorPickRank === 'number' && r.editorPickRank >= 1 && r.editorPickRank <= 5
+        ? Math.round(r.editorPickRank)
+        : undefined;
+
+    if (existing) {
+      // Merge: preserve enrichment, override only what THIS run owns.
+      records.push({
+        ...existing,
+        sourceEdition,
+        editorPickRank, // explicit — clears prior weeks' pick if this week didn't surface
+        // Keep existing externalLink if it's already real; otherwise take
+        // a real one from this run if Gemini found one.
+        externalLink: isRealEventUrl(existing.externalLink)
+          ? existing.externalLink
+          : (isRealEventUrl(r.externalLink) ? r.externalLink : existing.externalLink),
+      });
+      continue;
+    }
+
+    // Fresh event — first time we've seen it.
     records.push({
       slug,
       name: r.name,
@@ -150,12 +191,8 @@ ${html}`;
       category: r.category,
       description: r.description,
       sourceEdition,
-      // Final guard: never persist a google/search URL even if the prompt slipped.
       externalLink: isRealEventUrl(r.externalLink) ? r.externalLink : undefined,
-      editorPickRank:
-        typeof r.editorPickRank === 'number' && r.editorPickRank >= 1 && r.editorPickRank <= 5
-          ? Math.round(r.editorPickRank)
-          : undefined,
+      editorPickRank,
       addedAt: new Date().toISOString(),
     });
   }

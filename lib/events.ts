@@ -174,6 +174,29 @@ export function composeEventSlug(name: string, venue: string, isoDate: string): 
 }
 
 /**
+ * Returns the canonical existing event record for a given (name, venue),
+ * if one exists. Used by the extraction pipeline to dedupe — if a
+ * long-running exhibition (e.g. "It's a Pink Area" at Casa São Roque) was
+ * already extracted in a prior week's run, we want to reuse that record's
+ * slug rather than create a parallel `<event>-<thisweek>` duplicate.
+ *
+ * Identity normalisation: kebab-cased name + venueSlug. Matches across
+ * minor punctuation/casing variance ("It's a Pink Area" === "Its a Pink
+ * Area"). Among multiple matches we return the OLDEST by addedAt — that
+ * record has the most accumulated enrichment (longDescription, image,
+ * externalLink) from prior backfill cron runs.
+ */
+export function findExistingEventByIdentity(name: string, venue: string): EventRecord | null {
+  const targetName = venueToSlug(name);
+  const targetVenue = venueToSlug(venue);
+  const candidates = listEvents().filter(
+    (e) => venueToSlug(e.name) === targetName && venueToSlug(e.venue) === targetVenue
+  );
+  if (candidates.length === 0) return null;
+  return candidates.sort((a, b) => a.addedAt.localeCompare(b.addedAt))[0];
+}
+
+/**
  * Category → emoji used in the placeholder image + breadcrumb.
  * Kept small so the placeholder doesn't feel like a category grid.
  */
