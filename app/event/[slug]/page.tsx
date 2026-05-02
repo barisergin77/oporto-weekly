@@ -121,7 +121,13 @@ export default function EventPage({ params }: { params: { slug: string } }) {
         {/* Hero image or placeholder */}
         <EventHero event={ev} />
 
-        {/* Metadata row — Porto-Secreto style pins */}
+        {/* Metadata row — Porto-Secreto style pins.
+            Price chip becomes a link to the external event/ticket page when
+            we have one. "Check Website" with no link to follow is the bug
+            that triggered this fix — avoid CTA-shaped labels without an
+            actionable href: when we have no link AND the price text is a
+            CTA-style string, drop the chip entirely so it isn't a dead
+            promise. */}
         <div
           style={{
             display: 'flex',
@@ -130,7 +136,19 @@ export default function EventPage({ params }: { params: { slug: string } }) {
             margin: '24px 0 28px',
           }}
         >
-          {ev.price && <MetaPin icon="🏷️" text={ev.price} />}
+          {(() => {
+            if (!ev.price) return null;
+            const hasLink = isRealEventUrl(ev.externalLink);
+            const isCta = /check\s*website|varies|ticket(ed|s? required)|see\s*venue/i.test(ev.price);
+            if (isCta && !hasLink) return null;
+            return (
+              <MetaPin
+                icon="🏷️"
+                text={ev.price}
+                href={hasLink ? ev.externalLink : undefined}
+              />
+            );
+          })()}
           <MetaPin icon="📍" text={ev.venue} href={ev.venueSlug ? `/venue/${ev.venueSlug}` : undefined} />
           <MetaPin icon="📅" text={formatLongDate(ev.date, ev.endDate)} />
         </div>
@@ -373,14 +391,23 @@ function MetaPin({
     textDecoration: 'none' as const,
   };
 
-  if (href) {
+  if (!href) {
+    return <div style={base}>{inner}</div>;
+  }
+  // External URL — open in a new tab. Internal routes use Next's Link
+  // for client-side nav.
+  if (/^https?:\/\//i.test(href)) {
     return (
-      <Link href={href} style={base}>
+      <a href={href} target="_blank" rel="noopener noreferrer nofollow" style={base}>
         {inner}
-      </Link>
+      </a>
     );
   }
-  return <div style={base}>{inner}</div>;
+  return (
+    <Link href={href} style={base}>
+      {inner}
+    </Link>
+  );
 }
 
 // ---------------------------------------------------------------------------
