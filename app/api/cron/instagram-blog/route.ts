@@ -151,6 +151,24 @@ export async function GET(req: NextRequest) {
   if (authError) return NextResponse.json({ error: authError }, { status: 401 });
 
   try {
+    // 0. Run-ledger guard. The 48h freshness check below is a soft guard
+    //    that protects against re-promoting last week's post, but it
+    //    DOESN'T protect against same-day double-dispatch (e.g. watchdog
+    //    rescue on Tuesday afternoon when the post is fresh). The ledger
+    //    catches that.
+    const { isStepComplete, markStepComplete, getWeekEntry, blogWeekKey } = await import('@/lib/run-ledger');
+    const weekKey = blogWeekKey(new Date());
+    if (await isStepComplete(weekKey, 'blog-instagram')) {
+      const entry = await getWeekEntry(weekKey);
+      console.log(`[cron/instagram-blog] blog-instagram already complete for ${weekKey} — skipping`);
+      return NextResponse.json({
+        skipped: true,
+        reason: 'blog-instagram-already-complete',
+        weekKey,
+        ledger: entry,
+      });
+    }
+
     // 1. Load the newest blog post
     const posts = listBlogPosts();
     const latest = posts[0];
@@ -189,6 +207,7 @@ export async function GET(req: NextRequest) {
     // 5. Queue on Buffer
     const post = await scheduleBufferPost(imgurUrl, caption);
     console.log(`[cron/instagram-blog] Scheduled: ${post.id} (${post.status})`);
+    await markStepComplete(weekKey, 'blog-instagram');
 
     return NextResponse.json({
       ok: true,

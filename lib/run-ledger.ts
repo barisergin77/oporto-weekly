@@ -39,7 +39,9 @@ export type Step =
   | 'pt-web'
   | 'pt-email'
   | 'instagram'
-  | 'reddit-draft';
+  | 'reddit-draft'
+  | 'blog-post'
+  | 'blog-instagram';
 
 export const STEPS: readonly Step[] = [
   'research',
@@ -49,7 +51,30 @@ export const STEPS: readonly Step[] = [
   'pt-email',
   'instagram',
   'reddit-draft',
+  'blog-post',
+  'blog-instagram',
 ];
+
+/**
+ * Week-key for the Tuesday-cadence blog crons. Snaps to the most-recent
+ * Tuesday at UTC midnight so any day in that week produces the same key.
+ *
+ * Example: today=Sat 2 May 2026 → most-recent Tuesday is 28 Apr → key
+ * "blog-tue-apr-28-2026". A blog cron rescue on Saturday for that
+ * Tuesday's slot computes the same key as the Tuesday run did, so the
+ * ledger guard hits.
+ */
+export function blogWeekKey(now: Date = new Date()): string {
+  const d = new Date(now);
+  const dow = d.getUTCDay(); // 0=Sun, 2=Tue
+  const daysBack = (dow - 2 + 7) % 7;
+  d.setUTCDate(d.getUTCDate() - daysBack);
+  d.setUTCHours(0, 0, 0, 0);
+  const m = d.toLocaleDateString('en-US', { month: 'short', timeZone: 'UTC' }).toLowerCase();
+  const day = d.getUTCDate();
+  const y = d.getUTCFullYear();
+  return `blog-tue-${m}-${day}-${y}`;
+}
 
 const LEDGER_PATH = 'data/run-ledger.json';
 

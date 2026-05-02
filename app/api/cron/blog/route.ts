@@ -111,6 +111,23 @@ export async function GET(req: NextRequest) {
   if (authError) return NextResponse.json({ error: authError }, { status: 401 });
 
   try {
+    // 0. Run-ledger guard. Without this, a watchdog re-dispatch (or any
+    //    workflow_dispatch) generates a fresh blog post and commits it.
+    //    Two posts in one week clutters the index and consumes Gemini quota
+    //    for no benefit. See lib/run-ledger.ts.
+    const { isStepComplete, markStepComplete, getWeekEntry, blogWeekKey } = await import('@/lib/run-ledger');
+    const weekKey = blogWeekKey(new Date());
+    if (await isStepComplete(weekKey, 'blog-post')) {
+      const entry = await getWeekEntry(weekKey);
+      console.log(`[cron/blog] blog-post already complete for ${weekKey} — skipping`);
+      return NextResponse.json({
+        skipped: true,
+        reason: 'blog-post-already-complete',
+        weekKey,
+        ledger: entry,
+      });
+    }
+
     // 1. Pick a topic — use day of year to rotate through the pool
     const dayOfYear = Math.floor(
       (Date.now() - new Date(new Date().getFullYear(), 0, 0).getTime()) / 86400000
@@ -253,6 +270,7 @@ export async function GET(req: NextRequest) {
     // Atomic commit
     const commitSha = await commitFiles(files, `feat: new blog post - ${slug}`);
     console.log(`[cron/blog] Committed ${slug} → ${commitSha.slice(0, 7)}`);
+    await markStepComplete(weekKey, 'blog-post');
 
     // Notify search engines (best-effort)
     notifySearchEngines(`blog/${slug}`).catch(e =>
