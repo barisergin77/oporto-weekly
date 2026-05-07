@@ -7,5 +7,9 @@
   "category": "music",
   "description": "Experience the music of two of the world's greatest bands like never before, performed live in a magical, candlelit setting.",
   "sourceEdition": "may-7-13-2026",
-  "addedAt": "2026-05-07T10:20:03.491Z"
+  "addedAt": "2026-05-07T10:20:03.491Z",
+  "image": {
+    "url": "https://i.imgur.com/ui3B3pJ.jpeg",
+    "credit": "AI illustration · Oporto Weekly"
+  }
 }
