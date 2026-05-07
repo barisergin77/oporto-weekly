@@ -57,6 +57,9 @@ const SEARCH_QUERIES = [
   'site:visitporto.travel events Porto this week',
   'site:cm-porto.pt agenda eventos Porto esta semana',
   'site:portoalive.pt eventos Porto esta semana',
+  // Curated cultural agenda — Porto-specific concerts, theatre, exhibitions,
+  // and traditional events. Visitor flagged this as an important source.
+  'site:agenda-porto.pt eventos Porto esta semana',
   // Local press — catches traditional / festival / civic events
   'site:jn.pt OR site:publico.pt Porto agenda fim de semana',
   'site:timeout.pt Porto this week',
