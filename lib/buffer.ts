@@ -46,7 +46,13 @@ export async function scheduleBufferPost(
         mode: 'addToQueue',
         metadata: { instagram: { type: 'post', shouldShareToFeed: true } },
         text: caption,
-        assets: { images: [{ url: imageUrl }] },
+        // Buffer API breaking change announced 2026-05-06: `assets` moved
+        // from { images: [{ url }] } to an ordered array of [{ image: {
+        // url } }]. The old shape is still accepted until May 25, 2026,
+        // but transparently translated — and the announcement warned
+        // some implementations might break before that anyway. Migrating
+        // now to be safe.
+        assets: [{ image: { url: imageUrl } }],
       },
     },
   };
