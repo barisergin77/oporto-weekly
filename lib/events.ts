@@ -254,22 +254,29 @@ function deriveEndDate(start: string): string {
 }
 
 /**
- * Build a schema.org `performer` object. Google wants this for
- * performance-style events (music, nightlife, sports). For those
- * categories the event name IS the performer in practice
- * ("Tito Paris Concert", "Brahms in Concert"). For art / food / family /
- * other we omit it — forcing a "PerformingGroup" for a food market would
- * be semantically wrong and Google doesn't flag its absence on those.
+ * Build a schema.org `performer` object. Always returns a value — GSC's
+ * 2026-05-06 Events structured-data audit flagged "Missing field
+ * 'performer'" on art / food / family events (non-critical, but they
+ * accumulate and the warning email gets sent every cycle).
+ *
+ * Type picked to match the category's semantics:
+ *   - music     → PerformingGroup (artist / band / DJ)
+ *   - nightlife → Organization (venue / DJ / promoter)
+ *   - sports    → SportsTeam
+ *   - art / food / family / other → Organization (organizer or featured
+ *     artist / collective / market operator; using a generic Organization
+ *     keeps the JSON-LD valid without semantic overreach)
+ *
+ * Name is the event name itself, which is what readers actually
+ * recognize — "Impressive Monet & Brilliant Klimt" is more useful in a
+ * SERP performer slot than the venue name.
  */
 function derivePerformer(e: EventRecord): { '@type': string; name: string } | null {
-  if (e.category !== 'music' && e.category !== 'nightlife' && e.category !== 'sports') {
-    return null;
-  }
   if (!e.name) return null;
   const type =
     e.category === 'sports' ? 'SportsTeam' :
-    e.category === 'nightlife' ? 'Organization' :
-    'PerformingGroup';
+    e.category === 'music' ? 'PerformingGroup' :
+    'Organization';
   return { '@type': type, name: e.name };
 }
 
