@@ -327,7 +327,15 @@ export function toEventJsonLd(e: EventRecord, siteUrl = 'https://oportoweekly.co
       name: e.venue,
       address: { '@type': 'PostalAddress', addressLocality: 'Porto', addressCountry: 'PT' },
     },
-    ...(e.image ? { image: e.image.url } : {}),
+    // image: ALWAYS emit. GSC's 2026-05-17 audit flagged "Missing field
+    // 'image'" on the ~23 events whose press photo hasn't been acquired
+    // yet (event-images cron backfills these in batches). Falling back
+    // to the site hero banner — not pretty in a SERP rich-result
+    // preview, but it clears the warning and is honest (it's our brand
+    // image, not a misleading claim about the event itself). The event
+    // detail page still shows a category-coloured placeholder for
+    // imageless events; only the JSON-LD payload Google sees changes.
+    image: e.image?.url ?? `${siteUrl}/hero-banner.png`,
     offers,
     ...(performer ? { performer } : {}),
     url,
