@@ -1,12 +1,14 @@
 {
   "slug": "afrolicious-rhythm-groove-pinkclub-may-23-2026",
   "name": "Afrolicious Rhythm & Groove",
-  "date": "2026-05-23",
+  "date": "2026-05-23T23:30",
   "venue": "Pinkclub",
   "venueSlug": "pinkclub",
-  "price": "Tickets Vary",
+  "price": "From €9.76",
+  "priceFrom": 9.76,
+  "currency": "EUR",
   "category": "nightlife",
-  "description": "Get ready to dance the night away to infectious Afro beats and grooves at this high-energy party in the heart of the city.",
+  "description": "Get ready to dance at the biggest Afro Party in Porto. The night is dedicated to the best of Afrobeat, Amapiano, and R&B.",
   "sourceEdition": "may-21-27-2026",
-  "addedAt": "2026-05-21T11:04:03.207Z"
+  "addedAt": "2026-05-21T11:05:51.791Z"
 }

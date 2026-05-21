@@ -2,11 +2,12 @@
   "slug": "dino-experience-alfandega-do-porto-may-21-2026",
   "name": "Dino Experience",
   "date": "2026-05-21",
+  "endDate": "2026-05-27",
   "venue": "Alfândega do Porto",
   "venueSlug": "alfandega-do-porto",
-  "price": "Tickets Vary",
-  "category": "art",
-  "description": "Journey back in time at Portugal's largest immersive digital exhibition. A thrilling experience for all ages, featuring projections and virtual reality.",
+  "price": "Varies",
+  "category": "family",
+  "description": "Travel back in time at this immersive digital exhibition. It uses virtual reality and 360º projections to bring the age of dinosaurs to vivid life.",
   "sourceEdition": "may-21-27-2026",
-  "addedAt": "2026-05-21T11:04:03.186Z"
+  "addedAt": "2026-05-21T11:05:51.783Z"
 }

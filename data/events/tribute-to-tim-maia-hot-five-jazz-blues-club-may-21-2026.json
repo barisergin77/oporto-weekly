@@ -1,12 +1,14 @@
 {
   "slug": "tribute-to-tim-maia-hot-five-jazz-blues-club-may-21-2026",
   "name": "Tribute to Tim Maia",
-  "date": "2026-05-21",
+  "date": "2026-05-21T22:00",
   "venue": "Hot Five Jazz & Blues Club",
   "venueSlug": "hot-five-jazz-blues-club",
-  "price": "Tickets Vary",
-  "category": "nightlife",
-  "description": "Experience the soulful sounds of Brazilian music legend Tim Maia at one of Porto's most authentic and beloved live music venues.",
+  "price": "From €17.24",
+  "priceFrom": 17.24,
+  "currency": "EUR",
+  "category": "music",
+  "description": "Groove to the soulful sounds of Brazil. This tribute to the legendary Tim Maia is sure to be a vibrant and energetic night of classic tunes.",
   "sourceEdition": "may-21-27-2026",
-  "addedAt": "2026-05-21T11:04:03.204Z"
+  "addedAt": "2026-05-21T11:05:51.765Z"
 }
