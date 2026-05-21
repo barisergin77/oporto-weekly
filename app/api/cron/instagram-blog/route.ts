@@ -151,19 +151,16 @@ export async function GET(req: NextRequest) {
   if (authError) return NextResponse.json({ error: authError }, { status: 401 });
 
   try {
-    // 0. Run-ledger guard. The 48h freshness check below is a soft guard
-    //    that protects against re-promoting last week's post, but it
-    //    DOESN'T protect against same-day double-dispatch (e.g. watchdog
-    //    rescue on Tuesday afternoon when the post is fresh). The ledger
-    //    catches that.
-    const { isStepComplete, markStepComplete, getWeekEntry, blogWeekKey } = await import('@/lib/run-ledger');
+    // 0. Atomic claim via the run-ledger.
+    const { tryClaimStep, getWeekEntry, blogWeekKey } = await import('@/lib/run-ledger');
     const weekKey = blogWeekKey(new Date());
-    if (await isStepComplete(weekKey, 'blog-instagram')) {
+    const claimed = await tryClaimStep(weekKey, 'blog-instagram');
+    if (!claimed) {
       const entry = await getWeekEntry(weekKey);
-      console.log(`[cron/instagram-blog] blog-instagram already complete for ${weekKey} — skipping`);
+      console.log(`[cron/instagram-blog] blog-instagram already claimed for ${weekKey} — skipping`);
       return NextResponse.json({
         skipped: true,
-        reason: 'blog-instagram-already-complete',
+        reason: 'blog-instagram-already-claimed',
         weekKey,
         ledger: entry,
       });
@@ -207,7 +204,7 @@ export async function GET(req: NextRequest) {
     // 5. Queue on Buffer
     const post = await scheduleBufferPost(imgurUrl, caption);
     console.log(`[cron/instagram-blog] Scheduled: ${post.id} (${post.status})`);
-    await markStepComplete(weekKey, 'blog-instagram');
+    // blog-instagram was claimed (and marked) at the top of the handler.
 
     return NextResponse.json({
       ok: true,

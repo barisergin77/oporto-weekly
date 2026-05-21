@@ -102,14 +102,15 @@ export async function GET(req: NextRequest) {
     const ptSlug = `${slug}-pt`;
     console.log(`[cron/newsletter-pt] now=${now.toISOString()} dayOfWeek=${dayOfWeek} thursday=${weekStart.toISOString().slice(0,10)} slug=${slug}`);
 
-    // 1.5. RUN-LEDGER GUARD — see EN cron for full rationale.
-    const { isStepComplete, markStepComplete, getWeekEntry } = await import('@/lib/run-ledger');
-    if (await isStepComplete(slug, 'pt-email')) {
+    // 1.5. ATOMIC CLAIM via the run-ledger. See EN cron for full rationale.
+    const { tryClaimStep, markStepComplete, getWeekEntry } = await import('@/lib/run-ledger');
+    const claimed = await tryClaimStep(slug, 'pt-email');
+    if (!claimed) {
       const entry = await getWeekEntry(slug);
-      console.log(`[cron/newsletter-pt] pt-email already complete for ${slug} — skipping`);
+      console.log(`[cron/newsletter-pt] pt-email already claimed for ${slug} — skipping (race lost or prior run)`);
       return NextResponse.json({
         skipped: true,
-        reason: 'pt-email-already-complete',
+        reason: 'pt-email-already-claimed',
         slug: ptSlug,
         ledger: entry,
       });
@@ -170,9 +171,8 @@ export async function GET(req: NextRequest) {
     } else {
       console.log('[cron/newsletter-pt] No PT subscribers — skipping send');
     }
-    // Mark pt-email complete even when there are no subscribers — the step
-    // ran successfully (just had nothing to send), so we shouldn't re-run.
-    await markStepComplete(slug, 'pt-email');
+    // pt-email was claimed (and marked) at the top of the handler. No
+    // mark needed here.
 
     return NextResponse.json({ success: true, slug: ptSlug, sent: { pt: sentPT } });
   } catch (err: unknown) {

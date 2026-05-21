@@ -189,15 +189,16 @@ export async function GET(req: NextRequest) {
     }
     console.log(`[cron/instagram] Using edition: ${latest.slug}`);
 
-    // 1.5. Run-ledger guard — skip if instagram step is already complete
-    //      for this edition. See lib/run-ledger.ts for design.
-    const { isStepComplete, markStepComplete, getWeekEntry } = await import('@/lib/run-ledger');
-    if (await isStepComplete(latest.slug, 'instagram')) {
+    // 1.5. Atomic claim via the run-ledger — closes the same concurrency
+    //      race that bit the newsletter cron on 2026-05-21.
+    const { tryClaimStep, getWeekEntry } = await import('@/lib/run-ledger');
+    const claimed = await tryClaimStep(latest.slug, 'instagram');
+    if (!claimed) {
       const entry = await getWeekEntry(latest.slug);
-      console.log(`[cron/instagram] instagram already complete for ${latest.slug} — skipping`);
+      console.log(`[cron/instagram] instagram already claimed for ${latest.slug} — skipping`);
       return NextResponse.json({
         skipped: true,
-        reason: 'instagram-already-complete',
+        reason: 'instagram-already-claimed',
         edition: latest.slug,
         ledger: entry,
       });
@@ -232,7 +233,7 @@ export async function GET(req: NextRequest) {
     console.log('[cron/instagram] Scheduling post via Buffer...');
     const bufferResult = await scheduleBufferPost(imgurUrl, caption);
     console.log(`[cron/instagram] Scheduled: ${bufferResult.id} (${bufferResult.status}, due ${bufferResult.dueAt})`);
-    await markStepComplete(latest.slug, 'instagram');
+    // instagram was claimed (and marked) at the top of the handler.
 
     return NextResponse.json({
       success: true,

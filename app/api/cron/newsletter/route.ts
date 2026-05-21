@@ -391,25 +391,36 @@ export async function GET(req: NextRequest) {
     const slug = generateSlug(weekRange);
     console.log(`[cron/newsletter] now=${now.toISOString()} dayOfWeek=${dayOfWeek} thursday=${weekStart.toISOString().slice(0,10)} slug=${slug}`);
 
-    // 0.5. RUN-LEDGER GUARD — the calendar-fact source of truth.
+    // 0.5. ATOMIC CLAIM via the run-ledger.
     //
-    // We check data/run-ledger.json for "is en-email done for this week?"
-    // before doing anything. If yes, bail. Each substep also marks itself
-    // complete in the ledger as it finishes, so a partial-run recovery
-    // (e.g. archive succeeded but send failed) can re-enter and only
-    // re-do the missing steps.
+    // tryClaimStep writes the en-email mark IFF no one else has yet,
+    // using GitHub's fast-forward semantics as the lock. If TWO crons
+    // arrive concurrently (which is what happened 2026-05-21 — two
+    // pipelines ran inside one workflow run, both passing a soft
+    // isStepComplete check and both sending), only one claims; the
+    // other gets `claimed=false` and bails before research starts.
     //
-    // Background: previous guards inferred "did we publish?" from file
-    // existence + slug computation. The slug bug on 2026-05-01 broke
-    // that inference. The ledger doesn't infer — it's the recorded fact
-    // of which step finished when.
-    const { isStepComplete, markStepComplete, getWeekEntry } = await import('@/lib/run-ledger');
-    if (await isStepComplete(slug, 'en-email')) {
+    // We claim en-email up front rather than at the end of the pipeline
+    // because the SEND is the irreversible step. Once the email goes
+    // out we cannot un-send. So the mark needs to exist BEFORE any
+    // concurrent invocation has a chance to think "still nothing in
+    // the ledger, I should run."
+    //
+    // Failure-mode trade-off: if the pipeline crashes after the claim
+    // but before send (rare — archive is the only major dependency),
+    // the ledger says en-email is "done" but no email went out.
+    // Recovery is manual: remove the entry from data/run-ledger.json
+    // and re-dispatch. This is strictly safer than the previous
+    // behaviour where a partial pipeline could be re-run and would
+    // re-send to everyone.
+    const { tryClaimStep, markStepComplete, getWeekEntry } = await import('@/lib/run-ledger');
+    const claimed = await tryClaimStep(slug, 'en-email');
+    if (!claimed) {
       const entry = await getWeekEntry(slug);
-      console.log(`[cron/newsletter] en-email already complete for ${slug} — skipping`);
+      console.log(`[cron/newsletter] en-email already claimed for ${slug} — skipping (race lost or prior run)`);
       return NextResponse.json({
         skipped: true,
-        reason: 'en-email-already-complete',
+        reason: 'en-email-already-claimed',
         slug,
         weekRange,
         ledger: entry,
@@ -565,7 +576,8 @@ export async function GET(req: NextRequest) {
       { name: 'edition', value: slug },
     ]);
     console.log(`[cron/newsletter] Sent EN to ${sentEN} subscribers`);
-    await markStepComplete(slug, 'en-email');
+    // en-email was claimed (and marked) at the top of the handler. No
+    // mark needed here.
 
     return NextResponse.json({
       success: true,

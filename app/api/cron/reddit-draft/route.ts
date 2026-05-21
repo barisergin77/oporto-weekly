@@ -272,16 +272,15 @@ export async function GET(req: NextRequest) {
     const slug = latest.slug;
     const weekRange = latest.weekRange;
 
-    // Run-ledger guard. Without this, a watchdog re-dispatch (or any
-    // workflow_dispatch) drafts a fresh post and spams the editor's
-    // inbox. See lib/run-ledger.ts.
-    const { isStepComplete, markStepComplete, getWeekEntry } = await import('@/lib/run-ledger');
-    if (await isStepComplete(slug, 'reddit-draft')) {
+    // Atomic claim via the run-ledger. See newsletter cron for rationale.
+    const { tryClaimStep, getWeekEntry } = await import('@/lib/run-ledger');
+    const claimed = await tryClaimStep(slug, 'reddit-draft');
+    if (!claimed) {
       const entry = await getWeekEntry(slug);
-      console.log(`[cron/reddit-draft] reddit-draft already complete for ${slug} — skipping`);
+      console.log(`[cron/reddit-draft] reddit-draft already claimed for ${slug} — skipping (race lost or prior run)`);
       return NextResponse.json({
         skipped: true,
-        reason: 'reddit-draft-already-complete',
+        reason: 'reddit-draft-already-claimed',
         slug,
         ledger: entry,
       });
@@ -309,7 +308,7 @@ export async function GET(req: NextRequest) {
     );
 
     console.log(`[cron/reddit-draft] Sent draft for ${slug} (${draft.length} bytes)`);
-    await markStepComplete(slug, 'reddit-draft');
+    // reddit-draft was claimed (and marked) at the top of the handler.
     return NextResponse.json({
       ok: true,
       slug,

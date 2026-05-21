@@ -125,6 +125,45 @@ export async function getWeekEntry(weekSlug: string): Promise<WeekEntry> {
  * step itself has already completed and the next attempt's `isStepComplete`
  * check will see the first run's mark and bail before reaching this code.
  */
+/**
+ * Atomic claim: mark a step complete IFF no one else has marked it yet.
+ *
+ * Returns true if THIS caller wrote the mark (the caller owns the step).
+ * Returns false if someone else already marked it (caller should bail).
+ *
+ * Atomicity comes from GitHub's git refs API — commitFiles() only
+ * fast-forwards. If two concurrent crons both reach this function:
+ *   - Both fetch HEAD = X and re-read the ledger (mark absent).
+ *   - Both build new commits with parent = X.
+ *   - First to call updateRef wins; HEAD = Y.
+ *   - Second's updateRef fails with 422 because HEAD ≠ X.
+ *   - Second catches the throw, re-reads the ledger via getFileContent
+ *     (which forces no-cache), sees the mark, returns false.
+ *
+ * Used at the TOP of every cron that sends or publishes — before
+ * research, generation, or any side effect. Closes the 2026-05-21 race
+ * where two concurrent invocations both passed the guard-then-work
+ * check and both shipped emails.
+ */
+export async function tryClaimStep(weekSlug: string, step: Step): Promise<boolean> {
+  // First, cheap optimistic check — if the mark is already in the ledger,
+  // skip the commit entirely.
+  if (await isStepComplete(weekSlug, step)) return false;
+  try {
+    await markStepComplete(weekSlug, step);
+    return true;
+  } catch (err) {
+    // The commit may have failed for one of two reasons:
+    //   (a) 422 fast-forward — another invocation beat us and HEAD moved
+    //   (b) genuine transient error (rate limit, network, etc.)
+    // Disambiguate by re-reading the ledger: if the step is now marked,
+    // (a). If still not marked, (b) — re-raise so the caller knows the
+    // claim DIDN'T land and can retry/abort intentionally.
+    if (await isStepComplete(weekSlug, step)) return false;
+    throw err;
+  }
+}
+
 export async function markStepComplete(weekSlug: string, step: Step): Promise<void> {
   const ledger = await readLedger();
   ledger[weekSlug] = { ...(ledger[weekSlug] ?? {}), [step]: new Date().toISOString() };
