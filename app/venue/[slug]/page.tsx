@@ -4,6 +4,7 @@ import type { Metadata } from 'next';
 import {
   listEvents,
   listEventsByVenue,
+  toEventJsonLd,
   CATEGORY_EMOJI,
   CATEGORY_LABEL,
   type EventRecord,
@@ -85,6 +86,12 @@ export default function VenuePage({ params }: { params: { slug: string } }) {
     .sort((a, b) => b.date.localeCompare(a.date));
 
   // schema.org Place for rich snippets on the venue page.
+  // Nested events use toEventJsonLd() so they pass GSC validation — Google
+  // checks each nested Event as a standalone Event and requires the full
+  // field set (location, eventStatus, offers, organizer, image, etc.).
+  // Previously we emitted a thin shape (name/startDate/endDate/url only)
+  // which GSC flagged as "Missing field 'location'" on 2026-05-25. Stripping
+  // @context because nested objects inherit it from the parent Place.
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Place',
@@ -94,13 +101,12 @@ export default function VenuePage({ params }: { params: { slug: string } }) {
       addressLocality: 'Porto',
       addressCountry: 'PT',
     },
-    event: upcoming.slice(0, 20).map((e) => ({
-      '@type': 'Event',
-      name: e.name,
-      startDate: e.date,
-      ...(e.endDate ? { endDate: e.endDate } : {}),
-      url: `https://oportoweekly.com/event/${e.slug}`,
-    })),
+    event: upcoming.slice(0, 20).map((e) => {
+      const full = toEventJsonLd(e) as Record<string, unknown>;
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { '@context': _ctx, ...rest } = full;
+      return rest;
+    }),
   };
 
   return (
