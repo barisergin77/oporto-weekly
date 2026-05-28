@@ -10,5 +10,11 @@
   "category": "nightlife",
   "description": "End your week with a dose of laughter as the international comedian brings her hilarious and provocative show to one of Porto's most beautiful theaters.",
   "sourceEdition": "may-28-june-3-2026",
-  "addedAt": "2026-05-28T11:35:29.925Z"
+  "addedAt": "2026-05-28T11:35:29.925Z",
+  "image": {
+    "url": "https://i.imgur.com/q6ilBSR.jpeg",
+    "credit": "Photo: Elenagabrielle",
+    "sourceUrl": "https://elenagabrielle.com/"
+  },
+  "externalLink": "https://elenagabrielle.com/"
 }
