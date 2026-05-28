@@ -209,6 +209,11 @@ async function findEventUrlViaGemini(ev: EventRecord): Promise<string | null> {
   const query = `Find the official event page for "${ev.name}" at ${ev.venue} in Porto on ${ev.date}. Return ONLY the single best URL — a ticketing page, venue event page, or official press release — and nothing else. No explanation, no markdown, just the raw URL. If you can't find an authoritative page, return the word NONE.`;
 
   try {
+    // 25s ceiling: Gemini Flash with grounded search is usually 3-8s but
+    // can hang on slow days. Without this, a single slow event eats the
+    // whole 300s Vercel budget and the cron times out before committing
+    // anything (observed 2026-05-28 — workflow failed at 5m3s with no
+    // commit, partial work lost).
     const res = await fetch(geminiUrl('gemini-2.5-flash'), {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -217,6 +222,7 @@ async function findEventUrlViaGemini(ev: EventRecord): Promise<string | null> {
         tools: [{ google_search: {} }],
         generationConfig: { temperature: 0.1 },
       }),
+      signal: AbortSignal.timeout(25000),
     });
     if (!res.ok) return null;
     const data = await res.json();
@@ -370,6 +376,9 @@ async function uploadToImgur(base64: string): Promise<string | null> {
   const clientId = process.env.IMGUR_CLIENT_ID;
   if (!clientId) return null;
   try {
+    // 30s ceiling. Imgur uploads usually finish in 2-5s but the base64
+    // payload can be 5MB+ for high-res scrapes; on a slow Imgur day the
+    // request can stall indefinitely.
     const res = await fetch('https://api.imgur.com/3/image', {
       method: 'POST',
       headers: {
@@ -377,6 +386,7 @@ async function uploadToImgur(base64: string): Promise<string | null> {
         'Content-Type': 'application/x-www-form-urlencoded',
       },
       body: `image=${encodeURIComponent(base64)}&type=base64`,
+      signal: AbortSignal.timeout(30000),
     });
     const data = await res.json();
     if (data?.success && data?.data?.link) return data.data.link as string;

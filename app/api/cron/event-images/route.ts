@@ -31,11 +31,15 @@ import { checkCronAuth } from '@/lib/cron-auth';
 //   - scrape successful: ~5-15s (page fetch + og scrape + Imgur upload)
 //   - fallback to Gemini 3 Pro Image generation: ~30-40s (page-fetch try
 //     that fails first, then Gemini imagen, then Imgur upload)
-// Realised per-event time on 2026-04-30 was ~60s — 10 cap blew the 300s
-// budget after only 5 events. Tightening to 5/run + tighter time-budget
-// bail below = guaranteed fit. Leftovers picked up by the 09:45 second
-// schedule + 11:30 daily watchdog.
-const MAX_PER_RUN = 5;
+//   - worst case on a slow Imgur/Gemini day: ~60-70s
+//
+// 2026-04-30: 10 cap blew 300s after 5 events → tightened to 5.
+// 2026-05-28: 5 cap blew 300s on a single slow event with un-timed-out
+//   fetches in findEventUrlViaGemini and uploadToImgur (since fixed).
+//   Dropping to 3 + adding the missing timeouts = 3 × ~70s worst = 210s,
+//   leaves 90s margin to commit. Two weekly passes + workflow_dispatch
+//   on demand still drain the backlog.
+const MAX_PER_RUN = 3;
 
 async function listEventsFromGithub(): Promise<EventRecord[]> {
   // List the events directory via the contents API.
@@ -128,12 +132,12 @@ export async function GET(req: NextRequest) {
         console.error(`[cron/event-images] ❌ ${ev.slug}:`, err instanceof Error ? err.message : err);
       }
 
-      // Budget check — leave a 30s buffer before Vercel kills us.
-      // Bail at 220s (was 270s) so we have 80s of margin to commit the
-      // accumulated updates before Vercel's 300s ceiling. Observed the
-      // earlier 270s budget combined with a single slow event was enough
-      // to overshoot.
-      if (Date.now() - startedAt > 220_000) {
+      // Budget check — bail at 200s so we have 100s margin to commit
+      // any accumulated updates before Vercel's 300s ceiling. The single
+      // commit at the end can take 5-15s (multi-file Git Data API tree),
+      // and we want headroom for one more event's max duration in case
+      // the loop is already mid-iteration past this check.
+      if (Date.now() - startedAt > 200_000) {
         console.warn('[cron/event-images] Time budget exhausted, stopping early');
         break;
       }
