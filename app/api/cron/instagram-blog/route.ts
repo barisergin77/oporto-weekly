@@ -150,26 +150,30 @@ export async function GET(req: NextRequest) {
   const authError = checkCronAuth(req);
   if (authError) return NextResponse.json({ error: authError }, { status: 401 });
 
-  try {
-    // 0. Atomic claim via the run-ledger.
-    const { tryClaimStep, getWeekEntry, blogWeekKey } = await import('@/lib/run-ledger');
-    const weekKey = blogWeekKey(new Date());
-    const claimed = await tryClaimStep(weekKey, 'blog-instagram');
-    if (!claimed) {
-      const entry = await getWeekEntry(weekKey);
-      console.log(`[cron/instagram-blog] blog-instagram already claimed for ${weekKey} — skipping`);
-      return NextResponse.json({
-        skipped: true,
-        reason: 'blog-instagram-already-claimed',
-        weekKey,
-        ledger: entry,
-      });
-    }
+  // 0. Atomic claim via the run-ledger (outside the work try/catch so the
+  //    claim itself isn't unmarked on its own failure).
+  const { tryClaimStep, unmarkStep, getWeekEntry, blogWeekKey } = await import('@/lib/run-ledger');
+  const weekKey = blogWeekKey(new Date());
+  const claimed = await tryClaimStep(weekKey, 'blog-instagram');
+  if (!claimed) {
+    const entry = await getWeekEntry(weekKey);
+    console.log(`[cron/instagram-blog] blog-instagram already claimed for ${weekKey} — skipping`);
+    return NextResponse.json({
+      skipped: true,
+      reason: 'blog-instagram-already-claimed',
+      weekKey,
+      ledger: entry,
+    });
+  }
 
+  try {
     // 1. Load the newest blog post
     const posts = listBlogPosts();
     const latest = posts[0];
     if (!latest) {
+      // No blog post is a legitimate skip-this-week, not a recoverable
+      // failure — but we should still unmark so next week can run.
+      await unmarkStep(weekKey, 'blog-instagram');
       return NextResponse.json({ error: 'No blog posts found' }, { status: 404 });
     }
 
@@ -179,6 +183,8 @@ export async function GET(req: NextRequest) {
     const ageMs = Date.now() - new Date(latest.publishedAt).getTime();
     const FRESH_WINDOW = 48 * 60 * 60 * 1000;
     if (ageMs > FRESH_WINDOW) {
+      // Same — soft skip should release the claim.
+      await unmarkStep(weekKey, 'blog-instagram');
       return NextResponse.json({
         skipped: true,
         reason: 'latest blog post is >48h old — skipping to avoid re-promoting',
@@ -201,10 +207,11 @@ export async function GET(req: NextRequest) {
     const caption = await generateCaption(latest);
     console.log(`[cron/instagram-blog] Caption (${caption.length} chars)`);
 
-    // 5. Queue on Buffer
+    // 5. Queue on Buffer — the only irreversible step. Past this point,
+    //    we keep the claim even on subsequent errors (rare here since the
+    //    function returns immediately after this).
     const post = await scheduleBufferPost(imgurUrl, caption);
     console.log(`[cron/instagram-blog] Scheduled: ${post.id} (${post.status})`);
-    // blog-instagram was claimed (and marked) at the top of the handler.
 
     return NextResponse.json({
       ok: true,
@@ -214,7 +221,11 @@ export async function GET(req: NextRequest) {
       buffer: post,
     });
   } catch (err) {
-    console.error('[cron/instagram-blog]', err);
+    // Work failed AFTER the claim. Nothing in this handler has reached
+    // Buffer yet (we only get past scheduleBufferPost in the success
+    // branch above). Safe to release the claim so a retry can run.
+    console.error('[cron/instagram-blog] work failed after claim, unmarking:', err);
+    await unmarkStep(weekKey, 'blog-instagram');
     return NextResponse.json(
       { error: err instanceof Error ? err.message : String(err) },
       { status: 500 }

@@ -164,6 +164,59 @@ export async function tryClaimStep(weekSlug: string, step: Step): Promise<boolea
   }
 }
 
+/**
+ * Removes a single step mark from a week's ledger entry. Used by the
+ * post-claim try/catch in cron handlers when the work fails AFTER the
+ * claim was written but BEFORE any irreversible side effect (Buffer
+ * post, email send, blog commit). Without this, a transient failure
+ * (e.g. Gemini imagen timeout) leaves the ledger lying about a step
+ * that didn't actually happen, blocking automatic retry forever.
+ *
+ * 2026-06-02 the blog-promo cron claimed blog-instagram, then Gemini
+ * imagen timed out, the cron threw, and the claim stayed marked
+ * "complete" — so no Buffer post for this week's blog and no way for
+ * a retry to proceed without manual ledger surgery. This fixes that.
+ *
+ * Concurrency: same CAS as markStepComplete. If a parallel marker won
+ * the race meanwhile, our commit 422s; we silently swallow because the
+ * mark is "supposed to exist" from someone else's perspective.
+ */
+export async function unmarkStep(weekSlug: string, step: Step): Promise<void> {
+  try {
+    const ledger = await readLedger();
+    const entry = ledger[weekSlug];
+    if (!entry || !entry[step]) return; // already absent — nothing to do
+
+    delete entry[step];
+    // If the week's entry is now empty, drop it entirely to keep the file tidy.
+    if (Object.keys(entry).length === 0) {
+      delete ledger[weekSlug];
+    } else {
+      ledger[weekSlug] = entry;
+    }
+
+    const sortedWeeks = Object.keys(ledger).sort();
+    const ordered: Ledger = {};
+    for (const slug of sortedWeeks) {
+      const e = ledger[slug];
+      const orderedEntry: WeekEntry = {};
+      for (const s of STEPS) {
+        if (e[s]) orderedEntry[s] = e[s];
+      }
+      ordered[slug] = orderedEntry;
+    }
+
+    await commitFiles(
+      [{ path: LEDGER_PATH, content: JSON.stringify(ordered, null, 2) + '\n' }],
+      `chore(ledger): unmark ${step} for ${weekSlug} (work failed, allowing retry)`
+    );
+  } catch (err) {
+    // Don't surface unmark failures — the caller is already in a failure
+    // path. Worst case the mark stays, and a human deletes it manually.
+    console.warn(`[ledger] unmarkStep failed for ${weekSlug}/${step}:`, err);
+  }
+}
+
 export async function markStepComplete(weekSlug: string, step: Step): Promise<void> {
   const ledger = await readLedger();
   ledger[weekSlug] = { ...(ledger[weekSlug] ?? {}), [step]: new Date().toISOString() };

@@ -258,34 +258,41 @@ export async function GET(req: NextRequest) {
   const authError = checkCronAuth(req);
   if (authError) return NextResponse.json({ error: authError }, { status: 401 });
 
+  // Load latest newsletter slug (used as ledger key). Errors here happen
+  // before any claim — surface as 500 directly.
+  let slug: string;
+  let weekRange: string;
   try {
-    // Always use the LATEST EN newsletter, not "today's" computed slug.
-    // This makes the cron correct on Thursday (picks up the edition that just
-    // committed) AND for on-demand regeneration any other day of the week.
-    // Fetched via GitHub API so a mid-deploy Vercel doesn't serve a stale index.
     const indexRaw = await getFileContent('data/newsletters.json');
     if (!indexRaw) throw new Error('data/newsletters.json not found in repo');
     const index = JSON.parse(indexRaw) as NewsletterMeta[];
     const latest = index[0];
     if (!latest) throw new Error('No newsletters in the index yet');
+    slug = latest.slug;
+    weekRange = latest.weekRange;
+  } catch (err) {
+    console.error('[cron/reddit-draft] failed to load newsletter index:', err);
+    return NextResponse.json(
+      { error: err instanceof Error ? err.message : String(err) },
+      { status: 500 }
+    );
+  }
 
-    const slug = latest.slug;
-    const weekRange = latest.weekRange;
+  // Atomic claim outside the work try/catch.
+  const { tryClaimStep, unmarkStep, getWeekEntry } = await import('@/lib/run-ledger');
+  const claimed = await tryClaimStep(slug, 'reddit-draft');
+  if (!claimed) {
+    const entry = await getWeekEntry(slug);
+    console.log(`[cron/reddit-draft] reddit-draft already claimed for ${slug} — skipping`);
+    return NextResponse.json({
+      skipped: true,
+      reason: 'reddit-draft-already-claimed',
+      slug,
+      ledger: entry,
+    });
+  }
 
-    // Atomic claim via the run-ledger. See newsletter cron for rationale.
-    const { tryClaimStep, getWeekEntry } = await import('@/lib/run-ledger');
-    const claimed = await tryClaimStep(slug, 'reddit-draft');
-    if (!claimed) {
-      const entry = await getWeekEntry(slug);
-      console.log(`[cron/reddit-draft] reddit-draft already claimed for ${slug} — skipping (race lost or prior run)`);
-      return NextResponse.json({
-        skipped: true,
-        reason: 'reddit-draft-already-claimed',
-        slug,
-        ledger: entry,
-      });
-    }
-
+  try {
     const rawHtml = await getFileContent(`public/newsletters/${slug}.html`);
     if (!rawHtml) {
       throw new Error(
@@ -316,7 +323,12 @@ export async function GET(req: NextRequest) {
       draftBytes: draft.length,
     });
   } catch (err) {
-    console.error('[cron/reddit-draft]', err);
+    // Work failed after claim. The sendEmail call is the only irreversible
+    // step, and it's the LAST step before the return. Any throw caught here
+    // happened before sendEmail (or sendEmail itself threw, in which case
+    // the editor inbox is the only audience — minor cost). Safe to unmark.
+    console.error('[cron/reddit-draft] work failed after claim, unmarking:', err);
+    await unmarkStep(slug, 'reddit-draft');
     return NextResponse.json(
       { error: err instanceof Error ? err.message : String(err) },
       { status: 500 }

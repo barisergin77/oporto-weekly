@@ -354,6 +354,12 @@ export async function GET(req: NextRequest) {
   const authError = checkCronAuth(req);
   if (authError) return NextResponse.json({ error: authError }, { status: 401 });
 
+  // Outer-scope state so the catch can unmark if needed.
+  let claimedSlug: string | null = null;
+  let pastNoReturn = false;
+  type UnmarkFn = (slug: string, step: 'en-email') => Promise<void>;
+  let unmarkStepFn: UnmarkFn | null = null;
+
   try {
     // 0. Day-of-week guard — only publish on Thursdays.
     //
@@ -413,7 +419,7 @@ export async function GET(req: NextRequest) {
     // and re-dispatch. This is strictly safer than the previous
     // behaviour where a partial pipeline could be re-run and would
     // re-send to everyone.
-    const { tryClaimStep, markStepComplete, getWeekEntry } = await import('@/lib/run-ledger');
+    const { tryClaimStep, unmarkStep, markStepComplete, getWeekEntry } = await import('@/lib/run-ledger');
     const claimed = await tryClaimStep(slug, 'en-email');
     if (!claimed) {
       const entry = await getWeekEntry(slug);
@@ -426,6 +432,13 @@ export async function GET(req: NextRequest) {
         ledger: entry,
       });
     }
+    // Record claim state so the outer catch can unmark on early failures.
+    // pastNoReturn (declared at function top) flips true once we've archived
+    // — past that point the en-email claim stays even on subsequent errors,
+    // because a retry would create drift (re-archive + re-send to people
+    // who already got the email).
+    claimedSlug = slug;
+    unmarkStepFn = unmarkStep as UnmarkFn;
 
     // 1. Run Gemini searches in batches of 4 (sequential batches, parallel within).
     //    Individual failures are tolerated — one bad query doesn't abort the run.
@@ -555,6 +568,7 @@ export async function GET(req: NextRequest) {
       );
       console.log(`[cron/newsletter] Archived EN as ${slug}${eventFiles.length ? ` with ${eventFiles.length} events` : ''}`);
       await markStepComplete(slug, 'en-web');
+      pastNoReturn = true; // archive landed — any subsequent failure must not unmark
 
       notifySearchEngines(slug).catch(e =>
         console.error('[cron/newsletter] Search engine notification failed:', e)
@@ -588,7 +602,17 @@ export async function GET(req: NextRequest) {
       sent: { en: sentEN },
     });
   } catch (err: unknown) {
-    console.error('[cron/newsletter]', err);
+    // Unmark only if claim landed AND we haven't passed the archive yet.
+    // Past archive (pastNoReturn=true), keep the claim — a retry would
+    // produce drift or duplicate sends.
+    if (claimedSlug && unmarkStepFn && !pastNoReturn) {
+      console.error('[cron/newsletter] work failed before archive, unmarking:', err);
+      await unmarkStepFn(claimedSlug, 'en-email');
+    } else if (pastNoReturn) {
+      console.error('[cron/newsletter] work failed AFTER archive, keeping claim (manual recovery needed):', err);
+    } else {
+      console.error('[cron/newsletter]', err);
+    }
     const message = err instanceof Error ? err.message : 'Internal server error';
     return NextResponse.json({ error: message }, { status: 500 });
   }

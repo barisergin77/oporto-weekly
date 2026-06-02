@@ -180,31 +180,31 @@ export async function GET(req: NextRequest) {
   const authError = checkCronAuth(req);
   if (authError) return NextResponse.json({ error: authError }, { status: 401 });
 
+  // 1. Load the latest newsletter edition (sync local read, won't throw).
+  const newsletters = listNewsletters();
+  const latest = newsletters[0];
+  if (!latest) {
+    return NextResponse.json({ error: 'No newsletters found' }, { status: 404 });
+  }
+  console.log(`[cron/instagram] Using edition: ${latest.slug}`);
+
+  // 2. Atomic claim outside the work try/catch so the claim itself isn't
+  //    unmarked on its own failure.
+  const { tryClaimStep, unmarkStep, getWeekEntry } = await import('@/lib/run-ledger');
+  const claimed = await tryClaimStep(latest.slug, 'instagram');
+  if (!claimed) {
+    const entry = await getWeekEntry(latest.slug);
+    console.log(`[cron/instagram] instagram already claimed for ${latest.slug} — skipping`);
+    return NextResponse.json({
+      skipped: true,
+      reason: 'instagram-already-claimed',
+      edition: latest.slug,
+      ledger: entry,
+    });
+  }
+
   try {
-    // 1. Load the latest newsletter edition
-    const newsletters = listNewsletters();
-    const latest = newsletters[0];
-    if (!latest) {
-      return NextResponse.json({ error: 'No newsletters found' }, { status: 404 });
-    }
-    console.log(`[cron/instagram] Using edition: ${latest.slug}`);
-
-    // 1.5. Atomic claim via the run-ledger — closes the same concurrency
-    //      race that bit the newsletter cron on 2026-05-21.
-    const { tryClaimStep, getWeekEntry } = await import('@/lib/run-ledger');
-    const claimed = await tryClaimStep(latest.slug, 'instagram');
-    if (!claimed) {
-      const entry = await getWeekEntry(latest.slug);
-      console.log(`[cron/instagram] instagram already claimed for ${latest.slug} — skipping`);
-      return NextResponse.json({
-        skipped: true,
-        reason: 'instagram-already-claimed',
-        edition: latest.slug,
-        ledger: entry,
-      });
-    }
-
-    // 2. Pull top 5 picks from the structured event records (committed by
+    // 3. Pull top 5 picks from the structured event records (committed by
     //    the newsletter cron's extraction pass). Replaces the earlier
     //    HTML-scraping approach, which broke every time the newsletter
     //    template changed (e.g. April 23 switched <p Georgia> → <h4>).
@@ -243,7 +243,10 @@ export async function GET(req: NextRequest) {
       buffer: bufferResult,
     });
   } catch (err: unknown) {
-    console.error('[cron/instagram]', err);
+    // Work failed after the claim. Buffer was not reached (only step 6).
+    // Release the claim so a retry can run.
+    console.error('[cron/instagram] work failed after claim, unmarking:', err);
+    await unmarkStep(latest.slug, 'instagram');
     const message = err instanceof Error ? err.message : 'Internal server error';
     return NextResponse.json({ error: message }, { status: 500 });
   }

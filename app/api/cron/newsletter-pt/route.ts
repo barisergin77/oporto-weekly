@@ -77,6 +77,12 @@ export async function GET(req: NextRequest) {
   const authError = checkCronAuth(req);
   if (authError) return NextResponse.json({ error: authError }, { status: 401 });
 
+  // Outer-scope state so the catch can unmark on early failure.
+  let claimedSlug: string | null = null;
+  let pastNoReturn = false;
+  type UnmarkFn = (slug: string, step: 'pt-email') => Promise<void>;
+  let unmarkStepFn: UnmarkFn | null = null;
+
   try {
     // 1. Day-of-week guard + slug computation. See EN cron for full
     //    rationale — short version: snap to most-recent Thursday so the
@@ -103,7 +109,7 @@ export async function GET(req: NextRequest) {
     console.log(`[cron/newsletter-pt] now=${now.toISOString()} dayOfWeek=${dayOfWeek} thursday=${weekStart.toISOString().slice(0,10)} slug=${slug}`);
 
     // 1.5. ATOMIC CLAIM via the run-ledger. See EN cron for full rationale.
-    const { tryClaimStep, markStepComplete, getWeekEntry } = await import('@/lib/run-ledger');
+    const { tryClaimStep, unmarkStep, markStepComplete, getWeekEntry } = await import('@/lib/run-ledger');
     const claimed = await tryClaimStep(slug, 'pt-email');
     if (!claimed) {
       const entry = await getWeekEntry(slug);
@@ -115,6 +121,8 @@ export async function GET(req: NextRequest) {
         ledger: entry,
       });
     }
+    claimedSlug = slug;
+    unmarkStepFn = unmarkStep as UnmarkFn;
 
     // 2. Fetch EN newsletter HTML from GitHub (EN cron committed it 15 min earlier)
     const enHtml = await getFileContent(`public/newsletters/${slug}.html`);
@@ -142,6 +150,7 @@ export async function GET(req: NextRequest) {
       }, ptHtml, 'newsletters-pt.json');
       console.log(`[cron/newsletter-pt] Archived PT as ${ptSlug}`);
       await markStepComplete(slug, 'pt-web');
+      pastNoReturn = true; // archive landed — any subsequent failure must not unmark
 
       // Notify search engines (best-effort)
       notifySearchEngines(`pt/arquivo/${ptSlug}`).catch(e =>
@@ -176,7 +185,14 @@ export async function GET(req: NextRequest) {
 
     return NextResponse.json({ success: true, slug: ptSlug, sent: { pt: sentPT } });
   } catch (err: unknown) {
-    console.error('[cron/newsletter-pt]', err);
+    if (claimedSlug && unmarkStepFn && !pastNoReturn) {
+      console.error('[cron/newsletter-pt] work failed before archive, unmarking:', err);
+      await unmarkStepFn(claimedSlug, 'pt-email');
+    } else if (pastNoReturn) {
+      console.error('[cron/newsletter-pt] work failed AFTER archive, keeping claim (manual recovery needed):', err);
+    } else {
+      console.error('[cron/newsletter-pt]', err);
+    }
     const message = err instanceof Error ? err.message : 'Internal server error';
     return NextResponse.json({ error: message }, { status: 500 });
   }

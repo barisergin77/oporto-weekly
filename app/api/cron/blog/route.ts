@@ -110,22 +110,27 @@ export async function GET(req: NextRequest) {
   const authError = checkCronAuth(req);
   if (authError) return NextResponse.json({ error: authError }, { status: 401 });
 
-  try {
-    // 0. Atomic claim via the run-ledger.
-    const { tryClaimStep, getWeekEntry, blogWeekKey } = await import('@/lib/run-ledger');
-    const weekKey = blogWeekKey(new Date());
-    const claimed = await tryClaimStep(weekKey, 'blog-post');
-    if (!claimed) {
-      const entry = await getWeekEntry(weekKey);
-      console.log(`[cron/blog] blog-post already claimed for ${weekKey} — skipping`);
-      return NextResponse.json({
-        skipped: true,
-        reason: 'blog-post-already-claimed',
-        weekKey,
-        ledger: entry,
-      });
-    }
+  // 0. Atomic claim outside the work try/catch.
+  const { tryClaimStep, unmarkStep, getWeekEntry, blogWeekKey } = await import('@/lib/run-ledger');
+  const weekKey = blogWeekKey(new Date());
+  const claimed = await tryClaimStep(weekKey, 'blog-post');
+  if (!claimed) {
+    const entry = await getWeekEntry(weekKey);
+    console.log(`[cron/blog] blog-post already claimed for ${weekKey} — skipping`);
+    return NextResponse.json({
+      skipped: true,
+      reason: 'blog-post-already-claimed',
+      weekKey,
+      ledger: entry,
+    });
+  }
 
+  // Tracks whether we passed the irreversible commit. If true, a thrown
+  // error AFTER this point must NOT unmark — a retry would commit a
+  // second, different blog post for the same week.
+  let committed = false;
+
+  try {
     // 1. Pick a topic — use day of year to rotate through the pool
     const dayOfYear = Math.floor(
       (Date.now() - new Date(new Date().getFullYear(), 0, 0).getTime()) / 86400000
@@ -267,8 +272,8 @@ export async function GET(req: NextRequest) {
 
     // Atomic commit
     const commitSha = await commitFiles(files, `feat: new blog post - ${slug}`);
+    committed = true; // past this point, do NOT unmark on failure
     console.log(`[cron/blog] Committed ${slug} → ${commitSha.slice(0, 7)}`);
-    // blog-post was claimed (and marked) at the top of the handler.
 
     // Notify search engines (best-effort)
     notifySearchEngines(`blog/${slug}`).catch(e =>
@@ -285,7 +290,15 @@ export async function GET(req: NextRequest) {
       },
     });
   } catch (err: unknown) {
-    console.error('[cron/blog]', err);
+    // Unmark only if the failure happened BEFORE the commit. After commit
+    // the post is published and a retry would create a second, different
+    // article for the same week.
+    if (!committed) {
+      console.error('[cron/blog] work failed before commit, unmarking:', err);
+      await unmarkStep(weekKey, 'blog-post');
+    } else {
+      console.error('[cron/blog] work failed AFTER commit, keeping claim (manual recovery needed):', err);
+    }
     const message = err instanceof Error ? err.message : 'Internal server error';
     return NextResponse.json({ error: message }, { status: 500 });
   }
