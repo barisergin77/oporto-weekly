@@ -1,5 +1,11 @@
-# Triggers the EN newsletter cron every Thursday at 08:00 UTC.
+# Triggers the EN newsletter pipeline every Thursday at 08:00 UTC.
 # Works around Vercel Hobby's 2-cron-per-project limit by using GitHub Actions as the scheduler.
+#
+# Two-step since 2026-06-11:
+#   1. /api/cron/newsletter      — research → generate → archive (commit
+#      triggers a Vercel deploy)
+#   2. /api/cron/newsletter-send — waits for that deploy to serve the new
+#      edition, THEN emails subscribers. Emails never point at 404s.
 name: Cron · Newsletter (EN)
 
 on:
@@ -14,9 +20,9 @@ concurrency:
 jobs:
   trigger:
     runs-on: ubuntu-latest
-    timeout-minutes: 8
+    timeout-minutes: 15
     steps:
-      - name: Call /api/cron/newsletter
+      - name: Generate + archive (/api/cron/newsletter)
         run: |
           response=$(curl -s -w "\nHTTP_STATUS:%{http_code}" --max-time 300 \
             -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" \
@@ -26,6 +32,20 @@ jobs:
           echo "Status: $status"
           echo "Body: $body"
           if [ "$status" != "200" ]; then
-            echo "::error::Newsletter cron failed with HTTP $status"
+            echo "::error::Newsletter generation failed with HTTP $status"
+            exit 1
+          fi
+
+      - name: Send after deploy is live (/api/cron/newsletter-send)
+        run: |
+          response=$(curl -s -w "\nHTTP_STATUS:%{http_code}" --max-time 300 \
+            -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" \
+            https://oportoweekly.com/api/cron/newsletter-send)
+          status=$(echo "$response" | tail -n1 | cut -d: -f2)
+          body=$(echo "$response" | sed '$d')
+          echo "Status: $status"
+          echo "Body: $body"
+          if [ "$status" != "200" ]; then
+            echo "::error::Newsletter send failed with HTTP $status"
             exit 1
           fi

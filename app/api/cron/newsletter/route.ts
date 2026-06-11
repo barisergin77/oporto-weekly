@@ -3,8 +3,6 @@ export const maxDuration = 300;
 import { NextRequest, NextResponse } from 'next/server';
 import { generateSlug, formatWeekRange } from '@/lib/archive';
 import { archiveViaGitHub } from '@/lib/github';
-import { getActiveSubscribers } from '@/lib/audiences';
-import { sendBatch } from '@/lib/resend-client';
 import { notifySearchEngines } from '@/lib/search-engines';
 import { generateImage } from '@/lib/imagen';
 import { uploadImageToImgur } from '@/lib/imgur';
@@ -357,7 +355,7 @@ export async function GET(req: NextRequest) {
   // Outer-scope state so the catch can unmark if needed.
   let claimedSlug: string | null = null;
   let pastNoReturn = false;
-  type UnmarkFn = (slug: string, step: 'en-email') => Promise<void>;
+  type UnmarkFn = (slug: string, step: 'en-web') => Promise<void>;
   let unmarkStepFn: UnmarkFn | null = null;
 
   try {
@@ -399,34 +397,30 @@ export async function GET(req: NextRequest) {
 
     // 0.5. ATOMIC CLAIM via the run-ledger.
     //
-    // tryClaimStep writes the en-email mark IFF no one else has yet,
-    // using GitHub's fast-forward semantics as the lock. If TWO crons
-    // arrive concurrently (which is what happened 2026-05-21 — two
-    // pipelines ran inside one workflow run, both passing a soft
-    // isStepComplete check and both sending), only one claims; the
-    // other gets `claimed=false` and bails before research starts.
+    // This endpoint claims `en-web` — it generates and archives, but
+    // does NOT send. Sending moved to /api/cron/newsletter-send, which
+    // runs as the next workflow step AFTER the Vercel deploy triggered
+    // by our archive commit has gone live.
     //
-    // We claim en-email up front rather than at the end of the pipeline
-    // because the SEND is the irreversible step. Once the email goes
-    // out we cannot un-send. So the mark needs to exist BEFORE any
-    // concurrent invocation has a chance to think "still nothing in
-    // the ledger, I should run."
+    // Background (2026-06-11): we used to archive and send in one
+    // handler, back to back. The archive commit *starts* a 1-3 minute
+    // Vercel build; the emails went out immediately, so subscribers who
+    // opened promptly clicked event links into a site that was still
+    // building — 404s, and a homepage still showing last week. The
+    // split lets the send step poll the live site until the new edition
+    // is actually served, with its own 300s budget.
     //
-    // Failure-mode trade-off: if the pipeline crashes after the claim
-    // but before send (rare — archive is the only major dependency),
-    // the ledger says en-email is "done" but no email went out.
-    // Recovery is manual: remove the entry from data/run-ledger.json
-    // and re-dispatch. This is strictly safer than the previous
-    // behaviour where a partial pipeline could be re-run and would
-    // re-send to everyone.
+    // tryClaimStep writes the en-web mark IFF no one else has yet, using
+    // GitHub's fast-forward semantics as the lock (see 2026-05-21
+    // double-send postmortem).
     const { tryClaimStep, unmarkStep, markStepComplete, getWeekEntry } = await import('@/lib/run-ledger');
-    const claimed = await tryClaimStep(slug, 'en-email');
+    const claimed = await tryClaimStep(slug, 'en-web');
     if (!claimed) {
       const entry = await getWeekEntry(slug);
-      console.log(`[cron/newsletter] en-email already claimed for ${slug} — skipping (race lost or prior run)`);
+      console.log(`[cron/newsletter] en-web already claimed for ${slug} — skipping (race lost or prior run)`);
       return NextResponse.json({
         skipped: true,
-        reason: 'en-email-already-claimed',
+        reason: 'en-web-already-claimed',
         slug,
         weekRange,
         ledger: entry,
@@ -434,9 +428,8 @@ export async function GET(req: NextRequest) {
     }
     // Record claim state so the outer catch can unmark on early failures.
     // pastNoReturn (declared at function top) flips true once we've archived
-    // — past that point the en-email claim stays even on subsequent errors,
-    // because a retry would create drift (re-archive + re-send to people
-    // who already got the email).
+    // — past that point the en-web claim stays even on subsequent errors,
+    // because a retry would re-archive a different edition.
     claimedSlug = slug;
     unmarkStepFn = unmarkStep as UnmarkFn;
 
@@ -545,53 +538,28 @@ export async function GET(req: NextRequest) {
     const weekDate = weekStart.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
     const subject = `Oporto Weekly — ${weekDate}`;
 
-    // 6. Archive FIRST, then send. Order is deliberate: the idempotency
-    //    guard at step 0.5 checks `public/newsletters/<slug>.html` on
-    //    GitHub. If we sent first and archived after, two crons firing
-    //    within a minute could both pass the guard and both send. By
-    //    archiving first, the second run sees the archive and bails before
-    //    touching Resend. Trade-off: if archive succeeds but send fails,
-    //    the next run skips and a human must re-send manually — but that's
-    //    a much better failure mode than silently double-sending.
-    try {
-      await archiveViaGitHub(
-        {
-          slug,
-          title: `Oporto Weekly — ${weekStart.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}`,
-          description: subject,
-          sentAt: now.toISOString(),
-          weekRange,
-        },
-        html,
-        'newsletters.json',
-        eventFiles
-      );
-      console.log(`[cron/newsletter] Archived EN as ${slug}${eventFiles.length ? ` with ${eventFiles.length} events` : ''}`);
-      await markStepComplete(slug, 'en-web');
-      pastNoReturn = true; // archive landed — any subsequent failure must not unmark
+    // 6. Archive. This is this endpoint's terminal action — the commit
+    //    triggers a Vercel deploy, and the SEND happens in the next
+    //    workflow step (/api/cron/newsletter-send) only after that
+    //    deploy is verified live. No more emails pointing at 404s.
+    await archiveViaGitHub(
+      {
+        slug,
+        title: `Oporto Weekly — ${weekStart.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}`,
+        description: subject,
+        sentAt: now.toISOString(),
+        weekRange,
+      },
+      html,
+      'newsletters.json',
+      eventFiles
+    );
+    console.log(`[cron/newsletter] Archived EN as ${slug}${eventFiles.length ? ` with ${eventFiles.length} events` : ''}`);
+    pastNoReturn = true; // archive landed — any subsequent failure must not unmark
 
-      notifySearchEngines(slug).catch(e =>
-        console.error('[cron/newsletter] Search engine notification failed:', e)
-      );
-    } catch (archiveErr) {
-      // Archive failure is fatal — without the marker, the next run would
-      // re-send. Surface a 500 so we know something went wrong.
-      console.error('[cron/newsletter] EN archive failed — aborting before send:', archiveErr);
-      throw archiveErr;
-    }
-
-    // 7. Now send. The archive commit is locked in; the guard will block
-    //    any further runs.
-    const enSubscribers = await getActiveSubscribers('en');
-    const enEmails = enSubscribers.map(s => s.email);
-    const sentEN = await sendBatch(enEmails, subject, html, [
-      { name: 'type', value: 'newsletter' },
-      { name: 'lang', value: 'en' },
-      { name: 'edition', value: slug },
-    ]);
-    console.log(`[cron/newsletter] Sent EN to ${sentEN} subscribers`);
-    // en-email was claimed (and marked) at the top of the handler. No
-    // mark needed here.
+    notifySearchEngines(slug).catch(e =>
+      console.error('[cron/newsletter] Search engine notification failed:', e)
+    );
 
     return NextResponse.json({
       success: true,
@@ -599,15 +567,16 @@ export async function GET(req: NextRequest) {
       heroImageUrl,
       extractedEvents: extractedCount,
       linkedAnchors: linkedCount,
-      sent: { en: sentEN },
+      archived: true,
+      send: 'deferred to /api/cron/newsletter-send',
     });
   } catch (err: unknown) {
     // Unmark only if claim landed AND we haven't passed the archive yet.
     // Past archive (pastNoReturn=true), keep the claim — a retry would
-    // produce drift or duplicate sends.
+    // produce a second, different edition.
     if (claimedSlug && unmarkStepFn && !pastNoReturn) {
       console.error('[cron/newsletter] work failed before archive, unmarking:', err);
-      await unmarkStepFn(claimedSlug, 'en-email');
+      await unmarkStepFn(claimedSlug, 'en-web');
     } else if (pastNoReturn) {
       console.error('[cron/newsletter] work failed AFTER archive, keeping claim (manual recovery needed):', err);
     } else {
