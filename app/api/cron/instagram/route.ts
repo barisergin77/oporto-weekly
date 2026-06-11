@@ -229,9 +229,18 @@ export async function GET(req: NextRequest) {
     console.log('[cron/instagram] Generating caption...');
     const caption = await generateCaption(picks, latest.weekRange);
 
-    // 6. Schedule via Buffer
-    console.log('[cron/instagram] Scheduling post via Buffer...');
-    const bufferResult = await scheduleBufferPost(imgurUrl, caption);
+    // 6. Schedule via Buffer — EXPLICIT time, not addToQueue. The queue
+    //    only has one slot/week, so with two posts/week the roundup
+    //    drifted to AFTER the week's events (2026-06-11 → queued Jun 19).
+    //    Target: today 17:00 UTC (18:00 Porto, evening scroll time); if
+    //    we're already past that (delayed cron), 30 min from now.
+    const target = new Date();
+    target.setUTCHours(17, 0, 0, 0);
+    if (target.getTime() < Date.now()) {
+      target.setTime(Date.now() + 30 * 60_000);
+    }
+    console.log(`[cron/instagram] Scheduling post via Buffer for ${target.toISOString()}...`);
+    const bufferResult = await scheduleBufferPost(imgurUrl, caption, target.toISOString());
     console.log(`[cron/instagram] Scheduled: ${bufferResult.id} (${bufferResult.status}, due ${bufferResult.dueAt})`);
     // instagram was claimed (and marked) at the top of the handler.
 

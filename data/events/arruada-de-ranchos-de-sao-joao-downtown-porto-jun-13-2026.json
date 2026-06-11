@@ -5,13 +5,14 @@
   "venue": "Downtown Porto",
   "venueSlug": "downtown-porto",
   "price": "Free",
-  "category": "other",
-  "description": "Experience the authentic start to the São João festivities as traditional folk groups parade through the city center, filling the streets with vibrant music, dance, and color.",
+  "category": "music",
+  "description": "Experience the start of the São João festivities as traditional folk groups (ranchos) parade through downtown streets with music and dance from 3pm — part of the city's official month-long São João 2026 programme.",
   "sourceEdition": "june-11-17-2026",
   "editorPickRank": 2,
   "addedAt": "2026-06-11T12:08:39.509Z",
   "image": {
     "url": "https://i.imgur.com/FmCQNx1.jpeg",
     "credit": "AI illustration · Oporto Weekly"
-  }
+  },
+  "externalLink": "https://www.agenda-porto.pt/en/page/festas-sao-joao-2026-1779981091893/"
 }

@@ -17,9 +17,20 @@ export interface ScheduledPost {
   dueAt?: string;
 }
 
+/**
+ * Schedule an Instagram post via Buffer.
+ *
+ * `dueAt` (ISO timestamp) schedules EXPLICITLY via mode customScheduled.
+ * Omitting it falls back to addToQueue — but DON'T for time-sensitive
+ * content: the queue only has slots the user configured in Buffer (one
+ * per week as of June 2026), and with two posts a week (Tue blog promo +
+ * Thu roundup) queue posts pile up and drift. The 2026-06-11 weekly
+ * roundup got queued for June 19 — after the week's events were over.
+ */
 export async function scheduleBufferPost(
   imageUrl: string,
-  caption: string
+  caption: string,
+  dueAt?: string
 ): Promise<ScheduledPost> {
   const apiKey = process.env.BUFFER_API_KEY;
   const channelId = process.env.BUFFER_CHANNEL_ID;
@@ -43,7 +54,9 @@ export async function scheduleBufferPost(
       input: {
         channelId,
         schedulingType: 'automatic',
-        mode: 'addToQueue',
+        ...(dueAt
+          ? { mode: 'customScheduled', dueAt }
+          : { mode: 'addToQueue' }),
         metadata: { instagram: { type: 'post', shouldShareToFeed: true } },
         text: caption,
         // Buffer API breaking change announced 2026-05-06: `assets` moved

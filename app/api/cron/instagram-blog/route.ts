@@ -207,10 +207,15 @@ export async function GET(req: NextRequest) {
     const caption = await generateCaption(latest);
     console.log(`[cron/instagram-blog] Caption (${caption.length} chars)`);
 
-    // 5. Queue on Buffer — the only irreversible step. Past this point,
-    //    we keep the claim even on subsequent errors (rare here since the
-    //    function returns immediately after this).
-    const post = await scheduleBufferPost(imgurUrl, caption);
+    // 5. Schedule on Buffer — explicit time (see cron/instagram for why
+    //    addToQueue drifts). Blog promos aren't as time-critical as the
+    //    weekly roundup, but same-day evening beats next-available-slot.
+    const target = new Date();
+    target.setUTCHours(17, 0, 0, 0);
+    if (target.getTime() < Date.now()) {
+      target.setTime(Date.now() + 30 * 60_000);
+    }
+    const post = await scheduleBufferPost(imgurUrl, caption, target.toISOString());
     console.log(`[cron/instagram-blog] Scheduled: ${post.id} (${post.status})`);
 
     return NextResponse.json({
