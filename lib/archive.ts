@@ -126,6 +126,57 @@ export function getNewsletterHtmlPT(slug: string): string | null {
 
 // ---------- Utilities ----------
 
+/**
+ * Snap any date to its publishing Thursday (the most recent Thursday at
+ * or before `now`, UTC). EVERY cron that derives the week slug MUST use
+ * this — the 2026-05-01 incident happened because one endpoint computed
+ * the slug from `now` directly and produced a phantom Friday-start week.
+ * The logic was then duplicated across three route files, which is its
+ * own drift risk; this is the single shared implementation.
+ */
+export function thursdayWeekStart(now: Date = new Date()): Date {
+  const d = new Date(now);
+  const daysSinceThursday = (d.getUTCDay() - 4 + 7) % 7; // Thu=0, Fri=1, ..., Wed=6
+  d.setUTCDate(d.getUTCDate() - daysSinceThursday);
+  return d;
+}
+
+/** Week slug for the edition publishing on the most recent Thursday. */
+export function currentWeekSlug(now: Date = new Date()): string {
+  return generateSlug(formatWeekRange(thursdayWeekStart(now)));
+}
+
+/**
+ * Validates that LLM-generated newsletter HTML is a complete, sendable
+ * document. Gemini occasionally truncates long outputs (token limits,
+ * mid-stream errors) — without this gate, a half-document would be
+ * archived and emailed to every subscriber with no human in the loop.
+ *
+ * Throws with a precise reason on failure so the cron can unmark its
+ * ledger claim and let the watchdog retry a clean run.
+ */
+export function assertValidNewsletterHtml(
+  html: string,
+  opts: { lang: 'en' | 'pt'; minBytes?: number } = { lang: 'en' }
+): void {
+  const minBytes = opts.minBytes ?? 15_000;
+  const fail = (reason: string): never => {
+    throw new Error(
+      `Newsletter HTML validation failed (${opts.lang}): ${reason}. ` +
+      `Got ${html.length} chars starting "${html.slice(0, 80).replace(/\n/g, ' ')}…"`
+    );
+  };
+
+  if (html.length < minBytes) fail(`too short (<${minBytes} bytes) — likely truncated generation`);
+  const head = html.slice(0, 200).toLowerCase();
+  if (!head.includes('<!doctype html') && !head.includes('<html')) fail('does not start with an HTML document');
+  const tail = html.slice(-200).toLowerCase();
+  if (!tail.includes('</html>')) fail('missing closing </html> — truncated output');
+  if (!/oporto weekly/i.test(html)) fail('missing brand string');
+  if (!/unsubscribe|cancelar subscri/i.test(html)) fail('missing unsubscribe link — footer dropped');
+  if (opts.lang === 'pt' && !/lang="pt"/i.test(html)) fail('PT translation kept lang="en"');
+}
+
 export function generateSlug(weekRange: string): string {
   return weekRange
     .toLowerCase()

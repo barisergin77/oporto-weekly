@@ -1,11 +1,20 @@
-# Triggers the EN newsletter pipeline every Thursday at 08:00 UTC.
-# Works around Vercel Hobby's 2-cron-per-project limit by using GitHub Actions as the scheduler.
+# Thursday newsletter cascade — single orchestrating workflow.
 #
-# Two-step since 2026-06-11:
-#   1. /api/cron/newsletter      — research → generate → archive (commit
-#      triggers a Vercel deploy)
-#   2. /api/cron/newsletter-send — waits for that deploy to serve the new
-#      edition, THEN emails subscribers. Emails never point at 404s.
+# Why one workflow instead of independent schedules: GitHub's scheduler
+# routinely fires crons hours late and OUT OF ORDER (2026-06-11: the
+# 08:00 EN cron fired at 12:04; PT, scheduled 08:15, fired at 12:17 —
+# pure luck it came second). The cascade has hard ordering dependencies:
+#   EN generate+archive → deploy live → EN send → PT translate+send
+#   → Instagram → Reddit draft
+# Sequential steps in one workflow enforce that order regardless of
+# scheduler behaviour. The downstream workflows (cron-newsletter-pt,
+# cron-instagram, cron-reddit-draft) keep their own schedules as
+# backups — every endpoint is ledger-claim-guarded, so whichever
+# trigger arrives first does the work and the rest are no-ops.
+#
+# All curls: POST (mutating endpoints; GETs may be retried by
+# infrastructure — suspected cause of the 2026-05-21 double-pipeline)
+# with --retry for transient network failures (safe: ledger-idempotent).
 name: Cron · Newsletter (EN)
 
 on:
@@ -20,11 +29,12 @@ concurrency:
 jobs:
   trigger:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 25
     steps:
-      - name: Generate + archive (/api/cron/newsletter)
+      - name: 1. Generate + archive (/api/cron/newsletter)
         run: |
-          response=$(curl -s -w "\nHTTP_STATUS:%{http_code}" --max-time 300 \
+          response=$(curl -s --retry 2 --retry-delay 10 -w "\nHTTP_STATUS:%{http_code}" --max-time 320 \
+            -X POST \
             -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" \
             https://oportoweekly.com/api/cron/newsletter)
           status=$(echo "$response" | tail -n1 | cut -d: -f2)
@@ -36,9 +46,10 @@ jobs:
             exit 1
           fi
 
-      - name: Send after deploy is live (/api/cron/newsletter-send)
+      - name: 2. Send after deploy is live (/api/cron/newsletter-send)
         run: |
-          response=$(curl -s -w "\nHTTP_STATUS:%{http_code}" --max-time 300 \
+          response=$(curl -s --retry 2 --retry-delay 10 -w "\nHTTP_STATUS:%{http_code}" --max-time 320 \
+            -X POST \
             -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" \
             https://oportoweekly.com/api/cron/newsletter-send)
           status=$(echo "$response" | tail -n1 | cut -d: -f2)
@@ -47,5 +58,53 @@ jobs:
           echo "Body: $body"
           if [ "$status" != "200" ]; then
             echo "::error::Newsletter send failed with HTTP $status"
+            exit 1
+          fi
+
+      - name: 3. PT translate + send (/api/cron/newsletter-pt)
+        run: |
+          response=$(curl -s --retry 2 --retry-delay 10 -w "\nHTTP_STATUS:%{http_code}" --max-time 320 \
+            -X POST \
+            -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" \
+            https://oportoweekly.com/api/cron/newsletter-pt)
+          status=$(echo "$response" | tail -n1 | cut -d: -f2)
+          body=$(echo "$response" | sed '$d')
+          echo "Status: $status"
+          echo "Body: $body"
+          if [ "$status" != "200" ]; then
+            echo "::error::PT newsletter failed with HTTP $status"
+            exit 1
+          fi
+
+      - name: 4. Instagram post (/api/cron/instagram)
+        # IG failure shouldn't block the Reddit draft — independent outputs.
+        continue-on-error: true
+        run: |
+          response=$(curl -s --retry 2 --retry-delay 10 -w "\nHTTP_STATUS:%{http_code}" --max-time 320 \
+            -X POST \
+            -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" \
+            https://oportoweekly.com/api/cron/instagram)
+          status=$(echo "$response" | tail -n1 | cut -d: -f2)
+          body=$(echo "$response" | sed '$d')
+          echo "Status: $status"
+          echo "Body: $body"
+          if [ "$status" != "200" ]; then
+            echo "::error::Instagram cron failed with HTTP $status (watchdog will retry)"
+            exit 1
+          fi
+
+      - name: 5. Reddit draft (/api/cron/reddit-draft)
+        continue-on-error: true
+        run: |
+          response=$(curl -s --retry 2 --retry-delay 10 -w "\nHTTP_STATUS:%{http_code}" --max-time 320 \
+            -X POST \
+            -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" \
+            https://oportoweekly.com/api/cron/reddit-draft)
+          status=$(echo "$response" | tail -n1 | cut -d: -f2)
+          body=$(echo "$response" | sed '$d')
+          echo "Status: $status"
+          echo "Body: $body"
+          if [ "$status" != "200" ]; then
+            echo "::error::Reddit draft failed with HTTP $status (watchdog will retry)"
             exit 1
           fi

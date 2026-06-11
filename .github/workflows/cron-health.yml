@@ -14,7 +14,7 @@ jobs:
     steps:
       - name: Call /api/cron/health
         run: |
-          response=$(curl -s -w "\nHTTP_STATUS:%{http_code}" --max-time 60 \
+          response=$(curl -s --retry 2 --retry-delay 10 -X POST -w "\nHTTP_STATUS:%{http_code}" --max-time 60 \
             -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" \
             https://oportoweekly.com/api/cron/health)
           status=$(echo "$response" | tail -n1 | cut -d: -f2)

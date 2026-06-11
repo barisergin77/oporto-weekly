@@ -1,7 +1,7 @@
 export const dynamic = 'force-dynamic';
 export const maxDuration = 300;
 import { NextRequest, NextResponse } from 'next/server';
-import { generateSlug, formatWeekRange } from '@/lib/archive';
+import { generateSlug, formatWeekRange, thursdayWeekStart, assertValidNewsletterHtml } from '@/lib/archive';
 import { archiveViaGitHub } from '@/lib/github';
 import { notifySearchEngines } from '@/lib/search-engines';
 import { generateImage } from '@/lib/imagen';
@@ -384,13 +384,8 @@ export async function GET(req: NextRequest) {
     }
 
     // Snap to most-recent Thursday so ANY day's run computes the same
-    // slug as that Thursday's run. Critical for idempotency: a Friday
-    // ?force=true run still yields Thursday's slug → guard hits → no
-    // duplicate send.
-    const weekStart = new Date(now);
-    const daysSinceThursday = (dayOfWeek - 4 + 7) % 7; // Thu=0, Fri=1, ..., Wed=6
-    weekStart.setUTCDate(weekStart.getUTCDate() - daysSinceThursday);
-
+    // slug as that Thursday's run. Shared helper — see lib/archive.ts.
+    const weekStart = thursdayWeekStart(now);
     const weekRange = formatWeekRange(weekStart);
     const slug = generateSlug(weekRange);
     console.log(`[cron/newsletter] now=${now.toISOString()} dayOfWeek=${dayOfWeek} thursday=${weekStart.toISOString().slice(0,10)} slug=${slug}`);
@@ -471,6 +466,10 @@ export async function GET(req: NextRequest) {
 
     // 3. Generate newsletter HTML (embedded hero URL)
     const rawHtml = await generateNewsletter(researchData, heroImageUrl, weekRange);
+    // Validation gate — a truncated Gemini output must never reach the
+    // archive or subscribers. Throws → outer catch unmarks the en-web
+    // claim → watchdog retries a clean run.
+    assertValidNewsletterHtml(rawHtml, { lang: 'en' });
 
     // 4. Extract structured event records + inject click-through anchors into
     //    the HTML. Both extraction and injection happen BEFORE send so the
@@ -586,3 +585,9 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: message }, { status: 500 });
   }
 }
+
+// POST alias: mutating cron endpoints should not be GET-only. GET
+// requests may be transparently retried by infrastructure (CDN, edge,
+// runtime) — the suspected cause of the 2026-05-21 double-pipeline.
+// Workflows call POST; GET stays for backwards-compat/manual testing.
+export { GET as POST };

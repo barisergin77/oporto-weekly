@@ -36,6 +36,24 @@ export async function sendEmail(
   if (error) throw new Error(`Resend sendEmail failed: ${JSON.stringify(error)}`);
 }
 
+/**
+ * Thrown when sendBatch fails AFTER at least one chunk was delivered.
+ * Callers that release idempotency claims on failure MUST NOT do so for
+ * this error — a retry would re-send to everyone in the delivered
+ * chunks. (Resend's batch API takes 100 recipients per call; lists over
+ * 100 are chunked, and a chunk boundary is a partial-delivery hazard.)
+ */
+export class PartialSendError extends Error {
+  constructor(
+    public readonly sentCount: number,
+    public readonly totalCount: number,
+    cause: string
+  ) {
+    super(`Partial send: ${sentCount}/${totalCount} delivered before failure — ${cause}`);
+    this.name = 'PartialSendError';
+  }
+}
+
 export async function sendBatch(
   emails: string[],
   subject: string,
@@ -64,7 +82,11 @@ export async function sendBatch(
       ...(hasTags ? { tags } : {}),
     }));
     const { error } = await resend.batch.send(payload);
-    if (error) throw new Error(`Resend batch failed: ${JSON.stringify(error)}`);
+    if (error) {
+      const cause = JSON.stringify(error);
+      if (sent > 0) throw new PartialSendError(sent, emails.length, cause);
+      throw new Error(`Resend batch failed: ${cause}`);
+    }
     sent += chunk.length;
   }
 

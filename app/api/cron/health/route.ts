@@ -108,3 +108,9 @@ export async function GET(req: NextRequest) {
     failures: failures.length,
   });
 }
+
+// POST alias: mutating cron endpoints should not be GET-only. GET
+// requests may be transparently retried by infrastructure (CDN, edge,
+// runtime) — the suspected cause of the 2026-05-21 double-pipeline.
+// Workflows call POST; GET stays for backwards-compat/manual testing.
+export { GET as POST };

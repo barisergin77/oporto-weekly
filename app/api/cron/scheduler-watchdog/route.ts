@@ -1,19 +1,29 @@
 /**
- * Daily 10:30 UTC — scheduler-reliability watchdog.
+ * Scheduler watchdog — LEDGER-DRIVEN since 2026-06-11.
  *
- * GitHub Actions' scheduled workflows are known-unreliable: schedules
- * can fire up to ~60 min late, or not at all. We've hit this twice
- * recently (blog cron Tuesday 2026-04-21, PT newsletter Thursday
- * 2026-04-23 — both needed manual workflow_dispatch).
+ * The previous design checked GitHub's workflow-run history: "did the
+ * workflow fire since its expected time?" That signal is wrong in both
+ * directions:
+ *   - A run that 500'd or skipped (ledger already claimed for an OLD
+ *     edition) still counts as "ran" → missing work never rescued.
+ *     Concrete case: GitHub fires the IG cron hours late, before the EN
+ *     edition exists. IG promotes nothing, returns 200-skip, and the
+ *     old watchdog is satisfied — no IG post that week, silently.
+ *   - Conversely the old ±90min window false-alarmed on GitHub's routine
+ *     multi-hour scheduling delays and re-dispatched everything
+ *     (2026-05-02: 10 bogus rescues + duplicate reddit email).
  *
- * This watchdog runs once a day at 10:30 UTC (after every other
- * scheduled cron has had its window + generous slack), checks each
- * watched workflow against GitHub's run history, and dispatches any
- * that should have fired but didn't. Emails the editor when it
- * rescues a run so we know the scheduler is acting up.
+ * The run-ledger (data/run-ledger.json) is the single source of truth
+ * for "did the work actually happen." So the watchdog now asks exactly
+ * that: for each step of the current week, is the mark present once
+ * we're past its expected time + grace? If not → dispatch the workflow
+ * that owns the step. Every workflow is ledger-claim-guarded, so even a
+ * redundant dispatch is a harmless no-op.
  *
- * Bearer-auth'd (CRON_SECRET) like every other cron. Never dispatches
- * itself.
+ * Runs daily at 11:30 UTC + extra Thursday passes (13:00/15:00/17:00)
+ * for same-day recovery — GitHub's scheduler routinely fires the 08:00
+ * cascade at noon, so a single late-morning check can't rescue anything
+ * the same day.
  */
 
 export const dynamic = 'force-dynamic';
@@ -22,160 +32,83 @@ export const maxDuration = 120;
 import { NextRequest, NextResponse } from 'next/server';
 import { sendEmail } from '@/lib/resend-client';
 import { checkCronAuth } from '@/lib/cron-auth';
+import { currentWeekSlug } from '@/lib/archive';
+import { getWeekEntry, blogWeekKey, type Step } from '@/lib/run-ledger';
 
 const REPO_OWNER = 'barisergin77';
 const REPO_NAME = 'oporto-weekly';
 const EDITOR_EMAIL = 'barisergin@gmail.com';
 
-// Future-fire grace: how long after `expected` a workflow can legitimately
-// still NOT have fired before the watchdog considers the period missed.
-// Used only as a "is the period over?" check (line ~191). Run-detection
-// itself uses ranSinceExpected which has no upper bound.
-const GRACE_MIN = 90;
+// How long past the expected fire time a step may legitimately still be
+// missing before we dispatch. Generous: GitHub schedules drift hours, and
+// the Thursday cascade takes ~1h to complete end-to-end once it starts.
+// 5h after the 08:00 schedule = 13:00 UTC — the first Thursday-afternoon
+// watchdog pass picks up anything still missing.
+const GRACE_HOURS = 5;
 
-// Watched workflows + their scheduled cron expressions. Keep in sync
-// with the `on.schedule` entries in each .github/workflows/*.yml file.
-//
-// Cron format: 'min hour * * dayOfWeek'
-//   dayOfWeek: 0=Sun, 1=Mon, 2=Tue, 3=Wed, 4=Thu, 5=Fri, 6=Sat, '*'=daily
-interface Watched {
-  file: string; // workflow filename
-  label: string; // friendly name in the email alert
-  schedule: string; // cron expression
+interface WatchedStep {
+  step: Step;
+  /** Workflow that produces this step (dispatched if the mark is missing). */
+  workflow: string;
+  label: string;
+  /** Expected fire spec: day of week (0=Sun..6=Sat) + UTC hour. */
+  dow: number;
+  hour: number;
+  /** Which ledger key class the step lives under. */
+  keyKind: 'week' | 'blog';
 }
 
-const WATCHED: Watched[] = [
-  { file: 'cron-newsletter.yml',          label: 'Newsletter (EN)',     schedule: '0 8 * * 4' },
-  { file: 'cron-newsletter-pt.yml',       label: 'Newsletter (PT)',     schedule: '15 8 * * 4' },
-  { file: 'cron-health.yml',              label: 'Health Check',        schedule: '30 8 * * 4' },
-  { file: 'cron-instagram.yml',           label: 'Instagram (weekly)',  schedule: '45 8 * * 4' },
-  { file: 'cron-reddit-draft.yml',        label: 'Reddit Draft',        schedule: '50 8 * * 4' },
-  { file: 'cron-event-images.yml',        label: 'Event Images',        schedule: '15 9 * * 4' },
-  { file: 'cron-event-descriptions.yml',  label: 'Event Descriptions',  schedule: '30 9 * * 4' },
-  { file: 'cron-blog.yml',                label: 'Blog Article',        schedule: '0 9 * * 2' },
-  { file: 'cron-instagram-blog.yml',      label: 'Instagram (blog)',    schedule: '30 9 * * 2' },
-  { file: 'search-engines-ping.yml',      label: 'Search Engines Ping', schedule: '0 6 * * *' },
+// One entry per ledger step. The newsletter workflow covers research +
+// en-web + en-email (single workflow, three marks) — we watch en-email
+// as the terminal mark; if generation died midway the en-email mark is
+// missing and the dispatched workflow re-enters cleanly (en-web unmark
+// on pre-archive failure guarantees that).
+const WATCHED: WatchedStep[] = [
+  { step: 'en-email',       workflow: 'cron-newsletter.yml',    label: 'Newsletter EN (generate+send)', dow: 4, hour: 8,  keyKind: 'week' },
+  { step: 'pt-email',       workflow: 'cron-newsletter-pt.yml', label: 'Newsletter PT',                 dow: 4, hour: 8,  keyKind: 'week' },
+  { step: 'instagram',      workflow: 'cron-instagram.yml',     label: 'Instagram (weekly)',            dow: 4, hour: 8,  keyKind: 'week' },
+  { step: 'reddit-draft',   workflow: 'cron-reddit-draft.yml',  label: 'Reddit draft',                  dow: 4, hour: 8,  keyKind: 'week' },
+  { step: 'blog-post',      workflow: 'cron-blog.yml',          label: 'Blog article',                  dow: 2, hour: 9,  keyKind: 'blog' },
+  { step: 'blog-instagram', workflow: 'cron-instagram-blog.yml',label: 'Instagram (blog promo)',        dow: 2, hour: 9,  keyKind: 'blog' },
 ];
 
-// ---------------------------------------------------------------------------
-// Schedule math — when was the last time this cron should have fired?
-// ---------------------------------------------------------------------------
-
-function lastExpectedFire(schedule: string, now: Date): Date | null {
-  const parts = schedule.trim().split(/\s+/);
-  if (parts.length < 5) return null;
-  const [minS, hourS, , , dowS] = parts;
-  const minute = parseInt(minS, 10);
-  const hour = parseInt(hourS, 10);
-  if (Number.isNaN(minute) || Number.isNaN(hour)) return null;
-
-  if (dowS === '*') {
-    // Daily — last occurrence today or yesterday
-    const t = new Date(now);
-    t.setUTCHours(hour, minute, 0, 0);
-    if (t.getTime() > now.getTime()) t.setUTCDate(t.getUTCDate() - 1);
-    return t;
-  }
-
-  const targetDow = parseInt(dowS, 10);
-  if (Number.isNaN(targetDow) || targetDow < 0 || targetDow > 6) return null;
-
-  // Walk back to the most recent matching weekday at HH:MM in the past.
+/** Most recent occurrence of `dow` at `hour`:00 UTC, at or before now. */
+function lastExpectedFire(dow: number, hour: number, now: Date): Date {
   const t = new Date(now);
-  t.setUTCHours(hour, minute, 0, 0);
-  let daysBack = (t.getUTCDay() - targetDow + 7) % 7;
+  t.setUTCHours(hour, 0, 0, 0);
+  let daysBack = (t.getUTCDay() - dow + 7) % 7;
   if (daysBack === 0 && t.getTime() > now.getTime()) daysBack = 7;
   t.setUTCDate(t.getUTCDate() - daysBack);
   return t;
 }
 
-// ---------------------------------------------------------------------------
-// GitHub API
-// ---------------------------------------------------------------------------
-
-async function githubFetch(path: string, init: RequestInit = {}): Promise<Response> {
+async function dispatch(file: string): Promise<boolean> {
   const token = process.env.GITHUB_TOKEN;
   if (!token) throw new Error('GITHUB_TOKEN not set');
-  return fetch(`https://api.github.com${path}`, {
-    ...init,
-    cache: 'no-store',
-    headers: {
-      Authorization: `Bearer ${token}`,
-      Accept: 'application/vnd.github+json',
-      'X-GitHub-Api-Version': '2022-11-28',
-      'User-Agent': 'oporto-weekly-scheduler-watchdog',
-      ...init.headers,
-    },
-  });
-}
-
-/**
- * Did the workflow run AT ANY POINT since this period's expected fire
- * time? (With a small clock-skew buffer on the lower bound so a run that
- * fired a few minutes early still counts.)
- *
- * Why "since expected" and not "within ±GRACE": the original implementation
- * checked a tight ±90 min window around `expected`. GitHub Actions schedules
- * regularly drift past that — we observed the EN newsletter actually firing
- * at 09:59 on a 08:00 schedule (119 min late). The narrow window declared
- * the run "missed" and re-dispatched it days later, even though the work
- * had been done. On 2026-05-02 that re-dispatched 9 weekly workflows and
- * sent the user a duplicate Reddit-draft email.
- *
- * The new rule: if there's been ANY non-cancelled run between
- * `expected - SKEW` and `now`, the work happened. Re-dispatching would
- * just create duplicates. The watchdog's job is to detect TOTAL ABSENCE
- * (the workflow didn't run all week), not to police precise timing.
- *
- * For weekly schedules, this means "ran sometime since last Thursday
- * morning" → fine. For daily schedules it means "ran sometime today"
- * → fine. Both correct.
- */
-const SKEW_MIN = 10; // small buffer for clock skew + scheduler "early" fires
-
-async function ranSinceExpected(file: string, expected: Date, now: Date): Promise<boolean> {
-  const since = new Date(expected.getTime() - SKEW_MIN * 60_000);
-  const createdFilter = `>=${since.toISOString()}`;
-  const url =
-    `/repos/${REPO_OWNER}/${REPO_NAME}/actions/workflows/${file}/runs` +
-    `?per_page=20&created=${encodeURIComponent(createdFilter)}`;
-  const res = await githubFetch(url);
-  if (!res.ok) return false;
-  const body = (await res.json()) as {
-    workflow_runs?: Array<{ run_started_at?: string; created_at?: string; conclusion?: string | null }>;
-  };
-  for (const r of body.workflow_runs ?? []) {
-    // Cancelled runs don't count — they didn't do the work.
-    if (r.conclusion === 'cancelled') continue;
-    const ts = r.run_started_at ?? r.created_at;
-    if (!ts) continue;
-    const t = new Date(ts);
-    if (t >= since && t <= now) return true;
-  }
-  return false;
-}
-
-async function dispatch(file: string): Promise<boolean> {
-  const res = await githubFetch(
-    `/repos/${REPO_OWNER}/${REPO_NAME}/actions/workflows/${file}/dispatches`,
+  const res = await fetch(
+    `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/actions/workflows/${file}/dispatches`,
     {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      cache: 'no-store',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: 'application/vnd.github+json',
+        'Content-Type': 'application/json',
+        'User-Agent': 'oporto-weekly-scheduler-watchdog',
+      },
       body: JSON.stringify({ ref: 'main' }),
     }
   );
-  return res.ok; // 204 No Content on success
+  return res.ok; // 204 on success
 }
-
-// ---------------------------------------------------------------------------
-// Entry
-// ---------------------------------------------------------------------------
 
 interface Check {
   label: string;
-  file: string;
-  expected: string; // ISO
-  ranOnTime: boolean;
+  step: Step;
+  ledgerKey: string;
+  expected: string;
+  done: boolean;
+  withinGrace?: boolean;
   dispatched?: boolean;
   dispatchError?: string;
 }
@@ -185,56 +118,53 @@ export async function GET(req: NextRequest) {
   if (authError) return NextResponse.json({ error: authError }, { status: 401 });
 
   const now = new Date();
+  const weekSlug = currentWeekSlug(now);
+  const blogKey = blogWeekKey(now);
+
+  // One ledger read per key class (not per step) — keep GitHub API calls low.
+  const weekEntry = await getWeekEntry(weekSlug);
+  const blogEntry = await getWeekEntry(blogKey);
+
   const checks: Check[] = [];
 
   for (const w of WATCHED) {
-    const expected = lastExpectedFire(w.schedule, now);
-    if (!expected) {
+    const ledgerKey = w.keyKind === 'week' ? weekSlug : blogKey;
+    const entry = w.keyKind === 'week' ? weekEntry : blogEntry;
+    const expected = lastExpectedFire(w.dow, w.hour, now);
+    const done = Boolean(entry[w.step]);
+
+    if (done) {
+      checks.push({ label: w.label, step: w.step, ledgerKey, expected: expected.toISOString(), done: true });
+      continue;
+    }
+
+    // Not done — but are we still within the grace window? GitHub can be
+    // hours late; don't panic before GRACE_HOURS have passed.
+    const graceDeadline = expected.getTime() + GRACE_HOURS * 3600_000;
+    if (now.getTime() < graceDeadline) {
       checks.push({
-        label: w.label,
-        file: w.file,
-        expected: 'invalid schedule',
-        ranOnTime: false,
+        label: w.label, step: w.step, ledgerKey,
+        expected: expected.toISOString(), done: false, withinGrace: true,
       });
       continue;
     }
 
-    // If the expected fire time is still in the future + GRACE window, skip —
-    // not yet missed. (Possible for daily 06:00 when watchdog runs 10:30,
-    // never — but defensive for any future schedule we add.)
-    if (now.getTime() < expected.getTime() + GRACE_MIN * 60_000) {
-      checks.push({
-        label: w.label,
-        file: w.file,
-        expected: expected.toISOString(),
-        ranOnTime: true, // still in grace window
-      });
-      continue;
-    }
-
-    const onTime = await ranSinceExpected(w.file, expected, now);
-    if (onTime) {
-      checks.push({ label: w.label, file: w.file, expected: expected.toISOString(), ranOnTime: true });
-      continue;
-    }
-
-    // MISSED — try to dispatch now.
+    // Past grace and the ledger has no mark → the work genuinely didn't
+    // happen. Dispatch the owning workflow. The ledger claim inside the
+    // workflow makes this safe even if the original run is somehow still
+    // in flight.
     try {
-      const ok = await dispatch(w.file);
+      const ok = await dispatch(w.workflow);
       checks.push({
-        label: w.label,
-        file: w.file,
-        expected: expected.toISOString(),
-        ranOnTime: false,
+        label: w.label, step: w.step, ledgerKey,
+        expected: expected.toISOString(), done: false,
         dispatched: ok,
         dispatchError: ok ? undefined : 'dispatch POST returned non-2xx',
       });
     } catch (err) {
       checks.push({
-        label: w.label,
-        file: w.file,
-        expected: expected.toISOString(),
-        ranOnTime: false,
+        label: w.label, step: w.step, ledgerKey,
+        expected: expected.toISOString(), done: false,
         dispatched: false,
         dispatchError: err instanceof Error ? err.message : String(err),
       });
@@ -251,9 +181,9 @@ export async function GET(req: NextRequest) {
         (c) =>
           `<tr>
             <td style="padding:6px 14px 6px 0;">${c.label}</td>
-            <td style="padding:6px 14px 6px 0;color:#5a5a5a;">expected: ${c.expected}</td>
+            <td style="padding:6px 14px 6px 0;color:#5a5a5a;">ledger: ${c.ledgerKey} / ${c.step} missing</td>
             <td style="padding:6px 0;font-weight:600;color:${c.dispatched ? '#0b7a3b' : '#b3261e'};">
-              ${c.dispatched ? '✓ rescued' : `✗ dispatch failed — ${c.dispatchError ?? ''}`}
+              ${c.dispatched ? '✓ dispatched' : `✗ dispatch failed — ${c.dispatchError ?? ''}`}
             </td>
           </tr>`
       )
@@ -262,11 +192,11 @@ export async function GET(req: NextRequest) {
     const html = `<!DOCTYPE html>
 <html>
 <body style="font-family:-apple-system,Segoe UI,Inter,sans-serif;max-width:640px;margin:20px auto;padding:0 16px;color:#1a1a2e;">
-  <h1 style="font-family:Georgia,serif;font-size:22px;margin:0 0 8px;">Scheduler watchdog — ${rescued.length} rescue${rescued.length === 1 ? '' : 's'}${failed.length > 0 ? `, ${failed.length} failure${failed.length === 1 ? '' : 's'}` : ''}</h1>
-  <p style="color:#5a5a5a;margin:0 0 20px;font-size:14px;">GitHub Actions' scheduler didn't fire the workflow(s) below within the grace window. The watchdog dispatched them manually.</p>
+  <h1 style="font-family:Georgia,serif;font-size:22px;margin:0 0 8px;">Watchdog — ${rescued.length} step${rescued.length === 1 ? '' : 's'} missing, dispatched</h1>
+  <p style="color:#5a5a5a;margin:0 0 20px;font-size:14px;">The run-ledger shows these steps incomplete past their grace window. The owning workflows were dispatched; each is ledger-guarded so this is safe.</p>
   <table style="font-size:13px;border-collapse:collapse;">${rows}</table>
   <p style="color:#8a8170;font-size:11px;margin-top:24px;">
-    Automated from /api/cron/scheduler-watchdog · runs daily at 10:30 UTC
+    Ledger-driven · /api/cron/scheduler-watchdog · daily 11:30 UTC + Thu 13/15/17 UTC
   </p>
 </body>
 </html>`;
@@ -274,7 +204,7 @@ export async function GET(req: NextRequest) {
     try {
       await sendEmail(
         EDITOR_EMAIL,
-        `⚠ Scheduler watchdog — ${rescued.length} rescued, ${failed.length} failed`,
+        `⚠ Watchdog — ${rescued.length} missing step${rescued.length === 1 ? '' : 's'} dispatched`,
         html,
         [{ name: 'type', value: 'scheduler-alert' }]
       );
@@ -286,8 +216,16 @@ export async function GET(req: NextRequest) {
   return NextResponse.json({
     ok: true,
     now: now.toISOString(),
+    weekSlug,
+    blogKey,
     checks,
     rescued: rescued.length,
     failed: failed.length,
   });
 }
+
+// POST alias: mutating cron endpoints should not be GET-only. GET
+// requests may be transparently retried by infrastructure (CDN, edge,
+// runtime) — the suspected cause of the 2026-05-21 double-pipeline.
+// Workflows call POST; GET stays for backwards-compat/manual testing.
+export { GET as POST };

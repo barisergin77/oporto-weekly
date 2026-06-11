@@ -1,7 +1,7 @@
 export const dynamic = 'force-dynamic';
 export const maxDuration = 300;
 import { NextRequest, NextResponse } from 'next/server';
-import { generateSlug, formatWeekRange, formatWeekRangePT } from '@/lib/archive';
+import { generateSlug, formatWeekRange, formatWeekRangePT, thursdayWeekStart, assertValidNewsletterHtml } from '@/lib/archive';
 import { archiveViaGitHub, getFileContent } from '@/lib/github';
 import { getActiveSubscribers } from '@/lib/audiences';
 import { sendBatch } from '@/lib/resend-client';
@@ -99,10 +99,7 @@ export async function GET(req: NextRequest) {
       });
     }
 
-    const weekStart = new Date(now);
-    const daysSinceThursday = (dayOfWeek - 4 + 7) % 7;
-    weekStart.setUTCDate(weekStart.getUTCDate() - daysSinceThursday);
-
+    const weekStart = thursdayWeekStart(now);
     const weekRange = formatWeekRange(weekStart);
     const slug = generateSlug(weekRange);
     const ptSlug = `${slug}-pt`;
@@ -134,6 +131,9 @@ export async function GET(req: NextRequest) {
     // 3. Translate to Portuguese
     const ptHtml = await translateNewsletter(enHtml);
     console.log(`[cron/newsletter-pt] Translated to PT (${ptHtml.length} bytes)`);
+    // Validation gate — see EN cron. A truncated translation must never
+    // ship. Throws → outer catch unmarks pt-email → watchdog retries.
+    assertValidNewsletterHtml(ptHtml, { lang: 'pt' });
 
     const ptWeekDate = formatWeekRangePT(weekStart);
     const ptSubject = `Oporto Weekly — ${ptWeekDate}`;
@@ -197,3 +197,9 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: message }, { status: 500 });
   }
 }
+
+// POST alias: mutating cron endpoints should not be GET-only. GET
+// requests may be transparently retried by infrastructure (CDN, edge,
+// runtime) — the suspected cause of the 2026-05-21 double-pipeline.
+// Workflows call POST; GET stays for backwards-compat/manual testing.
+export { GET as POST };

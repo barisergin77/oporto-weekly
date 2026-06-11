@@ -23,20 +23,42 @@ export async function GET() {
     return NextResponse.json({ ledger: {}, weeks: [] });
   }
   const ledger = JSON.parse(raw) as Record<string, WeekEntry>;
-  const weekSlugs = Object.keys(ledger).sort().reverse().slice(0, 8);
+  // Sort by recency of actual activity (latest mark in each entry), not
+  // alphabetically — "may-7-13-2026" sorting above "june-11-17-2026" was
+  // confusing everyone.
+  const latestMark = (e: WeekEntry) =>
+    Object.values(e).reduce((max, ts) => (ts && ts > max ? ts : max), '');
+  const weekSlugs = Object.keys(ledger)
+    .sort((a, b) => latestMark(ledger[b]).localeCompare(latestMark(ledger[a])))
+    .slice(0, 8);
+
+  // Blog keys only carry the two blog steps; weekly keys carry the other
+  // seven. Only list the steps that belong to the key so blog rows don't
+  // show seven permanently-"missing" newsletter steps (and vice versa).
+  const stepsForKey = (slug: string): readonly Step[] =>
+    slug.startsWith('blog-')
+      ? (['blog-post', 'blog-instagram'] as const)
+      : STEPS.filter((s) => s !== 'blog-post' && s !== 'blog-instagram');
 
   const weeks = weekSlugs.map((slug) => {
     const entry = ledger[slug];
+    const steps = stepsForKey(slug);
     return {
       slug,
-      checklist: STEPS.map((step) => ({
+      checklist: steps.map((step) => ({
         step,
         completedAt: entry[step] ?? null,
         done: Boolean(entry[step]),
       })),
-      complete: STEPS.every((s) => entry[s]),
+      complete: steps.every((s) => entry[s]),
     };
   });
 
   return NextResponse.json({ weeks });
 }
+
+// POST alias: mutating cron endpoints should not be GET-only. GET
+// requests may be transparently retried by infrastructure (CDN, edge,
+// runtime) — the suspected cause of the 2026-05-21 double-pipeline.
+// Workflows call POST; GET stays for backwards-compat/manual testing.
+export { GET as POST };

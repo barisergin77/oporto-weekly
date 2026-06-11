@@ -1,16 +1,20 @@
-# Daily 10:30 UTC — sanity-checks that every scheduled GitHub Actions
-# workflow fired on time. Dispatches any that GitHub's scheduler dropped,
-# emails the editor when a rescue happens.
+# Ledger-driven watchdog — checks data/run-ledger.json for missing steps
+# past their grace window and dispatches the owning workflows. Each
+# workflow is ledger-claim-guarded, so redundant dispatches are no-ops.
 #
-# Runs after every other scheduled cron has had its window + a 90 min
-# grace period. At 11:30 UTC, all morning crons (06:00 daily → 09:30
-# Thursday/Tuesday) have passed their grace, so the watchdog can check
-# them all in a single pass.
+# Daily 11:30 UTC covers Tuesday's blog steps and acts as the catch-all.
+# Extra Thursday passes (13:00 / 15:00 / 17:00 UTC) give same-day
+# recovery for the newsletter cascade — GitHub's scheduler routinely
+# fires the 08:00 Thursday crons at noon, so anything that died midway
+# needs same-afternoon rescue, not next-day.
 name: Cron · Scheduler Watchdog
 
 on:
   schedule:
-    - cron: '30 11 * * *' # Daily 11:30 UTC
+    - cron: '30 11 * * *'  # Daily 11:30 UTC
+    - cron: '0 13 * * 4'   # Thu 13:00 UTC — first same-day newsletter check
+    - cron: '0 15 * * 4'   # Thu 15:00 UTC
+    - cron: '0 17 * * 4'   # Thu 17:00 UTC — last same-day pass
   workflow_dispatch:
 
 jobs:
@@ -20,7 +24,8 @@ jobs:
     steps:
       - name: Call /api/cron/scheduler-watchdog
         run: |
-          response=$(curl -s -w "\nHTTP_STATUS:%{http_code}" --max-time 120 \
+          response=$(curl -s --retry 2 --retry-delay 5 -w "\nHTTP_STATUS:%{http_code}" --max-time 120 \
+            -X POST \
             -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" \
             https://oportoweekly.com/api/cron/scheduler-watchdog)
           status=$(echo "$response" | tail -n1 | cut -d: -f2)

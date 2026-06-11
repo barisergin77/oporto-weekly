@@ -20,7 +20,7 @@ export const dynamic = 'force-dynamic';
 export const maxDuration = 300;
 
 import { NextRequest, NextResponse } from 'next/server';
-import { generateSlug, formatWeekRange } from '@/lib/archive';
+import { generateSlug, formatWeekRange, thursdayWeekStart } from '@/lib/archive';
 import { getFileContent } from '@/lib/github';
 import { getActiveSubscribers } from '@/lib/audiences';
 import { sendBatch } from '@/lib/resend-client';
@@ -64,8 +64,7 @@ export async function GET(req: NextRequest) {
     if (dayOfWeek !== 4 && !force) {
       return NextResponse.json({ skipped: true, reason: 'not-thursday', dayOfWeek });
     }
-    const weekStart = new Date(now);
-    weekStart.setUTCDate(weekStart.getUTCDate() - ((dayOfWeek - 4 + 7) % 7));
+    const weekStart = thursdayWeekStart(now);
     const weekRange = formatWeekRange(weekStart);
     const slug = generateSlug(weekRange);
 
@@ -124,12 +123,20 @@ export async function GET(req: NextRequest) {
 
       return NextResponse.json({ success: true, slug, sent: { en: sentEN } });
     } catch (workErr) {
-      // Failure before/during send. sendBatch chunks at 100 — a mid-batch
-      // failure could mean partial delivery, but our list is currently
-      // well under one chunk, so unmark is safe: either everything sent
-      // (no throw) or nothing did. Revisit if the list crosses ~100.
-      console.error('[cron/newsletter-send] failed after claim, unmarking:', workErr);
-      await unmarkStep(slug, 'en-email');
+      // Failure before/during send. Distinguish two cases:
+      //   - PartialSendError: some chunks already delivered. KEEP the
+      //     claim — an unmark-and-retry would re-send to those people.
+      //     Loud 500, manual recovery (send remaining manually via
+      //     Resend dashboard or a targeted script).
+      //   - Anything else: nothing was delivered. Safe to unmark so the
+      //     watchdog retries a clean run.
+      const { PartialSendError } = await import('@/lib/resend-client');
+      if (workErr instanceof PartialSendError) {
+        console.error(`[cron/newsletter-send] PARTIAL SEND (${workErr.sentCount}/${workErr.totalCount}) — keeping claim:`, workErr);
+      } else {
+        console.error('[cron/newsletter-send] failed after claim, unmarking:', workErr);
+        await unmarkStep(slug, 'en-email');
+      }
       throw workErr;
     }
   } catch (err: unknown) {
@@ -138,3 +145,9 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: message }, { status: 500 });
   }
 }
+
+// POST alias: mutating cron endpoints should not be GET-only. GET
+// requests may be transparently retried by infrastructure (CDN, edge,
+// runtime) — the suspected cause of the 2026-05-21 double-pipeline.
+// Workflows call POST; GET stays for backwards-compat/manual testing.
+export { GET as POST };
