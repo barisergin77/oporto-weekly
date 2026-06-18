@@ -1,7 +1,7 @@
 export const dynamic = 'force-dynamic';
 export const maxDuration = 300;
 import { NextRequest, NextResponse } from 'next/server';
-import { generateSlug, formatWeekRange, formatWeekRangePT, thursdayWeekStart, assertValidNewsletterHtml } from '@/lib/archive';
+import { generateSlug, formatWeekRange, formatWeekRangePT, thursdayWeekStart, assertValidNewsletterHtml, waitForArchiveLive } from '@/lib/archive';
 import { archiveViaGitHub, getFileContent } from '@/lib/github';
 import { getActiveSubscribers } from '@/lib/audiences';
 import { sendBatch } from '@/lib/resend-client';
@@ -147,7 +147,19 @@ export async function GET(req: NextRequest) {
       );
     }
 
-    // 4. Atomic claim immediately before send (CAS) — only one concurrent
+    // 4. Wait for the PT archive's deploy to go live before sending —
+    //    otherwise early openers hit a 404 on the PT archive page (the
+    //    2026-06-18 PT deploy-race; EN-send already does this). Skipped
+    //    automatically if the deploy is already live (reused-HTML path).
+    const ptLive = await waitForArchiveLive(ptSlug);
+    if (!ptLive) {
+      throw new Error(
+        `PT deploy not live after the wait budget — /newsletters/${ptSlug}.html still 404s. ` +
+        `Not sending PT email that would point at a missing archive. Watchdog will retry.`
+      );
+    }
+
+    // 5. Atomic claim immediately before send (CAS) — only one concurrent
     //    run wins; the loser skips. Window between claim and send is ~ms.
     const claimed = await tryClaimStep(slug, 'pt-email');
     if (!claimed) {
@@ -156,7 +168,7 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ skipped: true, reason: 'pt-email-already-claimed', slug: ptSlug, ledger: entry });
     }
 
-    // 5. Send.
+    // 6. Send.
     const ptSubscribers = await getActiveSubscribers('pt');
     const ptEmails = ptSubscribers.map(s => s.email);
     let sentPT = 0;

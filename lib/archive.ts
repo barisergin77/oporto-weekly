@@ -147,6 +147,38 @@ export function currentWeekSlug(now: Date = new Date()): string {
 }
 
 /**
+ * Poll the LIVE site until `public/newsletters/<slug>.html` is served (i.e.
+ * the Vercel deploy triggered by the archive commit has gone live). Returns
+ * true if it became live within the budget, false on timeout.
+ *
+ * Why every send must call this first (2026-06-11 + 2026-06-18 lessons): an
+ * archive commit only STARTS a 1-3 min Vercel build. Emailing before that
+ * build is live means subscribers click into 404s. Used by both EN-send and
+ * the PT cron — any path that emails an edition must wait for its artifact
+ * to actually be reachable.
+ */
+export async function waitForArchiveLive(
+  slug: string,
+  opts: { budgetMs?: number; intervalMs?: number; site?: string } = {}
+): Promise<boolean> {
+  const budgetMs = opts.budgetMs ?? 240_000;
+  const intervalMs = opts.intervalMs ?? 10_000;
+  const site = opts.site ?? 'https://oportoweekly.com';
+  const url = `${site}/newsletters/${slug}.html`;
+  const deadline = Date.now() + budgetMs;
+  while (Date.now() < deadline) {
+    try {
+      const res = await fetch(url, { method: 'HEAD', cache: 'no-store', signal: AbortSignal.timeout(8000) });
+      if (res.ok) return true;
+    } catch {
+      /* network blip — keep polling */
+    }
+    await new Promise(r => setTimeout(r, intervalMs));
+  }
+  return false;
+}
+
+/**
  * Validates that LLM-generated newsletter HTML is a complete, sendable
  * document. Gemini occasionally truncates long outputs (token limits,
  * mid-stream errors) — without this gate, a half-document would be

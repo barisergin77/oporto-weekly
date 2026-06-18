@@ -20,37 +20,13 @@ export const dynamic = 'force-dynamic';
 export const maxDuration = 300;
 
 import { NextRequest, NextResponse } from 'next/server';
-import { generateSlug, formatWeekRange, thursdayWeekStart } from '@/lib/archive';
+import { generateSlug, formatWeekRange, thursdayWeekStart, waitForArchiveLive } from '@/lib/archive';
 import { getFileContent } from '@/lib/github';
 import { getActiveSubscribers } from '@/lib/audiences';
 import { sendBatch } from '@/lib/resend-client';
 import { checkCronAuth } from '@/lib/cron-auth';
 
-const SITE = 'https://oportoweekly.com';
-// Total budget for the deploy to go live. Vercel builds run 45-120s
-// typically; 240s leaves 60s of the 300s function budget for the send.
 const DEPLOY_WAIT_MS = 240_000;
-const POLL_INTERVAL_MS = 10_000;
-
-/** Poll the live static file until the new edition is served. */
-async function waitForDeploy(slug: string): Promise<boolean> {
-  const deadline = Date.now() + DEPLOY_WAIT_MS;
-  const url = `${SITE}/newsletters/${slug}.html`;
-  while (Date.now() < deadline) {
-    try {
-      const res = await fetch(url, {
-        method: 'HEAD',
-        cache: 'no-store',
-        signal: AbortSignal.timeout(8000),
-      });
-      if (res.ok) return true;
-    } catch {
-      /* network blip — keep polling */
-    }
-    await new Promise(r => setTimeout(r, POLL_INTERVAL_MS));
-  }
-  return false;
-}
 
 export async function GET(req: NextRequest) {
   const authError = checkCronAuth(req);
@@ -91,11 +67,11 @@ export async function GET(req: NextRequest) {
       //    en-email mark and deadlock recovery (the 2026-06-18 lesson).
       //    We claim atomically right before sendBatch instead.
       console.log(`[cron/newsletter-send] Waiting for deploy of ${slug}…`);
-      const live = await waitForDeploy(slug);
+      const live = await waitForArchiveLive(slug, { budgetMs: DEPLOY_WAIT_MS });
       if (!live) {
         throw new Error(
           `Deploy not live after ${DEPLOY_WAIT_MS / 1000}s — ` +
-          `${SITE}/newsletters/${slug}.html still 404s. Not sending emails ` +
+          `/newsletters/${slug}.html still 404s. Not sending emails ` +
           `that would point at broken links. Re-dispatch once the deploy lands.`
         );
       }
