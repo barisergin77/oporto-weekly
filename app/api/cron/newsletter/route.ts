@@ -101,6 +101,11 @@ const HERO_LOCATIONS = [
   'Porto historic centre rooftops with red tiles stretching to the Douro',
 ];
 
+// Known-good static hero used when live generation fails or is too slow.
+// A failed hero must NEVER abort the edition or eat the 300s budget on
+// retries — better a generic-but-real Porto photo than no newsletter.
+const FALLBACK_HERO_URL = 'https://i.imgur.com/TPAvrte.jpeg';
+
 async function generateHeroImage(weekRange: string): Promise<string> {
   // Pick a location based on the week of the year — deterministic per week
   const weekOfYear = Math.floor(Date.now() / (7 * 24 * 3600 * 1000)) % HERO_LOCATIONS.length;
@@ -125,10 +130,18 @@ CRITICAL RULES — the generated image must be ENTIRELY TEXT-FREE:
 Output: a pure photograph. Just the scene.`;
 
   console.log(`[cron/newsletter] Generating hero image: ${location.slice(0, 60)}...`);
-  const { base64 } = await generateImage(prompt, '16:9');
-  const url = await uploadImageToImgur(base64);
-  console.log(`[cron/newsletter] Hero image uploaded: ${url}`);
-  return url;
+  try {
+    const { base64 } = await generateImage(prompt, '16:9');
+    const url = await uploadImageToImgur(base64);
+    console.log(`[cron/newsletter] Hero image uploaded: ${url}`);
+    return url;
+  } catch (err) {
+    // Non-fatal: hero generation/upload failed (timeout, Gemini overload,
+    // Imgur hiccup). Use the static fallback so the edition still ships on
+    // time rather than burning the budget and aborting.
+    console.error('[cron/newsletter] Hero image failed, using fallback:', err instanceof Error ? err.message : err);
+    return FALLBACK_HERO_URL;
+  }
 }
 
 /**
@@ -348,15 +361,43 @@ Return ONLY the complete HTML. No markdown fences, no commentary, no code blocks
   return html;
 }
 
+/**
+ * Run all SEARCH_QUERIES in batches of 4 (parallel within batch, sequential
+ * batches to stay polite to Gemini quotas). Individual failures are tolerated;
+ * throws only if EVERY query fails. Returns the concatenated research text.
+ */
+async function runResearch(): Promise<string> {
+  const searchResults: string[] = [];
+  const searchFailures: string[] = [];
+  const BATCH_SIZE = 4;
+  for (let i = 0; i < SEARCH_QUERIES.length; i += BATCH_SIZE) {
+    const batch = SEARCH_QUERIES.slice(i, i + BATCH_SIZE);
+    const settled = await Promise.allSettled(batch.map(q => geminiSearch(q)));
+    settled.forEach((s, idx) => {
+      if (s.status === 'fulfilled') {
+        searchResults.push(s.value);
+      } else {
+        const msg = s.reason instanceof Error ? s.reason.message : String(s.reason);
+        console.error(`[cron/newsletter] Search failed for "${batch[idx]}": ${msg}`);
+        searchFailures.push(batch[idx]);
+      }
+    });
+    if (i + BATCH_SIZE < SEARCH_QUERIES.length) {
+      await new Promise(r => setTimeout(r, 1500));
+    }
+  }
+  if (searchResults.length === 0) {
+    throw new Error(`All ${SEARCH_QUERIES.length} Gemini searches failed — aborting.`);
+  }
+  if (searchFailures.length > 0) {
+    console.warn(`[cron/newsletter] Continuing with ${searchResults.length}/${SEARCH_QUERIES.length} successful searches. Failed: ${searchFailures.join(', ')}`);
+  }
+  return searchResults.join('\n\n');
+}
+
 export async function GET(req: NextRequest) {
   const authError = checkCronAuth(req);
   if (authError) return NextResponse.json({ error: authError }, { status: 401 });
-
-  // Outer-scope state so the catch can unmark if needed.
-  let claimedSlug: string | null = null;
-  let pastNoReturn = false;
-  type UnmarkFn = (slug: string, step: 'en-web') => Promise<void>;
-  let unmarkStepFn: UnmarkFn | null = null;
 
   try {
     // 0. Day-of-week guard — only publish on Thursdays.
@@ -390,79 +431,52 @@ export async function GET(req: NextRequest) {
     const slug = generateSlug(weekRange);
     console.log(`[cron/newsletter] now=${now.toISOString()} dayOfWeek=${dayOfWeek} thursday=${weekStart.toISOString().slice(0,10)} slug=${slug}`);
 
-    // 0.5. ATOMIC CLAIM via the run-ledger.
+    // 0.5. IDEMPOTENCY via the archived artifact — NOT a ledger claim.
     //
-    // This endpoint claims `en-web` — it generates and archives, but
-    // does NOT send. Sending moved to /api/cron/newsletter-send, which
-    // runs as the next workflow step AFTER the Vercel deploy triggered
-    // by our archive commit has gone live.
+    // This endpoint generates + archives (it does NOT send; that's
+    // /api/cron/newsletter-send, which waits for the deploy to go live).
     //
-    // Background (2026-06-11): we used to archive and send in one
-    // handler, back to back. The archive commit *starts* a 1-3 minute
-    // Vercel build; the emails went out immediately, so subscribers who
-    // opened promptly clicked event links into a site that was still
-    // building — 404s, and a homepage still showing last week. The
-    // split lets the send step poll the live site until the new edition
-    // is actually served, with its own 300s budget.
-    //
-    // tryClaimStep writes the en-web mark IFF no one else has yet, using
-    // GitHub's fast-forward semantics as the lock (see 2026-05-21
-    // double-send postmortem).
-    const { tryClaimStep, unmarkStep, markStepComplete, getWeekEntry } = await import('@/lib/run-ledger');
-    const claimed = await tryClaimStep(slug, 'en-web');
-    if (!claimed) {
-      const entry = await getWeekEntry(slug);
-      console.log(`[cron/newsletter] en-web already claimed for ${slug} — skipping (race lost or prior run)`);
-      return NextResponse.json({
-        skipped: true,
-        reason: 'en-web-already-claimed',
-        slug,
-        weekRange,
-        ledger: entry,
-      });
-    }
-    // Record claim state so the outer catch can unmark on early failures.
-    // pastNoReturn (declared at function top) flips true once we've archived
-    // — past that point the en-web claim stays even on subsequent errors,
-    // because a retry would re-archive a different edition.
-    claimedSlug = slug;
-    unmarkStepFn = unmarkStep as UnmarkFn;
-
-    // 1. Run Gemini searches in batches of 4 (sequential batches, parallel within).
-    //    Individual failures are tolerated — one bad query doesn't abort the run.
-    //    Batched (not full parallel) to stay polite to Gemini quotas: 14 simultaneous
-    //    grounded-search calls would burst past the per-minute limits.
-    const searchResults: string[] = [];
-    const searchFailures: string[] = [];
-    const BATCH_SIZE = 4;
-    for (let i = 0; i < SEARCH_QUERIES.length; i += BATCH_SIZE) {
-      const batch = SEARCH_QUERIES.slice(i, i + BATCH_SIZE);
-      const settled = await Promise.allSettled(batch.map(q => geminiSearch(q)));
-      settled.forEach((s, idx) => {
-        if (s.status === 'fulfilled') {
-          searchResults.push(s.value);
-        } else {
-          const msg = s.reason instanceof Error ? s.reason.message : String(s.reason);
-          console.error(`[cron/newsletter] Search failed for "${batch[idx]}": ${msg}`);
-          searchFailures.push(batch[idx]);
-        }
-      });
-      // Brief pause between batches to spread out quota usage
-      if (i + BATCH_SIZE < SEARCH_QUERIES.length) {
-        await new Promise(r => setTimeout(r, 1500));
+    // Why archive-existence, not tryClaimStep (changed 2026-06-18):
+    // claiming `en-web` at the top deadlocked recovery. If Vercel
+    // infra-killed the function mid-generation (it exceeded 300s — see
+    // the timing fixes below), the JS catch never ran, so the en-web
+    // claim stayed marked forever. The watchdog then re-dispatched, but
+    // generation saw the stuck claim and skipped — so the edition could
+    // NEVER regenerate. Meanwhile send saw en-web "done" and looped on a
+    // 404. Checking the actual archived HTML instead is naturally
+    // recoverable: an infra-kill leaves no archive, so the next run just
+    // regenerates. Concurrency is handled by the GH Actions concurrency
+    // group + POST endpoints; double-SEND is independently prevented by
+    // the send endpoint's atomic en-email claim, so at worst a duplicate
+    // generation wastes Gemini calls and produces the same archive.
+    const { markStepComplete, getWeekEntry } = await import('@/lib/run-ledger');
+    {
+      const { getFileContent } = await import('@/lib/github');
+      const existing = await getFileContent(`public/newsletters/${slug}.html`);
+      if (existing) {
+        const entry = await getWeekEntry(slug);
+        console.log(`[cron/newsletter] ${slug}.html already archived — skipping generation`);
+        return NextResponse.json({
+          skipped: true,
+          reason: 'already-archived',
+          slug,
+          weekRange,
+          ledger: entry,
+        });
       }
     }
-    if (searchResults.length === 0) {
-      throw new Error(`All ${SEARCH_QUERIES.length} Gemini searches failed — aborting.`);
-    }
-    if (searchFailures.length > 0) {
-      console.warn(`[cron/newsletter] Continuing with ${searchResults.length}/${SEARCH_QUERIES.length} successful searches. Failed: ${searchFailures.join(', ')}`);
-    }
-    const researchData = searchResults.join('\n\n');
-    await markStepComplete(slug, 'research');
 
-    // 2. Generate hero image in parallel with... actually do it first so the prompt has the URL
-    const heroImageUrl = await generateHeroImage(weekRange);
+    // 1. Research + hero image run CONCURRENTLY — they're independent and
+    //    each is the pipeline's biggest time sink (~60-90s research,
+    //    ~30-65s hero). Sequential, they pushed the function past Vercel's
+    //    300s ceiling → infra-kill (2026-06-18 incident). Overlapping them
+    //    hides the hero behind the research window. Hero never throws (it
+    //    falls back to a static image), so Promise.all won't reject on it.
+    const [researchData, heroImageUrl] = await Promise.all([
+      runResearch(),
+      generateHeroImage(weekRange),
+    ]);
+    await markStepComplete(slug, 'research');
 
     // 3. Generate newsletter HTML (embedded hero URL)
     const rawHtml = await generateNewsletter(researchData, heroImageUrl, weekRange);
@@ -554,7 +568,12 @@ export async function GET(req: NextRequest) {
       eventFiles
     );
     console.log(`[cron/newsletter] Archived EN as ${slug}${eventFiles.length ? ` with ${eventFiles.length} events` : ''}`);
-    pastNoReturn = true; // archive landed — any subsequent failure must not unmark
+    // Mark en-web ONLY after the archive commit lands. The send endpoint
+    // gates on this mark; the watchdog re-dispatches if it's missing. A
+    // failure (or infra-kill) before this point leaves no mark and no
+    // archive → the next run cleanly regenerates. This ordering is the
+    // fix for the 2026-06-18 deadlock (claim-at-top could never recover).
+    await markStepComplete(slug, 'en-web');
 
     notifySearchEngines(slug).catch(e =>
       console.error('[cron/newsletter] Search engine notification failed:', e)
@@ -570,17 +589,10 @@ export async function GET(req: NextRequest) {
       send: 'deferred to /api/cron/newsletter-send',
     });
   } catch (err: unknown) {
-    // Unmark only if claim landed AND we haven't passed the archive yet.
-    // Past archive (pastNoReturn=true), keep the claim — a retry would
-    // produce a second, different edition.
-    if (claimedSlug && unmarkStepFn && !pastNoReturn) {
-      console.error('[cron/newsletter] work failed before archive, unmarking:', err);
-      await unmarkStepFn(claimedSlug, 'en-web');
-    } else if (pastNoReturn) {
-      console.error('[cron/newsletter] work failed AFTER archive, keeping claim (manual recovery needed):', err);
-    } else {
-      console.error('[cron/newsletter]', err);
-    }
+    // No ledger cleanup needed: en-web is marked only after archive, so a
+    // failure here leaves no partial mark. The watchdog will see en-email
+    // missing and re-dispatch; generation will find no archive and re-run.
+    console.error('[cron/newsletter]', err);
     const message = err instanceof Error ? err.message : 'Internal server error';
     return NextResponse.json({ error: message }, { status: 500 });
   }

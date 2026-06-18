@@ -77,22 +77,19 @@ export async function GET(req: NextRequest) {
         { status: 409 }
       );
     }
-
-    // Atomic claim on the send itself.
-    const claimed = await tryClaimStep(slug, 'en-email');
-    if (!claimed) {
+    // Cheap early skip if already sent (avoids the 240s poll on no-op runs).
+    if (await isStepComplete(slug, 'en-email')) {
       const entry = await getWeekEntry(slug);
-      console.log(`[cron/newsletter-send] en-email already claimed for ${slug} — skipping`);
-      return NextResponse.json({
-        skipped: true,
-        reason: 'en-email-already-claimed',
-        slug,
-        ledger: entry,
-      });
+      console.log(`[cron/newsletter-send] en-email already complete for ${slug} — skipping`);
+      return NextResponse.json({ skipped: true, reason: 'en-email-already-complete', slug, ledger: entry });
     }
 
     try {
-      // 1. Wait for the deploy to serve the new edition.
+      // 1. Wait for the deploy to serve the new edition. The claim is NOT
+      //    held during this poll — claiming up front and then getting
+      //    infra-killed during the (up to 240s) poll would strand the
+      //    en-email mark and deadlock recovery (the 2026-06-18 lesson).
+      //    We claim atomically right before sendBatch instead.
       console.log(`[cron/newsletter-send] Waiting for deploy of ${slug}…`);
       const live = await waitForDeploy(slug);
       if (!live) {
@@ -109,7 +106,17 @@ export async function GET(req: NextRequest) {
       const html = await getFileContent(`public/newsletters/${slug}.html`);
       if (!html) throw new Error(`Archived HTML missing for ${slug}`);
 
-      // 3. Send.
+      // 3. Atomic claim immediately before send — the deadlock window is
+      //    now the few ms between claim and sendBatch, not the whole poll.
+      //    Two concurrent sends both reach here; only one wins the CAS.
+      const claimed = await tryClaimStep(slug, 'en-email');
+      if (!claimed) {
+        const entry = await getWeekEntry(slug);
+        console.log(`[cron/newsletter-send] en-email claimed by a concurrent run — skipping`);
+        return NextResponse.json({ skipped: true, reason: 'en-email-already-claimed', slug, ledger: entry });
+      }
+
+      // 4. Send.
       const weekDate = weekStart.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
       const subject = `Oporto Weekly — ${weekDate}`;
       const enSubscribers = await getActiveSubscribers('en');

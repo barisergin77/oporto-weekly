@@ -77,12 +77,6 @@ export async function GET(req: NextRequest) {
   const authError = checkCronAuth(req);
   if (authError) return NextResponse.json({ error: authError }, { status: 401 });
 
-  // Outer-scope state so the catch can unmark on early failure.
-  let claimedSlug: string | null = null;
-  let pastNoReturn = false;
-  type UnmarkFn = (slug: string, step: 'pt-email') => Promise<void>;
-  let unmarkStepFn: UnmarkFn | null = null;
-
   try {
     // 1. Day-of-week guard + slug computation. See EN cron for full
     //    rationale — short version: snap to most-recent Thursday so the
@@ -105,42 +99,40 @@ export async function GET(req: NextRequest) {
     const ptSlug = `${slug}-pt`;
     console.log(`[cron/newsletter-pt] now=${now.toISOString()} dayOfWeek=${dayOfWeek} thursday=${weekStart.toISOString().slice(0,10)} slug=${slug}`);
 
-    // 1.5. ATOMIC CLAIM via the run-ledger. See EN cron for full rationale.
-    const { tryClaimStep, unmarkStep, markStepComplete, getWeekEntry } = await import('@/lib/run-ledger');
-    const claimed = await tryClaimStep(slug, 'pt-email');
-    if (!claimed) {
+    // 1.5. Idempotency + recovery model (rewritten 2026-06-18 to match EN).
+    //   - pt-email already marked → fully done, skip.
+    //   - Translate + archive is guarded by pt-web / archive existence, so
+    //     an infra-kill mid-translate just re-runs cleanly (no stuck claim).
+    //   - The atomic pt-email claim is taken RIGHT BEFORE sendBatch, not at
+    //     the top — holding it across the 60-120s translate could strand it
+    //     on an infra-kill and deadlock recovery (the EN lesson).
+    const { tryClaimStep, isStepComplete, markStepComplete, getWeekEntry } = await import('@/lib/run-ledger');
+    if (await isStepComplete(slug, 'pt-email')) {
       const entry = await getWeekEntry(slug);
-      console.log(`[cron/newsletter-pt] pt-email already claimed for ${slug} — skipping (race lost or prior run)`);
-      return NextResponse.json({
-        skipped: true,
-        reason: 'pt-email-already-claimed',
-        slug: ptSlug,
-        ledger: entry,
-      });
+      console.log(`[cron/newsletter-pt] pt-email already complete for ${slug} — skipping`);
+      return NextResponse.json({ skipped: true, reason: 'pt-email-already-complete', slug: ptSlug, ledger: entry });
     }
-    claimedSlug = slug;
-    unmarkStepFn = unmarkStep as UnmarkFn;
-
-    // 2. Fetch EN newsletter HTML from GitHub (EN cron committed it 15 min earlier)
-    const enHtml = await getFileContent(`public/newsletters/${slug}.html`);
-    if (!enHtml) {
-      throw new Error(`EN newsletter not found for slug ${slug} — did the EN cron run successfully?`);
-    }
-    console.log(`[cron/newsletter-pt] Loaded EN newsletter: ${slug} (${enHtml.length} bytes)`);
-
-    // 3. Translate to Portuguese
-    const ptHtml = await translateNewsletter(enHtml);
-    console.log(`[cron/newsletter-pt] Translated to PT (${ptHtml.length} bytes)`);
-    // Validation gate — see EN cron. A truncated translation must never
-    // ship. Throws → outer catch unmarks pt-email → watchdog retries.
-    assertValidNewsletterHtml(ptHtml, { lang: 'pt' });
 
     const ptWeekDate = formatWeekRangePT(weekStart);
     const ptSubject = `Oporto Weekly — ${ptWeekDate}`;
 
-    // 4. Archive FIRST, then send — same atomic-guard pattern as EN cron.
-    //    See app/api/cron/newsletter/route.ts step 6 for the full rationale.
-    try {
+    // 2. Obtain the PT HTML: reuse the archived translation if a prior run
+    //    already produced it (recoverable), else translate the EN edition.
+    let ptHtml = await getFileContent(`public/newsletters/${ptSlug}.html`);
+    if (ptHtml) {
+      console.log(`[cron/newsletter-pt] Reusing already-archived PT HTML for ${ptSlug}`);
+    } else {
+      const enHtml = await getFileContent(`public/newsletters/${slug}.html`);
+      if (!enHtml) {
+        throw new Error(`EN newsletter not found for slug ${slug} — did the EN cron run successfully?`);
+      }
+      console.log(`[cron/newsletter-pt] Loaded EN newsletter: ${slug} (${enHtml.length} bytes)`);
+
+      ptHtml = await translateNewsletter(enHtml);
+      console.log(`[cron/newsletter-pt] Translated to PT (${ptHtml.length} bytes)`);
+      assertValidNewsletterHtml(ptHtml, { lang: 'pt' });
+
+      // 3. Archive the PT edition. Marks pt-web after the commit lands.
       await archiveViaGitHub({
         slug: ptSlug,
         title: `Oporto Weekly — ${ptWeekDate}`,
@@ -150,49 +142,54 @@ export async function GET(req: NextRequest) {
       }, ptHtml, 'newsletters-pt.json');
       console.log(`[cron/newsletter-pt] Archived PT as ${ptSlug}`);
       await markStepComplete(slug, 'pt-web');
-      pastNoReturn = true; // archive landed — any subsequent failure must not unmark
-
-      // Notify search engines (best-effort)
       notifySearchEngines(`pt/arquivo/${ptSlug}`).catch(e =>
         console.error('[cron/newsletter-pt] Search engine notification failed:', e)
       );
-    } catch (archiveErr) {
-      // Archive failure is fatal — without the marker, the next run would
-      // re-send. Surface a 500 so we know.
-      console.error('[cron/newsletter-pt] PT archive failed — aborting before send:', archiveErr);
-      throw archiveErr;
     }
 
-    // 5. Now send. The archive is locked in; the guard will block re-runs.
+    // 4. Atomic claim immediately before send (CAS) — only one concurrent
+    //    run wins; the loser skips. Window between claim and send is ~ms.
+    const claimed = await tryClaimStep(slug, 'pt-email');
+    if (!claimed) {
+      const entry = await getWeekEntry(slug);
+      console.log(`[cron/newsletter-pt] pt-email claimed by a concurrent run — skipping`);
+      return NextResponse.json({ skipped: true, reason: 'pt-email-already-claimed', slug: ptSlug, ledger: entry });
+    }
+
+    // 5. Send.
     const ptSubscribers = await getActiveSubscribers('pt');
     const ptEmails = ptSubscribers.map(s => s.email);
     let sentPT = 0;
     if (ptEmails.length > 0) {
-      // Tagged identically to EN so dashboard filters treat EN+PT as sibling
-      // dimensions of the same edition. `edition` uses ptSlug (e.g.
-      // "april-16-22-2026-pt") to differentiate from EN in per-edition views.
-      sentPT = await sendBatch(ptEmails, ptSubject, ptHtml, [
-        { name: 'type', value: 'newsletter' },
-        { name: 'lang', value: 'pt' },
-        { name: 'edition', value: ptSlug },
-      ]);
-      console.log(`[cron/newsletter-pt] Sent PT to ${sentPT} subscribers`);
+      try {
+        sentPT = await sendBatch(ptEmails, ptSubject, ptHtml, [
+          { name: 'type', value: 'newsletter' },
+          { name: 'lang', value: 'pt' },
+          { name: 'edition', value: ptSlug },
+        ]);
+        console.log(`[cron/newsletter-pt] Sent PT to ${sentPT} subscribers`);
+      } catch (sendErr) {
+        // Keep the claim on partial send (retry would double-send delivered
+        // chunks); release it otherwise so the watchdog can retry cleanly.
+        const { PartialSendError } = await import('@/lib/resend-client');
+        const { unmarkStep } = await import('@/lib/run-ledger');
+        if (sendErr instanceof PartialSendError) {
+          console.error(`[cron/newsletter-pt] PARTIAL SEND (${sendErr.sentCount}/${sendErr.totalCount}) — keeping claim:`, sendErr);
+        } else {
+          console.error('[cron/newsletter-pt] send failed, unmarking pt-email:', sendErr);
+          await unmarkStep(slug, 'pt-email');
+        }
+        throw sendErr;
+      }
     } else {
       console.log('[cron/newsletter-pt] No PT subscribers — skipping send');
     }
-    // pt-email was claimed (and marked) at the top of the handler. No
-    // mark needed here.
 
     return NextResponse.json({ success: true, slug: ptSlug, sent: { pt: sentPT } });
   } catch (err: unknown) {
-    if (claimedSlug && unmarkStepFn && !pastNoReturn) {
-      console.error('[cron/newsletter-pt] work failed before archive, unmarking:', err);
-      await unmarkStepFn(claimedSlug, 'pt-email');
-    } else if (pastNoReturn) {
-      console.error('[cron/newsletter-pt] work failed AFTER archive, keeping claim (manual recovery needed):', err);
-    } else {
-      console.error('[cron/newsletter-pt]', err);
-    }
+    // pt-email is marked only by the pre-send claim; a failure before that
+    // leaves no stuck mark and is fully recoverable by the watchdog.
+    console.error('[cron/newsletter-pt]', err);
     const message = err instanceof Error ? err.message : 'Internal server error';
     return NextResponse.json({ error: message }, { status: 500 });
   }
