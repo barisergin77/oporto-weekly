@@ -8,5 +8,9 @@
   "category": "nightlife",
   "description": "Head to the coast for a night of tech house and house music from the legendary DJ Loco Dice at this popular beach club.",
   "sourceEdition": "june-11-17-2026",
-  "addedAt": "2026-06-11T12:08:39.601Z"
+  "addedAt": "2026-06-11T12:08:39.601Z",
+  "image": {
+    "url": "https://i.imgur.com/C3mfhz0.jpeg",
+    "credit": "AI illustration · Oporto Weekly"
+  }
 }

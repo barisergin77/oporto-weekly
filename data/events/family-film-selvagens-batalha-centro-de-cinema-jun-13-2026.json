@@ -9,5 +9,10 @@
   "description": "Enjoy a family-friendly film screening of \"Selvagens\" by Claude Barras at Porto's beautifully restored art-house cinema.",
   "sourceEdition": "june-11-17-2026",
   "externalLink": "https://batalhacentrodecinema.pt/",
-  "addedAt": "2026-06-11T12:08:39.584Z"
+  "addedAt": "2026-06-11T12:08:39.584Z",
+  "image": {
+    "url": "https://i.imgur.com/6Sg9sei.png",
+    "credit": "Photo: Batalhacentrodecinema",
+    "sourceUrl": "https://batalhacentrodecinema.pt/"
+  }
 }
