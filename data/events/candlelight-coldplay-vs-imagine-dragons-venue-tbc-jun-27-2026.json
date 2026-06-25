@@ -11,5 +11,10 @@
   "description": "Experience the anthems of two of the world's biggest bands in a new light, performed by classical musicians in a venue bathed in candlelight.",
   "sourceEdition": "june-25-july-1-2026",
   "externalLink": "https://feverup.com/en/porto/candlelight",
-  "addedAt": "2026-06-25T10:39:49.325Z"
+  "addedAt": "2026-06-25T10:39:49.325Z",
+  "image": {
+    "url": "https://i.imgur.com/UbPdQY2.jpeg",
+    "credit": "Photo: FEVER",
+    "sourceUrl": "https://feverup.com/en/porto/candlelight"
+  }
 }
