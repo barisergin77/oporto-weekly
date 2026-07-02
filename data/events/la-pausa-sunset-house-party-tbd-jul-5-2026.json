@@ -8,5 +8,9 @@
   "category": "nightlife",
   "description": "Wind down the weekend with a sunset party featuring a groovy mix of Tech House, House, and Latin House. The perfect end to a busy week.",
   "sourceEdition": "july-2-8-2026",
-  "addedAt": "2026-07-02T10:34:01.998Z"
+  "addedAt": "2026-07-02T10:34:01.998Z",
+  "image": {
+    "url": "https://i.imgur.com/xcWbxqs.jpeg",
+    "credit": "AI illustration · Oporto Weekly"
+  }
 }
