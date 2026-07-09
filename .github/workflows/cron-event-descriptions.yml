@@ -15,7 +15,7 @@ jobs:
     steps:
       - name: Call /api/cron/event-descriptions
         run: |
-          response=$(curl -s --retry 2 --retry-delay 10 -X POST -w "\nHTTP_STATUS:%{http_code}" --max-time 300 \
+          response=$(curl -s -X POST -w "\nHTTP_STATUS:%{http_code}" --max-time 300 \
             -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" \
             https://oportoweekly.com/api/cron/event-descriptions)
           status=$(echo "$response" | tail -n1 | cut -d: -f2)

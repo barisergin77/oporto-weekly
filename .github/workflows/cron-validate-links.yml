@@ -15,8 +15,13 @@ jobs:
     timeout-minutes: 6
     steps:
       - name: Call /api/cron/validate-links
+        # NO --retry here: this is a heavy endpoint that runs near Vercel's
+        # 300s ceiling. On 2026-07-09 --retry 2 turned one slow run into a
+        # 15m59s failure by re-running the whole validation 3×. It's
+        # non-critical + incremental (leftovers roll to next week), so a
+        # single bounded attempt is correct.
         run: |
-          response=$(curl -s --retry 2 --retry-delay 10 -X POST -w "\nHTTP_STATUS:%{http_code}" --max-time 300 \
+          response=$(curl -s -X POST -w "\nHTTP_STATUS:%{http_code}" --max-time 300 \
             -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" \
             https://oportoweekly.com/api/cron/validate-links)
           status=$(echo "$response" | tail -n1 | cut -d: -f2)

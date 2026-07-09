@@ -156,16 +156,48 @@ export async function GET(req: NextRequest) {
     const counts = { ok: 0, replaced: 0, cleared: 0, error: 0 };
     const updatedFiles: Array<{ path: string; content: string }> = [];
 
-    for (const ev of candidates) {
-      const current = ev.externalLink!;
-      try {
-        const check = await headCheck(current);
-        if (check.ok) {
-          counts.ok++;
-          continue;
+    // PHASE 1 — HEAD-check every candidate IN PARALLEL (batches of 12).
+    // These are independent 10s-bounded I/O; running them concurrently
+    // makes the common case (most links live) finish in ~20-40s regardless
+    // of count. The old fully-sequential loop could start a ~70s dead-link
+    // iteration near the budget edge and overshoot Vercel's 300s ceiling →
+    // infra-kill → no commit → the workflow's curl --retry re-ran the whole
+    // thing (2026-07-09: 15m59s failure).
+    const dead: EventRecord[] = [];
+    const HEAD_BATCH = 12;
+    for (let i = 0; i < candidates.length; i += HEAD_BATCH) {
+      const batch = candidates.slice(i, i + HEAD_BATCH);
+      const results = await Promise.all(
+        batch.map(async (ev) => {
+          try {
+            const check = await headCheck(ev.externalLink!);
+            return { ev, ok: check.ok, status: check.status };
+          } catch {
+            return { ev, ok: false, status: 0 };
+          }
+        })
+      );
+      for (const r of results) {
+        if (r.ok) counts.ok++;
+        else {
+          console.log(`[cron/validate-links] ✗ ${r.ev.slug}: HTTP ${r.status}`);
+          dead.push(r.ev);
         }
-        console.log(`[cron/validate-links] ✗ ${ev.slug}: HTTP ${check.status}`);
+      }
+    }
+    console.log(`[cron/validate-links] ${counts.ok} live · ${dead.length} dead — resolving replacements`);
 
+    // PHASE 2 — for the (usually few) dead links only, try a Gemini
+    // replacement, then verify it. This is the slow path (~30-50s each), so
+    // it's sequential with a STRICT budget checked BEFORE each iteration:
+    // we reserve 60s for a single dead-link's worst case + the final commit,
+    // bailing at 220s so we never approach the 300s wall mid-iteration.
+    for (const ev of dead) {
+      if (Date.now() - startedAt > 220_000) {
+        console.warn(`[cron/validate-links] Budget reserve reached — deferring ${dead.length - counts.replaced - counts.cleared} dead link(s) to next run`);
+        break;
+      }
+      try {
         const replacement = await findReplacementUrl(ev);
         if (replacement) {
           const replaceCheck = await headCheck(replacement);
@@ -179,7 +211,6 @@ export async function GET(req: NextRequest) {
             continue;
           }
         }
-
         // Gave up. Clear the field.
         counts.cleared++;
         const updated: EventRecord = { ...ev };
@@ -191,16 +222,7 @@ export async function GET(req: NextRequest) {
         console.log(`[cron/validate-links] → ${ev.slug} cleared`);
       } catch (err) {
         counts.error++;
-        console.error(
-          `[cron/validate-links] ❌ ${ev.slug}:`,
-          err instanceof Error ? err.message : err
-        );
-      }
-
-      // Budget safety — bail early if we're near the 300s limit.
-      if (Date.now() - startedAt > 260_000) {
-        console.warn('[cron/validate-links] Time budget exhausted, stopping early');
-        break;
+        console.error(`[cron/validate-links] ❌ ${ev.slug}:`, err instanceof Error ? err.message : err);
       }
     }
 
