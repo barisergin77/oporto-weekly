@@ -8,5 +8,11 @@
   "category": "music",
   "description": "Don't miss a special charity concert pairing the Porto Symphony Orchestra with one of Portugal's most beloved musicians, Pedro Abrunhosa.",
   "sourceEdition": "july-9-15-2026",
-  "addedAt": "2026-07-09T10:51:17.119Z"
+  "addedAt": "2026-07-09T10:51:17.119Z",
+  "image": {
+    "url": "https://i.imgur.com/TOngDpd.jpeg",
+    "credit": "Photo: Casa da Música",
+    "sourceUrl": "https://casadamusica.com/event/concerto-solidario-para-as-vitimas-da-tempestade-kristin/?selected_session=53812"
+  },
+  "externalLink": "https://casadamusica.com/event/concerto-solidario-para-as-vitimas-da-tempestade-kristin/?selected_session=53812"
 }
