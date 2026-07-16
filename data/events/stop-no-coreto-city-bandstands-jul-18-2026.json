@@ -8,5 +8,9 @@
   "category": "music",
   "description": "Discover Porto's local music scene as bands from the STOP musical community take over the city's historic bandstands for a series of free public concerts.",
   "sourceEdition": "july-16-22-2026",
-  "addedAt": "2026-07-16T10:03:32.386Z"
+  "addedAt": "2026-07-16T10:03:32.386Z",
+  "image": {
+    "url": "https://i.imgur.com/gknF2VW.jpeg",
+    "credit": "AI illustration · Oporto Weekly"
+  }
 }
