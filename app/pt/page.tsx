@@ -21,8 +21,9 @@ export async function generateMetadata(): Promise<Metadata> {
     alternates: {
       canonical: 'https://oportoweekly.com/pt',
       languages: {
-        'en': 'https://oportoweekly.com',
-        'pt': 'https://oportoweekly.com/pt',
+        en: 'https://oportoweekly.com',
+        'pt-PT': 'https://oportoweekly.com/pt',
+        'x-default': 'https://oportoweekly.com',
       },
     },
     openGraph: {

@@ -19,7 +19,18 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title,
     description,
-    alternates: { canonical: 'https://oportoweekly.com' },
+    // hreflang must be BIDIRECTIONAL — the PT home already declared these
+    // alternates, but without the EN home confirming them Google ignored
+    // the whole set (same "Duplicate without user-selected canonical" class
+    // as the archive pages, 2026-07).
+    alternates: {
+      canonical: 'https://oportoweekly.com',
+      languages: {
+        en: 'https://oportoweekly.com',
+        'pt-PT': 'https://oportoweekly.com/pt',
+        'x-default': 'https://oportoweekly.com',
+      },
+    },
     openGraph: {
       title,
       description,
