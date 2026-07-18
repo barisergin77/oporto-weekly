@@ -1,4 +1,4 @@
-import { listNewsletters, getNewsletterMeta, getNewsletterHtml, stripEmailFooter } from '@/lib/archive';
+import { listNewsletters, getNewsletterMeta, getNewsletterMetaPT, getNewsletterHtml, stripEmailFooter } from '@/lib/archive';
 import { listBlogPosts } from '@/lib/blog';
 import { colors, typography } from '@/lib/design';
 import { notFound } from 'next/navigation';
@@ -17,10 +17,18 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   const meta = getNewsletterMeta(params.slug);
   if (!meta) return { title: 'Not Found' };
   const url = `https://oportoweekly.com/archive/${meta.slug}`;
+  // hreflang: declare the EN↔PT editions as language alternates so Google
+  // stops treating the PT archive as a duplicate of this EN page ("Duplicate
+  // without user-selected canonical", GSC 2026-07-11). Only emit the PT
+  // alternate if that edition actually exists — a broken hreflang is worse
+  // than none. Must be bidirectional (the PT page points back here).
+  const ptExists = Boolean(getNewsletterMetaPT(`${meta.slug}-pt`));
+  const languages: Record<string, string> = { en: url, 'x-default': url };
+  if (ptExists) languages['pt-PT'] = `https://oportoweekly.com/pt/arquivo/${meta.slug}-pt`;
   return {
     title: `${meta.weekRange} — Porto Events Guide`,
     description: meta.description,
-    alternates: { canonical: url },
+    alternates: { canonical: url, languages },
     openGraph: {
       title: `${meta.weekRange} — Porto Events Guide`,
       description: meta.description,

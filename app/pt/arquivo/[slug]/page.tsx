@@ -15,10 +15,20 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   const meta = getNewsletterMetaPT(params.slug);
   if (!meta) return { title: 'Não encontrado' };
   const url = `https://oportoweekly.com/pt/arquivo/${meta.slug}`;
+  // hreflang alternates — bidirectional counterpart to the EN archive page.
+  // The EN edition always exists (PT is generated from it): PT slug is the
+  // EN slug + "-pt", so strip the suffix to get the EN URL. x-default → EN.
+  const enSlug = meta.slug.replace(/-pt$/, '');
+  const enUrl = `https://oportoweekly.com/archive/${enSlug}`;
+  const languages: Record<string, string> = {
+    'pt-PT': url,
+    en: enUrl,
+    'x-default': enUrl,
+  };
   return {
     title: `${meta.weekRange} — Guia de Eventos no Porto`,
     description: meta.description,
-    alternates: { canonical: url },
+    alternates: { canonical: url, languages },
     openGraph: {
       title: `${meta.weekRange} — Guia de Eventos no Porto`,
       description: meta.description,
