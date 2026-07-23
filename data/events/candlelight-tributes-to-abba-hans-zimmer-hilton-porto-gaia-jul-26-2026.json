@@ -10,5 +10,11 @@
   "category": "music",
   "description": "Experience an intimate and enchanting evening as classical musicians perform iconic scores by candlelight.",
   "sourceEdition": "july-23-29-2026",
-  "addedAt": "2026-07-23T10:16:36.352Z"
+  "addedAt": "2026-07-23T10:16:36.352Z",
+  "image": {
+    "url": "https://i.imgur.com/6Te8528.jpeg",
+    "credit": "Photo: FEVER",
+    "sourceUrl": "https://feverup.com/en/porto/candlelight"
+  },
+  "externalLink": "https://feverup.com/en/porto/candlelight"
 }
