@@ -9,5 +9,10 @@
   "description": "As part of the Cinema Fora do Sítio program, enjoy a magical movie night under the stars with a free screening of a family-favourite classic.",
   "sourceEdition": "july-30-august-5-2026",
   "externalLink": "https://www.cm-porto.pt/pt/cultura",
-  "addedAt": "2026-07-30T10:18:56.985Z"
+  "addedAt": "2026-07-30T10:18:56.985Z",
+  "image": {
+    "url": "https://i.imgur.com/OQHkQkg.png",
+    "credit": "Photo: Cm-porto",
+    "sourceUrl": "https://www.cm-porto.pt/pt/cultura"
+  }
 }
