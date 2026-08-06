@@ -9,5 +9,10 @@
   "description": "For a different kind of night out, enjoy the iconic songs of ABBA performed by classical musicians in a stunning venue bathed in candlelight. A truly magical experience.",
   "sourceEdition": "august-6-12-2026",
   "externalLink": "https://feverup.com/en/porto/candlelight",
-  "addedAt": "2026-08-06T10:34:26.354Z"
+  "addedAt": "2026-08-06T10:34:26.354Z",
+  "image": {
+    "url": "https://i.imgur.com/VKN8Uel.jpeg",
+    "credit": "Photo: FEVER",
+    "sourceUrl": "https://feverup.com/en/porto/candlelight"
+  }
 }

@@ -8,5 +8,9 @@
   "category": "music",
   "description": "Join the Portukulele community for a relaxed Sunday afternoon picnic filled with the charming sounds of ukuleles. All are welcome to listen or play along.",
   "sourceEdition": "august-6-12-2026",
-  "addedAt": "2026-08-06T10:34:26.264Z"
+  "addedAt": "2026-08-06T10:34:26.264Z",
+  "image": {
+    "url": "https://i.imgur.com/h50VxGc.jpeg",
+    "credit": "AI illustration · Oporto Weekly"
+  }
 }
