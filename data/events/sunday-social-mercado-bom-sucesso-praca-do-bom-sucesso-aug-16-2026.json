@@ -8,5 +8,9 @@
   "category": "food",
   "description": "A perfect Sunday spot. This modern food hall features over 40 stalls with everything from fresh oysters to creative cuisine and craft beer.",
   "sourceEdition": "august-13-19-2026",
-  "addedAt": "2026-08-13T09:07:43.264Z"
+  "addedAt": "2026-08-13T09:07:43.264Z",
+  "image": {
+    "url": "https://i.imgur.com/d2GYrez.jpeg",
+    "credit": "AI illustration · Oporto Weekly"
+  }
 }

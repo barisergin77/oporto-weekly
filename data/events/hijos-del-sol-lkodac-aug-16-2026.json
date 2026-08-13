@@ -8,5 +8,9 @@
   "category": "music",
   "description": "Soak up the Sunday sun with this afternoon music event, promising good vibes by the water.",
   "sourceEdition": "august-13-19-2026",
-  "addedAt": "2026-08-13T09:07:43.220Z"
+  "addedAt": "2026-08-13T09:07:43.220Z",
+  "image": {
+    "url": "https://i.imgur.com/jmH7gUE.jpeg",
+    "credit": "AI illustration · Oporto Weekly"
+  }
 }
