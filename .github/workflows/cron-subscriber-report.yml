@@ -1,0 +1,29 @@
+# Thursday 18:00 UTC — after the day's newsletter cascade + watchdog passes.
+# Snapshots subscriber counts to data/subscriber-history.json and emails the
+# editor a week-over-week summary. Lightweight + idempotent (the history file
+# guards against double-snapshot), so --retry is safe here.
+name: Cron · Subscriber Report
+
+on:
+  schedule:
+    - cron: '0 18 * * 4' # Thu 18:00 UTC
+  workflow_dispatch:
+
+jobs:
+  trigger:
+    runs-on: ubuntu-latest
+    timeout-minutes: 4
+    steps:
+      - name: Call /api/cron/subscriber-report
+        run: |
+          response=$(curl -s --retry 2 --retry-delay 10 -X POST -w "\nHTTP_STATUS:%{http_code}" --max-time 90 \
+            -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" \
+            https://oportoweekly.com/api/cron/subscriber-report)
+          status=$(echo "$response" | tail -n1 | cut -d: -f2)
+          body=$(echo "$response" | sed '$d')
+          echo "Status: $status"
+          echo "Body: $body"
+          if [ "$status" != "200" ]; then
+            echo "::error::Subscriber report failed with HTTP $status"
+            exit 1
+          fi
