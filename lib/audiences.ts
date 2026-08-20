@@ -140,6 +140,38 @@ export interface Subscriber {
   utm_source?: string; // preserved for shape-compat; callers read .email
 }
 
+// ---------------------------------------------------------------------------
+// getSubscriberStats — per-audience counts for the dashboard. Returns total,
+// active (unsubscribed===false), and unsubscribed for EN and PT, plus a
+// deduped active total across both (someone subscribed to both counts once).
+// ---------------------------------------------------------------------------
+export interface AudienceStats { total: number; active: number; unsubscribed: number }
+export interface SubscriberStats {
+  en: AudienceStats;
+  pt: AudienceStats;
+  activeUniqueTotal: number;
+}
+
+export async function getSubscriberStats(): Promise<SubscriberStats> {
+  const resend = getResend();
+  const activeEmails = new Set<string>();
+  const per = async (lang: Lang): Promise<AudienceStats> => {
+    const res = await resend.contacts.list({ audienceId: audienceId(lang) });
+    if (res.error) throw new Error(`Resend contacts.list (${lang}) failed: ${JSON.stringify(res.error)}`);
+    const contacts = res.data?.data ?? [];
+    let active = 0, unsub = 0;
+    for (const c of contacts) {
+      if (c.unsubscribed) { unsub++; continue; }
+      active++;
+      activeEmails.add(c.email.toLowerCase());
+    }
+    return { total: contacts.length, active, unsubscribed: unsub };
+  };
+  const en = await per('en');
+  const pt = await per('pt');
+  return { en, pt, activeUniqueTotal: activeEmails.size };
+}
+
 export async function getActiveSubscribers(lang?: Lang): Promise<Subscriber[]> {
   const resend = getResend();
   const langs: Lang[] = lang ? [lang] : ['en', 'pt'];
