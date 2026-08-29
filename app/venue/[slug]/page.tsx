@@ -63,11 +63,12 @@ export async function generateMetadata({
   const description =
     `All upcoming and recent events at ${name} in Porto — ${count} event${count === 1 ? '' : 's'} indexed. Concerts, exhibitions, and more, curated weekly.`;
   const url = `https://oportoweekly.com/venue/${params.slug}`;
+  const ptUrl = `https://oportoweekly.com/pt/venue/${params.slug}`;
 
   return {
     title,
     description,
-    alternates: { canonical: url },
+    alternates: { canonical: url, languages: { en: url, 'pt-PT': ptUrl, 'x-default': url } },
     openGraph: { title, description, url, type: 'website' },
   };
 }

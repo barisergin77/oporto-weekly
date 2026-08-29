@@ -50,19 +50,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const venueSlugs = Array.from(
     new Set(events.map((e) => e.venueSlug).filter((s): s is string => Boolean(s)))
   );
-  const venueUrls = venueSlugs.map((slug) => {
+  const venueUrls = venueSlugs.flatMap((slug) => {
     const venueEvents = events.filter((e) => e.venueSlug === slug);
-    // lastModified = most recently added event at this venue
-    const lastAdded = venueEvents
-      .map((e) => e.addedAt)
-      .sort()
-      .pop();
-    return {
-      url: `https://oportoweekly.com/venue/${slug}`,
-      lastModified: lastAdded ? new Date(lastAdded) : new Date(),
-      changeFrequency: 'weekly' as const,
-      priority: 0.85,
-    };
+    const lastAdded = venueEvents.map((e) => e.addedAt).sort().pop();
+    const lastModified = lastAdded ? new Date(lastAdded) : new Date();
+    return [
+      { url: `https://oportoweekly.com/venue/${slug}`, lastModified, changeFrequency: 'weekly' as const, priority: 0.85 },
+      { url: `https://oportoweekly.com/pt/venue/${slug}`, lastModified, changeFrequency: 'weekly' as const, priority: 0.75 },
+    ];
   });
 
   return [

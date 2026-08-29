@@ -41,12 +41,12 @@ export function Footer({ lang = 'en' }: FooterProps) {
 
       {/* Tagline */}
       <div style={{ fontSize: 13, color: colors.textSoft, marginBottom: 10 }}>
-        Curated every Thursday · Porto, Portugal
+        {isEN ? 'Curated every Thursday · Porto, Portugal' : 'Curado todas as quintas-feiras · Porto, Portugal'}
       </div>
 
       {/* Nav links */}
       <div className="footer-links" style={{ fontSize: 12, lineHeight: 2 }}>
-        <Link href="/blog" style={linkStyle}>Blog</Link>
+        <Link href={isEN ? '/blog' : '/pt/blog'} style={linkStyle}>Blog</Link>
         {sep}
         <Link href={isEN ? '/archive' : '/pt/arquivo'} style={linkStyle}>
           {isEN ? 'Archive' : 'Arquivo'}
@@ -73,7 +73,7 @@ export function Footer({ lang = 'en' }: FooterProps) {
 
       {/* Copyright */}
       <p style={{ fontSize: 11, color: colors.textMuted, marginTop: 20, marginBottom: 0 }}>
-        © {new Date().getFullYear()} Oporto Weekly · Made with ♡ in Porto
+        © {new Date().getFullYear()} Oporto Weekly · {isEN ? 'Made with ♡ in Porto' : 'Feito com ♡ no Porto'}
       </p>
     </footer>
   );

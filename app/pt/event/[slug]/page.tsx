@@ -95,7 +95,7 @@ export default function EventPagePT({ params }: { params: { slug: string } }) {
             if (isCta && !hasLink) return null;
             return <MetaPin icon="🏷️" text={priceLabelPT(ev.price)} href={hasLink ? ev.externalLink : undefined} />;
           })()}
-          <MetaPin icon="📍" text={ev.venue} href={ev.venueSlug ? `/venue/${ev.venueSlug}` : undefined} />
+          <MetaPin icon="📍" text={ev.venue} href={ev.venueSlug ? `/pt/venue/${ev.venueSlug}` : undefined} />
           <MetaPin icon="📅" text={formatLongDatePT(ev.date, ev.endDate)} />
         </div>
 
