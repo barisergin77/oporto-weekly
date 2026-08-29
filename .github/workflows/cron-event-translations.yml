@@ -1,0 +1,29 @@
+# Thursday 09:45 UTC — after event-descriptions (09:30). Translates event
+# content to European Portuguese for the /pt/event pages, 25/run. Heavy
+# endpoint (near the 300s budget), so NO --retry (see validate-links
+# 2026-07-09). Incremental: leftovers roll to next week / a manual dispatch.
+name: Cron · Event Translations
+
+on:
+  schedule:
+    - cron: '45 9 * * 4' # Thu 09:45 UTC
+  workflow_dispatch:
+
+jobs:
+  trigger:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - name: Call /api/cron/event-translations
+        run: |
+          response=$(curl -s -X POST -w "\nHTTP_STATUS:%{http_code}" --max-time 300 \
+            -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" \
+            https://oportoweekly.com/api/cron/event-translations)
+          status=$(echo "$response" | tail -n1 | cut -d: -f2)
+          body=$(echo "$response" | sed '$d')
+          echo "Status: $status"
+          echo "Body: $body"
+          if [ "$status" != "200" ]; then
+            echo "::error::Event translations failed with HTTP $status"
+            exit 1
+          fi

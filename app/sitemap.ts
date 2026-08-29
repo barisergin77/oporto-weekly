@@ -25,14 +25,16 @@ export default function sitemap(): MetadataRoute.Sitemap {
   // past ones are evergreen archive.
   const today = new Date().toISOString().slice(0, 10);
   const events = listEvents();
-  const eventUrls = events.map((e) => {
+  const eventUrls = events.flatMap((e) => {
     const isPast = (e.endDate ?? e.date) < today;
-    return {
-      url: `https://oportoweekly.com/event/${e.slug}`,
-      lastModified: new Date(e.addedAt),
-      changeFrequency: (isPast ? 'never' : 'weekly') as 'never' | 'weekly',
-      priority: isPast ? 0.6 : 0.9,
-    };
+    const changeFrequency = (isPast ? 'never' : 'weekly') as 'never' | 'weekly';
+    const priority = isPast ? 0.6 : 0.9;
+    const lastModified = new Date(e.addedAt);
+    return [
+      { url: `https://oportoweekly.com/event/${e.slug}`, lastModified, changeFrequency, priority },
+      // PT event page — slightly lower priority than the EN original.
+      { url: `https://oportoweekly.com/pt/event/${e.slug}`, lastModified, changeFrequency, priority: priority - 0.1 },
+    ];
   });
 
   // Venue aggregation pages — dedupe by venueSlug, one URL per venue.

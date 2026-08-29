@@ -32,6 +32,7 @@ export async function generateMetadata({
   const title = `${ev.name} — ${ev.venue}, ${dateStr}`;
   const description = ev.description.slice(0, 155);
   const url = `https://oportoweekly.com/event/${ev.slug}`;
+  const ptUrl = `https://oportoweekly.com/pt/event/${ev.slug}`;
 
   // OG image: Next.js auto-detects the co-located opengraph-image.tsx and
   // populates openGraph.images (and twitter.images) with it. We intentionally
@@ -41,7 +42,10 @@ export async function generateMetadata({
   return {
     title,
     description,
-    alternates: { canonical: url },
+    alternates: {
+      canonical: url,
+      languages: { en: url, 'pt-PT': ptUrl, 'x-default': url },
+    },
     openGraph: {
       title,
       description,

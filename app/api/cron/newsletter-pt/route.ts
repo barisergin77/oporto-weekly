@@ -132,6 +132,11 @@ export async function GET(req: NextRequest) {
       console.log(`[cron/newsletter-pt] Translated to PT (${ptHtml.length} bytes)`);
       assertValidNewsletterHtml(ptHtml, { lang: 'pt' });
 
+      // Reroute internal event links to the PT event pages so PT readers stay
+      // in the PT experience (was sending them to the English /event/ pages).
+      // Only rewrites our own /event/ links; external hrefs are untouched.
+      ptHtml = ptHtml.replace(/https:\/\/oportoweekly\.com\/event\//g, 'https://oportoweekly.com/pt/event/');
+
       // 3. Archive the PT edition. Marks pt-web after the commit lands.
       await archiveViaGitHub({
         slug: ptSlug,

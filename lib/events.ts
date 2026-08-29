@@ -56,6 +56,16 @@ export interface EventRecord {
    * the detail page when absent.
    */
   longDescription?: string;
+  /**
+   * European-Portuguese translations for the /pt/event/<slug> page. Populated
+   * by the event-translations cron. `namePt` is present only when the name is
+   * an editorial/descriptive title that SHOULD translate (e.g. "Paper Costume
+   * Parade" → "Cortejo do Traje de Papel"); it's omitted for proper-noun names
+   * (bands, venues) that must stay as-is. All fall back to the EN field.
+   */
+  namePt?: string;
+  descriptionPt?: string;
+  longDescriptionPt?: string;
   /** Slug of the newsletter edition this event was extracted from. */
   sourceEdition: string;
   /**
@@ -220,6 +230,33 @@ export const CATEGORY_LABEL: Record<EventCategory, string> = {
   other: 'Other',
 };
 
+/** European-Portuguese category labels for the /pt/event/ pages. */
+export const CATEGORY_LABEL_PT: Record<EventCategory, string> = {
+  music: 'Música',
+  art: 'Arte e Exposições',
+  food: 'Gastronomia e Vinhos',
+  family: 'Família',
+  nightlife: 'Vida Noturna',
+  sports: 'Desporto',
+  other: 'Outros',
+};
+
+/**
+ * Display fields for an event in a given language. PT falls back to the EN
+ * field whenever a translation hasn't been generated yet, so a PT page is
+ * always complete (just partially English until the translation cron runs).
+ */
+export function eventDisplay(ev: EventRecord, lang: 'en' | 'pt') {
+  if (lang === 'pt') {
+    return {
+      name: ev.namePt ?? ev.name,
+      description: ev.descriptionPt ?? ev.description,
+      longDescription: ev.longDescriptionPt ?? ev.longDescription,
+    };
+  }
+  return { name: ev.name, description: ev.description, longDescription: ev.longDescription };
+}
+
 /**
  * Derive an endDate when an event doesn't declare one.
  *
@@ -280,9 +317,20 @@ function derivePerformer(e: EventRecord): { '@type': string; name: string } | nu
   return { '@type': type, name: e.name };
 }
 
-/** Build a schema.org Event JSON-LD object for rich snippets + Google Events. */
-export function toEventJsonLd(e: EventRecord, siteUrl = 'https://oportoweekly.com'): object {
-  const url = `${siteUrl}/event/${e.slug}`;
+/**
+ * Build a schema.org Event JSON-LD object for rich snippets + Google Events.
+ * `lang` picks EN vs PT display fields and the page URL (/event vs /pt/event)
+ * and stamps inLanguage so Google treats the two as language variants.
+ */
+export function toEventJsonLd(
+  e: EventRecord,
+  siteUrl = 'https://oportoweekly.com',
+  lang: 'en' | 'pt' = 'en'
+): object {
+  const disp = eventDisplay(e, lang);
+  const url = lang === 'pt'
+    ? `${siteUrl}/pt/event/${e.slug}`
+    : `${siteUrl}/event/${e.slug}`;
 
   // Offers: ALWAYS emit, with `price` and `priceCurrency` ALWAYS present.
   //
@@ -310,12 +358,14 @@ export function toEventJsonLd(e: EventRecord, siteUrl = 'https://oportoweekly.co
   };
 
   const performer = derivePerformer(e);
+  if (performer) performer.name = disp.name;
 
   return {
     '@context': 'https://schema.org',
     '@type': 'Event',
-    name: e.name,
-    description: e.description,
+    inLanguage: lang === 'pt' ? 'pt-PT' : 'en',
+    name: disp.name,
+    description: disp.description,
     startDate: e.date,
     // endDate is always emitted — derived when not explicit so GSC's
     // "missing endDate" warning clears.

@@ -665,6 +665,81 @@ STRICT RULES:
 }
 
 // ---------------------------------------------------------------------------
+// Event content translation — EN → European Portuguese for the /pt/event pages
+// ---------------------------------------------------------------------------
+
+export interface EventTranslation {
+  namePt?: string;          // only when the name is editorial/descriptive
+  descriptionPt: string;
+  longDescriptionPt?: string;
+}
+
+/**
+ * Translates an event's display text to European Portuguese (pt-PT).
+ * - description + longDescription always translated.
+ * - name translated ONLY when it's a descriptive/editorial title
+ *   ("Paper Costume Parade" → "Cortejo do Traje de Papel"); proper nouns
+ *   (bands, shows, venues, "Fatboy Slim") are returned unchanged and we omit
+ *   namePt so the page falls back to the original.
+ */
+export async function translateEventFields(event: EventRecord): Promise<EventTranslation> {
+  if (!process.env.GEMINI_API_KEY) throw new Error('GEMINI_API_KEY not set');
+
+  const prompt = `Translate this Porto event's text to European Portuguese (pt-PT, NOT Brazilian).
+
+NAME: ${event.name}
+SHORT_DESCRIPTION: ${event.description}
+${event.longDescription ? `LONG_DESCRIPTION:\n${event.longDescription}` : ''}
+
+RULES:
+- Translate SHORT_DESCRIPTION and LONG_DESCRIPTION fully into natural European Portuguese. Preserve the paragraph breaks (blank lines) of LONG_DESCRIPTION exactly.
+- Keep proper nouns as-is: artist/band/DJ names, specific show titles, venue names, place names ("Fatboy Slim", "Casa da Música", "Porto", "Vila Nova de Gaia").
+- For NAME: if it is a DESCRIPTIVE/editorial title (e.g. "Paper Costume Parade", "Guided Tour", "Organic Market", "Family Film"), translate it and return it in "namePt". If it is a PROPER NOUN (a band, a named show, a person), DO NOT translate it and return "namePt" as null.
+- Use "Porto" not "Oporto". Do not add or remove information.
+
+Return ONLY this JSON (no markdown fences):
+{"namePt": string|null, "descriptionPt": string, "longDescriptionPt": string|null}`;
+
+  const res = await fetch(geminiUrl('gemini-2.5-flash'), {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      contents: [{ parts: [{ text: prompt }] }],
+      generationConfig: {
+        temperature: 0.2,
+        maxOutputTokens: 2000,
+        thinkingConfig: { thinkingBudget: 0 },
+        responseMimeType: 'application/json',
+      },
+    }),
+  });
+
+  if (!res.ok) throw new Error(`Gemini event translation failed: ${res.status} ${await res.text()}`);
+  const data = await res.json();
+  const text: string = data?.candidates?.[0]?.content?.parts?.[0]?.text ?? '';
+  const jsonStart = text.indexOf('{');
+  const jsonEnd = text.lastIndexOf('}');
+  if (jsonStart < 0 || jsonEnd < 0) throw new Error(`No JSON in translation output: ${text.slice(0, 200)}`);
+  const parsed = JSON.parse(text.slice(jsonStart, jsonEnd + 1)) as {
+    namePt?: string | null; descriptionPt?: string; longDescriptionPt?: string | null;
+  };
+
+  if (!parsed.descriptionPt || !parsed.descriptionPt.trim()) {
+    throw new Error('Translation returned empty descriptionPt');
+  }
+  const out: EventTranslation = { descriptionPt: parsed.descriptionPt.trim() };
+  // Only keep namePt when it actually differs from the original (the model
+  // sometimes echoes proper nouns instead of returning null).
+  if (parsed.namePt && parsed.namePt.trim() && parsed.namePt.trim() !== event.name.trim()) {
+    out.namePt = parsed.namePt.trim();
+  }
+  if (event.longDescription && parsed.longDescriptionPt && parsed.longDescriptionPt.trim()) {
+    out.longDescriptionPt = parsed.longDescriptionPt.trim();
+  }
+  return out;
+}
+
+// ---------------------------------------------------------------------------
 // Category-specific prompts for generated fallback images
 // ---------------------------------------------------------------------------
 const CATEGORY_PROMPT: Record<EventRecord['category'], string> = {
