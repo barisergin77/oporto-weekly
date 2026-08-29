@@ -1,6 +1,6 @@
 import { MetadataRoute } from 'next';
 import { listNewsletters, listNewslettersPT } from '@/lib/archive';
-import { listBlogPosts } from '@/lib/blog';
+import { listBlogPosts, listBlogPostsPT } from '@/lib/blog';
 import { listEvents } from '@/lib/events';
 
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -18,6 +18,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     lastModified: new Date(p.publishedAt),
     changeFrequency: 'monthly' as const,
     priority: 0.8,
+  }));
+  // PT blog articles — only those that have been translated.
+  const blogUrlsPT = listBlogPostsPT().map((p) => ({
+    url: `https://oportoweekly.com/pt/blog/${p.slug}`,
+    lastModified: new Date(p.publishedAt),
+    changeFrequency: 'monthly' as const,
+    priority: 0.7,
   }));
 
   // Individual event pages. Priority 0.9 (upcoming) vs 0.6 (past) because
@@ -63,10 +70,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: 'https://oportoweekly.com/blog', lastModified: new Date(), changeFrequency: 'weekly', priority: 0.9 },
     { url: 'https://oportoweekly.com/porto-events', lastModified: new Date(), changeFrequency: 'weekly', priority: 0.95 },
     { url: 'https://oportoweekly.com/pt', lastModified: new Date(), changeFrequency: 'weekly', priority: 0.9 },
+    { url: 'https://oportoweekly.com/pt/blog', lastModified: new Date(), changeFrequency: 'weekly', priority: 0.8 },
     { url: 'https://oportoweekly.com/archive', lastModified: new Date(), changeFrequency: 'weekly', priority: 0.8 },
     ...eventUrls,
     ...venueUrls,
     ...blogUrls,
+    ...blogUrlsPT,
     ...archiveUrls,
     { url: 'https://oportoweekly.com/pt/arquivo', lastModified: new Date(), changeFrequency: 'weekly' as const, priority: 0.7 },
     ...listNewslettersPT().map((n) => ({

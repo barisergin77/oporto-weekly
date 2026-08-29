@@ -1,0 +1,29 @@
+# Tuesday 10:00 UTC — after blog (09:00) + blog-instagram (09:30).
+# Translates blog articles to European Portuguese for /pt/blog, 4/run.
+# Heavy endpoint (near the 300s budget) → NO --retry. Incremental:
+# untranslated posts roll to next week / a manual dispatch.
+name: Cron · Blog Translations
+
+on:
+  schedule:
+    - cron: '0 10 * * 2' # Tue 10:00 UTC
+  workflow_dispatch:
+
+jobs:
+  trigger:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - name: Call /api/cron/blog-translations
+        run: |
+          response=$(curl -s -X POST -w "\nHTTP_STATUS:%{http_code}" --max-time 300 \
+            -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" \
+            https://oportoweekly.com/api/cron/blog-translations)
+          status=$(echo "$response" | tail -n1 | cut -d: -f2)
+          body=$(echo "$response" | sed '$d')
+          echo "Status: $status"
+          echo "Body: $body"
+          if [ "$status" != "200" ]; then
+            echo "::error::Blog translations failed with HTTP $status"
+            exit 1
+          fi

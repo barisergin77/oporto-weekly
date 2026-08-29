@@ -23,6 +23,7 @@ const linkStyle = (isActive: boolean) => ({
 export function Header({ lang = 'en', active }: HeaderProps) {
   const isEN = lang === 'en';
   const home = isEN ? '/' : '/pt';
+  const blogHref = isEN ? '/blog' : '/pt/blog';
   const archiveHref = isEN ? '/archive' : '/pt/arquivo';
   const archiveLabel = isEN ? 'Archive' : 'Arquivo';
   const langHref = isEN ? '/pt' : '/';
@@ -50,7 +51,7 @@ export function Header({ lang = 'en', active }: HeaderProps) {
 
       {/* Nav */}
       <nav className="header-nav" style={{ display: 'flex', gap: 20, alignItems: 'center' }}>
-        <Link href="/blog" style={linkStyle(active === 'blog')}>
+        <Link href={blogHref} style={linkStyle(active === 'blog')}>
           Blog
         </Link>
         <Link href={archiveHref} style={linkStyle(active === 'archive')}>

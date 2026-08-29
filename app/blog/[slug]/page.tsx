@@ -1,4 +1,4 @@
-import { listBlogPosts, getBlogPost, getBlogPostHtml } from '@/lib/blog';
+import { listBlogPosts, getBlogPost, getBlogPostHtml, hasBlogPT } from '@/lib/blog';
 import { colors, typography } from '@/lib/design';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -15,12 +15,15 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   const post = getBlogPost(params.slug);
   if (!post) return { title: 'Not Found' };
 
+  const url = `https://oportoweekly.com/blog/${post.slug}`;
+  const languages: Record<string, string> = { en: url, 'x-default': url };
+  if (hasBlogPT(post.slug)) languages['pt-PT'] = `https://oportoweekly.com/pt/blog/${post.slug}`;
   return {
     title: post.title,
     description: post.excerpt,
     keywords: post.tags,
     authors: [{ name: post.author }],
-    alternates: { canonical: `https://oportoweekly.com/blog/${post.slug}` },
+    alternates: { canonical: url, languages },
     openGraph: {
       title: post.title,
       description: post.excerpt,

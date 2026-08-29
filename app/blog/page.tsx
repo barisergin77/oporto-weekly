@@ -10,7 +10,10 @@ export const metadata: Metadata = {
   title: 'Porto Guide — Blog | Oporto Weekly',
   description: 'In-depth guides, tips, and articles about Porto — from hidden gems and rooftop bars to local food markets and cultural events.',
   keywords: ['Porto guide', 'Porto blog', 'things to do in Porto', 'Porto tips', 'Porto travel', 'Porto food', 'Porto culture'],
-  alternates: { canonical: 'https://oportoweekly.com/blog' },
+  alternates: {
+    canonical: 'https://oportoweekly.com/blog',
+    languages: { en: 'https://oportoweekly.com/blog', 'pt-PT': 'https://oportoweekly.com/pt/blog', 'x-default': 'https://oportoweekly.com/blog' },
+  },
   openGraph: {
     title: 'Porto Guide — Blog | Oporto Weekly',
     description: 'In-depth guides and insider tips about Porto, Portugal.',
