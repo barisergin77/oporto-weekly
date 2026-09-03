@@ -28,5 +28,20 @@
       "unsubscribed": 1
     },
     "activeUniqueTotal": 46
+  },
+  {
+    "week": "2026-09-03",
+    "takenAt": "2026-09-03T20:25:05.448Z",
+    "en": {
+      "total": 31,
+      "active": 30,
+      "unsubscribed": 1
+    },
+    "pt": {
+      "total": 18,
+      "active": 17,
+      "unsubscribed": 1
+    },
+    "activeUniqueTotal": 47
   }
 ]
