@@ -9,5 +9,11 @@
   "description": "The 7th edition of this international festival brings cutting-edge performances from around the world to the unique industrial setting of the old Freixo power plant.",
   "sourceEdition": "september-3-9-2026",
   "editorPickRank": 5,
-  "addedAt": "2026-09-03T12:28:49.049Z"
+  "addedAt": "2026-09-03T12:28:49.049Z",
+  "image": {
+    "url": "https://i.imgur.com/z0k6TQp.jpeg",
+    "credit": "Photo: Circolando",
+    "sourceUrl": "https://circolando.com/26-volts/"
+  },
+  "externalLink": "https://circolando.com/26-volts/"
 }
