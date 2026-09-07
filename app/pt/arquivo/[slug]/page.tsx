@@ -54,8 +54,47 @@ export default function EdicaoPTPage({ params }: { params: { slug: string } }) {
   const newer = idx > 0 ? all[idx - 1] : null;
   const older = idx < all.length - 1 ? all[idx + 1] : null;
 
+  // Structured data — mirrors the EN edition page but flagged inLanguage pt-PT.
+  // Without this the PT page carried no schema at all, giving Google one more
+  // reason to fold it into the EN edition as a duplicate.
+  const pageUrl = `https://oportoweekly.com/pt/arquivo/${meta.slug}`;
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'NewsArticle',
+        headline: `${meta.weekRange} — Guia de Eventos no Porto`,
+        description: meta.description,
+        datePublished: meta.sentAt,
+        dateModified: meta.sentAt,
+        url: pageUrl,
+        publisher: {
+          '@type': 'Organization',
+          name: 'Oporto Weekly',
+          url: 'https://oportoweekly.com',
+        },
+        author: { '@type': 'Organization', name: 'Oporto Weekly' },
+        isAccessibleForFree: true,
+        inLanguage: 'pt-PT',
+        about: { '@type': 'Place', name: 'Porto', addressCountry: 'PT' },
+      },
+      {
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: 'Início', item: 'https://oportoweekly.com/pt' },
+          { '@type': 'ListItem', position: 2, name: 'Arquivo', item: 'https://oportoweekly.com/pt/arquivo' },
+          { '@type': 'ListItem', position: 3, name: meta.weekRange, item: pageUrl },
+        ],
+      },
+    ],
+  };
+
   return (
     <main style={{ background: colors.bg, minHeight: '100vh', fontFamily: typography.sans, color: colors.text }}>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <Header lang="pt" active="archive" />
 
       {/* Main layout — newsletter + sticky sidebar */}
