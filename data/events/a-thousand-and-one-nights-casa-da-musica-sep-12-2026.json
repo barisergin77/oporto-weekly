@@ -8,5 +8,9 @@
   "category": "music",
   "description": "Let the Porto Symphony Orchestra transport you with a performance of Rimsky-Korsakov's Scheherazade in the stunning Sala Suggia. A magical night of classical music awaits.",
   "sourceEdition": "september-10-16-2026",
-  "addedAt": "2026-09-10T12:36:30.657Z"
+  "addedAt": "2026-09-10T12:36:30.657Z",
+  "image": {
+    "url": "https://i.imgur.com/jkhFemD.jpeg",
+    "credit": "AI illustration · Oporto Weekly"
+  }
 }

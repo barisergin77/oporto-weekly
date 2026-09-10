@@ -8,5 +8,9 @@
   "category": "music",
   "description": "Enjoy a free classical concert in the serene setting of São Bento Monastery. Violist Timothy Ridout performs a solo recital—a perfect, peaceful end to a busy weekend.",
   "sourceEdition": "september-10-16-2026",
-  "addedAt": "2026-09-10T12:36:30.668Z"
+  "addedAt": "2026-09-10T12:36:30.668Z",
+  "image": {
+    "url": "https://i.imgur.com/w90lzHX.jpeg",
+    "credit": "AI illustration · Oporto Weekly"
+  }
 }
