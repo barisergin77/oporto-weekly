@@ -200,6 +200,90 @@ ${html}`;
 }
 
 // ---------------------------------------------------------------------------
+// Date verification — Editor's Picks must actually fall in this week
+// ---------------------------------------------------------------------------
+
+export interface PickDateMismatch {
+  name: string;
+  editorPickRank: number;
+  claimedDate: string;
+  actualDate: string;
+  actualEndDate?: string;
+  source?: string;
+}
+
+/**
+ * Independently check each Editor's Pick's date with a grounded search and
+ * return the picks that confidently fall OUTSIDE [weekStart, weekEnd].
+ *
+ * 2026-09-17: the Porto Half Marathon (Sun 13 Sep) was sent as Pick #3 dated
+ * Sun 20 Sep. Research is loose grounded text and generation fitted a
+ * well-known annual event into the week — nothing checked the date.
+ *
+ * Fail-open per pick: a timeout, error or unparseable/low-confidence answer
+ * counts as "unverified", never as a mismatch. A flaky checker must not be
+ * able to block the edition; only a confident, sourced contradiction does.
+ */
+export async function verifyPickDates(
+  events: EventRecord[],
+  weekStart: string, // YYYY-MM-DD (Thursday)
+  weekEnd: string,   // YYYY-MM-DD (Wednesday)
+): Promise<{ mismatches: PickDateMismatch[]; unverified: string[] }> {
+  if (!process.env.GEMINI_API_KEY) return { mismatches: [], unverified: [] };
+  const picks = events.filter((e) => typeof e.editorPickRank === 'number');
+  const year = weekStart.slice(0, 4);
+  const mismatches: PickDateMismatch[] = [];
+  const unverified: string[] = [];
+
+  await Promise.all(picks.map(async (ev) => {
+    const query = `Using web search, find the official ${year} date of this event in Porto, Portugal:
+"${ev.name}" (venue: ${ev.venue}).
+We believe it happens on ${ev.date}${ev.endDate ? ` to ${ev.endDate}` : ''} — do NOT assume that is right; check an authoritative source (organiser, venue, ticketing).
+Reply with ONLY a JSON object, no markdown:
+{"date":"YYYY-MM-DD","endDate":"YYYY-MM-DD or null","confidence":"high"|"low","source":"URL"}
+Use "high" only if a source explicitly states the ${year} date. If you cannot find it, reply {"confidence":"low"}.`;
+    try {
+      const res = await fetch(geminiUrl('gemini-2.5-flash'), {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contents: [{ parts: [{ text: query }] }],
+          tools: [{ google_search: {} }],
+          generationConfig: { temperature: 0 },
+        }),
+        signal: AbortSignal.timeout(25000),
+      });
+      if (!res.ok) { unverified.push(ev.name); return; }
+      const data = await res.json();
+      const text: string = data?.candidates?.[0]?.content?.parts
+        ?.map((p: { text?: string }) => p.text ?? '').join('') ?? '';
+      const m = text.match(/\{[\s\S]*\}/);
+      if (!m) { unverified.push(ev.name); return; }
+      const v = JSON.parse(m[0]) as { date?: string; endDate?: string | null; confidence?: string; source?: string };
+      const isDay = (d?: string | null) => typeof d === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(d);
+      if (v.confidence !== 'high' || !isDay(v.date) || !v.source) { unverified.push(ev.name); return; }
+      const start = v.date!;
+      const end = isDay(v.endDate) && v.endDate! >= start ? v.endDate! : start;
+      const overlaps = start <= weekEnd && end >= weekStart;
+      if (!overlaps) {
+        mismatches.push({
+          name: ev.name,
+          editorPickRank: ev.editorPickRank!,
+          claimedDate: ev.date.slice(0, 10),
+          actualDate: start,
+          actualEndDate: end !== start ? end : undefined,
+          source: v.source,
+        });
+      }
+    } catch {
+      unverified.push(ev.name);
+    }
+  }));
+
+  return { mismatches, unverified };
+}
+
+// ---------------------------------------------------------------------------
 // Image acquisition — event → press photo on Imgur
 // ---------------------------------------------------------------------------
 

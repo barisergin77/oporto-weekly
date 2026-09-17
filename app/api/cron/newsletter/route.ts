@@ -181,7 +181,12 @@ async function recentPickNames(lookbackEditions = 4): Promise<string[]> {
   }
 }
 
-async function generateNewsletter(researchData: string, heroImageUrl: string, weekRange: string): Promise<string> {
+async function generateNewsletter(
+  researchData: string,
+  heroImageUrl: string,
+  weekRange: string,
+  corrections: string[] = [],
+): Promise<string> {
   const today = new Date().toLocaleDateString('en-GB', {
     weekday: 'long', year: 'numeric', month: 'long', day: 'numeric',
   });
@@ -192,6 +197,11 @@ async function generateNewsletter(researchData: string, heroImageUrl: string, we
   const excluded = await recentPickNames(4);
   const exclusionBlock = excluded.length > 0
     ? `\n\nDO NOT include these as Editor's Picks — they were picks in the last 4 editions. Any of them can still be MENTIONED in a category section if relevant, but they MUST NOT take a Pick #1–5 slot:\n${excluded.map(n => `  - ${n}`).join('\n')}`
+    : '';
+
+  // Set only on a regeneration after verifyPickDates caught a wrong date.
+  const correctionBlock = corrections.length > 0
+    ? `\n\nFACT-CHECK CORRECTIONS — a previous draft got these wrong. These events do NOT happen during ${weekRange}. Do NOT include them anywhere in this edition (not as a pick, not in a category, not in the tip):\n${corrections.map(c => `  - ${c}`).join('\n')}`
     : '';
 
   // Use a placeholder so Gemini doesn't hallucinate/truncate the real URL.
@@ -320,7 +330,12 @@ EDITOR'S PICKS QUALITY BAR (this is what readers come for — be selective):
 - If the research surfaces a tentpole student / civic / religious event
   this week (Queima das Fitas, São João, Festa de São Bartolomeu, FITUR,
   Fantasporto, etc.), it gets a Pick slot. These are unmissable cultural
-  moments and the whole reason readers subscribe.${exclusionBlock}
+  moments and the whole reason readers subscribe.
+- DATES MUST COME FROM THE RESEARCH. Only pick an event if the research data
+  explicitly states its date and that date falls within ${weekRange}. Never
+  infer or guess a date — especially for annual events (races, festivals)
+  whose coverage may refer to a different week. If unsure, leave it out.
+  The same applies to the Tip of the Week.${exclusionBlock}${correctionBlock}
 
 CRITICAL OUTPUT:
 Return ONLY the complete HTML. No markdown fences, no commentary, no code blocks.`;
@@ -395,6 +410,89 @@ async function runResearch(): Promise<string> {
   return searchResults.join('\n\n');
 }
 
+const REGEN_BUDGET_S = 170; // regeneration ≈ 60-90s + re-extract + re-verify; must finish under 300s
+
+type EventRecordT = import('@/lib/events').EventRecord;
+
+/**
+ * Validate generated HTML, extract event records, inject event links and
+ * enforce the one-pick-per-rank invariant. Factored out so the date
+ * fact-check can rebuild an edition after a corrected regeneration.
+ */
+async function buildEdition(rawHtml: string, slug: string): Promise<{
+  html: string;
+  events: EventRecordT[];
+  eventFiles: Array<{ path: string; content: string }>;
+  extractedCount: number;
+  linkedCount: number;
+}> {
+  // Validation gate — a truncated Gemini output must never reach the
+  // archive or subscribers. Throws → outer catch → watchdog retries.
+  assertValidNewsletterHtml(rawHtml, { lang: 'en' });
+  let events: EventRecordT[] = [];
+  // 4. Extract structured event records + inject click-through anchors into
+  //    the HTML. Both extraction and injection happen BEFORE send so the
+  //    email that goes out has live event links, and so extraction failures
+  //    can't block-but-also-can't-block-send (we have the unlinked rawHtml
+  //    as a fallback).
+  //
+  //    Doing this pre-send costs ~5-10s of Gemini Flash time — well within
+  //    the 300s Vercel budget — but gives email readers one-click access to
+  //    the richer event pages. Big UX + retention win.
+  let eventFiles: Array<{ path: string; content: string }> = [];
+  let extractedCount = 0;
+  let linkedCount = 0;
+  let html = rawHtml;
+  try {
+    const { extractEventsFromHtml, injectEventLinks } = await import('@/lib/events-pipeline');
+    events = await extractEventsFromHtml(rawHtml, slug);
+    extractedCount = events.length;
+    eventFiles = events.map((e) => ({
+      path: `data/events/${e.slug}.json`,
+      content: JSON.stringify(e, null, 2),
+    }));
+
+    const injected = injectEventLinks(rawHtml, events);
+    html = injected.html;
+    linkedCount = injected.linked;
+    console.log(
+      `[cron/newsletter] Extracted ${extractedCount} events · ` +
+      `wrapped ${linkedCount} title link(s) · rewrote ${injected.moreInfoRewritten} MORE INFO href(s)`
+    );
+
+  } catch (extractErr) {
+    // Non-fatal: fall back to unlinked HTML so the newsletter still ships.
+    console.error('[cron/newsletter] Event extraction/linking failed (non-fatal):', extractErr);
+  }
+
+  // 4.5. Rank consistency check — must have exactly one event per rank 1–5.
+  // Outside the extraction try/catch on purpose: extraction failure is
+  // non-fatal (we ship without anchors), but a malformed pick set IS fatal —
+  // it would silently pollute the Instagram cron's Top Five and create
+  // EN-vs-PT-vs-IG drift exactly like the 2026-04-30 incident. Better to
+  // surface a 500 and have a human look than to ship a bad edition.
+  if (eventFiles.length > 0) {
+    const rankEvents = eventFiles.map((f) => JSON.parse(f.content) as { editorPickRank?: number; name: string });
+    const ranks = rankEvents.filter((e) => typeof e.editorPickRank === 'number').map((e) => e.editorPickRank!);
+    const seen = new Set<number>();
+    const dupes: number[] = [];
+    for (const r of ranks) {
+      if (seen.has(r)) dupes.push(r);
+      else seen.add(r);
+    }
+    const missing = [1, 2, 3, 4, 5].filter((r) => !seen.has(r));
+    if (dupes.length > 0 || missing.length > 0) {
+      throw new Error(
+        `Editor's Pick rank validation failed before send: dupes=[${dupes.join(',')}] missing=[${missing.join(',')}]. ` +
+        `Extracted ranks were [${[...ranks].sort().join(',')}]. ` +
+        `Aborting so a malformed Top Five doesn't ship.`
+      );
+    }
+  }
+
+  return { html, events, eventFiles, extractedCount, linkedCount };
+}
+
 export async function GET(req: NextRequest) {
   const authError = checkCronAuth(req);
   if (authError) return NextResponse.json({ error: authError }, { status: 401 });
@@ -412,6 +510,7 @@ export async function GET(req: NextRequest) {
     //   (1) bail on non-Thursday runs unless ?force=true is passed;
     //   (2) snap `now` to the most recent Thursday so even a Thursday
     //       afternoon dispatch produces the morning's slug.
+    const startedAt = Date.now();
     const now = new Date();
     const dayOfWeek = now.getUTCDay(); // 0=Sun, 4=Thu
     const force = new URL(req.url).searchParams.get('force') === 'true';
@@ -479,71 +578,57 @@ export async function GET(req: NextRequest) {
     await markStepComplete(slug, 'research');
 
     // 3. Generate newsletter HTML (embedded hero URL)
-    const rawHtml = await generateNewsletter(researchData, heroImageUrl, weekRange);
-    // Validation gate — a truncated Gemini output must never reach the
-    // archive or subscribers. Throws → outer catch unmarks the en-web
-    // claim → watchdog retries a clean run.
-    assertValidNewsletterHtml(rawHtml, { lang: 'en' });
+    const weekStartISO = weekStart.toISOString().slice(0, 10);
+    const weekEndISO = new Date(weekStart.getTime() + 6 * 86400000).toISOString().slice(0, 10);
+    let built = await buildEdition(
+      await generateNewsletter(researchData, heroImageUrl, weekRange), slug,
+    );
 
-    // 4. Extract structured event records + inject click-through anchors into
-    //    the HTML. Both extraction and injection happen BEFORE send so the
-    //    email that goes out has live event links, and so extraction failures
-    //    can't block-but-also-can't-block-send (we have the unlinked rawHtml
-    //    as a fallback).
-    //
-    //    Doing this pre-send costs ~5-10s of Gemini Flash time — well within
-    //    the 300s Vercel budget — but gives email readers one-click access to
-    //    the richer event pages. Big UX + retention win.
-    let eventFiles: Array<{ path: string; content: string }> = [];
-    let extractedCount = 0;
-    let linkedCount = 0;
-    let html = rawHtml;
-    try {
-      const { extractEventsFromHtml, injectEventLinks } = await import('@/lib/events-pipeline');
-      const events = await extractEventsFromHtml(rawHtml, slug);
-      extractedCount = events.length;
-      eventFiles = events.map((e) => ({
-        path: `data/events/${e.slug}.json`,
-        content: JSON.stringify(e, null, 2),
-      }));
-
-      const injected = injectEventLinks(rawHtml, events);
-      html = injected.html;
-      linkedCount = injected.linked;
-      console.log(
-        `[cron/newsletter] Extracted ${extractedCount} events · ` +
-        `wrapped ${linkedCount} title link(s) · rewrote ${injected.moreInfoRewritten} MORE INFO href(s)`
-      );
-
-    } catch (extractErr) {
-      // Non-fatal: fall back to unlinked HTML so the newsletter still ships.
-      console.error('[cron/newsletter] Event extraction/linking failed (non-fatal):', extractErr);
-    }
-
-    // 4.5. Rank consistency check — must have exactly one event per rank 1–5.
-    // Outside the extraction try/catch on purpose: extraction failure is
-    // non-fatal (we ship without anchors), but a malformed pick set IS fatal —
-    // it would silently pollute the Instagram cron's Top Five and create
-    // EN-vs-PT-vs-IG drift exactly like the 2026-04-30 incident. Better to
-    // surface a 500 and have a human look than to ship a bad edition.
-    if (eventFiles.length > 0) {
-      const events = eventFiles.map((f) => JSON.parse(f.content) as { editorPickRank?: number; name: string });
-      const ranks = events.filter((e) => typeof e.editorPickRank === 'number').map((e) => e.editorPickRank!);
-      const seen = new Set<number>();
-      const dupes: number[] = [];
-      for (const r of ranks) {
-        if (seen.has(r)) dupes.push(r);
-        else seen.add(r);
+    // 4.6. Fact-check Editor's Pick dates (added 2026-09-17 after the Porto
+    //      Half Marathon went out as a Sep 20 pick — it was Sep 13). Each
+    //      pick gets an independent grounded date lookup. On a confident
+    //      contradiction we regenerate ONCE with explicit corrections. If
+    //      there isn't budget left for that, throw: nothing is archived, so
+    //      the watchdog re-runs from scratch with a full 300s budget. A
+    //      known-wrong edition must never be archived or sent.
+    let dateCheck = { checked: 0, unverified: [] as string[], corrected: [] as string[] };
+    if (built.events.length > 0) {
+      const { verifyPickDates } = await import('@/lib/events-pipeline');
+      const first = await verifyPickDates(built.events, weekStartISO, weekEndISO);
+      dateCheck = {
+        checked: built.events.filter((e) => e.editorPickRank != null).length,
+        unverified: first.unverified,
+        corrected: [],
+      };
+      if (first.unverified.length) {
+        console.warn(`[cron/newsletter] Pick dates unverified (non-blocking): ${first.unverified.join(' | ')}`);
       }
-      const missing = [1, 2, 3, 4, 5].filter((r) => !seen.has(r));
-      if (dupes.length > 0 || missing.length > 0) {
-        throw new Error(
-          `Editor's Pick rank validation failed before send: dupes=[${dupes.join(',')}] missing=[${missing.join(',')}]. ` +
-          `Extracted ranks were [${[...ranks].sort().join(',')}]. ` +
-          `Aborting so a malformed Top Five doesn't ship.`
+      if (first.mismatches.length > 0) {
+        const corrections = first.mismatches.map((m) =>
+          `"${m.name}" — actually ${m.actualDate}${m.actualEndDate ? ` to ${m.actualEndDate}` : ''} (source: ${m.source}), not ${m.claimedDate}`
         );
+        console.warn(`[cron/newsletter] Pick date mismatches: ${corrections.join(' | ')}`);
+        const elapsedS = (Date.now() - startedAt) / 1000;
+        if (elapsedS > REGEN_BUDGET_S) {
+          throw new Error(
+            `Pick date check failed at ${Math.round(elapsedS)}s — no budget to regenerate. ` +
+            `Aborting before archive so the watchdog can retry cleanly. ${corrections.join(' | ')}`
+          );
+        }
+        built = await buildEdition(
+          await generateNewsletter(researchData, heroImageUrl, weekRange, corrections), slug,
+        );
+        const second = await verifyPickDates(built.events, weekStartISO, weekEndISO);
+        if (second.mismatches.length > 0) {
+          throw new Error(
+            `Pick dates still wrong after regeneration: ` +
+            second.mismatches.map((m) => `${m.name} (${m.claimedDate} vs ${m.actualDate})`).join(', ')
+          );
+        }
+        dateCheck.corrected = first.mismatches.map((m) => m.name);
       }
     }
+    const { html, eventFiles, extractedCount, linkedCount } = built;
 
     // 5. Subject line
     // Display dates derive from Thursday (weekStart), not now() — so a
@@ -585,6 +670,7 @@ export async function GET(req: NextRequest) {
       heroImageUrl,
       extractedEvents: extractedCount,
       linkedAnchors: linkedCount,
+      pickDateCheck: dateCheck,
       archived: true,
       send: 'deferred to /api/cron/newsletter-send',
     });

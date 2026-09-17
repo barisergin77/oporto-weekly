@@ -1,5 +1,19 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // Raw newsletter HTML in public/newsletters/ exists only as the committed
+  // artifact + the send endpoints' "deploy is live" probe. Served publicly,
+  // each file is a canonical-less duplicate of /archive/<slug> (or
+  // /pt/arquivo/<slug>) and still carries the email footer's /api/unsubscribe
+  // links — which GSC then reports as "Blocked by robots.txt". noindex keeps
+  // them out of the index; the probe only checks the status code.
+  async headers() {
+    return [
+      {
+        source: '/newsletters/:path*',
+        headers: [{ key: 'X-Robots-Tag', value: 'noindex, nofollow' }],
+      },
+    ];
+  },
   // Permanent redirects for consolidated duplicate event slugs.
   // Long-running exhibitions occasionally get re-extracted into a new
   // weekly slug — when we dedupe to a canonical record we map the

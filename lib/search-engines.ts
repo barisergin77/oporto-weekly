@@ -65,10 +65,14 @@ async function getGoogleToken(scope: string): Promise<string | null> {
     const auth = new GoogleAuth({ credentials: JSON.parse(json), scopes: [scope] });
     const client = await auth.getClient();
     const { token } = await client.getAccessToken();
-    return token ?? null;
+    if (!token) throw new Error('empty access token');
+    return token;
   } catch (err) {
-    console.error('[search-engines] Failed to get Google token:', err);
-    return null;
+    // Throw, don't return null: null means "not configured, skip", and a
+    // broken credential must not masquerade as that. (2026-09-17: the local
+    // key pointed at a deleted GCP project and every caller still said ok.)
+    const msg = err instanceof Error ? err.message : String(err);
+    throw new Error(`Google auth failed (${scope.split('/').pop()}): ${msg}`);
   }
 }
 
@@ -84,6 +88,7 @@ export async function notifyGoogleIndexingAPI(urls: string[]): Promise<void> {
     return;
   }
 
+  const failures: string[] = [];
   for (const url of urls) {
     const res = await fetch('https://indexing.googleapis.com/v3/urlNotifications:publish', {
       method: 'POST',
@@ -94,6 +99,12 @@ export async function notifyGoogleIndexingAPI(urls: string[]): Promise<void> {
       body: JSON.stringify({ url, type: 'URL_UPDATED' }),
     });
     console.log(`[search-engines] Google Indexing API: ${url} → ${res.status}`);
+    if (!res.ok) failures.push(`${res.status} ${(await res.text()).slice(0, 160)}`);
+  }
+  // Surface failures so the resubmit endpoint reports them instead of "ok".
+  // Callers in the crons use allSettled / .catch, so this can't break a send.
+  if (failures.length > 0) {
+    throw new Error(`Indexing API: ${failures.length}/${urls.length} failed — first: ${failures[0]}`);
   }
 }
 
@@ -122,6 +133,7 @@ export async function submitSitemapToGSC(): Promise<void> {
   });
 
   console.log(`[search-engines] GSC sitemap submit → ${res.status}`);
+  if (!res.ok) throw new Error(`GSC sitemap submit ${res.status}: ${(await res.text()).slice(0, 160)}`);
 }
 
 // ---------------------------------------------------------------------------
