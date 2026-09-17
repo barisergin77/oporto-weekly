@@ -1,7 +1,7 @@
 import { MetadataRoute } from 'next';
 import { listNewsletters, listNewslettersPT } from '@/lib/archive';
 import { listBlogPosts, listBlogPostsPT } from '@/lib/blog';
-import { listEvents } from '@/lib/events';
+import { listEvents, hasVenuePage } from '@/lib/events';
 
 // A page's lastmod is max(content date, last time its markup changed). Content
 // here is often frozen (a sent edition, a past event) while the <head> is not,
@@ -68,7 +68,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   // High priority (0.85) because they rank well for "<venue> events" queries
   // and stay useful over time (always up to date as new events are indexed).
   const venueSlugs = Array.from(
-    new Set(events.map((e) => e.venueSlug).filter((s): s is string => Boolean(s)))
+    new Set(events.map((e) => e.venueSlug).filter(hasVenuePage))
   );
   const venueUrls = venueSlugs.flatMap((slug) => {
     const venueEvents = events.filter((e) => e.venueSlug === slug);

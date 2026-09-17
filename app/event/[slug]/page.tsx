@@ -4,7 +4,7 @@ import type { Metadata } from 'next';
 import {
   listEvents,
   getEvent,
-  listEventsByVenue,
+  listEventsByVenue, hasVenuePage,
   toEventJsonLd,
   isRealEventUrl,
   CATEGORY_EMOJI,
@@ -65,7 +65,7 @@ export default function EventPage({ params }: { params: { slug: string } }) {
   if (!ev) notFound();
 
   const sourceEdition = getNewsletterMeta(ev.sourceEdition);
-  const relatedAtVenue = ev.venueSlug
+  const relatedAtVenue = hasVenuePage(ev.venueSlug)
     ? listEventsByVenue(ev.venueSlug).filter((e) => e.slug !== ev.slug).slice(0, 4)
     : [];
 
@@ -153,7 +153,7 @@ export default function EventPage({ params }: { params: { slug: string } }) {
               />
             );
           })()}
-          <MetaPin icon="📍" text={ev.venue} href={ev.venueSlug ? `/venue/${ev.venueSlug}` : undefined} />
+          <MetaPin icon="📍" text={ev.venue} href={hasVenuePage(ev.venueSlug) ? `/venue/${ev.venueSlug}` : undefined} />
           <MetaPin icon="📅" text={formatLongDate(ev.date, ev.endDate)} />
         </div>
 

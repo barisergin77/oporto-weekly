@@ -3,7 +3,7 @@ import Link from 'next/link';
 import type { Metadata } from 'next';
 import {
   listEvents,
-  listEventsByVenue,
+  listEventsByVenue, hasVenuePage,
   toEventJsonLd,
   eventDisplay,
   CATEGORY_EMOJI,
@@ -16,11 +16,12 @@ import { Footer } from '@/app/components/Footer';
 
 export function generateStaticParams() {
   const seen = new Set<string>();
-  for (const e of listEvents()) if (e.venueSlug) seen.add(e.venueSlug);
+  for (const e of listEvents()) if (hasVenuePage(e.venueSlug)) seen.add(e.venueSlug);
   return Array.from(seen).map((slug) => ({ slug }));
 }
 
 function resolveVenueDisplay(slug: string): { name: string; events: EventRecord[] } | null {
+  if (!hasVenuePage(slug)) return null;
   const events = listEventsByVenue(slug);
   if (events.length === 0) return null;
   const root = events.map((e) => e.venue).slice().sort((a, b) => a.length - b.length)[0].split(/[,/]/)[0].trim();

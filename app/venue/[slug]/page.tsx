@@ -3,7 +3,7 @@ import Link from 'next/link';
 import type { Metadata } from 'next';
 import {
   listEvents,
-  listEventsByVenue,
+  listEventsByVenue, hasVenuePage,
   toEventJsonLd,
   CATEGORY_EMOJI,
   CATEGORY_LABEL,
@@ -26,13 +26,14 @@ import { Footer } from '@/app/components/Footer';
 export function generateStaticParams() {
   const seen = new Set<string>();
   for (const e of listEvents()) {
-    if (e.venueSlug) seen.add(e.venueSlug);
+    if (hasVenuePage(e.venueSlug)) seen.add(e.venueSlug);
   }
   return Array.from(seen).map((slug) => ({ slug }));
 }
 
 // Pick the most common full venue name for a given slug (for display/SEO).
 function resolveVenueDisplay(slug: string): { name: string; events: EventRecord[] } | null {
+  if (!hasVenuePage(slug)) return null;
   const events = listEventsByVenue(slug);
   if (events.length === 0) return null;
 

@@ -4,7 +4,7 @@ import type { Metadata } from 'next';
 import {
   listEvents,
   getEvent,
-  listEventsByVenue,
+  listEventsByVenue, hasVenuePage,
   toEventJsonLd,
   isRealEventUrl,
   eventDisplay,
@@ -50,7 +50,7 @@ export default function EventPagePT({ params }: { params: { slug: string } }) {
   // Source edition: the event's sourceEdition is the EN slug; the PT archive
   // lives under the same slug + "-pt".
   const sourceEdition = getNewsletterMetaPT(`${ev.sourceEdition}-pt`);
-  const relatedAtVenue = ev.venueSlug
+  const relatedAtVenue = hasVenuePage(ev.venueSlug)
     ? listEventsByVenue(ev.venueSlug).filter((e) => e.slug !== ev.slug).slice(0, 4)
     : [];
 
@@ -95,7 +95,7 @@ export default function EventPagePT({ params }: { params: { slug: string } }) {
             if (isCta && !hasLink) return null;
             return <MetaPin icon="🏷️" text={priceLabelPT(ev.price)} href={hasLink ? ev.externalLink : undefined} />;
           })()}
-          <MetaPin icon="📍" text={ev.venue} href={ev.venueSlug ? `/pt/venue/${ev.venueSlug}` : undefined} />
+          <MetaPin icon="📍" text={ev.venue} href={hasVenuePage(ev.venueSlug) ? `/pt/venue/${ev.venueSlug}` : undefined} />
           <MetaPin icon="📅" text={formatLongDatePT(ev.date, ev.endDate)} />
         </div>
 

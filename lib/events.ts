@@ -126,6 +126,19 @@ export function listEventsByVenue(venueSlug: string): EventRecord[] {
  * Keeping rooms merged means /venue/casa-da-musica aggregates every Casa da
  * Música event regardless of which room, which is what visitors search for.
  */
+/**
+ * Placeholder "venues" the extractor emits when a listing has no single real
+ * venue ("Various venues", "TBC", "Porto"). A page for these just lumps
+ * unrelated events together — thin content Google declines to index
+ * (seen in URL Inspection 2026-09-17: /pt/venue/tbc). No venue page, no
+ * venue link, no "more at this venue" block for them.
+ */
+const PLACEHOLDER_VENUE = /^(tbc|tbd|tba|venue-tb[acd]|porto|online|downtown-porto|central-porto)$|^(various|multiple)-|-various$/;
+
+export function hasVenuePage(venueSlug: string | undefined): venueSlug is string {
+  return Boolean(venueSlug) && !PLACEHOLDER_VENUE.test(venueSlug!);
+}
+
 export function venueToSlug(venue: string): string {
   // Keep only the "root" venue name: strip after the first comma or slash,
   // and strip a handful of trailing room-denoting suffixes that some sources
