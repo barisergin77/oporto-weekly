@@ -127,8 +127,9 @@ export async function submitSitemapToGSC(): Promise<void> {
   const sitemapUrl = encodeURIComponent(`${SITE}/sitemap.xml`);
   const endpoint = `https://www.googleapis.com/webmasters/v3/sites/${siteUrl}/sitemaps/${sitemapUrl}`;
 
+  // sitemaps.submit is PUT — POST returns an HTML 404 page.
   const res = await fetch(endpoint, {
-    method: 'POST',
+    method: 'PUT',
     headers: { Authorization: `Bearer ${token}` },
   });
 
