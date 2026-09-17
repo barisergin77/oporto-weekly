@@ -8,5 +8,11 @@
   "category": "music",
   "description": "Experience the timeless music of pop legends in a magical atmosphere, illuminated by thousands of candles.",
   "sourceEdition": "september-17-23-2026",
-  "addedAt": "2026-09-17T12:58:10.687Z"
+  "addedAt": "2026-09-17T12:58:10.687Z",
+  "image": {
+    "url": "https://i.imgur.com/ZOzZjyF.jpeg",
+    "credit": "Photo: FEVER",
+    "sourceUrl": "https://feverup.com/en/porto/candlelight"
+  },
+  "externalLink": "https://feverup.com/en/porto/candlelight"
 }
