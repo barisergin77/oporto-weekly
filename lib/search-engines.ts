@@ -138,6 +138,59 @@ export async function submitSitemapToGSC(): Promise<void> {
 }
 
 // ---------------------------------------------------------------------------
+// Search Console — traffic stats for the weekly report
+// ---------------------------------------------------------------------------
+export interface SearchTraffic {
+  clicks: number;
+  impressions: number;
+  ctr: number;
+  position: number;
+  startDate: string;
+  endDate: string;
+}
+
+/**
+ * Google-search traffic for a date window (inclusive, YYYY-MM-DD).
+ *
+ * This is search clicks, not total visitors — the site has no analytics
+ * script installed, so GSC is the only real traffic source available and it
+ * needs no tag on the page. GSC data lags ~2-3 days, hence the caller's
+ * offset; an empty window returns zeros rather than throwing (a brand-new
+ * property legitimately has no rows).
+ */
+export async function getSearchTraffic(startDate: string, endDate: string): Promise<SearchTraffic | null> {
+  const token = await getGoogleToken('https://www.googleapis.com/auth/webmasters.readonly').catch((e) => {
+    console.error('[search-engines] GSC traffic auth failed:', e);
+    return null;
+  });
+  if (!token) return null;
+
+  const siteUrl = encodeURIComponent('sc-domain:oportoweekly.com');
+  const res = await fetch(
+    `https://searchconsole.googleapis.com/webmasters/v3/sites/${siteUrl}/searchAnalytics/query`,
+    {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ startDate, endDate, dimensions: [] }),
+      signal: AbortSignal.timeout(20000),
+    }
+  );
+  if (!res.ok) {
+    throw new Error(`GSC searchAnalytics ${res.status}: ${(await res.text()).slice(0, 160)}`);
+  }
+  const data = (await res.json()) as { rows?: Array<{ clicks: number; impressions: number; ctr: number; position: number }> };
+  const row = data.rows?.[0];
+  return {
+    clicks: row?.clicks ?? 0,
+    impressions: row?.impressions ?? 0,
+    ctr: row?.ctr ?? 0,
+    position: row?.position ?? 0,
+    startDate,
+    endDate,
+  };
+}
+
+// ---------------------------------------------------------------------------
 // WebSub / PubSubHubbub — instant RSS distribution to Feedly, Flipboard, etc.
 // Pings Google's public hub so subscribers are notified the moment a new
 // edition is published.
