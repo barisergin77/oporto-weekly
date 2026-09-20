@@ -41,7 +41,7 @@ export async function notifyIndexNow(urls: string[]): Promise<void> {
 // ---------------------------------------------------------------------------
 // Google helpers
 // ---------------------------------------------------------------------------
-async function getGoogleToken(scope: string): Promise<string | null> {
+export async function getGoogleToken(scope: string): Promise<string | null> {
   const raw = process.env.GOOGLE_SERVICE_ACCOUNT_JSON;
   if (!raw) return null;
 

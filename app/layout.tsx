@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next';
 import Script from 'next/script';
 import './globals.css';
+import { ConsentBanner } from './components/ConsentBanner';
 
 // Google Tag Manager container (public client-side id, safe to commit).
 const GTM_ID = 'GTM-KZ9GGM8W';
@@ -82,6 +83,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <head>
+        {/* Consent Mode defaults — MUST execute before the GTM container, so
+            this is beforeInteractive while GTM is afterInteractive. Analytics
+            storage starts denied and is only granted by ConsentBanner; a
+            default applied after GTM has fired would be too late to matter. */}
+        <Script id="consent-default" strategy="beforeInteractive">
+          {`window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}
+gtag('consent','default',{'analytics_storage':'denied','ad_storage':'denied','ad_user_data':'denied','ad_personalization':'denied','wait_for_update':500});`}
+        </Script>
         {/* Google Tag Manager. `afterInteractive` rather than the raw inline
             snippet: it still loads on every route but after hydration, so the
             tag can't block first paint. GTM's own script is async either way. */}
@@ -104,6 +113,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
           />
         </noscript>
         {children}
+        <ConsentBanner />
       </body>
     </html>
   );

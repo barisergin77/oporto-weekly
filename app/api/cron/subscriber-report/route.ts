@@ -23,6 +23,7 @@ import { checkCronAuth } from '@/lib/cron-auth';
 import { thursdayWeekStart } from '@/lib/archive';
 import { getInstagramStats } from '@/lib/instagram';
 import { getSearchTraffic, type SearchTraffic } from '@/lib/search-engines';
+import { getGa4Traffic } from '@/lib/analytics';
 
 const EDITOR_EMAIL = 'barisergin@gmail.com';
 const HISTORY_PATH = 'data/subscriber-history.json';
@@ -34,6 +35,7 @@ interface Snapshot extends SubscriberStats {
   // unconfigured/unavailable. Deltas are only shown when last week has one.
   instagramFollowers?: number;
   search?: { clicks: number; impressions: number };
+  ga4?: { users: number; sessions: number; pageViews: number };
 }
 
 /**
@@ -42,7 +44,12 @@ interface Snapshot extends SubscriberStats {
  */
 function trafficWindows(now: Date) {
   const day = (offset: number) => new Date(now.getTime() - offset * 86400000).toISOString().slice(0, 10);
-  return { curStart: day(9), curEnd: day(3), prevStart: day(16), prevEnd: day(10) };
+  return {
+    // GSC lags ~2-3 days.
+    curStart: day(9), curEnd: day(3), prevStart: day(16), prevEnd: day(10),
+    // GA4 is same-day, so it can use the 7 complete days ending yesterday.
+    gaStart: day(7), gaEnd: day(1), gaPrevStart: day(14), gaPrevEnd: day(8),
+  };
 }
 
 function pct(cur: number, prev: number): string {
@@ -84,15 +91,19 @@ export async function GET(req: NextRequest) {
     // not cost us the subscriber snapshot (the only irreplaceable part —
     // it's the week's only record of the count).
     const w = trafficWindows(now);
-    const [igRes, curRes, prevRes] = await Promise.allSettled([
+    const [igRes, curRes, prevRes, gaRes, gaPrevRes] = await Promise.allSettled([
       getInstagramStats(),
       getSearchTraffic(w.curStart, w.curEnd),
       getSearchTraffic(w.prevStart, w.prevEnd),
+      getGa4Traffic(w.gaStart, w.gaEnd),
+      getGa4Traffic(w.gaPrevStart, w.gaPrevEnd),
     ]);
     const ig = igRes.status === 'fulfilled' ? igRes.value : null;
     const curTraffic = curRes.status === 'fulfilled' ? curRes.value : null;
     const prevTraffic = prevRes.status === 'fulfilled' ? prevRes.value : null;
-    const problems = [igRes, curRes, prevRes]
+    const ga = gaRes.status === 'fulfilled' ? gaRes.value : null;
+    const gaPrev = gaPrevRes.status === 'fulfilled' ? gaPrevRes.value : null;
+    const problems = [igRes, curRes, prevRes, gaRes, gaPrevRes]
       .filter((r): r is PromiseRejectedResult => r.status === 'rejected')
       .map((r) => (r.reason instanceof Error ? r.reason.message : String(r.reason)));
     problems.forEach((m) => console.error('[cron/subscriber-report] extra metric failed:', m));
@@ -103,6 +114,7 @@ export async function GET(req: NextRequest) {
       ...stats,
       ...(ig ? { instagramFollowers: ig.followers } : {}),
       ...(curTraffic ? { search: { clicks: curTraffic.clicks, impressions: curTraffic.impressions } } : {}),
+      ...(ga ? { ga4: { users: ga.users, sessions: ga.sessions, pageViews: ga.pageViews } } : {}),
     };
 
     // Previous snapshot for deltas (may be absent on the first-ever run).
@@ -180,6 +192,25 @@ export async function GET(req: NextRequest) {
   </table>` : `
   <p style="color:#8a8170;font-size:12px;margin:28px 0 0;">📸 Instagram followers not shown — IG_GRAPH_TOKEN / IG_USER_ID not configured.</p>`}
 
+  ${ga ? `
+  <h2 style="font-family:Georgia,serif;font-size:17px;margin:28px 0 4px;">📈 Website visitors</h2>
+  <p style="color:#5a5a5a;margin:0 0 8px;font-size:12px;">${ga.startDate} → ${ga.endDate}${gaPrev ? ` vs ${gaPrev.startDate} → ${gaPrev.endDate}` : ''} · Google Analytics</p>
+  <table style="font-size:14px;border-collapse:collapse;width:100%;">
+    <tr style="border-bottom:2px solid #1a1a2e;">
+      <th style="text-align:left;padding:8px 0;">Metric</th>
+      <th style="text-align:right;padding:8px 0;">This week</th>
+      <th style="text-align:right;padding:8px 0;">Last week</th>
+      <th style="text-align:right;padding:8px 0;">Δ</th>
+    </tr>
+    ${([['Visitors', ga.users, gaPrev?.users], ['Sessions', ga.sessions, gaPrev?.sessions], ['Page views', ga.pageViews, gaPrev?.pageViews]] as Array<[string, number, number | undefined]>).map(([label, cur, was], i) => `
+    <tr style="${i < 2 ? 'border-bottom:1px solid #e5dfd3;' : ''}">
+      <td style="padding:8px 0;">${label}</td>
+      <td style="text-align:right;${i === 0 ? 'font-weight:600;' : ''}">${cur}</td>
+      <td style="text-align:right;color:#8a8170;">${was != null ? was : '—'}</td>
+      <td style="text-align:right;">${was != null ? fmtDelta(cur - was) + ` <span style="color:#8a8170;font-size:12px;">${pct(cur, was)}</span>` : '—'}</td>
+    </tr>`).join('')}
+  </table>` : ''}
+
   ${curTraffic ? `
   <h2 style="font-family:Georgia,serif;font-size:17px;margin:28px 0 4px;">🔍 Google search traffic</h2>
   <p style="color:#5a5a5a;margin:0 0 8px;font-size:12px;">${curTraffic.startDate} → ${curTraffic.endDate}${prevTraffic ? ` vs ${prevTraffic.startDate} → ${prevTraffic.endDate}` : ''}</p>
@@ -213,7 +244,8 @@ export async function GET(req: NextRequest) {
   ${problems.length ? `<p style="color:#b3261e;font-size:12px;margin-top:16px;">⚠️ ${problems.length} metric source failed: ${problems.map(p => p.replace(/</g, '&lt;')).join('; ')}</p>` : ''}
 
   <p style="color:#8a8170;font-size:11px;margin-top:24px;">
-    Unique total dedupes people subscribed to both languages. Search traffic is
+    Unique total dedupes people subscribed to both languages. Visitors come from
+    Google Analytics (collection started 2026-09-20). Search traffic is
     Google organic clicks from Search Console (the site has no analytics script),
     reported with GSC's ~3-day lag. Live anytime at /api/subscribers.
     Automated Thursdays · /api/cron/subscriber-report
@@ -230,6 +262,7 @@ export async function GET(req: NextRequest) {
       deltas: { total: dTotal, en: dEn, pt: dPt, instagram: dIg },
       instagram: ig,
       traffic: { current: curTraffic, previous: prevTraffic },
+      ga4: { current: ga, previous: gaPrev },
       problems,
       preview,
       firstReport: !prev,
