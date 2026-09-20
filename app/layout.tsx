@@ -1,5 +1,9 @@
 import type { Metadata, Viewport } from 'next';
+import Script from 'next/script';
 import './globals.css';
+
+// Google Tag Manager container (public client-side id, safe to commit).
+const GTM_ID = 'GTM-KZ9GGM8W';
 
 export const viewport: Viewport = {
   width: 'device-width',
@@ -77,7 +81,28 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
+      <head>
+        {/* Google Tag Manager. `afterInteractive` rather than the raw inline
+            snippet: it still loads on every route but after hydration, so the
+            tag can't block first paint. GTM's own script is async either way. */}
+        <Script id="gtm" strategy="afterInteractive">
+          {`(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','${GTM_ID}');`}
+        </Script>
+      </head>
       <body style={{ margin: 0, padding: 0, fontFamily: 'Georgia, serif' }}>
+        {/* GTM noscript fallback — must be the first thing inside <body>. */}
+        <noscript>
+          <iframe
+            src={`https://www.googletagmanager.com/ns.html?id=${GTM_ID}`}
+            height="0"
+            width="0"
+            style={{ display: 'none', visibility: 'hidden' }}
+          />
+        </noscript>
         {children}
       </body>
     </html>
