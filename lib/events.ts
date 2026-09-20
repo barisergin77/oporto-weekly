@@ -128,12 +128,16 @@ export function listEventsByVenue(venueSlug: string): EventRecord[] {
  */
 /**
  * Placeholder "venues" the extractor emits when a listing has no single real
- * venue ("Various venues", "TBC", "Porto"). A page for these just lumps
- * unrelated events together — thin content Google declines to index
- * (seen in URL Inspection 2026-09-17: /pt/venue/tbc). No venue page, no
- * venue link, no "more at this venue" block for them.
+ * venue ("Various venues", "TBC", "Porto", "Downtown", "City Centre"). A page
+ * for these just lumps unrelated events together — thin content Google
+ * declines to index (URL Inspection 2026-09-17: /pt/venue/tbc; GSC flagged
+ * /venue/downtown as a duplicate on 2026-09-21). No venue page, no venue
+ * link, no "more at this venue" block for them.
+ *
+ * `^city-` covers City Centre / City Center / City-wide / City Bandstands /
+ * City Waterfront — all city-scale, none an actual venue.
  */
-const PLACEHOLDER_VENUE = /^(tbc|tbd|tba|venue-tb[acd]|porto|online|downtown-porto|central-porto)$|^(various|multiple)-|-various$/;
+const PLACEHOLDER_VENUE = /^(tbc|tbd|tba|venue-tb[acd]|porto|online|downtown|downtown-porto|central-porto)$|^(various|multiple|city)-|-various$/;
 
 export function hasVenuePage(venueSlug: string | undefined): venueSlug is string {
   return Boolean(venueSlug) && !PLACEHOLDER_VENUE.test(venueSlug!);
