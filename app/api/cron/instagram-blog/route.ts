@@ -194,14 +194,38 @@ export async function GET(req: NextRequest) {
     }
     console.log(`[cron/instagram-blog] Using post: ${latest.slug}`);
 
-    // 2. Generate 1:1 Instagram image
+    // 2. Generate 1:1 Instagram image — with the post's own hero as fallback.
+    //
+    // Every Tuesday Sep 1–15 2026 this step failed first time ("Image
+    // generation failed after 2 attempts": timeouts and Gemini 503 "model
+    // overloaded"), and the whole job failed with it, relying on curl retries
+    // and the watchdog to get through hours later. The article already has a
+    // published hero (1376x768, 1.79:1 — inside Instagram's 4:5..1.91:1
+    // range), so a flaky image model must not block the promo — the same
+    // rule as the newsletter's FALLBACK_HERO_URL.
     const imagePrompt = buildBlogImagePrompt(latest);
     console.log('[cron/instagram-blog] Generating image…');
-    const { base64 } = await generateImage(imagePrompt, '1:1');
+    let base64: string;
+    let imageSource: 'generated' | 'hero-fallback' = 'generated';
+    try {
+      ({ base64 } = await generateImage(imagePrompt, '1:1'));
+    } catch (genErr) {
+      if (!latest.heroImage) throw genErr; // nothing to fall back to
+      console.warn('[cron/instagram-blog] image generation failed, using article hero:', genErr);
+      const heroUrl = latest.heroImage.startsWith('http')
+        ? latest.heroImage
+        : `https://oportoweekly.com${latest.heroImage}`;
+      const res = await fetch(heroUrl, { signal: AbortSignal.timeout(20000) });
+      if (!res.ok) {
+        throw new Error(`Image generation failed and hero fallback ${heroUrl} returned ${res.status}`);
+      }
+      base64 = Buffer.from(await res.arrayBuffer()).toString('base64');
+      imageSource = 'hero-fallback';
+    }
 
     // 3. Upload to Imgur
     const imgurUrl = await uploadImageToImgur(base64);
-    console.log(`[cron/instagram-blog] Imgur: ${imgurUrl}`);
+    console.log(`[cron/instagram-blog] Imgur (${imageSource}): ${imgurUrl}`);
 
     // 4. Generate caption
     const caption = await generateCaption(latest);
@@ -223,6 +247,7 @@ export async function GET(req: NextRequest) {
       slug: latest.slug,
       title: latest.title,
       imgurUrl,
+      imageSource,
       buffer: post,
     });
   } catch (err) {
