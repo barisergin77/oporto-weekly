@@ -8,5 +8,9 @@
   "category": "music",
   "description": "Discover local talent or take the stage yourself at this welcoming open mic night for music, poetry, and stand-up comedy.",
   "sourceEdition": "september-24-30-2026",
-  "addedAt": "2026-09-24T13:06:44.912Z"
+  "addedAt": "2026-09-24T13:06:44.912Z",
+  "image": {
+    "url": "https://i.imgur.com/iATgnur.jpeg",
+    "credit": "AI illustration · Oporto Weekly"
+  }
 }
