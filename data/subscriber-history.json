@@ -73,5 +73,29 @@
       "unsubscribed": 1
     },
     "activeUniqueTotal": 49
+  },
+  {
+    "week": "2026-09-24",
+    "takenAt": "2026-09-24T21:04:11.442Z",
+    "en": {
+      "total": 32,
+      "active": 29,
+      "unsubscribed": 3
+    },
+    "pt": {
+      "total": 21,
+      "active": 20,
+      "unsubscribed": 1
+    },
+    "activeUniqueTotal": 49,
+    "search": {
+      "clicks": 87,
+      "impressions": 3442
+    },
+    "ga4": {
+      "users": 18,
+      "sessions": 22,
+      "pageViews": 34
+    }
   }
 ]
