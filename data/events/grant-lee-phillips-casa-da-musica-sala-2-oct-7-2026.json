@@ -8,5 +8,9 @@
   "category": "music",
   "description": "The acclaimed American singer-songwriter, known for his rich baritone and narrative-driven folk-rock, performs in an intimate setting at Casa da Música.",
   "sourceEdition": "october-1-7-2026",
-  "addedAt": "2026-10-01T15:23:23.010Z"
+  "addedAt": "2026-10-01T15:23:23.010Z",
+  "image": {
+    "url": "https://i.imgur.com/Z5cjma9.jpeg",
+    "credit": "AI illustration · Oporto Weekly"
+  }
 }
