@@ -580,8 +580,17 @@ export async function GET(req: NextRequest) {
     // 3. Generate newsletter HTML (embedded hero URL)
     const weekStartISO = weekStart.toISOString().slice(0, 10);
     const weekEndISO = new Date(weekStart.getTime() + 6 * 86400000).toISOString().slice(0, 10);
+
+    // Events a previous run PROVED are not in this week are excluded upfront,
+    // so the model can't re-pick them and we don't pay for a regeneration to
+    // find out again (2026-10-01: Fantasporto blocked the edition entirely).
+    const { readPickBlocklist, addToPickBlocklist, blocklistCorrections } = await import('@/lib/pick-blocklist');
+    const blocklist = await readPickBlocklist();
+    if (blocklist.length > 0) {
+      console.log(`[cron/newsletter] excluding ${blocklist.length} known wrong-week pick(s): ${blocklist.map(b => b.name).join(', ')}`);
+    }
     let built = await buildEdition(
-      await generateNewsletter(researchData, heroImageUrl, weekRange), slug,
+      await generateNewsletter(researchData, heroImageUrl, weekRange, blocklistCorrections(blocklist)), slug,
     );
 
     // 4.6. Fact-check Editor's Pick dates (added 2026-09-17 after the Porto
@@ -608,15 +617,30 @@ export async function GET(req: NextRequest) {
           `"${m.name}" — actually ${m.actualDate}${m.actualEndDate ? ` to ${m.actualEndDate}` : ''} (source: ${m.source}), not ${m.claimedDate}`
         );
         console.warn(`[cron/newsletter] Pick date mismatches: ${corrections.join(' | ')}`);
+
+        // Record BEFORE regenerating or aborting. Even if this run dies, the
+        // next one starts knowing — that is what stops the retry loop.
+        await addToPickBlocklist(first.mismatches.map((m) => ({
+          name: m.name,
+          actualDate: m.actualDate,
+          actualEndDate: m.actualEndDate,
+          source: m.source,
+          detectedAt: new Date().toISOString(),
+        })));
+
         const elapsedS = (Date.now() - startedAt) / 1000;
         if (elapsedS > REGEN_BUDGET_S) {
           throw new Error(
             `Pick date check failed at ${Math.round(elapsedS)}s — no budget to regenerate. ` +
-            `Aborting before archive so the watchdog can retry cleanly. ${corrections.join(' | ')}`
+            `Aborting before archive; the offending pick(s) are now blocklisted so the ` +
+            `watchdog's retry excludes them from the start. ${corrections.join(' | ')}`
           );
         }
         built = await buildEdition(
-          await generateNewsletter(researchData, heroImageUrl, weekRange, corrections), slug,
+          await generateNewsletter(
+            researchData, heroImageUrl, weekRange,
+            [...blocklistCorrections(blocklist), ...corrections],
+          ), slug,
         );
         const second = await verifyPickDates(built.events, weekStartISO, weekEndISO);
         if (second.mismatches.length > 0) {

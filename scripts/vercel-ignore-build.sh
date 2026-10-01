@@ -20,6 +20,7 @@ set -u
 SKIPPABLE=(
   "data/run-ledger.json"
   "data/subscriber-history.json"
+  "data/pick-date-blocklist.json"
 )
 
 prev="${VERCEL_GIT_PREVIOUS_SHA:-}"
