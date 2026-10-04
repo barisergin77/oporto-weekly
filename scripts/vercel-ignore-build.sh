@@ -14,6 +14,12 @@
 # worse than an unneeded one — newsletter-send waits for the archive deploy to
 # go live, so a wrongly skipped archive build would hold that week's email.
 
+# ENV VAR CHANGES: a Vercel env change has no git diff, so a plain
+# `vercel redeploy` looks bookkeeping-only and is SKIPPED here (2026-10-04:
+# rotated BUFFER_API_KEY + GITHUB_TOKEN, redeploy was canceled). To roll out
+# an env change, bump .deploy-trigger and push — it is not on the allowlist,
+# so it always builds.
+
 set -u
 
 # Files that never affect the built site. Keep this list short and exact.
