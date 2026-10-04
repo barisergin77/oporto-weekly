@@ -47,6 +47,78 @@ async function checkPage(name: string, url: string, mustContain: string[]): Prom
   }
 }
 
+// ---------------------------------------------------------------------------
+// Credential checks
+//
+// 2026-10-04: BUFFER_API_KEY and GITHUB_TOKEN were both found already revoked
+// in production — nothing had noticed, and the next Thursday run would have
+// failed mid-cascade (no archive commit, no Instagram post). Both are now
+// 90-day keys, so they WILL expire again. These checks turn that into an
+// alert email days ahead instead of a failed edition.
+// ---------------------------------------------------------------------------
+const EXPIRY_WARN_DAYS = 14;
+
+async function checkGitHubToken(): Promise<CheckResult> {
+  const name = 'GitHub token';
+  const token = process.env.GITHUB_TOKEN;
+  if (!token) return { name, ok: false, details: 'GITHUB_TOKEN not set' };
+  try {
+    const res = await fetch('https://api.github.com/repos/barisergin77/oporto-weekly', {
+      headers: { Authorization: `Bearer ${token}`, Accept: 'application/vnd.github+json' },
+      cache: 'no-store',
+      signal: AbortSignal.timeout(15000),
+    });
+    if (!res.ok) return { name, ok: false, details: `HTTP ${res.status} — token invalid or revoked` };
+    const body = (await res.json()) as { permissions?: { push?: boolean } };
+    if (!body.permissions?.push) return { name, ok: false, details: 'No write access to the repo' };
+
+    // Fine-grained PATs report their expiry in this header.
+    const exp = res.headers.get('github-authentication-token-expiration');
+    if (!exp) return { name, ok: true, details: 'valid (no expiry reported)' };
+    const days = Math.floor((new Date(exp.replace(' UTC', 'Z').replace(' ', 'T')).getTime() - Date.now()) / 86400000);
+    if (Number.isNaN(days)) return { name, ok: true, details: `valid (expiry: ${exp})` };
+    if (days <= EXPIRY_WARN_DAYS) {
+      return { name, ok: false, details: `Expires in ${days} day(s) (${exp}) — regenerate and update GITHUB_TOKEN` };
+    }
+    return { name, ok: true, details: `valid, ${days} days left` };
+  } catch (err) {
+    return { name, ok: false, details: err instanceof Error ? err.message : 'check failed' };
+  }
+}
+
+async function checkBufferKey(): Promise<CheckResult> {
+  const name = 'Buffer API key';
+  const key = process.env.BUFFER_API_KEY;
+  const channelId = process.env.BUFFER_CHANNEL_ID;
+  if (!key || !channelId) return { name, ok: false, details: 'BUFFER_API_KEY / BUFFER_CHANNEL_ID not set' };
+  try {
+    // Read-only query — never creates a post. Buffer does not expose key
+    // expiry, so this can only report validity, not days remaining.
+    const res = await fetch('https://api.buffer.com/graphql', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${key}` },
+      body: JSON.stringify({
+        query: 'query($id: ChannelId!){ channel(input:{id:$id}) { id service name isDisconnected isLocked } }',
+        variables: { id: channelId },
+      }),
+      cache: 'no-store',
+      signal: AbortSignal.timeout(15000),
+    });
+    const data = (await res.json()) as {
+      data?: { channel?: { name?: string; isDisconnected?: boolean; isLocked?: boolean } };
+      errors?: Array<{ message?: string }>;
+    };
+    if (data.errors?.length) return { name, ok: false, details: data.errors[0].message ?? 'API error' };
+    const ch = data.data?.channel;
+    if (!ch) return { name, ok: false, details: 'Channel not found' };
+    if (ch.isDisconnected) return { name, ok: false, details: `Instagram channel @${ch.name} is disconnected in Buffer` };
+    if (ch.isLocked) return { name, ok: false, details: `Instagram channel @${ch.name} is locked in Buffer` };
+    return { name, ok: true, details: `valid, @${ch.name} connected` };
+  } catch (err) {
+    return { name, ok: false, details: err instanceof Error ? err.message : 'check failed' };
+  }
+}
+
 export async function GET(req: NextRequest) {
   const authError = checkCronAuth(req);
   if (authError) return NextResponse.json({ error: authError }, { status: 401 });
@@ -59,6 +131,8 @@ export async function GET(req: NextRequest) {
     checkPage('Porto Events', `${SITE}/porto-events`, ['Porto Events']),
     checkPage('Sitemap', `${SITE}/sitemap.xml`, ['<urlset', '<loc>']),
     checkPage('RSS Feed', `${SITE}/feed.xml`, ['<rss', '<channel>']),
+    checkGitHubToken(),
+    checkBufferKey(),
   ]);
 
   const failures = checks.filter(c => !c.ok);
