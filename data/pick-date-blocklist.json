@@ -5,5 +5,12 @@
     "actualEndDate": "2026-03-08",
     "source": "verifyPickDates grounded lookup, 2026-10-01 newsletter run",
     "detectedAt": "2026-10-01T15:09:00.000Z"
+  },
+  {
+    "name": "Porto Book Fair Opening",
+    "actualDate": "2026-08-21",
+    "actualEndDate": "2026-09-06",
+    "source": "https://feiradolivro.porto.pt/",
+    "detectedAt": "2026-10-08T15:09:43.836Z"
   }
 ]
