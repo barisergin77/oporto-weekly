@@ -22,6 +22,16 @@
 
 set -u
 
+# DEFERRED (2026-10-15): enrichment crons — press photos, long descriptions,
+# PT translations, link validation — touch only data/events/*.json, and on a
+# Thursday each committed separately: ~9 full deployments for one edition, 22
+# of 52 builds in 30 days. Hobby keeps deleted deployments on the 10 GB meter
+# for ~30 days, so that alone filled it again. These changes are not urgent,
+# so they are skipped here and published together by
+# .github/workflows/deploy-flush.yml, which builds whenever the live commit
+# (/api/version) is behind HEAD. Anything else in the same diff still builds.
+DEFERRED_PREFIX="data/events/"
+
 # Files that never affect the built site. Keep this list short and exact.
 SKIPPABLE=(
   "data/run-ledger.json"
@@ -53,12 +63,15 @@ while IFS= read -r f; do
   for s in "${SKIPPABLE[@]}"; do
     [ "$f" = "$s" ] && skippable=1 && break
   done
+  case "$f" in
+    "$DEFERRED_PREFIX"*.json) skippable=1 ;;
+  esac
   if [ "$skippable" -eq 0 ]; then
     echo "build: ${f} affects the site"
     exit 1
   fi
 done <<< "$changed"
 
-echo "skip: only bookkeeping files changed since ${prev:0:7}:"
+echo "skip: only bookkeeping/deferred files changed since ${prev:0:7} (deploy-flush publishes deferred ones):"
 echo "$changed" | sed 's/^/  /'
 exit 0

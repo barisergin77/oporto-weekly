@@ -1,0 +1,65 @@
+name: Deploy · Flush deferred changes
+
+# Enrichment commits (data/events/*.json only) are skipped by
+# scripts/vercel-ignore-build.sh to save Deployment Storage. This publishes
+# them: if the live commit (/api/version) is behind HEAD by anything other
+# than bookkeeping files, bump .deploy-trigger and push — which always builds.
+#
+# Fail-safe: if the live SHA can't be read, flush anyway. An extra deploy is
+# cheap; an event page stuck on stale data for days is not.
+
+on:
+  schedule:
+    - cron: '0 17 * * 4'  # Thu 17:00 UTC — after the newsletter's enrichment passes
+    - cron: '0 21 * * *'  # Daily 21:00 UTC — catches anything else deferred
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: deploy-flush
+  cancel-in-progress: false
+
+jobs:
+  flush:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Compare live commit with HEAD
+        id: check
+        run: |
+          live=$(curl -s --max-time 30 https://oportoweekly.com/api/version | python3 -c "import json,sys; print(json.load(sys.stdin).get('sha') or '')" 2>/dev/null || true)
+          echo "live: ${live:-unknown}  head: $(git rev-parse HEAD)"
+          if [ -z "$live" ] || ! git cat-file -e "${live}^{commit}" 2>/dev/null; then
+            echo "Live SHA unknown — flushing to be safe"
+            echo "flush=true" >> "$GITHUB_OUTPUT"; exit 0
+          fi
+          pending=$(git diff --name-only "$live" HEAD | grep -vxE 'data/run-ledger.json|data/subscriber-history.json|data/pick-date-blocklist.json' || true)
+          if [ -z "$pending" ]; then
+            echo "Live is up to date — nothing to flush"
+            echo "flush=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "Undeployed changes ($(echo "$pending" | wc -l | tr -d ' ') files):"
+            echo "$pending" | head -20 | sed 's/^/  /'
+            echo "flush=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Trigger one consolidated deploy
+        if: steps.check.outputs.flush == 'true'
+        run: |
+          git config user.name "oporto-weekly-bot"
+          git config user.email "bot@oportoweekly.com"
+          echo "$(date -u +%Y-%m-%dT%H:%MZ) deploy-flush" > .deploy-trigger
+          git add .deploy-trigger
+          git commit -m "build: flush deferred changes to production"
+          # Crons commit through the GitHub API concurrently — rebase and retry.
+          for i in 1 2 3; do
+            git pull --rebase origin main && git push origin HEAD:main && exit 0
+            sleep 10
+          done
+          echo "::error::Could not push the deploy trigger after 3 attempts"
+          exit 1
