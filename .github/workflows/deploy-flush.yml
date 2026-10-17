@@ -38,7 +38,7 @@ jobs:
             echo "Live SHA unknown — flushing to be safe"
             echo "flush=true" >> "$GITHUB_OUTPUT"; exit 0
           fi
-          pending=$(git diff --name-only "$live" HEAD | grep -vxE 'data/run-ledger.json|data/subscriber-history.json|data/pick-date-blocklist.json|data/signup-sources.json' || true)
+          pending=$(git diff --name-only "$live" HEAD | grep -vxE 'data/run-ledger.json|data/subscriber-history.json|data/pick-date-blocklist.json|data/signup-sources.json' | grep -v '^ops/' || true)
           if [ -z "$pending" ]; then
             echo "Live is up to date — nothing to flush"
             echo "flush=false" >> "$GITHUB_OUTPUT"

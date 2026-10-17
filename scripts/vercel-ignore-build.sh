@@ -66,6 +66,7 @@ while IFS= read -r f; do
   done
   case "$f" in
     "$DEFERRED_PREFIX"*.json) skippable=1 ;;
+    ops/*) skippable=1 ;;  # growth-loop notes, logs and metrics — never served
   esac
   if [ "$skippable" -eq 0 ]; then
     echo "build: ${f} affects the site"
