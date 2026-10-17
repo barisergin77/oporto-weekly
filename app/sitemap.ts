@@ -2,6 +2,7 @@ import { MetadataRoute } from 'next';
 import { listNewsletters, listNewslettersPT } from '@/lib/archive';
 import { listBlogPosts, listBlogPostsPT } from '@/lib/blog';
 import { listEvents, hasVenuePage } from '@/lib/events';
+import { listEventMonths } from '@/lib/event-months';
 
 // A page's lastmod is max(content date, last time its markup changed). Content
 // here is often frozen (a sent edition, a past event) while the <head> is not,
@@ -98,6 +99,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: 'https://oportoweekly.com', lastModified: new Date(), changeFrequency: 'weekly', priority: 1 },
     { url: 'https://oportoweekly.com/blog', lastModified: new Date(), changeFrequency: 'weekly', priority: 0.9 },
     { url: 'https://oportoweekly.com/porto-events', lastModified: new Date(), changeFrequency: 'weekly', priority: 0.95 },
+    // Month hubs — current and future months change weekly, past ones settle.
+    ...listEventMonths().map((m) => ({
+      url: `https://oportoweekly.com/porto-events/${m.slug}`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly' as const,
+      priority: 0.85,
+    })),
     { url: 'https://oportoweekly.com/pt', lastModified: new Date(), changeFrequency: 'weekly', priority: 0.9 },
     { url: 'https://oportoweekly.com/pt/blog', lastModified: new Date(), changeFrequency: 'weekly', priority: 0.8 },
     { url: 'https://oportoweekly.com/archive', lastModified: new Date(), changeFrequency: 'weekly', priority: 0.8 },

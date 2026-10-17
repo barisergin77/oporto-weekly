@@ -9,14 +9,19 @@ import { Footer } from '../components/Footer';
 export async function generateMetadata(): Promise<Metadata> {
   const newsletters = listNewslettersPT();
   const latest = newsletters[0] ?? null;
+  // /pt sat at position ~50-60 for "agenda cultural porto", "eventos porto",
+  // "agenda porto", "hoje no porto" (GSC, 2026-10) while its title never said
+  // "agenda" or "esta semana". Lead with the words people actually search.
   const title = latest
-    ? `${latest.weekRange} — Guia de Eventos no Porto`
-    : 'Oporto Weekly — Newsletter de Eventos no Porto';
+    ? `Agenda do Porto esta semana · ${latest.weekRange}`
+    : 'Agenda do Porto esta semana · Oporto Weekly';
+  const description = latest
+    ? `Agenda cultural do Porto para esta semana (${latest.weekRange}): concertos, exposições, mercados e festivais, escolhidos todas as quintas. Grátis.`
+    : 'Agenda cultural do Porto: concertos, exposições, mercados e festivais da semana, escolhidos todas as quintas-feiras. Newsletter gratuita.';
 
   return {
-    title,
-    description:
-      'Os melhores eventos, cultura, gastronomia e o que fazer no Porto — curado todas as quintas-feiras de manhã, entregue gratuitamente na sua caixa de entrada.',
+    title: { absolute: title },
+    description,
     keywords: ['eventos Porto', 'o que fazer no Porto', 'guia Porto', 'newsletter Porto', 'eventos Oporto', 'cultura Porto', 'fim de semana Porto'],
     alternates: {
       canonical: 'https://oportoweekly.com/pt',
@@ -28,7 +33,7 @@ export async function generateMetadata(): Promise<Metadata> {
     },
     openGraph: {
       title,
-      description: 'Os melhores eventos, cultura e o que fazer no Porto — todas as quintas-feiras.',
+      description,
       url: 'https://oportoweekly.com/pt',
       locale: 'pt_PT',
     },

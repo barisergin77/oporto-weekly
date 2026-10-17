@@ -7,6 +7,7 @@ import {
   type EventRecord,
 } from '@/lib/events';
 import { colors, typography } from '@/lib/design';
+import { listEventMonths } from '@/lib/event-months';
 import Link from 'next/link';
 import type { Metadata } from 'next';
 import { SubscribeForm } from '../SubscribeForm';
@@ -204,6 +205,16 @@ export default function PortoEventsPage() {
               }}
             >
               {CATEGORY_EMOJI[cat]} {CATEGORY_LABEL[cat]}
+            </span>
+          ))}
+        </div>
+        {/* Month hubs (lib/event-months.ts) — newest first. */}
+        <div style={{ marginTop: 20, fontSize: 13, color: colors.textSoft }}>
+          Browse by month:{' '}
+          {listEventMonths().slice().reverse().map((m, i) => (
+            <span key={m.slug}>
+              {i > 0 && <span style={{ color: colors.divider }}> · </span>}
+              <Link href={`/porto-events/${m.slug}`} style={{ color: colors.heading }}>{m.label}</Link>
             </span>
           ))}
         </div>

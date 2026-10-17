@@ -10,14 +10,18 @@ import { Footer } from './components/Footer';
 export async function generateMetadata(): Promise<Metadata> {
   const newsletters = listNewsletters();
   const latest = newsletters[0] ?? null;
+  // Phrased the way people search ("things to do in porto this week"). The
+  // description used to be the edition's own metadata — literally
+  // "Oporto Weekly — 15 October 2026" — which is what Google showed.
   const title = latest
-    ? `${latest.weekRange} — Porto Events Guide`
-    : 'Porto Events & Culture Newsletter';
-  const description = latest?.description
-    ?? 'The best events, culture, food, and things to do in Porto — curated every Thursday morning.';
+    ? `Things to Do in Porto This Week · ${latest.weekRange}`
+    : 'Things to Do in Porto This Week · Oporto Weekly';
+  const description = latest
+    ? `The best things to do in Porto this week, ${latest.weekRange}: concerts, exhibitions, markets and festivals, picked every Thursday. Free newsletter.`
+    : 'The best things to do in Porto each week: concerts, exhibitions, markets and festivals, picked every Thursday. Free newsletter.';
 
   return {
-    title,
+    title: { absolute: title },
     description,
     // hreflang must be BIDIRECTIONAL — the PT home already declared these
     // alternates, but without the EN home confirming them Google ignored
