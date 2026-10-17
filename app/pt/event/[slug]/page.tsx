@@ -16,6 +16,7 @@ import { getNewsletterMetaPT } from '@/lib/archive';
 import { colors, typography, spacing } from '@/lib/design';
 import { Header } from '@/app/components/Header';
 import { Footer } from '@/app/components/Footer';
+import { eventSeo } from '@/lib/event-seo';
 import { SubscribeCTA } from '@/app/components/SubscribeCTA';
 
 export function generateStaticParams() {
@@ -26,14 +27,11 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   const ev = getEvent(params.slug);
   if (!ev) return { title: 'Evento não encontrado' };
 
-  const disp = eventDisplay(ev, 'pt');
-  const dateStr = formatLongDatePT(ev.date, ev.endDate);
-  const title = `${disp.name} — ${ev.venue}, ${dateStr}`;
-  const description = disp.description.slice(0, 155);
+  const { title, description } = eventSeo(ev, 'pt');
   const url = `https://oportoweekly.com/pt/event/${ev.slug}`;
   const enUrl = `https://oportoweekly.com/event/${ev.slug}`;
   return {
-    title,
+    title: { absolute: title },
     description,
     alternates: {
       canonical: url,

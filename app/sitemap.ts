@@ -11,6 +11,20 @@ import { listEvents, hasVenuePage } from '@/lib/events';
 // 2026-09-05: crawled Jul 4, fixed Jul 18, lastmod still said Jul 2.
 const ARCHIVE_HREFLANG = new Date('2026-07-18T12:50:00Z'); // bidirectional hreflang on archive + home
 const PT_NAMESPACE = new Date('2026-08-29T19:36:57Z'); // /pt/event, /pt/venue, /pt/blog + EN hreflang back-links
+const EVENT_SNIPPETS = new Date('2026-10-17T18:00:00Z'); // event <title>/description rewrite (lib/event-seo.ts)
+// Guides retitled year-neutral on 2026-10-17 (they still said "2025").
+const BLOG_RETITLED = new Date('2026-10-17T18:00:00Z');
+const RETITLED_SLUGS = new Set<string>([
+    "the-ultimate-foodies-guide-to-porto-what-to-eat-in-2025",
+    "portos-art-culture-guide-galleries-street-art-in-2025",
+    "your-porto-neighborhood-guide-where-to-stay-eat-2025",
+    "porto-nightlife-your-ultimate-after-dark-guide-for-2025",
+    "a-food-lovers-guide-to-porto-what-to-eat-in-2025",
+    "sip-savor-porto-your-2025-guide-to-port-wine-cellars",
+    "portos-best-views-top-rooftops-viewpoints-for-2025",
+    "porto-on-foot-a-self-guided-walk-through-history-2025",
+    "portos-ultimate-vintage-artisan-shopping-guide-2025"
+  ]);
 
 function notBefore(date: string | Date, revision: Date): Date {
   const d = typeof date === 'string' ? new Date(date) : date;
@@ -31,14 +45,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const blogPosts = listBlogPosts();
   const blogUrls = blogPosts.map((p) => ({
     url: `https://oportoweekly.com/blog/${p.slug}`,
-    lastModified: notBefore(p.publishedAt, PT_NAMESPACE),
+    lastModified: notBefore(p.publishedAt, RETITLED_SLUGS.has(p.slug) ? BLOG_RETITLED : PT_NAMESPACE),
     changeFrequency: 'monthly' as const,
     priority: 0.8,
   }));
   // PT blog articles — only those that have been translated.
   const blogUrlsPT = listBlogPostsPT().map((p) => ({
     url: `https://oportoweekly.com/pt/blog/${p.slug}`,
-    lastModified: notBefore(p.publishedAt, PT_NAMESPACE),
+    lastModified: notBefore(p.publishedAt, RETITLED_SLUGS.has(p.slug) ? BLOG_RETITLED : PT_NAMESPACE),
     changeFrequency: 'monthly' as const,
     priority: 0.7,
   }));
@@ -56,7 +70,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     const priority = isPast ? 0.6 : 0.9;
     // Both language variants gained hreflang (and /pt/event was created) on
     // PT_NAMESPACE, so neither may advertise a lastmod older than that.
-    const lastModified = notBefore(e.addedAt, PT_NAMESPACE);
+    const lastModified = notBefore(e.addedAt, EVENT_SNIPPETS);
     return [
       { url: `https://oportoweekly.com/event/${e.slug}`, lastModified, changeFrequency, priority },
       // PT event page — slightly lower priority than the EN original.

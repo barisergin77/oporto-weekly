@@ -15,6 +15,7 @@ import { getNewsletterMeta } from '@/lib/archive';
 import { colors, typography, spacing } from '@/lib/design';
 import { Header } from '@/app/components/Header';
 import { Footer } from '@/app/components/Footer';
+import { eventSeo } from '@/lib/event-seo';
 import { SubscribeCTA } from '@/app/components/SubscribeCTA';
 
 export function generateStaticParams() {
@@ -29,9 +30,8 @@ export async function generateMetadata({
   const ev = getEvent(params.slug);
   if (!ev) return { title: 'Event not found' };
 
-  const dateStr = formatLongDate(ev.date, ev.endDate);
-  const title = `${ev.name} — ${ev.venue}, ${dateStr}`;
-  const description = ev.description.slice(0, 155);
+  // Facts-first, length-fitted search snippet — see lib/event-seo.ts.
+  const { title, description } = eventSeo(ev, 'en');
   const url = `https://oportoweekly.com/event/${ev.slug}`;
   const ptUrl = `https://oportoweekly.com/pt/event/${ev.slug}`;
 
@@ -41,7 +41,9 @@ export async function generateMetadata({
   // venue + date into a single branded card, which looks better than the raw
   // Imgur URL would on social shares.
   return {
-    title,
+    // absolute: skip the " | Oporto Weekly" template, which pushed the dates
+    // past Google's ~60-character cut-off.
+    title: { absolute: title },
     description,
     alternates: {
       canonical: url,
