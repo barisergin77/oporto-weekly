@@ -1,4 +1,4 @@
-import { listNewslettersPT, getNewsletterMetaPT, getNewsletterHtmlPT, stripEmailFooter } from '@/lib/archive';
+import { listNewslettersPT, getNewsletterMetaPT, getNewsletterHtmlPT, stripEmailFooter, toEmbeddableHtml } from '@/lib/archive';
 import { colors, typography } from '@/lib/design';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
@@ -6,6 +6,8 @@ import type { Metadata } from 'next';
 import { SubscribeFormPT } from '../../../SubscribeFormPT';
 import { Header } from '../../../components/Header';
 import { Footer } from '../../../components/Footer';
+import { editionSeo } from '@/lib/event-seo';
+import { listEvents } from '@/lib/events';
 
 export async function generateStaticParams() {
   return listNewslettersPT().map((n) => ({ slug: n.slug }));
@@ -25,13 +27,15 @@ export async function generateMetadata({ params }: { params: { slug: string } })
     en: enUrl,
     'x-default': enUrl,
   };
+  const picks = listEvents().filter((e) => e.sourceEdition === enSlug && e.editorPickRank != null);
+  const { title, description } = editionSeo(meta, picks, 'pt');
   return {
-    title: `${meta.weekRange} — Guia de Eventos no Porto`,
-    description: meta.description,
+    title: { absolute: title },
+    description,
     alternates: { canonical: url, languages },
     openGraph: {
-      title: `${meta.weekRange} — Guia de Eventos no Porto`,
-      description: meta.description,
+      title,
+      description,
       type: 'article',
       url,
       locale: 'pt_PT',
@@ -44,7 +48,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
 export default function EdicaoPTPage({ params }: { params: { slug: string } }) {
   const meta = getNewsletterMetaPT(params.slug);
   const rawHtml = getNewsletterHtmlPT(params.slug);
-  const html = rawHtml ? stripEmailFooter(rawHtml) : null;
+  const html = rawHtml ? toEmbeddableHtml(stripEmailFooter(rawHtml)) : null;
 
   if (!meta || !html) notFound();
 

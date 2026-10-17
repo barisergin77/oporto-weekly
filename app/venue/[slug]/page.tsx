@@ -12,6 +12,7 @@ import {
 import { colors, typography, spacing } from '@/lib/design';
 import { Header } from '@/app/components/Header';
 import { Footer } from '@/app/components/Footer';
+import { venueSeo } from '@/lib/event-seo';
 import { SubscribeCTA } from '@/app/components/SubscribeCTA';
 
 /**
@@ -60,15 +61,14 @@ export async function generateMetadata({
   if (!resolved) return { title: 'Venue not found' };
 
   const { name, events } = resolved;
-  const count = events.length;
-  const title = `${name} — Events & Tickets`;
-  const description =
-    `All upcoming and recent events at ${name} in Porto — ${count} event${count === 1 ? '' : 's'} indexed. Concerts, exhibitions, and more, curated weekly.`;
+  const today = new Date().toISOString().slice(0, 10);
+  const upcomingCount = events.filter((e) => (e.endDate ?? e.date) >= today).length;
+  const { title, description } = venueSeo(name, upcomingCount, events.length, 'en');
   const url = `https://oportoweekly.com/venue/${params.slug}`;
   const ptUrl = `https://oportoweekly.com/pt/venue/${params.slug}`;
 
   return {
-    title,
+    title: { absolute: title },
     description,
     alternates: { canonical: url, languages: { en: url, 'pt-PT': ptUrl, 'x-default': url } },
     openGraph: { title, description, url, type: 'website' },

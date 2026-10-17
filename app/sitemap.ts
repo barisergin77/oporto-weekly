@@ -15,6 +15,9 @@ const PT_NAMESPACE = new Date('2026-08-29T19:36:57Z'); // /pt/event, /pt/venue, 
 const EVENT_SNIPPETS = new Date('2026-10-17T18:00:00Z'); // event <title>/description rewrite (lib/event-seo.ts)
 // Guides retitled year-neutral on 2026-10-17 (they still said "2025").
 const BLOG_RETITLED = new Date('2026-10-17T18:00:00Z');
+// Archive + venue <title>/description rewrite, and the archive pages no longer
+// embed a second <head>/<title> from the stored email HTML.
+const ARCHIVE_VENUE_SNIPPETS = new Date('2026-10-17T20:00:00Z');
 const RETITLED_SLUGS = new Set<string>([
     "the-ultimate-foodies-guide-to-porto-what-to-eat-in-2025",
     "portos-art-culture-guide-galleries-street-art-in-2025",
@@ -36,7 +39,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const newsletters = listNewsletters();
   const archiveUrls = newsletters.map((n) => ({
     url: `https://oportoweekly.com/archive/${n.slug}`,
-    lastModified: notBefore(n.sentAt, ARCHIVE_HREFLANG),
+    lastModified: notBefore(n.sentAt, ARCHIVE_VENUE_SNIPPETS),
     // Not 'never': the body is evergreen but head markup can still be revised,
     // and 'never' discourages the re-crawl a markup fix depends on.
     changeFrequency: 'yearly' as const,
@@ -88,7 +91,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const venueUrls = venueSlugs.flatMap((slug) => {
     const venueEvents = events.filter((e) => e.venueSlug === slug);
     const lastAdded = venueEvents.map((e) => e.addedAt).sort().pop();
-    const lastModified = notBefore(lastAdded ?? new Date(), PT_NAMESPACE);
+    const lastModified = notBefore(lastAdded ?? new Date(), ARCHIVE_VENUE_SNIPPETS);
     return [
       { url: `https://oportoweekly.com/venue/${slug}`, lastModified, changeFrequency: 'weekly' as const, priority: 0.85 },
       { url: `https://oportoweekly.com/pt/venue/${slug}`, lastModified, changeFrequency: 'weekly' as const, priority: 0.75 },
@@ -123,7 +126,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: 'https://oportoweekly.com/pt/arquivo', lastModified: new Date(), changeFrequency: 'weekly' as const, priority: 0.7 },
     ...listNewslettersPT().map((n) => ({
       url: `https://oportoweekly.com/pt/arquivo/${n.slug}`,
-      lastModified: notBefore(n.sentAt, ARCHIVE_HREFLANG),
+      lastModified: notBefore(n.sentAt, ARCHIVE_VENUE_SNIPPETS),
       changeFrequency: 'yearly' as const,
       priority: 0.6,
     })),

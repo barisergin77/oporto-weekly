@@ -1,4 +1,4 @@
-import { listNewsletters, getNewsletterHtml, stripEmailFooter } from '@/lib/archive';
+import { listNewsletters, getNewsletterHtml, stripEmailFooter, toEmbeddableHtml } from '@/lib/archive';
 
 export const dynamic = 'force-static';
 
@@ -9,7 +9,7 @@ export function GET() {
   const items = newsletters
     .map((n) => {
       const html = getNewsletterHtml(n.slug);
-      const content = html ? stripEmailFooter(html) : '';
+      const content = html ? toEmbeddableHtml(stripEmailFooter(html)) : '';
       const pubDate = new Date(n.sentAt).toUTCString();
       const url = `${site}/archive/${n.slug}`;
 

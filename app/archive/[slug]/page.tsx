@@ -1,4 +1,4 @@
-import { listNewsletters, getNewsletterMeta, getNewsletterMetaPT, getNewsletterHtml, stripEmailFooter } from '@/lib/archive';
+import { listNewsletters, getNewsletterMeta, getNewsletterMetaPT, getNewsletterHtml, stripEmailFooter, toEmbeddableHtml } from '@/lib/archive';
 import { listBlogPosts } from '@/lib/blog';
 import { colors, typography } from '@/lib/design';
 import { notFound } from 'next/navigation';
@@ -7,6 +7,8 @@ import type { Metadata } from 'next';
 import { SubscribeForm } from '../../SubscribeForm';
 import { Header } from '../../components/Header';
 import { Footer } from '../../components/Footer';
+import { editionSeo } from '@/lib/event-seo';
+import { listEvents } from '@/lib/events';
 
 export async function generateStaticParams() {
   const newsletters = listNewsletters();
@@ -25,13 +27,16 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   const ptExists = Boolean(getNewsletterMetaPT(`${meta.slug}-pt`));
   const languages: Record<string, string> = { en: url, 'x-default': url };
   if (ptExists) languages['pt-PT'] = `https://oportoweekly.com/pt/arquivo/${meta.slug}-pt`;
+  // Name the week's actual picks — the stored description is just a date.
+  const picks = listEvents().filter((e) => e.sourceEdition === meta.slug && e.editorPickRank != null);
+  const { title, description } = editionSeo(meta, picks, 'en');
   return {
-    title: `${meta.weekRange} — Porto Events Guide`,
-    description: meta.description,
+    title: { absolute: title },
+    description,
     alternates: { canonical: url, languages },
     openGraph: {
-      title: `${meta.weekRange} — Porto Events Guide`,
-      description: meta.description,
+      title,
+      description,
       type: 'article',
       url,
       publishedTime: meta.sentAt,
@@ -39,8 +44,8 @@ export async function generateMetadata({ params }: { params: { slug: string } })
     },
     twitter: {
       card: 'summary_large_image',
-      title: `${meta.weekRange} — Porto Events Guide`,
-      description: meta.description,
+      title,
+      description,
     },
   };
 }
@@ -48,7 +53,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
 export default function EditionPage({ params }: { params: { slug: string } }) {
   const meta = getNewsletterMeta(params.slug);
   const rawHtml = getNewsletterHtml(params.slug);
-  const html = rawHtml ? stripEmailFooter(rawHtml) : null;
+  const html = rawHtml ? toEmbeddableHtml(stripEmailFooter(rawHtml)) : null;
 
   if (!meta || !html) notFound();
 

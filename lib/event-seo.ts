@@ -106,3 +106,45 @@ export function eventSeo(ev: EventRecord, lang: 'en' | 'pt', now: Date = new Dat
 
   return { title, description };
 }
+
+// ---------------------------------------------------------------------------
+// Edition archive + venue snippets
+// ---------------------------------------------------------------------------
+
+/**
+ * Archive descriptions were the edition's stored metadata — literally
+ * "Oporto Weekly — 24 September 2026" — and these pages rank for searches
+ * like "porto events september 2026". Name the week's actual picks instead.
+ */
+export function editionSeo(
+  edition: { slug: string; weekRange: string },
+  picks: EventRecord[],
+  lang: 'en' | 'pt',
+) {
+  const names = picks
+    .slice()
+    .sort((a, b) => (a.editorPickRank ?? 9) - (b.editorPickRank ?? 9))
+    .slice(0, 3)
+    .map((e) => eventDisplay(e, lang).name);
+  const title = lang === 'pt'
+    ? `Eventos no Porto · ${edition.weekRange}`
+    : `Porto Events · ${edition.weekRange}`;
+  const list = names.length ? names.join(', ') : '';
+  const description = lang === 'pt'
+    ? clip(`O que fazer no Porto na semana de ${edition.weekRange}${list ? `: ${list} e mais` : ''} — concertos, exposições, mercados e festivais escolhidos pela Oporto Weekly.`, DESC_MAX)
+    : clip(`What's on in Porto, ${edition.weekRange}${list ? `: ${list} and more` : ''} — concerts, exhibitions, markets and festivals picked by Oporto Weekly.`, DESC_MAX);
+  return { title, description };
+}
+
+/** "Casa da Música: What's On & Upcoming Events" — we don't sell tickets. */
+export function venueSeo(venue: string, upcoming: number, total: number, lang: 'en' | 'pt') {
+  const title = lang === 'pt'
+    ? clip(`${venue}: agenda e próximos eventos no Porto`, TITLE_MAX + 8)
+    : clip(`${venue}: What's On & Upcoming Events in Porto`, TITLE_MAX + 8);
+  const description = lang === 'pt'
+    // Phrased to avoid "de/da/do + venue": the right contraction depends on the
+    // venue's gender/article, which we can't know ("Agenda de Casa da Música").
+    ? clip(`${venue} (Porto): ${upcoming > 0 ? `${upcoming} evento${upcoming === 1 ? '' : 's'} em breve` : `${total} evento${total === 1 ? '' : 's'} recente${total === 1 ? '' : 's'}`} — concertos, exposições e mais, com datas e preços. Atualizado todas as quintas.`, DESC_MAX)
+    : clip(`What's on at ${venue}, Porto: ${upcoming > 0 ? `${upcoming} upcoming event${upcoming === 1 ? '' : 's'}` : `${total} recent event${total === 1 ? '' : 's'}`} — concerts, exhibitions and more, with dates and prices. Updated every Thursday.`, DESC_MAX);
+  return { title, description };
+}

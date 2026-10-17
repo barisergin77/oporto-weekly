@@ -1,4 +1,4 @@
-import { listNewslettersPT, getNewsletterHtmlPT, stripEmailFooter } from '@/lib/archive';
+import { listNewslettersPT, getNewsletterHtmlPT, stripEmailFooter, toEmbeddableHtml } from '@/lib/archive';
 import { colors, typography } from '@/lib/design';
 import Link from 'next/link';
 import type { Metadata } from 'next';
@@ -45,7 +45,7 @@ export default function HomePT() {
   const newsletters = listNewslettersPT();
   const latest = newsletters[0] ?? null;
   const rawHtml = latest ? getNewsletterHtmlPT(latest.slug) : null;
-  const html = rawHtml ? stripEmailFooter(rawHtml) : null;
+  const html = rawHtml ? toEmbeddableHtml(stripEmailFooter(rawHtml)) : null;
 
   return (
     <div style={{ background: colors.bg, minHeight: '100vh', fontFamily: typography.sans, color: colors.text }}>

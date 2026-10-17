@@ -13,6 +13,7 @@ import {
 import { colors, typography, spacing } from '@/lib/design';
 import { Header } from '@/app/components/Header';
 import { Footer } from '@/app/components/Footer';
+import { venueSeo } from '@/lib/event-seo';
 import { SubscribeCTA } from '@/app/components/SubscribeCTA';
 
 export function generateStaticParams() {
@@ -33,13 +34,13 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   const resolved = resolveVenueDisplay(params.slug);
   if (!resolved) return { title: 'Local não encontrado' };
   const { name, events } = resolved;
-  const count = events.length;
-  const title = `${name} — Eventos e Bilhetes`;
-  const description = `Todos os eventos próximos e recentes em ${name}, no Porto — ${count} evento${count === 1 ? '' : 's'} indexado${count === 1 ? '' : 's'}. Concertos, exposições e muito mais, com curadoria semanal.`;
+  const today = new Date().toISOString().slice(0, 10);
+  const upcomingCount = events.filter((e) => (e.endDate ?? e.date) >= today).length;
+  const { title, description } = venueSeo(name, upcomingCount, events.length, 'pt');
   const url = `https://oportoweekly.com/pt/venue/${params.slug}`;
   const enUrl = `https://oportoweekly.com/venue/${params.slug}`;
   return {
-    title,
+    title: { absolute: title },
     description,
     alternates: { canonical: url, languages: { en: enUrl, 'pt-PT': url, 'x-default': enUrl } },
     openGraph: { title, description, url, type: 'website', locale: 'pt_PT' },

@@ -30,6 +30,36 @@ export function getNewsletterHtml(slug: string): string | null {
 // Handles multiple markup variants used across newsletter generations:
 //   - New format (travel-magazine theme): <!-- FOOTER --> ... <!-- END FOOTER -->
 //   - Legacy: class="footer", <tr> rows with unsubscribe, bare <p> paragraphs
+/**
+ * Turn a stored newsletter (a complete email HTML document) into something
+ * that can sit inside a page: its <style> blocks + its <body> content.
+ *
+ * 2026-10-17: the homepage and every archive page (EN + PT) embedded the
+ * whole document — a second <!DOCTYPE>, <head>, viewport meta and <title>
+ * ("Oporto Weekly: <week>") inside <body>. Browsers drop those wrapper tags
+ * silently, so nothing looked wrong, but it is invalid markup and hands
+ * Google a competing title. The styles must stay: they already apply to the
+ * page (the cream body background comes from them).
+ *
+ * Kept separate from stripEmailFooter on purpose — the Reddit-draft cron
+ * uses that one, and the send path is not touched by site markup fixes.
+ */
+export function toEmbeddableHtml(html: string): string {
+  const headMatch = /<head[^>]*>([\s\S]*?)<\/head>/i.exec(html);
+  const head = headMatch ? headMatch[1] : '';
+  // Keep everything that affects rendering: <style> blocks (including MSO
+  // conditional ones) and stylesheet/preconnect <link>s — some editions load
+  // Inter + Playfair Display that way, and dropping them changed the font
+  // and text wrapping (caught comparing page heights before/after).
+  const styles = head.match(/<!--\[if[^\]]*\]>[\s\S]*?<!\[endif\]-->|<style[^>]*>[\s\S]*?<\/style>|<link[^>]+rel=["']?(?:stylesheet|preconnect)[^>]*>/gi) ?? [];
+  const bodyMatch = /<body[^>]*>([\s\S]*?)<\/body>/i.exec(html);
+  if (!bodyMatch) {
+    // Not a full document (older editions) — just drop any stray wrappers.
+    return html.replace(/<!DOCTYPE[^>]*>|<\/?html[^>]*>|<head[^>]*>[\s\S]*?<\/head>|<\/?body[^>]*>/gi, '');
+  }
+  return styles.join('\n') + '\n' + bodyMatch[1];
+}
+
 export function stripEmailFooter(html: string): string {
   let result = html;
 
