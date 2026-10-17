@@ -6,9 +6,9 @@ Ranked by expected impact ÷ effort. Status: `todo`, `doing`, `done`,
 
 | # | Item | Targets | Status |
 |---|---|---|---|
-| 1 | **PT month hubs** `/pt/eventos/<mes>-<ano>` mirroring `/porto-events/<month>`, with hreflang both ways. PT generic queries ("eventos porto", "agenda porto") rank ~50–60. | PT search clicks | todo |
-| 2 | **Internal links into the new hubs**: event pages → their month hub; guides → upcoming events + month hub; archive editions → month hub. Helps crawl + session depth. | impressions, pages/session | todo |
-| 3 | **Venue + archive snippets**: apply the event-snippet treatment (facts first, ≤62-char titles) to `/venue/*` and `/archive/*` (+ PT). PT archive already gets clicks at pos ~4. | CTR | todo |
+| 1 | **PT month hubs** `/pt/eventos/<mes>-<ano>` mirroring `/porto-events/<month>`, with hreflang both ways. PT generic queries ("eventos porto", "agenda porto") rank ~50–60. | PT search clicks | done 2026-10-17 |
+| 2 | **Internal links into the new hubs**: event pages → their month hub; guides → upcoming events + month hub; archive editions → month hub. Helps crawl + session depth. | impressions, pages/session | partly done 2026-10-17 (events→month, PT home→months); guides→events still todo |
+| 3 | **Venue + archive snippets**: apply the event-snippet treatment (facts first, ≤62-char titles) to `/venue/*` and `/archive/*` (+ PT). PT archive already gets clicks at pos ~4. | CTR | done 2026-10-17 |
 | 4 | **Verified refresh of top guides** — vintage/shopping (2 guides = top 2 pages), Port wine cellars, viewpoints. Re-check venues, hours, prices against sources, update content and only then say "2026". | clicks on guides | todo |
 | 5 | **Publish big upcoming events early** (2–6 weeks ahead) — searches peak before the event; pages currently appear only the week it happens. Needs a research step outside the Thursday pipeline. Design first. | event clicks | todo |
 | 6 | **"Forward to a friend" / referral block** in the newsletter email. Touches the send path. | subscribers | needs-approval |
@@ -19,3 +19,5 @@ Ranked by expected impact ÷ effort. Status: `todo`, `doing`, `done`,
 | 11 | Remove GTM `<noscript>` iframe (dev hydration warning; useless under consent mode). | hygiene | todo |
 | 12 | **Distribution** — weekly Reddit draft (already emailed Thursdays), Porto expat Facebook groups, BnB Genius hosts sharing with guests, venue partnerships. Draft posts in `ops/growth/drafts/`. | visits, subscribers | owner |
 | 13 | **Instagram follower metric** — blocked: @oportoweekly must be linked to the "Oporto Weekly" FB Page (Meta temporarily restricted the action 2026-09-20). See memory/weekly-report-metrics. | reporting | owner |
+| 14 | **Sitemap/llms.txt for month hubs in PT** — llms.txt lists EN only; add PT section. | AI visibility | todo |
+| 15 | **Homepage above-the-fold subscribe test** — the homepage leads with the full edition; try a compact signup band above it. Measure via signup-sources (home). | subscribers | todo |

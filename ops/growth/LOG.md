@@ -7,6 +7,31 @@ impressions / pos 9.3 over 28 days (prev 28: 191 / 10,293 / 16.9);
 subscribers 56 active (34 EN, 22 PT), ~1.4 net/week; signups by page: none
 recorded yet (tracking started today).
 
+## 2026-10-17 — Edition pages: single <head>; archive + venue snippets
+- Why: homepage + ~70 archive pages embedded the stored email as a second
+  full HTML document (2nd doctype, <head>, viewport meta, <title>). Archive
+  descriptions were "Oporto Weekly — <date>"; venue titles said "Events &
+  Tickets" (we sell none).
+- Change: `toEmbeddableHtml()` (keeps styles + font links + body);
+  `editionSeo()` names the week's top picks; `venueSeo()`; sitemap bump.
+  (1f9965e)
+- Verified: page heights identical to production on 4 archives + both
+  homepages; one <title> per page live; health OK.
+- Expect: archive CTR up on "porto events <month> 2026"; venue CTR up.
+- Measure on: 2026-11-14
+- Result:
+
+## 2026-10-17 — PT month hubs, month links, PT price labels
+- Why: PT generic queries ("eventos porto", "agenda porto") rank ~50–60.
+- Change: `/pt/eventos/<mes>-<ano>` (7), shared `MonthHub` renderer with EN,
+  bidirectional hreflang; event pages link to their month hub; PT homepage
+  "Agenda por mês"; 34 English free-text price labels translated. (2eae0ec)
+- Verified: hreflang pairs, 65 PT links / 0 EN leaks on outubro-2026,
+  build 31s for 2,109 pages after caching the month snapshot.
+- Expect: PT impressions for month/agenda queries within 2–4 weeks.
+- Measure on: 2026-11-14
+- Result:
+
 ## 2026-10-17 — Month hubs + search-phrased homepage titles
 - Why: recurring "events in porto <month> 2026" searches land on a weekly
   edition/homepage at pos 7–9. Homepage description was literally
