@@ -45,7 +45,7 @@ export function shortDates(ev: EventRecord, lang: 'en' | 'pt', withYear: boolean
 
 const venueRoot = (venue: string) => venue.split(/[,/]/)[0].trim();
 
-function priceText(price: string | undefined, lang: 'en' | 'pt'): string {
+export function priceText(price: string | undefined, lang: 'en' | 'pt'): string {
   if (!price) return '';
   const p = price.trim();
   if (lang === 'en') return /^tickets?$/i.test(p) ? 'Ticketed' : p;
@@ -53,8 +53,22 @@ function priceText(price: string | undefined, lang: 'en' | 'pt'): string {
     free: 'Gratuito', 'free entry': 'Entrada gratuita', 'free to explore': 'Entrada gratuita',
     ticketed: 'Com bilhete', tickets: 'Com bilhete', ticket: 'Com bilhete', 'tickets required': 'Com bilhete', varies: 'Preço variável',
     'price varies': 'Preço variável', 'spectators free': 'Gratuito para espectadores',
+    'check site': 'Ver site', 'check website': 'Ver site', 'see venue': 'Ver local',
+    'check for tickets': 'Ver bilhetes', 'check for entry': 'Ver condições de entrada',
+    'check for cover': 'Ver preço de entrada', 'check schedule': 'Ver horário',
+    'mostly free': 'Maioritariamente gratuito', 'many free': 'Muitos gratuitos',
+    'free to enter': 'Entrada gratuita', 'free to stroll': 'Passeio gratuito',
+    'free with ticket': 'Incluído no bilhete', 'included with admission': 'Incluído na entrada',
+    'free (registration req.)': 'Gratuito (inscrição obrigatória)',
+    'free & ticketed events': 'Eventos gratuitos e pagos',
+    'tickets vary': 'Preços variáveis', various: 'Vários', 'entry fee': 'Entrada paga',
+    'museum entry': 'Entrada no museu', 'day ticket': 'Bilhete diário',
+    'passes available': 'Passes disponíveis', 'sold out': 'Esgotado',
+    'booking required': 'Reserva obrigatória', 'booking req.': 'Reserva obrigatória',
+    'booking advised': 'Reserva aconselhada', 'booking recommended': 'Reserva aconselhada',
+    'registration required': 'Inscrição obrigatória', 'registration req.': 'Inscrição obrigatória',
   };
-  return map[p.toLowerCase()] ?? p.replace(/^From\s+/i, 'A partir de ');
+  return map[p.toLowerCase()] ?? p.replace(/^Tickets from\s+/i, 'Bilhetes a partir de ').replace(/^From\s+/i, 'A partir de ');
 }
 
 /** Trim to max on a word boundary, ending with an ellipsis only if cut. */

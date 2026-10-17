@@ -15,6 +15,7 @@ import { getNewsletterMeta } from '@/lib/archive';
 import { colors, typography, spacing } from '@/lib/design';
 import { Header } from '@/app/components/Header';
 import { Footer } from '@/app/components/Footer';
+import { monthHubFor } from '@/lib/event-months';
 import { eventSeo } from '@/lib/event-seo';
 import { SubscribeCTA } from '@/app/components/SubscribeCTA';
 
@@ -71,6 +72,8 @@ export default function EventPage({ params }: { params: { slug: string } }) {
   const relatedAtVenue = hasVenuePage(ev.venueSlug)
     ? listEventsByVenue(ev.venueSlug).filter((e) => e.slug !== ev.slug).slice(0, 4)
     : [];
+  // Month hub for this event's start month, if that month has a page.
+  const monthHub = monthHubFor(ev);
 
   return (
     <div
@@ -221,6 +224,13 @@ export default function EventPage({ params }: { params: { slug: string } }) {
         )}
 
         {/* Subscribe — the visitor has just found one event; offer the weekly list. */}
+        {monthHub && (
+          <p style={{ margin: '0 0 24px', fontSize: 14 }}>
+            <Link href={`/porto-events/${monthHub.slug}`} style={{ color: colors.heading, fontWeight: 600 }}>
+              See all Porto events in {monthHub.label} →
+            </Link>
+          </p>
+        )}
         <SubscribeCTA lang="en" context="event" />
 
         {/* Related events at the same venue */}

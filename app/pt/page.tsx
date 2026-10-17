@@ -5,6 +5,7 @@ import type { Metadata } from 'next';
 import { SubscribeFormPT } from '../SubscribeFormPT';
 import { Header } from '../components/Header';
 import { Footer } from '../components/Footer';
+import { listEventMonths, ptLabel, ptSlug } from '@/lib/event-months';
 
 export async function generateMetadata(): Promise<Metadata> {
   const newsletters = listNewslettersPT();
@@ -128,6 +129,18 @@ export default function HomePT() {
             <Link href="/pt/arquivo" style={{ fontSize: 12, color: colors.textSoft, textDecoration: 'none' }}>
               Ver todas as edições →
             </Link>
+          </div>
+
+          {/* Month hubs — /pt has no events index of its own, so this is how
+              readers and Google reach /pt/eventos/<mes>. */}
+          <div style={{ marginTop: 20, fontSize: 12, color: colors.textSoft, textAlign: 'center', lineHeight: 1.9 }}>
+            Agenda por mês:{' '}
+            {listEventMonths().slice().reverse().map((m, i) => (
+              <span key={m.slug}>
+                {i > 0 && <span style={{ color: colors.divider }}> · </span>}
+                <Link href={`/pt/eventos/${ptSlug(m)}`} style={{ color: colors.heading }}>{ptLabel(m)}</Link>
+              </span>
+            ))}
           </div>
         </div>
 

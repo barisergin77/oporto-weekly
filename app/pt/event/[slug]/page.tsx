@@ -16,7 +16,8 @@ import { getNewsletterMetaPT } from '@/lib/archive';
 import { colors, typography, spacing } from '@/lib/design';
 import { Header } from '@/app/components/Header';
 import { Footer } from '@/app/components/Footer';
-import { eventSeo } from '@/lib/event-seo';
+import { monthHubFor, ptLabel, ptSlug } from '@/lib/event-months';
+import { eventSeo, priceText } from '@/lib/event-seo';
 import { SubscribeCTA } from '@/app/components/SubscribeCTA';
 
 export function generateStaticParams() {
@@ -52,6 +53,8 @@ export default function EventPagePT({ params }: { params: { slug: string } }) {
   const relatedAtVenue = hasVenuePage(ev.venueSlug)
     ? listEventsByVenue(ev.venueSlug).filter((e) => e.slug !== ev.slug).slice(0, 4)
     : [];
+  // Month hub for this event's start month, if that month has a page.
+  const monthHub = monthHubFor(ev);
 
   return (
     <div style={{ background: colors.bg, minHeight: '100vh', fontFamily: typography.sans, color: colors.text }}>
@@ -92,7 +95,7 @@ export default function EventPagePT({ params }: { params: { slug: string } }) {
             const hasLink = isRealEventUrl(ev.externalLink);
             const isCta = /check\s*website|varies|ticket(ed|s? required)|see\s*venue/i.test(ev.price);
             if (isCta && !hasLink) return null;
-            return <MetaPin icon="🏷️" text={priceLabelPT(ev.price)} href={hasLink ? ev.externalLink : undefined} />;
+            return <MetaPin icon="🏷️" text={priceText(ev.price, 'pt')} href={hasLink ? ev.externalLink : undefined} />;
           })()}
           <MetaPin icon="📍" text={ev.venue} href={hasVenuePage(ev.venueSlug) ? `/pt/venue/${ev.venueSlug}` : undefined} />
           <MetaPin icon="📅" text={formatLongDatePT(ev.date, ev.endDate)} />
@@ -121,6 +124,13 @@ export default function EventPagePT({ params }: { params: { slug: string } }) {
           </div>
         )}
 
+        {monthHub && (
+          <p style={{ margin: '0 0 24px', fontSize: 14 }}>
+            <Link href={`/pt/eventos/${ptSlug(monthHub)}`} style={{ color: colors.heading, fontWeight: 600 }}>
+              Ver todos os eventos no Porto em {ptLabel(monthHub)} →
+            </Link>
+          </p>
+        )}
         <SubscribeCTA lang="pt" context="event" />
 
         {relatedAtVenue.length > 0 && (
@@ -231,20 +241,6 @@ function MetaPin({ icon, text, href }: { icon: string; text: string; href?: stri
 // ---------------------------------------------------------------------------
 
 /** Common EN price strings → PT. Numeric prices (€20, From €15) pass through. */
-function priceLabelPT(price: string): string {
-  const map: Record<string, string> = {
-    free: 'Gratuito',
-    'free entry': 'Entrada gratuita',
-    'free to explore': 'Entrada gratuita',
-    ticketed: 'Com bilhete',
-    'tickets required': 'Bilhetes necessários',
-    varies: 'Preço variável',
-    'price varies': 'Preço variável',
-  };
-  const pt = map[price.trim().toLowerCase()];
-  if (pt) return pt;
-  return price.replace(/^From\s+/i, 'A partir de ');
-}
 
 const PT_MONTHS = ['janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho', 'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro'];
 
