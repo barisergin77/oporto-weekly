@@ -17,7 +17,8 @@ Ranked by expected impact ÷ effort. Status: `todo`, `doing`, `done`,
 | 9 | **"Crawled – currently not indexed"** past PT events: decide whether to consolidate/noindex thin past pages. Measure first; risky. | index quality | todo |
 | 10 | **Weekly low-CTR query pass** from `growth-metrics.ts` (`lowCtr28`): fix the snippet of the page ranking for each. | CTR | todo (recurring) |
 | 11 | Remove GTM `<noscript>` iframe (dev hydration warning; useless under consent mode). | hygiene | todo |
-| 12 | **Distribution** — weekly Reddit draft (already emailed Thursdays), Porto expat Facebook groups, BnB Genius hosts sharing with guests, venue partnerships. Draft posts in `ops/growth/drafts/`. | visits, subscribers | owner |
+| 12 | **Distribution (owner-approved channels only)** — Porto expat / visitor Facebook groups, venue and festival partnerships (they share our event page, we feature them), local press mentions. No Reddit (owner can't post there). Never involve the owner's other businesses. Draft in `ops/growth/drafts/`. | visits, subscribers | owner |
 | 13 | **Instagram follower metric** — blocked: @oportoweekly must be linked to the "Oporto Weekly" FB Page (Meta temporarily restricted the action 2026-09-20). See memory/weekly-report-metrics. | reporting | owner |
 | 14 | **Sitemap/llms.txt for month hubs in PT** — llms.txt lists EN only; add PT section. | AI visibility | todo |
 | 15 | **Homepage above-the-fold subscribe test** — the homepage leads with the full edition; try a compact signup band above it. Measure via signup-sources (home). | subscribers | todo |
+| 16 | **Retire the Reddit draft step** — the owner can no longer post on Reddit, but `reddit-draft` still runs every Thursday and emails a draft. Remove it from `cron-newsletter.yml`, the watchdog's expected steps and the ledger step list together (half-removing it would make the watchdog re-dispatch it forever). Thursday cascade → owner approval first. | hygiene | needs-approval |

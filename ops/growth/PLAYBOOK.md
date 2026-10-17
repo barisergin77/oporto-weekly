@@ -7,7 +7,7 @@ visibility, more subscribers** — one well-chosen, verified improvement per
 run, without ever endangering the Thursday newsletter.
 
 Read this file, then `BACKLOG.md`, then the latest entries of `LOG.md`,
-before doing anything.
+before doing anything. On your first run, read `HANDOFF.md` first.
 
 ## 1. Hard rules (never break these)
 
