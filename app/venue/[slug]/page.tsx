@@ -12,6 +12,7 @@ import {
 import { colors, typography, spacing } from '@/lib/design';
 import { Header } from '@/app/components/Header';
 import { Footer } from '@/app/components/Footer';
+import { SubscribeCTA } from '@/app/components/SubscribeCTA';
 
 /**
  * `/venue/<slug>` — aggregates every event we've indexed at a given venue.
@@ -179,6 +180,8 @@ export default function VenuePage({ params }: { params: { slug: string } }) {
             </ul>
           </section>
         )}
+
+        <SubscribeCTA lang="en" context="venue" />
 
         {past.length > 0 && (
           <section>

@@ -14,10 +14,18 @@ export function SubscribeForm() {
       const res = await fetch('/api/subscribe', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email }),
+        // source = the page the visitor signed up from (path only, no query),
+        // so the weekly report can show which pages actually convert.
+        body: JSON.stringify({ email, lang: 'en', source: window.location.pathname }),
       });
       const data = await res.json();
       if (res.ok && data.success) {
+        // GA4 conversion via the GTM dataLayer. Never let analytics break signup.
+        try {
+          const w = window as unknown as { dataLayer?: unknown[] };
+          w.dataLayer = w.dataLayer || [];
+          w.dataLayer.push({ event: 'sign_up', method: 'newsletter', lang: 'en', signup_source: window.location.pathname });
+        } catch { /* ignore */ }
         setStatus('success');
         setMessage("You're in! Check your inbox for a welcome email.");
         setEmail('');

@@ -1,97 +1,103 @@
-'use client';
+import { colors, typography } from '@/lib/design';
+import { SubscribeForm } from '../SubscribeForm';
+import { SubscribeFormPT } from '../SubscribeFormPT';
 
-import { useState } from 'react';
+/**
+ * Inline subscribe box for the pages search visitors actually land on.
+ *
+ * Added 2026-10-17: event, blog and venue pages had no way to subscribe —
+ * only the homepage and archive did — while 11 of the top 12 search landing
+ * pages were guides and event pages. Search clicks were up 73% in 28 days
+ * but subscribers grew ~1.4/week, so the traffic had nowhere to convert.
+ *
+ * `context` only changes the copy; the signup source (page path) is recorded
+ * by the form itself, so results can be compared per page type.
+ */
 
-export default function SubscribeCTA() {
-  const [email, setEmail] = useState('');
-  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
-  const [message, setMessage] = useState('');
+type Context = 'event' | 'blog' | 'venue';
 
-  const gold = '#c9a96e';
-  const cardBg = '#16213e';
+const COPY: Record<'en' | 'pt', Record<Context, { eyebrow: string; title: string; body: string }>> = {
+  en: {
+    event: {
+      eyebrow: 'Every Thursday',
+      title: 'Never miss what’s on in Porto',
+      body: 'The five best things to do in Porto each week, plus concerts, exhibitions and markets — in your inbox Thursday morning. Free.',
+    },
+    blog: {
+      eyebrow: 'Enjoyed this guide?',
+      title: 'Get Porto’s best events every Thursday',
+      body: 'One short email a week with the concerts, exhibitions, markets and festivals worth your time. Free, and you can leave anytime.',
+    },
+    venue: {
+      eyebrow: 'Every Thursday',
+      title: 'Know what’s on before it sells out',
+      body: 'A weekly pick of the best events across Porto’s venues, delivered Thursday morning. Free.',
+    },
+  },
+  pt: {
+    event: {
+      eyebrow: 'Todas as quintas-feiras',
+      title: 'Não perca o que acontece no Porto',
+      body: 'As cinco melhores coisas para fazer no Porto em cada semana, mais concertos, exposições e mercados — na sua caixa de correio à quinta de manhã. Grátis.',
+    },
+    blog: {
+      eyebrow: 'Gostou deste guia?',
+      title: 'Receba os melhores eventos do Porto à quinta',
+      body: 'Um email curto por semana com os concertos, exposições, mercados e festivais que valem a pena. Grátis, e pode sair quando quiser.',
+    },
+    venue: {
+      eyebrow: 'Todas as quintas-feiras',
+      title: 'Saiba o que há antes de esgotar',
+      body: 'Uma seleção semanal dos melhores eventos nas salas do Porto, à quinta-feira de manhã. Grátis.',
+    },
+  },
+};
 
-  async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    setStatus('loading');
-    try {
-      const res = await fetch('/api/subscribe', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email }),
-      });
-      const data = await res.json();
-      if (res.ok && data.success) {
-        setStatus('success');
-        setMessage("You're in! Check your inbox for a welcome email.");
-        setEmail('');
-      } else {
-        throw new Error(data.error || 'Something went wrong');
-      }
-    } catch (err: unknown) {
-      setStatus('error');
-      setMessage(err instanceof Error ? err.message : 'Something went wrong. Try again.');
-    }
-  }
-
+export function SubscribeCTA({ lang, context }: { lang: 'en' | 'pt'; context: Context }) {
+  const t = COPY[lang][context];
   return (
-    <div style={{
-      background: cardBg,
-      border: `1px solid ${gold}33`,
-      borderRadius: 12,
-      padding: '2rem',
-      textAlign: 'center',
-      marginTop: '3rem',
-    }}>
-      <div style={{ fontSize: '1.5rem', marginBottom: '0.5rem' }}>🦁</div>
-      <h3 style={{ color: '#ffffff', fontSize: '1.3rem', fontWeight: 700, margin: '0 0 0.5rem' }}>
-        Enjoying this?
-      </h3>
-      <p style={{ color: '#8892b0', margin: '0 0 1.5rem', lineHeight: 1.6 }}>
-        Get Oporto Weekly every Thursday — the best of Porto, curated.
+    <aside
+      aria-label={lang === 'pt' ? 'Subscrever a newsletter' : 'Subscribe to the newsletter'}
+      style={{
+        background: colors.card,
+        border: `1px solid ${colors.divider}`,
+        borderTop: `3px solid ${colors.accent}`,
+        borderRadius: 8,
+        padding: '28px 24px',
+        margin: '0 0 40px',
+        boxShadow: '0 2px 16px rgba(26,26,46,0.05)',
+      }}
+    >
+      <div
+        style={{
+          fontSize: 10,
+          letterSpacing: 3,
+          textTransform: 'uppercase',
+          color: colors.accent,
+          fontWeight: 700,
+          marginBottom: 8,
+        }}
+      >
+        {t.eyebrow}
+      </div>
+      <h2
+        style={{
+          fontFamily: typography.serif,
+          fontSize: 22,
+          color: colors.heading,
+          margin: '0 0 8px',
+          letterSpacing: -0.3,
+          lineHeight: 1.25,
+        }}
+      >
+        {t.title}
+      </h2>
+      <p style={{ fontSize: 14, color: colors.textSoft, margin: '0 0 18px', lineHeight: 1.6 }}>
+        {t.body}
       </p>
-      {status === 'success' ? (
-        <p style={{ color: gold, fontWeight: 600 }}>{message}</p>
-      ) : (
-        <form onSubmit={handleSubmit} style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap', justifyContent: 'center' }}>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="your@email.com"
-            required
-            style={{
-              padding: '0.75rem 1rem',
-              borderRadius: 8,
-              border: `1px solid ${gold}55`,
-              background: '#1a1a2e',
-              color: '#fff',
-              fontSize: '1rem',
-              outline: 'none',
-              minWidth: 220,
-            }}
-          />
-          <button
-            type="submit"
-            disabled={status === 'loading'}
-            style={{
-              padding: '0.75rem 1.5rem',
-              borderRadius: 8,
-              border: 'none',
-              background: gold,
-              color: '#1a1a2e',
-              fontWeight: 700,
-              fontSize: '1rem',
-              cursor: status === 'loading' ? 'not-allowed' : 'pointer',
-              opacity: status === 'loading' ? 0.7 : 1,
-            }}
-          >
-            {status === 'loading' ? 'Subscribing…' : 'Subscribe →'}
-          </button>
-        </form>
-      )}
-      {status === 'error' && (
-        <p style={{ color: '#ff6b6b', marginTop: '0.75rem', fontSize: '0.9rem' }}>{message}</p>
-      )}
-    </div>
+      <div style={{ maxWidth: 420 }}>
+        {lang === 'pt' ? <SubscribeFormPT /> : <SubscribeForm />}
+      </div>
+    </aside>
   );
 }

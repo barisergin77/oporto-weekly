@@ -13,6 +13,7 @@ import {
 import { colors, typography, spacing } from '@/lib/design';
 import { Header } from '@/app/components/Header';
 import { Footer } from '@/app/components/Footer';
+import { SubscribeCTA } from '@/app/components/SubscribeCTA';
 
 export function generateStaticParams() {
   const seen = new Set<string>();
@@ -95,6 +96,8 @@ export default function VenuePagePT({ params }: { params: { slug: string } }) {
             <ul style={listStyle}>{upcoming.map((e) => <EventRow key={e.slug} event={e} />)}</ul>
           </section>
         )}
+
+        <SubscribeCTA lang="pt" context="venue" />
 
         {past.length > 0 && (
           <section>

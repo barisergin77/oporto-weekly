@@ -6,6 +6,7 @@ import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import { Header } from '../../components/Header';
 import { Footer } from '../../components/Footer';
+import { SubscribeCTA } from '../../components/SubscribeCTA';
 
 export function generateStaticParams() {
   return listBlogPosts().map((post) => ({ slug: post.slug }));
@@ -202,36 +203,10 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
         </div>
 
         {/* Subscribe CTA — light themed */}
-        <div style={{
-          background: colors.bgSoft,
-          border: `1px solid ${colors.divider}`,
-          borderRadius: 8,
-          padding: '32px 28px',
-          textAlign: 'center',
-          marginTop: 48,
-        }}>
-          <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: 3, textTransform: 'uppercase', color: colors.accent, marginBottom: 10 }}>
-            Weekly newsletter
-          </div>
-          <p style={{ fontFamily: typography.serif, fontSize: 22, color: colors.heading, margin: '0 0 8px', letterSpacing: -0.3 }}>
-            Get Porto events in your inbox
-          </p>
-          <p style={{ fontSize: 14, color: colors.textSoft, margin: '0 0 20px', lineHeight: 1.6 }}>
-            Curated every Thursday morning — free, no spam.
-          </p>
-          <Link href="/" style={{
-            display: 'inline-block',
-            background: colors.accent,
-            color: colors.heading,
-            padding: '12px 28px',
-            borderRadius: 4,
-            textDecoration: 'none',
-            fontWeight: 700,
-            fontSize: 13,
-            letterSpacing: 0.5,
-          }}>
-            Subscribe free →
-          </Link>
+        {/* Inline form — this was a link to the homepage, making readers
+            leave the article and find the form there. */}
+        <div style={{ marginTop: 48 }}>
+          <SubscribeCTA lang="en" context="blog" />
         </div>
 
         {/* Back to blog */}

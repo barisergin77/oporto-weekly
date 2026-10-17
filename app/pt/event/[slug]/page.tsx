@@ -16,6 +16,7 @@ import { getNewsletterMetaPT } from '@/lib/archive';
 import { colors, typography, spacing } from '@/lib/design';
 import { Header } from '@/app/components/Header';
 import { Footer } from '@/app/components/Footer';
+import { SubscribeCTA } from '@/app/components/SubscribeCTA';
 
 export function generateStaticParams() {
   return listEvents().map((e) => ({ slug: e.slug }));
@@ -121,6 +122,8 @@ export default function EventPagePT({ params }: { params: { slug: string } }) {
             da Oporto Weekly.
           </div>
         )}
+
+        <SubscribeCTA lang="pt" context="event" />
 
         {relatedAtVenue.length > 0 && (
           <section style={{ marginTop: 48 }}>

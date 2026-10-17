@@ -2,6 +2,7 @@ export const dynamic = 'force-dynamic';
 import { NextRequest, NextResponse } from 'next/server';
 import { addSubscriber } from '@/lib/audiences';
 import { sendEmail } from '@/lib/resend-client';
+import { recordSignupSource, cleanSource } from '@/lib/signup-sources';
 
 const WELCOME_HTML_EN = `
 <!DOCTYPE html>
@@ -64,6 +65,10 @@ export async function POST(req: NextRequest) {
       { name: 'type', value: 'welcome' },
       { name: 'lang', value: lang },
     ]);
+
+    // Attribution for the growth loop — after the subscription has succeeded,
+    // and swallowed on failure, so it can never cost us a subscriber.
+    await recordSignupSource({ lang, source: cleanSource(body.source) });
 
     return NextResponse.json({ success: true });
   } catch (err: unknown) {

@@ -6,6 +6,7 @@ import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import { Header } from '../../../components/Header';
 import { Footer } from '../../../components/Footer';
+import { SubscribeCTA } from '../../../components/SubscribeCTA';
 
 export function generateStaticParams() {
   return listBlogPostsPT().map((post) => ({ slug: post.slug }));
@@ -100,19 +101,8 @@ export default function BlogPostPagePT({ params }: { params: { slug: string } })
 
         <div className="blog-article" dangerouslySetInnerHTML={{ __html: html }} style={{ fontSize: 17, lineHeight: 1.8, color: colors.text }} />
 
-        <div style={{ background: colors.bgSoft, border: `1px solid ${colors.divider}`, borderRadius: 8, padding: '32px 28px', textAlign: 'center', marginTop: 48 }}>
-          <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: 3, textTransform: 'uppercase', color: colors.accent, marginBottom: 10 }}>
-            Newsletter semanal
-          </div>
-          <p style={{ fontFamily: typography.serif, fontSize: 22, color: colors.heading, margin: '0 0 8px', letterSpacing: -0.3 }}>
-            Receba os eventos do Porto no seu email
-          </p>
-          <p style={{ fontSize: 14, color: colors.textSoft, margin: '0 0 20px', lineHeight: 1.6 }}>
-            Curado todas as quintas-feiras de manhã — gratuito, sem spam.
-          </p>
-          <Link href="/pt" style={{ display: 'inline-block', background: colors.accent, color: colors.heading, padding: '12px 28px', borderRadius: 4, textDecoration: 'none', fontWeight: 700, fontSize: 13, letterSpacing: 0.5 }}>
-            Subscrever gratuitamente →
-          </Link>
+        <div style={{ marginTop: 48 }}>
+          <SubscribeCTA lang="pt" context="blog" />
         </div>
 
         <div style={{ textAlign: 'center', marginTop: 28 }}>

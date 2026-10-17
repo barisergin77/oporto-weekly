@@ -15,6 +15,7 @@ import { getNewsletterMeta } from '@/lib/archive';
 import { colors, typography, spacing } from '@/lib/design';
 import { Header } from '@/app/components/Header';
 import { Footer } from '@/app/components/Footer';
+import { SubscribeCTA } from '@/app/components/SubscribeCTA';
 
 export function generateStaticParams() {
   return listEvents().map((e) => ({ slug: e.slug }));
@@ -216,6 +217,9 @@ export default function EventPage({ params }: { params: { slug: string } }) {
             — the weekly Oporto Weekly edition.
           </div>
         )}
+
+        {/* Subscribe — the visitor has just found one event; offer the weekly list. */}
+        <SubscribeCTA lang="en" context="event" />
 
         {/* Related events at the same venue */}
         {relatedAtVenue.length > 0 && (
