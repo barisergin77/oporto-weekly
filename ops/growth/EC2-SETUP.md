@@ -16,10 +16,20 @@ to *do* is git, npm and the scripts in this repo.
    `GITHUB_TOKEN` works (`git config credential.helper store`, then push
    once and enter it as the password). It **expires 2027-01-02** — rotate it
    here too when you rotate it in Vercel.
-3. **Secrets:** copy `.env.local` from the Mac to `~/oporto-weekly/.env.local`
-   (e.g. `scp`; never commit it). The loop needs at least
-   `GOOGLE_SERVICE_ACCOUNT_JSON` (Search Console + GA4) and `CRON_SECRET`
-   (health check).
+3. **Secrets — a trimmed file, not the whole `.env.local`.** On the Mac,
+   `~/oporto-weekly-ec2.env` holds only the four keys the loop uses:
+   `GOOGLE_SERVICE_ACCOUNT_JSON` (Search Console, GA4, recrawl requests),
+   `CRON_SECRET` (health/status checks), `GITHUB_TOKEN` (git push) and
+   `INDEXNOW_KEY`. Copy it over and lock it down:
+   ```bash
+   scp ~/oporto-weekly-ec2.env <ec2-host>:~/oporto-weekly/.env.local
+   ssh <ec2-host> chmod 600 ~/oporto-weekly/.env.local
+   ```
+   Deliberately left out: `RESEND_*` (could email subscribers), `BUFFER_*`
+   (could post to Instagram), `GEMINI_API_KEY`, `IMGUR_CLIENT_ID`, and the
+   `VERCEL_*`/`TURBO_*` values `vercel env pull` adds. The site builds with
+   no secrets at all (verified 2026-10-17), so nothing else is needed. Values
+   are quoted: read them with `--env-file` or strip the quotes in shell.
 4. **Git identity:** `git config user.name "oporto-growth-bot"` and
    `git config user.email "growth@oportoweekly.com"`.
 5. **Dry run by hand first:**

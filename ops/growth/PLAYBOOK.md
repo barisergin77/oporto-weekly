@@ -33,6 +33,8 @@ before doing anything. On your first run, read `HANDOFF.md` first.
    the changed pages render (curl the built HTML or a browser), push, wait
    until `https://oportoweekly.com/api/version` returns your commit SHA, then
    `POST /api/cron/health` (Bearer `$CRON_SECRET`) must report `ok: true`.
+   `.env.local` values are quoted — strip the quotes if you read them in shell,
+   or you'll get a misleading 401.
    If health fails because of your change: revert, push, and say so.
 7. **Don't retry failing third-party actions in a loop** (Meta, GitHub,
    Google). One retry, then stop and log it. Repeated retries got the
