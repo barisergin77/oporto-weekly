@@ -7,7 +7,7 @@ Ranked by expected impact ÷ effort. Status: `todo`, `doing`, `done`,
 | # | Item | Targets | Status |
 |---|---|---|---|
 | 1 | **PT month hubs** `/pt/eventos/<mes>-<ano>` mirroring `/porto-events/<month>`, with hreflang both ways. PT generic queries ("eventos porto", "agenda porto") rank ~50–60. | PT search clicks | done 2026-10-17 |
-| 2 | **Internal links into the new hubs**: event pages → their month hub; guides → upcoming events + month hub; archive editions → month hub. Helps crawl + session depth. | impressions, pages/session | partly done 2026-10-17 (events→month, PT home→months); guides→events still todo |
+| 2 | **Internal links into the new hubs**: event pages → their month hub; guides → upcoming events + month hub; archive editions → month hub. Helps crawl + session depth. | impressions, pages/session | done 2026-10-18 (events→month, PT home→months, guides→upcoming events + month hubs) |
 | 3 | **Venue + archive snippets**: apply the event-snippet treatment (facts first, ≤62-char titles) to `/venue/*` and `/archive/*` (+ PT). PT archive already gets clicks at pos ~4. | CTR | done 2026-10-17 |
 | 4 | **Verified refresh of top guides** — vintage/shopping (2 guides = top 2 pages), Port wine cellars, viewpoints. Re-check venues, hours, prices against sources, update content and only then say "2026". | clicks on guides | todo |
 | 5 | **Publish big upcoming events early** (2–6 weeks ahead) — searches peak before the event; pages currently appear only the week it happens. Needs a research step outside the Thursday pipeline. Design first. | event clicks | todo |
@@ -22,3 +22,5 @@ Ranked by expected impact ÷ effort. Status: `todo`, `doing`, `done`,
 | 14 | **Sitemap/llms.txt for month hubs in PT** — llms.txt lists EN only; add PT section. | AI visibility | todo |
 | 15 | **Homepage above-the-fold subscribe test** — the homepage leads with the full edition; try a compact signup band above it. Measure via signup-sources (home). | subscribers | todo |
 | 16 | **Retire the Reddit draft step** — the owner can no longer post on Reddit, but `reddit-draft` still runs every Thursday and emails a draft. Remove it from `cron-newsletter.yml`, the watchdog's expected steps and the ledger step list together (half-removing it would make the watchdog re-dispatch it forever). Thursday cascade → owner approval first. | hygiene | needs-approval |
+| 17 | **Duplicate event records** — e.g. "Porto Contemporary Art Exhibition" exists twice (`…various-galleries-oct-5-2026` and `…bombarda-art-district-various-oct-15-2026`), so it lists twice on guides/month hubs. Find near-duplicates (same name, overlapping dates); decide merge vs. canonical before touching slugs (never change a slug). | quality, crawl | todo |
+| 18 | **Events beyond the current week** — guide "Coming up" block thins to long-running exhibitions (or just month links) on Mon–Wed builds because data only covers the current edition week (overlaps #5). | event clicks | todo |

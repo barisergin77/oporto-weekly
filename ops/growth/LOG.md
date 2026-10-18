@@ -7,6 +7,33 @@ impressions / pos 9.3 over 28 days (prev 28: 191 / 10,293 / 16.9);
 subscribers 56 active (34 EN, 22 PT), ~1.4 net/week; signups by page: none
 recorded yet (tracking started today).
 
+## 2026-10-18 — Guides link to upcoming events + month hubs
+- Metrics (`metrics/2026-10-18.json`): 339 clicks / 14,711 impr / pos 9.35
+  over 28d (yesterday 343 / 14,693 / 9.3 — flat, as expected one day in).
+  Last 7d 87 clicks vs 80 prev; CTR 1.7% vs 2.5% because impressions rose
+  61% (3,196 → 5,144), mostly "iberanime porto 2026" (2,099 impr, 0.2%).
+  GA4 7d: 31 users / 37 sessions (prev 34 / 39), 29 organic. Subscribers 56
+  (unchanged since the 10-15 snapshot). Attributed signups: 0. No result is
+  due before 2026-10-31.
+- Why: guides are the top landing pages (two shopping guides: 65 of 339
+  clicks) but linked to no event and no month hub (backlog #2).
+- Change: `GuideUpcoming` on all 35 EN + 35 PT guides — up to 5 upcoming
+  events + this/next month hub (+ /porto-events on EN). Guides are static and
+  builds can be 2–3 days apart, so only events still running ≥3 days after
+  the build are listed (first build showed 5 events all ending that day —
+  caught before shipping). Body-only, no `<head>` change, no sitemap bump.
+  (ccbc6cd)
+- Verified: tsc, build (2,109 pages), block on 35/35 EN + 35/35 PT built
+  guides, one `<title>`; live EN + PT shopping guide show 5 events + hub
+  links; /api/version = ccbc6cd; health ok (9/9).
+- Expect: more pages/session from blog landings; month-hub impressions up as
+  they gain internal links; first blog→event clicks.
+- Measure on: 2026-11-01 (GA4 pages/session for /blog landings vs 61 PV /
+  37 sessions = 1.65 sitewide today); search effect with the hubs 2026-11-14.
+- Noticed: duplicate event records ("Porto Contemporary Art Exhibition" ×2)
+  → backlog #17.
+- Result:
+
 ## 2026-10-17 — Edition pages: single <head>; archive + venue snippets
 - Why: homepage + ~70 archive pages embedded the stored email as a second
   full HTML document (2nd doctype, <head>, viewport meta, <title>). Archive
