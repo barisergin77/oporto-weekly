@@ -346,6 +346,17 @@ function EventHero({ event }: { event: EventRecord }) {
             ) : (
               event.image.credit
             )}
+            {event.image.sourceUrl && (
+              <>
+                {' · '}
+                <a
+                  href={`mailto:hello@oportoweekly.com?subject=${encodeURIComponent(`Photo: ${event.name}`)}`}
+                  style={{ color: 'inherit', textDecoration: 'underline' }}
+                >
+                  Organiser? Ask us to change or remove it
+                </a>
+              </>
+            )}
           </figcaption>
         )}
       </figure>

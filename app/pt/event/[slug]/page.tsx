@@ -200,6 +200,14 @@ function EventHero({ event }: { event: EventRecord }) {
             ) : (
               event.image.credit
             )}
+            {event.image.sourceUrl && (
+              <>
+                {' · '}
+                <a href={`mailto:hello@oportoweekly.com?subject=${encodeURIComponent(`Foto: ${disp.name}`)}`} style={{ color: 'inherit', textDecoration: 'underline' }}>
+                  É o organizador? Peça-nos para alterar ou remover a foto
+                </a>
+              </>
+            )}
           </figcaption>
         )}
       </figure>

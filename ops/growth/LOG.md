@@ -7,6 +7,19 @@ impressions / pos 9.3 over 28 days (prev 28: 191 / 10,293 / 16.9);
 subscribers 56 active (34 EN, 22 PT), ~1.4 net/week; signups by page: none
 recorded yet (tracking started today).
 
+## 2026-10-18 — Organiser photo-removal line on event pages (owner-approved)
+- Why: event photos are the organiser's official share image (og:image)
+  with a credit link; a credit is not a licence. Owner approved adding an
+  easy change/removal route (Telegram 2026-10-18).
+- Change: EN + PT event hero captions, only for scraped photos (not AI
+  illustrations): "Organiser? Ask us to change or remove it" → mailto
+  hello@oportoweekly.com with the event name in the subject. Body-only.
+- Verified: tsc, build; 56 EN + 56 PT built pages carry it, 0 AI-image pages.
+- Policy from now: prefer official share/press-kit images with credit +
+  link; never social-media, portfolio or "all rights reserved" photos;
+  remove promptly on request.
+- Result: n/a (risk control).
+
 ## 2026-10-18 — Reddit draft step retired (owner-approved)
 - Why: owner can't post on Reddit; the Thursday cascade still generated and
   emailed a draft (backlog #16). Owner approved via Telegram 2026-10-18.
@@ -16,7 +29,7 @@ recorded yet (tracking started today).
   (run-ledger) and from the watchdog's WATCHED list. Old ledger marks are
   dropped the next time the ledger is rewritten (STEPS ordering). Comments
   in event-images/validate-links updated; docs/reddit.md marked retired.
-- Verified: tsc, build; /api/version + health after deploy (below).
+- Verified: tsc, build; /api/version = dac1a11; health ok (9/9); endpoint 404.
 - Expect: no Reddit email on Thu 2026-10-22; watchdog shows no reddit step.
 - Measure on: 2026-10-22 (Thursday run: all remaining steps green).
 - Result:
