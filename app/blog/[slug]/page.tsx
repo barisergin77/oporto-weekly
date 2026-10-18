@@ -7,6 +7,7 @@ import type { Metadata } from 'next';
 import { Header } from '../../components/Header';
 import { Footer } from '../../components/Footer';
 import { SubscribeCTA } from '../../components/SubscribeCTA';
+import { GuideUpcoming } from '../../components/GuideUpcoming';
 
 export function generateStaticParams() {
   return listBlogPosts().map((post) => ({ slug: post.slug }));
@@ -201,6 +202,9 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
             <div style={{ fontSize: 13, color: colors.textSoft }}>Editor, Oporto Weekly — Porto, Portugal</div>
           </div>
         </div>
+
+        {/* What's on — guides are the top search landing pages; give readers a next step. */}
+        <GuideUpcoming lang="en" />
 
         {/* Subscribe CTA — light themed */}
         {/* Inline form — this was a link to the homepage, making readers

@@ -7,6 +7,7 @@ import type { Metadata } from 'next';
 import { Header } from '../../../components/Header';
 import { Footer } from '../../../components/Footer';
 import { SubscribeCTA } from '../../../components/SubscribeCTA';
+import { GuideUpcoming } from '../../../components/GuideUpcoming';
 
 export function generateStaticParams() {
   return listBlogPostsPT().map((post) => ({ slug: post.slug }));
@@ -100,6 +101,8 @@ export default function BlogPostPagePT({ params }: { params: { slug: string } })
         </div>
 
         <div className="blog-article" dangerouslySetInnerHTML={{ __html: html }} style={{ fontSize: 17, lineHeight: 1.8, color: colors.text }} />
+
+        <GuideUpcoming lang="pt" />
 
         <div style={{ marginTop: 48 }}>
           <SubscribeCTA lang="pt" context="blog" />
