@@ -7,6 +7,20 @@ impressions / pos 9.3 over 28 days (prev 28: 191 / 10,293 / 16.9);
 subscribers 56 active (34 EN, 22 PT), ~1.4 net/week; signups by page: none
 recorded yet (tracking started today).
 
+## 2026-10-18 — Reddit draft step retired (owner-approved)
+- Why: owner can't post on Reddit; the Thursday cascade still generated and
+  emailed a draft (backlog #16). Owner approved via Telegram 2026-10-18.
+- Change: removed together, so the watchdog can't re-dispatch a missing
+  step: step 5 of `cron-newsletter.yml`, `cron-reddit-draft.yml`,
+  `/api/cron/reddit-draft`, `'reddit-draft'` from `Step`/`STEPS`
+  (run-ledger) and from the watchdog's WATCHED list. Old ledger marks are
+  dropped the next time the ledger is rewritten (STEPS ordering). Comments
+  in event-images/validate-links updated; docs/reddit.md marked retired.
+- Verified: tsc, build; /api/version + health after deploy (below).
+- Expect: no Reddit email on Thu 2026-10-22; watchdog shows no reddit step.
+- Measure on: 2026-10-22 (Thursday run: all remaining steps green).
+- Result:
+
 ## 2026-10-18 — Guides link to upcoming events + month hubs
 - Metrics (`metrics/2026-10-18.json`): 339 clicks / 14,711 impr / pos 9.35
   over 28d (yesterday 343 / 14,693 / 9.3 — flat, as expected one day in).

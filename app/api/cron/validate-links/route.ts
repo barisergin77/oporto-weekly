@@ -1,7 +1,7 @@
 /**
  * Thursday 10:30 UTC — runs ~1 hour after all the Thursday pipeline crons
  * complete (newsletter 08:00, PT 08:15, health 08:30, instagram 08:45,
- * reddit-draft 08:50, event-images 09:15, event-descriptions 09:30).
+ * event-images 09:15, event-descriptions 09:30).
  *
  * Walks every event's externalLink and HEAD-checks it. Dead links are
  * either replaced via Gemini Search or cleared outright — the event

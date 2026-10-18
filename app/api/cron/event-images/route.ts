@@ -1,5 +1,5 @@
 /**
- * Thursday 09:15 UTC (after newsletter + PT + health + Instagram + reddit-draft).
+ * Thursday 09:15 UTC (after newsletter + PT + health + Instagram).
  *
  * Reads events that don't yet have press photos, tries to acquire one per
  * event, commits the updated JSONs in a single atomic GitHub commit.

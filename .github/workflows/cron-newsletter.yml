@@ -5,10 +5,10 @@
 # 08:00 EN cron fired at 12:04; PT, scheduled 08:15, fired at 12:17 —
 # pure luck it came second). The cascade has hard ordering dependencies:
 #   EN generate+archive → deploy live → EN send → PT translate+send
-#   → Instagram → Reddit draft
+#   → Instagram
 # Sequential steps in one workflow enforce that order regardless of
 # scheduler behaviour. The downstream workflows (cron-newsletter-pt,
-# cron-instagram, cron-reddit-draft) keep their own schedules as
+# cron-instagram) keep their own schedules as
 # backups — every endpoint is ledger-claim-guarded, so whichever
 # trigger arrives first does the work and the rest are no-ops.
 #
@@ -77,7 +77,7 @@ jobs:
           fi
 
       - name: 4. Instagram post (/api/cron/instagram)
-        # IG failure shouldn't block the Reddit draft — independent outputs.
+        # IG failure shouldn't fail the whole cascade — the watchdog retries it.
         continue-on-error: true
         run: |
           response=$(curl -s --retry 2 --retry-delay 10 -w "\nHTTP_STATUS:%{http_code}" --max-time 320 \
@@ -90,21 +90,5 @@ jobs:
           echo "Body: $body"
           if [ "$status" != "200" ]; then
             echo "::error::Instagram cron failed with HTTP $status (watchdog will retry)"
-            exit 1
-          fi
-
-      - name: 5. Reddit draft (/api/cron/reddit-draft)
-        continue-on-error: true
-        run: |
-          response=$(curl -s --retry 2 --retry-delay 10 -w "\nHTTP_STATUS:%{http_code}" --max-time 320 \
-            -X POST \
-            -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" \
-            https://oportoweekly.com/api/cron/reddit-draft)
-          status=$(echo "$response" | tail -n1 | cut -d: -f2)
-          body=$(echo "$response" | sed '$d')
-          echo "Status: $status"
-          echo "Body: $body"
-          if [ "$status" != "200" ]; then
-            echo "::error::Reddit draft failed with HTTP $status (watchdog will retry)"
             exit 1
           fi

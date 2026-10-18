@@ -39,7 +39,6 @@ export type Step =
   | 'pt-web'
   | 'pt-email'
   | 'instagram'
-  | 'reddit-draft'
   | 'blog-post'
   | 'blog-instagram';
 
@@ -50,7 +49,6 @@ export const STEPS: readonly Step[] = [
   'pt-web',
   'pt-email',
   'instagram',
-  'reddit-draft',
   'blog-post',
   'blog-instagram',
 ];

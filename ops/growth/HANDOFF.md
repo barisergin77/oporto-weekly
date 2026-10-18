@@ -55,8 +55,8 @@ that are genuinely his.
 ## 4. The Thursday pipeline — do not touch without owner approval
 
 `cron-newsletter.yml` orchestrates: generate + archive → wait until the
-deploy serves the archive → send EN → PT translate + send → Instagram →
-Reddit draft. The run-ledger (`data/run-ledger.json`, `lib/run-ledger.ts`)
+deploy serves the archive → send EN → PT translate + send → Instagram.
+(Reddit draft retired 2026-10-18.) The run-ledger (`data/run-ledger.json`, `lib/run-ledger.ts`)
 records each step per week; the scheduler-watchdog re-dispatches any step
 still missing 5 hours late.
 
@@ -156,9 +156,7 @@ First results are due **2026-10-31** (signups) and **2026-11-07 / 11-14**
   pages_show_list, pages_read_engagement` → long-lived token (needs the app
   secret) → never-expiring Page token → `IG_GRAPH_TOKEN` + `IG_USER_ID`.
   The code in `lib/instagram.ts` is ready.
-- **Retiring the Reddit draft step** (BACKLOG): it still generates a draft
-  every Thursday that can no longer be posted. It is part of the Thursday
-  cascade, so it needs approval.
+- ~~Retiring the Reddit draft step~~ — done 2026-10-18 (owner approved).
 - **GA4 `sign_up` key event** in GTM (optional; server-side attribution
   already works).
 

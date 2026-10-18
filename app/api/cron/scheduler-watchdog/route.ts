@@ -67,7 +67,6 @@ const WATCHED: WatchedStep[] = [
   { step: 'en-email',       workflow: 'cron-newsletter.yml',    label: 'Newsletter EN (generate+send)', dow: 4, hour: 8,  keyKind: 'week' },
   { step: 'pt-email',       workflow: 'cron-newsletter-pt.yml', label: 'Newsletter PT',                 dow: 4, hour: 8,  keyKind: 'week' },
   { step: 'instagram',      workflow: 'cron-instagram.yml',     label: 'Instagram (weekly)',            dow: 4, hour: 8,  keyKind: 'week' },
-  { step: 'reddit-draft',   workflow: 'cron-reddit-draft.yml',  label: 'Reddit draft',                  dow: 4, hour: 8,  keyKind: 'week' },
   { step: 'blog-post',      workflow: 'cron-blog.yml',          label: 'Blog article',                  dow: 2, hour: 9,  keyKind: 'blog' },
   { step: 'blog-instagram', workflow: 'cron-instagram-blog.yml',label: 'Instagram (blog promo)',        dow: 2, hour: 9,  keyKind: 'blog' },
 ];

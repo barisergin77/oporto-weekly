@@ -1,3 +1,5 @@
+> **Retired 2026-10-18** (owner request): the owner no longer posts on Reddit. The workflow, endpoint, ledger step and watchdog entry were removed together. Kept for history only.
+
 # Reddit Drafts
 
 Weekly "ready-to-paste" r/porto post generator. Not an auto-poster.
