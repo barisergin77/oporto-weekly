@@ -7,6 +7,42 @@ impressions / pos 9.3 over 28 days (prev 28: 191 / 10,293 / 16.9);
 subscribers 56 active (34 EN, 22 PT), ~1.4 net/week; signups by page: none
 recorded yet (tracking started today).
 
+## 2026-10-19 — "Today" + "This weekend" pages (owner priority, backlog #19)
+- Metrics (`metrics/2026-10-19.json`): 328 clicks / 14,599 impr / pos 9.44
+  over 28d (yesterday 339 / 14,711 / 9.35; prev 28d 215 / 10,716 / 15.8).
+  Last 7d 79 clicks vs 78 prev; impressions 4,877 vs 3,369 (CTR 1.6% vs
+  2.3%, still the iberanime spike: 2,552 impr / 12 clicks). GA4 7d 32 users /
+  36 sessions (prev 34 / 39), 26 organic, 3 AI assistant. Subscribers 56
+  (next snapshot Thu). Attributed signups: 0. No result due before 10-22.
+- Why: owner priority 2026-10-18; nothing answered "what's on today / this
+  weekend" (GSC already shows "hoje no porto" for /pt).
+- Change: `/porto-events/today`, `/porto-events/this-weekend`,
+  `/pt/eventos/hoje`, `/pt/eventos/este-fim-de-semana` — hourly ISR
+  (`revalidate = 3600`), Europe/Lisbon dates (`lib/event-days.ts`; weekend =
+  coming Fri–Sun, or the rest of it from Fri). Runs >7 days go under "Also
+  on". If no listing yet (Mon–Wed for the weekend), the page says the picks
+  come with Thursday's edition and links the month hub — no invented events.
+  Bidirectional hreflang, sitemap (daily), llms.txt link. `ShortcutChips`
+  (Today · This weekend · This month) on both homepages, /porto-events and
+  all EN + PT event pages (body-only, no `<head>` change on existing pages,
+  so no sitemap revision bump). (0db75fc)
+- Verified: tsc; build 2,113 pages; prerender manifest
+  `initialRevalidateSeconds: 3600` on the 4 routes; data/events traced into
+  their serverless bundles (nft); titles "Things to Do in Porto Today · Mon
+  19 Oct" / "O que fazer no Porto hoje · seg, 19 out"; hreflang pairs; chips
+  on 984/984 event pages + both homepages + /porto-events; date logic tested
+  across Mon–Sun, Lisbon midnight and the 25 Oct DST change. Live:
+  /api/version = 0db75fc; health ok (9/9); live EN weekend + PT today pages
+  200 with the expected title/intro; 4 URLs sent to the Indexing API (200).
+- Note: until #20 (forward scan) ships, the weekend page has only long runs
+  Mon–Wed; it fills when Thursday's events are flushed.
+- Expect: impressions for "things to do in porto today/this weekend",
+  "porto this weekend", "hoje no porto", "fim de semana porto"; clicks from
+  chips into the pages (GA4 pageviews).
+- Measure on: 2026-11-02 (GA4 views of the 4 pages; GSC impressions),
+  search effect 2026-11-16.
+- Result:
+
 ## 2026-10-18 — Organiser photo-removal line on event pages (owner-approved)
 - Why: event photos are the organiser's official share image (og:image)
   with a credit link; a credit is not a licence. Owner approved adding an
