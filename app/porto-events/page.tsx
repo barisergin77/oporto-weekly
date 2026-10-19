@@ -13,6 +13,7 @@ import type { Metadata } from 'next';
 import { SubscribeForm } from '../SubscribeForm';
 import { Header } from '../components/Header';
 import { Footer } from '../components/Footer';
+import { ShortcutChips } from '../components/ShortcutChips';
 
 export const metadata: Metadata = {
   title: 'Porto Events This Week — Upcoming Things To Do in Porto',
@@ -207,6 +208,9 @@ export default function PortoEventsPage() {
               {CATEGORY_EMOJI[cat]} {CATEGORY_LABEL[cat]}
             </span>
           ))}
+        </div>
+        <div style={{ marginTop: 20, display: 'flex', justifyContent: 'center' }}>
+          <ShortcutChips lang="en" />
         </div>
         {/* Month hubs (lib/event-months.ts) — newest first. */}
         <div style={{ marginTop: 20, fontSize: 13, color: colors.textSoft }}>

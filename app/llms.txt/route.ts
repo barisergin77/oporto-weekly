@@ -28,6 +28,7 @@ export function GET() {
     '## Key pages',
     `- [Latest edition${latest ? ` (${latest.weekRange})` : ''}](${SITE}${latest ? `/archive/${latest.slug}` : '/'}): this week's picks`,
     `- [Upcoming Porto events](${SITE}/porto-events): everything currently listed`,
+    `- [Things to do in Porto today](${SITE}/porto-events/today) and [this weekend](${SITE}/porto-events/this-weekend): updated hourly`,
     `- [Guides](${SITE}/blog): long-form Porto guides`,
     `- [Archive](${SITE}/archive): every past edition`,
     `- [Portuguese edition](${SITE}/pt): the same content in European Portuguese`,

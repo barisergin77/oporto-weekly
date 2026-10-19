@@ -6,6 +6,7 @@ import type { Metadata } from 'next';
 import { SubscribeForm } from './SubscribeForm';
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
+import { ShortcutChips } from './components/ShortcutChips';
 
 export async function generateMetadata(): Promise<Metadata> {
   const newsletters = listNewsletters();
@@ -105,6 +106,7 @@ export default function Home() {
 
         {/* Newsletter content — takes up most of the space */}
         <div className="newsletter-content" style={{ flex: 1, minWidth: 0 }}>
+          <div style={{ marginBottom: 20 }}><ShortcutChips lang="en" /></div>
           {html ? (
             <div dangerouslySetInnerHTML={{ __html: html }} />
           ) : (

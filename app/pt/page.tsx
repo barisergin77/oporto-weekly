@@ -5,6 +5,7 @@ import type { Metadata } from 'next';
 import { SubscribeFormPT } from '../SubscribeFormPT';
 import { Header } from '../components/Header';
 import { Footer } from '../components/Footer';
+import { ShortcutChips } from '../components/ShortcutChips';
 import { listEventMonths, ptLabel, ptSlug } from '@/lib/event-months';
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -64,6 +65,7 @@ export default function HomePT() {
 
         {/* Newsletter content */}
         <div className="newsletter-content" style={{ flex: 1, minWidth: 0 }}>
+          <div style={{ marginBottom: 20 }}><ShortcutChips lang="pt" /></div>
           {html ? (
             <div dangerouslySetInnerHTML={{ __html: html }} />
           ) : (

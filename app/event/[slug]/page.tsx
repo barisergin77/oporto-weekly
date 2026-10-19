@@ -18,6 +18,7 @@ import { Footer } from '@/app/components/Footer';
 import { monthHubFor } from '@/lib/event-months';
 import { eventSeo } from '@/lib/event-seo';
 import { SubscribeCTA } from '@/app/components/SubscribeCTA';
+import { ShortcutChips } from '@/app/components/ShortcutChips';
 
 export function generateStaticParams() {
   return listEvents().map((e) => ({ slug: e.slug }));
@@ -231,6 +232,7 @@ export default function EventPage({ params }: { params: { slug: string } }) {
             </Link>
           </p>
         )}
+        <div style={{ margin: '0 0 24px' }}><ShortcutChips lang="en" /></div>
         <SubscribeCTA lang="en" context="event" />
 
         {/* Related events at the same venue */}
