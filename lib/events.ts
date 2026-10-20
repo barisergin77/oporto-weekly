@@ -85,6 +85,9 @@ export interface EventRecord {
   addedAt: string;
 }
 
+/** `sourceEdition` of events published ahead by the forward scan (lib/forward-scan.ts). */
+export const FORWARD_SOURCE = 'forward-scan';
+
 const EVENTS_DIR = path.join(process.cwd(), 'data', 'events');
 
 export function listEvents(): EventRecord[] {

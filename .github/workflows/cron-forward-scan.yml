@@ -1,0 +1,31 @@
+# Mon + Fri 07:00 UTC — forward event scan (growth backlog #20). Publishes
+# notable Porto events 2–10 weeks ahead, each confirmed on its official page.
+# Outside the Thursday pipeline; the route itself refuses to run in the
+# newsletter freeze (Wed 18:00 → Thu 23:59 UTC) in case GitHub fires late.
+# Writes data/events/*.json only → published by deploy-flush (21:00 UTC).
+name: Cron · Forward Event Scan
+
+on:
+  schedule:
+    - cron: '0 7 * * 1' # Mon 07:00 UTC
+    - cron: '0 7 * * 5' # Fri 07:00 UTC
+  workflow_dispatch:
+
+jobs:
+  trigger:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - name: Call /api/cron/forward-scan
+        run: |
+          response=$(curl -s -X POST -w "\nHTTP_STATUS:%{http_code}" --max-time 300 \
+            -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" \
+            https://oportoweekly.com/api/cron/forward-scan)
+          status=$(echo "$response" | tail -n1 | cut -d: -f2)
+          body=$(echo "$response" | sed '$d')
+          echo "Status: $status"
+          echo "Body: $body"
+          if [ "$status" != "200" ]; then
+            echo "::error::Forward scan cron failed with HTTP $status"
+            exit 1
+          fi

@@ -8,7 +8,7 @@
  * stays right between deploys; dates are Porto's (Europe/Lisbon), not UTC.
  */
 
-import { listEvents, type EventRecord } from './events';
+import { listEvents, FORWARD_SOURCE, type EventRecord } from './events';
 import { monthOf } from './event-months';
 
 export type DayHubKind = 'today' | 'weekend';
@@ -59,11 +59,12 @@ export function eventsInRange(range: { from: string; to: string }) {
 export const monthOfIso = (iso: string) => monthOf(Number(iso.slice(0, 4)), Number(iso.slice(5, 7)) - 1);
 
 /**
- * True when no event starts on or after `from`: the listings for that period
- * haven't been published yet (they arrive with Thursday's edition).
+ * True when no edition event starts on or after `from`: the listings for that
+ * period haven't been published yet (they arrive with Thursday's edition).
+ * Forward-scan events (weeks ahead) don't count — they aren't the listings.
  */
 export function listingsPending(from: string): boolean {
-  return !listEvents().some((e) => day(e.date) >= from);
+  return !listEvents().some((e) => e.sourceEdition !== FORWARD_SOURCE && day(e.date) >= from);
 }
 
 export const DAY_HUB_PATHS: Record<DayHubKind, { en: string; pt: string }> = {
