@@ -7,6 +7,65 @@ impressions / pos 9.3 over 28 days (prev 28: 191 / 10,293 / 16.9);
 subscribers 56 active (34 EN, 22 PT), ~1.4 net/week; signups by page: none
 recorded yet (tracking started today).
 
+## 2026-10-20 — Forward event scan, phase 1 (owner priority, backlog #20)
+- Metrics (`metrics/2026-10-20.json`): 324 clicks / 14,449 impr / pos 9.53
+  over 28d (yesterday 328 / 14,599 / 9.44; prev 28d 221 / 11,074 / 15.2).
+  Last 7d 80 clicks vs 86 prev, impressions 3,317 vs 5,063: the iberanime
+  spike is rolling off, so 7d CTR is back to 2.4% (prev 1.7%). GA4 7d 29
+  users / 34 sessions / 66 PV (prev 30 / 36 / 52); 22 organic, 5 AI
+  assistant. Subscribers 56 (next snapshot Thu). Attributed signups: 0. No
+  result due before 10-22.
+- Design: `/api/cron/forward-scan` + `cron-forward-scan.yml` (Mon + Fri
+  07:00 UTC). It's a new workflow outside the Thursday cascade (not in the
+  watchdog, ledger or send path). The owner asked for it explicitly in #20.
+  The route refuses to run Wed 18:00 → Thu 23:59 UTC in case GitHub fires
+  late. Window: day after the next edition's week → +70 days (so it never
+  researches the week the Thursday pipeline covers). Steps: 2 grounded
+  Gemini Flash discovery calls → fuzzy dedupe against data/events (name
+  tokens + overlapping dates or same venue) → fetch the official URL
+  ourselves (social/aggregator hosts blocked). Gemini reads only that page.
+  Accept only if the name, date and venue quotes literally occur in the
+  fetched text, the date quote carries the day of the month, the date is
+  inside the window and the venue is in the Porto area. Price and
+  descriptions come from the page. Then PT translation + image; anything not
+  fully enriched is dropped, so the Thursday enrichment crons (which pick
+  the latest-dated un-enriched events first) aren't crowded out. Max 12
+  verified / 5 committed per run, one atomic commit, `data/events` only →
+  published by deploy-flush. `sourceEdition: "forward-scan"` (archive,
+  Instagram and pick history ignore it); the weekend page's "listings
+  pending" notice ignores forward events. Dry run: `?dryRun=1` (no PT, no
+  image, no commit). (c84621c)
+- Verified: tsc; build 2,113 pages; route built as dynamic; window, freeze
+  guard and dedupe tested locally against real dates/events (iberanime
+  variants → duplicate). Weekend pending notice still on EN + PT. Live:
+  /api/version = c84621c; health ok (9/9).
+- First runs (production):
+  - Dry run: 30 discovered, 2 duplicates, 12 checked, 1 verified.
+    Fingertips, Super Bock Arena, 6 Nov 21:30, €20–60. I checked this
+    against the venue page myself and it's correct.
+  - Real run: 15 discovered, 1 duplicate, 2 verified, 1 committed: "Tempo de
+    Natal", Casa da Música, 20 Dec.
+  - **That record was thin.** The page is mostly rendered by JavaScript, so
+    the reader wrote filler about the page itself ("The page is about an
+    event named…"). I removed it before the 21:00 flush, so it was never
+    live. The safety gate worked as designed; quality and yield need work.
+  - Yield: 21 of 22 rejections were "page not fetchable". Likely guessed
+    URL paths or bot blocks; the HTTP status isn't logged yet.
+- Gemini usage: dry run 3 calls (3.4k in / 26.3k out tokens); real run 8
+  calls (10.0k in / 17.6k out) + 1 image generation + 1 translation. Small.
+- Next (2026-10-21 run, before the freeze and before Fri's 07:00 cron):
+  1. Reject meta-language and thin copy (descriptions mentioning "the
+     page", fewer than ~60 words of event facts).
+  2. Use the grounding-metadata source URLs (follow the redirect) instead
+     of model-written URLs, and log the HTTP status.
+  3. Try the page's JSON-LD Event first.
+- Expect: 3–10 forward events/week once yield is fixed; impressions for
+  upcoming-event queries before the event week; the weekend page filled
+  Mon–Wed.
+- Measure on: 2026-11-03 (events published, Gemini usage); search effect
+  2026-11-17 (impressions/clicks on forward-scan event pages).
+- Result:
+
 ## 2026-10-19 — "Today" + "This weekend" pages (owner priority, backlog #19)
 - Metrics (`metrics/2026-10-19.json`): 328 clicks / 14,599 impr / pos 9.44
   over 28d (yesterday 339 / 14,711 / 9.35; prev 28d 215 / 10,716 / 15.8).
