@@ -9,10 +9,13 @@
  *      window after the next edition's week, each with an official URL.
  *   2. Dedupe — against every event already in the repo (fuzzy name + date
  *      or venue), so long runs and Thursday-extracted events aren't repeated.
- *   3. Verify — fetch the URL ourselves and let Gemini read ONLY that page.
- *      Accepted only if the page states name, date and venue: the quoted
- *      strings must literally occur in the fetched text, and the date quote
- *      must carry the day of the month. Social media / aggregators rejected.
+ *   3. Verify — fetch the page ourselves (the search's own grounding sources
+ *      first, then the model-written URL) and let Gemini read ONLY that page,
+ *      with its JSON-LD Event data up front. Accepted only if the page states
+ *      name, date and venue: the quoted strings must literally occur in the
+ *      fetched text, the date quote must carry the day of the month and agree
+ *      with the JSON-LD. Social media / aggregators rejected. Copy that talks
+ *      about the page or runs under 60 words is rejected as thin.
  *      Every fact on the record (price, description) comes from that page.
  *   4. Enrich fully before committing — long description (from the page),
  *      PT translation, image. An event that can't be fully enriched is
@@ -98,7 +101,7 @@ export function inFreezeWindow(now: Date = new Date()): boolean {
 async function gemini(
   usage: ScanUsage,
   prompt: string,
-  opts: { search?: boolean; json?: boolean; timeoutMs: number }
+  opts: { search?: boolean; json?: boolean; timeoutMs: number; sources?: string[] }
 ): Promise<string> {
   usage.geminiCalls++;
   const res = await fetch(
@@ -121,6 +124,10 @@ async function gemini(
   const data = await res.json();
   usage.promptTokens += data?.usageMetadata?.promptTokenCount ?? 0;
   usage.outputTokens += (data?.usageMetadata?.candidatesTokenCount ?? 0) + (data?.usageMetadata?.thoughtsTokenCount ?? 0);
+  // Pages the search actually returned (redirect URIs; see resolveSources).
+  for (const ch of data?.candidates?.[0]?.groundingMetadata?.groundingChunks ?? []) {
+    if (typeof ch?.web?.uri === 'string') opts.sources?.push(ch.web.uri);
+  }
   return (data?.candidates?.[0]?.content?.parts ?? [])
     .map((p: { text?: string }) => p.text ?? '')
     .join('');
@@ -149,12 +156,57 @@ interface Candidate {
   endDate?: string;
   url: string;
   category?: string;
+  /** Pages to try, best first: grounding sources matching this event, then the model's URL. */
+  urls: string[];
 }
 
 const DISCOVERY_FOCUS = [
   'concerts and music (Casa da Música, Coliseu Porto, Super Bock Arena, Hard Club, Teatro Sá da Bandeira, Casa das Artes and others), DJ / club nights with announced line-ups, and festivals',
   'exhibition openings (Serralves, Centro Português de Fotografia, Galeria Municipal, Casa Comum and galleries), theatre and dance (Teatro Nacional São João, Teatro Rivoli, Teatro Campo Alegre), family events, food and wine events, Christmas markets, sports events and races',
 ];
+
+const isFetchable = (url: string) => isRealEventUrl(url) && !BLOCKED_HOSTS.test(new URL(url).hostname);
+const bareHost = (url: string) => new URL(url).hostname.toLowerCase().replace(/^www\./, '');
+
+/**
+ * Grounding chunks are vertexaisearch redirect URIs; read the Location header
+ * to get the real page. Model-written URLs are often guessed paths (21 of 22
+ * rejections on 2026-10-20 were unfetchable), the sources really exist.
+ */
+export async function resolveSources(uris: string[]): Promise<string[]> {
+  const resolved = await Promise.all(Array.from(new Set(uris)).map(async (uri) => {
+    try {
+      const res = await fetch(uri, { redirect: 'manual', signal: AbortSignal.timeout(10_000) });
+      const loc = res.headers.get('location');
+      return loc ? new URL(loc, uri).toString() : null;
+    } catch {
+      return null;
+    }
+  }));
+  return Array.from(new Set(resolved.filter((u): u is string => !!u && isFetchable(u))));
+}
+
+/** Sources that look like this event's page (shares a name token in the path), same host first. */
+export function urlsFor(c: { name: string; url: string }, sources: string[]): string[] {
+  const tokens = Array.from(nameTokens(c.name)).filter((t) => t.length > 2);
+  const modelOk = isRealEventUrl(c.url) && isFetchable(c.url);
+  const scored = sources
+    .map((s) => {
+      let path = new URL(s).pathname;
+      try { path = decodeURIComponent(path); } catch { /* keep encoded */ }
+      path = venueToSlug(path.replace(/[/,]+/g, ' ')); // venueToSlug cuts at the first "/" or ","
+      const hits = tokens.filter((t) => path.includes(t)).length;
+      const sameHost = modelOk && bareHost(s) === bareHost(c.url);
+      return { s, score: hits === 0 ? 0 : hits + (sameHost ? 10 : 0) };
+    })
+    .filter((x) => x.score > 0)
+    .sort((a, b) => b.score - a.score)
+    .map((x) => x.s);
+  const urls = modelOk ? [...scored.filter((s) => s !== c.url), c.url] : scored;
+  // The model's exact URL, when the search returned it too, is the best bet.
+  if (modelOk && sources.includes(c.url)) urls.unshift(...urls.splice(urls.indexOf(c.url), 1));
+  return urls.slice(0, 3);
+}
 
 async function discover(usage: ScanUsage, window: { from: string; to: string }): Promise<Candidate[]> {
   const lists = await Promise.all(DISCOVERY_FOCUS.map(async (focus) => {
@@ -167,17 +219,21 @@ Reply with ONLY a JSON array, no markdown:
 [{"name":"…","venue":"…","date":"YYYY-MM-DD","endDate":"YYYY-MM-DD or null","url":"https://…","category":"music|art|food|family|nightlife|sports|other"}]
 If you find none, reply [].`;
     try {
-      return parseJson<Candidate[]>(await gemini(usage, prompt, { search: true, timeoutMs: 90_000 }), '[') ?? [];
+      const raw: string[] = [];
+      const list = parseJson<Candidate[]>(await gemini(usage, prompt, { search: true, timeoutMs: 90_000, sources: raw }), '[') ?? [];
+      const sources = await resolveSources(raw);
+      return list
+        .filter((c) => c && typeof c.name === 'string' && typeof c.venue === 'string')
+        .map((c) => ({ ...c, urls: urlsFor(c, sources) }));
     } catch (err) {
       console.warn('[forward-scan] discovery failed:', err instanceof Error ? err.message : err);
       return [];
     }
   }));
   return lists.flat().filter((c) =>
-    c && typeof c.name === 'string' && typeof c.venue === 'string' &&
     /^\d{4}-\d{2}-\d{2}$/.test(c.date ?? '') &&
     c.date >= window.from && c.date <= window.to &&
-    isRealEventUrl(c.url) && !BLOCKED_HOSTS.test(new URL(c.url).hostname)
+    c.urls.length > 0
   );
 }
 
@@ -215,26 +271,74 @@ export function isDuplicate(c: { name: string; venue: string; date: string; endD
 // 3. Verify against the fetched page
 // ---------------------------------------------------------------------------
 
-async function fetchPageText(url: string): Promise<{ text: string; finalUrl: string } | null> {
+interface LdEvent {
+  name?: string;
+  startDate?: string;
+  endDate?: string;
+  venue?: string;
+  city?: string;
+  price?: string;
+  description?: string;
+}
+
+/** schema.org Event objects (MusicEvent, TheaterEvent, …) from the page's JSON-LD. */
+function ldEvents(html: string): LdEvent[] {
+  const out: LdEvent[] = [];
+  const str = (v: unknown) => (typeof v === 'string' ? decodeEntities(v).trim() : typeof v === 'number' ? String(v) : undefined);
+  const walk = (node: unknown): void => {
+    if (Array.isArray(node)) { node.forEach(walk); return; }
+    if (!node || typeof node !== 'object') return;
+    const o = node as Record<string, unknown>;
+    const types = ([] as unknown[]).concat(o['@type'] ?? []).map(String);
+    if (types.some((t) => /Event$/.test(t)) && str(o.startDate)) {
+      const loc = ([] as unknown[]).concat(o.location ?? [])[0] as Record<string, unknown> | undefined;
+      const addr = loc?.address as Record<string, unknown> | string | undefined;
+      const offer = ([] as unknown[]).concat(o.offers ?? [])[0] as Record<string, unknown> | undefined;
+      out.push({
+        name: str(o.name),
+        startDate: str(o.startDate),
+        endDate: str(o.endDate),
+        venue: str(loc?.name),
+        city: typeof addr === 'string' ? str(addr) : str(addr?.addressLocality),
+        price: str(offer?.price ?? offer?.lowPrice),
+        description: str(o.description)?.replace(/<[^>]+>/g, ' ').slice(0, 2_000),
+      });
+    }
+    if (o['@graph']) walk(o['@graph']);
+  };
+  const re = /<script[^>]+application\/ld\+json[^>]*>([\s\S]*?)<\/script>/gi;
+  for (let m = re.exec(html); m; m = re.exec(html)) {
+    try { walk(JSON.parse(m[1])); } catch { /* malformed JSON-LD: ignore */ }
+  }
+  return out;
+}
+
+type Page = { text: string; finalUrl: string; ld: LdEvent[] };
+
+export async function fetchPageText(url: string): Promise<Page | { reason: string }> {
   try {
     const res = await fetch(url, {
       headers: { 'User-Agent': UA, Accept: 'text/html,application/xhtml+xml', 'Accept-Language': 'pt-PT,pt;q=0.9,en;q=0.8' },
       redirect: 'follow',
       signal: AbortSignal.timeout(15_000),
     });
-    if (!res.ok) return null;
-    if (!(res.headers.get('content-type') ?? '').includes('html')) return null;
+    if (!res.ok) return { reason: `HTTP ${res.status}` };
+    const type = res.headers.get('content-type') ?? '';
+    if (!type.includes('html')) return { reason: `not HTML (${type.split(';')[0] || 'no type'})` };
     const html = await res.text();
-    // JSON-LD often carries the date on JS-rendered ticket pages; keep it.
-    const ld = (html.match(/<script[^>]+application\/ld\+json[^>]*>[\s\S]*?<\/script>/gi) ?? [])
-      .map((s) => s.replace(/<[^>]+>/g, ' '));
+    const ld = ldEvents(html);
+    // JSON-LD often carries the date on JS-rendered ticket pages: put it first,
+    // as plain fields the reader can quote.
+    const ldText = ld.map((e) =>
+      `Event data: ${[['name', e.name], ['startDate', e.startDate], ['endDate', e.endDate], ['location', e.venue], ['city', e.city], ['price', e.price], ['description', e.description]]
+        .filter(([, v]) => v).map(([k, v]) => `${k}: ${v}`).join('; ')}.`);
     const body = html
       .replace(/<script[\s\S]*?<\/script>|<style[\s\S]*?<\/style>|<noscript[\s\S]*?<\/noscript>/gi, ' ')
       .replace(/<[^>]+>/g, ' ');
-    const text = decodeEntities([...ld, body].join(' ')).replace(/\s+/g, ' ').trim().slice(0, 40_000);
-    return text.length > 200 ? { text, finalUrl: res.url || url } : null;
-  } catch {
-    return null;
+    const text = [...ldText, decodeEntities(body)].join(' ').replace(/\s+/g, ' ').trim().slice(0, 40_000);
+    return text.length > 200 ? { text, finalUrl: res.url || url, ld } : { reason: `only ${text.length} chars of text` };
+  } catch (err) {
+    return { reason: err instanceof Error && err.name === 'TimeoutError' ? 'timeout' : `fetch error (${err instanceof Error ? err.message : err})` };
   }
 }
 
@@ -265,6 +369,9 @@ interface PageFacts {
   longDescription: string;
 }
 
+const MIN_LONG_WORDS = 60;
+export const META_COPY = /\b(?:the|this) (?:web ?)?(?:page|site|website|webpage|listing|text)\b|\bweb ?page\b|\b(?:is|are|was|were) not (?:mentioned|stated|specified|provided|given|listed)\b|\bno (?:further |other |more )?(?:details|information) (?:is |are )?(?:given|provided|available|stated)\b/i;
+
 const norm = (s: string) => s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/\s+/g, ' ').trim();
 
 async function verify(
@@ -272,9 +379,16 @@ async function verify(
   c: Candidate,
   window: { from: string; to: string }
 ): Promise<{ facts: PageFacts; url: string } | { reason: string }> {
-  const page = await fetchPageText(c.url);
-  if (!page) return { reason: 'page not fetchable' };
-  if (BLOCKED_HOSTS.test(new URL(page.finalUrl).hostname)) return { reason: 'not an official page' };
+  let page: Page | null = null;
+  const failures: string[] = [];
+  for (const url of c.urls) {
+    const r = await fetchPageText(url);
+    if ('reason' in r) { failures.push(`${url} → ${r.reason}`); continue; }
+    if (BLOCKED_HOSTS.test(new URL(r.finalUrl).hostname)) { failures.push(`${url} → redirected to ${r.finalUrl}`); continue; }
+    page = r;
+    break;
+  }
+  if (!page) return { reason: `page not fetchable: ${failures.join(' | ')}` };
 
   const prompt = `Below is the text of one web page (${page.finalUrl}). We think it is the official page for "${c.name}" at ${c.venue}, Porto, on ${c.date}. Do NOT trust that — use ONLY what the page text says. No outside knowledge.
 
@@ -297,6 +411,7 @@ Reply with ONLY this JSON object:
   "description": 1–2 factual English sentences on what the event is, only from the page. No adjectives like "unmissable", "vibrant", "stunning".,
   "longDescription": 2–3 short English paragraphs separated by a blank line, 120–220 words, neutral and factual, ONLY facts stated on the page (who performs or exhibits, the format, the date, venue, ticket details). If the page says little, write less. No invented history, transport tips or opinions.
 }
+Write about the event itself, never about the page, the website or what it does or does not mention.
 If the page does not state the event's date and venue, set "isEventPage": false.
 
 PAGE TEXT:
@@ -324,6 +439,19 @@ ${page.text}`;
   if (!PORTO_AREA.test(`${facts.city} ${facts.venue}`)) return { reason: `not in the Porto area (${facts.city})` };
   if (!CATEGORIES.includes(facts.category)) facts.category = 'other';
   if (!facts.description?.trim() || !facts.longDescription?.trim()) return { reason: 'no description' };
+
+  // Structured data is the page's own statement of the date: it must agree.
+  const ld = page.ld.filter((e) => e.name && similarNames(e.name, facts!.name));
+  if (ld.length === 1 && ld[0].startDate && day(ld[0].startDate) !== facts.date) {
+    return { reason: `date ${facts.date} disagrees with JSON-LD ${day(ld[0].startDate)}` };
+  }
+
+  // JS-rendered pages leave the reader little to go on; it then describes the
+  // page instead of the event ("The page is about an event named…", 2026-10-20).
+  const copy = `${facts.description} ${facts.longDescription}`;
+  if (META_COPY.test(copy)) return { reason: `meta copy: "${copy.match(META_COPY)![0]}"` };
+  const words = facts.longDescription.split(/\s+/).filter(Boolean).length;
+  if (words < MIN_LONG_WORDS) return { reason: `thin copy (${words} words)` };
   return { facts, url: page.finalUrl };
 }
 
