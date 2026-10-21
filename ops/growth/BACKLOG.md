@@ -16,7 +16,7 @@ Ranked by expected impact ÷ effort. Status: `todo`, `doing`, `done`,
 | 4 | **Verified refresh of top guides** — vintage/shopping (2 guides = top 2 pages), Port wine cellars, viewpoints. Re-check venues, hours, prices against sources, update content and only then say "2026". | clicks on guides | todo |
 | 5 | **Publish big upcoming events early** (2–6 weeks ahead) — searches peak before the event; pages currently appear only the week it happens. Needs a research step outside the Thursday pipeline. Design first. | event clicks | merged into #20 |
 | 6 | **"Forward to a friend" / referral block** in the newsletter email. Touches the send path. | subscribers | needs-approval |
-| 7 | **GA4 `sign_up` as a key event**: GTM trigger on the `sign_up` dataLayer event + GA4 event tag, then publish the container. Server-side attribution already works without it. | measurement | owner |
+| 7 | **GA4 `sign_up` as a key event**: GTM trigger + GA4 event tag + 3 DLVs created and the container PUBLISHED by owner 2026-10-21. Remaining: once `sign_up` appears in GA4 (growth-metrics shows it > 0, or Admin → Events → Recent events), ping the owner in #oporto-weekly to click the ☆ on `sign_up` (new GA4 UI has no 'New key event' button). | measurement | owner (star pending first event) |
 | 8 | **Welcome email refresh** — still the old dark theme; add "reply to say hi" (deliverability) and the latest edition link. | retention | todo |
 | 9 | **"Crawled – currently not indexed"** past PT events: decide whether to consolidate/noindex thin past pages. Measure first; risky. | index quality | todo |
 | 10 | **Weekly low-CTR query pass** from `growth-metrics.ts` (`lowCtr28`): fix the snippet of the page ranking for each. | CTR | todo (recurring) |
