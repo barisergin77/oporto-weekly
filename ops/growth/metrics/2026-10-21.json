@@ -1,0 +1,223 @@
+{
+  "takenAt": "2026-10-21T09:00:59.030Z",
+  "search": {
+    "last7": {
+      "clicks": 80,
+      "impressions": 2917,
+      "ctr": 0.027425437092903668,
+      "position": 11.22454576619815
+    },
+    "prev7": {
+      "clicks": 85,
+      "impressions": 5478,
+      "ctr": 0.015516611902154072,
+      "position": 9.080321285140561
+    },
+    "last28": {
+      "clicks": 318,
+      "impressions": 14304,
+      "ctr": 0.022231543624161073,
+      "position": 9.655341163310961
+    },
+    "prev28": {
+      "clicks": 227,
+      "impressions": 11358,
+      "ctr": 0.019985913012854375,
+      "position": 14.731907025884839
+    },
+    "topPages28": [
+      {
+        "page": "/blog/porto-shopping-guide-your-map-to-vintage-artisan-finds",
+        "clicks": 43,
+        "impressions": 1101,
+        "position": 8.4
+      },
+      {
+        "page": "/blog/shop-like-a-local-in-porto-your-2026-vintage-market-guide",
+        "clicks": 22,
+        "impressions": 874,
+        "position": 9
+      },
+      {
+        "page": "/event/iberanime-porto-2026-exponor-oct-10-2026",
+        "clicks": 12,
+        "impressions": 2552,
+        "position": 7.8
+      },
+      {
+        "page": "/pt/arquivo/september-24-30-2026-pt",
+        "clicks": 12,
+        "impressions": 114,
+        "position": 3.9
+      },
+      {
+        "page": "/event/fimp26-international-puppet-festival-various-venues-oct-9-2026",
+        "clicks": 11,
+        "impressions": 108,
+        "position": 5.6
+      },
+      {
+        "page": "/pt/venue/largo-do-amor-de-perdicao",
+        "clicks": 10,
+        "impressions": 63,
+        "position": 4.4
+      },
+      {
+        "page": "/event/magic-show-escola-de-magicos-teatro-sa-da-bandeira-oct-4-2026",
+        "clicks": 9,
+        "impressions": 31,
+        "position": 4.5
+      },
+      {
+        "page": "/blog/porto-nightlife-your-ultimate-after-dark-guide-for-2025",
+        "clicks": 8,
+        "impressions": 341,
+        "position": 11.6
+      },
+      {
+        "page": "/event/serralves-autumn-festival-serralves-park-sep-26-2026",
+        "clicks": 8,
+        "impressions": 132,
+        "position": 6.1
+      },
+      {
+        "page": "/archive/september-24-30-2026",
+        "clicks": 7,
+        "impressions": 101,
+        "position": 4.6
+      },
+      {
+        "page": "/blog/porto-on-a-budget-free-sights-cheap-eats-guide",
+        "clicks": 7,
+        "impressions": 289,
+        "position": 10.2
+      },
+      {
+        "page": "/event/miguel-bombarda-simultaneous-openings-bombarda-art-district-sep-19-2026",
+        "clicks": 6,
+        "impressions": 38,
+        "position": 3.6
+      },
+      {
+        "page": "/event/throwback-porto-party-museu-do-carro-electrico-oct-17-2026",
+        "clicks": 6,
+        "impressions": 57,
+        "position": 4.6
+      },
+      {
+        "page": "/",
+        "clicks": 5,
+        "impressions": 171,
+        "position": 6.8
+      },
+      {
+        "page": "/archive/october-8-14-2026",
+        "clicks": 5,
+        "impressions": 49,
+        "position": 5.7
+      }
+    ],
+    "lowCtr28": [
+      {
+        "query": "iberanime porto 2026",
+        "impressions": 2099,
+        "ctr": 0.2,
+        "position": 7.8
+      },
+      {
+        "query": "mike stern casa da musica",
+        "impressions": 65,
+        "ctr": 0,
+        "position": 6.3
+      },
+      {
+        "query": "iberanime 2026 porto",
+        "impressions": 63,
+        "ctr": 0,
+        "position": 8.3
+      },
+      {
+        "query": "caravana tnsj",
+        "impressions": 56,
+        "ctr": 0,
+        "position": 8.6
+      },
+      {
+        "query": "cheap eats porto",
+        "impressions": 53,
+        "ctr": 1.9,
+        "position": 11.8
+      },
+      {
+        "query": "best neighborhoods in porto for expats",
+        "impressions": 45,
+        "ctr": 0,
+        "position": 61.3
+      },
+      {
+        "query": "porto nightlife",
+        "impressions": 42,
+        "ctr": 0,
+        "position": 22.5
+      }
+    ]
+  },
+  "visitors": {
+    "last7": {
+      "users": 30,
+      "sessions": 35,
+      "pageViews": 68
+    },
+    "prev7": {
+      "users": 30,
+      "sessions": 36,
+      "pageViews": 49
+    },
+    "channels7": [
+      {
+        "channel": "Organic Search",
+        "sessions": 24
+      },
+      {
+        "channel": "Direct",
+        "sessions": 6
+      },
+      {
+        "channel": "AI Assistant",
+        "sessions": 5
+      }
+    ],
+    "signUpEvents7": 0
+  },
+  "subscribers": [
+    {
+      "week": "2026-09-24",
+      "active": 49,
+      "en": 29,
+      "pt": 20
+    },
+    {
+      "week": "2026-10-01",
+      "active": 51,
+      "en": 31,
+      "pt": 20
+    },
+    {
+      "week": "2026-10-08",
+      "active": 54,
+      "en": 34,
+      "pt": 20
+    },
+    {
+      "week": "2026-10-15",
+      "active": 56,
+      "en": 34,
+      "pt": 22
+    }
+  ],
+  "signups28": {
+    "total": 0,
+    "byPageType": {},
+    "recent": []
+  }
+}

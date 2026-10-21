@@ -7,6 +7,58 @@ impressions / pos 9.3 over 28 days (prev 28: 191 / 10,293 / 16.9);
 subscribers 56 active (34 EN, 22 PT), ~1.4 net/week; signups by page: none
 recorded yet (tracking started today).
 
+## 2026-10-21 — Forward scan: quality gate, source URLs, JSON-LD (backlog #21)
+- Metrics (`metrics/2026-10-21.json`): 318 clicks / 14,304 impr / pos 9.66
+  over 28d (yesterday 324 / 14,449 / 9.53; prev 28d 227 / 11,358 / 14.7).
+  Last 7d 80 clicks vs 85 prev; impressions 2,917 vs 5,478 as the iberanime
+  spike rolls off, so 7d CTR is up to 2.7% (prev 1.6%). GA4 7d 30 users / 35
+  sessions / 68 PV (prev 30 / 36 / 49); 24 organic, 5 AI assistant.
+  Subscribers 56 (next snapshot Thu). Attributed signups: 0. No result due
+  before 10-22.
+- Why: had to ship before Fri 07:00 cron. Yesterday's only committed record
+  was filler ("The page is about an event named…"), and 21 of 22 rejections
+  were "page not fetchable" with no cause logged.
+- Change (`lib/forward-scan.ts`, 6bef1dc):
+  - Thin/meta copy is rejected: anything talking about "the page / website /
+    listing", "is not mentioned/provided", or a long description under 60
+    words. The reader prompt also says to write about the event, never the
+    page.
+  - Discovery collects the grounding-search source URLs (vertexaisearch
+    redirects resolved via Location). Per candidate it tries up to 3 URLs:
+    sources whose path shares a name token (same host first), then the
+    model's URL.
+  - Fetch failures now give a cause per URL (HTTP status, not HTML, too
+    little text, timeout, network error).
+  - JSON-LD Event objects (`@graph` included) are parsed and put first as
+    plain quotable fields. If exactly one LD event matches the name, its
+    startDate must equal the reader's date.
+- Verified: tsc; build 2,115 pages, route dynamic. Offline: the filter
+  catches the 10-20 "Tempo de Natal" record and passes normal copy; URL
+  matching tested; JSON-LD tested on single, `@graph` and malformed pages.
+  Live: /api/version = 6bef1dc; health ok (9/9).
+- Production dry run after deploy: 30 discovered, 3 duplicates, 11 checked,
+  1 verified (Fingertips again, now from superbockarena.pt/evento/fingertips/,
+  description is factual). 7 Gemini calls, 28.6k in / 19.8k out tokens.
+  **Yield isn't fixed yet.** The new logging shows why:
+  - 7 of 11 failed at the network level ("fetch failed"). From here:
+    hardclub.com resets the connection (ECONNRESET, likely a bot block);
+    `www.teatrosabandeira.com` doesn't exist (ENOTFOUND, a made-up domain);
+    ticketline.pt returns 200 from EC2 but fails from Vercel (probably blocks
+    datacenter IPs).
+  - Several model URLs are listing or search pages (`/agenda/`,
+    `/pesquisa?q=`).
+  - No rejected candidate had a matching grounding source. The run doesn't
+    log the source count, so I can't tell yet whether sources aren't being
+    returned, aren't resolving, or just don't match.
+  - 4 rejections were "page does not confirm the event".
+  The quality gate (the must-have before Friday) is live. Yield work moved
+  to backlog #22 for the next run (one deploy per run).
+- Expect: no more thin or meta records. Friday's real run commits ≤1–2
+  events, all factual.
+- Measure on: 2026-10-23 (Fri cron output: committed records read clean);
+  yield with #22 by 2026-11-03.
+- Result:
+
 ## 2026-10-20 — Forward event scan, phase 1 (owner priority, backlog #20)
 - Metrics (`metrics/2026-10-20.json`): 324 clicks / 14,449 impr / pos 9.53
   over 28d (yesterday 328 / 14,599 / 9.44; prev 28d 221 / 11,074 / 15.2).
