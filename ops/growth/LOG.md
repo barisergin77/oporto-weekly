@@ -7,6 +7,30 @@ impressions / pos 9.3 over 28 days (prev 28: 191 / 10,293 / 16.9);
 subscribers 56 active (34 EN, 22 PT), ~1.4 net/week; signups by page: none
 recorded yet (tracking started today).
 
+## 2026-10-22 — Freeze day (Thu): observe only, no change shipped
+- Run at 09:00 UTC, inside the freeze, so no code, deploy or cron changes.
+- Metrics (`metrics/2026-10-22.json`): 322 clicks / 14,369 impr / pos 9.75
+  over 28d (yesterday 318 / 14,304 / 9.66; prev 28d 229 / 11,450 / 14.4).
+  Last 7d 83 clicks vs 79 prev; impressions 2,958 vs 5,401 (iberanime spike
+  gone), so 7d CTR is 2.8% vs 1.5%. GA4 7d 34 users / 39 sessions / 71 PV
+  (prev 30 / 37 / 56); 21 organic search, **9 organic social (yesterday's
+  snapshot had none)**, 5 AI assistant, 4 direct. Subscribers 56 (snapshot
+  comes with today's send).
+- **First attributed signup:** EN, `/porto-events/this-weekend`, 2026-10-22
+  00:15 UTC (#19's page + #6's form). Together with the 0 → 9 social
+  sessions, this fits the Porto Expats "this weekend" post drafted for Wed
+  10-21 (`drafts/porto-expats-post-2026-10-21.txt`, now committed). I can't
+  confirm the owner posted it; one signup is not a trend.
+- Results due: Reddit retirement (10-18) is measured on today's Thursday
+  run. At 09:00 the ledger has no `october-22-28-2026` entry yet (the cascade
+  normally runs ~13:00–15:00 UTC), so I'll check it on the next run. Nothing
+  else is due before 10-23.
+- Next safe run: Fri 10-23 after the 07:00 forward-scan cron. First read
+  that cron's committed records (10-21 measure), then #6 (referral block,
+  approved; test send to the owner first) or #22 (scan yield). One deploy.
+- Needs owner: nothing to decide. Useful to know: was the Porto Expats post
+  published on Wed 10-21? (Helps attribute the social sessions.)
+
 ## 2026-10-21 — Forward scan: quality gate, source URLs, JSON-LD (backlog #21)
 - Metrics (`metrics/2026-10-21.json`): 318 clicks / 14,304 impr / pos 9.66
   over 28d (yesterday 324 / 14,449 / 9.53; prev 28d 227 / 11,358 / 14.7).
