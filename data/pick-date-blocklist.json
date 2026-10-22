@@ -12,5 +12,17 @@
     "actualEndDate": "2026-09-06",
     "source": "https://feiradolivro.porto.pt/",
     "detectedAt": "2026-10-08T15:09:43.836Z"
+  },
+  {
+    "name": "Schubert and Strauss",
+    "actualDate": "2026-10-30",
+    "source": "https://casadamusica.com/en/event/schubert-and-strauss/?selected_session=47245",
+    "detectedAt": "2026-10-22T13:01:59.899Z"
+  },
+  {
+    "name": "Kialtera Live",
+    "actualDate": "2026-10-29",
+    "source": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFmAYPl1jp9jMvpUk7_VoRLwBrSqH049idmUzD1vqeVleQG3F4-Gibc8EF2y8VF6TPjLQlZwA-j5vS56WR5Wximy6ma6_haULjPylT-tEXKbRXLJiXVIG903-b4f-IJSEFEMd5GRg==",
+    "detectedAt": "2026-10-22T13:01:59.899Z"
   }
 ]
