@@ -7,5 +7,11 @@
   "category": "music",
   "description": "A quick note for fans: the celebrated Brazilian singer-songwriter's \"Voice and Guitar\" concert for next Tuesday at Sala Suggia is completely sold out.",
   "sourceEdition": "october-22-28-2026",
-  "addedAt": "2026-10-22T13:10:39.280Z"
+  "addedAt": "2026-10-22T13:10:39.280Z",
+  "image": {
+    "url": "https://i.imgur.com/zFQlLbk.jpeg",
+    "credit": "Photo: Casa da Música",
+    "sourceUrl": "https://casadamusica.com/event/adriana-calcanhotto/?selected_session=51075"
+  },
+  "externalLink": "https://casadamusica.com/event/adriana-calcanhotto/?selected_session=51075"
 }
