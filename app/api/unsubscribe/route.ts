@@ -56,7 +56,12 @@ export async function GET(req: NextRequest) {
     <form method="POST" action="${action}" style="margin-top:24px;">
       <button type="submit" style="padding:12px 28px;background:#c9a96e;color:#1a1a2e;border:none;border-radius:6px;font-weight:700;font-size:14px;font-family:Georgia,serif;cursor:pointer;">Yes, unsubscribe me</button>
     </form>
-    <a href="https://oportoweekly.com" style="display:inline-block;margin-top:16px;color:#666899;font-size:13px;">Never mind — keep my subscription</a>`)
+    <a href="https://oportoweekly.com" style="display:inline-block;margin-top:16px;color:#666899;font-size:13px;">Never mind — keep my subscription</a>
+    <div style="margin-top:32px;padding-top:20px;border-top:1px solid #33335a;">
+      <p style="font-size:14px;line-height:1.6;color:#9999bb;margin:0 0 12px;">Not your email address? If a friend forwarded this newsletter to you, you're not subscribed, so there's nothing to do here.</p>
+      <p style="font-size:13px;color:#666899;margin:0 0 14px;">Recebeu isto de um amigo? Não está subscrito, não precisa de fazer nada.</p>
+      <a href="https://oportoweekly.com/?utm_source=newsletter&utm_medium=email&utm_campaign=forwarded" style="display:inline-block;padding:10px 22px;border:1px solid #c9a96e;color:#c9a96e;border-radius:6px;text-decoration:none;font-size:14px;">Get your own copy, free</a>
+    </div>`)
   );
 }
 

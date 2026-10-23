@@ -7,6 +7,22 @@ impressions / pos 9.3 over 28 days (prev 28: 191 / 10,293 / 16.9);
 subscribers 56 active (34 EN, 22 PT), ~1.4 net/week; signups by page: none
 recorded yet (tracking started today).
 
+## 2026-10-23 — Forward-to-a-friend block (#6) + forward-scan yield (#22)
+- Why: owner-approved referral loop (#6); forward scan verified 0 of 12 on today's
+  prod dry run (7 candidates were /agenda listing pages).
+- Change: `lib/forward-block.ts` adds a "Share the weekend" block (mailto share +
+  utm_campaign=forward signup link, EN+PT) above the footer at send time only;
+  `scripts/send-test-edition.ts` sends a [TEST] copy to one address. Forward scan:
+  source stats, network cause codes, listing/search URLs dropped, DNS check, one
+  rescue search for URL-less candidates. Done in an interactive session; daily
+  loop skipped today (~/oporto-growth/skip-2026-10-23).
+- Verified: tsc + next build OK; EN+PT [TEST] emails to owner; listing filter
+  12/12 on samples. GA4 sign_up now a key event (#7, owner).
+- Expect: first forward-attributed signups after Thu 10-29 send; forward scan
+  verified > 0 per run.
+- Measure on: 2026-11-12 (forward signups), next Mon/Fri cron (scan yield)
+- Result:
+
 ## 2026-10-22 — Freeze day (Thu): observe only, no change shipped
 - Run at 09:00 UTC, inside the freeze, so no code, deploy or cron changes.
 - Metrics (`metrics/2026-10-22.json`): 322 clicks / 14,369 impr / pos 9.75

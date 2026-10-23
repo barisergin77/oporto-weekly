@@ -22,6 +22,10 @@ const COPY = {
       (edition ? `This week's edition: ${edition}\n` : '') +
       `Sign up: ${signup}`,
     home: `${SITE}/`,
+    banner: 'Forwarded by a friend?',
+    bannerCta: 'Get Oporto Weekly free every Thursday →',
+    footerNote: 'You’re getting this because you subscribed to Oporto Weekly. Got it from a friend?',
+    footerCta: 'Subscribe free',
   },
   pt: {
     eyebrow: 'PARTILHE O FIM DE SEMANA',
@@ -35,6 +39,10 @@ const COPY = {
       (edition ? `Edição desta semana: ${edition}\n` : '') +
       `Inscreve-te aqui: ${signup}`,
     home: `${SITE}/pt`,
+    banner: 'Recebeu isto de um amigo?',
+    bannerCta: 'Receba a Oporto Weekly grátis todas as quintas →',
+    footerNote: 'Recebe este email porque subscreveu a Oporto Weekly. Recebeu-o de um amigo?',
+    footerCta: 'Subscreva grátis',
   },
 } as const;
 
@@ -56,13 +64,52 @@ export function forwardBlockHtml(lang: 'en' | 'pt', editionUrl?: string): string
 `;
 }
 
-/** Insert the block before the footer (or before </body>). */
+/** Slim "Forwarded by a friend?" banner for the very top of the email. */
+export function forwardBannerHtml(lang: 'en' | 'pt'): string {
+  const c = COPY[lang];
+  const signup = `${c.home}?${UTM.replace('campaign=forward', 'campaign=forwarded')}`;
+  return `<table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color:#efe8da;"><tr>
+  <td align="center" style="padding:10px 16px;font-family:'Inter',Arial,sans-serif;font-size:12px;color:#5a5a5a;">${c.banner} <a href="${signup}" style="color:#1a1a2e;border-bottom:1px solid #c9a96e;text-decoration:none;">${c.bannerCta}</a></td>
+</tr></table>
+`;
+}
+
+/** Footer line under Unsubscribe: tells forwarded readers they're not subscribed. */
+export function forwardFooterNoteHtml(lang: 'en' | 'pt'): string {
+  const c = COPY[lang];
+  const signup = `${c.home}?${UTM.replace('campaign=forward', 'campaign=forwarded')}`;
+  return `<p style="font-family:'Inter',Arial,sans-serif;font-size:11px;line-height:1.6;color:#8a8170;margin:6px 0 10px;">${c.footerNote} <a href="${signup}" style="color:#1a1a2e;border-bottom:1px solid #c9a96e;text-decoration:none;">${c.footerCta}</a></p>
+`;
+}
+
+/**
+ * Add the forward block (before the footer, or before </body>), the top banner
+ * (right after <body>) and the footer note (after the paragraph holding the
+ * Unsubscribe link). Idempotent via MARKER.
+ */
 export function withForwardBlock(html: string, lang: 'en' | 'pt', editionUrl?: string): string {
   if (html.includes(MARKER)) return html;
+  let out = html;
+
+  // Footer note: after the </p> that closes the paragraph with the unsubscribe link.
+  const unsub = out.search(/api\/unsubscribe/i);
+  if (unsub >= 0) {
+    const close = out.indexOf('</p>', unsub);
+    if (close >= 0) out = out.slice(0, close + 4) + '\n' + forwardFooterNoteHtml(lang) + out.slice(close + 4);
+  }
+
   const block = forwardBlockHtml(lang, editionUrl);
-  const footer = html.search(/<div[^>]*background:\s*#efe8da/i);
-  if (footer >= 0) return html.slice(0, footer) + block + html.slice(footer);
-  const body = html.search(/<\/body>/i);
-  if (body >= 0) return html.slice(0, body) + block + html.slice(body);
-  return html;
+  const footer = out.search(/<div[^>]*background:\s*#efe8da/i);
+  if (footer >= 0) out = out.slice(0, footer) + block + out.slice(footer);
+  else {
+    const body = out.search(/<\/body>/i);
+    if (body >= 0) out = out.slice(0, body) + block + out.slice(body);
+  }
+
+  const open = out.match(/<body[^>]*>/i);
+  if (open && open.index !== undefined) {
+    const at = open.index + open[0].length;
+    out = out.slice(0, at) + '\n' + forwardBannerHtml(lang) + out.slice(at);
+  }
+  return out;
 }
