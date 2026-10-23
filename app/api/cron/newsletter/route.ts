@@ -61,6 +61,11 @@ const SEARCH_QUERIES = [
   // Local press — catches traditional / festival / civic events
   'site:jn.pt OR site:publico.pt Porto agenda fim de semana',
   'site:timeout.pt Porto this week',
+  // Porto Expats' Friday "Porto Weekly Guide" (Mon–Sun) overlaps our Thu–Wed
+  // week; owner flagged it 2026-10-23 after it listed 7 Halloween-week events
+  // we had none of. Leads only — the edition prompt and pick-date check still
+  // need dates/venues from the research data, and we never copy their text.
+  'site:portoexpats.substack.com Porto Weekly Guide events',
   // University + traditional festivals (Queima das Fitas, São João, Festa de São Bartolomeu)
   'Queima das Fitas Porto 2026 schedule serenata',
   'site:federacaoacademicaporto.pt OR site:queimadasfitasporto.com Porto',

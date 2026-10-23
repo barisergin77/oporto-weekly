@@ -351,3 +351,6 @@ recorded yet (tracking started today).
   to event/blog pages.
 - Measure on: 2026-10-31 (two weekly snapshots)
 - Result:
+
+## 2026-10-23 (owner tip) Porto Expats as an edition source
+Owner flagged Porto Expats' "Porto Weekly Guide" (Substack, Fridays, Mon–Sun). Their 26 Oct–1 Nov issue listed 8 events (Batalha Halloween quiz + film, Bloom & MAZ at Real Companhia Velha, LOOK.Sharp 6th birthday, Casa da Música Halloween, Three Sixty at Póvoa Arena, Porto Expats Meetup at Eleven Lab Baixa); data/events had none of them (only Adriana Calcanhotto that week). Added `site:portoexpats.substack.com Porto Weekly Guide events` to the Thursday SEARCH_QUERIES. Their posts are indexed within hours, so Thursday's grounded search sees Friday's issue. Leads only: never copy their text. Check the Oct 29 edition for the Halloween weekend.
