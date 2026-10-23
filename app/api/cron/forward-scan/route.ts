@@ -80,6 +80,7 @@ export async function GET(req: NextRequest) {
       .filter((e) => !slugs.has(e.slug))
       .map((e) => ({ path: `data/events/${e.slug}.json`, content: JSON.stringify(e, null, 2) }));
 
+    console.log(`[cron/forward-scan] sources: ${JSON.stringify(result.sources)}`);
     for (const r of result.rejected) console.log(`[cron/forward-scan] ✗ ${r.name}: ${r.reason}`);
     for (const f of files) console.log(`[cron/forward-scan] ✓ ${f.path}`);
 
@@ -94,6 +95,7 @@ export async function GET(req: NextRequest) {
       ok: true,
       dryRun,
       window: result.window,
+      sources: result.sources,
       discovered: result.discovered,
       duplicates: result.duplicates,
       verified: result.verified,

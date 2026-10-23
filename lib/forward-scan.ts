@@ -37,6 +37,7 @@ import {
   FORWARD_SOURCE,
 } from './events';
 import { acquireEventImage, translateEventFields } from './events-pipeline';
+import { lookup } from 'node:dns/promises';
 
 const UA =
   'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 ' +
@@ -57,8 +58,25 @@ export interface ScanUsage {
   imageGenerations: number;
 }
 
+/** Where candidate URLs came from (#22a): is the grounding search returning, resolving and matching pages? */
+export interface SourceStats {
+  /** Grounding chunks returned by the discovery searches. */
+  returned: number;
+  /** Of those, redirects resolved to a fetchable (non-blocked) page. */
+  resolved: number;
+  /** Candidates with at least one matching grounding source. */
+  matched: number;
+  /** Model URLs dropped as listing/search pages (#22c). */
+  listingUrls: number;
+  /** Model URLs dropped because the host doesn't resolve in DNS (#22d). */
+  deadHosts: string[];
+  /** Candidates that had no usable URL and got one from the rescue search (#22e). */
+  rescued: number;
+}
+
 export interface ScanResult {
   window: { from: string; to: string };
+  sources: SourceStats;
   discovered: number;
   duplicates: number;
   verified: number;
@@ -158,6 +176,8 @@ interface Candidate {
   category?: string;
   /** Pages to try, best first: grounding sources matching this event, then the model's URL. */
   urls: string[];
+  /** Host of a dropped listing-page URL: the rescue search looks there first. */
+  hintHost?: string;
 }
 
 const DISCOVERY_FOCUS = [
@@ -165,7 +185,36 @@ const DISCOVERY_FOCUS = [
   'exhibition openings (Serralves, Centro Português de Fotografia, Galeria Municipal, Casa Comum and galleries), theatre and dance (Teatro Nacional São João, Teatro Rivoli, Teatro Campo Alegre), family events, food and wine events, Christmas markets, sports events and races',
 ];
 
-const isFetchable = (url: string) => isRealEventUrl(url) && !BLOCKED_HOSTS.test(new URL(url).hostname);
+const isFetchable = (url: string) => isRealEventUrl(url) && !BLOCKED_HOSTS.test(new URL(url).hostname) && !isListingUrl(url);
+
+// Venue agendas and search results list many events, so the reader rejects
+// them ("page does not confirm the event"); 2026-10-23 dry run: 7 of 12
+// candidates pointed at hardclubporto.com/agenda or coliseu.pt/agenda.
+const LISTING_PATH = /^\/(?:[a-z]{2}(?:-[a-z]{2})?\/)?(?:agenda|eventos?|events?|programa(?:cao|ção)?|program(?:me)?|calend[aá]rio|calendar|bilheteira|tickets?|pesquisa|procurar|search|espetaculos|espectaculos|concertos|shows|whats-on|what-s-on)?\/?$/i;
+const SEARCH_QUERY = /[?&](?:q|s|search|query|pesquisa|keyword)=/i;
+export function isListingUrl(url: string): boolean {
+  try {
+    const u = new URL(url);
+    return LISTING_PATH.test(u.pathname) || /\/(?:pesquisa|search)(?:\/|$)/i.test(u.pathname) || SEARCH_QUERY.test(u.search);
+  } catch {
+    return true;
+  }
+}
+
+/** Hosts that don't resolve (#22d): the model invents domains (www.teatrosabandeira.com, 2026-10-21). */
+async function deadHosts(urls: string[]): Promise<Set<string>> {
+  const hosts = Array.from(new Set(urls.map((u) => { try { return new URL(u).hostname; } catch { return ''; } }).filter(Boolean)));
+  const dead = new Set<string>();
+  await Promise.all(hosts.map(async (h) => {
+    try {
+      await lookup(h);
+    } catch (err) {
+      const code = (err as NodeJS.ErrnoException)?.code;
+      if (code === 'ENOTFOUND' || code === 'ENODATA') dead.add(h);
+    }
+  }));
+  return dead;
+}
 const bareHost = (url: string) => new URL(url).hostname.toLowerCase().replace(/^www\./, '');
 
 /**
@@ -208,12 +257,12 @@ export function urlsFor(c: { name: string; url: string }, sources: string[]): st
   return urls.slice(0, 3);
 }
 
-async function discover(usage: ScanUsage, window: { from: string; to: string }): Promise<Candidate[]> {
+async function discover(usage: ScanUsage, window: { from: string; to: string }, stats: SourceStats): Promise<Candidate[]> {
   const lists = await Promise.all(DISCOVERY_FOCUS.map(async (focus) => {
     const prompt = `Using web search, list notable public events in Porto, Portugal (including Vila Nova de Gaia and Matosinhos) that START between ${window.from} and ${window.to}.
 Focus: ${focus}.
 
-Only include an event if you found its official page: the organiser's or venue's own event page, or a ticketing page (e.g. ticketline.pt, bol.pt, blueticket.pt, seetickets, feverup.com, casadamusica.com, coliseu.pt). Never a news article, blog, listing site or social-media post. Up to 15 events.
+Only include an event if you found its official page: the organiser's or venue's own page for THAT ONE event, or its ticketing page (e.g. ticketline.pt, bol.pt, blueticket.pt, seetickets, feverup.com, casadamusica.com, coliseu.pt). The "url" must be the event's own detail page as it appeared in your search results — never a venue's agenda/programme page, a search page or a homepage, and never a guessed or constructed URL. Never a news article, blog, listing site or social-media post. Up to 15 events.
 
 Reply with ONLY a JSON array, no markdown:
 [{"name":"…","venue":"…","date":"YYYY-MM-DD","endDate":"YYYY-MM-DD or null","url":"https://…","category":"music|art|food|family|nightlife|sports|other"}]
@@ -222,19 +271,65 @@ If you find none, reply [].`;
       const raw: string[] = [];
       const list = parseJson<Candidate[]>(await gemini(usage, prompt, { search: true, timeoutMs: 90_000, sources: raw }), '[') ?? [];
       const sources = await resolveSources(raw);
-      return list
-        .filter((c) => c && typeof c.name === 'string' && typeof c.venue === 'string')
-        .map((c) => ({ ...c, urls: urlsFor(c, sources) }));
+      stats.returned += raw.length;
+      stats.resolved += sources.length;
+      const valid = list.filter((c) => c && typeof c.name === 'string' && typeof c.venue === 'string');
+      const modelUrls = valid.map((c) => (typeof c.url === 'string' && isRealEventUrl(c.url) ? c.url : '')).filter(Boolean);
+      const dead = await deadHosts(modelUrls);
+      return valid.map((c) => {
+        let url = typeof c.url === 'string' ? c.url : '';
+        let hintHost: string | undefined;
+        if (url && isRealEventUrl(url)) {
+          const host = new URL(url).hostname;
+          if (dead.has(host)) { stats.deadHosts.push(host); url = ''; }
+          else if (isListingUrl(url)) { stats.listingUrls++; hintHost = host.replace(/^www\./, ''); url = ''; }
+        }
+        const urls = urlsFor({ name: c.name, url }, sources);
+        if (urls.some((u) => u !== url)) stats.matched++;
+        return { ...c, url, urls, hintHost };
+      });
     } catch (err) {
       console.warn('[forward-scan] discovery failed:', err instanceof Error ? err.message : err);
       return [];
     }
   }));
+  // Candidates without a usable URL are kept for the rescue search.
   return lists.flat().filter((c) =>
     /^\d{4}-\d{2}-\d{2}$/.test(c.date ?? '') &&
-    c.date >= window.from && c.date <= window.to &&
-    c.urls.length > 0
+    c.date >= window.from && c.date <= window.to
   );
+}
+
+/**
+ * #22e: one grounded search for the events whose URL was a listing page, a
+ * dead host or missing — "find this event's own page", preferring the host we
+ * already know. Only grounding sources count (never a model-written URL), so
+ * every URL here really came back from the search.
+ */
+async function rescueUrls(usage: ScanUsage, cands: Candidate[]): Promise<number> {
+  if (cands.length === 0) return 0;
+  const lines = cands.map((c, i) => {
+    const host = c.hintHost;
+    return `${i + 1}. "${c.name}" at ${c.venue}, Porto, ${c.date}${host ? ` (try site:${host})` : ''}`;
+  }).join('\n');
+  const prompt = `Using web search, find the official detail page (the organiser's, venue's or ticket seller's page for that ONE event — not an agenda, listing or search page) for each of these Porto events:
+${lines}
+
+Reply with ONLY a JSON array, no markdown: [{"n":1,"found":true}] — one entry per event. The pages themselves are taken from your search results.`;
+  const raw: string[] = [];
+  try {
+    await gemini(usage, prompt, { search: true, timeoutMs: 60_000, sources: raw });
+  } catch (err) {
+    console.warn('[forward-scan] rescue search failed:', err instanceof Error ? err.message : err);
+    return 0;
+  }
+  const sources = await resolveSources(raw);
+  let rescued = 0;
+  for (const c of cands) {
+    const urls = urlsFor({ name: c.name, url: '' }, sources);
+    if (urls.length) { c.urls = urls; rescued++; }
+  }
+  return rescued;
 }
 
 // ---------------------------------------------------------------------------
@@ -338,7 +433,12 @@ export async function fetchPageText(url: string): Promise<Page | { reason: strin
     const text = [...ldText, decodeEntities(body)].join(' ').replace(/\s+/g, ' ').trim().slice(0, 40_000);
     return text.length > 200 ? { text, finalUrl: res.url || url, ld } : { reason: `only ${text.length} chars of text` };
   } catch (err) {
-    return { reason: err instanceof Error && err.name === 'TimeoutError' ? 'timeout' : `fetch error (${err instanceof Error ? err.message : err})` };
+    if (err instanceof Error && err.name === 'TimeoutError') return { reason: 'timeout' };
+    // undici hides the real cause ("fetch failed"): ECONNRESET = likely a bot
+    // block, ENOTFOUND = no such host, UND_ERR_* = TLS/socket problems.
+    const cause = (err as { cause?: { code?: string; message?: string } })?.cause;
+    const detail = cause?.code ?? cause?.message;
+    return { reason: `fetch error (${err instanceof Error ? err.message : err}${detail ? `: ${detail}` : ''})` };
   }
 }
 
@@ -423,8 +523,8 @@ ${page.text}`;
   } catch (err) {
     return { reason: `reader failed: ${err instanceof Error ? err.message : err}` };
   }
-  if (!facts || !facts.isEventPage) return { reason: 'page does not confirm the event' };
-  if (facts.sourceType === 'other') return { reason: 'not an organiser/venue/ticketing page' };
+  if (!facts || !facts.isEventPage) return { reason: `page does not confirm the event (${page.finalUrl})` };
+  if (facts.sourceType === 'other') return { reason: `not an organiser/venue/ticketing page (${page.finalUrl})` };
 
   // Anti-hallucination: the quotes must really be on the page.
   const text = norm(page.text);
@@ -505,8 +605,9 @@ export async function runForwardScan(
   const usage: ScanUsage = { geminiCalls: 0, promptTokens: 0, outputTokens: 0, imageGenerations: 0 };
   const window = scanWindow(now);
   const rejected: ScanResult['rejected'] = [];
+  const sources: SourceStats = { returned: 0, resolved: 0, matched: 0, listingUrls: 0, deadHosts: [], rescued: 0 };
 
-  const discovered = await discover(usage, window);
+  const discovered = await discover(usage, window, sources);
   const known = [...existing];
   const fresh: Candidate[] = [];
   let duplicates = 0;
@@ -517,7 +618,12 @@ export async function runForwardScan(
     known.push({ ...c, slug: '', venueSlug: venueToSlug(c.venue), category: 'other', description: '', sourceEdition: FORWARD_SOURCE, addedAt: '' });
   }
 
-  const toVerify = fresh.slice(0, MAX_VERIFY);
+  // Rescue URLs only for the candidates we'd actually check this run.
+  const head = fresh.slice(0, MAX_VERIFY);
+  const noUrl = head.filter((c) => c.urls.length === 0);
+  sources.rescued = await rescueUrls(usage, noUrl);
+  for (const c of noUrl) if (c.urls.length === 0) rejected.push({ name: c.name, reason: 'no usable URL (listing page, dead host or none; rescue search found nothing)' });
+  const toVerify = fresh.filter((c) => c.urls.length > 0).slice(0, MAX_VERIFY);
   const verified: Array<{ facts: PageFacts; url: string }> = [];
   for (let i = 0; i < toVerify.length && Date.now() < deadline - 90_000; i += 6) {
     const batch = await Promise.all(toVerify.slice(i, i + 6).map((c) => verify(usage, c, window)));
@@ -547,5 +653,5 @@ export async function runForwardScan(
     });
   }
 
-  return { window, discovered: discovered.length, duplicates, verified: verified.length, rejected, accepted, usage };
+  return { window, sources, discovered: discovered.length, duplicates, verified: verified.length, rejected, accepted, usage };
 }
