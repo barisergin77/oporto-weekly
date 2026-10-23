@@ -7,6 +7,40 @@ impressions / pos 9.3 over 28 days (prev 28: 191 / 10,293 / 16.9);
 subscribers 56 active (34 EN, 22 PT), ~1.4 net/week; signups by page: none
 recorded yet (tracking started today).
 
+## 2026-10-23 — Daily loop (11:13 UTC): observe only, #24 measured
+- No code or deploy. The entry below says today's loop should be skipped
+  (`~/oporto-growth/skip-2026-10-23`). Today's one deploy (d612f76) already
+  shipped in the interactive session, and rule 5 allows one per day. I ran
+  anyway, so I kept this run to measuring and logging.
+- Metrics (`metrics/2026-10-23.json`): 316 clicks / 14,402 impr / pos 9.83
+  over 28d (yesterday 322 / 14,369 / 9.75; prev 28d 240 / 11,477 / 14.0).
+  Last 7d 78 clicks vs 81, impressions 3,049 vs 5,242, CTR 2.6% vs 1.5%.
+  GA4 7d 34 users / 39 sessions / 68 PV (prev 33 / 40 / 66); 20 organic, 10
+  organic social, 5 AI, 4 direct; GA4 `sign_up` 1. **Subscribers 55 on the
+  10-22 snapshot (56 → 55: EN 34 → 33, PT 22)**, the first net drop. Signups
+  attributed in 28d: 1 (/porto-events/this-weekend, 10-22).
+- Results due:
+  - Reddit retirement (10-18): **worked.** The 10-22 ledger has research, en-web,
+    en-email, pt-web, pt-email and instagram all done by 13:21 UTC, and there
+    is no reddit step.
+  - Forward-scan quality gate (10-21): **no change.** Today's Fri 07:00 cron
+    committed nothing (there is no "chore: forward scan" commit since 10-20),
+    so no thin records went out and no events were published either. The cron
+    ran on the old code: #22 (3fff59e) deployed at 08:19 UTC. I couldn't read
+    the cron output (`gh run list` needs approval). Next real test: Mon 10-26
+    07:00 cron.
+- #24 measured (GSC, 2026-05-01 → 10-20): `…-the-2026-guide` has 15 clicks /
+  929 impr / pos 8.8 ("coffee shops porto" 29 impr at pos 4.3, "best pastel de
+  nata porto" pos 5.8). `…-a-2026-guide` has 2 / 62 / 11.7. PT copies: 0
+  clicks. Keep **the-2026-guide**, merge in anything unique from a-2026-guide
+  and 301 a-2026 (EN + PT) to it. No owner decision is needed: the backlog
+  item already says to 301 the weaker page, and 2 clicks isn't real traffic.
+  Ready for the next run.
+- Next run (Sat 10-24): #24 (merge + 301, sitemap bump) or #23 (grounding
+  sources). Do #23 before Mon's 07:00 cron if it's small.
+- Needs owner: nothing to decide. FYI: subscribers went 56 → 55. It's one
+  unsubscribe, so watch it, but nothing to act on yet.
+
 ## 2026-10-23 — Forward-to-a-friend block (#6) + forward-scan yield (#22)
 - Why: owner-approved referral loop (#6); forward scan verified 0 of 12 on today's
   prod dry run (7 candidates were /agenda listing pages).
@@ -97,7 +131,9 @@ recorded yet (tracking started today).
   events, all factual.
 - Measure on: 2026-10-23 (Fri cron output: committed records read clean);
   yield with #22 by 2026-11-03.
-- Result:
+- Result (10-23): no change. Fri cron committed 0 records (ran before #22
+  deployed), so nothing thin went out but nothing was published either.
+  Yield check is on 11-03.
 
 ## 2026-10-20 — Forward event scan, phase 1 (owner priority, backlog #20)
 - Metrics (`metrics/2026-10-20.json`): 324 clicks / 14,449 impr / pos 9.53
@@ -219,7 +255,8 @@ recorded yet (tracking started today).
 - Verified: tsc, build; /api/version = dac1a11; health ok (9/9); endpoint 404.
 - Expect: no Reddit email on Thu 2026-10-22; watchdog shows no reddit step.
 - Measure on: 2026-10-22 (Thursday run: all remaining steps green).
-- Result:
+- Result: worked (10-23 check): the 10-22 ledger has 6/6 steps done and no
+  reddit step.
 
 ## 2026-10-18 — Guides link to upcoming events + month hubs
 - Metrics (`metrics/2026-10-18.json`): 339 clicks / 14,711 impr / pos 9.35
