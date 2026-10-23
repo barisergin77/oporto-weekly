@@ -24,6 +24,7 @@ import { generateSlug, formatWeekRange, thursdayWeekStart, waitForArchiveLive } 
 import { getFileContent } from '@/lib/github';
 import { getActiveSubscribers } from '@/lib/audiences';
 import { sendBatch } from '@/lib/resend-client';
+import { withForwardBlock } from '@/lib/forward-block';
 import { checkCronAuth } from '@/lib/cron-auth';
 
 const DEPLOY_WAIT_MS = 240_000;
@@ -97,7 +98,8 @@ export async function GET(req: NextRequest) {
       const subject = `Oporto Weekly — ${weekDate}`;
       const enSubscribers = await getActiveSubscribers('en');
       const enEmails = enSubscribers.map(s => s.email);
-      const sentEN = await sendBatch(enEmails, subject, html, [
+      const emailHtml = withForwardBlock(html, 'en', `https://oportoweekly.com/archive/${slug}`);
+      const sentEN = await sendBatch(enEmails, subject, emailHtml, [
         { name: 'type', value: 'newsletter' },
         { name: 'lang', value: 'en' },
         { name: 'edition', value: slug },
