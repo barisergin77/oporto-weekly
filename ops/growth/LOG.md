@@ -354,3 +354,14 @@ recorded yet (tracking started today).
 
 ## 2026-10-23 (owner tip) Porto Expats as an edition source
 Owner flagged Porto Expats' "Porto Weekly Guide" (Substack, Fridays, Mon–Sun). Their 26 Oct–1 Nov issue listed 8 events (Batalha Halloween quiz + film, Bloom & MAZ at Real Companhia Velha, LOOK.Sharp 6th birthday, Casa da Música Halloween, Three Sixty at Póvoa Arena, Porto Expats Meetup at Eleven Lab Baixa); data/events had none of them (only Adriana Calcanhotto that week). Added `site:portoexpats.substack.com Porto Weekly Guide events` to the Thursday SEARCH_QUERIES. Their posts are indexed within hours, so Thursday's grounded search sees Friday's issue. Leads only: never copy their text. Check the Oct 29 edition for the Halloween weekend.
+
+## 2026-10-23 — Forward scan daily, from tomorrow (owner request)
+- Why: owner: "it's almost a daily thing now". The scan only ran Mon + Fri and
+  only looked 2+ weeks ahead, so events the Thursday edition missed this week
+  (e.g. Porto Expats' Halloween list) never reached the site.
+- Change: cron daily 07:00 UTC (Thursday still skipped by the freeze check);
+  window tomorrow → +70 days; third discovery search for the next 14 days with
+  what's-on guides (Porto Expats) as leads only — url must be the event's own
+  page; near-term candidates verified first. Thursday extraction merges by
+  identity, so overlap with edition events is harmless.
+- Cost: ~3.5× the Gemini calls of Mon + Fri (cap still 5 events/run).

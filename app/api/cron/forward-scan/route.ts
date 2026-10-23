@@ -1,7 +1,7 @@
 /**
- * Mon + Fri — forward event scan (backlog #20). See lib/forward-scan.ts.
+ * Daily — forward event scan (backlog #20). See lib/forward-scan.ts.
  *
- * Finds notable Porto events 2–10 weeks ahead, accepts only those whose
+ * Finds notable Porto events from tomorrow to 10 weeks ahead, accepts only those whose
  * official page we fetched confirms name, date and venue, enriches them
  * fully (long description, PT, image) and commits them in one atomic commit.
  * data/events/*.json only → deferred, published by deploy-flush (21:00 UTC).

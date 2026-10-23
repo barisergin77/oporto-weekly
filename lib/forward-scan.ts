@@ -1,12 +1,17 @@
 /**
- * Forward event scan — publish notable Porto events 2–10 weeks ahead.
+ * Forward event scan — publish notable Porto events from tomorrow to 10 weeks ahead.
  *
  * Owner priority (2026-10-18, backlog #20): event pages only appeared in the
  * week an event happened, but searches peak weeks before it. This runs
- * outside the Thursday pipeline (Mon + Fri, see cron-forward-scan.yml):
+ * outside the Thursday pipeline (daily, see cron-forward-scan.yml):
  *
- *   1. Discover — two grounded Gemini searches list candidate events in the
- *      window after the next edition's week, each with an official URL.
+ * 2026-10-23 (owner): "almost a daily thing now" — the window starts tomorrow
+ * (was: after the next edition's week), so events the Thursday edition missed
+ * still reach the site. A third search covers the next two weeks only, using
+ * what's-on guides (Porto Expats) as leads; those candidates are verified first.
+ *
+ *   1. Discover — three grounded Gemini searches list candidate events in the
+ *      window, each with an official URL.
  *   2. Dedupe — against every event already in the repo (fuzzy name + date
  *      or venue), so long runs and Thursday-extracted events aren't repeated.
  *   3. Verify — fetch the page ourselves (the search's own grounding sources
@@ -96,15 +101,20 @@ const addDays = (iso: string, n: number) => {
 };
 
 /**
- * Window: from the day after the NEXT edition's week (Thu–Wed) to +70 days.
- * Anything earlier is the Thursday pipeline's to research.
+ * Window: tomorrow to +70 days. Events the Thursday edition also picks up are
+ * merged by identity (events-pipeline dedup pass 2), so overlap is harmless.
  */
 export function scanWindow(now: Date = new Date()): { from: string; to: string } {
   const today = now.toISOString().slice(0, 10);
-  const wd = new Date(today + 'T00:00:00Z').getUTCDay();
-  const nextThu = addDays(today, ((4 - wd + 7) % 7) || 7);
-  return { from: addDays(nextThu, 7), to: addDays(today, 70) };
+  return { from: addDays(today, 1), to: addDays(today, 70) };
 }
+
+/** Last day of the near-term search (the next two weeks). */
+const NEAR_DAYS = 14;
+export const nearEnd = (window: { from: string; to: string }) => {
+  const end = addDays(window.from, NEAR_DAYS - 1);
+  return end < window.to ? end : window.to;
+};
 
 /** Wed 18:00 → Thu 23:59 UTC: the newsletter's window. Never commit then. */
 export function inFreezeWindow(now: Date = new Date()): boolean {
@@ -185,6 +195,10 @@ const DISCOVERY_FOCUS = [
   'exhibition openings (Serralves, Centro Português de Fotografia, Galeria Municipal, Casa Comum and galleries), theatre and dance (Teatro Nacional São João, Teatro Rivoli, Teatro Campo Alegre), family events, food and wine events, Christmas markets, sports events and races',
 ];
 
+// Near-term search (next two weeks only). Guides are leads, never sources:
+// the url must still be the event's own page, and verify() rejects anything else.
+const NEAR_FOCUS = `anything notable in these two weeks — seasonal and holiday parties, quiz nights, community meetups, markets, club nights, concerts, theatre, family activities. Weekly what's-on guides such as the Porto Expats weekly guide (portoexpats.substack.com) are good places to find candidates, but the "url" must be the event's own page, never the guide`;
+
 const isFetchable = (url: string) => isRealEventUrl(url) && !BLOCKED_HOSTS.test(new URL(url).hostname) && !isListingUrl(url);
 
 // Venue agendas and search results list many events, so the reader rejects
@@ -258,8 +272,12 @@ export function urlsFor(c: { name: string; url: string }, sources: string[]): st
 }
 
 async function discover(usage: ScanUsage, window: { from: string; to: string }, stats: SourceStats): Promise<Candidate[]> {
-  const lists = await Promise.all(DISCOVERY_FOCUS.map(async (focus) => {
-    const prompt = `Using web search, list notable public events in Porto, Portugal (including Vila Nova de Gaia and Matosinhos) that START between ${window.from} and ${window.to}.
+  const searches = [
+    ...DISCOVERY_FOCUS.map((focus) => ({ focus, from: window.from, to: window.to })),
+    { focus: NEAR_FOCUS, from: window.from, to: nearEnd(window) },
+  ];
+  const lists = await Promise.all(searches.map(async ({ focus, from, to }) => {
+    const prompt = `Using web search, list notable public events in Porto, Portugal (including Vila Nova de Gaia and Matosinhos) that START between ${from} and ${to}.
 Focus: ${focus}.
 
 Only include an event if you found its official page: the organiser's or venue's own page for THAT ONE event, or its ticketing page (e.g. ticketline.pt, bol.pt, blueticket.pt, seetickets, feverup.com, casadamusica.com, coliseu.pt). The "url" must be the event's own detail page as it appeared in your search results — never a venue's agenda/programme page, a search page or a homepage, and never a guessed or constructed URL. Never a news article, blog, listing site or social-media post. Up to 15 events.
@@ -617,6 +635,10 @@ export async function runForwardScan(
     // Count it as known so the second discovery list can't repeat it.
     known.push({ ...c, slug: '', venueSlug: venueToSlug(c.venue), category: 'other', description: '', sourceEdition: FORWARD_SOURCE, addedAt: '' });
   }
+
+  // The next two weeks first: those pages can't wait for a later run.
+  const near = nearEnd(window);
+  fresh.sort((a, b) => Number(a.date > near) - Number(b.date > near));
 
   // Rescue URLs only for the candidates we'd actually check this run.
   const head = fresh.slice(0, MAX_VERIFY);
