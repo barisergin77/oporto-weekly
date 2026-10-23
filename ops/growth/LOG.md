@@ -365,3 +365,8 @@ Owner flagged Porto Expats' "Porto Weekly Guide" (Substack, Fridays, Mon–Sun).
   page; near-term candidates verified first. Thursday extraction merges by
   identity, so overlap with edition events is harmless.
 - Cost: ~3.5× the Gemini calls of Mon + Fri (cap still 5 events/run).
+- Dry run on prod after deploy (2026-10-23 ~18:20 UTC): window 10-24→01-01,
+  48 discovered, 4 dupes, 12 checked, **0 verified** — mostly model-written
+  URLs that 404 (casadamusica.com/agenda/…, serralves.pt/pt/actividades/…) or
+  pages that don't confirm the event. NEXT RUN (Sat 10-24): #23 grounding /
+  URL-quality fix is the top priority, ahead of #24. Told owner.
