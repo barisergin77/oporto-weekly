@@ -7,6 +7,50 @@ impressions / pos 9.3 over 28 days (prev 28: 191 / 10,293 / 16.9);
 subscribers 56 active (34 EN, 22 PT), ~1.4 net/week; signups by page: none
 recorded yet (tracking started today).
 
+## 2026-10-24 — Forward scan: grounding sources fixed (backlog #23)
+- Metrics (`metrics/2026-10-24.json`): 322 clicks / 14,433 impr / pos 9.88
+  over 28d (yesterday 316 / 14,402 / 9.83; prev 28d 241 / 11,497 / 13.6).
+  Last 7d 72 clicks vs 92, impressions 3,041 vs 5,200 (iberanime spike in
+  prev7), CTR 2.4% vs 1.8%. GA4 7d 36 users / 41 sessions / 80 PV (prev 31 /
+  38 / 59); 21 organic, 10 organic social, 5 AI, 5 direct; `sign_up` 1.
+  Subscribers 55 (10-22 snapshot). Signups attributed in 28d: 1. No result
+  due today (first is 10-31).
+- Today's 07:00 forward-scan cron committed nothing (no commit since 10-23).
+- Why: 10-23 prod dry run had `sources.returned = 0`, so every candidate URL
+  was model-written and most 404'd.
+- Diagnosis: there's no GEMINI_API_KEY in `.env.local`, so I couldn't probe
+  locally, and I didn't decrypt the prod env. The discovery and rescue searches
+  asked for JSON-only replies. Gemini attaches grounding chunks to prose it can
+  attribute to sources, so the fix asks for prose.
+- Change (`lib/forward-scan.ts`, 3d6fd1d): grounded searches now write one
+  plain sentence per event (incl. the page address as found); a no-search
+  JSON-mode call (`structure()`, thinking off) converts that to candidates,
+  copying URLs only as written. The rescue search answers in prose too. New
+  `sources.grounding` counts per call: metadata / queries / chunks / supports.
+- Verified: tsc; build OK (no page changes); /api/version = 3d6fd1d; health
+  ok (9/9). **Prod dry run: grounding chunks on 3/3 calls; 38 sources
+  returned (was 0), 23 resolved, 10 candidates matched; 45 discovered, 9
+  dupes, 2 verified** (10-23: 0). 10 Gemini calls, 13.1k in / 36.5k out, 71 s.
+  - Verified: Cartografias Poéticas (Helena Cardoso), Casa Comum, 27 Oct →
+    16 Jan, free, from up.pt (good, specific page). Candlelight Queen vs The
+    Beatles, Palácio da Bolsa, 31 Oct 22:00, from €29, **but the source is
+    Fever's generic `/porto/candlelight` hub** (lists many concerts) and the
+    dry-run description is one thin line. I couldn't check the page myself
+    (Firecrawl permission not granted in this run).
+  - Remaining rejections: casadamusica.com `/agenda/<slug>/<id>` and
+    hardclubporto.com `/event/<slug>/` are still model-guessed (404);
+    ticketline fails in undici (header whitespace / content-length mismatch).
+    → backlog #25.
+- Expect: forward events committed > 0 on daily runs; impressions on
+  forward-scan event pages.
+- Measure on: 2026-10-25 run: read any `chore: forward scan` commit and
+  remove a record whose source is a hub/listing page or whose copy is thin
+  **before the 21:00 UTC flush**. Yield 2026-11-03; search effect 11-17.
+- Result:
+- Next run: #25 (hub filter + prefer grounding sources) or #24 (coffee guide
+  merge + 301), whichever is smaller, plus the check above.
+- Needs owner: nothing to decide.
+
 ## 2026-10-23 — Daily loop (11:13 UTC): observe only, #24 measured
 - No code or deploy. The entry below says today's loop should be skipped
   (`~/oporto-growth/skip-2026-10-23`). Today's one deploy (d612f76) already

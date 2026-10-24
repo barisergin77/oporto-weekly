@@ -1,0 +1,223 @@
+{
+  "takenAt": "2026-10-24T09:00:36.552Z",
+  "search": {
+    "last7": {
+      "clicks": 72,
+      "impressions": 3041,
+      "ctr": 0.02367642222952976,
+      "position": 11.828017099638277
+    },
+    "prev7": {
+      "clicks": 92,
+      "impressions": 5200,
+      "ctr": 0.01769230769230769,
+      "position": 9.143269230769231
+    },
+    "last28": {
+      "clicks": 322,
+      "impressions": 14433,
+      "ctr": 0.022309984064297097,
+      "position": 9.881244370539735
+    },
+    "prev28": {
+      "clicks": 241,
+      "impressions": 11497,
+      "ctr": 0.020961990084369837,
+      "position": 13.587283639210229
+    },
+    "topPages28": [
+      {
+        "page": "/blog/porto-shopping-guide-your-map-to-vintage-artisan-finds",
+        "clicks": 44,
+        "impressions": 1144,
+        "position": 8.5
+      },
+      {
+        "page": "/blog/shop-like-a-local-in-porto-your-2026-vintage-market-guide",
+        "clicks": 17,
+        "impressions": 862,
+        "position": 9.2
+      },
+      {
+        "page": "/event/iberanime-porto-2026-exponor-oct-10-2026",
+        "clicks": 12,
+        "impressions": 2552,
+        "position": 7.8
+      },
+      {
+        "page": "/pt/arquivo/september-24-30-2026-pt",
+        "clicks": 12,
+        "impressions": 114,
+        "position": 3.9
+      },
+      {
+        "page": "/event/fimp26-international-puppet-festival-various-venues-oct-9-2026",
+        "clicks": 11,
+        "impressions": 113,
+        "position": 5.6
+      },
+      {
+        "page": "/pt/venue/largo-do-amor-de-perdicao",
+        "clicks": 10,
+        "impressions": 65,
+        "position": 4.5
+      },
+      {
+        "page": "/event/magic-show-escola-de-magicos-teatro-sa-da-bandeira-oct-4-2026",
+        "clicks": 9,
+        "impressions": 36,
+        "position": 4.6
+      },
+      {
+        "page": "/blog/porto-nightlife-your-ultimate-after-dark-guide-for-2025",
+        "clicks": 8,
+        "impressions": 402,
+        "position": 11.8
+      },
+      {
+        "page": "/blog/porto-on-a-budget-free-sights-cheap-eats-guide",
+        "clicks": 8,
+        "impressions": 299,
+        "position": 10.3
+      },
+      {
+        "page": "/event/serralves-autumn-festival-serralves-park-sep-26-2026",
+        "clicks": 8,
+        "impressions": 132,
+        "position": 6.1
+      },
+      {
+        "page": "/archive/october-8-14-2026",
+        "clicks": 7,
+        "impressions": 72,
+        "position": 6.1
+      },
+      {
+        "page": "/archive/september-24-30-2026",
+        "clicks": 7,
+        "impressions": 101,
+        "position": 4.6
+      },
+      {
+        "page": "/event/miguel-bombarda-simultaneous-openings-bombarda-art-district-sep-19-2026",
+        "clicks": 7,
+        "impressions": 38,
+        "position": 3.1
+      },
+      {
+        "page": "/event/throwback-porto-party-museu-do-carro-electrico-oct-17-2026",
+        "clicks": 6,
+        "impressions": 60,
+        "position": 4.8
+      },
+      {
+        "page": "/",
+        "clicks": 5,
+        "impressions": 168,
+        "position": 7.8
+      }
+    ],
+    "lowCtr28": [
+      {
+        "query": "iberanime porto 2026",
+        "impressions": 2099,
+        "ctr": 0.2,
+        "position": 7.8
+      },
+      {
+        "query": "mike stern casa da musica",
+        "impressions": 66,
+        "ctr": 0,
+        "position": 6.3
+      },
+      {
+        "query": "iberanime 2026 porto",
+        "impressions": 63,
+        "ctr": 0,
+        "position": 8.3
+      },
+      {
+        "query": "best neighborhoods in porto for expats",
+        "impressions": 52,
+        "ctr": 0,
+        "position": 60.6
+      },
+      {
+        "query": "porto nightlife",
+        "impressions": 52,
+        "ctr": 0,
+        "position": 22.1
+      }
+    ]
+  },
+  "visitors": {
+    "last7": {
+      "users": 36,
+      "sessions": 41,
+      "pageViews": 80
+    },
+    "prev7": {
+      "users": 31,
+      "sessions": 38,
+      "pageViews": 59
+    },
+    "channels7": [
+      {
+        "channel": "Organic Search",
+        "sessions": 21
+      },
+      {
+        "channel": "Organic Social",
+        "sessions": 10
+      },
+      {
+        "channel": "AI Assistant",
+        "sessions": 5
+      },
+      {
+        "channel": "Direct",
+        "sessions": 5
+      }
+    ],
+    "signUpEvents7": 1
+  },
+  "subscribers": [
+    {
+      "week": "2026-10-01",
+      "active": 51,
+      "en": 31,
+      "pt": 20
+    },
+    {
+      "week": "2026-10-08",
+      "active": 54,
+      "en": 34,
+      "pt": 20
+    },
+    {
+      "week": "2026-10-15",
+      "active": 56,
+      "en": 34,
+      "pt": 22
+    },
+    {
+      "week": "2026-10-22",
+      "active": 55,
+      "en": 33,
+      "pt": 22
+    }
+  ],
+  "signups28": {
+    "total": 1,
+    "byPageType": {
+      "porto-events": 1
+    },
+    "recent": [
+      {
+        "at": "2026-10-22T00:15:12.666Z",
+        "lang": "en",
+        "source": "/porto-events/this-weekend"
+      }
+    ]
+  }
+}
