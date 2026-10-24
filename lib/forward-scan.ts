@@ -77,6 +77,8 @@ export interface SourceStats {
   deadHosts: string[];
   /** Candidates that had no usable URL and got one from the rescue search (#22e). */
   rescued: number;
+  /** #23: what each grounded call's metadata held (returned was 0 on 2026-10-23). */
+  grounding: { calls: number; withMetadata: number; withQueries: number; withChunks: number; withSupports: number };
 }
 
 export interface ScanResult {
@@ -129,7 +131,7 @@ export function inFreezeWindow(now: Date = new Date()): boolean {
 async function gemini(
   usage: ScanUsage,
   prompt: string,
-  opts: { search?: boolean; json?: boolean; timeoutMs: number; sources?: string[] }
+  opts: { search?: boolean; json?: boolean; timeoutMs: number; sources?: string[]; grounding?: SourceStats['grounding'] }
 ): Promise<string> {
   usage.geminiCalls++;
   const res = await fetch(
@@ -153,7 +155,16 @@ async function gemini(
   usage.promptTokens += data?.usageMetadata?.promptTokenCount ?? 0;
   usage.outputTokens += (data?.usageMetadata?.candidatesTokenCount ?? 0) + (data?.usageMetadata?.thoughtsTokenCount ?? 0);
   // Pages the search actually returned (redirect URIs; see resolveSources).
-  for (const ch of data?.candidates?.[0]?.groundingMetadata?.groundingChunks ?? []) {
+  const gm = data?.candidates?.[0]?.groundingMetadata;
+  const g = opts.grounding;
+  if (g) {
+    g.calls++;
+    if (gm) g.withMetadata++;
+    if (gm?.webSearchQueries?.length) g.withQueries++;
+    if (gm?.groundingChunks?.length) g.withChunks++;
+    if (gm?.groundingSupports?.length) g.withSupports++;
+  }
+  for (const ch of gm?.groundingChunks ?? []) {
     if (typeof ch?.web?.uri === 'string') opts.sources?.push(ch.web.uri);
   }
   return (data?.candidates?.[0]?.content?.parts ?? [])
@@ -277,17 +288,19 @@ async function discover(usage: ScanUsage, window: { from: string; to: string }, 
     { focus: NEAR_FOCUS, from: window.from, to: nearEnd(window) },
   ];
   const lists = await Promise.all(searches.map(async ({ focus, from, to }) => {
-    const prompt = `Using web search, list notable public events in Porto, Portugal (including Vila Nova de Gaia and Matosinhos) that START between ${from} and ${to}.
+    // #23: plain sentences, not JSON. Gemini attaches grounding chunks (the
+    // pages it actually found) to prose it can attribute; JSON-only replies
+    // came back with none (2026-10-23), leaving only model-written URLs.
+    const prompt = `Using web search, find notable public events in Porto, Portugal (including Vila Nova de Gaia and Matosinhos) that START between ${from} and ${to}.
 Focus: ${focus}.
 
-Only include an event if you found its official page: the organiser's or venue's own page for THAT ONE event, or its ticketing page (e.g. ticketline.pt, bol.pt, blueticket.pt, seetickets, feverup.com, casadamusica.com, coliseu.pt). The "url" must be the event's own detail page as it appeared in your search results — never a venue's agenda/programme page, a search page or a homepage, and never a guessed or constructed URL. Never a news article, blog, listing site or social-media post. Up to 15 events.
+Only include an event if you found its official page: the organiser's or venue's own page for THAT ONE event, or its ticketing page (e.g. ticketline.pt, bol.pt, blueticket.pt, seetickets, feverup.com, casadamusica.com, coliseu.pt) — never a venue's agenda/programme page, a search page, a homepage, a news article, blog, listing site or social-media post. Up to 15 events.
 
-Reply with ONLY a JSON array, no markdown:
-[{"name":"…","venue":"…","date":"YYYY-MM-DD","endDate":"YYYY-MM-DD or null","url":"https://…","category":"music|art|food|family|nightlife|sports|other"}]
-If you find none, reply [].`;
+For each event write one plain sentence, one per line, stating its name, venue, start date (and end date if it runs several days), what kind of event it is, and the address of its official page exactly as it appeared in your search results (never a guessed or constructed address). If you find none, write NONE.`;
     try {
       const raw: string[] = [];
-      const list = parseJson<Candidate[]>(await gemini(usage, prompt, { search: true, timeoutMs: 90_000, sources: raw }), '[') ?? [];
+      const found = await gemini(usage, prompt, { search: true, timeoutMs: 90_000, sources: raw, grounding: stats.grounding });
+      const list = /^\s*NONE\s*$/i.test(found) ? [] : await structure(usage, found);
       const sources = await resolveSources(raw);
       stats.returned += raw.length;
       stats.resolved += sources.length;
@@ -318,13 +331,24 @@ If you find none, reply [].`;
   );
 }
 
+/** Turns the search's sentences into candidates. No search: it may only copy what the text says. */
+async function structure(usage: ScanUsage, text: string): Promise<Candidate[]> {
+  const prompt = `Convert this list of events into JSON. Copy only what the text states: dates as YYYY-MM-DD, endDate null when not given, "url" exactly as written in the text or "" when none is given — never invent or fix one.
+
+${text.slice(0, 12_000)}
+
+Reply with a JSON array:
+[{"name":"…","venue":"…","date":"YYYY-MM-DD","endDate":"YYYY-MM-DD or null","url":"https://… or empty","category":"music|art|food|family|nightlife|sports|other"}]`;
+  return parseJson<Candidate[]>(await gemini(usage, prompt, { json: true, timeoutMs: 45_000 }), '[') ?? [];
+}
+
 /**
  * #22e: one grounded search for the events whose URL was a listing page, a
  * dead host or missing — "find this event's own page", preferring the host we
  * already know. Only grounding sources count (never a model-written URL), so
  * every URL here really came back from the search.
  */
-async function rescueUrls(usage: ScanUsage, cands: Candidate[]): Promise<number> {
+async function rescueUrls(usage: ScanUsage, cands: Candidate[], grounding: SourceStats['grounding']): Promise<number> {
   if (cands.length === 0) return 0;
   const lines = cands.map((c, i) => {
     const host = c.hintHost;
@@ -333,10 +357,10 @@ async function rescueUrls(usage: ScanUsage, cands: Candidate[]): Promise<number>
   const prompt = `Using web search, find the official detail page (the organiser's, venue's or ticket seller's page for that ONE event — not an agenda, listing or search page) for each of these Porto events:
 ${lines}
 
-Reply with ONLY a JSON array, no markdown: [{"n":1,"found":true}] — one entry per event. The pages themselves are taken from your search results.`;
+For each event write one plain sentence naming it, its date and venue, and the page you found for it (or that you found none). The pages themselves are taken from your search results.`;
   const raw: string[] = [];
   try {
-    await gemini(usage, prompt, { search: true, timeoutMs: 60_000, sources: raw });
+    await gemini(usage, prompt, { search: true, timeoutMs: 60_000, sources: raw, grounding });
   } catch (err) {
     console.warn('[forward-scan] rescue search failed:', err instanceof Error ? err.message : err);
     return 0;
@@ -623,7 +647,10 @@ export async function runForwardScan(
   const usage: ScanUsage = { geminiCalls: 0, promptTokens: 0, outputTokens: 0, imageGenerations: 0 };
   const window = scanWindow(now);
   const rejected: ScanResult['rejected'] = [];
-  const sources: SourceStats = { returned: 0, resolved: 0, matched: 0, listingUrls: 0, deadHosts: [], rescued: 0 };
+  const sources: SourceStats = {
+    returned: 0, resolved: 0, matched: 0, listingUrls: 0, deadHosts: [], rescued: 0,
+    grounding: { calls: 0, withMetadata: 0, withQueries: 0, withChunks: 0, withSupports: 0 },
+  };
 
   const discovered = await discover(usage, window, sources);
   const known = [...existing];
@@ -643,7 +670,7 @@ export async function runForwardScan(
   // Rescue URLs only for the candidates we'd actually check this run.
   const head = fresh.slice(0, MAX_VERIFY);
   const noUrl = head.filter((c) => c.urls.length === 0);
-  sources.rescued = await rescueUrls(usage, noUrl);
+  sources.rescued = await rescueUrls(usage, noUrl, sources.grounding);
   for (const c of noUrl) if (c.urls.length === 0) rejected.push({ name: c.name, reason: 'no usable URL (listing page, dead host or none; rescue search found nothing)' });
   const toVerify = fresh.filter((c) => c.urls.length > 0).slice(0, MAX_VERIFY);
   const verified: Array<{ facts: PageFacts; url: string }> = [];
