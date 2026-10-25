@@ -1,3 +1,8 @@
+import fs from 'fs';
+
+// Venue alias map — single source of truth shared with lib/venues.ts.
+const venueAliases = JSON.parse(fs.readFileSync(new URL('./data/venue-aliases.json', import.meta.url), 'utf-8'));
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   // Raw newsletter HTML in public/newsletters/ exists only as the committed
@@ -33,12 +38,54 @@ const nextConfig = {
       ['mercado-do-bolhao-central-porto-may-2-2026', 'mercado-do-bolhao-central-porto-apr-25-2026'],
       ['vivian-maier-antologia-centro-portugues-de-fotografia-apr-30-2026', 'vivian-maier-antologia-centro-portugues-de-fotografia-apr-16-2026'],
       ['world-of-discoveries-miragaia-apr-30-2026', 'world-of-discoveries-miragaia-apr-23-2026'],
+      // 2026-10-25 dedupe (scripts/find-duplicates.ts): same event under a
+      // different name / venue spelling / weekly re-extraction.
+      ['wrong-answers-exhibition-museo-de-arte-contemporaneo-de-serralves-aug-27-2026', 'jenny-holzer-wrong-answers-serralves-museum-jul-9-2026'],
+      ['jenny-holzer-wrong-answers-serralves-museum-of-contemporary-art-sep-3-2026', 'jenny-holzer-wrong-answers-serralves-museum-jul-9-2026'],
+      ['opening-holzer-wrong-answers-venue-details-vary-jun-18-2026', 'jenny-holzer-wrong-answers-serralves-museum-jul-9-2026'],
+      ['porto-contemporary-art-exhibition-bombarda-art-district-various-oct-15-2026', 'porto-contemporary-art-exhibition-various-galleries-oct-5-2026'],
+      ['rival-consoles-live-casa-da-musica-may-1-2026', 'rival-consoles-casa-da-musica-may-1-2026'],
+      ['exhibition-opening-call-of-the-west-casa-do-infante-may-22-2026', 'call-of-the-west-exhibition-opening-casa-do-infante-may-22-2026'],
+      ['international-puppet-festival-various-venues-oct-15-2026', 'fimp26-international-puppet-festival-various-venues-oct-9-2026'],
+      ['dino-experience-alfandega-congress-center-apr-30-2026', 'dino-experience-alfandega-congress-center-apr-17-2026'],
+      ['dino-experience-alfandega-do-porto-may-21-2026', 'dino-experience-alfandega-congress-center-apr-17-2026'],
+      ['dino-experience-porto-alfandega-do-porto-aug-27-2026', 'dino-experience-alfandega-congress-center-apr-17-2026'],
+      ['impressive-monet-brilliant-klimt-alfandega-congress-center-apr-30-2026', 'impressive-monet-brilliant-klimt-alfandega-congress-center-apr-17-2026'],
+      ['impressive-monet-brilliant-klimt-immersivus-gallery-apr-30-2026', 'impressive-monet-brilliant-klimt-alfandega-congress-center-apr-17-2026'],
+      ['immersive-monet-brilliant-klimt-alfandega-congress-center-jun-25-2026', 'impressive-monet-brilliant-klimt-alfandega-congress-center-apr-17-2026'],
+      ['impressive-monet-brilliant-klimt-alfandega-do-porto-aug-27-2026', 'impressive-monet-brilliant-klimt-alfandega-congress-center-apr-17-2026'],
+      ['impressive-monet-brilliant-klimt-immersivus-gallery-porto-sep-3-2026', 'impressive-monet-brilliant-klimt-alfandega-congress-center-apr-17-2026'],
+      ['elective-affinities-miro-contemporaries-casa-de-serralves-jun-4-2026', 'elective-affinities-joan-miro-serralves-museum-apr-30-2026'],
+      ['joan-miro-at-serralves-serralves-museum-jun-11-2026', 'elective-affinities-joan-miro-serralves-museum-apr-30-2026'],
+      ['physical-culture-by-augustas-serapinas-galeria-municipal-do-porto-oct-1-2026', 'physical-culture-porto-edition-galeria-municipal-do-porto-jul-30-2026'],
+      ['the-century-of-gehry-serralves-museum-of-contemporary-art-sep-3-2026', 'o-seculo-de-gehry-serralves-museum-of-contemporary-art-jul-23-2026'],
+      ['iguanas-free-concert-casa-da-musica-may-21-2026', 'iguanas-lo-fi-psychedelia-casa-da-musica-may-21-2026'],
+      ['university-choir-of-porto-cd-launch-casa-da-musica-may-22-2026', 'orfeao-universitario-do-porto-album-launch-casa-da-musica-may-22-2026'],
+      ['pia-camil-outdoor-installation-galeria-municipal-do-porto-may-21-2026', 'pia-camils-textile-installation-galeria-municipal-do-porto-may-21-2026'],
+      ['beginning-serralves-museum-may-23-2026', 'cinthia-marcelles-final-weekend-serralves-museum-may-23-2026'],
+      ['explore-mercado-do-bolhao-rua-formosa-may-2-2026', 'explore-mercado-do-bolhao-mercado-do-bolhao-may-2-2026'],
+      ['serralves-em-luz-serralves-park-oct-8-2026', 'serralves-em-luz-parque-de-serralves-aug-6-2026'],
+      ['feira-do-livro-do-porto-2026-jardins-do-palacio-de-cristal-aug-6-2026', 'feira-do-livro-do-porto-jardins-do-palacio-de-cristal-aug-21-2026'],
+      ['porto-book-fair-jardins-do-palacio-de-cristal-aug-27-2026', 'feira-do-livro-do-porto-jardins-do-palacio-de-cristal-aug-21-2026'],
+      ['porto-book-fair-crystal-palace-gardens-sep-10-2026', 'feira-do-livro-do-porto-jardins-do-palacio-de-cristal-aug-21-2026'],
     ];
-    return dedupes.map(([from, to]) => ({
-      source: `/event/${from}`,
-      destination: `/event/${to}`,
-      permanent: true,
-    }));
+    const eventRedirects = dedupes.flatMap(([from, to]) => [
+      { source: `/event/${from}`, destination: `/event/${to}`, permanent: true },
+      { source: `/pt/event/${from}`, destination: `/pt/event/${to}`, permanent: true },
+    ]);
+
+    // Venue pages for alias slugs ("serralves-museum", "casa-da-musica-sala-2")
+    // → the canonical venue page. Driven by data/venue-aliases.json.
+    const venuePairs = [
+      ...Object.entries(venueAliases.venues).flatMap(([canonical, v]) => v.aliases.map((a) => [a, canonical])),
+      ...Object.entries(venueAliases.redirectOnly),
+    ];
+    const venueRedirects = venuePairs.flatMap(([from, to]) => [
+      { source: `/venue/${from}`, destination: `/venue/${to}`, permanent: true },
+      { source: `/pt/venue/${from}`, destination: `/pt/venue/${to}`, permanent: true },
+    ]);
+
+    return [...eventRedirects, ...venueRedirects];
   },
 };
 

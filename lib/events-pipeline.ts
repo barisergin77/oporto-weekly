@@ -17,9 +17,11 @@ import {
   type EventImage,
   isRealEventUrl,
   composeEventSlug,
-  venueToSlug,
+  canonicalVenueSlugFor,
   findExistingEventByIdentity,
+  listEvents,
 } from './events';
+import { isSameEvent } from './event-identity';
 
 const UA =
   'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 ' +
@@ -148,13 +150,20 @@ ${html}`;
   //   surface) and editorPickRank (this week's pick position).
   const seen = new Set<string>();
   const records: EventRecord[] = [];
+  const corpus = listEvents();
   for (const r of rawEvents) {
     if (!r.name || !r.date || !r.venue) continue;
 
-    // Dedup pass (2): is this event already canonical somewhere?
-    const existing = findExistingEventByIdentity(r.name, r.venue);
+    // Dedup pass (2): is this event already canonical somewhere? Exact
+    // (name, canonical venue) first, then fuzzy name + overlapping dates
+    // (lib/event-identity.ts) — "Wrong Answers" vs "Jenny Holzer: Wrong Answers".
+    const existing = findExistingEventByIdentity(r.name, r.venue, { date: r.date, endDate: r.endDate }, corpus);
     const slug = existing?.slug ?? composeEventSlug(r.name, r.venue, r.date);
     if (seen.has(slug)) continue;
+    // Dedup pass (1b): the same event twice in this run under two names
+    // ("'Call of the West' Exhibition Opening" + "Exhibition Opening: Call of
+    // the West" were Picks #3 and #4 of one edition, 2026-05-21).
+    if (!existing && records.some((rec) => isSameEvent({ name: r.name, venue: r.venue, date: r.date, endDate: r.endDate }, rec))) continue;
     seen.add(slug);
 
     const editorPickRank =
@@ -184,7 +193,7 @@ ${html}`;
       date: r.date,
       endDate: r.endDate,
       venue: r.venue,
-      venueSlug: venueToSlug(r.venue),
+      venueSlug: canonicalVenueSlugFor(r.venue),
       price: r.price,
       priceFrom: r.priceFrom,
       currency: r.currency ?? (r.priceFrom != null ? 'EUR' : undefined),

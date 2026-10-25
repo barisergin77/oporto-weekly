@@ -1,0 +1,167 @@
+{
+  "_comment": "Single source of truth for venue identity. Keys of `venues` are canonical venue slugs (/venue/<slug>); `aliases` are slugs that venueToSlug() produces for other spellings/languages of the same place (PT/EN/ES names, sub-rooms, 'X Club' vs 'X'). Every alias resolves to its canonical slug when events are composed (lib/events.ts canonicalVenueSlugFor), when records are read (listEvents), and old /venue/<alias> and /pt/venue/<alias> URLs 301 to the canonical page (next.config.mjs). `redirectOnly` slugs are too generic to apply to new data (e.g. 'terrace') but were used by past records, so their URLs still redirect. `name` is the display name on the venue page. Only add an alias when it is certainly the same place; check with `npm run find-duplicates`.",
+  "venues": {
+    "casa-da-musica": {
+      "name": "Casa da Música",
+      "aliases": [
+        "casa-da-musica-sala-2",
+        "casa-da-musica-sala-suggia",
+        "sala-suggia",
+        "casa-da-musica-terrace",
+        "terrace-at-casa-da-musica"
+      ]
+    },
+    "serralves": {
+      "name": "Serralves",
+      "aliases": [
+        "serralves-museum",
+        "serralves-museum-of-contemporary-art",
+        "museu-de-serralves",
+        "museu-de-arte-contemporanea-de-serralves",
+        "museo-de-arte-contemporaneo-de-serralves",
+        "museo-de-serralves",
+        "serralves-foundation",
+        "fundacao-de-serralves",
+        "fundacao-serralves",
+        "serralves-park",
+        "parque-de-serralves",
+        "serralves-park-museum",
+        "casa-de-serralves"
+      ]
+    },
+    "alfandega-do-porto": {
+      "name": "Alfândega do Porto",
+      "aliases": [
+        "alfandega-congress-center",
+        "alfandega-congress-centre",
+        "centro-de-congressos-da-alfandega-do-porto",
+        "alfandega-do-porto-gardens",
+        "immersivus-gallery",
+        "immersivus-gallery-porto",
+        "immersivus-porto"
+      ]
+    },
+    "avenida-dos-aliados": {
+      "name": "Avenida dos Aliados",
+      "aliases": [
+        "av-dos-aliados",
+        "av-dos-aliados-praca-d-joao-i",
+        "baixa-av-dos-aliados"
+      ]
+    },
+    "biblioteca-municipal-almeida-garrett": {
+      "name": "Biblioteca Municipal Almeida Garrett",
+      "aliases": [
+        "biblioteca-almeida-garrett",
+        "almeida-garrett-municipal-library",
+        "almeida-garrett-library"
+      ]
+    },
+    "mercado-do-bolhao": {
+      "name": "Mercado do Bolhão",
+      "aliases": [
+        "bolhao",
+        "bolhao-market"
+      ]
+    },
+    "bombarda-art-district": {
+      "name": "Bombarda Art District",
+      "aliases": [
+        "bombarda-art-district-various",
+        "quarteirao-das-artes-de-miguel-bombarda"
+      ]
+    },
+    "casa-sao-roque": {
+      "name": "Casa São Roque",
+      "aliases": [
+        "casa-sao-roque-centro-de-arte",
+        "casa-sao-roque-garden"
+      ]
+    },
+    "jardins-do-palacio-de-cristal": {
+      "name": "Jardins do Palácio de Cristal",
+      "aliases": [
+        "crystal-palace-gardens",
+        "palacio-de-cristal-gardens",
+        "crystal-palace-garden",
+        "porto-book-fair",
+        "feira-do-livro-do-porto"
+      ]
+    },
+    "super-bock-arena": {
+      "name": "Super Bock Arena",
+      "aliases": [
+        "super-bock-arena-porto",
+        "super-bock-arena-pavilhao-rosa-mota"
+      ]
+    },
+    "museu-do-carro-electrico": {
+      "name": "Museu do Carro Eléctrico",
+      "aliases": [
+        "museu-do-carro-eletrico",
+        "tram-museum"
+      ]
+    },
+    "nope-bar": {
+      "name": "Nope Bar",
+      "aliases": [
+        "nope-pelmeni-dumplings-bar"
+      ]
+    },
+    "perola-negra": {
+      "name": "Pérola Negra",
+      "aliases": [
+        "perola-negra-club"
+      ]
+    },
+    "plano-b": {
+      "name": "Plano B",
+      "aliases": [
+        "plano-b-club"
+      ]
+    },
+    "ribeira-docks": {
+      "name": "Ribeira Docks",
+      "aliases": [
+        "ribeira-dock"
+      ]
+    },
+    "samba-no-patio": {
+      "name": "Samba No Pátio",
+      "aliases": [
+        "samba-no-patio-venue"
+      ]
+    },
+    "sao-bento-station": {
+      "name": "São Bento Station",
+      "aliases": [
+        "sao-bento-station-south-wing",
+        "estacao-de-sao-bento"
+      ]
+    },
+    "world-of-wine": {
+      "name": "WOW (World of Wine)",
+      "aliases": [
+        "wow",
+        "wow-porto",
+        "world-of-wine-porto"
+      ]
+    },
+    "rua-formosa": {
+      "name": "Rua Formosa",
+      "aliases": [
+        "r-formosa"
+      ]
+    },
+    "palacio-da-bolsa": {
+      "name": "Palácio da Bolsa",
+      "aliases": [
+        "palacio-da-bolsa-more"
+      ]
+    }
+  },
+  "redirectOnly": {
+    "sala-2": "casa-da-musica",
+    "terrace": "casa-da-musica"
+  }
+}

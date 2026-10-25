@@ -4,6 +4,7 @@ import type { Metadata } from 'next';
 import {
   listEvents,
   listEventsByVenue, hasVenuePage,
+  canonicalVenueName,
   toEventJsonLd,
   eventDisplay,
   CATEGORY_EMOJI,
@@ -26,7 +27,8 @@ function resolveVenueDisplay(slug: string): { name: string; events: EventRecord[
   if (!hasVenuePage(slug)) return null;
   const events = listEventsByVenue(slug);
   if (events.length === 0) return null;
-  const root = events.map((e) => e.venue).slice().sort((a, b) => a.length - b.length)[0].split(/[,/]/)[0].trim();
+  const root = canonicalVenueName(slug) ??
+    events.map((e) => e.venue).slice().sort((a, b) => a.length - b.length)[0].split(/[,/]/)[0].trim();
   return { name: root, events };
 }
 
