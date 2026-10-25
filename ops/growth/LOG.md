@@ -7,6 +7,44 @@ impressions / pos 9.3 over 28 days (prev 28: 191 / 10,293 / 16.9);
 subscribers 56 active (34 EN, 22 PT), ~1.4 net/week; signups by page: none
 recorded yet (tracking started today).
 
+## 2026-10-25 — Forward scan: Fever hubs as listings, guessed URLs dropped (backlog #25a,b)
+- Metrics (`metrics/2026-10-25.json`): 314 clicks / 14,464 impr / pos 10.03
+  over 28d (yesterday 322 / 14,433 / 9.88; prev 28d 249 / 11,598 / 13.2).
+  Last 7d 73 clicks vs 87, impressions 3,094 vs 5,144 (iberanime spike still
+  in prev7), CTR 2.4% vs 1.7%; 7d position 12.2 vs 9.3 (worth watching).
+  GA4 7d 33 users / 39 sessions / 80 PV (prev 31 / 37 / 61); 17 organic, 10
+  organic social, 6 AI, 6 direct; `sign_up` 1. Subscribers 55 (10-22).
+  **Second attributed signup:** EN, from an event page
+  (`/event/final-days-for-voice-by-lydia-ourahmane-…`, 10-25 08:12 UTC).
+- Check from 10-24: the 10-24 forward-scan commit (0a3433d, "Canta-me uma
+  História – ao vivo", Super Bock Arena, 7 Nov) comes from the venue's own
+  event page and its copy is factual. It was already flushed (10-24 22:52), and
+  nothing needed removing. Today's 07:00 cron committed nothing.
+- Change (`lib/forward-scan.ts`, b6150f2): (a) feverup.com URLs without
+  `/m/<id>` are listings (collection hubs like `/porto/candlelight`), both as
+  model URLs and as grounding sources. (b) When the search returned pages on a
+  host but not the model's exact URL, that URL is a guess: it's dropped, the
+  host becomes the rescue hint, and `sources.guessedUrls` counts it.
+- Verified: offline check of 10 URLs (Fever hub/event, casadamusica
+  guessed/real, hosts with no sources stay untouched); tsc; build OK (no page
+  changes); /api/version = b6150f2; health ok (9/9). **Prod dry run: 21
+  discovered, 5 dupes, 3 verified** (10-24: 2), 8 guessed URLs dropped, 3
+  listings. The verified events are real Casa da Música detail pages
+  (`/en/event/schubert-and-strauss/`, `/event/a-arte-da-fuga/`). Before, the
+  model guessed `/agenda/<slug>/<id>` paths there, which 404'd. 13 Gemini
+  calls, 29.9k in / 32.0k out, 84 s.
+- Remaining rejections → backlog #26: `hardclubporto.com/schedule` (listing
+  word not in the filter, 404) ×3; coliseu.pt detail pages are JS-rendered
+  (19 chars of text) ×2; aggregators (`agenda-porto.pt`,
+  `rottacuradoria.com.br`) used as sources; rescue found nothing for 4.
+- Expect: daily cron commits ≥1 clean event most days.
+- Measure on: next runs: read each `chore: forward scan` commit before the
+  21:00 flush. Yield 2026-11-03; search effect 11-17.
+- Result:
+- Next run: #24 (coffee guide merge + 301). It's ready and is the only
+  search-side item; the forward scan has had 4 runs in a row.
+- Needs owner: nothing to decide.
+
 ## 2026-10-24 — Forward scan: grounding sources fixed (backlog #23)
 - Metrics (`metrics/2026-10-24.json`): 322 clicks / 14,433 impr / pos 9.88
   over 28d (yesterday 316 / 14,402 / 9.83; prev 28d 241 / 11,497 / 13.6).
