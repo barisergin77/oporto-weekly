@@ -83,6 +83,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <head>
+        {/* Impact.com site verification (owner, 2026-10-25). Impact reads the `value`
+            attribute, which isn't in React's meta typings, hence the spread. */}
+        <meta name="impact-site-verification" {...{ value: '4a09d612-cbf5-4ebe-8f8e-44e98436abf1' }} />
         {/* Consent Mode defaults — MUST execute before the GTM container, so
             this is beforeInteractive while GTM is afterInteractive. Analytics
             storage starts denied and is only granted by ConsentBanner; a
