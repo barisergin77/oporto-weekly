@@ -28,9 +28,21 @@
  *      pick the latest-dated un-enriched events first, 3 images per pass —
  *      never get crowded by forward events.
  *
+ * 2026-10-25 (owner): "daily research + weekly composition". Every day the
+ * scan also covers the coming edition week thoroughly (the Thu–Wed window
+ * starting next Thursday, plus the rest of the current window), using the
+ * edition's own source list (visitporto, cm-porto, portoalive, agenda-porto,
+ * JN/Público, Porto Expats + Porto Secreto as leads, traditional festivals)
+ * split by category. Thursday's newsletter then COMPOSES the edition from
+ * data/events (lib/edition-compose.ts) instead of researching from scratch.
+ * Re-finding a known event updates it (findExistingEventByIdentity) rather
+ * than adding a duplicate. `mode: 'topup'` is the Thursday composition's
+ * small last-24h search through the same verify + dedup.
+ *
  * Writes only data/events/*.json (deferred; published by deploy-flush at
  * 21:00 UTC). sourceEdition is FORWARD_SOURCE, so the archive, Instagram and
- * pick-history code — all keyed on a real edition slug — ignore these.
+ * pick-history code — all keyed on a real edition slug — ignore these until
+ * an edition features them (extraction then sets the edition slug).
  */
 
 import {
@@ -41,6 +53,7 @@ import {
   canonicalVenueSlugFor,
   canonicalVenueSlug,
   isRealEventUrl,
+  findExistingEventByIdentity,
   FORWARD_SOURCE,
 } from './events';
 import { acquireEventImage, translateEventFields } from './events-pipeline';
@@ -50,8 +63,12 @@ const UA =
   'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 ' +
   '(KHTML, like Gecko) Chrome/120.0 Safari/537.36';
 
-const MAX_VERIFY = 12; // candidates fetched + read per run
-const MAX_ACCEPT = 5;  // events enriched + committed per run
+/** Per-mode limits. Daily: thorough; topup: runs inside the newsletter's 300s budget. */
+const LIMITS = {
+  daily: { maxVerify: 18, verifyBatch: 9, maxAccept: 6, maxUpdate: 6, discoveryTimeoutMs: 90_000, rescue: true, verifyGuardMs: 90_000, enrichGuardMs: 60_000 },
+  topup: { maxVerify: 6, verifyBatch: 6, maxAccept: 6, maxUpdate: 0, discoveryTimeoutMs: 45_000, rescue: false, verifyGuardMs: 40_000, enrichGuardMs: 0 },
+} as const;
+export type ScanMode = keyof typeof LIMITS;
 const CATEGORIES: EventCategory[] = ['music', 'art', 'food', 'family', 'nightlife', 'sports', 'other'];
 const PORTO_AREA = /porto|gaia|matosinhos|maia|gondomar|le[cç]a|valongo|espinho/i;
 
@@ -92,7 +109,12 @@ export interface ScanResult {
   duplicates: number;
   verified: number;
   rejected: Array<{ name: string; reason: string }>;
+  /** New events (not in `existing`). */
   accepted: EventRecord[];
+  /** Existing records re-found and verified again, with gaps filled (same slug). */
+  updated: EventRecord[];
+  /** Discovery searches run (grounded Gemini calls), for the usage estimate. */
+  searches: number;
   usage: ScanUsage;
 }
 
@@ -106,26 +128,51 @@ const addDays = (iso: string, n: number) => {
   return d.toISOString().slice(0, 10);
 };
 
+export type Window = { from: string; to: string };
+
 /**
- * Window: tomorrow to +70 days. Events the Thursday edition also picks up are
- * merged by identity (events-pipeline dedup pass 2), so overlap is harmless.
+ * The edition weeks the daily scan must cover thoroughly:
+ *   next    — the Thu–Wed window of the next edition (on a Thursday: today's).
+ *   current — the rest of the current window, tomorrow → Wednesday (null on
+ *             Wednesday and Thursday, when nothing of it is left).
  */
-export function scanWindow(now: Date = new Date()): { from: string; to: string } {
+export function editionWindows(now: Date = new Date()): { next: Window; current: Window | null } {
   const today = now.toISOString().slice(0, 10);
-  return { from: addDays(today, 1), to: addDays(today, 70) };
+  const wd = now.getUTCDay(); // 0 = Sun, 4 = Thu
+  if (wd === 4) return { next: { from: today, to: addDays(today, 6) }, current: null };
+  const nextThu = addDays(today, (4 - wd + 7) % 7);
+  const cur = { from: addDays(today, 1), to: addDays(nextThu, -1) };
+  return { next: { from: nextThu, to: addDays(nextThu, 6) }, current: cur.from <= cur.to ? cur : null };
 }
 
-/** Last day of the near-term search (the next two weeks). */
-const NEAR_DAYS = 14;
-export const nearEnd = (window: { from: string; to: string }) => {
-  const end = addDays(window.from, NEAR_DAYS - 1);
-  return end < window.to ? end : window.to;
-};
+/**
+ * Window: tomorrow to +70 days (from today on a Thursday, so the early
+ * Thursday run can still add events for the edition composed that morning).
+ * Events the Thursday edition also picks up are merged by identity
+ * (events-pipeline dedup pass 2), so overlap is harmless.
+ */
+export function scanWindow(now: Date = new Date()): Window {
+  const today = now.toISOString().slice(0, 10);
+  const { next } = editionWindows(now);
+  const tomorrow = addDays(today, 1);
+  return { from: next.from < tomorrow ? next.from : tomorrow, to: addDays(today, 70) };
+}
 
-/** Wed 18:00 → Thu 23:59 UTC: the newsletter's window. Never commit then. */
+/**
+ * Latest Thursday start (UTC, minutes past midnight) for the early scan: it
+ * must commit before the 07:45 composition (owner test copy) reads data/events.
+ */
+export const THURSDAY_SCAN_CUTOFF_MIN = 7 * 60 + 30;
+
+/**
+ * Wed 18:00 → Thu 23:59 UTC: the newsletter's window. Never commit then —
+ * except Thursday before 07:30, the early scan that feeds that morning's
+ * composition (cron-forward-scan.yml runs Thu 05:30).
+ */
 export function inFreezeWindow(now: Date = new Date()): boolean {
   const wd = now.getUTCDay();
-  return wd === 4 || (wd === 3 && now.getUTCHours() >= 18);
+  if (wd === 4) return now.getUTCHours() * 60 + now.getUTCMinutes() >= THURSDAY_SCAN_CUTOFF_MIN;
+  return wd === 3 && now.getUTCHours() >= 18;
 }
 
 // ---------------------------------------------------------------------------
@@ -203,16 +250,80 @@ interface Candidate {
   urls: string[];
   /** Host of a dropped listing-page URL: the rescue search looks there first. */
   hintHost?: string;
+  /** Which search found it: 'week' (next edition), 'current' (rest of this week), 'ahead'. */
+  scope?: SearchScope;
+  /** Existing record this candidate re-finds (verified again to fill its gaps). */
+  existing?: EventRecord;
 }
+
+type SearchScope = 'week' | 'current' | 'ahead' | 'topup';
+interface Search { focus: string; from: string; to: string; scope: SearchScope; sources?: string }
 
 const DISCOVERY_FOCUS = [
   'concerts and music (Casa da Música, Coliseu Porto, Super Bock Arena, Hard Club, Teatro Sá da Bandeira, Casa das Artes and others), DJ / club nights with announced line-ups, and festivals',
   'exhibition openings (Serralves, Centro Português de Fotografia, Galeria Municipal, Casa Comum and galleries), theatre and dance (Teatro Nacional São João, Teatro Rivoli, Teatro Campo Alegre), family events, food and wine events, Christmas markets, sports events and races',
 ];
 
-// Near-term search (next two weeks only). Guides are leads, never sources:
-// the url must still be the event's own page, and verify() rejects anything else.
-const NEAR_FOCUS = `anything notable in these two weeks — seasonal and holiday parties, quiz nights, community meetups, markets, club nights, concerts, theatre, family activities. Weekly what's-on guides such as the Porto Expats weekly guide (portoexpats.substack.com) and Porto Secreto's weekend and monthly round-ups (portosecreto.co) are good places to find candidates, but the "url" must be the event's own page, never the guide`;
+// Guides are leads, never sources: the url must still be the event's own
+// page, and verify() rejects anything else (BLOCKED_HOSTS lists the guides).
+const GUIDE_LEADS = `Weekly what's-on guides such as the Porto Expats weekly guide (portoexpats.substack.com) and Porto Secreto's weekend and monthly round-ups (portosecreto.co) are good places to find candidates, but the "url" must be the event's own page, never the guide`;
+
+// The rest of the current edition week (was NEAR_FOCUS, the next 14 days,
+// before the edition-week searches below took over the second week).
+const CURRENT_FOCUS = `anything notable on these days — seasonal and holiday parties, quiz nights, community meetups, markets, club nights, concerts, theatre, family activities. ${GUIDE_LEADS}`;
+
+/**
+ * Edition week (the next Thu–Wed window), one search per category group,
+ * each pointed at the sources the Thursday edition used to research from
+ * (SEARCH_QUERIES in app/api/cron/newsletter/route.ts). 2026-04-30: Queima
+ * das Fitas' serenata only surfaced from site:-targeted queries.
+ */
+export const WEEK_FOCUS: Array<{ focus: string; sources: string }> = [
+  {
+    focus: 'concerts and live music of every genre, fado, jazz, classical, DJ / club nights with announced line-ups',
+    sources: 'visitporto.travel, agenda-porto.pt, casadamusica.com, coliseu.pt, hardclubporto.com, ticketline.pt, bol.pt',
+  },
+  {
+    focus: 'art exhibition openings and new exhibitions, theatre, dance, cinema events, talks',
+    sources: 'agenda-porto.pt, cm-porto.pt (agenda), portoalive.pt, serralves.pt, tnsj.pt, teatromunicipaldoporto.pt, galeriamunicipaldoporto.pt',
+  },
+  {
+    focus: 'food and wine events, markets and fairs, family and kids activities, sports events and races',
+    sources: 'visitporto.travel, cm-porto.pt (agenda), portoalive.pt, agenda-porto.pt',
+  },
+  {
+    focus: 'nightlife, parties, seasonal and holiday events, and traditional / civic / university festivals (Queima das Fitas, São João, Santos Populares, Festa de São Bartolomeu, Magusto / São Martinho, Christmas lights and markets)',
+    sources: 'jn.pt and publico.pt agenda pages, federacaoacademicaporto.pt, queimadasfitasporto.com, cm-porto.pt',
+  },
+  {
+    focus: `anything notable this week that the official agendas may miss — pop-ups, quiz nights, community meetups, special screenings. ${GUIDE_LEADS}`,
+    sources: 'portoexpats.substack.com (Porto Weekly Guide), portosecreto.co (o que fazer no Porto) — leads only',
+  },
+];
+
+/** The Thursday composition's small top-up: things announced in the last day or two. */
+export const TOPUP_FOCUS: Array<{ focus: string; sources: string }> = [
+  {
+    focus: 'events announced or newly listed in the last 24–48 hours: added concert dates, club nights, parties, pop-ups',
+    sources: 'agenda-porto.pt, visitporto.travel, ticketline.pt, bol.pt, feverup.com',
+  },
+  {
+    focus: `events announced or newly listed in the last 24–48 hours: exhibitions, markets, family activities, food events, traditional festivals. ${GUIDE_LEADS}`,
+    sources: 'cm-porto.pt (agenda), portoalive.pt, jn.pt, publico.pt, portoexpats.substack.com and portosecreto.co as leads only',
+  },
+];
+
+/** Discovery searches for one run. Daily: 2 far-ahead + 5 edition-week + ≤1 current-week = ≤8. */
+export function discoverySearches(mode: ScanMode, window: Window, now: Date = new Date()): Search[] {
+  const { next, current } = editionWindows(now);
+  if (mode === 'topup') return TOPUP_FOCUS.map((f) => ({ ...f, from: next.from, to: next.to, scope: 'topup' as const }));
+  const clip = (w: Window): Window => ({ from: w.from < window.from ? window.from : w.from, to: w.to > window.to ? window.to : w.to });
+  return [
+    ...DISCOVERY_FOCUS.map((focus) => ({ focus, from: window.from, to: window.to, scope: 'ahead' as const })),
+    ...WEEK_FOCUS.map((f) => ({ ...f, ...clip(next), scope: 'week' as const })),
+    ...(current ? [{ focus: CURRENT_FOCUS, ...clip(current), scope: 'current' as const }] : []),
+  ];
+}
 
 const isFetchable = (url: string) => isRealEventUrl(url) && !BLOCKED_HOSTS.test(new URL(url).hostname) && !isListingUrl(url);
 
@@ -304,24 +415,25 @@ export function urlsFor(c: { name: string; url: string }, sources: string[]): st
   return urls.slice(0, 3);
 }
 
-async function discover(usage: ScanUsage, window: { from: string; to: string }, stats: SourceStats): Promise<Candidate[]> {
-  const searches = [
-    ...DISCOVERY_FOCUS.map((focus) => ({ focus, from: window.from, to: window.to })),
-    { focus: NEAR_FOCUS, from: window.from, to: nearEnd(window) },
-  ];
-  const lists = await Promise.all(searches.map(async ({ focus, from, to }) => {
+async function discover(usage: ScanUsage, window: Window, stats: SourceStats, searches: Search[], timeoutMs: number): Promise<Candidate[]> {
+  const lists = await Promise.all(searches.map(async ({ focus, from, to, scope, sources: hint }) => {
+    // Edition-week searches also take runs that started earlier but are on
+    // that week (an exhibition that opened last month is still this week's news).
+    const when = scope === 'ahead'
+      ? `that START between ${from} and ${to}`
+      : `that take place between ${from} and ${to} (including runs that started earlier and are still on)`;
     // #23: plain sentences, not JSON. Gemini attaches grounding chunks (the
     // pages it actually found) to prose it can attribute; JSON-only replies
     // came back with none (2026-10-23), leaving only model-written URLs.
-    const prompt = `Using web search, find notable public events in Porto, Portugal (including Vila Nova de Gaia and Matosinhos) that START between ${from} and ${to}.
-Focus: ${focus}.
+    const prompt = `Using web search, find notable public events in Porto, Portugal (including Vila Nova de Gaia and Matosinhos) ${when}.
+Focus: ${focus}.${hint ? `\nGood places to look: ${hint}.` : ''}
 
 Only include an event if you found its official page: the organiser's or venue's own page for THAT ONE event, or its ticketing page (e.g. ticketline.pt, bol.pt, blueticket.pt, seetickets, feverup.com, casadamusica.com, coliseu.pt) — never a venue's agenda/programme page, a search page, a homepage, a news article, blog, listing site or social-media post. Up to 15 events.
 
 For each event write one plain sentence, one per line, stating its name, venue, start date (and end date if it runs several days), what kind of event it is, and the address of its official page exactly as it appeared in your search results (never a guessed or constructed address). If you find none, write NONE.`;
     try {
       const raw: string[] = [];
-      const found = await gemini(usage, prompt, { search: true, timeoutMs: 90_000, sources: raw, grounding: stats.grounding });
+      const found = await gemini(usage, prompt, { search: true, timeoutMs, sources: raw, grounding: stats.grounding });
       const list = /^\s*NONE\s*$/i.test(found) ? [] : await structure(usage, found);
       const sources = await resolveSources(raw);
       stats.returned += raw.length;
@@ -340,17 +452,19 @@ For each event write one plain sentence, one per line, stating its name, venue, 
         }
         const urls = urlsFor({ name: c.name, url }, sources);
         if (urls.some((u) => u !== url)) stats.matched++;
-        return { ...c, url, urls, hintHost };
+        return { ...c, url, urls, hintHost, scope };
       });
     } catch (err) {
       console.warn('[forward-scan] discovery failed:', err instanceof Error ? err.message : err);
       return [];
     }
   }));
-  // Candidates without a usable URL are kept for the rescue search.
+  // Candidates without a usable URL are kept for the rescue search. A run that
+  // started before the window but is still on counts (edition-week searches).
   return lists.flat().filter((c) =>
     /^\d{4}-\d{2}-\d{2}$/.test(c.date ?? '') &&
-    c.date >= window.from && c.date <= window.to
+    c.date <= window.to &&
+    (c.date >= window.from || (/^\d{4}-\d{2}-\d{2}$/.test(c.endDate ?? '') && c.endDate! >= window.from))
   );
 }
 
@@ -383,7 +497,7 @@ ${lines}
 For each event write one plain sentence naming it, its date and venue, and the page you found for it (or that you found none). The pages themselves are taken from your search results.`;
   const raw: string[] = [];
   try {
-    await gemini(usage, prompt, { search: true, timeoutMs: 60_000, sources: raw, grounding });
+    await gemini(usage, prompt, { search: true, timeoutMs: 45_000, sources: raw, grounding });
   } catch (err) {
     console.warn('[forward-scan] rescue search failed:', err instanceof Error ? err.message : err);
     return 0;
@@ -417,6 +531,34 @@ function similarNames(a: string, b: string): boolean {
 const day = (iso: string) => iso.slice(0, 10);
 function overlaps(a: { date: string; endDate?: string | null }, b: { date: string; endDate?: string | null }, slackDays = 3): boolean {
   return day(a.date) <= addDays(day(b.endDate || b.date), slackDays) && day(b.date) <= addDays(day(a.endDate || a.date), slackDays);
+}
+
+/**
+ * A known record worth verifying again when re-found in an edition week: it
+ * lacks a real link, a long description or an end date the page may give.
+ */
+export function needsUpdate(e: EventRecord): boolean {
+  return !isRealEventUrl(e.externalLink) || !e.longDescription?.trim() || !e.description?.trim();
+}
+
+/**
+ * Re-found record + verified page facts → the record with its gaps filled.
+ * Never overwrites accumulated enrichment (image, translations, long copy) or
+ * the record's identity (slug, name, venue, start date, sourceEdition).
+ */
+export function mergeVerified(existing: EventRecord, fresh: EventRecord, now: Date = new Date()): EventRecord {
+  return {
+    ...existing,
+    endDate: existing.endDate ?? fresh.endDate,
+    price: existing.price ?? fresh.price,
+    priceFrom: existing.priceFrom ?? fresh.priceFrom,
+    currency: existing.currency ?? fresh.currency,
+    description: existing.description?.trim() ? existing.description : fresh.description,
+    longDescription: existing.longDescription?.trim() ? existing.longDescription : fresh.longDescription,
+    externalLink: isRealEventUrl(existing.externalLink) ? existing.externalLink : fresh.externalLink,
+    pickCandidate: fresh.pickCandidate ?? existing.pickCandidate,
+    lastSeenAt: now.toISOString(),
+  };
 }
 
 /** True when `c` is already published (or already accepted this run). */
@@ -530,6 +672,7 @@ interface PageFacts {
   price?: string | null;
   priceFrom?: number | null;
   category: EventCategory;
+  pickCandidate?: boolean;
   description: string;
   longDescription: string;
 }
@@ -573,6 +716,7 @@ Reply with ONLY this JSON object:
   "price": price as displayed on the page ("€25", "€15–€30", "Free"), else null,
   "priceFrom": lowest numeric price in EUR if stated, else null,
   "category": "music" | "art" | "food" | "family" | "nightlife" | "sports" | "other",
+  "pickCandidate": true only for a specific, time-sensitive event worth highlighting — a concert or show on a date, a festival, a premiere or opening, a one-off party or traditional celebration; false for weekly/recurring markets, classes, tours, permanent attractions and long-running exhibitions,
   "description": 1–2 factual English sentences on what the event is, only from the page. No adjectives like "unmissable", "vibrant", "stunning".,
   "longDescription": 2–3 short English paragraphs separated by a blank line, 120–220 words, neutral and factual, ONLY facts stated on the page (who performs or exhibits, the format, the date, venue, ticket details). If the page says little, write less. No invented history, transport tips or opinions.
 }
@@ -599,8 +743,9 @@ ${page.text}`;
   if (!/^\d{4}-\d{2}-\d{2}$/.test(facts.date ?? '')) return { reason: 'no date' };
   const dom = String(Number(facts.date.slice(8, 10)));
   if (!new RegExp(`(^|\\D)0?${dom}(\\D|$)`).test(facts.dateQuote)) return { reason: 'date quote lacks the day' };
-  if (facts.date < window.from || facts.date > window.to) return { reason: `date ${facts.date} outside window` };
   if (facts.endDate && (!/^\d{4}-\d{2}-\d{2}$/.test(facts.endDate) || facts.endDate < facts.date)) facts.endDate = null;
+  // On during the window: starts in it, or a run that started earlier and is still on.
+  if (facts.date > window.to || (facts.endDate ?? facts.date) < window.from) return { reason: `date ${facts.date} outside window` };
   if (!PORTO_AREA.test(`${facts.city} ${facts.venue}`)) return { reason: `not in the Porto area (${facts.city})` };
   if (!CATEGORIES.includes(facts.category)) facts.category = 'other';
   if (!facts.description?.trim() || !facts.longDescription?.trim()) return { reason: 'no description' };
@@ -624,6 +769,8 @@ ${page.text}`;
 // 4. Enrich + assemble
 // ---------------------------------------------------------------------------
 
+const spanDays = (from: string, to?: string | null) => (Date.parse(day(to || from)) - Date.parse(day(from))) / 86_400_000;
+
 async function toRecord(usage: ScanUsage, facts: PageFacts, url: string, enrich: boolean): Promise<EventRecord | { reason: string }> {
   const date = facts.time && /^\d{2}:\d{2}$/.test(facts.time) ? `${facts.date}T${facts.time}` : facts.date;
   const priceFrom = typeof facts.priceFrom === 'number' && facts.priceFrom > 0 ? facts.priceFrom : undefined;
@@ -642,7 +789,10 @@ async function toRecord(usage: ScanUsage, facts: PageFacts, url: string, enrich:
     longDescription: facts.longDescription.trim(),
     sourceEdition: FORWARD_SOURCE,
     externalLink: url,
+    // Long runs never take an Editor's Pick slot (edition prompt rule).
+    pickCandidate: facts.pickCandidate === true && spanDays(facts.date, facts.endDate) <= 7,
     addedAt: new Date().toISOString(),
+    lastSeenAt: new Date().toISOString(),
   };
   if (!enrich) return base; // local test only: skips PT + image (Imgur, image generation)
 
@@ -660,54 +810,81 @@ async function toRecord(usage: ScanUsage, facts: PageFacts, url: string, enrich:
 // Run
 // ---------------------------------------------------------------------------
 
+const SCOPE_ORDER: Record<SearchScope, number> = { topup: 0, current: 0, week: 1, ahead: 2 };
+
 export async function runForwardScan(
   existing: EventRecord[],
   now: Date = new Date(),
   deadline = Date.now() + 240_000,
-  opts: { enrich?: boolean } = {}
+  opts: { enrich?: boolean; mode?: ScanMode } = {}
 ): Promise<ScanResult> {
   if (!process.env.GEMINI_API_KEY) throw new Error('GEMINI_API_KEY not set');
+  const mode = opts.mode ?? 'daily';
+  const L = LIMITS[mode];
   const usage: ScanUsage = { geminiCalls: 0, promptTokens: 0, outputTokens: 0, imageGenerations: 0 };
-  const window = scanWindow(now);
+  const window = mode === 'topup' ? editionWindows(now).next : scanWindow(now);
   const rejected: ScanResult['rejected'] = [];
   const sources: SourceStats = {
     returned: 0, resolved: 0, matched: 0, listingUrls: 0, deadHosts: [], guessedUrls: 0, rescued: 0,
     grounding: { calls: 0, withMetadata: 0, withQueries: 0, withChunks: 0, withSupports: 0 },
   };
 
-  const discovered = await discover(usage, window, sources);
+  const searches = discoverySearches(mode, window, now);
+  const discovered = await discover(usage, window, sources, searches, L.discoveryTimeoutMs);
   const known = [...existing];
   const fresh: Candidate[] = [];
+  const refound: Candidate[] = [];
   let duplicates = 0;
   for (const c of discovered) {
+    // Same event as a known record (lib/event-identity.ts): verify it again
+    // only when it has gaps to fill, otherwise it is a plain duplicate.
+    const match = findExistingEventByIdentity(c.name, c.venue, { date: c.date, endDate: c.endDate }, existing);
+    if (match) {
+      if (L.maxUpdate > 0 && c.scope !== 'ahead' && needsUpdate(match) && !refound.some((r) => r.existing?.slug === match.slug)) {
+        refound.push({ ...c, existing: match });
+      } else {
+        duplicates++;
+      }
+      continue;
+    }
     if (isDuplicate(c, known)) { duplicates++; continue; }
     fresh.push(c);
     // Count it as known so the second discovery list can't repeat it.
     known.push({ ...c, slug: '', venueSlug: canonicalVenueSlugFor(c.venue), category: 'other', description: '', sourceEdition: FORWARD_SOURCE, addedAt: '' });
   }
 
-  // The next two weeks first: those pages can't wait for a later run.
-  const near = nearEnd(window);
-  fresh.sort((a, b) => Number(a.date > near) - Number(b.date > near));
+  // The current and next edition weeks first: those pages can't wait for a later run.
+  const byScope = (a: Candidate, b: Candidate) => SCOPE_ORDER[a.scope ?? 'ahead'] - SCOPE_ORDER[b.scope ?? 'ahead'] || a.date.localeCompare(b.date);
+  fresh.sort(byScope);
+  refound.sort(byScope);
+  const queue = [...fresh, ...refound.slice(0, L.maxUpdate)];
 
   // Rescue URLs only for the candidates we'd actually check this run.
-  const head = fresh.slice(0, MAX_VERIFY);
+  const head = queue.slice(0, L.maxVerify);
   const noUrl = head.filter((c) => c.urls.length === 0);
-  sources.rescued = await rescueUrls(usage, noUrl, sources.grounding);
+  if (L.rescue) sources.rescued = await rescueUrls(usage, noUrl, sources.grounding);
   for (const c of noUrl) if (c.urls.length === 0) rejected.push({ name: c.name, reason: 'no usable URL (listing page, dead host or none; rescue search found nothing)' });
-  const toVerify = fresh.filter((c) => c.urls.length > 0).slice(0, MAX_VERIFY);
-  const verified: Array<{ facts: PageFacts; url: string }> = [];
-  for (let i = 0; i < toVerify.length && Date.now() < deadline - 90_000; i += 6) {
-    const batch = await Promise.all(toVerify.slice(i, i + 6).map((c) => verify(usage, c, window)));
+  const toVerify = queue.filter((c) => c.urls.length > 0).slice(0, L.maxVerify);
+  const verified: Array<{ facts: PageFacts; url: string; existing?: EventRecord }> = [];
+  for (let i = 0; i < toVerify.length && Date.now() < deadline - L.verifyGuardMs; i += L.verifyBatch) {
+    const batch = await Promise.all(toVerify.slice(i, i + L.verifyBatch).map((c) => verify(usage, c, window)));
     batch.forEach((r, j) => {
       if ('reason' in r) rejected.push({ name: toVerify[i + j].name, reason: r.reason });
-      else verified.push(r);
+      else verified.push({ ...r, existing: toVerify[i + j].existing });
     });
   }
 
-  // The page's own name/date can differ from discovery's: dedupe again.
+  // The page's own name/date can differ from discovery's: dedupe again, now
+  // with the identity check — a match updates that record instead.
   const keep: Array<{ facts: PageFacts; url: string }> = [];
+  const updates: Array<{ facts: PageFacts; url: string; existing: EventRecord }> = [];
   for (const v of verified) {
+    const match = findExistingEventByIdentity(v.facts.name, v.facts.venue, { date: v.facts.date, endDate: v.facts.endDate }, existing) ?? v.existing;
+    if (match) {
+      if (L.maxUpdate > 0 && needsUpdate(match) && !updates.some((u) => u.existing.slug === match.slug)) updates.push({ ...v, existing: match });
+      else duplicates++;
+      continue;
+    }
     if (isDuplicate(v.facts, existing) || keep.some((k) => similarNames(k.facts.name, v.facts.name) && overlaps(k.facts, v.facts))) {
       duplicates++;
       continue;
@@ -716,14 +893,48 @@ export async function runForwardScan(
   }
 
   const accepted: EventRecord[] = [];
-  if (Date.now() < deadline - 60_000) {
-    const enrich = opts.enrich ?? true;
-    const built = await Promise.all(keep.slice(0, MAX_ACCEPT).map((v) => toRecord(usage, v.facts, v.url, enrich)));
+  const updated: EventRecord[] = [];
+  if (Date.now() < deadline - L.enrichGuardMs) {
+    // Topup runs inside the newsletter: no PT / image there (the Thursday
+    // enrichment crons fill those in), so it never enriches.
+    const enrich = mode === 'topup' ? false : (opts.enrich ?? true);
+    const built = await Promise.all(keep.slice(0, L.maxAccept).map((v) => toRecord(usage, v.facts, v.url, enrich)));
     built.forEach((r, j) => {
       if ('reason' in r) rejected.push({ name: keep[j].facts.name, reason: r.reason });
       else accepted.push(r);
     });
+    // Updates fill gaps from the page only — no translation or image here.
+    for (const u of updates.slice(0, L.maxUpdate)) {
+      const r = await toRecord(usage, u.facts, u.url, false);
+      if (!('reason' in r)) updated.push(mergeVerified(u.existing, r, now));
+    }
   }
 
-  return { window, sources, discovered: discovered.length, duplicates, verified: verified.length, rejected, accepted, usage };
+  return { window, sources, discovered: discovered.length, duplicates, verified: verified.length, rejected, accepted, updated, searches: searches.length, usage };
+}
+
+/**
+ * The Thursday composition's top-up (2 searches for things announced in the
+ * last day or two, same verify + dedup, no enrichment). Never throws and
+ * never outlives `budgetMs`: a slow or failed top-up just adds nothing.
+ * `editionStart` is the edition's Thursday, so the window is that Thu–Wed.
+ */
+export async function runTopUp(
+  existing: EventRecord[],
+  editionStart: Date,
+  budgetMs: number
+): Promise<{ events: EventRecord[]; result: ScanResult | null; error?: string }> {
+  const deadline = Date.now() + budgetMs;
+  let timer: ReturnType<typeof setTimeout> | undefined;
+  try {
+    const result = await Promise.race([
+      runForwardScan(existing, editionStart, deadline, { mode: 'topup', enrich: false }),
+      new Promise<never>((_, reject) => { timer = setTimeout(() => reject(new Error(`top-up exceeded ${Math.round(budgetMs / 1000)}s`)), budgetMs + 5_000); }),
+    ]);
+    return { events: result.accepted, result };
+  } catch (err) {
+    return { events: [], result: null, error: err instanceof Error ? err.message : String(err) };
+  } finally {
+    if (timer) clearTimeout(timer);
+  }
 }
