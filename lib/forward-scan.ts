@@ -75,6 +75,8 @@ export interface SourceStats {
   listingUrls: number;
   /** Model URLs dropped because the host doesn't resolve in DNS (#22d). */
   deadHosts: string[];
+  /** Model URLs dropped as guesses: the search returned other pages on that host, not this one (#25b). */
+  guessedUrls: number;
   /** Candidates that had no usable URL and got one from the rescue search (#22e). */
   rescued: number;
   /** #23: what each grounded call's metadata held (returned was 0 on 2026-10-23). */
@@ -217,10 +219,13 @@ const isFetchable = (url: string) => isRealEventUrl(url) && !BLOCKED_HOSTS.test(
 // candidates pointed at hardclubporto.com/agenda or coliseu.pt/agenda.
 const LISTING_PATH = /^\/(?:[a-z]{2}(?:-[a-z]{2})?\/)?(?:agenda|eventos?|events?|programa(?:cao|ção)?|program(?:me)?|calend[aá]rio|calendar|bilheteira|tickets?|pesquisa|procurar|search|espetaculos|espectaculos|concertos|shows|whats-on|what-s-on)?\/?$/i;
 const SEARCH_QUERY = /[?&](?:q|s|search|query|pesquisa|keyword)=/i;
+// #25a: Fever's single events live at /m/<id>; anything else (/porto/candlelight)
+// is a collection hub. 2026-10-24: a Candlelight concert got "verified" from one.
+const isHubPage = (u: URL) => /(^|\.)feverup\.com$/i.test(u.hostname) && !/\/m\/\d+/.test(u.pathname);
 export function isListingUrl(url: string): boolean {
   try {
     const u = new URL(url);
-    return LISTING_PATH.test(u.pathname) || /\/(?:pesquisa|search)(?:\/|$)/i.test(u.pathname) || SEARCH_QUERY.test(u.search);
+    return LISTING_PATH.test(u.pathname) || /\/(?:pesquisa|search)(?:\/|$)/i.test(u.pathname) || SEARCH_QUERY.test(u.search) || isHubPage(u);
   } catch {
     return true;
   }
@@ -241,6 +246,21 @@ async function deadHosts(urls: string[]): Promise<Set<string>> {
   return dead;
 }
 const bareHost = (url: string) => new URL(url).hostname.toLowerCase().replace(/^www\./, '');
+const samePage = (a: string, b: string) => {
+  const key = (u: string) => { const x = new URL(u); return bareHost(u) + x.pathname.replace(/\/+$/, '').toLowerCase(); };
+  return key(a) === key(b);
+};
+
+/**
+ * #25b: the search returned pages on this host but not this one, so the model
+ * built the path itself (casadamusica.com/agenda/<slug>/<id>, hardclubporto.com
+ * /event/<slug>/ all 404'd on 2026-10-24). Use the sources / rescue instead.
+ */
+export function isGuessed(url: string, sources: string[]): boolean {
+  const host = bareHost(url);
+  const onHost = sources.filter((s) => bareHost(s) === host);
+  return onHost.length > 0 && !onHost.some((s) => samePage(s, url));
+}
 
 /**
  * Grounding chunks are vertexaisearch redirect URIs; read the Location header
@@ -314,6 +334,7 @@ For each event write one plain sentence, one per line, stating its name, venue, 
           const host = new URL(url).hostname;
           if (dead.has(host)) { stats.deadHosts.push(host); url = ''; }
           else if (isListingUrl(url)) { stats.listingUrls++; hintHost = host.replace(/^www\./, ''); url = ''; }
+          else if (isGuessed(url, sources)) { stats.guessedUrls++; hintHost = bareHost(url); url = ''; }
         }
         const urls = urlsFor({ name: c.name, url }, sources);
         if (urls.some((u) => u !== url)) stats.matched++;
@@ -648,7 +669,7 @@ export async function runForwardScan(
   const window = scanWindow(now);
   const rejected: ScanResult['rejected'] = [];
   const sources: SourceStats = {
-    returned: 0, resolved: 0, matched: 0, listingUrls: 0, deadHosts: [], rescued: 0,
+    returned: 0, resolved: 0, matched: 0, listingUrls: 0, deadHosts: [], guessedUrls: 0, rescued: 0,
     grounding: { calls: 0, withMetadata: 0, withQueries: 0, withChunks: 0, withSupports: 0 },
   };
 
