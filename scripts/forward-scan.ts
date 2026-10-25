@@ -9,12 +9,17 @@
  */
 
 import { listEvents } from '../lib/events';
+import fs from 'node:fs';
 import { runForwardScan } from '../lib/forward-scan';
+import { LEADS_PATH, parseLeadsFile } from '../lib/forward-leads';
 
 async function main() {
   const existing = listEvents();
   console.log(`${existing.length} existing events`);
-  const r = await runForwardScan(existing, new Date(), Date.now() + 280_000, { enrich: false });
+  // Local leads file, read-only here: outcomes are printed, never written back.
+  const leads = parseLeadsFile(fs.existsSync(LEADS_PATH) ? fs.readFileSync(LEADS_PATH, 'utf-8') : null)?.leads;
+  console.log(`${leads?.length ?? 0} leads`);
+  const r = await runForwardScan(existing, new Date(), Date.now() + 280_000, { enrich: false, leads });
   console.log(JSON.stringify({ ...r, accepted: r.accepted.map((e) => ({ ...e, longDescription: e.longDescription?.slice(0, 160) + '…' })) }, null, 2));
 }
 

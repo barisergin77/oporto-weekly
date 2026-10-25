@@ -14,6 +14,13 @@
  * GitHub's scheduler can fire hours late — except Thursday before 07:30,
  * the early run that feeds that morning's composition.
  *
+ * Leads (data/forward-leads.json, lib/forward-leads.ts): read from GitHub main,
+ * the due ones verified first through the same path, and their outcomes
+ * (done / attempts / rejected / dropped) committed with the events — applied
+ * to a fresh re-read of the file so leads added meanwhile are kept. If the
+ * file can't be read from GitHub the run skips leads (never the bundle copy,
+ * which may be stale and would overwrite newer outcomes).
+ *
  * ?dryRun=1 runs discovery, dedupe and verification only: no PT translation,
  * no image (no Imgur upload / image generation), no commit.
  */
@@ -23,7 +30,8 @@ export const maxDuration = 300;
 
 import { NextRequest, NextResponse } from 'next/server';
 import { inFreezeWindow, runForwardScan } from '@/lib/forward-scan';
-import { commitFiles } from '@/lib/github';
+import { commitFiles, getFileContent } from '@/lib/github';
+import { LEADS_PATH, applyLeadOutcomes, leadsChanged, parseLeadsFile, serializeLeadsFile } from '@/lib/forward-leads';
 import { loadEventsFresh } from '@/lib/event-store';
 import { checkCronAuth } from '@/lib/cron-auth';
 
@@ -42,12 +50,29 @@ export async function GET(req: NextRequest) {
     const { events: existing, source, fetched } = await loadEventsFresh();
     console.log(`[cron/forward-scan] ${existing.length} existing events (${source}, ${fetched} fetched)`);
 
-    const result = await runForwardScan(existing, new Date(), startedAt + 250_000, { enrich: !dryRun });
+    const leadsFile = parseLeadsFile(await getFileContent(LEADS_PATH));
+    if (!leadsFile) console.warn(`[cron/forward-scan] ${LEADS_PATH} not readable from GitHub — skipping leads this run`);
+
+    const result = await runForwardScan(existing, new Date(), startedAt + 250_000, { enrich: !dryRun, leads: leadsFile?.leads });
     const slugs = new Set(existing.map((e) => e.slug));
     const toFile = (e: { slug: string }) => ({ path: `data/events/${e.slug}.json`, content: JSON.stringify(e, null, 2) });
     const added = result.accepted.filter((e) => !slugs.has(e.slug)).map(toFile);
     const updated = result.updated.filter((e) => slugs.has(e.slug)).map(toFile);
-    const files = [...added, ...updated];
+    const files: Array<{ path: string; content: string }> = [...added, ...updated];
+
+    // Only outcomes whose events are actually in this commit count as done.
+    const committedSlugs = new Set([...existing.map((e) => e.slug), ...result.accepted.map((e) => e.slug), ...result.updated.map((e) => e.slug)]);
+    const outcomes = result.leads.outcomes.filter((o) => o.kind !== 'done' || committedSlugs.has(o.slug));
+    let leadsNote = '';
+    if (leadsFile && outcomes.length > 0 && !dryRun) {
+      const latest = parseLeadsFile(await getFileContent(LEADS_PATH)) ?? leadsFile;
+      const next = applyLeadOutcomes(latest, outcomes);
+      if (leadsChanged(latest, next)) {
+        files.push({ path: LEADS_PATH, content: serializeLeadsFile(next) });
+        leadsNote = `, ${outcomes.length} lead${outcomes.length === 1 ? '' : 's'} resolved`;
+      }
+    }
+    for (const o of result.leads.outcomes) console.log(`[cron/forward-scan] lead ${o.kind} ${o.key}${'reason' in o && o.reason ? `: ${o.reason}` : ''}`);
 
     console.log(`[cron/forward-scan] sources: ${JSON.stringify(result.sources)}`);
     for (const r of result.rejected) console.log(`[cron/forward-scan] ✗ ${r.name}: ${r.reason}`);
@@ -58,7 +83,7 @@ export async function GET(req: NextRequest) {
       await commitFiles(
         files,
         `chore: forward scan — ${added.length} upcoming event${added.length === 1 ? '' : 's'}` +
-        (updated.length ? `, ${updated.length} updated` : '')
+        (updated.length ? `, ${updated.length} updated` : '') + leadsNote
       );
     }
 
@@ -71,6 +96,7 @@ export async function GET(req: NextRequest) {
       duplicates: result.duplicates,
       verified: result.verified,
       searches: result.searches,
+      leads: { read: !!leadsFile, checked: result.leads.checked, outcomes: result.leads.outcomes },
       committed: dryRun ? 0 : added.length,
       updatedCount: dryRun ? 0 : updated.length,
       updated: result.updated.map((e) => ({ slug: e.slug, source: e.externalLink })),

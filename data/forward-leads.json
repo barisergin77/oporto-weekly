@@ -1,0 +1,276 @@
+{
+  "_readme": [
+    "Leads queue for the daily forward scan (lib/forward-leads.ts has the full spec).",
+    "Leads are pointers, never sources: each is verified through forward-scan verify() against its own event page; every published fact comes from that page. Never cite `source` or `note`.",
+    "Add a lead: {name, date (ISO, optional time: 2026-11-28T18:00), endDate? (ISO), venue, url? (the event's own organiser/venue/ticketing page; omit if unknown), note?, source (e.g. casa-da-musica-newsletter-2026-11), addedAt (ISO)}.",
+    "The scan writes status (pending|done|rejected), attempts, lastTriedAt, reason, eventSlug, resolvedAt — leave them out when adding. Up to 8 leads per run, before discovery; rejected after 3 failed runs; past-dated leads are dropped.",
+    "Read at runtime from GitHub main (no deploy needed): edits here are bookkeeping-only for the Vercel build step."
+  ],
+  "leads": [
+    {
+      "name": "Festival Floresta Amazónica – Girando Mundos",
+      "date": "2026-11-12",
+      "endDate": "2026-11-28",
+      "venue": "Casa da Música",
+      "url": "https://casadamusica.com/festival-amazonia/",
+      "note": "Umbrella festival, 12–28 Nov; long run (never a pick).",
+      "source": "casa-da-musica-newsletter-2026-11",
+      "addedAt": "2026-10-25T12:00:00Z"
+    },
+    {
+      "name": "Caminhos da Floresta",
+      "date": "2026-11-12",
+      "endDate": "2026-11-28",
+      "venue": "Casa da Música",
+      "url": "https://casadamusica.com/festival-amazonia/",
+      "note": "Exhibitions, installations, documentaries in foyers/bars, all day; free. No page of its own — section of the festival page (may resolve as the festival itself).",
+      "source": "casa-da-musica-newsletter-2026-11",
+      "addedAt": "2026-10-25T12:00:00Z"
+    },
+    {
+      "name": "Manoel Cordeiro convida Euterpe + Curcumbia",
+      "date": "2026-11-12T21:00",
+      "venue": "Casa da Música",
+      "url": "https://casadamusica.com/event/cordeiro-convida-euterpe-curcumbia/?selected_session=59063",
+      "note": "Sala 2; Floresta Amazónica.",
+      "source": "casa-da-musica-newsletter-2026-11",
+      "addedAt": "2026-10-25T12:00:00Z"
+    },
+    {
+      "name": "Will Love + DJ Waldo Squash",
+      "date": "2026-11-12T23:30",
+      "venue": "Casa da Música",
+      "url": "https://casadamusica.com/event/will-love-dj-waldo-squash-b2b-djs-gang-do-electro/?selected_session=59171",
+      "note": "Café Casa da Música; free; Floresta Amazónica.",
+      "source": "casa-da-musica-newsletter-2026-11",
+      "addedAt": "2026-10-25T12:00:00Z"
+    },
+    {
+      "name": "Clubbing Amazónico",
+      "date": "2026-11-13T21:00",
+      "venue": "Casa da Música",
+      "url": "https://casadamusica.com/event/clubbing-amazonico/?selected_session=59185",
+      "note": "Various spaces — Puwewere Puyanawa, MIND, Gang do Eletro; Floresta Amazónica.",
+      "source": "casa-da-musica-newsletter-2026-11",
+      "addedAt": "2026-10-25T12:00:00Z"
+    },
+    {
+      "name": "Floresta do Amazonas – Orquestra Sinfónica",
+      "date": "2026-11-14T18:00",
+      "venue": "Casa da Música",
+      "url": "https://casadamusica.com/event/amazonia/?selected_session=44136",
+      "note": "Sala Suggia; Villa-Lobos with visuals by Bianca Dacosta; Floresta Amazónica.",
+      "source": "casa-da-musica-newsletter-2026-11",
+      "addedAt": "2026-10-25T12:00:00Z"
+    },
+    {
+      "name": "Pensar a Floresta que Cria",
+      "date": "2026-11-15T17:00",
+      "venue": "Casa da Música",
+      "url": "https://casadamusica.com/event/conferencia-musica-e-amazonia/?selected_session=59214",
+      "note": "Talk, Blue Lounge; free; Floresta Amazónica.",
+      "source": "casa-da-musica-newsletter-2026-11",
+      "addedAt": "2026-10-25T12:00:00Z"
+    },
+    {
+      "name": "Zaynara + Fafá de Belém",
+      "date": "2026-11-15T20:30",
+      "venue": "Casa da Música",
+      "url": "https://casadamusica.com/event/zaynara-fafa-de-belem/?selected_session=59196",
+      "note": "Sala Suggia; Floresta Amazónica.",
+      "source": "casa-da-musica-newsletter-2026-11",
+      "addedAt": "2026-10-25T12:00:00Z"
+    },
+    {
+      "name": "O Último Canto dos Pássaros",
+      "date": "2026-11-28T15:00",
+      "venue": "Casa da Música",
+      "url": "https://casadamusica.com/event/o-ultimo-canto-dos-passaros-2/?selected_session=57363",
+      "note": "Sala 2; family concert; Floresta Amazónica.",
+      "source": "casa-da-musica-newsletter-2026-11",
+      "addedAt": "2026-10-25T12:00:00Z"
+    },
+    {
+      "name": "Irmãos Jussen",
+      "date": "2026-11-05T19:30",
+      "venue": "Casa da Música",
+      "url": "https://casadamusica.com/event/irmaos-jussen/?selected_session=44120",
+      "note": "Sala Suggia; piano month.",
+      "source": "casa-da-musica-newsletter-2026-11",
+      "addedAt": "2026-10-25T12:00:00Z"
+    },
+    {
+      "name": "A Terceira de Rachmaninoff",
+      "date": "2026-11-07T18:00",
+      "venue": "Casa da Música",
+      "url": "https://casadamusica.com/event/a-terceira-de-rachmaninoff/?selected_session=44124",
+      "note": "Sala Suggia; Orquestra Sinfónica with Leo de María (Villa-Lobos Bachianas Brasileiras 3) + Rachmaninoff Symphony 3 — one concert.",
+      "source": "casa-da-musica-newsletter-2026-11",
+      "addedAt": "2026-10-25T12:00:00Z"
+    },
+    {
+      "name": "Saint-Saëns Organ Symphony – Orquestra Sinfónica",
+      "date": "2026-11-21T18:00",
+      "venue": "Casa da Música",
+      "url": "https://casadamusica.com/event/sinfonia-orgao/?selected_session=44140",
+      "note": "Sala Suggia; page title 'Sinfonia Órgão'.",
+      "source": "casa-da-musica-newsletter-2026-11",
+      "addedAt": "2026-10-25T12:00:00Z"
+    },
+    {
+      "name": "Jazz in the Space Age de George Russell – Mário Laginha & Miguel Meirinhos + Orquestra Jazz de Matosinhos",
+      "date": "2026-11-22T21:30",
+      "venue": "Casa da Música",
+      "url": "https://casadamusica.com/event/jazz-in-the-space-age-de-george-russel/?selected_session=55741",
+      "note": "Sala Suggia; piano month.",
+      "source": "casa-da-musica-newsletter-2026-11",
+      "addedAt": "2026-10-25T12:00:00Z"
+    },
+    {
+      "name": "Pizarro interpreta Britten",
+      "date": "2026-11-27T21:00",
+      "venue": "Casa da Música",
+      "url": "https://casadamusica.com/event/pizarro-interpreta-britten/?selected_session=44144",
+      "note": "Sala Suggia; Artur Pizarro + Orquestra Sinfónica: Britten piano concerto + Brahms Symphony 2 — one concert.",
+      "source": "casa-da-musica-newsletter-2026-11",
+      "addedAt": "2026-10-25T12:00:00Z"
+    },
+    {
+      "name": "Javier Perianes",
+      "date": "2026-11-28T18:00",
+      "venue": "Casa da Música",
+      "url": "https://casadamusica.com/event/javier-perianes/?selected_session=44148",
+      "note": "Sala Suggia; piano recital.",
+      "source": "casa-da-musica-newsletter-2026-11",
+      "addedAt": "2026-10-25T12:00:00Z"
+    },
+    {
+      "name": "Brahms, a Segunda Sinfonia – concerto comentado",
+      "date": "2026-11-29T12:00",
+      "venue": "Casa da Música",
+      "url": "https://casadamusica.com/event/brahms-a-segunda-sinfonia/?selected_session=44152",
+      "note": "Sala Suggia; Orquestra Sinfónica, Brahms 2 with commentary (family concert).",
+      "source": "casa-da-musica-newsletter-2026-11",
+      "addedAt": "2026-10-25T12:00:00Z"
+    },
+    {
+      "name": "Misty Fest 2026",
+      "date": "2026-11-10",
+      "endDate": "2026-11-30",
+      "venue": "Casa da Música",
+      "url": "https://casadamusica.com/misty-fest-2026/",
+      "note": "Umbrella, Porto shows at Casa da Música 10–30 Nov; long run. Alan Stivell (20 Nov) cancelled. Edition number not confirmed (mistyfest.pt did not load).",
+      "source": "casa-da-musica-newsletter-2026-11",
+      "addedAt": "2026-10-25T12:00:00Z"
+    },
+    {
+      "name": "Rodrigo Cuevas",
+      "date": "2026-11-10T21:30",
+      "venue": "Casa da Música",
+      "url": "https://casadamusica.com/event/rodrigo-cuevas/?selected_session=51693",
+      "note": "Sala 2; Misty Fest.",
+      "source": "casa-da-musica-newsletter-2026-11",
+      "addedAt": "2026-10-25T12:00:00Z"
+    },
+    {
+      "name": "Svaneborg Kardyb + Vega Trails",
+      "date": "2026-11-18T21:00",
+      "venue": "Casa da Música",
+      "url": "https://casadamusica.com/event/svaneborg-kardyb-vega-trails/?selected_session=50695",
+      "note": "Sala 2; Misty Fest.",
+      "source": "casa-da-musica-newsletter-2026-11",
+      "addedAt": "2026-10-25T12:00:00Z"
+    },
+    {
+      "name": "Niklas Paschburg",
+      "date": "2026-11-20T21:30",
+      "venue": "Casa da Música",
+      "url": "https://casadamusica.com/event/niklas-paschburg/?selected_session=49435",
+      "note": "Sala 2; Misty Fest.",
+      "source": "casa-da-musica-newsletter-2026-11",
+      "addedAt": "2026-10-25T12:00:00Z"
+    },
+    {
+      "name": "Vincent Peirani",
+      "date": "2026-11-22T21:00",
+      "venue": "Casa da Música",
+      "url": "https://casadamusica.com/event/vincent-peirani/?selected_session=49412",
+      "note": "Sala 2; Misty Fest.",
+      "source": "casa-da-musica-newsletter-2026-11",
+      "addedAt": "2026-10-25T12:00:00Z"
+    },
+    {
+      "name": "Rodrigo Leão",
+      "date": "2026-11-23T21:00",
+      "endDate": "2026-11-24",
+      "venue": "Casa da Música",
+      "url": "https://casadamusica.com/event/rodrigo-leao-3/?selected_session=51205",
+      "note": "Sala Suggia; Misty Fest; sessions 23 Nov 21:00, 24 Nov 18:30 and 21:00.",
+      "source": "casa-da-musica-newsletter-2026-11",
+      "addedAt": "2026-10-25T12:00:00Z"
+    },
+    {
+      "name": "Christian Löffler & Ensemble",
+      "date": "2026-11-25T21:00",
+      "venue": "Casa da Música",
+      "url": "https://casadamusica.com/event/christian-loffler-until-we-meet-again-tour/?selected_session=49751",
+      "note": "Sala Suggia; Misty Fest; Until We Meet Again Tour.",
+      "source": "casa-da-musica-newsletter-2026-11",
+      "addedAt": "2026-10-25T12:00:00Z"
+    },
+    {
+      "name": "Al Di Meola",
+      "date": "2026-11-26T21:00",
+      "venue": "Casa da Música",
+      "url": "https://casadamusica.com/event/al-di-meola/?selected_session=51478",
+      "note": "Sala Suggia; Misty Fest; second show 29 Nov is sold out.",
+      "source": "casa-da-musica-newsletter-2026-11",
+      "addedAt": "2026-10-25T12:00:00Z"
+    },
+    {
+      "name": "Youn Sun Nah",
+      "date": "2026-11-28T22:00",
+      "venue": "Casa da Música",
+      "url": "https://casadamusica.com/event/youn-sun-nah/?selected_session=52511",
+      "note": "Sala 2; Misty Fest.",
+      "source": "casa-da-musica-newsletter-2026-11",
+      "addedAt": "2026-10-25T12:00:00Z"
+    },
+    {
+      "name": "PAUS",
+      "date": "2026-11-29T21:30",
+      "venue": "Casa da Música",
+      "url": "https://casadamusica.com/event/paus/?selected_session=51857",
+      "note": "Sala 2; Misty Fest; farewell show.",
+      "source": "casa-da-musica-newsletter-2026-11",
+      "addedAt": "2026-10-25T12:00:00Z"
+    },
+    {
+      "name": "Eliana Glass + Anne Paceo + Mammal Hands",
+      "date": "2026-11-30T20:00",
+      "venue": "Casa da Música",
+      "url": "https://casadamusica.com/event/mammal-hands-anne-paceo/?selected_session=50683",
+      "note": "Sala Suggia; Misty Fest.",
+      "source": "casa-da-musica-newsletter-2026-11",
+      "addedAt": "2026-10-25T12:00:00Z"
+    },
+    {
+      "name": "Bruno Pernadas interpreta Steamboat Bill Jr., de Buster Keaton",
+      "date": "2026-11-19T21:30",
+      "venue": "Casa da Música",
+      "url": "https://casadamusica.com/event/bruno-pernadas-interpreta-steamboat-bill-jr-de-buster-keaton/?selected_session=58777",
+      "note": "Sala Suggia; Grande Ecrã live cine-concert.",
+      "source": "casa-da-musica-newsletter-2026-11",
+      "addedAt": "2026-10-25T12:00:00Z"
+    },
+    {
+      "name": "Do Lixo Se Faz Música",
+      "date": "2026-11-28T10:30",
+      "venue": "Casa da Música",
+      "url": "https://casadamusica.com/event/do-lixo-se-faz-musica-3/?selected_session=57239",
+      "note": "Family workshop, kids 6+; Sala de Ensaio 2; sessions 10:30 and 14:30.",
+      "source": "casa-da-musica-newsletter-2026-11",
+      "addedAt": "2026-10-25T12:00:00Z"
+    }
+  ]
+}
