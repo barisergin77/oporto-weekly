@@ -57,6 +57,7 @@ import {
   FORWARD_SOURCE,
 } from './events';
 import { acquireEventImage, translateEventFields } from './events-pipeline';
+import { type ForwardLead, type LeadOutcome, LEADS_PER_RUN, leadKey, selectLeads } from './forward-leads';
 import { lookup } from 'node:dns/promises';
 
 const UA =
@@ -65,8 +66,9 @@ const UA =
 
 /** Per-mode limits. Daily: thorough; topup: runs inside the newsletter's 300s budget. */
 const LIMITS = {
-  daily: { maxVerify: 18, verifyBatch: 9, maxAccept: 6, maxUpdate: 6, discoveryTimeoutMs: 90_000, rescue: true, verifyGuardMs: 90_000, enrichGuardMs: 60_000 },
-  topup: { maxVerify: 6, verifyBatch: 6, maxAccept: 6, maxUpdate: 0, discoveryTimeoutMs: 45_000, rescue: false, verifyGuardMs: 40_000, enrichGuardMs: 0 },
+  // maxLeads: data/forward-leads.json entries verified per run (lib/forward-leads.ts), on top of discovery's caps.
+  daily: { maxVerify: 18, verifyBatch: 9, maxAccept: 6, maxUpdate: 6, maxLeads: LEADS_PER_RUN, discoveryTimeoutMs: 90_000, rescue: true, verifyGuardMs: 90_000, enrichGuardMs: 60_000 },
+  topup: { maxVerify: 6, verifyBatch: 6, maxAccept: 6, maxUpdate: 0, maxLeads: 0, discoveryTimeoutMs: 45_000, rescue: false, verifyGuardMs: 40_000, enrichGuardMs: 0 },
 } as const;
 export type ScanMode = keyof typeof LIMITS;
 const CATEGORIES: EventCategory[] = ['music', 'art', 'food', 'family', 'nightlife', 'sports', 'other'];
@@ -116,6 +118,8 @@ export interface ScanResult {
   /** Discovery searches run (grounded Gemini calls), for the usage estimate. */
   searches: number;
   usage: ScanUsage;
+  /** Leads checked this run (data/forward-leads.json) and what became of them; apply with applyLeadOutcomes. */
+  leads: { checked: number; outcomes: LeadOutcome[] };
 }
 
 // ---------------------------------------------------------------------------
@@ -561,12 +565,17 @@ export function mergeVerified(existing: EventRecord, fresh: EventRecord, now: Da
   };
 }
 
-/** True when `c` is already published (or already accepted this run). */
-export function isDuplicate(c: { name: string; venue: string; date: string; endDate?: string | null }, existing: EventRecord[]): boolean {
-  return existing.some((e) =>
+/** The record `c` duplicates (already published, or already accepted this run), if any. */
+export function findDuplicate(c: { name: string; venue: string; date: string; endDate?: string | null }, existing: EventRecord[]): EventRecord | undefined {
+  return existing.find((e) =>
     similarNames(c.name, e.name) &&
     (overlaps(c, e) || canonicalVenueSlugFor(c.venue) === canonicalVenueSlug(e.venueSlug))
   );
+}
+
+/** True when `c` is already published (or already accepted this run). */
+export function isDuplicate(c: { name: string; venue: string; date: string; endDate?: string | null }, existing: EventRecord[]): boolean {
+  return !!findDuplicate(c, existing);
 }
 
 // ---------------------------------------------------------------------------
@@ -812,11 +821,97 @@ async function toRecord(usage: ScanUsage, facts: PageFacts, url: string, enrich:
 
 const SCOPE_ORDER: Record<SearchScope, number> = { topup: 0, current: 0, week: 1, ahead: 2 };
 
+type Verified = { facts: PageFacts; url: string };
+type LeadCandidate = Candidate & { lead: ForwardLead };
+
+/** A placeholder record so later dedupe passes see a candidate accepted this run. */
+const pseudoRecord = (c: { name: string; venue: string; date: string; endDate?: string | null }): EventRecord => ({
+  name: c.name, venue: c.venue, date: c.date, endDate: c.endDate ?? undefined,
+  slug: '', venueSlug: canonicalVenueSlugFor(c.venue), category: 'other', description: '', sourceEdition: FORWARD_SOURCE, addedAt: '',
+});
+
+/** Verification failures that no retry will fix: reject the lead at once. */
+const FINAL_LEAD_FAILURE = /not in the Porto area/;
+
+/**
+ * Leads queue (data/forward-leads.json, lib/forward-leads.ts): the due
+ * pending leads go through the same verify() as discovered candidates — the
+ * lead's URL (or a rescue search when it has none) must be the event's own
+ * page — and the same identity dedupe. Runs alongside discovery with its own
+ * cap, so a long queue never displaces discovery's verify slots.
+ */
+async function checkLeads(
+  usage: ScanUsage,
+  leads: unknown[],
+  existing: EventRecord[],
+  window: Window,
+  now: Date,
+  L: (typeof LIMITS)[ScanMode],
+  deadline: number,
+  sources: SourceStats
+): Promise<{ checked: number; outcomes: LeadOutcome[]; keep: Array<Verified & { lead: ForwardLead }>; updates: Array<Verified & { lead: ForwardLead; existing: EventRecord }> }> {
+  const outcomes: LeadOutcome[] = [];
+  const keep: Array<Verified & { lead: ForwardLead }> = [];
+  const updates: Array<Verified & { lead: ForwardLead; existing: EventRecord }> = [];
+  const { due, expired } = selectLeads(leads, window, now.toISOString().slice(0, 10), L.maxLeads);
+  for (const l of expired) outcomes.push({ key: leadKey(l), kind: 'dropped', reason: `past (${(l.endDate || l.date).slice(0, 10)})` });
+
+  const cands: LeadCandidate[] = [];
+  for (const l of due) {
+    const date = l.date.slice(0, 10);
+    const endDate = l.endDate?.slice(0, 10);
+    const match = findExistingEventByIdentity(l.name, l.venue, { date, endDate }, existing);
+    if (match && !needsUpdate(match)) {
+      outcomes.push({ key: leadKey(l), kind: 'done', slug: match.slug, reason: 'already listed' });
+      continue;
+    }
+    const url = l.url && isRealEventUrl(l.url) && isFetchable(l.url) ? l.url : '';
+    const hintHost = !url && l.url && isRealEventUrl(l.url) ? bareHost(l.url) : undefined;
+    cands.push({ name: l.name, venue: l.venue, date, endDate, url, urls: url ? [url] : [], hintHost, scope: 'current', existing: match ?? undefined, lead: l });
+  }
+
+  const noUrl = cands.filter((c) => c.urls.length === 0);
+  if (L.rescue && noUrl.length) sources.rescued += await rescueUrls(usage, noUrl, sources.grounding);
+  for (const c of noUrl) {
+    if (c.urls.length === 0) outcomes.push({ key: leadKey(c.lead), kind: 'failed', reason: 'no usable URL (none given, or a listing/blocked page; rescue search found nothing)' });
+  }
+  const toVerify = cands.filter((c) => c.urls.length > 0);
+  let checked = noUrl.filter((c) => c.urls.length === 0).length + outcomes.filter((o) => o.kind === 'done').length;
+  for (let i = 0; i < toVerify.length && Date.now() < deadline - L.verifyGuardMs; i += L.verifyBatch) {
+    const slice = toVerify.slice(i, i + L.verifyBatch);
+    const batch = await Promise.all(slice.map((c) => verify(usage, c, window)));
+    batch.forEach((r, j) => {
+      const c = slice[j];
+      const key = leadKey(c.lead);
+      checked++;
+      if ('reason' in r) {
+        outcomes.push({ key, kind: FINAL_LEAD_FAILURE.test(r.reason) ? 'rejected' : 'failed', reason: r.reason });
+        return;
+      }
+      const match = findExistingEventByIdentity(r.facts.name, r.facts.venue, { date: r.facts.date, endDate: r.facts.endDate }, existing) ?? c.existing;
+      if (match) {
+        if (needsUpdate(match)) updates.push({ ...r, lead: c.lead, existing: match });
+        else outcomes.push({ key, kind: 'done', slug: match.slug, reason: 'already listed' });
+        return;
+      }
+      const dup = findDuplicate(r.facts, existing);
+      if (dup) { outcomes.push({ key, kind: 'done', slug: dup.slug, reason: 'already listed' }); return; }
+      const twin = keep.find((k) => similarNames(k.facts.name, r.facts.name) && overlaps(k.facts, r.facts));
+      if (twin) {
+        outcomes.push({ key, kind: 'done', slug: composeEventSlug(twin.facts.name, twin.facts.venue, twin.facts.date), reason: `same event as lead "${twin.lead.name}"` });
+        return;
+      }
+      keep.push({ ...r, lead: c.lead });
+    });
+  }
+  return { checked, outcomes, keep, updates };
+}
+
 export async function runForwardScan(
   existing: EventRecord[],
   now: Date = new Date(),
   deadline = Date.now() + 240_000,
-  opts: { enrich?: boolean; mode?: ScanMode } = {}
+  opts: { enrich?: boolean; mode?: ScanMode; leads?: unknown[] } = {}
 ): Promise<ScanResult> {
   if (!process.env.GEMINI_API_KEY) throw new Error('GEMINI_API_KEY not set');
   const mode = opts.mode ?? 'daily';
@@ -829,9 +924,24 @@ export async function runForwardScan(
     grounding: { calls: 0, withMetadata: 0, withQueries: 0, withChunks: 0, withSupports: 0 },
   };
 
+  // Leads first: started alongside discovery (both mostly wait on Gemini), so
+  // they cost discovery no time; their verified events are deduped against
+  // before discovery's candidates and enriched in the same pass.
   const searches = discoverySearches(mode, window, now);
-  const discovered = await discover(usage, window, sources, searches, L.discoveryTimeoutMs);
-  const known = [...existing];
+  const [leadRun, discovered] = await Promise.all([
+    L.maxLeads > 0 && opts.leads?.length
+      ? checkLeads(usage, opts.leads, existing, window, now, L, deadline, sources)
+      : Promise.resolve({ checked: 0, outcomes: [] as LeadOutcome[], keep: [], updates: [] }),
+    discover(usage, window, sources, searches, L.discoveryTimeoutMs),
+  ]);
+  for (const o of leadRun.outcomes) {
+    if (o.kind === 'failed' || o.kind === 'rejected') {
+      const lead = (opts.leads ?? []).find((l) => l && typeof l === 'object' && leadKey(l as ForwardLead) === o.key) as ForwardLead | undefined;
+      rejected.push({ name: `lead: ${lead?.name ?? o.key}`, reason: o.reason });
+    }
+  }
+
+  const known = [...existing, ...leadRun.keep.map((k) => pseudoRecord(k.facts))];
   const fresh: Candidate[] = [];
   const refound: Candidate[] = [];
   let duplicates = 0;
@@ -840,7 +950,8 @@ export async function runForwardScan(
     // only when it has gaps to fill, otherwise it is a plain duplicate.
     const match = findExistingEventByIdentity(c.name, c.venue, { date: c.date, endDate: c.endDate }, existing);
     if (match) {
-      if (L.maxUpdate > 0 && c.scope !== 'ahead' && needsUpdate(match) && !refound.some((r) => r.existing?.slug === match.slug)) {
+      if (L.maxUpdate > 0 && c.scope !== 'ahead' && needsUpdate(match) &&
+          !refound.some((r) => r.existing?.slug === match.slug) && !leadRun.updates.some((u) => u.existing.slug === match.slug)) {
         refound.push({ ...c, existing: match });
       } else {
         duplicates++;
@@ -850,7 +961,7 @@ export async function runForwardScan(
     if (isDuplicate(c, known)) { duplicates++; continue; }
     fresh.push(c);
     // Count it as known so the second discovery list can't repeat it.
-    known.push({ ...c, slug: '', venueSlug: canonicalVenueSlugFor(c.venue), category: 'other', description: '', sourceEdition: FORWARD_SOURCE, addedAt: '' });
+    known.push(pseudoRecord(c));
   }
 
   // The current and next edition weeks first: those pages can't wait for a later run.
@@ -862,10 +973,10 @@ export async function runForwardScan(
   // Rescue URLs only for the candidates we'd actually check this run.
   const head = queue.slice(0, L.maxVerify);
   const noUrl = head.filter((c) => c.urls.length === 0);
-  if (L.rescue) sources.rescued = await rescueUrls(usage, noUrl, sources.grounding);
+  if (L.rescue) sources.rescued += await rescueUrls(usage, noUrl, sources.grounding);
   for (const c of noUrl) if (c.urls.length === 0) rejected.push({ name: c.name, reason: 'no usable URL (listing page, dead host or none; rescue search found nothing)' });
   const toVerify = queue.filter((c) => c.urls.length > 0).slice(0, L.maxVerify);
-  const verified: Array<{ facts: PageFacts; url: string; existing?: EventRecord }> = [];
+  const verified: Array<Verified & { existing?: EventRecord }> = [];
   for (let i = 0; i < toVerify.length && Date.now() < deadline - L.verifyGuardMs; i += L.verifyBatch) {
     const batch = await Promise.all(toVerify.slice(i, i + L.verifyBatch).map((c) => verify(usage, c, window)));
     batch.forEach((r, j) => {
@@ -876,16 +987,18 @@ export async function runForwardScan(
 
   // The page's own name/date can differ from discovery's: dedupe again, now
   // with the identity check — a match updates that record instead.
-  const keep: Array<{ facts: PageFacts; url: string }> = [];
-  const updates: Array<{ facts: PageFacts; url: string; existing: EventRecord }> = [];
+  const keep: Verified[] = [];
+  const updates: Array<Verified & { existing: EventRecord }> = [];
   for (const v of verified) {
     const match = findExistingEventByIdentity(v.facts.name, v.facts.venue, { date: v.facts.date, endDate: v.facts.endDate }, existing) ?? v.existing;
     if (match) {
-      if (L.maxUpdate > 0 && needsUpdate(match) && !updates.some((u) => u.existing.slug === match.slug)) updates.push({ ...v, existing: match });
+      if (L.maxUpdate > 0 && needsUpdate(match) && !updates.some((u) => u.existing.slug === match.slug) &&
+          !leadRun.updates.some((u) => u.existing.slug === match.slug)) updates.push({ ...v, existing: match });
       else duplicates++;
       continue;
     }
-    if (isDuplicate(v.facts, existing) || keep.some((k) => similarNames(k.facts.name, v.facts.name) && overlaps(k.facts, v.facts))) {
+    if (isDuplicate(v.facts, existing) ||
+        [...leadRun.keep, ...keep].some((k) => similarNames(k.facts.name, v.facts.name) && overlaps(k.facts, v.facts))) {
       duplicates++;
       continue;
     }
@@ -894,23 +1007,45 @@ export async function runForwardScan(
 
   const accepted: EventRecord[] = [];
   const updated: EventRecord[] = [];
+  const leadOutcomes = [...leadRun.outcomes];
+  // Past the enrich guard, verified leads get no outcome: they stay pending
+  // (no attempt counted) and are checked again next run.
   if (Date.now() < deadline - L.enrichGuardMs) {
     // Topup runs inside the newsletter: no PT / image there (the Thursday
     // enrichment crons fill those in), so it never enriches.
     const enrich = mode === 'topup' ? false : (opts.enrich ?? true);
-    const built = await Promise.all(keep.slice(0, L.maxAccept).map((v) => toRecord(usage, v.facts, v.url, enrich)));
+    const leadKeep = leadRun.keep.slice(0, L.maxLeads);
+    const discKeep = keep.slice(0, L.maxAccept);
+    const built = await Promise.all([...leadKeep, ...discKeep].map((v) => toRecord(usage, v.facts, v.url, enrich)));
     built.forEach((r, j) => {
-      if ('reason' in r) rejected.push({ name: keep[j].facts.name, reason: r.reason });
-      else accepted.push(r);
+      const lead = j < leadKeep.length ? leadKeep[j].lead : null;
+      const name = j < leadKeep.length ? leadKeep[j].facts.name : discKeep[j - leadKeep.length].facts.name;
+      if ('reason' in r) {
+        rejected.push({ name: lead ? `lead: ${name}` : name, reason: r.reason });
+        if (lead) leadOutcomes.push({ key: leadKey(lead), kind: 'failed', reason: r.reason });
+      } else {
+        accepted.push(r);
+        if (lead) leadOutcomes.push({ key: leadKey(lead), kind: 'done', slug: r.slug });
+      }
     });
     // Updates fill gaps from the page only — no translation or image here.
-    for (const u of updates.slice(0, L.maxUpdate)) {
+    for (const u of [...leadRun.updates, ...updates.slice(0, L.maxUpdate)]) {
       const r = await toRecord(usage, u.facts, u.url, false);
-      if (!('reason' in r)) updated.push(mergeVerified(u.existing, r, now));
+      const lead = 'lead' in u ? (u as { lead: ForwardLead }).lead : null;
+      if (!('reason' in r)) {
+        if (!updated.some((x) => x.slug === u.existing.slug)) updated.push(mergeVerified(u.existing, r, now));
+        if (lead) leadOutcomes.push({ key: leadKey(lead), kind: 'done', slug: u.existing.slug, reason: 'updated existing record' });
+      } else if (lead) {
+        leadOutcomes.push({ key: leadKey(lead), kind: 'failed', reason: r.reason });
+      }
     }
   }
 
-  return { window, sources, discovered: discovered.length, duplicates, verified: verified.length, rejected, accepted, updated, searches: searches.length, usage };
+  return {
+    window, sources, discovered: discovered.length, duplicates, verified: verified.length + leadRun.keep.length + leadRun.updates.length,
+    rejected, accepted, updated, searches: searches.length, usage,
+    leads: { checked: leadRun.checked, outcomes: leadOutcomes },
+  };
 }
 
 /**

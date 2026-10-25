@@ -38,6 +38,7 @@ SKIPPABLE=(
   "data/subscriber-history.json"
   "data/pick-date-blocklist.json"
   "data/signup-sources.json"
+  "data/forward-leads.json"   # read at runtime from GitHub (cron/forward-scan)
 )
 
 prev="${VERCEL_GIT_PREVIOUS_SHA:-}"
