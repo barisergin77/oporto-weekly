@@ -66,6 +66,10 @@ const SEARCH_QUERIES = [
   // we had none of. Leads only — the edition prompt and pick-date check still
   // need dates/venues from the research data, and we never copy their text.
   'site:portoexpats.substack.com Porto Weekly Guide events',
+  // Porto Secreto (Fever's Secret Media guide): weekend + monthly "o que fazer"
+  // round-ups. Owner flagged 2026-10-25. Leads only — never cite or link them;
+  // find each event on the organiser/venue page. Skews toward Fever-ticketed shows.
+  'site:portosecreto.co o que fazer no Porto este fim de semana',
   // University + traditional festivals (Queima das Fitas, São João, Festa de São Bartolomeu)
   'Queima das Fitas Porto 2026 schedule serenata',
   'site:federacaoacademicaporto.pt OR site:queimadasfitasporto.com Porto',

@@ -54,7 +54,7 @@ const CATEGORIES: EventCategory[] = ['music', 'art', 'food', 'family', 'nightlif
 const PORTO_AREA = /porto|gaia|matosinhos|maia|gondomar|le[cç]a|valongo|espinho/i;
 
 // Not the organiser, a venue or a ticket seller — never a source of facts.
-const BLOCKED_HOSTS = /(^|\.)(facebook|instagram|x|twitter|tiktok|youtube|wikipedia|tripadvisor|timeout|allevents|songkick|bandsintown|reddit|google|vertexaisearch\.cloud\.google)\.[a-z.]+$/i;
+const BLOCKED_HOSTS = /(^|\.)(facebook|instagram|x|twitter|tiktok|youtube|wikipedia|tripadvisor|timeout|portosecreto|portoexpats|allevents|songkick|bandsintown|reddit|google|vertexaisearch\.cloud\.google)\.[a-z.]+$/i;
 
 export interface ScanUsage {
   geminiCalls: number;
@@ -210,7 +210,7 @@ const DISCOVERY_FOCUS = [
 
 // Near-term search (next two weeks only). Guides are leads, never sources:
 // the url must still be the event's own page, and verify() rejects anything else.
-const NEAR_FOCUS = `anything notable in these two weeks — seasonal and holiday parties, quiz nights, community meetups, markets, club nights, concerts, theatre, family activities. Weekly what's-on guides such as the Porto Expats weekly guide (portoexpats.substack.com) are good places to find candidates, but the "url" must be the event's own page, never the guide`;
+const NEAR_FOCUS = `anything notable in these two weeks — seasonal and holiday parties, quiz nights, community meetups, markets, club nights, concerts, theatre, family activities. Weekly what's-on guides such as the Porto Expats weekly guide (portoexpats.substack.com) and Porto Secreto's weekend and monthly round-ups (portosecreto.co) are good places to find candidates, but the "url" must be the event's own page, never the guide`;
 
 const isFetchable = (url: string) => isRealEventUrl(url) && !BLOCKED_HOSTS.test(new URL(url).hostname) && !isListingUrl(url);
 
