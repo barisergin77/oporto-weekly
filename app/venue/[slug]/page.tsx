@@ -4,6 +4,7 @@ import type { Metadata } from 'next';
 import {
   listEvents,
   listEventsByVenue, hasVenuePage,
+  canonicalVenueName,
   toEventJsonLd,
   CATEGORY_EMOJI,
   CATEGORY_LABEL,
@@ -42,6 +43,10 @@ function resolveVenueDisplay(slug: string): { name: string; events: EventRecord[
   // Multiple events at same slug may have slightly different venue strings
   // ("Casa da Música" vs "Casa da Música, Sala 2"). Prefer the shortest one
   // since that's usually the canonical root name.
+  // A canonical name from data/venue-aliases.json wins (the merged slug may
+  // hold "Serralves Museum", "Parque de Serralves", … — none is the root).
+  const canonical = canonicalVenueName(slug);
+  if (canonical) return { name: canonical, events };
   const names = events.map((e) => e.venue);
   const root = names
     .slice()

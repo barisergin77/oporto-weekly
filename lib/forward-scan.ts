@@ -38,6 +38,8 @@ import {
   type EventCategory,
   composeEventSlug,
   venueToSlug,
+  canonicalVenueSlugFor,
+  canonicalVenueSlug,
   isRealEventUrl,
   FORWARD_SOURCE,
 } from './events';
@@ -421,7 +423,7 @@ function overlaps(a: { date: string; endDate?: string | null }, b: { date: strin
 export function isDuplicate(c: { name: string; venue: string; date: string; endDate?: string | null }, existing: EventRecord[]): boolean {
   return existing.some((e) =>
     similarNames(c.name, e.name) &&
-    (overlaps(c, e) || venueToSlug(c.venue) === e.venueSlug)
+    (overlaps(c, e) || canonicalVenueSlugFor(c.venue) === canonicalVenueSlug(e.venueSlug))
   );
 }
 
@@ -631,7 +633,7 @@ async function toRecord(usage: ScanUsage, facts: PageFacts, url: string, enrich:
     date,
     endDate: facts.endDate && facts.endDate !== facts.date ? facts.endDate : undefined,
     venue: facts.venue.trim(),
-    venueSlug: venueToSlug(facts.venue),
+    venueSlug: canonicalVenueSlugFor(facts.venue),
     price: facts.price?.trim() || undefined,
     priceFrom,
     currency: priceFrom != null ? 'EUR' : undefined,
@@ -681,7 +683,7 @@ export async function runForwardScan(
     if (isDuplicate(c, known)) { duplicates++; continue; }
     fresh.push(c);
     // Count it as known so the second discovery list can't repeat it.
-    known.push({ ...c, slug: '', venueSlug: venueToSlug(c.venue), category: 'other', description: '', sourceEdition: FORWARD_SOURCE, addedAt: '' });
+    known.push({ ...c, slug: '', venueSlug: canonicalVenueSlugFor(c.venue), category: 'other', description: '', sourceEdition: FORWARD_SOURCE, addedAt: '' });
   }
 
   // The next two weeks first: those pages can't wait for a later run.

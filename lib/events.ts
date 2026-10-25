@@ -12,6 +12,8 @@
 
 import fs from 'fs';
 import path from 'path';
+import { canonicalVenueSlug, canonicalVenueSlugFor, venueToSlug } from './venues';
+import { isSameEvent, pickCanonical } from './event-identity';
 
 export type EventCategory =
   | 'music'
@@ -90,19 +92,30 @@ export const FORWARD_SOURCE = 'forward-scan';
 
 const EVENTS_DIR = path.join(process.cwd(), 'data', 'events');
 
+/**
+ * Records written before data/venue-aliases.json existed (or before an alias
+ * was added) may carry an alias venueSlug; resolve it on read so venue pages
+ * and "more at this venue" always use the canonical slug.
+ */
+function readEvent(file: string): EventRecord {
+  const e = JSON.parse(fs.readFileSync(file, 'utf-8')) as EventRecord;
+  if (e.venueSlug) e.venueSlug = canonicalVenueSlug(e.venueSlug);
+  return e;
+}
+
 export function listEvents(): EventRecord[] {
   if (!fs.existsSync(EVENTS_DIR)) return [];
   return fs
     .readdirSync(EVENTS_DIR)
     .filter((f) => f.endsWith('.json'))
-    .map((f) => JSON.parse(fs.readFileSync(path.join(EVENTS_DIR, f), 'utf-8')) as EventRecord)
+    .map((f) => readEvent(path.join(EVENTS_DIR, f)))
     .sort((a, b) => b.date.localeCompare(a.date)); // newest first
 }
 
 export function getEvent(slug: string): EventRecord | null {
   const p = path.join(EVENTS_DIR, `${slug}.json`);
   if (!fs.existsSync(p)) return null;
-  return JSON.parse(fs.readFileSync(p, 'utf-8')) as EventRecord;
+  return readEvent(p);
 }
 
 export function listUpcomingEvents(now: Date = new Date()): EventRecord[] {
@@ -116,54 +129,9 @@ export function listEventsByVenue(venueSlug: string): EventRecord[] {
   return listEvents().filter((e) => e.venueSlug === venueSlug);
 }
 
-/**
- * Normalise a venue name into a slug. Canonicalises sub-rooms into the
- * parent venue:
- *   "Casa da Música"                → casa-da-musica
- *   "Casa da Música, Sala 2"        → casa-da-musica  (strip after comma)
- *   "Casa da Música, Sala Suggia"   → casa-da-musica
- *   "Casa da Música Café"           → casa-da-musica  (strip " Café")
- *   "Hilton Porto Gaia / Pestana"   → hilton-porto-gaia (strip after slash)
- *   "Einstein's"                    → einsteins       (strip apostrophe)
- *
- * Keeping rooms merged means /venue/casa-da-musica aggregates every Casa da
- * Música event regardless of which room, which is what visitors search for.
- */
-/**
- * Placeholder "venues" the extractor emits when a listing has no single real
- * venue ("Various venues", "TBC", "Porto", "Downtown", "City Centre"). A page
- * for these just lumps unrelated events together — thin content Google
- * declines to index (URL Inspection 2026-09-17: /pt/venue/tbc; GSC flagged
- * /venue/downtown as a duplicate on 2026-09-21). No venue page, no venue
- * link, no "more at this venue" block for them.
- *
- * `^city-` covers City Centre / City Center / City-wide / City Bandstands /
- * City Waterfront — all city-scale, none an actual venue.
- */
-const PLACEHOLDER_VENUE = /^(tbc|tbd|tba|venue-tb[acd]|porto|online|downtown|downtown-porto|central-porto)$|^(various|multiple|city)-|-various$/;
-
-export function hasVenuePage(venueSlug: string | undefined): venueSlug is string {
-  return Boolean(venueSlug) && !PLACEHOLDER_VENUE.test(venueSlug!);
-}
-
-export function venueToSlug(venue: string): string {
-  // Keep only the "root" venue name: strip after the first comma or slash,
-  // and strip a handful of trailing room-denoting suffixes that some sources
-  // concatenate without a comma.
-  const root = venue
-    .split(/[,/]/)[0]
-    .trim()
-    .replace(/\s+(Café|Cafe|Sala\s+\w+|Main\s+Hall|Auditorium\s+\w+)$/i, '')
-    .trim();
-
-  return root
-    .toLowerCase()
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')  // strip diacritics (ó → o, ã → a)
-    .replace(/['\u2019]/g, '')        // strip apostrophes (Einstein's → Einsteins)
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-+|-+$/g, '');
-}
+// Venue slugging + canonical alias map live in lib/venues.ts (re-exported
+// here so existing imports keep working).
+export { venueToSlug, hasVenuePage, canonicalVenueSlugFor, canonicalVenueSlug, canonicalVenueName } from './venues';
 
 /**
  * True only for a real ticketing / venue / press page URL.
@@ -195,7 +163,7 @@ export function isRealEventUrl(url: string | undefined | null): url is string {
  */
 export function composeEventSlug(name: string, venue: string, isoDate: string): string {
   const nameSlug = venueToSlug(name); // same kebab rules
-  const venueSlug = venueToSlug(venue);
+  const venueSlug = canonicalVenueSlugFor(venue);
   const d = new Date(isoDate);
   const month = d.toLocaleDateString('en-US', { month: 'short' }).toLowerCase(); // apr
   const day = d.getDate();
@@ -210,20 +178,37 @@ export function composeEventSlug(name: string, venue: string, isoDate: string): 
  * already extracted in a prior week's run, we want to reuse that record's
  * slug rather than create a parallel `<event>-<thisweek>` duplicate.
  *
- * Identity normalisation: kebab-cased name + venueSlug. Matches across
- * minor punctuation/casing variance ("It's a Pink Area" === "Its a Pink
- * Area"). Among multiple matches we return the OLDEST by addedAt — that
- * record has the most accumulated enrichment (longDescription, image,
- * externalLink) from prior backfill cron runs.
+ * Two tiers:
+ *   1. Exact identity (unchanged behaviour): kebab-cased name + canonical
+ *      venue slug. Matches across punctuation/casing ("It's a Pink Area" ===
+ *      "Its a Pink Area") and venue spellings in data/venue-aliases.json.
+ *   2. Fuzzy identity, only when `dates` is given: lib/event-identity.ts
+ *      isSameEvent() — distinctive-name match + same canonical venue (or a
+ *      placeholder venue with an identical name) + overlapping dates. Catches
+ *      "Jenny Holzer: Wrong Answers" vs "Wrong Answers Exhibition" at
+ *      Serralves (2026-10-25) without merging a weekly gig's other dates.
+ *
+ * Among multiple matches we return the OLDEST by addedAt — that record has
+ * the most accumulated enrichment (longDescription, image, externalLink)
+ * from prior backfill cron runs.
  */
-export function findExistingEventByIdentity(name: string, venue: string): EventRecord | null {
+export function findExistingEventByIdentity(
+  name: string,
+  venue: string,
+  dates?: { date: string; endDate?: string | null },
+  events: EventRecord[] = listEvents()
+): EventRecord | null {
   const targetName = venueToSlug(name);
-  const targetVenue = venueToSlug(venue);
-  const candidates = listEvents().filter(
-    (e) => venueToSlug(e.name) === targetName && venueToSlug(e.venue) === targetVenue
+  const targetVenue = canonicalVenueSlugFor(venue);
+  const exact = events.filter(
+    (e) => venueToSlug(e.name) === targetName && canonicalVenueSlugFor(e.venue) === targetVenue
   );
-  if (candidates.length === 0) return null;
-  return candidates.sort((a, b) => a.addedAt.localeCompare(b.addedAt))[0];
+  if (exact.length) return pickCanonical(exact);
+  if (!dates?.date) return null;
+  const fuzzy = events.filter((e) =>
+    isSameEvent({ name, venue, venueSlug: targetVenue, date: dates.date, endDate: dates.endDate }, e)
+  );
+  return fuzzy.length ? pickCanonical(fuzzy) : null;
 }
 
 /**
