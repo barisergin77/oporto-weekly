@@ -1,15 +1,19 @@
-# Daily 07:00 UTC — forward event scan (growth backlog #20). Publishes
-# notable Porto events from tomorrow to 10 weeks ahead, each confirmed on its
-# official page. Daily since 2026-10-23 (was Mon + Fri); Thursday is skipped
-# by the freeze check below.
-# Outside the Thursday pipeline; the route itself refuses to run in the
-# newsletter freeze (Wed 18:00 → Thu 23:59 UTC) in case GitHub fires late.
+# Daily forward event scan (growth backlog #20) = the newsletter's DAILY
+# RESEARCH since 2026-10-25: publishes notable Porto events from tomorrow to
+# 10 weeks ahead AND covers the coming edition week (Thu–Wed) thoroughly, each
+# confirmed on its official page. Thursday's edition is composed from these.
+#
+# Schedule: 07:00 UTC Fri–Wed; Thursday 05:30 UTC so it commits before the
+# 07:45 composition (cron-newsletter-test.yml) and the 08:00 cascade. The
+# route refuses to run in the newsletter freeze (Wed 18:00 → Thu 23:59 UTC)
+# except Thursday before 07:30, so a late-firing Thursday run is a no-op.
 # Writes data/events/*.json only → published by deploy-flush (21:00 UTC).
 name: Cron · Forward Event Scan
 
 on:
   schedule:
-    - cron: '0 7 * * *' # daily 07:00 UTC
+    - cron: '0 7 * * 0-3,5,6' # 07:00 UTC, every day but Thursday
+    - cron: '30 5 * * 4'       # Thu 05:30 UTC — before the 07:45 composition
   workflow_dispatch:
 
 jobs:

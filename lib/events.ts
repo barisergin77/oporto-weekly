@@ -83,6 +83,15 @@ export interface EventRecord {
   image?: EventImage;
   /** External ticket / event URL for the "Get tickets →" link. */
   externalLink?: string;
+  /**
+   * Set by the daily scan's page reader (lib/forward-scan.ts): a specific,
+   * time-sensitive event (concert on a date, festival, premiere, one-off
+   * party) that may take an Editor's Pick slot. Always false for runs > 7
+   * days. Thursday composition (lib/edition-compose.ts) ranks these first.
+   */
+  pickCandidate?: boolean;
+  /** ISO timestamp — last time the daily scan re-found and re-verified this event. */
+  lastSeenAt?: string;
   /** ISO timestamp — when this record was created. */
   addedAt: string;
 }

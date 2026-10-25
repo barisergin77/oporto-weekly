@@ -1,0 +1,59 @@
+# Thu 07:45 UTC — compose + archive this week's EN edition early, then send
+# the owner a test copy (NEWSLETTER_TEST_TO) ~15 minutes before the 08:00
+# subscriber send (owner decision 2026-10-25).
+#
+# Step 1 is the normal generation endpoint: archive-idempotent, so the 08:00
+# cascade (cron-newsletter.yml) then finds the edition archived and goes
+# straight to the send — subscribers get exactly the edition the owner saw.
+# Same concurrency group as the cascade, so the two never generate at once.
+#
+# Never blocks the real send: if this workflow fails, fires late or is
+# skipped, the 08:00 cascade (and ~/watchers backstop, and the watchdog)
+# generate and send exactly as before. The test step is continue-on-error and
+# the endpoint skips once the subscriber send has happened.
+name: Cron · Newsletter owner test copy
+
+on:
+  schedule:
+    - cron: '45 7 * * 4' # Thu 07:45 UTC
+  workflow_dispatch:
+
+concurrency:
+  group: cron-newsletter
+  cancel-in-progress: false
+
+jobs:
+  trigger:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - name: 1. Generate + archive (/api/cron/newsletter)
+        run: |
+          response=$(curl -s --retry 2 --retry-delay 10 -w "\nHTTP_STATUS:%{http_code}" --max-time 320 \
+            -X POST \
+            -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" \
+            https://oportoweekly.com/api/cron/newsletter)
+          status=$(echo "$response" | tail -n1 | cut -d: -f2)
+          body=$(echo "$response" | sed '$d')
+          echo "Status: $status"
+          echo "Body: $body"
+          if [ "$status" != "200" ]; then
+            echo "::warning::Early generation failed with HTTP $status — the 08:00 cascade will generate"
+            exit 1
+          fi
+
+      - name: 2. Owner test copy (/api/cron/newsletter-test)
+        continue-on-error: true
+        run: |
+          response=$(curl -s --retry 2 --retry-delay 10 -w "\nHTTP_STATUS:%{http_code}" --max-time 90 \
+            -X POST \
+            -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" \
+            https://oportoweekly.com/api/cron/newsletter-test)
+          status=$(echo "$response" | tail -n1 | cut -d: -f2)
+          body=$(echo "$response" | sed '$d')
+          echo "Status: $status"
+          echo "Body: $body"
+          if [ "$status" != "200" ]; then
+            echo "::warning::Owner test copy failed with HTTP $status (subscriber send unaffected)"
+            exit 1
+          fi

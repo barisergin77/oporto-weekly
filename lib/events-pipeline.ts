@@ -56,7 +56,13 @@ interface RawEvent {
  */
 export async function extractEventsFromHtml(
   html: string,
-  sourceEdition: string
+  sourceEdition: string,
+  /**
+   * Records to dedupe against. Defaults to the deployed bundle; the Thursday
+   * composition passes data/events as it is on GitHub (lib/event-store.ts),
+   * since the bundle lacks the scan's not-yet-deployed records.
+   */
+  corpusOverride?: EventRecord[]
 ): Promise<EventRecord[]> {
   if (!process.env.GEMINI_API_KEY) throw new Error('GEMINI_API_KEY not set');
 
@@ -150,7 +156,7 @@ ${html}`;
   //   surface) and editorPickRank (this week's pick position).
   const seen = new Set<string>();
   const records: EventRecord[] = [];
-  const corpus = listEvents();
+  const corpus = corpusOverride ?? listEvents();
   for (const r of rawEvents) {
     if (!r.name || !r.date || !r.venue) continue;
 

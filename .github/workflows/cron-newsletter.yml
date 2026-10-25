@@ -12,6 +12,12 @@
 # backups — every endpoint is ledger-claim-guarded, so whichever
 # trigger arrives first does the work and the rest are no-ops.
 #
+# 2026-10-25: cron-newsletter-test.yml (Thu 07:45, same concurrency group)
+# usually generates + archives the edition first and mails the owner a test
+# copy; step 1 here then returns "already-archived" and the cascade goes
+# straight to the send. If that early run failed or didn't fire, step 1
+# generates exactly as before.
+#
 # All curls: POST (mutating endpoints; GETs may be retried by
 # infrastructure — suspected cause of the 2026-05-21 double-pipeline)
 # with --retry for transient network failures (safe: ledger-idempotent).

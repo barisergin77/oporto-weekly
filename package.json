@@ -15,7 +15,9 @@
     "validate-event-links": "tsx --env-file=.env.local scripts/validate-event-links.ts",
     "retranslate-pt": "tsx --env-file=.env.local scripts/retranslate-pt-newsletter.ts",
     "find-duplicates": "tsx scripts/find-duplicates.ts",
-    "test:dedupe": "tsx scripts/test-dedupe.ts && tsx scripts/find-duplicates.ts --check > /dev/null"
+    "test:dedupe": "tsx scripts/test-dedupe.ts && tsx scripts/find-duplicates.ts --check > /dev/null",
+    "test:compose": "tsx scripts/test-compose.ts",
+    "compose-dry-run": "tsx --env-file=.env.local scripts/compose-edition-dry-run.ts"
   },
   "dependencies": {
     "google-auth-library": "^10.6.2",
