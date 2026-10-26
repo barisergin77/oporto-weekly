@@ -15,7 +15,11 @@
       "url": "https://casadamusica.com/festival-amazonia/",
       "note": "Umbrella festival, 12–28 Nov; long run (never a pick).",
       "source": "casa-da-musica-newsletter-2026-11",
-      "addedAt": "2026-10-25T12:00:00Z"
+      "addedAt": "2026-10-25T12:00:00Z",
+      "status": "done",
+      "eventSlug": "festival-floresta-amazonica-girando-mundos-casa-da-musica-nov-12-2026",
+      "lastTriedAt": "2026-10-26T09:31:57.768Z",
+      "resolvedAt": "2026-10-26T09:31:57.768Z"
     },
     {
       "name": "Caminhos da Floresta",
@@ -25,7 +29,11 @@
       "url": "https://casadamusica.com/festival-amazonia/",
       "note": "Exhibitions, installations, documentaries in foyers/bars, all day; free. No page of its own — section of the festival page (may resolve as the festival itself).",
       "source": "casa-da-musica-newsletter-2026-11",
-      "addedAt": "2026-10-25T12:00:00Z"
+      "addedAt": "2026-10-25T12:00:00Z",
+      "status": "done",
+      "eventSlug": "caminhos-da-floresta-casa-da-musica-nov-12-2026",
+      "lastTriedAt": "2026-10-26T09:31:57.768Z",
+      "resolvedAt": "2026-10-26T09:31:57.768Z"
     },
     {
       "name": "Manoel Cordeiro convida Euterpe + Curcumbia",
@@ -34,7 +42,11 @@
       "url": "https://casadamusica.com/event/cordeiro-convida-euterpe-curcumbia/?selected_session=59063",
       "note": "Sala 2; Floresta Amazónica.",
       "source": "casa-da-musica-newsletter-2026-11",
-      "addedAt": "2026-10-25T12:00:00Z"
+      "addedAt": "2026-10-25T12:00:00Z",
+      "status": "done",
+      "eventSlug": "cordeiro-convida-euterpe-curcumbia-casa-da-musica-nov-12-2026",
+      "lastTriedAt": "2026-10-26T09:31:57.768Z",
+      "resolvedAt": "2026-10-26T09:31:57.768Z"
     },
     {
       "name": "Will Love + DJ Waldo Squash",
@@ -43,7 +55,11 @@
       "url": "https://casadamusica.com/event/will-love-dj-waldo-squash-b2b-djs-gang-do-electro/?selected_session=59171",
       "note": "Café Casa da Música; free; Floresta Amazónica.",
       "source": "casa-da-musica-newsletter-2026-11",
-      "addedAt": "2026-10-25T12:00:00Z"
+      "addedAt": "2026-10-25T12:00:00Z",
+      "status": "done",
+      "eventSlug": "will-love-dj-waldo-squash-b2b-djs-gang-do-electro-cafe-casa-da-musica-nov-12-2026",
+      "lastTriedAt": "2026-10-26T09:31:57.768Z",
+      "resolvedAt": "2026-10-26T09:31:57.768Z"
     },
     {
       "name": "Clubbing Amazónico",
@@ -97,7 +113,11 @@
       "url": "https://casadamusica.com/event/irmaos-jussen/?selected_session=44120",
       "note": "Sala Suggia; piano month.",
       "source": "casa-da-musica-newsletter-2026-11",
-      "addedAt": "2026-10-25T12:00:00Z"
+      "addedAt": "2026-10-25T12:00:00Z",
+      "status": "done",
+      "eventSlug": "irmaos-jussen-casa-da-musica-nov-5-2026",
+      "lastTriedAt": "2026-10-26T09:31:57.768Z",
+      "resolvedAt": "2026-10-26T09:31:57.768Z"
     },
     {
       "name": "A Terceira de Rachmaninoff",
@@ -106,7 +126,11 @@
       "url": "https://casadamusica.com/event/a-terceira-de-rachmaninoff/?selected_session=44124",
       "note": "Sala Suggia; Orquestra Sinfónica with Leo de María (Villa-Lobos Bachianas Brasileiras 3) + Rachmaninoff Symphony 3 — one concert.",
       "source": "casa-da-musica-newsletter-2026-11",
-      "addedAt": "2026-10-25T12:00:00Z"
+      "addedAt": "2026-10-25T12:00:00Z",
+      "status": "done",
+      "eventSlug": "a-terceira-de-rachmaninoff-casa-da-musica-nov-7-2026",
+      "lastTriedAt": "2026-10-26T09:31:57.768Z",
+      "resolvedAt": "2026-10-26T09:31:57.768Z"
     },
     {
       "name": "Saint-Saëns Organ Symphony – Orquestra Sinfónica",
@@ -161,7 +185,11 @@
       "url": "https://casadamusica.com/misty-fest-2026/",
       "note": "Umbrella, Porto shows at Casa da Música 10–30 Nov; long run. Alan Stivell (20 Nov) cancelled. Edition number not confirmed (mistyfest.pt did not load).",
       "source": "casa-da-musica-newsletter-2026-11",
-      "addedAt": "2026-10-25T12:00:00Z"
+      "addedAt": "2026-10-25T12:00:00Z",
+      "status": "done",
+      "eventSlug": "misty-fest-2026-casa-da-musica-nov-10-2026",
+      "lastTriedAt": "2026-10-26T09:31:57.768Z",
+      "resolvedAt": "2026-10-26T09:31:57.768Z"
     },
     {
       "name": "Rodrigo Cuevas",
@@ -170,7 +198,12 @@
       "url": "https://casadamusica.com/event/rodrigo-cuevas/?selected_session=51693",
       "note": "Sala 2; Misty Fest.",
       "source": "casa-da-musica-newsletter-2026-11",
-      "addedAt": "2026-10-25T12:00:00Z"
+      "addedAt": "2026-10-25T12:00:00Z",
+      "status": "done",
+      "eventSlug": "misty-fest-2026-casa-da-musica-nov-10-2026",
+      "reason": "same event as lead \"Misty Fest 2026\"",
+      "lastTriedAt": "2026-10-26T09:31:57.768Z",
+      "resolvedAt": "2026-10-26T09:31:57.768Z"
     },
     {
       "name": "Svaneborg Kardyb + Vega Trails",
