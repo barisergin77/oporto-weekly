@@ -311,7 +311,11 @@
       "venue": "Batalha Centro de Cinema",
       "note": "22:00, Neighbouring Cinema strand; free entry; Halloween quiz",
       "source": "batalha-newsletter-2026-10",
-      "addedAt": "2026-10-26T11:47:50Z"
+      "addedAt": "2026-10-26T11:47:50Z",
+      "status": "pending",
+      "attempts": 1,
+      "reason": "date quote not on page",
+      "lastTriedAt": "2026-10-26T13:51:50.296Z"
     },
     {
       "name": "Halloween Special – Surprise Halloween film",
@@ -319,7 +323,11 @@
       "venue": "Batalha Centro de Cinema",
       "note": "23:59; surprise Halloween film screening with Guilherme Cobretti and Jay Toso; ticketed",
       "source": "batalha-newsletter-2026-10",
-      "addedAt": "2026-10-26T11:47:50Z"
+      "addedAt": "2026-10-26T11:47:50Z",
+      "status": "pending",
+      "attempts": 1,
+      "reason": "date quote not on page",
+      "lastTriedAt": "2026-10-26T13:51:50.296Z"
     },
     {
       "name": "Memories – Satoshi Kon Retrospective",
@@ -327,7 +335,11 @@
       "venue": "Batalha Centro de Cinema",
       "note": "19:15; anime anthology by Kōji Morimoto, Katsuhiro Ōtomo and Tensai Okamura (Japan, 1995, 113'); ticketed",
       "source": "batalha-newsletter-2026-10",
-      "addedAt": "2026-10-26T11:47:50Z"
+      "addedAt": "2026-10-26T11:47:50Z",
+      "status": "pending",
+      "attempts": 1,
+      "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
+      "lastTriedAt": "2026-10-26T13:51:50.296Z"
     },
     {
       "name": "They All Lie – Matías Piñeiro Special",
@@ -335,7 +347,11 @@
       "venue": "Batalha Centro de Cinema",
       "note": "19:15; Matías Piñeiro (Argentina, 2009, 76'), English subtitles; with the filmmaker and Garbiñe Ortega; ticketed",
       "source": "batalha-newsletter-2026-10",
-      "addedAt": "2026-10-26T11:47:50Z"
+      "addedAt": "2026-10-26T11:47:50Z",
+      "status": "pending",
+      "attempts": 1,
+      "reason": "date quote not on page",
+      "lastTriedAt": "2026-10-26T13:51:50.296Z"
     },
     {
       "name": "You Burn Me + Prefacio para el dialoguito – Matías Piñeiro Special",
@@ -383,7 +399,11 @@
       "venue": "Casa da Música",
       "note": "21:00; concert for her album Ela por Elas, covering Portuguese songs first sung by women (Diva, Mler Ife Dada, Salada de Frutas, Madredeus)",
       "source": "agenda-porto-newsletter-2026-10",
-      "addedAt": "2026-10-26T12:16:43Z"
+      "addedAt": "2026-10-26T12:16:43Z",
+      "status": "done",
+      "eventSlug": "viviane-ela-por-elas-casa-da-musica-oct-28-2026",
+      "lastTriedAt": "2026-10-26T13:51:50.296Z",
+      "resolvedAt": "2026-10-26T13:51:50.296Z"
     },
     {
       "name": "Fogo Fátuo",
@@ -399,7 +419,11 @@
       "venue": "Teatro Rivoli",
       "note": "18:30; talk where Júlio Machado Vaz and Manuel Sobrinho Simões present Entre Nós, a book they wrote together",
       "source": "agenda-porto-newsletter-2026-10",
-      "addedAt": "2026-10-26T12:16:43Z"
+      "addedAt": "2026-10-26T12:16:43Z",
+      "status": "pending",
+      "attempts": 1,
+      "reason": "not an organiser/venue/ticketing page (https://www.agenda-porto.pt/evento/tmp-entre-nos/)",
+      "lastTriedAt": "2026-10-26T13:51:50.296Z"
     },
     {
       "name": "Festa, de Marcio Abreu",
@@ -408,7 +432,11 @@
       "venue": "Teatro Carlos Alberto",
       "note": "Wed, Thu, Sat 19:00, Fri 21:00; theatre made together by TEP – Teatro Experimental do Porto and Brazil's companhia brasileira de teatro",
       "source": "agenda-porto-newsletter-2026-10",
-      "addedAt": "2026-10-26T12:16:43Z"
+      "addedAt": "2026-10-26T12:16:43Z",
+      "status": "pending",
+      "attempts": 1,
+      "reason": "not an organiser/venue/ticketing page (https://iporto.amp.pt/en/eventos/festa/)",
+      "lastTriedAt": "2026-10-26T13:51:50.296Z"
     },
     {
       "name": "Balfolk",
@@ -416,7 +444,11 @@
       "venue": "Orfeão do Porto",
       "note": "17:30; European folk social dance session, open to all levels",
       "source": "agenda-porto-newsletter-2026-10",
-      "addedAt": "2026-10-26T12:16:43Z"
+      "addedAt": "2026-10-26T12:16:43Z",
+      "status": "pending",
+      "attempts": 1,
+      "reason": "not an organiser/venue/ticketing page (https://www.agenda-porto.pt/evento/balfolk-nivel-aberto-out/)",
+      "lastTriedAt": "2026-10-26T13:51:50.296Z"
     },
     {
       "name": "Entre Bruxas e Feitiços, Pé-de-Cabra e Ouriços",
