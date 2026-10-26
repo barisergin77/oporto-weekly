@@ -30,6 +30,15 @@ const RETITLED_SLUGS = new Set<string>([
     "porto-on-foot-a-self-guided-walk-through-history-2025",
     "portos-ultimate-vintage-artisan-shopping-guide-2025"
   ]);
+// 2026-10-26: the September coffee guide (…-a-2026-guide) was merged into this
+// one and 301s here (next.config.mjs), so its body changed.
+const COFFEE_MERGED = new Date('2026-10-26T12:00:00Z');
+const MERGED_SLUGS = new Set<string>(['portos-best-coffee-pastis-de-nata-the-2026-guide']);
+
+function blogRevision(slug: string): Date {
+  if (MERGED_SLUGS.has(slug)) return COFFEE_MERGED;
+  return RETITLED_SLUGS.has(slug) ? BLOG_RETITLED : PT_NAMESPACE;
+}
 
 function notBefore(date: string | Date, revision: Date): Date {
   const d = typeof date === 'string' ? new Date(date) : date;
@@ -50,14 +59,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const blogPosts = listBlogPosts();
   const blogUrls = blogPosts.map((p) => ({
     url: `https://oportoweekly.com/blog/${p.slug}`,
-    lastModified: notBefore(p.publishedAt, RETITLED_SLUGS.has(p.slug) ? BLOG_RETITLED : PT_NAMESPACE),
+    lastModified: notBefore(p.publishedAt, blogRevision(p.slug)),
     changeFrequency: 'monthly' as const,
     priority: 0.8,
   }));
   // PT blog articles — only those that have been translated.
   const blogUrlsPT = listBlogPostsPT().map((p) => ({
     url: `https://oportoweekly.com/pt/blog/${p.slug}`,
-    lastModified: notBefore(p.publishedAt, RETITLED_SLUGS.has(p.slug) ? BLOG_RETITLED : PT_NAMESPACE),
+    lastModified: notBefore(p.publishedAt, blogRevision(p.slug)),
     changeFrequency: 'monthly' as const,
     priority: 0.7,
   }));

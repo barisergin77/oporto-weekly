@@ -85,7 +85,17 @@ const nextConfig = {
       { source: `/pt/venue/${from}`, destination: `/pt/venue/${to}`, permanent: true },
     ]);
 
-    return [...eventRedirects, ...venueRedirects];
+    // Duplicate guides merged into the stronger slug (by GSC clicks).
+    const blogMerges = [
+      // 2026-10-26: Sep coffee guide merged into the May one (15 vs 2 clicks).
+      ['portos-best-coffee-pastis-de-nata-a-2026-guide', 'portos-best-coffee-pastis-de-nata-the-2026-guide'],
+    ];
+    const blogRedirects = blogMerges.flatMap(([from, to]) => [
+      { source: `/blog/${from}`, destination: `/blog/${to}`, permanent: true },
+      { source: `/pt/blog/${from}`, destination: `/pt/blog/${to}`, permanent: true },
+    ]);
+
+    return [...eventRedirects, ...venueRedirects, ...blogRedirects];
   },
 };
 
