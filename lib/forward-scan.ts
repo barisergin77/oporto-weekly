@@ -433,6 +433,7 @@ async function discover(usage: ScanUsage, window: Window, stats: SourceStats, se
 Focus: ${focus}.${hint ? `\nGood places to look: ${hint}.` : ''}
 
 Only include an event if you found its official page: the organiser's or venue's own page for THAT ONE event, or its ticketing page (e.g. ticketline.pt, bol.pt, blueticket.pt, seetickets, feverup.com, casadamusica.com, coliseu.pt) — never a venue's agenda/programme page, a search page, a homepage, a news article, blog, listing site or social-media post. Up to 15 events.
+Skip sales pitches and product presentations (roadshows, product launches, MLM or "business opportunity" sessions) and trade or professional events (conferences and their social events, B2B fairs, hosts' or business meetups, corporate networking): our readers are residents and visitors looking for things to do.
 
 For each event write one plain sentence, one per line, stating its name, venue, start date (and end date if it runs several days), what kind of event it is, and the address of its official page exactly as it appeared in your search results (never a guessed or constructed address). If you find none, write NONE.`;
     try {
@@ -668,6 +669,7 @@ function decodeEntities(s: string): string {
 
 interface PageFacts {
   isEventPage: boolean;
+  audienceFit?: boolean;
   sourceType: 'organiser' | 'venue' | 'ticketing' | 'other';
   name: string;
   nameQuote: string;
@@ -712,6 +714,7 @@ async function verify(
 Reply with ONLY this JSON object:
 {
   "isEventPage": true if the page is about this one event (not a list of many events, not a news article),
+  "audienceFit": false if the event is a sales pitch or product/brand presentation (roadshow, product launch, MLM or "business opportunity" session, timeshare/property sales), or a trade/industry/professional event (conference or its side/social events, B2B fair, hosts' or business owners' meetup, corporate networking, webinar); true for public cultural, leisure, community, food, family, sports and nightlife events,
   "sourceType": "organiser" | "venue" | "ticketing" | "other",
   "name": event name as the page gives it,
   "nameQuote": the name copied EXACTLY from the page text,
@@ -742,6 +745,8 @@ ${page.text}`;
     return { reason: `reader failed: ${err instanceof Error ? err.message : err}` };
   }
   if (!facts || !facts.isEventPage) return { reason: `page does not confirm the event (${page.finalUrl})` };
+  // Owner 2026-10-26: sales pitches and trade events don't fit the audience.
+  if (facts.audienceFit === false) return { reason: `sales or trade event, not for our audience (${page.finalUrl})` };
   if (facts.sourceType === 'other') return { reason: `not an organiser/venue/ticketing page (${page.finalUrl})` };
 
   // Anti-hallucination: the quotes must really be on the page.
