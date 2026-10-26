@@ -7,6 +7,48 @@ impressions / pos 9.3 over 28 days (prev 28: 191 / 10,293 / 16.9);
 subscribers 56 active (34 EN, 22 PT), ~1.4 net/week; signups by page: none
 recorded yet (tracking started today).
 
+## 2026-10-26 — Coffee guide merge + 301 (backlog #24)
+- Metrics (`metrics/2026-10-26.json`): 313 clicks / 14,356 impr / pos 10.29
+  over 28d (yesterday 314 / 14,464 / 10.03; prev 28d 267 / 12,011 / 12.6).
+  Last 7d 80 clicks vs 79, impressions 3,092 vs 4,877, CTR 2.6% vs 1.6%;
+  **7d position 12.8 vs 9.7** (yesterday 12.2): still slipping, watch it. GA4
+  7d 35 users / 41 sessions / 86 PV (prev 32 / 36 / 61); 17 organic, 10
+  organic social, 8 direct, 6 AI; `sign_up` 2. Subscribers 55 (10-22).
+  **Signups attributed in 28d: 4**, 3 of them on 10-25 (event page ×2,
+  archive ×1, all EN). No result due today (first is 10-31).
+- Forward scan check: **no `chore: forward scan` commit on 10-25 or 10-26.**
+  A prod dry run at 09:05 UTC was healthy: 90 sources, 54 discovered, 18
+  dupes, **14 verified** (Casa da Música November leads, Adriana Calcanhotto
+  10-27, etc.), 8 leads resolved. So discovery works, and the real run fails
+  or times out after verification (enrichment: PT translation, images,
+  commit). I can't see why: Vercel logs and `gh run list` aren't permitted in
+  this run. Since a253328 (owner, 10-25) this scan is the newsletter's daily
+  research, so I didn't touch it. → Needs owner.
+- Change (fed90c4): merged the unique stops from `…-a-2026-guide` into
+  `…-the-2026-guide`, EN + PT: Fábrica Coffee Roasters (Rua de José Falcão
+  122), Época (Rua do Rosário 22, weekday brunch, closed weekends) and Majestic
+  Café (opened Dec 1921 as "Elite", Rua de Santa Catarina 112). I checked these
+  against current listings and visitporto.travel and left out unconfirmed
+  details (Wi-Fi, Turkish eggs, Majestic prices). Removed the a-2026 entry and
+  HTML, and 301'd `/blog/…-a-2026-guide` and `/pt/blog/…` to the-2026
+  (`next.config.mjs` blogMerges). Sitemap lastmod bumped for the-2026
+  (`COFFEE_MERGED`).
+- Verified: tsc; build OK; the built EN page has the new sections; /api/version =
+  fed90c4; both old URLs (EN + PT) 308 to the-2026; the live PT page has the new
+  sections; health ok (9/9). Indexing API: 4 URLs → 200.
+- Expect: the-2026 picks up a-2026's impressions; "coffee shops porto" /
+  "pastel de nata porto" clicks up a little. Small (2 clicks moved).
+- Measure on: 2026-11-23 (GSC clicks on the-2026-guide vs 15 / 929 baseline).
+- Result:
+- Next run: #26 is forward-scan work and needs owner input first (see below).
+  Otherwise #10 (low-CTR pass: "mike stern casa da musica" 66 impr at pos 6.3,
+  0 clicks) or #12 (draft Porto Expats post Tue 10-27 for Wed 10-28).
+- Needs owner: **the daily forward scan hasn't committed for 2 days** (10-25,
+  10-26 07:00) though a dry run verifies 14 events. Thursday's edition is now
+  composed from these, so please check the GitHub Action / Vercel log for
+  `/api/cron/forward-scan` (likely a timeout during enrichment of 14 events, or
+  a commit error). Or grant this run Vercel log access and I'll diagnose it.
+
 ## 2026-10-25 — Forward scan: Fever hubs as listings, guessed URLs dropped (backlog #25a,b)
 - Metrics (`metrics/2026-10-25.json`): 314 clicks / 14,464 impr / pos 10.03
   over 28d (yesterday 322 / 14,433 / 9.88; prev 28d 249 / 11,598 / 13.2).
