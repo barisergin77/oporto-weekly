@@ -45,6 +45,8 @@ before doing anything. On your first run, read `HANDOFF.md` first.
    (MAX_FEVER_PER_EDITION). Never in Facebook-group/social posts. Impact creds
    live only on the server (~/.secrets/impact.env), never in the repo.
 
+9. **Gomry (owner 2026-10-27):** ticket links on our events that are on Gomry carry `?ref=Pi2YQafpuFtB` (lib/gomry.ts, precedence Fever tiers 1–3 > Gomry > plain), rel="sponsored" + affiliate note. The "Organising this event?" box shows only on independent organizers' upcoming events (data/gomry-cta-exclude.json lists the institutions, stadiums, museums and public spaces where it never shows). The only events created from Gomry are FC Porto home matches (factual copy, resale "from" price as listed, never an Editor's Pick). Never put Gomry/ref links in Facebook-group posts. No adult/sensual/erotic events from any partner catalog (`isAdultContent`).
+
 ## 2. The daily run
 
 1. `git pull`. Read this playbook, `BACKLOG.md`, the last ~5 `LOG.md` entries.

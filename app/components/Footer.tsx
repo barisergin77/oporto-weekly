@@ -1,4 +1,6 @@
 import Link from 'next/link';
+import { GOMRY_ORGANIZER_URL, ORGANIZER_FOOTER } from '@/lib/gomry';
+import { TrackedLink } from './TrackedLink';
 import { colors, typography } from '@/lib/design';
 
 const InstagramIcon = () => (
@@ -70,6 +72,20 @@ export function Footer({ lang = 'en' }: FooterProps) {
           <InstagramIcon />
         </a>
       </div>
+
+      {/* Gomry organizer referral (owner 2026-10-27) */}
+      <p style={{ fontSize: 12, marginTop: 20, marginBottom: 0 }}>
+        <TrackedLink
+          href={GOMRY_ORGANIZER_URL}
+          target="_blank"
+          rel="sponsored noopener"
+          gaEvent="gomry_organizer_click"
+          gaParams={{ placement: 'footer', lang: isEN ? 'en' : 'pt' }}
+          style={{ color: colors.textSoft }}
+        >
+          {isEN ? ORGANIZER_FOOTER.en : ORGANIZER_FOOTER.pt}
+        </TrackedLink>
+      </p>
 
       {/* Affiliate disclosure (Fever via Impact, 2026-10-27) */}
       <p style={{ fontSize: 11, color: colors.textMuted, marginTop: 20, marginBottom: 0 }}>

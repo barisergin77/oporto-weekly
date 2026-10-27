@@ -19,7 +19,11 @@ import { monthHubFor } from '@/lib/event-months';
 import { eventSeo } from '@/lib/event-seo';
 import { SubscribeCTA } from '@/app/components/SubscribeCTA';
 import { ShortcutChips } from '@/app/components/ShortcutChips';
-import { AFFILIATE_NOTE, SPONSORED_REL, ticketLink } from '@/lib/fever';
+import { AFFILIATE_NOTE, SPONSORED_REL } from '@/lib/fever';
+import { organizerCtaEligible } from '@/lib/gomry';
+import { ticketFor } from '@/lib/tickets';
+import { OrganizerCta } from '@/app/components/OrganizerCta';
+import { TrackedLink } from '@/app/components/TrackedLink';
 
 export function generateStaticParams() {
   return listEvents().map((e) => ({ slug: e.slug }));
@@ -70,7 +74,8 @@ export default function EventPage({ params }: { params: { slug: string } }) {
   const ev = getEvent(params.slug);
   if (!ev) notFound();
 
-  const tickets = ticketLink(ev);
+  const tickets = ticketFor(ev);
+  const showOrganizerCta = organizerCtaEligible(ev, Boolean(tickets?.affiliate));
   const sourceEdition = getNewsletterMeta(ev.sourceEdition);
   const relatedAtVenue = hasVenuePage(ev.venueSlug)
     ? listEventsByVenue(ev.venueSlug).filter((e) => e.slug !== ev.slug).slice(0, 4)
@@ -183,7 +188,7 @@ export default function EventPage({ params }: { params: { slug: string } }) {
             google.com/search fallback URL that occasionally slips through. */}
         {tickets && (
           <div style={{ margin: '0 0 40px' }}>
-          <a
+          <TrackedLink
             href={tickets.href}
             target="_blank"
             rel={tickets.affiliate ? SPONSORED_REL : 'noopener noreferrer nofollow'}
@@ -199,14 +204,17 @@ export default function EventPage({ params }: { params: { slug: string } }) {
               textTransform: 'uppercase',
               borderRadius: 2,
             }}
-          >
+              gaEvent={tickets.affiliate ? 'affiliate_ticket_click' : undefined}
+              gaParams={tickets.provider ? { provider: tickets.provider, event_slug: ev.slug } : undefined}
+            >
             Get tickets →
-          </a>
+          </TrackedLink>
           {tickets.affiliate && (
             <p style={{ fontSize: 12, color: colors.textSoft, margin: '10px 0 0' }}>{AFFILIATE_NOTE.en}</p>
           )}
           </div>
         )}
+        {showOrganizerCta && <OrganizerCta lang="en" slug={ev.slug} />}
 
         {/* Source edition */}
         {sourceEdition && (

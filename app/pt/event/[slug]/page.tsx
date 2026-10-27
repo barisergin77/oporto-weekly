@@ -20,7 +20,11 @@ import { monthHubFor, ptLabel, ptSlug } from '@/lib/event-months';
 import { eventSeo, priceText } from '@/lib/event-seo';
 import { SubscribeCTA } from '@/app/components/SubscribeCTA';
 import { ShortcutChips } from '@/app/components/ShortcutChips';
-import { AFFILIATE_NOTE, SPONSORED_REL, ticketLink } from '@/lib/fever';
+import { AFFILIATE_NOTE, SPONSORED_REL } from '@/lib/fever';
+import { organizerCtaEligible } from '@/lib/gomry';
+import { ticketFor } from '@/lib/tickets';
+import { OrganizerCta } from '@/app/components/OrganizerCta';
+import { TrackedLink } from '@/app/components/TrackedLink';
 
 export function generateStaticParams() {
   return listEvents().map((e) => ({ slug: e.slug }));
@@ -48,7 +52,8 @@ export default function EventPagePT({ params }: { params: { slug: string } }) {
   const ev = getEvent(params.slug);
   if (!ev) notFound();
 
-  const tickets = ticketLink(ev);
+  const tickets = ticketFor(ev);
+  const showOrganizerCta = organizerCtaEligible(ev, Boolean(tickets?.affiliate));
   const disp = eventDisplay(ev, 'pt');
   // Source edition: the event's sourceEdition is the EN slug; the PT archive
   // lives under the same slug + "-pt".
@@ -108,19 +113,22 @@ export default function EventPagePT({ params }: { params: { slug: string } }) {
 
         {tickets && (
           <div style={{ margin: '0 0 40px' }}>
-            <a
+            <TrackedLink
               href={tickets.href}
               target="_blank"
               rel={tickets.affiliate ? SPONSORED_REL : 'noopener noreferrer nofollow'}
               style={{ display: 'inline-block', background: colors.heading, color: '#ffffff', padding: '14px 28px', textDecoration: 'none', fontSize: 14, fontWeight: 600, letterSpacing: 1.2, textTransform: 'uppercase', borderRadius: 2 }}
+              gaEvent={tickets.affiliate ? 'affiliate_ticket_click' : undefined}
+              gaParams={tickets.provider ? { provider: tickets.provider, event_slug: ev.slug } : undefined}
             >
               Comprar bilhetes →
-            </a>
+            </TrackedLink>
             {tickets.affiliate && (
               <p style={{ fontSize: 12, color: colors.textSoft, margin: '10px 0 0' }}>{AFFILIATE_NOTE.pt}</p>
             )}
           </div>
         )}
+        {showOrganizerCta && <OrganizerCta lang="pt" slug={ev.slug} />}
 
         {sourceEdition && (
           <div style={{ background: colors.bgSoft, borderLeft: `3px solid ${colors.accent}`, padding: '14px 18px', margin: '0 0 40px', fontSize: 14, color: colors.textSoft }}>

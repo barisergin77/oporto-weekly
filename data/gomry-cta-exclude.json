@@ -1,0 +1,21 @@
+{
+  "_comment": "Canonical venue slugs where the 'Organising this event? Sell tickets with Gomry' box never shows: institutions and big venues with their own ticketing, city-run public spaces, stadiums/arenas, museums and hotels (owner plan 2026-10-27). Independent venues (Hard Club, bars, small galleries, collectives) stay eligible. Add slugs here; lib/gomry.ts organizerCtaEligible() reads this file.",
+  "venues": [
+    "casa-da-musica", "cafe-casa-da-musica",
+    "serralves", "serralves-foundation-downtown",
+    "coliseu-porto-ageas",
+    "sao-joao-national-theatre", "teatro-nacional-sao-joao", "tnsj", "teatro-carlos-alberto",
+    "monastery-of-sao-bento-da-vitoria", "mosteiro-de-sao-bento", "mosteiro-sao-bento-da-vitoria",
+    "rivoli-theatre", "teatro-municipal-do-porto", "teatro-campo-alegre", "campo-alegre",
+    "galeria-municipal-do-porto", "biblioteca-municipal-almeida-garrett", "biblioteca-popular-de-pedro-ivo",
+    "super-bock-arena", "estadio-do-dragao", "estadio-municipal", "estadio-de-praia", "exponor",
+    "parque-da-cidade", "jardins-do-palacio-de-cristal", "avenida-dos-aliados", "ribeira", "ribeira-docks",
+    "gaia-waterfront", "vila-nova-de-gaia", "matosinhos", "miragaia", "rua-de-miragaia", "sao-bento-station",
+    "batalha-centro-de-cinema",
+    "world-of-wine", "alfandega-do-porto", "palacio-da-bolsa", "pestana-palacio-do-freixo", "hilton-porto-gaia",
+    "museu-nacional-soares-dos-reis", "museu-do-carro-electrico", "clerigos-museum", "atkinson-museum",
+    "museu-aurelia-e-sofia-de-souza", "museu-de-historia-natural", "galeria-da-biodiversidade",
+    "centro-portugues-de-fotografia", "reitoria-da-universidade-do-porto", "universidade-lusofona",
+    "auditorio-municipal-de-gaia", "various-museums", "galeria-contemporanea-do-museu"
+  ]
+}

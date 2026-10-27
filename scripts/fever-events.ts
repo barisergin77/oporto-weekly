@@ -26,7 +26,7 @@ import {
   listEvents,
 } from '../lib/events';
 import { datesOverlap } from '../lib/event-identity';
-import { FEVER_ITEMS, type FeverOccurrence, feverOccurrences, matchFever } from '../lib/fever';
+import { FEVER_ITEMS, type FeverOccurrence, feverOccurrences, isAdultContent, matchFever } from '../lib/fever';
 
 const day = (iso: string) => iso.slice(0, 10);
 const CATEGORIES: EventCategory[] = ['music', 'art', 'food', 'family', 'nightlife', 'sports', 'other'];
@@ -56,6 +56,8 @@ function candidates() {
   const events = listEvents();
   const out = feverOccurrences(tomorrow, until)
     .filter((o) => !alreadyListed(o, events))
+    // Fever's own copy can reveal what the name hides (owner 2026-10-27: no sensual/adult shows).
+    .filter((o) => !isAdultContent(o.item.name, o.item.venue, o.item.subCategory, desc[o.item.id]))
     .map((o) => ({
       key: o.key,
       catalogName: o.item.name,
@@ -83,6 +85,7 @@ function write(file: string) {
     const item = FEVER_ITEMS.find((i) => i.id === id);
     const occ = item && feverOccurrences(d, d, [item])[0];
     if (!item || !occ || !c.name?.trim() || !c.description?.trim()) continue;
+    if (isAdultContent(item.name, item.venue, item.subCategory, c.name, c.description, c.longDescription)) continue;
     if (alreadyListed(occ, events)) continue;
     const price = item.price != null ? (item.price > 0 ? `From €${item.price % 1 ? item.price.toFixed(2) : item.price}` : 'Free') : undefined;
     const rec: EventRecord = {

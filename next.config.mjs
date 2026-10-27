@@ -78,6 +78,12 @@ const nextConfig = {
       { source: `/event/${from}`, destination: `/event/${to}`, permanent: true },
       { source: `/pt/event/${from}`, destination: `/pt/event/${to}`, permanent: true },
     ]);
+    // 2026-10-27 (owner): adult-show listing removed ("skip that sensual shows thing"), no replacement event.
+    const removedEvents = ['halloween-night-at-magic-moments-restaurant-magic-moments-restaurante-dance-club-porto-oct-31-2026'];
+    eventRedirects.push(...removedEvents.flatMap((slug) => [
+      { source: `/event/${slug}`, destination: '/porto-events/this-weekend', permanent: true },
+      { source: `/pt/event/${slug}`, destination: '/pt/eventos/este-fim-de-semana', permanent: true },
+    ]));
 
     // Venue pages for alias slugs ("serralves-museum", "casa-da-musica-sala-2")
     // → the canonical venue page. Driven by data/venue-aliases.json.
