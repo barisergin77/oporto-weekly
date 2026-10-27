@@ -7,6 +7,52 @@ impressions / pos 9.3 over 28 days (prev 28: 191 / 10,293 / 16.9);
 subscribers 56 active (34 EN, 22 PT), ~1.4 net/week; signups by page: none
 recorded yet (tracking started today).
 
+## 2026-10-27 — Forward-scan duplicates removed before Thursday (#17/#28) + Porto Expats draft (#12)
+- Metrics (`metrics/2026-10-27.json`): 307 clicks / 14,436 impr / pos 10.38
+  over 28d (yesterday 313 / 14,356 / 10.29; prev 28d 281 / 12,383 / 12.0).
+  Last 7d 74 clicks vs 80, impressions 3,138 vs 3,317, CTR 2.4% vs 2.4%;
+  **7d position 12.9 vs 10.6**: third day of slipping. GA4 7d 37 users / 43
+  sessions / 87 PV (prev 29 / 34 / 66); 19 organic, 10 direct, 10 organic
+  social, 4 AI; `sign_up` 2. Subscribers 55 (10-22). Signups attributed in
+  28d: 4 (no new ones since 10-25). No result due today (first is 10-31).
+- Forward scan (#27): **committing again**: 729b0f0 and f4db5dc on 10-26,
+  330223d today (6 events). I read today's 6 before the 21:00 flush. All come
+  from detail pages (3cket, casadamusica, bol.pt, cm-matosinhos) and the copy
+  is factual. FYI: ALMAWEEN (€3–4, youth association, 17+) says all tickets
+  are sold out; I kept it.
+- Why: `find-duplicates` + the weekend list showed **two pairs written twice
+  by the 10-26 scan, each pair from the same source URL**, already live since
+  the 10-27 00:13 flush, and both would be candidates for Thursday's edition.
+  Today's Hetta record also opened a second venue page for Radioclube Agramonte.
+- Change (abc1131): removed `qui-29-maria-pistolas-oct-29-2026` →
+  `voulez-vous-x-maria-pistolas-…` and `moonspell-hard-club-oct-31-2026` →
+  `moonspell-invicta-halloween-…`, with 301s EN + PT (next.config dedupes).
+  Alias `radioclube-agramonte` → `rca-radioclube-agramonte` (venue-aliases),
+  Hetta record's venueSlug updated. "Caminhos da Floresta" and "Festival
+  Floresta Amazónica" share a URL and dates but are the festival and its
+  installation programme, so both stay.
+- Verified: find-duplicates 0 strong / 0 stale venueSlug; tsc; build OK
+  (retired pages not built, Hetta links the canonical venue); /api/version =
+  abc1131; both event URLs (EN, PT) and the venue alias 308 to the kept pages;
+  health ok (9/9). No Indexing API call: the retired pages were 1 day old.
+- Draft (#12): `drafts/porto-expats-post-2026-10-28.txt`, for the owner to
+  post **Wed 10-28 before 22:00** (group rule: events on Wednesdays, starting
+  prices). 6 picks for 30 Oct – 1 Nov, every one priced, 1 link at the end,
+  no subscribe ask. Facts come from each record's source page; I couldn't
+  re-open the pages (Firecrawl isn't permitted in this run).
+- Expect: Thursday's edition has no doubled items; the draft, if posted, gives
+  organic-social sessions + signups from /this-weekend like 10-22.
+- Measure on: 10-29 edition (no duplicates); social sessions/signups 11-01.
+- Result:
+- Next run: #10 low-CTR pass ("mike stern casa da musica" 66 impr, pos 6.3,
+  0 clicks), and keep watching 7d position. **Wed 18:00 UTC freeze starts
+  tomorrow**: tomorrow's run can still ship before 18:00.
+- Needs owner: (1) Post the Porto Expats draft on Wed 10-28 if it looks OK.
+  (2) #28: may I add a same-source-URL dedupe to `lib/forward-scan.ts`? Name
+  matching missed both pairs, and "MOONSPELL" may come back on the next scan
+  now that its file is gone. (3) #27 is resolved on my side; thanks if you
+  fixed it.
+
 ## 2026-10-26 — Coffee guide merge + 301 (backlog #24)
 - Metrics (`metrics/2026-10-26.json`): 313 clicks / 14,356 impr / pos 10.29
   over 28d (yesterday 314 / 14,464 / 10.03; prev 28d 267 / 12,011 / 12.6).
