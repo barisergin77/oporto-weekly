@@ -7,7 +7,7 @@
 
 import assert from 'node:assert/strict';
 import { canonicalVenueSlugFor, venueSlugRedirects } from '../lib/venues';
-import { isSameEvent } from '../lib/event-identity';
+import { isSameEvent, normalizeEventUrl, sameSourcePageReason } from '../lib/event-identity';
 import { findExistingEventByIdentity, type EventRecord } from '../lib/events';
 
 let passed = 0;
@@ -84,6 +84,36 @@ test('findExistingEventByIdentity: exact tier unchanged, fuzzy tier needs dates'
   assert.equal(findExistingEventByIdentity('"Wrong Answers" Exhibition', 'Museu de Serralves', undefined, corpus), null);
   assert.equal(findExistingEventByIdentity('"Wrong Answers" Exhibition', 'Museu de Serralves', { date: '2026-10-22', endDate: '2026-10-28' }, corpus)?.slug, 'holzer');
   assert.equal(findExistingEventByIdentity('Wrong Answers Talk', 'Hard Club', { date: '2026-10-22' }, corpus), null);
+});
+
+
+// ------------------------------------------------- same source page (2026-10-27)
+test('same event page + venue + date = one event, even with different names', () => {
+  const a = { name: 'MOONSPELL', venue: 'Hard Club', date: '2026-10-31', externalLink: 'https://www.hardclubporto.com/evento/moonspell/?utm_source=x' };
+  const b = { name: 'Moonspell: Invicta Halloween', venue: 'Hard Club, Sala 1', date: '2026-10-31', externalLink: 'https://hardclubporto.com/evento/moonspell' };
+  assert.ok(sameSourcePageReason(a, b));
+});
+test('same page but different venue or date is not merged', () => {
+  const a = { name: 'X', venue: 'Hard Club', date: '2026-10-31', externalLink: 'https://hardclubporto.com/evento/x' };
+  assert.equal(sameSourcePageReason(a, { ...a, venue: 'Maus Hábitos' }), null);
+  assert.equal(sameSourcePageReason(a, { ...a, date: '2026-11-07' }), null);
+});
+test('a festival and its single nights share a page but stay separate', () => {
+  const fest = { name: 'NOS Primavera Sound', venue: 'Parque da Cidade', date: '2026-06-11', endDate: '2026-06-14', externalLink: 'https://www.primaverasound.com/en/porto' };
+  assert.equal(sameSourcePageReason(fest, { ...fest, name: 'The xx + Big Thief at Primavera', endDate: undefined }), null);
+});
+test('homepages and agenda/listing pages never identify an event', () => {
+  for (const u of ['https://www.casadamusica.com/', 'https://www.casadamusica.com/pt/agenda/', 'https://agendaporto.pt/eventos', 'https://www.serralves.pt/en']) {
+    assert.equal(normalizeEventUrl(u), null, u);
+  }
+  const a = { name: 'A', venue: 'Casa da Música', date: '2026-11-05', externalLink: 'https://www.casadamusica.com/pt/agenda/' };
+  assert.equal(sameSourcePageReason(a, { ...a, name: 'B' }), null);
+});
+test('findExistingEventByIdentity matches by source page', () => {
+  const rec = { slug: 'moonspell-hard-club-oct-31-2026', name: 'Moonspell Invicta Halloween', venue: 'Hard Club', venueSlug: 'hard-club', date: '2026-10-31', category: 'music', description: '', sourceEdition: 'forward-scan', addedAt: '2026-10-26T07:00:00Z', externalLink: 'https://hardclubporto.com/evento/moonspell' } as EventRecord;
+  const m = findExistingEventByIdentity('MOONSPELL', 'Hard Club', { date: '2026-10-31', url: 'https://www.hardclubporto.com/evento/moonspell/' }, [rec]);
+  assert.equal(m?.slug, rec.slug);
+  assert.equal(findExistingEventByIdentity('MOONSPELL', 'Hard Club', { date: '2026-10-31' }, [rec])?.slug, undefined);
 });
 
 console.log(`ok — ${passed} dedupe tests passed`);

@@ -59,6 +59,7 @@ import {
 import { acquireEventImage, translateEventFields } from './events-pipeline';
 import { type ForwardLead, type LeadOutcome, LEADS_PER_RUN, leadKey, selectLeads } from './forward-leads';
 import { lookup } from 'node:dns/promises';
+import { sameSourcePageReason } from './event-identity';
 
 const UA =
   'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 ' +
@@ -828,10 +829,13 @@ const SCOPE_ORDER: Record<SearchScope, number> = { topup: 0, current: 0, week: 1
 
 type Verified = { facts: PageFacts; url: string };
 type LeadCandidate = Candidate & { lead: ForwardLead };
+/** Two verified pages are one event when they share a source page, venue and dates (owner OK 2026-10-27). */
+const sameSourcePage = (a: Verified, b: Verified) =>
+  sameSourcePageReason({ ...a.facts, externalLink: a.url }, { ...b.facts, externalLink: b.url }) !== null;
 
 /** A placeholder record so later dedupe passes see a candidate accepted this run. */
-const pseudoRecord = (c: { name: string; venue: string; date: string; endDate?: string | null }): EventRecord => ({
-  name: c.name, venue: c.venue, date: c.date, endDate: c.endDate ?? undefined,
+const pseudoRecord = (c: { name: string; venue: string; date: string; endDate?: string | null }, url?: string): EventRecord => ({
+  name: c.name, venue: c.venue, date: c.date, endDate: c.endDate ?? undefined, externalLink: url,
   slug: '', venueSlug: canonicalVenueSlugFor(c.venue), category: 'other', description: '', sourceEdition: FORWARD_SOURCE, addedAt: '',
 });
 
@@ -865,7 +869,7 @@ async function checkLeads(
   for (const l of due) {
     const date = l.date.slice(0, 10);
     const endDate = l.endDate?.slice(0, 10);
-    const match = findExistingEventByIdentity(l.name, l.venue, { date, endDate }, existing);
+    const match = findExistingEventByIdentity(l.name, l.venue, { date, endDate, url: l.url }, existing);
     if (match && !needsUpdate(match)) {
       outcomes.push({ key: leadKey(l), kind: 'done', slug: match.slug, reason: 'already listed' });
       continue;
@@ -893,7 +897,7 @@ async function checkLeads(
         outcomes.push({ key, kind: FINAL_LEAD_FAILURE.test(r.reason) ? 'rejected' : 'failed', reason: r.reason });
         return;
       }
-      const match = findExistingEventByIdentity(r.facts.name, r.facts.venue, { date: r.facts.date, endDate: r.facts.endDate }, existing) ?? c.existing;
+      const match = findExistingEventByIdentity(r.facts.name, r.facts.venue, { date: r.facts.date, endDate: r.facts.endDate, url: r.url }, existing) ?? c.existing;
       if (match) {
         if (needsUpdate(match)) updates.push({ ...r, lead: c.lead, existing: match });
         else outcomes.push({ key, kind: 'done', slug: match.slug, reason: 'already listed' });
@@ -901,7 +905,7 @@ async function checkLeads(
       }
       const dup = findDuplicate(r.facts, existing);
       if (dup) { outcomes.push({ key, kind: 'done', slug: dup.slug, reason: 'already listed' }); return; }
-      const twin = keep.find((k) => similarNames(k.facts.name, r.facts.name) && overlaps(k.facts, r.facts));
+      const twin = keep.find((k) => (similarNames(k.facts.name, r.facts.name) && overlaps(k.facts, r.facts)) || sameSourcePage(k, r));
       if (twin) {
         outcomes.push({ key, kind: 'done', slug: composeEventSlug(twin.facts.name, twin.facts.venue, twin.facts.date), reason: `same event as lead "${twin.lead.name}"` });
         return;
@@ -946,14 +950,14 @@ export async function runForwardScan(
     }
   }
 
-  const known = [...existing, ...leadRun.keep.map((k) => pseudoRecord(k.facts))];
+  const known = [...existing, ...leadRun.keep.map((k) => pseudoRecord(k.facts, k.url))];
   const fresh: Candidate[] = [];
   const refound: Candidate[] = [];
   let duplicates = 0;
   for (const c of discovered) {
     // Same event as a known record (lib/event-identity.ts): verify it again
     // only when it has gaps to fill, otherwise it is a plain duplicate.
-    const match = findExistingEventByIdentity(c.name, c.venue, { date: c.date, endDate: c.endDate }, existing);
+    const match = findExistingEventByIdentity(c.name, c.venue, { date: c.date, endDate: c.endDate, url: c.url }, existing);
     if (match) {
       if (L.maxUpdate > 0 && c.scope !== 'ahead' && needsUpdate(match) &&
           !refound.some((r) => r.existing?.slug === match.slug) && !leadRun.updates.some((u) => u.existing.slug === match.slug)) {
@@ -963,10 +967,10 @@ export async function runForwardScan(
       }
       continue;
     }
-    if (isDuplicate(c, known)) { duplicates++; continue; }
+    if (isDuplicate(c, known) || known.some((k) => sameSourcePageReason({ ...c, externalLink: c.url }, k) !== null)) { duplicates++; continue; }
     fresh.push(c);
     // Count it as known so the second discovery list can't repeat it.
-    known.push(pseudoRecord(c));
+    known.push(pseudoRecord(c, c.url));
   }
 
   // The current and next edition weeks first: those pages can't wait for a later run.
@@ -995,7 +999,7 @@ export async function runForwardScan(
   const keep: Verified[] = [];
   const updates: Array<Verified & { existing: EventRecord }> = [];
   for (const v of verified) {
-    const match = findExistingEventByIdentity(v.facts.name, v.facts.venue, { date: v.facts.date, endDate: v.facts.endDate }, existing) ?? v.existing;
+    const match = findExistingEventByIdentity(v.facts.name, v.facts.venue, { date: v.facts.date, endDate: v.facts.endDate, url: v.url }, existing) ?? v.existing;
     if (match) {
       if (L.maxUpdate > 0 && needsUpdate(match) && !updates.some((u) => u.existing.slug === match.slug) &&
           !leadRun.updates.some((u) => u.existing.slug === match.slug)) updates.push({ ...v, existing: match });
@@ -1003,7 +1007,7 @@ export async function runForwardScan(
       continue;
     }
     if (isDuplicate(v.facts, existing) ||
-        [...leadRun.keep, ...keep].some((k) => similarNames(k.facts.name, v.facts.name) && overlaps(k.facts, v.facts))) {
+        [...leadRun.keep, ...keep].some((k) => (similarNames(k.facts.name, v.facts.name) && overlaps(k.facts, v.facts)) || sameSourcePage(k, v))) {
       duplicates++;
       continue;
     }

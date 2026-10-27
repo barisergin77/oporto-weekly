@@ -13,7 +13,7 @@
 import fs from 'fs';
 import path from 'path';
 import { canonicalVenueSlug, canonicalVenueSlugFor, venueToSlug } from './venues';
-import { isSameEvent, pickCanonical } from './event-identity';
+import { isSameEvent, sameSourcePageReason, pickCanonical } from './event-identity';
 
 export type EventCategory =
   | 'music'
@@ -204,7 +204,7 @@ export function composeEventSlug(name: string, venue: string, isoDate: string): 
 export function findExistingEventByIdentity(
   name: string,
   venue: string,
-  dates?: { date: string; endDate?: string | null },
+  dates?: { date: string; endDate?: string | null; url?: string | null },
   events: EventRecord[] = listEvents()
 ): EventRecord | null {
   const targetName = venueToSlug(name);
@@ -214,9 +214,8 @@ export function findExistingEventByIdentity(
   );
   if (exact.length) return pickCanonical(exact);
   if (!dates?.date) return null;
-  const fuzzy = events.filter((e) =>
-    isSameEvent({ name, venue, venueSlug: targetVenue, date: dates.date, endDate: dates.endDate }, e)
-  );
+  const probe = { name, venue, venueSlug: targetVenue, date: dates.date, endDate: dates.endDate, externalLink: dates.url };
+  const fuzzy = events.filter((e) => isSameEvent(probe, e) || sameSourcePageReason(probe, e) !== null);
   return fuzzy.length ? pickCanonical(fuzzy) : null;
 }
 

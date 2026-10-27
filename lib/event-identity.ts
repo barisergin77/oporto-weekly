@@ -103,6 +103,42 @@ export function sameEventReason(a: EventLike, b: EventLike): string | null {
   return `${m} name, same venue (${va})`;
 }
 
+/**
+ * Same organiser/ticketing page → same event (owner OK 2026-10-27). The
+ * 10-26 forward scan wrote Moonspell (Hard Club) and Voulez-Vous (Maria
+ * Pistolas) twice each under different names from the same source page,
+ * which the name match can't see. Still requires the same canonical venue
+ * and the exact same dates (a festival page also lists its single nights),
+ * and ignores homepages and generic agenda/listing pages.
+ */
+export function normalizeEventUrl(url: string | null | undefined): string | null {
+  if (!url) return null;
+  let u: URL;
+  try { u = new URL(url); } catch { return null; }
+  if (u.protocol !== 'http:' && u.protocol !== 'https:') return null;
+  const path = u.pathname.replace(/\/+$/, '').toLowerCase();
+  const segs = path.split('/').filter(Boolean);
+  if (segs.length === 0) return null;
+  const last = segs[segs.length - 1];
+  if (/^(agenda|programa|programacao|programação|programme|program|eventos?|events?|calendar|calendario|whats-on|concertos|concerts|espetaculos|bilheteira|tickets?|pt|en)$/.test(last)) return null;
+  const params = new URLSearchParams(u.search);
+  Array.from(params.keys()).forEach((k) => { if (/^(utm_|fbclid|gclid|mc_|ref$)/.test(k)) params.delete(k); });
+  params.sort();
+  const q = params.toString();
+  return u.hostname.toLowerCase().replace(/^www\./, '') + path + (q ? `?${q}` : '');
+}
+
+export function sameSourcePageReason(a: EventLike & { externalLink?: string | null }, b: EventLike & { externalLink?: string | null }): string | null {
+  const ua = normalizeEventUrl(a.externalLink);
+  if (!ua || ua !== normalizeEventUrl(b.externalLink)) return null;
+  // Exact same dates: a festival page also hosts its single nights
+  // (Primavera Sound: the festival and "The xx + Big Thief" share one URL).
+  const end = (e: Dated) => day(e.endDate || e.date);
+  if (day(a.date) !== day(b.date) || end(a) !== end(b)) return null;
+  const va = venueKey(a);
+  return va === venueKey(b) ? `same source page (${ua}), same venue (${va})` : null;
+}
+
 export function isSameEvent(a: EventLike, b: EventLike): boolean {
   return sameEventReason(a, b) !== null;
 }
