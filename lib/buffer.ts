@@ -28,7 +28,7 @@ export interface ScheduledPost {
  * roundup got queued for June 19 — after the week's events were over.
  */
 export async function scheduleBufferPost(
-  imageUrl: string,
+  imageUrl: string | string[],
   caption: string,
   dueAt?: string
 ): Promise<ScheduledPost> {
@@ -65,7 +65,8 @@ export async function scheduleBufferPost(
         // but transparently translated — and the announcement warned
         // some implementations might break before that anyway. Migrating
         // now to be safe.
-        assets: [{ image: { url: imageUrl } }],
+        // Several URLs = an Instagram carousel, in slide order (owner 2026-10-27).
+        assets: (Array.isArray(imageUrl) ? imageUrl : [imageUrl]).map((url) => ({ image: { url } })),
       },
     },
   };
