@@ -8,7 +8,7 @@
 
 import assert from 'node:assert/strict';
 import {
-  GOMRY_REF, GOMRY_ORGANIZER_URL, type GomryItem, gomryEventId, gomryTracked, isPortoHomeMatch, lisbonLocal, matchGomry, organizerCtaEligible,
+  GOMRY_ENABLED, GOMRY_REF, GOMRY_ORGANIZER_URL, type GomryItem, gomryEventId, gomryTracked, isPortoHomeMatch, lisbonLocal, matchGomry, organizerCtaEligible,
 } from '../lib/gomry';
 import { type FeverItem, isAdultContent, isEventLike } from '../lib/fever';
 import { ticketFor } from '../lib/tickets';
@@ -72,20 +72,26 @@ test('ticket precedence: Fever tiers 1–3 > Gomry > plain; Fever tier 4 falls t
 test('organizer CTA: independent upcoming events only', () => {
   const today = '2026-10-27';
   const ok = ev({ name: 'Night Shift', date: '2026-11-07', venue: 'Maus Hábitos', externalLink: 'https://maushabitos.com/x' });
-  assert.equal(organizerCtaEligible(ok, false, today), true);
-  assert.equal(organizerCtaEligible({ ...ok, venue: 'Hard Club', venueSlug: 'hard-club' }, false, today), true);
-  assert.equal(organizerCtaEligible(ok, true, today), false, 'already has an affiliate ticket');
-  assert.equal(organizerCtaEligible({ ...ok, venue: 'Casa da Música', venueSlug: undefined }, false, today), false);
-  assert.equal(organizerCtaEligible({ ...ok, venue: 'Serralves Museum', venueSlug: undefined }, false, today), false);
-  assert.equal(organizerCtaEligible({ ...ok, venue: 'Coliseu Porto Ageas', venueSlug: undefined }, false, today), false);
-  assert.equal(organizerCtaEligible({ ...ok, category: 'sports' }, false, today), false);
-  assert.equal(organizerCtaEligible({ ...ok, date: '2026-10-01' }, false, today), false, 'past');
-  assert.equal(organizerCtaEligible({ ...ok, endDate: '2026-11-20' }, false, today), false, 'long festival');
-  assert.equal(organizerCtaEligible({ ...ok, externalLink: 'https://ticketline.sapo.pt/evento/x' }, false, today), false);
-  assert.equal(organizerCtaEligible({ ...ok, externalLink: 'https://www.bol.pt/Comprar/Bilhetes/1' }, false, today), false);
-  assert.equal(organizerCtaEligible({ ...ok, externalLink: 'https://www.eventbrite.pt/e/x' }, false, today), false);
-  assert.equal(organizerCtaEligible({ ...ok, feverId: '1' }, false, today), false);
+  assert.equal(organizerCtaEligible(ok, false, today, true), true);
+  assert.equal(organizerCtaEligible({ ...ok, venue: 'Hard Club', venueSlug: 'hard-club' }, false, today, true), true);
+  assert.equal(organizerCtaEligible(ok, true, today, true), false, 'already has an affiliate ticket');
+  assert.equal(organizerCtaEligible({ ...ok, venue: 'Casa da Música', venueSlug: undefined }, false, today, true), false);
+  assert.equal(organizerCtaEligible({ ...ok, venue: 'Serralves Museum', venueSlug: undefined }, false, today, true), false);
+  assert.equal(organizerCtaEligible({ ...ok, venue: 'Coliseu Porto Ageas', venueSlug: undefined }, false, today, true), false);
+  assert.equal(organizerCtaEligible({ ...ok, category: 'sports' }, false, today, true), false);
+  assert.equal(organizerCtaEligible({ ...ok, date: '2026-10-01' }, false, today, true), false, 'past');
+  assert.equal(organizerCtaEligible({ ...ok, endDate: '2026-11-20' }, false, today, true), false, 'long festival');
+  assert.equal(organizerCtaEligible({ ...ok, externalLink: 'https://ticketline.sapo.pt/evento/x' }, false, today, true), false);
+  assert.equal(organizerCtaEligible({ ...ok, externalLink: 'https://www.bol.pt/Comprar/Bilhetes/1' }, false, today, true), false);
+  assert.equal(organizerCtaEligible({ ...ok, externalLink: 'https://www.eventbrite.pt/e/x' }, false, today, true), false);
+  assert.equal(organizerCtaEligible({ ...ok, feverId: '1' }, false, today, true), false);
 });
+test('paused (GOMRY_ENABLED=false): no organizer box, no Gomry ticket by default', () => {
+  const ok = ev({ name: 'Indie Night', venue: 'Muxima Bar', date: '2099-11-07', category: 'music' });
+  assert.equal(organizerCtaEligible(ok, false, '2026-10-27', false), false);
+  if (!GOMRY_ENABLED) assert.equal(ticketFor(ev({ name: 'x', date: '2026-11-07', externalLink: 'https://www.gomry.com/event/a-b' }), [])?.provider ?? null, null);
+});
+
 test('FC Porto home matches only', () => {
   assert.equal(isPortoHomeMatch(ESTORIL), true);
   assert.equal(isPortoHomeMatch(g({ id: 'x'.repeat(20), name: 'Benfica vs Porto (Date TBD)', start: '2027-02-28T00:00:00.000Z', venue: 'Estadio da Luz' })), false);
