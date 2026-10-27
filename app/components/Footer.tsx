@@ -89,11 +89,11 @@ export function Footer({ lang = 'en' }: FooterProps) {
       </p>
       )}
 
-      {/* Affiliate disclosure (Fever via Impact, 2026-10-27) */}
+      {/* Affiliate disclosure (Fever via Impact, GetYourGuide; 2026-10-27) */}
       <p style={{ fontSize: 11, color: colors.textMuted, marginTop: 20, marginBottom: 0 }}>
         {isEN
-          ? 'Some ticket links are affiliate links; we may earn a small commission at no extra cost to you.'
-          : 'Alguns links de bilhetes são links de afiliado; podemos receber uma pequena comissão, sem custo extra para si.'}
+          ? 'Some ticket and tour links (e.g. Fever, GetYourGuide) are affiliate links; we may earn a small commission at no extra cost to you.'
+          : 'Alguns links de bilhetes e passeios (ex. Fever, GetYourGuide) são links de afiliado; podemos receber uma pequena comissão, sem custo extra para si.'}
       </p>
 
       {/* Copyright */}

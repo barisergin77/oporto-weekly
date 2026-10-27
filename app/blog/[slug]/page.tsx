@@ -8,6 +8,7 @@ import { Header } from '../../components/Header';
 import { Footer } from '../../components/Footer';
 import { SubscribeCTA } from '../../components/SubscribeCTA';
 import { GuideUpcoming } from '../../components/GuideUpcoming';
+import { BookItBox } from '../../components/BookItBox';
 
 export function generateStaticParams() {
   return listBlogPosts().map((post) => ({ slug: post.slug }));
@@ -170,6 +171,9 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
             color: colors.text,
           }}
         />
+
+        {/* GetYourGuide "Book it" links matched to the guide's topic (owner 2026-10-27) */}
+        <BookItBox slug={post.slug} title={post.title} lang="en" />
 
         {/* Author signature */}
         <div style={{

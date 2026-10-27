@@ -8,6 +8,7 @@ import { Header } from '../../../components/Header';
 import { Footer } from '../../../components/Footer';
 import { SubscribeCTA } from '../../../components/SubscribeCTA';
 import { GuideUpcoming } from '../../../components/GuideUpcoming';
+import { BookItBox } from '../../../components/BookItBox';
 
 export function generateStaticParams() {
   return listBlogPostsPT().map((post) => ({ slug: post.slug }));
@@ -101,6 +102,8 @@ export default function BlogPostPagePT({ params }: { params: { slug: string } })
         </div>
 
         <div className="blog-article" dangerouslySetInnerHTML={{ __html: html }} style={{ fontSize: 17, lineHeight: 1.8, color: colors.text }} />
+
+        <BookItBox slug={post.slug} title={post.title} lang="pt" />
 
         <GuideUpcoming lang="pt" />
 
