@@ -7,6 +7,12 @@ impressions / pos 9.3 over 28 days (prev 28: 191 / 10,293 / 16.9);
 subscribers 56 active (34 EN, 22 PT), ~1.4 net/week; signups by page: none
 recorded yet (tracking started today).
 
+## 2026-10-27 — Fever affiliate integration (#29, owner GO)
+- What: Impact API connected (Fever campaign 16345 Active, deep-linking allowed). Porto catalog: 94 items — tier 1 general 47, tier 2 Candlelight 31, tier 3 1, tier 4 non-commissionable 15 (third-party concerts).
+  `data/fever.json` synced daily (04:30 UTC, ~/fever-sync); `lib/fever.ts` ticketLink → event pages EN/PT use the tracked link (rel="sponsored nofollow noopener" + affiliate note) for tier 1–3 matches; Fever-dated events (Candlelight etc., next 42 days) created with `feverId`; edition cap 2 Fever events; newsletter footer + site footer disclosure; FB-group rule in fb-groups.md + PLAYBOOK rule 8 + ~/oporto-expats/PROMPT.md.
+- Verify: tsc, test:dedupe 16, test:leads 5, test:compose 12, test:fever 9, `npm run build` OK.
+- Measure on 2026-11-10: Impact clicks/actions/earnings, and which event pages send them.
+
 ## 2026-10-27 — Forward-scan duplicates removed before Thursday (#17/#28) + Porto Expats draft (#12)
 - Metrics (`metrics/2026-10-27.json`): 307 clicks / 14,436 impr / pos 10.38
   over 28d (yesterday 313 / 14,356 / 10.29; prev 28d 281 / 12,383 / 12.0).

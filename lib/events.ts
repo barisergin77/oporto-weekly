@@ -90,6 +90,8 @@ export interface EventRecord {
    * days. Thursday composition (lib/edition-compose.ts) ranks these first.
    */
   pickCandidate?: boolean;
+  /** Fever catalog plan id (data/fever.json) for events created from the Fever catalog (lib/fever.ts). */
+  feverId?: string;
   /** ISO timestamp — last time the daily scan re-found and re-verified this event. */
   lastSeenAt?: string;
   /** ISO timestamp — when this record was created. */

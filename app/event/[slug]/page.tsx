@@ -19,6 +19,7 @@ import { monthHubFor } from '@/lib/event-months';
 import { eventSeo } from '@/lib/event-seo';
 import { SubscribeCTA } from '@/app/components/SubscribeCTA';
 import { ShortcutChips } from '@/app/components/ShortcutChips';
+import { AFFILIATE_NOTE, SPONSORED_REL, ticketLink } from '@/lib/fever';
 
 export function generateStaticParams() {
   return listEvents().map((e) => ({ slug: e.slug }));
@@ -69,6 +70,7 @@ export default function EventPage({ params }: { params: { slug: string } }) {
   const ev = getEvent(params.slug);
   if (!ev) notFound();
 
+  const tickets = ticketLink(ev);
   const sourceEdition = getNewsletterMeta(ev.sourceEdition);
   const relatedAtVenue = hasVenuePage(ev.venueSlug)
     ? listEventsByVenue(ev.venueSlug).filter((e) => e.slug !== ev.slug).slice(0, 4)
@@ -149,14 +151,15 @@ export default function EventPage({ params }: { params: { slug: string } }) {
         >
           {(() => {
             if (!ev.price) return null;
-            const hasLink = isRealEventUrl(ev.externalLink);
+            const hasLink = Boolean(tickets);
             const isCta = /check\s*website|varies|ticket(ed|s? required)|see\s*venue/i.test(ev.price);
             if (isCta && !hasLink) return null;
             return (
               <MetaPin
                 icon="🏷️"
                 text={ev.price}
-                href={hasLink ? ev.externalLink : undefined}
+                href={tickets?.href}
+                rel={tickets?.affiliate ? SPONSORED_REL : undefined}
               />
             );
           })()}
@@ -178,11 +181,12 @@ export default function EventPage({ params }: { params: { slug: string } }) {
 
         {/* External link CTA — only for a real event page, never for a
             google.com/search fallback URL that occasionally slips through. */}
-        {isRealEventUrl(ev.externalLink) && (
+        {tickets && (
+          <div style={{ margin: '0 0 40px' }}>
           <a
-            href={ev.externalLink}
+            href={tickets.href}
             target="_blank"
-            rel="noopener noreferrer nofollow"
+            rel={tickets.affiliate ? SPONSORED_REL : 'noopener noreferrer nofollow'}
             style={{
               display: 'inline-block',
               background: colors.heading,
@@ -194,11 +198,14 @@ export default function EventPage({ params }: { params: { slug: string } }) {
               letterSpacing: 1.2,
               textTransform: 'uppercase',
               borderRadius: 2,
-              margin: '0 0 40px',
             }}
           >
             Get tickets →
           </a>
+          {tickets.affiliate && (
+            <p style={{ fontSize: 12, color: colors.textSoft, margin: '10px 0 0' }}>{AFFILIATE_NOTE.en}</p>
+          )}
+          </div>
         )}
 
         {/* Source edition */}
@@ -402,10 +409,12 @@ function MetaPin({
   icon,
   text,
   href,
+  rel,
 }: {
   icon: string;
   text: string;
   href?: string;
+  rel?: string;
 }) {
   const inner = (
     <>
@@ -431,7 +440,7 @@ function MetaPin({
   // for client-side nav.
   if (/^https?:\/\//i.test(href)) {
     return (
-      <a href={href} target="_blank" rel="noopener noreferrer nofollow" style={base}>
+      <a href={href} target="_blank" rel={rel ?? 'noopener noreferrer nofollow'} style={base}>
         {inner}
       </a>
     );

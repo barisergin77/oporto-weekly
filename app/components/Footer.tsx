@@ -71,6 +71,13 @@ export function Footer({ lang = 'en' }: FooterProps) {
         </a>
       </div>
 
+      {/* Affiliate disclosure (Fever via Impact, 2026-10-27) */}
+      <p style={{ fontSize: 11, color: colors.textMuted, marginTop: 20, marginBottom: 0 }}>
+        {isEN
+          ? 'Some ticket links are affiliate links; we may earn a small commission at no extra cost to you.'
+          : 'Alguns links de bilhetes são links de afiliado; podemos receber uma pequena comissão, sem custo extra para si.'}
+      </p>
+
       {/* Copyright */}
       <p style={{ fontSize: 11, color: colors.textMuted, marginTop: 20, marginBottom: 0 }}>
         © {new Date().getFullYear()} Oporto Weekly · {isEN ? 'Made with ♡ in Porto' : 'Feito com ♡ no Porto'}
