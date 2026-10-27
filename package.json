@@ -20,6 +20,7 @@
     "test:leads": "tsx scripts/test-leads.ts",
     "test:fever": "tsx scripts/test-fever.ts",
     "test:gomry": "tsx scripts/test-gomry.ts",
+    "test:gyg": "tsx scripts/test-gyg.ts",
     "compose-dry-run": "tsx --env-file=.env.local scripts/compose-edition-dry-run.ts"
   },
   "dependencies": {
