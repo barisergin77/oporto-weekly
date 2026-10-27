@@ -13,6 +13,7 @@
 import { type EventRecord, isRealEventUrl, FORWARD_SOURCE } from './events';
 import { compareNames, isSameEvent, nameTokens, pickCanonical } from './event-identity';
 import { kebab } from './venues';
+import { MAX_FEVER_PER_EDITION, isFeverEvent, ticketLink } from './fever';
 
 /** Below these the window is too thin to compose; the legacy research path runs. */
 export const COMPOSE_MIN_TOTAL = 10;
@@ -72,6 +73,13 @@ export function selectEditionEvents(
     kept.push(e);
   }
 
+  // Fever-catalog events: at most MAX_FEVER_PER_EDITION per edition, earliest
+  // first, so the newsletter never reads like an ad feed (owner, 2026-10-27).
+  const feverDrop = new Set(kept.filter(isFeverEvent)
+    .sort((a, b) => a.date.localeCompare(b.date) || a.name.localeCompare(b.name))
+    .slice(MAX_FEVER_PER_EDITION).map((e) => e.slug));
+  if (feverDrop.size) kept.splice(0, kept.length, ...kept.filter((e) => !feverDrop.has(e.slug)));
+
   const short = kept.filter((e) => spanDays(e) <= LONG_RUN_DAYS)
     .sort((a, b) => a.date.localeCompare(b.date) || a.name.localeCompare(b.name));
   const longRuns = kept.filter((e) => spanDays(e) > LONG_RUN_DAYS)
@@ -125,7 +133,7 @@ function digestEntry(e: EventRecord, pickEligible: boolean): string {
     `  category: ${e.category}`,
     e.price ? `  price: ${e.price}` : '',
     `  description: ${e.description.replace(/\s+/g, ' ').trim()}`,
-    `  link: ${isRealEventUrl(e.externalLink) ? e.externalLink : `https://oportoweekly.com/event/${e.slug}`}`,
+    `  link: ${ticketLink(e)?.href ?? `https://oportoweekly.com/event/${e.slug}`}`,
     `  pick-eligible: ${pickEligible ? (e.pickCandidate ? 'yes (strong candidate)' : 'yes') : 'no'}`,
   ].filter(Boolean).join('\n');
 }

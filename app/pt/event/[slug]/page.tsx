@@ -20,6 +20,7 @@ import { monthHubFor, ptLabel, ptSlug } from '@/lib/event-months';
 import { eventSeo, priceText } from '@/lib/event-seo';
 import { SubscribeCTA } from '@/app/components/SubscribeCTA';
 import { ShortcutChips } from '@/app/components/ShortcutChips';
+import { AFFILIATE_NOTE, SPONSORED_REL, ticketLink } from '@/lib/fever';
 
 export function generateStaticParams() {
   return listEvents().map((e) => ({ slug: e.slug }));
@@ -47,6 +48,7 @@ export default function EventPagePT({ params }: { params: { slug: string } }) {
   const ev = getEvent(params.slug);
   if (!ev) notFound();
 
+  const tickets = ticketLink(ev);
   const disp = eventDisplay(ev, 'pt');
   // Source edition: the event's sourceEdition is the EN slug; the PT archive
   // lives under the same slug + "-pt".
@@ -93,10 +95,10 @@ export default function EventPagePT({ params }: { params: { slug: string } }) {
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, margin: '24px 0 28px' }}>
           {(() => {
             if (!ev.price) return null;
-            const hasLink = isRealEventUrl(ev.externalLink);
+            const hasLink = Boolean(tickets);
             const isCta = /check\s*website|varies|ticket(ed|s? required)|see\s*venue/i.test(ev.price);
             if (isCta && !hasLink) return null;
-            return <MetaPin icon="🏷️" text={priceText(ev.price, 'pt')} href={hasLink ? ev.externalLink : undefined} />;
+            return <MetaPin icon="🏷️" text={priceText(ev.price, 'pt')} href={tickets?.href} rel={tickets?.affiliate ? SPONSORED_REL : undefined} />;
           })()}
           <MetaPin icon="📍" text={ev.venue} href={hasVenuePage(ev.venueSlug) ? `/pt/venue/${ev.venueSlug}` : undefined} />
           <MetaPin icon="📅" text={formatLongDatePT(ev.date, ev.endDate)} />
@@ -104,15 +106,20 @@ export default function EventPagePT({ params }: { params: { slug: string } }) {
 
         <EventDescription event={ev} />
 
-        {isRealEventUrl(ev.externalLink) && (
-          <a
-            href={ev.externalLink}
-            target="_blank"
-            rel="noopener noreferrer nofollow"
-            style={{ display: 'inline-block', background: colors.heading, color: '#ffffff', padding: '14px 28px', textDecoration: 'none', fontSize: 14, fontWeight: 600, letterSpacing: 1.2, textTransform: 'uppercase', borderRadius: 2, margin: '0 0 40px' }}
-          >
-            Comprar bilhetes →
-          </a>
+        {tickets && (
+          <div style={{ margin: '0 0 40px' }}>
+            <a
+              href={tickets.href}
+              target="_blank"
+              rel={tickets.affiliate ? SPONSORED_REL : 'noopener noreferrer nofollow'}
+              style={{ display: 'inline-block', background: colors.heading, color: '#ffffff', padding: '14px 28px', textDecoration: 'none', fontSize: 14, fontWeight: 600, letterSpacing: 1.2, textTransform: 'uppercase', borderRadius: 2 }}
+            >
+              Comprar bilhetes →
+            </a>
+            {tickets.affiliate && (
+              <p style={{ fontSize: 12, color: colors.textSoft, margin: '10px 0 0' }}>{AFFILIATE_NOTE.pt}</p>
+            )}
+          </div>
         )}
 
         {sourceEdition && (
@@ -228,7 +235,7 @@ function EventHero({ event }: { event: EventRecord }) {
   );
 }
 
-function MetaPin({ icon, text, href }: { icon: string; text: string; href?: string }) {
+function MetaPin({ icon, text, href, rel }: { icon: string; text: string; href?: string; rel?: string }) {
   const inner = (
     <>
       <span style={{ fontSize: 14 }}>{icon}</span>
@@ -241,7 +248,7 @@ function MetaPin({ icon, text, href }: { icon: string; text: string; href?: stri
   };
   if (!href) return <div style={base}>{inner}</div>;
   if (/^https?:\/\//i.test(href)) {
-    return <a href={href} target="_blank" rel="noopener noreferrer nofollow" style={base}>{inner}</a>;
+    return <a href={href} target="_blank" rel={rel ?? 'noopener noreferrer nofollow'} style={base}>{inner}</a>;
   }
   return <Link href={href} style={base}>{inner}</Link>;
 }

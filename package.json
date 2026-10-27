@@ -18,6 +18,7 @@
     "test:dedupe": "tsx scripts/test-dedupe.ts && tsx scripts/find-duplicates.ts --check > /dev/null",
     "test:compose": "tsx scripts/test-compose.ts",
     "test:leads": "tsx scripts/test-leads.ts",
+    "test:fever": "tsx scripts/test-fever.ts",
     "compose-dry-run": "tsx --env-file=.env.local scripts/compose-edition-dry-run.ts"
   },
   "dependencies": {

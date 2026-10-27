@@ -67,6 +67,7 @@ while IFS= read -r f; do
   done
   case "$f" in
     "$DEFERRED_PREFIX"*.json) skippable=1 ;;
+    data/fever.json) skippable=1 ;;  # daily Fever catalog sync (~/fever-sync) — deferred like data/events
     ops/*) skippable=1 ;;  # growth-loop notes, logs and metrics — never served
   esac
   if [ "$skippable" -eq 0 ]; then

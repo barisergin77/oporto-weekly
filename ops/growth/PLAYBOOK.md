@@ -39,6 +39,11 @@ before doing anything. On your first run, read `HANDOFF.md` first.
 7. **Don't retry failing third-party actions in a loop** (Meta, GitHub,
    Google). One retry, then stop and log it. Repeated retries got the
    Instagram account temporarily restricted on 2026-09-20.
+8. **Affiliate links (Fever via Impact, owner 2026-10-27):** tracked
+   fever.pxf.io links only through lib/fever.ts (tiers 1–3), always
+   rel="sponsored" with the disclosure note, max 2 Fever events per edition
+   (MAX_FEVER_PER_EDITION). Never in Facebook-group/social posts. Impact creds
+   live only on the server (~/.secrets/impact.env), never in the repo.
 
 ## 2. The daily run
 
