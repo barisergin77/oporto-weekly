@@ -337,9 +337,9 @@
       "source": "batalha-newsletter-2026-10",
       "addedAt": "2026-10-26T11:47:50Z",
       "status": "pending",
-      "attempts": 1,
+      "attempts": 2,
       "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
-      "lastTriedAt": "2026-10-26T13:51:50.296Z"
+      "lastTriedAt": "2026-10-27T08:32:28.717Z"
     },
     {
       "name": "They All Lie – Matías Piñeiro Special",
@@ -349,9 +349,9 @@
       "source": "batalha-newsletter-2026-10",
       "addedAt": "2026-10-26T11:47:50Z",
       "status": "pending",
-      "attempts": 1,
-      "reason": "date quote not on page",
-      "lastTriedAt": "2026-10-26T13:51:50.296Z"
+      "attempts": 2,
+      "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
+      "lastTriedAt": "2026-10-27T08:32:28.717Z"
     },
     {
       "name": "You Burn Me + Prefacio para el dialoguito – Matías Piñeiro Special",
@@ -359,7 +359,11 @@
       "venue": "Batalha Centro de Cinema",
       "note": "19:15; two Piñeiro films (2025, 6'; 2024, 64'), English subtitles; book launch, with the filmmaker and Garbiñe Ortega; ticketed",
       "source": "batalha-newsletter-2026-10",
-      "addedAt": "2026-10-26T11:47:50Z"
+      "addedAt": "2026-10-26T11:47:50Z",
+      "status": "pending",
+      "attempts": 1,
+      "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
+      "lastTriedAt": "2026-10-27T08:32:28.717Z"
     },
     {
       "name": "The Addams Family – Families Halloween Special",
@@ -411,7 +415,11 @@
       "venue": "Galeria Municipal do Porto",
       "note": "15:00–21:00; 5th edition, inside and outside the gallery: music, dance, cinema and performance (Sohrab Hura, Brahim Tall, Lukas Karvelis, Jejuno, Serpente); the newsletter headline says free",
       "source": "agenda-porto-newsletter-2026-10",
-      "addedAt": "2026-10-26T12:16:43Z"
+      "addedAt": "2026-10-26T12:16:43Z",
+      "status": "pending",
+      "attempts": 1,
+      "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
+      "lastTriedAt": "2026-10-27T08:32:28.717Z"
     },
     {
       "name": "Entre Nós",
@@ -434,9 +442,9 @@
       "source": "agenda-porto-newsletter-2026-10",
       "addedAt": "2026-10-26T12:16:43Z",
       "status": "pending",
-      "attempts": 1,
-      "reason": "not an organiser/venue/ticketing page (https://iporto.amp.pt/en/eventos/festa/)",
-      "lastTriedAt": "2026-10-26T13:51:50.296Z"
+      "attempts": 2,
+      "reason": "page not fetchable: https://www.tnsj.pt/en/espetaculos/7264/festa/ → HTTP 403",
+      "lastTriedAt": "2026-10-27T08:32:28.717Z"
     },
     {
       "name": "Balfolk",
@@ -446,9 +454,9 @@
       "source": "agenda-porto-newsletter-2026-10",
       "addedAt": "2026-10-26T12:16:43Z",
       "status": "pending",
-      "attempts": 1,
-      "reason": "not an organiser/venue/ticketing page (https://www.agenda-porto.pt/evento/balfolk-nivel-aberto-out/)",
-      "lastTriedAt": "2026-10-26T13:51:50.296Z"
+      "attempts": 2,
+      "reason": "not an organiser/venue/ticketing page (https://charmedgiraffe.com/en/porto/events/balfolk-3d8da256)",
+      "lastTriedAt": "2026-10-27T08:32:28.717Z"
     },
     {
       "name": "Entre Bruxas e Feitiços, Pé-de-Cabra e Ouriços",
@@ -456,7 +464,11 @@
       "venue": "Biblioteca Municipal Almeida Garrett",
       "note": "11:00 + 16:00; Halloween show for young children based on the 'Bruxa Mimi' books, by O Som de Algodão; part of the Nano Mini Micro festival",
       "source": "agenda-porto-newsletter-2026-10",
-      "addedAt": "2026-10-26T12:16:43Z"
+      "addedAt": "2026-10-26T12:16:43Z",
+      "status": "pending",
+      "attempts": 1,
+      "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
+      "lastTriedAt": "2026-10-27T08:32:28.717Z"
     },
     {
       "name": "Experience Trindade by Night: Especial Halloween",
@@ -464,7 +476,11 @@
       "venue": "Ordem da Trindade",
       "note": "18:30 + 22:00; night tour of the church, circuit and terraces, with music from soprano Daniela Rego and organist Samuel Pinto",
       "source": "agenda-porto-newsletter-2026-10",
-      "addedAt": "2026-10-26T12:16:43Z"
+      "addedAt": "2026-10-26T12:16:43Z",
+      "status": "pending",
+      "attempts": 1,
+      "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
+      "lastTriedAt": "2026-10-27T08:32:28.717Z"
     },
     {
       "name": "TPC: Frei Luís de Sousaaa",

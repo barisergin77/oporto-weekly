@@ -1,0 +1,25 @@
+{
+  "slug": "de-profundis-casa-da-musica-nov-1-2026",
+  "name": "De Profundis",
+  "date": "2026-11-01T18:00",
+  "venue": "Sala Suggia",
+  "venueSlug": "casa-da-musica",
+  "price": "€22,00",
+  "priceFrom": 22,
+  "currency": "EUR",
+  "category": "music",
+  "description": "This spiritual program features the Casa da Música Choir and conductor Léo Warynski, exploring Psalm 130 through works by various composers, including António Pinho Vargas and Arvo Pärt. The performance takes place on All Saints' Day, commemorating those who have passed.",
+  "longDescription": "The Casa da Música Choir, directed by Léo Warynski, presents \"De Profundis\" on November 1, 2026, at 6:00 PM in Sala Suggia. This concert is scheduled for All Saints' Day, a date that evokes the memory of the departed and also marks the anniversary of the Lisbon earthquake.\n\nThe program is centered around Psalm 130, \"From the depths I cry to you, Lord,\" and includes compositions by Arvo Pärt, António Pinho Vargas, Joseph Rheinberger, Felix Mendelssohn, and Philippe Hersant. Arvo Pärt's work in the program was written in memory of the victims of the 2004 Madrid attack. Tickets are priced at €22, with various discounts available for different groups such as friends of Casa da Música, young people, seniors, university students, and music teachers/students.",
+  "sourceEdition": "forward-scan",
+  "externalLink": "https://casadamusica.com/event/de-profundis/",
+  "pickCandidate": true,
+  "addedAt": "2026-10-27T08:32:09.545Z",
+  "lastSeenAt": "2026-10-27T08:32:09.545Z",
+  "descriptionPt": "Este programa espiritual apresenta o Coro Casa da Música e o maestro Léo Warynski, explorando o Salmo 130 através de obras de vários compositores, incluindo António Pinho Vargas e Arvo Pärt. A atuação acontece no Dia de Todos os Santos, comemorando aqueles que já partiram.",
+  "longDescriptionPt": "O Coro Casa da Música, dirigido por Léo Warynski, apresenta \"De Profundis\" a 1 de novembro de 2026, às 18h00, na Sala Suggia. Este concerto está agendado para o Dia de Todos os Santos, uma data que evoca a memória dos que já partiram e que também assinala o aniversário do terramoto de Lisboa.\n\nO programa centra-se no Salmo 130, \"Das profundezas clamo a ti, Senhor\", e inclui composições de Arvo Pärt, António Pinho Vargas, Joseph Rheinberger, Felix Mendelssohn e Philippe Hersant. A obra de Arvo Pärt no programa foi escrita em memória das vítimas do atentado de Madrid de 2004. Os bilhetes têm o preço de 22€, com vários descontos disponíveis para diferentes grupos, como amigos da Casa da Música, jovens, seniores, estudantes universitários e professores/estudantes de música.",
+  "image": {
+    "url": "https://i.imgur.com/yDnuaHp.jpeg",
+    "credit": "Photo: Casa da Música",
+    "sourceUrl": "https://casadamusica.com/event/de-profundis/"
+  }
+}
