@@ -336,10 +336,11 @@
       "note": "19:15; anime anthology by Kōji Morimoto, Katsuhiro Ōtomo and Tensai Okamura (Japan, 1995, 113'); ticketed",
       "source": "batalha-newsletter-2026-10",
       "addedAt": "2026-10-26T11:47:50Z",
-      "status": "pending",
-      "attempts": 2,
+      "status": "rejected",
+      "attempts": 3,
       "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
-      "lastTriedAt": "2026-10-27T08:32:28.717Z"
+      "lastTriedAt": "2026-10-27T12:57:45.953Z",
+      "resolvedAt": "2026-10-27T12:57:45.953Z"
     },
     {
       "name": "They All Lie – Matías Piñeiro Special",
@@ -348,10 +349,11 @@
       "note": "19:15; Matías Piñeiro (Argentina, 2009, 76'), English subtitles; with the filmmaker and Garbiñe Ortega; ticketed",
       "source": "batalha-newsletter-2026-10",
       "addedAt": "2026-10-26T11:47:50Z",
-      "status": "pending",
-      "attempts": 2,
-      "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
-      "lastTriedAt": "2026-10-27T08:32:28.717Z"
+      "status": "rejected",
+      "attempts": 3,
+      "reason": "not an organiser/venue/ticketing page (https://www.viralagenda.com/pt/events/1857214/experience-trindade-by-night-especial-halloween)",
+      "lastTriedAt": "2026-10-27T12:57:45.953Z",
+      "resolvedAt": "2026-10-27T12:57:45.953Z"
     },
     {
       "name": "You Burn Me + Prefacio para el dialoguito – Matías Piñeiro Special",
@@ -361,9 +363,9 @@
       "source": "batalha-newsletter-2026-10",
       "addedAt": "2026-10-26T11:47:50Z",
       "status": "pending",
-      "attempts": 1,
-      "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
-      "lastTriedAt": "2026-10-27T08:32:28.717Z"
+      "attempts": 2,
+      "reason": "not an organiser/venue/ticketing page (https://www.viralagenda.com/pt/events/1857214/experience-trindade-by-night-especial-halloween)",
+      "lastTriedAt": "2026-10-27T12:57:45.953Z"
     },
     {
       "name": "The Addams Family – Families Halloween Special",
@@ -416,10 +418,12 @@
       "note": "15:00–21:00; 5th edition, inside and outside the gallery: music, dance, cinema and performance (Sohrab Hura, Brahim Tall, Lukas Karvelis, Jejuno, Serpente); the newsletter headline says free",
       "source": "agenda-porto-newsletter-2026-10",
       "addedAt": "2026-10-26T12:16:43Z",
-      "status": "pending",
+      "status": "done",
       "attempts": 1,
-      "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
-      "lastTriedAt": "2026-10-27T08:32:28.717Z"
+      "reason": "already listed",
+      "lastTriedAt": "2026-10-27T12:57:45.953Z",
+      "eventSlug": "fogo-fatuo-live-art-performance-galeria-municipal-do-porto-jul-4-2026",
+      "resolvedAt": "2026-10-27T12:57:45.953Z"
     },
     {
       "name": "Entre Nós",
@@ -441,10 +445,11 @@
       "note": "Wed, Thu, Sat 19:00, Fri 21:00; theatre made together by TEP – Teatro Experimental do Porto and Brazil's companhia brasileira de teatro",
       "source": "agenda-porto-newsletter-2026-10",
       "addedAt": "2026-10-26T12:16:43Z",
-      "status": "pending",
-      "attempts": 2,
-      "reason": "page not fetchable: https://www.tnsj.pt/en/espetaculos/7264/festa/ → HTTP 403",
-      "lastTriedAt": "2026-10-27T08:32:28.717Z"
+      "status": "rejected",
+      "attempts": 3,
+      "reason": "page not fetchable: https://www.tnsj.pt/en/espetaculos/7264/festa/ → HTTP 403 | https://www.tnsj.pt/pt/espetaculos/7264/festa/ → HTTP 403",
+      "lastTriedAt": "2026-10-27T12:57:45.953Z",
+      "resolvedAt": "2026-10-27T12:57:45.953Z"
     },
     {
       "name": "Balfolk",
@@ -453,10 +458,11 @@
       "note": "17:30; European folk social dance session, open to all levels",
       "source": "agenda-porto-newsletter-2026-10",
       "addedAt": "2026-10-26T12:16:43Z",
-      "status": "pending",
-      "attempts": 2,
-      "reason": "not an organiser/venue/ticketing page (https://charmedgiraffe.com/en/porto/events/balfolk-3d8da256)",
-      "lastTriedAt": "2026-10-27T08:32:28.717Z"
+      "status": "rejected",
+      "attempts": 3,
+      "reason": "not an organiser/venue/ticketing page (https://livinglinkporto.com/event-balfolk-oct7.html)",
+      "lastTriedAt": "2026-10-27T12:57:45.953Z",
+      "resolvedAt": "2026-10-27T12:57:45.953Z"
     },
     {
       "name": "Entre Bruxas e Feitiços, Pé-de-Cabra e Ouriços",
@@ -466,9 +472,9 @@
       "source": "agenda-porto-newsletter-2026-10",
       "addedAt": "2026-10-26T12:16:43Z",
       "status": "pending",
-      "attempts": 1,
-      "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
-      "lastTriedAt": "2026-10-27T08:32:28.717Z"
+      "attempts": 2,
+      "reason": "not an organiser/venue/ticketing page (https://www.viralagenda.com/pt/events/1790175/entre-bruxas-e-feiticos-pe-de-cabra-e-ouricos-espetaculo)",
+      "lastTriedAt": "2026-10-27T12:57:45.953Z"
     },
     {
       "name": "Experience Trindade by Night: Especial Halloween",
@@ -478,9 +484,9 @@
       "source": "agenda-porto-newsletter-2026-10",
       "addedAt": "2026-10-26T12:16:43Z",
       "status": "pending",
-      "attempts": 1,
-      "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
-      "lastTriedAt": "2026-10-27T08:32:28.717Z"
+      "attempts": 2,
+      "reason": "not an organiser/venue/ticketing page (https://www.viralagenda.com/pt/events/1857214/experience-trindade-by-night-especial-halloween)",
+      "lastTriedAt": "2026-10-27T12:57:45.953Z"
     },
     {
       "name": "TPC: Frei Luís de Sousaaa",
