@@ -13,7 +13,7 @@ Read via the owner's logged-in Chrome (read-only). The owner posts; Claude only 
 | **Expats in Portugal** (ExpatFocus, /groups/expatsinportugal) | 28K, national | STRICTLY NO ADVERTISING (removal). Links only when replying to a member. English. | ❌ No posts. Comment replies only. |
 
 ## Playbook
-1. **Wednesday post in Porto Expats** (Claude drafts on Tuesday evening, owner posts on Wednesday):
+1. **Wednesday post in Porto Expats** (since 2026-10-28: drafted Wednesday 08:50 UTC by the server job ~/oporto-expats (oporto-expats.timer), every pick re-verified live that morning, sent to Discord #oporto-weekly; owner pastes it or replies "post" and the live session posts it via the owner's Chrome, before noon). The daily growth loop does NOT draft Porto Expats posts anymore:
    - Plain-text list of 5–7 picks for the weekend, each with a price.
    - English first; no "subscribe"; one link at the end ("full list: oportoweekly.com/…").
 2. **Answer "what's on?" questions** in any of the groups (owner, as themselves). The reply must be useful on its own: 2–3 concrete picks, plus "we keep a weekly list here: <link>". This is allowed even in the strict groups, because it's a reply to a member.
