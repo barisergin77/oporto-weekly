@@ -96,3 +96,57 @@ export async function scheduleBufferPost(
   const errMsg = result?.message || JSON.stringify(data?.errors || data).slice(0, 400);
   throw new Error(`Buffer scheduling failed: ${errMsg}`);
 }
+
+
+/**
+ * Schedule an Instagram Reel via Buffer (owner 2026-10-27: weekly "Digital Baris" reel).
+ * `videoUrl` must stay public until it publishes (Buffer fetches at publish time), so it is an
+ * Imgur .mp4, not HeyGen's expiring presigned URL. Flagged as AI-generated for Instagram.
+ */
+export async function scheduleBufferReel(
+  videoUrl: string,
+  caption: string,
+  dueAt: string
+): Promise<ScheduledPost> {
+  const apiKey = process.env.BUFFER_API_KEY;
+  const channelId = process.env.BUFFER_CHANNEL_ID;
+  if (!apiKey) throw new Error('BUFFER_API_KEY not set');
+  if (!channelId) throw new Error('BUFFER_CHANNEL_ID not set');
+  const payload = {
+    query: `mutation CreatePost($input: CreatePostInput!) {
+      createPost(input: $input) {
+        __typename
+        ... on PostActionSuccess { post { id status dueAt } }
+        ... on NotFoundError { message }
+        ... on UnauthorizedError { message }
+        ... on UnexpectedError { message }
+        ... on RestProxyError { message code }
+        ... on LimitReachedError { message }
+        ... on InvalidInputError { message }
+      }
+    }`,
+    variables: {
+      input: {
+        channelId,
+        schedulingType: 'automatic',
+        mode: 'customScheduled',
+        dueAt,
+        metadata: { instagram: { type: 'reel', shouldShareToFeed: true, isAiGenerated: true } },
+        text: caption,
+        assets: [{ video: { url: videoUrl, metadata: { thumbnailOffset: 1500 } } }],
+      },
+    },
+  };
+  const res = await fetch(BUFFER_API, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${apiKey}` },
+    body: JSON.stringify(payload),
+    cache: 'no-store',
+  });
+  if (!res.ok) throw new Error(`Buffer API ${res.status}: ${await res.text()}`);
+  const data = await res.json();
+  const result = data?.data?.createPost;
+  if (result?.post?.id) return { id: result.post.id, status: result.post.status, dueAt: result.post.dueAt };
+  const errMsg = result?.message || JSON.stringify(data?.errors || data).slice(0, 400);
+  throw new Error(`Buffer reel scheduling failed: ${errMsg}`);
+}
