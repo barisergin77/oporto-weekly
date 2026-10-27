@@ -71,6 +71,8 @@ const nextConfig = {
       // 2026-10-27: forward scan (10-26) wrote the same page twice in one run.
       ['qui-29-maria-pistolas-oct-29-2026', 'voulez-vous-x-maria-pistolas-maria-pistolas-oct-29-2026'],
       ['moonspell-hard-club-oct-31-2026', 'moonspell-invicta-halloween-hard-club-oct-31-2026'],
+      // 2026-10-27 (owner): festival + its exhibition programme, same page and dates.
+      ['caminhos-da-floresta-casa-da-musica-nov-12-2026', 'festival-floresta-amazonica-girando-mundos-casa-da-musica-nov-12-2026'],
     ];
     const eventRedirects = dedupes.flatMap(([from, to]) => [
       { source: `/event/${from}`, destination: `/event/${to}`, permanent: true },
