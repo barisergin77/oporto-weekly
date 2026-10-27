@@ -8,7 +8,7 @@
 
 import type { EventRecord } from './events';
 import { FEVER_ITEMS, type FeverItem, matchFever, ticketLink as feverTicketLink } from './fever';
-import { GOMRY_ITEMS, type GomryItem, gomryTicket } from './gomry';
+import { GOMRY_ENABLED, GOMRY_ITEMS, type GomryItem, gomryTicket } from './gomry';
 
 export type TicketProvider = 'fever' | 'gomry' | null;
 export interface Ticket {
@@ -20,7 +20,7 @@ export interface Ticket {
 type Ticketable = Pick<EventRecord, 'name' | 'venue' | 'date'> &
   Partial<Pick<EventRecord, 'venueSlug' | 'endDate' | 'externalLink' | 'feverId' | 'gomryId'>>;
 
-export function ticketFor(ev: Ticketable, fever: FeverItem[] = FEVER_ITEMS, gomry: GomryItem[] = GOMRY_ITEMS): Ticket | null {
+export function ticketFor(ev: Ticketable, fever: FeverItem[] = FEVER_ITEMS, gomry: GomryItem[] = GOMRY_ENABLED ? GOMRY_ITEMS : []): Ticket | null {
   if (matchFever(ev, fever)?.commissionable) {
     const t = feverTicketLink(ev, fever)!;
     return { ...t, provider: 'fever' };

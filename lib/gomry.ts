@@ -27,6 +27,9 @@ import { type EventRecord, isRealEventUrl } from './events';
 import { compareNames, isVagueVenue, nameTokens } from './event-identity';
 import { canonicalVenueSlug, canonicalVenueSlugFor } from './venues';
 
+/** Paused by owner 2026-10-27: Gomry shows prices in USD, not EUR. Flip back once Erick confirms EUR pricing. */
+export const GOMRY_ENABLED = false;
+
 export const GOMRY_REF = 'Pi2YQafpuFtB';
 /** Organizer referral landing (Gomry home with our ref). */
 export const GOMRY_ORGANIZER_URL = `https://www.gomry.com/?ref=${GOMRY_REF}`;
@@ -113,7 +116,8 @@ export function matchGomry(ev: Matchable, items: GomryItem[] = GOMRY_ITEMS): Gom
 }
 
 /** Tracked Gomry ticket link for an event, or null. */
-export function gomryTicket(ev: Matchable, items: GomryItem[] = GOMRY_ITEMS): string | null {
+export function gomryTicket(ev: Matchable, items: GomryItem[] = GOMRY_ENABLED ? GOMRY_ITEMS : []): string | null {
+  if (!GOMRY_ENABLED && !items.length) return null;
   const item = matchGomry(ev, items);
   if (item) return gomryTracked(item.url);
   // A gomry.com event link we already hold but the Porto sync didn't list.
@@ -131,7 +135,8 @@ type CtaEvent = Pick<EventRecord, 'name' | 'venue' | 'date' | 'category'> &
  * "Organising this event?" box: only for independent organizers' upcoming
  * events that have no affiliate ticket link (`hasAffiliateTicket`).
  */
-export function organizerCtaEligible(ev: CtaEvent, hasAffiliateTicket: boolean, today = new Date().toISOString().slice(0, 10)): boolean {
+export function organizerCtaEligible(ev: CtaEvent, hasAffiliateTicket: boolean, today = new Date().toISOString().slice(0, 10), enabled = GOMRY_ENABLED): boolean {
+  if (!enabled) return false;
   if (hasAffiliateTicket || ev.feverId || ev.gomryId) return false;
   if (ev.category === 'sports') return false;
   if (day(ev.endDate ?? ev.date) < today) return false;

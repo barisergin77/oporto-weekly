@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { GOMRY_ORGANIZER_URL, ORGANIZER_FOOTER } from '@/lib/gomry';
+import { GOMRY_ENABLED, GOMRY_ORGANIZER_URL, ORGANIZER_FOOTER } from '@/lib/gomry';
 import { TrackedLink } from './TrackedLink';
 import { colors, typography } from '@/lib/design';
 
@@ -73,7 +73,8 @@ export function Footer({ lang = 'en' }: FooterProps) {
         </a>
       </div>
 
-      {/* Gomry organizer referral (owner 2026-10-27) */}
+      {/* Gomry organizer referral (owner 2026-10-27; paused while prices are USD) */}
+      {GOMRY_ENABLED && (
       <p style={{ fontSize: 12, marginTop: 20, marginBottom: 0 }}>
         <TrackedLink
           href={GOMRY_ORGANIZER_URL}
@@ -86,6 +87,7 @@ export function Footer({ lang = 'en' }: FooterProps) {
           {isEN ? ORGANIZER_FOOTER.en : ORGANIZER_FOOTER.pt}
         </TrackedLink>
       </p>
+      )}
 
       {/* Affiliate disclosure (Fever via Impact, 2026-10-27) */}
       <p style={{ fontSize: 11, color: colors.textMuted, marginTop: 20, marginBottom: 0 }}>
