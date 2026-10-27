@@ -1,6 +1,8 @@
 export const dynamic = 'force-dynamic';
 export const maxDuration = 300;
 
+const ROUNDUP_REPLACED_BY_CAROUSEL = true;
+
 import { NextRequest, NextResponse } from 'next/server';
 import { listNewsletters } from '@/lib/archive';
 import { listEvents, type EventRecord } from '@/lib/events';
@@ -201,6 +203,14 @@ export async function GET(req: NextRequest) {
       edition: latest.slug,
       ledger: entry,
     });
+  }
+
+  // Replaced by the weekly carousel (owner 2026-10-27): the server-side carousel job renders
+  // the slides and schedules them via /api/cron/instagram-carousel after the owner's OK.
+  // The claim above stays marked, so the scheduler watchdog sees this week's step as done.
+  if (ROUNDUP_REPLACED_BY_CAROUSEL) {
+    console.log(`[cron/instagram] single-image roundup replaced by the carousel — skipping ${latest.slug}`);
+    return NextResponse.json({ skipped: true, reason: 'replaced-by-carousel', edition: latest.slug });
   }
 
   try {
