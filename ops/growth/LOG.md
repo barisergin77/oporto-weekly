@@ -7,6 +7,10 @@ impressions / pos 9.3 over 28 days (prev 28: 191 / 10,293 / 16.9);
 subscribers 56 active (34 EN, 22 PT), ~1.4 net/week; signups by page: none
 recorded yet (tracking started today).
 
+## 2026-10-27 — Gomry partnership + adult-content filter (#30, owner GO)
+- What: `data/gomry.json` from Gomry's public catalog API (Porto/Gaia/Matosinhos; today 12 listings, all FC Porto home matches resold by "Gomry Retail"); `lib/gomry.ts` + `lib/tickets.ts` (Fever tiers 1–3 > Gomry `?ref=Pi2YQafpuFtB` > plain); 2 FC Porto home matches created (Estoril 31 Oct, Sporting 29 Nov) with factual copy and resale price as listed (US$), excluded from Editor's Picks; "Organising this event?" box (EN/PT) on independent organizers' upcoming events (7 of 45 upcoming today) + footer link; GA4 dataLayer events `gomry_organizer_click`, `affiliate_ticket_click` {provider}. Owner: "skip that sensual shows thing" → `isAdultContent` filter in Fever/Gomry creation (age limits alone don't count), Halloween at Magic Moments deleted (301 → this-weekend EN/PT). Bogus Fever link `/m/123456` on the Apr 24 ABBA Candlelight replaced with Fever's Porto Candlelight page.
+- Measure 2026-11-10: GA4 clicks on both events; Gomry dashboard sales/referrals.
+
 ## 2026-10-27 — Fever affiliate integration (#29, owner GO)
 - What: Impact API connected (Fever campaign 16345 Active, deep-linking allowed). Porto catalog: 94 items — tier 1 general 47, tier 2 Candlelight 31, tier 3 1, tier 4 non-commissionable 15 (third-party concerts).
   `data/fever.json` synced daily (04:30 UTC, ~/fever-sync); `lib/fever.ts` ticketLink → event pages EN/PT use the tracked link (rel="sponsored nofollow noopener" + affiliate note) for tier 1–3 matches; Fever-dated events (Candlelight etc., next 42 days) created with `feverId`; edition cap 2 Fever events; newsletter footer + site footer disclosure; FB-group rule in fb-groups.md + PLAYBOOK rule 8 + ~/oporto-expats/PROMPT.md.

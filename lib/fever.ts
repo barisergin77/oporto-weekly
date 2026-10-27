@@ -64,6 +64,19 @@ export function feverPlanId(url: string | null | undefined): string | null {
   }
 }
 
+/**
+ * Adult / erotic content we never list (owner 2026-10-27: "skip that sensual
+ * shows thing and similar events"). A bare age limit ("18+", "maiores de
+ * 18") is NOT enough on its own: jazz clubs, pub crawls and wine tastings
+ * carry it for alcohol. Applied to Fever and Gomry event creation.
+ */
+const ADULT = /\b(sensua(l|is)|er[oó]tic[oa]?s?|erotic|burles(que|co|ca)|strip(tease|per|pers|\s*club|\s*show)?|sexy|lingerie|nudez|nude|naked|magic\s*mike|chippendales?|adult[oa]?s?\s+(show|entertainment|only\s+show)|espet[aá]culo\s+(para\s+)?adultos|cabaret\s+(adulto|er[oó]tico|adult))\b|burlesque\s*&\s*cabaret/i;
+const ADULT_VENUES = /magic\s+moments/i;
+export function isAdultContent(...texts: Array<string | null | undefined>): boolean {
+  const t = texts.filter(Boolean).join(' \n ');
+  return ADULT.test(t) || ADULT_VENUES.test(t);
+}
+
 export const isGiftCard = (name: string) => /cart[ãa]o[- ](oferta|presente)|gift ?card|vale[- ]presente/i.test(name);
 
 const day = (iso: string) => iso.slice(0, 10);
@@ -127,7 +140,7 @@ const NOT_AN_EVENT_SUB = /gift cards|cruises|city tours|tourism|games/i;
 export const MAX_EVENT_SESSIONS = 8;
 
 export function isEventLike(i: FeverItem): boolean {
-  return i.commissionable && !isGiftCard(i.name) && !NOT_AN_EVENT.test(i.name) && !NOT_AN_EVENT_SUB.test(i.subCategory) &&
+  return i.commissionable && !isGiftCard(i.name) && !isAdultContent(i.name, i.venue, i.subCategory) && !NOT_AN_EVENT.test(i.name) && !NOT_AN_EVENT_SUB.test(i.subCategory) &&
     (i.sessionCount ?? i.sessions.length) > 0 && (i.sessionCount ?? i.sessions.length) <= MAX_EVENT_SESSIONS;
 }
 

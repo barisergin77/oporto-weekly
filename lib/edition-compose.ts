@@ -13,7 +13,9 @@
 import { type EventRecord, isRealEventUrl, FORWARD_SOURCE } from './events';
 import { compareNames, isSameEvent, nameTokens, pickCanonical } from './event-identity';
 import { kebab } from './venues';
-import { MAX_FEVER_PER_EDITION, isFeverEvent, ticketLink } from './fever';
+import { MAX_FEVER_PER_EDITION, isFeverEvent } from './fever';
+import { isGomryEvent } from './gomry';
+import { ticketFor } from './tickets';
 
 /** Below these the window is too thin to compose; the legacy research path runs. */
 export const COMPOSE_MIN_TOTAL = 10;
@@ -86,7 +88,10 @@ export function selectEditionEvents(
     .sort((a, b) => day(a.endDate ?? a.date).localeCompare(day(b.endDate ?? b.date)) || a.name.localeCompare(b.name));
   const score = (e: EventRecord) =>
     (e.pickCandidate ? 4 : 0) + (isRealEventUrl(e.externalLink) ? 2 : 0) + (e.image ? 1 : 0);
+  // Gomry-sourced FC Porto home matches can sit in the weekend list but never
+  // take an Editor's Pick slot (owner 2026-10-27); not counted in the Fever cap.
   const pickPool = short
+    .filter((e) => !isGomryEvent(e))
     .filter((e) => !recent.some((r) => sameName(r, e.name)))
     .sort((a, b) => score(b) - score(a) || a.date.localeCompare(b.date));
   return { from, to, short, longRuns, pickPool, blocked };
@@ -133,7 +138,7 @@ function digestEntry(e: EventRecord, pickEligible: boolean): string {
     `  category: ${e.category}`,
     e.price ? `  price: ${e.price}` : '',
     `  description: ${e.description.replace(/\s+/g, ' ').trim()}`,
-    `  link: ${ticketLink(e)?.href ?? `https://oportoweekly.com/event/${e.slug}`}`,
+    `  link: ${ticketFor(e)?.href ?? `https://oportoweekly.com/event/${e.slug}`}`,
     `  pick-eligible: ${pickEligible ? (e.pickCandidate ? 'yes (strong candidate)' : 'yes') : 'no'}`,
   ].filter(Boolean).join('\n');
 }

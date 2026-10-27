@@ -18,5 +18,5 @@ Read via the owner's logged-in Chrome (read-only). The owner posts; Claude only 
    - English first; no "subscribe"; one link at the end ("full list: oportoweekly.com/…").
 2. **Answer "what's on?" questions** in any of the groups (owner, as themselves). The reply must be useful on its own: 2–3 concrete picks, plus "we keep a weekly list here: <link>". This is allowed even in the strict groups, because it's a reply to a member.
 3. **Porto Internationals:** intro post first, then at most one share every 2–3 weeks.
-4. **Never put affiliate links** (fever.pxf.io or any tracked link) in Facebook-group posts or comments — only plain oportoweekly.com links (owner 2026-10-27, Fever affiliate).
+4. **Never put affiliate links** (fever.pxf.io or any tracked link) in Facebook-group posts or comments — only plain oportoweekly.com links (owner 2026-10-27, Fever affiliate; same for Gomry `?ref=` links and the organizer referral link).
 5. **Never:** cross-post the same text to several groups on the same day, link other FB/WhatsApp groups, or argue with mods. Stop in a group at the first mod objection.

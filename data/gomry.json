@@ -1,0 +1,234 @@
+{
+  "syncedAt": "2026-10-27T10:47:12Z",
+  "source": "https://www.gomry.com/api/v1/catalog/events",
+  "items": [
+    {
+      "id": "384lrsJDvWQG1KOtUqXt",
+      "name": "Porto vs Estoril Praia",
+      "url": "https://www.gomry.com/event/Porto-vs-Estoril-Praia-384lrsJDvWQG1KOtUqXt",
+      "start": "2026-10-31T20:30:00.000Z",
+      "end": "2026-10-31T23:30:00.000Z",
+      "venue": "Estadio do Dragao",
+      "city": "Porto",
+      "priceFrom": 87.05,
+      "currency": "USD",
+      "isFree": false,
+      "availability": "on_sale",
+      "organization": "Gomry Retail",
+      "categories": [
+        "sports",
+        "competition",
+        "medium"
+      ]
+    },
+    {
+      "id": "yuy5UCEMfnKhycCOKlEY",
+      "name": "Porto vs Sporting CP",
+      "url": "https://www.gomry.com/event/Porto-vs-Sporting-CP-yuy5UCEMfnKhycCOKlEY",
+      "start": "2026-11-29T20:30:00.000Z",
+      "end": "2026-11-29T23:30:00.000Z",
+      "venue": "Estadio do Dragao",
+      "city": "Porto",
+      "priceFrom": null,
+      "currency": "USD",
+      "isFree": false,
+      "availability": "unknown",
+      "organization": "Gomry Retail",
+      "categories": [
+        "sports",
+        "competition",
+        "medium"
+      ]
+    },
+    {
+      "id": "pUYs1CyrvDglXc8CM3g9",
+      "name": "Porto vs Estrela Amadora",
+      "url": "https://www.gomry.com/event/Porto-vs-Estrela-Amadora-pUYs1CyrvDglXc8CM3g9",
+      "start": "2026-12-13T11:00:00.000Z",
+      "end": "2026-12-13T14:00:00.000Z",
+      "venue": "Estadio do Dragao",
+      "city": "Porto",
+      "priceFrom": null,
+      "currency": "USD",
+      "isFree": false,
+      "availability": "unknown",
+      "organization": "Gomry Retail",
+      "categories": [
+        "sports",
+        "competition",
+        "medium"
+      ]
+    },
+    {
+      "id": "seybjMhp3JCxfyzRu1Kx",
+      "name": "Porto vs C.D. Nacional",
+      "url": "https://www.gomry.com/event/Porto-vs-CD-Nacional-seybjMhp3JCxfyzRu1Kx",
+      "start": "2026-12-27T11:00:00.000Z",
+      "end": "2026-12-27T14:00:00.000Z",
+      "venue": "Estadio do Dragao",
+      "city": "Porto",
+      "priceFrom": null,
+      "currency": "USD",
+      "isFree": false,
+      "availability": "unknown",
+      "organization": "Gomry Retail",
+      "categories": [
+        "sports",
+        "competition",
+        "medium"
+      ]
+    },
+    {
+      "id": "qQlMhDRXBuOUcQ3F5eXs",
+      "name": "Porto vs Rio Ave FC",
+      "url": "https://www.gomry.com/event/Porto-vs-Rio-Ave-FC-qQlMhDRXBuOUcQ3F5eXs",
+      "start": "2027-01-24T11:00:00.000Z",
+      "end": "2027-01-24T14:00:00.000Z",
+      "venue": "Estadio do Dragao",
+      "city": "Porto",
+      "priceFrom": null,
+      "currency": "USD",
+      "isFree": false,
+      "availability": "unknown",
+      "organization": "Gomry Retail",
+      "categories": [
+        "sports",
+        "competition",
+        "medium"
+      ]
+    },
+    {
+      "id": "PwhreiXaacVdLAhoPwAn",
+      "name": "Porto vs Academico",
+      "url": "https://www.gomry.com/event/Porto-vs-Academico-PwhreiXaacVdLAhoPwAn",
+      "start": "2027-02-07T11:00:00.000Z",
+      "end": "2027-02-07T14:00:00.000Z",
+      "venue": "Estadio do Dragao",
+      "city": "Porto",
+      "priceFrom": null,
+      "currency": "USD",
+      "isFree": false,
+      "availability": "unknown",
+      "organization": "Gomry Retail",
+      "categories": [
+        "sports",
+        "competition",
+        "medium"
+      ]
+    },
+    {
+      "id": "6naa6kbBn9ae6NECdSb0",
+      "name": "Porto vs Casa Pia AC",
+      "url": "https://www.gomry.com/event/Porto-vs-Casa-Pia-AC-6naa6kbBn9ae6NECdSb0",
+      "start": "2027-02-21T18:00:00.000Z",
+      "end": "2027-02-21T21:00:00.000Z",
+      "venue": "Estadio do Dragao",
+      "city": "Porto",
+      "priceFrom": 163.83,
+      "currency": "USD",
+      "isFree": false,
+      "availability": "on_sale",
+      "organization": "Gomry Retail",
+      "categories": [
+        "sports",
+        "competition",
+        "medium"
+      ]
+    },
+    {
+      "id": "hNjGh9qsAayIm05XJYaA",
+      "name": "Porto vs Maritimo Funchal",
+      "url": "https://www.gomry.com/event/Porto-vs-Maritimo-Funchal-hNjGh9qsAayIm05XJYaA",
+      "start": "2027-03-07T11:00:00.000Z",
+      "end": "2027-03-07T14:00:00.000Z",
+      "venue": "Estadio do Dragao",
+      "city": "Porto",
+      "priceFrom": null,
+      "currency": "USD",
+      "isFree": false,
+      "availability": "unknown",
+      "organization": "Gomry Retail",
+      "categories": [
+        "sports",
+        "competition",
+        "medium"
+      ]
+    },
+    {
+      "id": "mrCSk4wsDCyyqZFjBo2j",
+      "name": "Porto vs Gil Vicente",
+      "url": "https://www.gomry.com/event/Porto-vs-Gil-Vicente-mrCSk4wsDCyyqZFjBo2j",
+      "start": "2027-03-14T18:00:00.000Z",
+      "end": "2027-03-14T21:00:00.000Z",
+      "venue": "Estadio do Dragao",
+      "city": "Porto",
+      "priceFrom": null,
+      "currency": "USD",
+      "isFree": false,
+      "availability": "unknown",
+      "organization": "Gomry Retail",
+      "categories": [
+        "sports",
+        "competition",
+        "medium"
+      ]
+    },
+    {
+      "id": "378rs8aVslZ2Zm8Spw6T",
+      "name": "Porto vs Vitoria Guimaraes",
+      "url": "https://www.gomry.com/event/Porto-vs-Vitoria-Guimaraes-378rs8aVslZ2Zm8Spw6T",
+      "start": "2027-04-04T17:00:00.000Z",
+      "end": "2027-04-04T20:00:00.000Z",
+      "venue": "Estadio do Dragao",
+      "city": "Porto",
+      "priceFrom": 163.83,
+      "currency": "USD",
+      "isFree": false,
+      "availability": "on_sale",
+      "organization": "Gomry Retail",
+      "categories": [
+        "sports",
+        "competition",
+        "medium"
+      ]
+    },
+    {
+      "id": "Re2HU2nnEYIcEH2SxtPf",
+      "name": "Porto vs Santa Clara",
+      "url": "https://www.gomry.com/event/Porto-vs-Santa-Clara-Re2HU2nnEYIcEH2SxtPf",
+      "start": "2027-04-18T17:00:00.000Z",
+      "end": "2027-04-18T20:00:00.000Z",
+      "venue": "Estadio do Dragao",
+      "city": "Porto",
+      "priceFrom": null,
+      "currency": "USD",
+      "isFree": false,
+      "availability": "unknown",
+      "organization": "Gomry Retail",
+      "categories": [
+        "sports",
+        "competition",
+        "medium"
+      ]
+    },
+    {
+      "id": "ZBpmI02SIbHxoWK13kpr",
+      "name": "Porto vs FC Famalicao",
+      "url": "https://www.gomry.com/event/Porto-vs-FC-Famalicao-ZBpmI02SIbHxoWK13kpr",
+      "start": "2027-05-02T11:00:00.000Z",
+      "end": "2027-05-02T14:00:00.000Z",
+      "venue": "Estadio do Dragao",
+      "city": "Porto",
+      "priceFrom": null,
+      "currency": "USD",
+      "isFree": false,
+      "availability": "unknown",
+      "organization": "Gomry Retail",
+      "categories": [
+        "sports",
+        "competition",
+        "medium"
+      ]
+    }
+  ]
+}

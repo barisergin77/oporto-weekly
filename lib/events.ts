@@ -92,6 +92,8 @@ export interface EventRecord {
   pickCandidate?: boolean;
   /** Fever catalog plan id (data/fever.json) for events created from the Fever catalog (lib/fever.ts). */
   feverId?: string;
+  /** Gomry catalog event id (data/gomry.json) for events created from Gomry — FC Porto home matches only (lib/gomry.ts). */
+  gomryId?: string;
   /** ISO timestamp — last time the daily scan re-found and re-verified this event. */
   lastSeenAt?: string;
   /** ISO timestamp — when this record was created. */
