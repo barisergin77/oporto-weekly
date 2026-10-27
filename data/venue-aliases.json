@@ -158,6 +158,12 @@
       "aliases": [
         "palacio-da-bolsa-more"
       ]
+    },
+    "rca-radioclube-agramonte": {
+      "name": "RCA - Radioclube Agramonte",
+      "aliases": [
+        "radioclube-agramonte"
+      ]
     }
   },
   "redirectOnly": {

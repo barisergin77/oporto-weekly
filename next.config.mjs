@@ -68,6 +68,9 @@ const nextConfig = {
       ['feira-do-livro-do-porto-2026-jardins-do-palacio-de-cristal-aug-6-2026', 'feira-do-livro-do-porto-jardins-do-palacio-de-cristal-aug-21-2026'],
       ['porto-book-fair-jardins-do-palacio-de-cristal-aug-27-2026', 'feira-do-livro-do-porto-jardins-do-palacio-de-cristal-aug-21-2026'],
       ['porto-book-fair-crystal-palace-gardens-sep-10-2026', 'feira-do-livro-do-porto-jardins-do-palacio-de-cristal-aug-21-2026'],
+      // 2026-10-27: forward scan (10-26) wrote the same page twice in one run.
+      ['qui-29-maria-pistolas-oct-29-2026', 'voulez-vous-x-maria-pistolas-maria-pistolas-oct-29-2026'],
+      ['moonspell-hard-club-oct-31-2026', 'moonspell-invicta-halloween-hard-club-oct-31-2026'],
     ];
     const eventRedirects = dedupes.flatMap(([from, to]) => [
       { source: `/event/${from}`, destination: `/event/${to}`, permanent: true },
