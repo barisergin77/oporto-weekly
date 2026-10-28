@@ -60,6 +60,7 @@ import { acquireEventImage, translateEventFields } from './events-pipeline';
 import { type ForwardLead, type LeadOutcome, LEADS_PER_RUN, leadKey, selectLeads } from './forward-leads';
 import { lookup } from 'node:dns/promises';
 import { sameSourcePageReason } from './event-identity';
+import { kebab } from './venues';
 
 const UA =
   'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 ' +
@@ -522,13 +523,16 @@ For each event write one plain sentence naming it, its date and venue, and the p
 // ---------------------------------------------------------------------------
 
 const STOP = new Set(['the', 'a', 'and', 'of', 'in', 'at', 'porto', 'o', 'de', 'da', 'do', 'das', 'dos', 'e', 'em', 'no', 'na', 'live', 'tour', 'festival', 'concert', 'concerto', 'exhibition', 'exposicao']);
+// Whole name, not venueToSlug: that cuts at the first "," or "/", so
+// "Atlas, mapeamento poético" was just "atlas" and never matched the live
+// "Joana Providência / Teatro do Bolhão / Atlas, mapeamento poético" (#31).
 function nameTokens(name: string): Set<string> {
-  return new Set(venueToSlug(name).split('-').filter((t) => t.length > 1 && !STOP.has(t) && !/^\d{4}$/.test(t)));
+  return new Set(kebab(name).split('-').filter((t) => t.length > 1 && !STOP.has(t) && !/^\d{4}$/.test(t)));
 }
 function similarNames(a: string, b: string): boolean {
   const ta = nameTokens(a);
   const tb = nameTokens(b);
-  if (ta.size === 0 || tb.size === 0) return venueToSlug(a) === venueToSlug(b);
+  if (ta.size === 0 || tb.size === 0) return kebab(a) === kebab(b);
   let inter = 0;
   ta.forEach((t) => { if (tb.has(t)) inter++; });
   const small = Math.min(ta.size, tb.size);

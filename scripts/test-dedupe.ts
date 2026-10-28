@@ -9,6 +9,7 @@ import assert from 'node:assert/strict';
 import { canonicalVenueSlugFor, venueSlugRedirects } from '../lib/venues';
 import { isSameEvent, normalizeEventUrl, sameSourcePageReason } from '../lib/event-identity';
 import { findExistingEventByIdentity, type EventRecord } from '../lib/events';
+import { findDuplicate } from '../lib/forward-scan';
 
 let passed = 0;
 function test(name: string, fn: () => void) {
@@ -114,6 +115,16 @@ test('findExistingEventByIdentity matches by source page', () => {
   const m = findExistingEventByIdentity('MOONSPELL', 'Hard Club', { date: '2026-10-31', url: 'https://www.hardclubporto.com/evento/moonspell/' }, [rec]);
   assert.equal(m?.slug, rec.slug);
   assert.equal(findExistingEventByIdentity('MOONSPELL', 'Hard Club', { date: '2026-10-31' }, [rec])?.slug, undefined);
+});
+
+// ------------------------------------------------- forward scan names (2026-10-28, #31)
+test('forward scan: a name with commas/slashes matches the longer live name', () => {
+  const live = { slug: 'joana-providencia-campo-alegre-auditorio-oct-29-2026', name: 'Joana Providência / Teatro do Bolhão / Atlas, mapeamento poético', venue: 'Campo Alegre Auditório', venueSlug: 'campo-alegre-auditorio', date: '2026-10-29T19:30', endDate: '2026-10-30', category: 'other', description: '', sourceEdition: 'forward-scan', addedAt: '2026-10-27T12:57:00Z' } as EventRecord;
+  assert.equal(findDuplicate({ name: 'Atlas, mapeamento poético', venue: 'TMP-Campo Alegre Auditório', date: '2026-10-29', endDate: '2026-10-30' }, [live])?.slug, live.slug);
+});
+test('forward scan: shared text after a comma alone does not merge different events', () => {
+  const a = { slug: 'a', name: 'Fado Night, Casa da Guitarra', venue: 'Casa da Guitarra', venueSlug: 'casa-da-guitarra', date: '2026-11-05', category: 'music', description: '', sourceEdition: 'x', addedAt: '2026-10-01T00:00:00Z' } as EventRecord;
+  assert.equal(findDuplicate({ name: 'Jazz Jam, Hot Five', venue: 'Hot Five Jazz & Blues Club', date: '2026-11-05' }, [a]), undefined);
 });
 
 console.log(`ok — ${passed} dedupe tests passed`);
