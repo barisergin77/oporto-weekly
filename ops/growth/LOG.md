@@ -7,6 +7,51 @@ impressions / pos 9.3 over 28 days (prev 28: 191 / 10,293 / 16.9);
 subscribers 56 active (34 EN, 22 PT), ~1.4 net/week; signups by page: none
 recorded yet (tracking started today).
 
+## 2026-10-28 — llms.txt: month hubs + PT section (#14); forward-scan duplicate removed
+- Run 09:00 UTC Wed, before the 18:00 freeze.
+- Metrics (`metrics/2026-10-28.json`): 305 clicks / 14,578 impr / pos 10.57
+  over 28d (yesterday 307 / 14,436 / 10.38; prev 28d 285 / 12,588 / 11.7).
+  Last 7d 74 clicks vs 80, impressions 3,314 vs 2,917, CTR 2.2% vs 2.7%;
+  **7d position 13.1 vs 11.2**: fourth day of slipping, with impressions up 14%,
+  so likely more pages ranking deep rather than losses (top pages hold 8–9).
+  GA4 7d 39 users / 48 sessions / 101 PV (prev 30 / 35 / 68), the best week so far;
+  19 organic, 14 direct, 11 organic social, 4 AI; `sign_up` 2. Subscribers 55
+  (10-22; next snapshot Thu). Signups attributed in 28d: 4 (none new since 10-25).
+  No result due today (first is 10-31).
+- Forward scan check (e5d5068, 4 events): Bloom & Maz Halloween (xceed),
+  Tunas de Elite (casadamusica), Lucía Solla Sobral launch (livrarialello) are
+  real detail pages with factual copy, so I kept them. **"Atlas, mapeamento poético"
+  (bol.pt) duplicates the live 10-27 record** `joana-providencia-campo-alegre-…`
+  (TMP page, same dates/price), and it would also have opened a second venue page
+  (`tmp-campo-alegre-auditorio`). Name matching missed it (the old name is
+  "Joana Providência / Teatro do Bolhão / Atlas…"). I removed the unpublished copy
+  (never live, so no 301) and moved its official BOL photo (credit + source)
+  onto the live record, replacing the AI illustration. → backlog #31.
+- Low-CTR pass (#10): nothing actionable. "mike stern casa da musica" is a
+  6 Oct concert; the others rank 20–80. New: "the alchemist porto" 83 impr /
+  pos 8.1 / 0 clicks on a thin PT venue page → backlog #32. #15 checked: mobile
+  already shows the form above the edition.
+- Change (13bf93e): `/llms.txt` gains "Events by month" (current + coming EN
+  hubs) and "Em português": /pt, latest PT edition, hoje / este fim de semana,
+  /pt/eventos month hubs, /pt/arquivo, /pt/blog + 36 PT guides with PT
+  titles/excerpts. Hourly ISR as before.
+- Verified: tsc; build OK; built llms.txt has both sections, and the linked PT
+  archive page (`october-22-28-2026-pt`) is built; the Atlas page carries the BOL
+  photo; the image URL returns 200. Live: /api/version = 13bf93e; live
+  /llms.txt (200) has both new sections; health ok (true). No Indexing API call
+  (llms.txt isn't an indexable page).
+- Expect: AI assistants can cite PT pages and month hubs; small. AI Assistant
+  sessions (4–6/week now) and PT landings from them.
+- Measure on: 2026-11-25 (GA4 AI Assistant sessions + landing pages, 4 weeks).
+- Result:
+- Next run: Thu 10-29 is freeze (observe only; check the 10-29 edition has no
+  duplicates — measure item from 10-27). Fri 10-30: #4 (verified refresh of
+  the shopping guides, the top 2 pages) or #32.
+- Needs owner: (1) #28 + #31: may I improve the forward-scan dedupe
+  (same source URL, and name containment + overlapping dates)? Two of
+  the last three scans wrote an event we already had. (2) Today's Porto Expats
+  draft is from the server job, as agreed; I didn't touch it.
+
 ## 2026-10-27 — Gomry partnership + adult-content filter (#30, owner GO)
 - What: `data/gomry.json` from Gomry's public catalog API (Porto/Gaia/Matosinhos; today 12 listings, all FC Porto home matches resold by "Gomry Retail"); `lib/gomry.ts` + `lib/tickets.ts` (Fever tiers 1–3 > Gomry `?ref=Pi2YQafpuFtB` > plain); 2 FC Porto home matches created (Estoril 31 Oct, Sporting 29 Nov) with factual copy and resale price as listed (US$), excluded from Editor's Picks; "Organising this event?" box (EN/PT) on independent organizers' upcoming events (7 of 45 upcoming today) + footer link; GA4 dataLayer events `gomry_organizer_click`, `affiliate_ticket_click` {provider}. Owner: "skip that sensual shows thing" → `isAdultContent` filter in Fever/Gomry creation (age limits alone don't count), Halloween at Magic Moments deleted (301 → this-weekend EN/PT). Bogus Fever link `/m/123456` on the Apr 24 ABBA Candlelight replaced with Fever's Porto Candlelight page.
 - Measure 2026-11-10: GA4 clicks on both events; Gomry dashboard sales/referrals.
