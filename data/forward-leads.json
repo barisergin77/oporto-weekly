@@ -306,30 +306,6 @@
       "addedAt": "2026-10-25T12:00:00Z"
     },
     {
-      "name": "Batalha Quiz – Halloween Special",
-      "date": "2026-10-27",
-      "venue": "Batalha Centro de Cinema",
-      "note": "22:00, Neighbouring Cinema strand; free entry; Halloween quiz",
-      "source": "batalha-newsletter-2026-10",
-      "addedAt": "2026-10-26T11:47:50Z",
-      "status": "pending",
-      "attempts": 1,
-      "reason": "date quote not on page",
-      "lastTriedAt": "2026-10-26T13:51:50.296Z"
-    },
-    {
-      "name": "Halloween Special – Surprise Halloween film",
-      "date": "2026-10-27",
-      "venue": "Batalha Centro de Cinema",
-      "note": "23:59; surprise Halloween film screening with Guilherme Cobretti and Jay Toso; ticketed",
-      "source": "batalha-newsletter-2026-10",
-      "addedAt": "2026-10-26T11:47:50Z",
-      "status": "pending",
-      "attempts": 1,
-      "reason": "date quote not on page",
-      "lastTriedAt": "2026-10-26T13:51:50.296Z"
-    },
-    {
       "name": "Memories – Satoshi Kon Retrospective",
       "date": "2026-10-28",
       "venue": "Batalha Centro de Cinema",
@@ -362,10 +338,11 @@
       "note": "19:15; two Piñeiro films (2025, 6'; 2024, 64'), English subtitles; book launch, with the filmmaker and Garbiñe Ortega; ticketed",
       "source": "batalha-newsletter-2026-10",
       "addedAt": "2026-10-26T11:47:50Z",
-      "status": "pending",
-      "attempts": 2,
-      "reason": "not an organiser/venue/ticketing page (https://www.viralagenda.com/pt/events/1857214/experience-trindade-by-night-especial-halloween)",
-      "lastTriedAt": "2026-10-27T12:57:45.953Z"
+      "status": "rejected",
+      "attempts": 3,
+      "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
+      "lastTriedAt": "2026-10-28T08:32:10.943Z",
+      "resolvedAt": "2026-10-28T08:32:10.943Z"
     },
     {
       "name": "The Addams Family – Families Halloween Special",
@@ -373,7 +350,11 @@
       "venue": "Batalha Centro de Cinema",
       "note": "15:15; family session; Barry Sonnenfeld (USA, 1991, 99'); ticketed",
       "source": "batalha-newsletter-2026-10",
-      "addedAt": "2026-10-26T11:47:50Z"
+      "addedAt": "2026-10-26T11:47:50Z",
+      "status": "pending",
+      "attempts": 1,
+      "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
+      "lastTriedAt": "2026-10-28T08:32:10.943Z"
     },
     {
       "name": "Hair – Miloš Forman Retrospective",
@@ -381,7 +362,11 @@
       "venue": "Batalha Centro de Cinema",
       "note": "21:15; Miloš Forman (USA, 1979, 121'); ticketed",
       "source": "batalha-newsletter-2026-10",
-      "addedAt": "2026-10-26T11:47:50Z"
+      "addedAt": "2026-10-26T11:47:50Z",
+      "status": "pending",
+      "attempts": 1,
+      "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
+      "lastTriedAt": "2026-10-28T08:32:10.943Z"
     },
     {
       "name": "Last Movies – Afterlife: Day of the Dead Special",
@@ -389,7 +374,11 @@
       "venue": "Batalha Centro de Cinema",
       "note": "17:15; documentary by Stanley Schtinter (UK, 2026, 86'); with the filmmaker; ticketed",
       "source": "batalha-newsletter-2026-10",
-      "addedAt": "2026-10-26T11:47:50Z"
+      "addedAt": "2026-10-26T11:47:50Z",
+      "status": "pending",
+      "attempts": 1,
+      "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
+      "lastTriedAt": "2026-10-28T08:32:10.943Z"
     },
     {
       "name": "Dog + Wuthering Heights – Andrea Arnold Retrospective",
@@ -397,7 +386,11 @@
       "venue": "Batalha Centro de Cinema",
       "note": "19:15; Andrea Arnold short Dog (2001, 10') and Wuthering Heights (UK, 2011, 129'); ticketed",
       "source": "batalha-newsletter-2026-10",
-      "addedAt": "2026-10-26T11:47:50Z"
+      "addedAt": "2026-10-26T11:47:50Z",
+      "status": "pending",
+      "attempts": 1,
+      "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
+      "lastTriedAt": "2026-10-28T08:32:10.943Z"
     },
     {
       "name": "Viviane",
@@ -424,18 +417,6 @@
       "lastTriedAt": "2026-10-27T12:57:45.953Z",
       "eventSlug": "fogo-fatuo-live-art-performance-galeria-municipal-do-porto-jul-4-2026",
       "resolvedAt": "2026-10-27T12:57:45.953Z"
-    },
-    {
-      "name": "Entre Nós",
-      "date": "2026-10-27",
-      "venue": "Teatro Rivoli",
-      "note": "18:30; talk where Júlio Machado Vaz and Manuel Sobrinho Simões present Entre Nós, a book they wrote together",
-      "source": "agenda-porto-newsletter-2026-10",
-      "addedAt": "2026-10-26T12:16:43Z",
-      "status": "pending",
-      "attempts": 1,
-      "reason": "not an organiser/venue/ticketing page (https://www.agenda-porto.pt/evento/tmp-entre-nos/)",
-      "lastTriedAt": "2026-10-26T13:51:50.296Z"
     },
     {
       "name": "Festa, de Marcio Abreu",
@@ -471,10 +452,11 @@
       "note": "11:00 + 16:00; Halloween show for young children based on the 'Bruxa Mimi' books, by O Som de Algodão; part of the Nano Mini Micro festival",
       "source": "agenda-porto-newsletter-2026-10",
       "addedAt": "2026-10-26T12:16:43Z",
-      "status": "pending",
-      "attempts": 2,
-      "reason": "not an organiser/venue/ticketing page (https://www.viralagenda.com/pt/events/1790175/entre-bruxas-e-feiticos-pe-de-cabra-e-ouricos-espetaculo)",
-      "lastTriedAt": "2026-10-27T12:57:45.953Z"
+      "status": "rejected",
+      "attempts": 3,
+      "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
+      "lastTriedAt": "2026-10-28T08:32:10.943Z",
+      "resolvedAt": "2026-10-28T08:32:10.943Z"
     },
     {
       "name": "Experience Trindade by Night: Especial Halloween",
@@ -483,10 +465,11 @@
       "note": "18:30 + 22:00; night tour of the church, circuit and terraces, with music from soprano Daniela Rego and organist Samuel Pinto",
       "source": "agenda-porto-newsletter-2026-10",
       "addedAt": "2026-10-26T12:16:43Z",
-      "status": "pending",
-      "attempts": 2,
-      "reason": "not an organiser/venue/ticketing page (https://www.viralagenda.com/pt/events/1857214/experience-trindade-by-night-especial-halloween)",
-      "lastTriedAt": "2026-10-27T12:57:45.953Z"
+      "status": "rejected",
+      "attempts": 3,
+      "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
+      "lastTriedAt": "2026-10-28T08:32:10.943Z",
+      "resolvedAt": "2026-10-28T08:32:10.943Z"
     },
     {
       "name": "TPC: Frei Luís de Sousaaa",
@@ -495,7 +478,11 @@
       "venue": "Teatro Carlos Alberto",
       "note": "Theatre directed by Raquel Castro: five teenagers tackle Garrett's Frei Luís de Sousa for school homework. ~1h, M/12. Portuguese Sign Language sessions Fri 6 Nov 15:00 + 21:00; post-show talk Sat 7 Nov. Ticketed.",
       "source": "tnsj-newsletter-2026-10",
-      "addedAt": "2026-10-26T12:16:53Z"
+      "addedAt": "2026-10-26T12:16:53Z",
+      "status": "pending",
+      "attempts": 1,
+      "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
+      "lastTriedAt": "2026-10-28T08:32:10.943Z"
     }
   ]
 }
