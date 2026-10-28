@@ -68,7 +68,11 @@
       "url": "https://casadamusica.com/event/clubbing-amazonico/?selected_session=59185",
       "note": "Various spaces — Puwewere Puyanawa, MIND, Gang do Eletro; Floresta Amazónica.",
       "source": "casa-da-musica-newsletter-2026-11",
-      "addedAt": "2026-10-25T12:00:00Z"
+      "addedAt": "2026-10-25T12:00:00Z",
+      "status": "done",
+      "eventSlug": "clubbing-amazonico-casa-da-musica-nov-13-2026",
+      "lastTriedAt": "2026-10-28T13:48:53.240Z",
+      "resolvedAt": "2026-10-28T13:48:53.240Z"
     },
     {
       "name": "Floresta do Amazonas – Orquestra Sinfónica",
@@ -77,7 +81,11 @@
       "url": "https://casadamusica.com/event/amazonia/?selected_session=44136",
       "note": "Sala Suggia; Villa-Lobos with visuals by Bianca Dacosta; Floresta Amazónica.",
       "source": "casa-da-musica-newsletter-2026-11",
-      "addedAt": "2026-10-25T12:00:00Z"
+      "addedAt": "2026-10-25T12:00:00Z",
+      "status": "done",
+      "eventSlug": "floresta-do-amazonas-casa-da-musica-nov-14-2026",
+      "lastTriedAt": "2026-10-28T13:48:53.240Z",
+      "resolvedAt": "2026-10-28T13:48:53.240Z"
     },
     {
       "name": "Pensar a Floresta que Cria",
@@ -86,7 +94,11 @@
       "url": "https://casadamusica.com/event/conferencia-musica-e-amazonia/?selected_session=59214",
       "note": "Talk, Blue Lounge; free; Floresta Amazónica.",
       "source": "casa-da-musica-newsletter-2026-11",
-      "addedAt": "2026-10-25T12:00:00Z"
+      "addedAt": "2026-10-25T12:00:00Z",
+      "status": "done",
+      "eventSlug": "pensar-a-floresta-que-cria-blue-lounge-nov-15-2026",
+      "lastTriedAt": "2026-10-28T13:48:53.240Z",
+      "resolvedAt": "2026-10-28T13:48:53.240Z"
     },
     {
       "name": "Zaynara + Fafá de Belém",
@@ -352,9 +364,9 @@
       "source": "batalha-newsletter-2026-10",
       "addedAt": "2026-10-26T11:47:50Z",
       "status": "pending",
-      "attempts": 1,
+      "attempts": 2,
       "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
-      "lastTriedAt": "2026-10-28T08:32:10.943Z"
+      "lastTriedAt": "2026-10-28T13:48:53.240Z"
     },
     {
       "name": "Hair – Miloš Forman Retrospective",
@@ -364,9 +376,9 @@
       "source": "batalha-newsletter-2026-10",
       "addedAt": "2026-10-26T11:47:50Z",
       "status": "pending",
-      "attempts": 1,
+      "attempts": 2,
       "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
-      "lastTriedAt": "2026-10-28T08:32:10.943Z"
+      "lastTriedAt": "2026-10-28T13:48:53.240Z"
     },
     {
       "name": "Last Movies – Afterlife: Day of the Dead Special",
@@ -376,9 +388,9 @@
       "source": "batalha-newsletter-2026-10",
       "addedAt": "2026-10-26T11:47:50Z",
       "status": "pending",
-      "attempts": 1,
+      "attempts": 2,
       "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
-      "lastTriedAt": "2026-10-28T08:32:10.943Z"
+      "lastTriedAt": "2026-10-28T13:48:53.240Z"
     },
     {
       "name": "Dog + Wuthering Heights – Andrea Arnold Retrospective",
@@ -388,9 +400,9 @@
       "source": "batalha-newsletter-2026-10",
       "addedAt": "2026-10-26T11:47:50Z",
       "status": "pending",
-      "attempts": 1,
+      "attempts": 2,
       "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
-      "lastTriedAt": "2026-10-28T08:32:10.943Z"
+      "lastTriedAt": "2026-10-28T13:48:53.240Z"
     },
     {
       "name": "Viviane",
@@ -480,9 +492,9 @@
       "source": "tnsj-newsletter-2026-10",
       "addedAt": "2026-10-26T12:16:53Z",
       "status": "pending",
-      "attempts": 1,
+      "attempts": 2,
       "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
-      "lastTriedAt": "2026-10-28T08:32:10.943Z"
+      "lastTriedAt": "2026-10-28T13:48:53.240Z"
     }
   ]
 }
