@@ -193,5 +193,29 @@
       "sessions": 39,
       "pageViews": 71
     }
+  },
+  {
+    "week": "2026-10-29",
+    "takenAt": "2026-10-29T22:21:37.095Z",
+    "en": {
+      "total": 43,
+      "active": 38,
+      "unsubscribed": 5
+    },
+    "pt": {
+      "total": 23,
+      "active": 22,
+      "unsubscribed": 1
+    },
+    "activeUniqueTotal": 60,
+    "search": {
+      "clicks": 71,
+      "impressions": 3477
+    },
+    "ga4": {
+      "users": 42,
+      "sessions": 51,
+      "pageViews": 115
+    }
   }
 ]
