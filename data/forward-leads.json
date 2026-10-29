@@ -318,19 +318,6 @@
       "addedAt": "2026-10-25T12:00:00Z"
     },
     {
-      "name": "Memories – Satoshi Kon Retrospective",
-      "date": "2026-10-28",
-      "venue": "Batalha Centro de Cinema",
-      "note": "19:15; anime anthology by Kōji Morimoto, Katsuhiro Ōtomo and Tensai Okamura (Japan, 1995, 113'); ticketed",
-      "source": "batalha-newsletter-2026-10",
-      "addedAt": "2026-10-26T11:47:50Z",
-      "status": "rejected",
-      "attempts": 3,
-      "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
-      "lastTriedAt": "2026-10-27T12:57:45.953Z",
-      "resolvedAt": "2026-10-27T12:57:45.953Z"
-    },
-    {
       "name": "They All Lie – Matías Piñeiro Special",
       "date": "2026-10-29",
       "venue": "Batalha Centro de Cinema",
@@ -363,10 +350,11 @@
       "note": "15:15; family session; Barry Sonnenfeld (USA, 1991, 99'); ticketed",
       "source": "batalha-newsletter-2026-10",
       "addedAt": "2026-10-26T11:47:50Z",
-      "status": "pending",
-      "attempts": 2,
-      "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
-      "lastTriedAt": "2026-10-28T13:48:53.240Z"
+      "status": "rejected",
+      "attempts": 3,
+      "reason": "date quote not on page",
+      "lastTriedAt": "2026-10-29T06:06:58.684Z",
+      "resolvedAt": "2026-10-29T06:06:58.684Z"
     },
     {
       "name": "Hair – Miloš Forman Retrospective",
@@ -375,10 +363,11 @@
       "note": "21:15; Miloš Forman (USA, 1979, 121'); ticketed",
       "source": "batalha-newsletter-2026-10",
       "addedAt": "2026-10-26T11:47:50Z",
-      "status": "pending",
-      "attempts": 2,
-      "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
-      "lastTriedAt": "2026-10-28T13:48:53.240Z"
+      "status": "rejected",
+      "attempts": 3,
+      "reason": "page does not confirm the event (https://www.batalhacentrodecinema.pt/en/filme/hair/)",
+      "lastTriedAt": "2026-10-29T06:06:58.684Z",
+      "resolvedAt": "2026-10-29T06:06:58.684Z"
     },
     {
       "name": "Last Movies – Afterlife: Day of the Dead Special",
@@ -387,10 +376,11 @@
       "note": "17:15; documentary by Stanley Schtinter (UK, 2026, 86'); with the filmmaker; ticketed",
       "source": "batalha-newsletter-2026-10",
       "addedAt": "2026-10-26T11:47:50Z",
-      "status": "pending",
-      "attempts": 2,
-      "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
-      "lastTriedAt": "2026-10-28T13:48:53.240Z"
+      "status": "rejected",
+      "attempts": 3,
+      "reason": "date quote lacks the day",
+      "lastTriedAt": "2026-10-29T06:06:58.684Z",
+      "resolvedAt": "2026-10-29T06:06:58.684Z"
     },
     {
       "name": "Dog + Wuthering Heights – Andrea Arnold Retrospective",
@@ -399,22 +389,11 @@
       "note": "19:15; Andrea Arnold short Dog (2001, 10') and Wuthering Heights (UK, 2011, 129'); ticketed",
       "source": "batalha-newsletter-2026-10",
       "addedAt": "2026-10-26T11:47:50Z",
-      "status": "pending",
-      "attempts": 2,
-      "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
-      "lastTriedAt": "2026-10-28T13:48:53.240Z"
-    },
-    {
-      "name": "Viviane",
-      "date": "2026-10-28",
-      "venue": "Casa da Música",
-      "note": "21:00; concert for her album Ela por Elas, covering Portuguese songs first sung by women (Diva, Mler Ife Dada, Salada de Frutas, Madredeus)",
-      "source": "agenda-porto-newsletter-2026-10",
-      "addedAt": "2026-10-26T12:16:43Z",
-      "status": "done",
-      "eventSlug": "viviane-ela-por-elas-casa-da-musica-oct-28-2026",
-      "lastTriedAt": "2026-10-26T13:51:50.296Z",
-      "resolvedAt": "2026-10-26T13:51:50.296Z"
+      "status": "rejected",
+      "attempts": 3,
+      "reason": "meta copy: \"This page\"",
+      "lastTriedAt": "2026-10-29T06:06:58.684Z",
+      "resolvedAt": "2026-10-29T06:06:58.684Z"
     },
     {
       "name": "Fogo Fátuo",
@@ -441,19 +420,6 @@
       "status": "rejected",
       "attempts": 3,
       "reason": "page not fetchable: https://www.tnsj.pt/en/espetaculos/7264/festa/ → HTTP 403 | https://www.tnsj.pt/pt/espetaculos/7264/festa/ → HTTP 403",
-      "lastTriedAt": "2026-10-27T12:57:45.953Z",
-      "resolvedAt": "2026-10-27T12:57:45.953Z"
-    },
-    {
-      "name": "Balfolk",
-      "date": "2026-10-28",
-      "venue": "Orfeão do Porto",
-      "note": "17:30; European folk social dance session, open to all levels",
-      "source": "agenda-porto-newsletter-2026-10",
-      "addedAt": "2026-10-26T12:16:43Z",
-      "status": "rejected",
-      "attempts": 3,
-      "reason": "not an organiser/venue/ticketing page (https://livinglinkporto.com/event-balfolk-oct7.html)",
       "lastTriedAt": "2026-10-27T12:57:45.953Z",
       "resolvedAt": "2026-10-27T12:57:45.953Z"
     },
@@ -502,7 +468,11 @@
       "venue": "Serralves",
       "note": "17:00, Biblioteca de Serralves; free, registration required; talk with Paulo Rangel about the exhibition and the Duerckheim Collection (war, religion, ideologies, freedom of thought)",
       "source": "serralves-newsletter-2026-10",
-      "addedAt": "2026-10-29T05:00:19Z"
+      "addedAt": "2026-10-29T05:00:19Z",
+      "status": "done",
+      "eventSlug": "talk-with-paulo-rangel-vexation-of-spirit-the-duerckheim-collection-x-serralves-library-oct-31-2026",
+      "lastTriedAt": "2026-10-29T06:06:58.684Z",
+      "resolvedAt": "2026-10-29T06:06:58.684Z"
     },
     {
       "name": "Atlas, mapeamento poético – Joana Providência / Teatro do Bolhão",
@@ -511,7 +481,11 @@
       "venue": "Teatro Campo Alegre",
       "note": "19:30; premiere; choreographic piece on world poetry and migration; 12+; Portuguese Sign Language interpretation on 29.10, audio description on 30.10",
       "source": "teatro-municipal-do-porto-newsletter-2026-10",
-      "addedAt": "2026-10-29T05:00:37Z"
+      "addedAt": "2026-10-29T05:00:37Z",
+      "status": "pending",
+      "attempts": 1,
+      "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
+      "lastTriedAt": "2026-10-29T06:06:58.684Z"
     },
     {
       "name": "Tō Yō",
@@ -519,7 +493,11 @@
       "venue": "Teatro Rivoli",
       "note": "22:30; Understage; Tokyo psychedelic rock quartet, with Lovers & Lollypops; 12+; tickets",
       "source": "teatro-municipal-do-porto-newsletter-2026-10",
-      "addedAt": "2026-10-29T05:00:37Z"
+      "addedAt": "2026-10-29T05:00:37Z",
+      "status": "pending",
+      "attempts": 1,
+      "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
+      "lastTriedAt": "2026-10-29T06:06:58.684Z"
     },
     {
       "name": "Memórias do Cárcere – Sérgio Graciano",
@@ -528,7 +506,11 @@
       "venue": "Teatro Campo Alegre",
       "note": "Film run by Medeia Filmes at Campo Alegre; tickets",
       "source": "teatro-municipal-do-porto-newsletter-2026-10",
-      "addedAt": "2026-10-29T05:00:37Z"
+      "addedAt": "2026-10-29T05:00:37Z",
+      "status": "pending",
+      "attempts": 1,
+      "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
+      "lastTriedAt": "2026-10-29T06:06:58.684Z"
     }
   ]
 }
