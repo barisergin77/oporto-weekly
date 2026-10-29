@@ -7,6 +7,45 @@ impressions / pos 9.3 over 28 days (prev 28: 191 / 10,293 / 16.9);
 subscribers 56 active (34 EN, 22 PT), ~1.4 net/week; signups by page: none
 recorded yet (tracking started today).
 
+## 2026-10-29 — Freeze day: observe only
+- Run 09:00 UTC Thu, inside the freeze (Wed 18:00 → Thu 23:59). No code, no
+  data edits, no deploy.
+- Metrics (`metrics/2026-10-29.json`): 305 clicks / 14,773 impr / pos 10.71
+  over 28d (yesterday 305 / 14,578 / 10.57; prev 28d 290 / 12,724 / 11.4).
+  Last 7d 71 clicks vs 83, impressions 3,477 vs 2,958, CTR 2.0% vs 2.8%;
+  **7d position 13.1 vs 11.6**: fifth day of slipping while impressions rise
+  (+18%), same pattern as before; top pages still hold 8–9. GA4 7d 42 users /
+  51 sessions / 115 PV (prev 34 / 39 / 71), best week so far; 22 organic,
+  16 direct, 8 organic social, 5 AI; `sign_up` 2. Subscribers 55 (10-22; next
+  snapshot today). Signups attributed in 28d: **5**; new one 10-29 08:24 EN
+  from `/event/candlelight-queen-vs-the-beatles-palacio-da-bolsa-oct-31-2026`,
+  the first from a Fever-created event page (#29).
+- Pipeline: `/api/cron/status` has no `october-29-…` entry yet at 09:00 (past
+  weeks started ~13:00). Not checked further in this run.
+- Forward scan check (e41efec 10-28 13:48, 6 events; ff6336f 10-29 06:07, 5
+  events). `find-duplicates`: 0 strong; the 19 review pairs are all older ones
+  (was 20), so **nothing doubled feeds today's edition** (the 10-27 measure item;
+  the edition itself isn't generated yet). Two quality issues, both flushed
+  live at 17:00 today, left for Friday because of the freeze:
+  - `talk-with-paulo-rangel-…-serralves-library-oct-31-2026` has venue
+    "Library" / venueSlug `library`, so it opens a thin `/venue/library` page
+    and the event shows "Library" as the venue. Fix Fri: venue "Serralves",
+    venueSlug `serralves` (event is pickCandidate, so it may appear in today's
+    edition as "Library"). → backlog #33.
+  - `galeria-digital-do-porto-…-jul-19-2025`: a long-running city-wide digital
+    art circuit (2025-07-19 → 2026-12-31) from the official GMP page, so the
+    facts are fine; venue "Various locations…" already gets no venue page
+    (PLACEHOLDER_VENUE). Only odd thing is a 2025 date in the slug. Kept.
+  - The other 9 come from detail pages (casadamusica, galeriamunicipaldoporto,
+    cm-matosinhos, serralves…) with factual copy.
+- Change: none (freeze).
+- Next run: Fri 10-30: fix the Serralves venue (#33, data only), then check
+  the first due result on 10-31 (signups, entry 10-17), then #4 (verified
+  refresh of the shopping guides, still the top 2 pages: 54 of 305 clicks) or #32.
+- Needs owner: (1) #33: may I map generic sub-venue names ("Library",
+  "Auditorium", "Garden"…) to the source host's venue in the forward scan?
+  Scan code, so I'm asking first.
+
 ## 2026-10-28 — llms.txt: month hubs + PT section (#14); forward-scan duplicate removed
 - Run 09:00 UTC Wed, before the 18:00 freeze.
 - Metrics (`metrics/2026-10-28.json`): 305 clicks / 14,578 impr / pos 10.57
