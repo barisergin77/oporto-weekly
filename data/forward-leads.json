@@ -495,6 +495,40 @@
       "attempts": 2,
       "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
       "lastTriedAt": "2026-10-28T13:48:53.240Z"
+    },
+    {
+      "name": "Conversa com Paulo Rangel – Vexation of Spirit. The Duerckheim Collection x Serralves",
+      "date": "2026-10-31",
+      "venue": "Serralves",
+      "note": "17:00, Biblioteca de Serralves; free, registration required; talk with Paulo Rangel about the exhibition and the Duerckheim Collection (war, religion, ideologies, freedom of thought)",
+      "source": "serralves-newsletter-2026-10",
+      "addedAt": "2026-10-29T05:00:19Z"
+    },
+    {
+      "name": "Atlas, mapeamento poético – Joana Providência / Teatro do Bolhão",
+      "date": "2026-10-29",
+      "endDate": "2026-10-30",
+      "venue": "Teatro Campo Alegre",
+      "note": "19:30; premiere; choreographic piece on world poetry and migration; 12+; Portuguese Sign Language interpretation on 29.10, audio description on 30.10",
+      "source": "teatro-municipal-do-porto-newsletter-2026-10",
+      "addedAt": "2026-10-29T05:00:37Z"
+    },
+    {
+      "name": "Tō Yō",
+      "date": "2026-10-30",
+      "venue": "Teatro Rivoli",
+      "note": "22:30; Understage; Tokyo psychedelic rock quartet, with Lovers & Lollypops; 12+; tickets",
+      "source": "teatro-municipal-do-porto-newsletter-2026-10",
+      "addedAt": "2026-10-29T05:00:37Z"
+    },
+    {
+      "name": "Memórias do Cárcere – Sérgio Graciano",
+      "date": "2026-10-29",
+      "endDate": "2026-11-04",
+      "venue": "Teatro Campo Alegre",
+      "note": "Film run by Medeia Filmes at Campo Alegre; tickets",
+      "source": "teatro-municipal-do-porto-newsletter-2026-10",
+      "addedAt": "2026-10-29T05:00:37Z"
     }
   ]
 }
