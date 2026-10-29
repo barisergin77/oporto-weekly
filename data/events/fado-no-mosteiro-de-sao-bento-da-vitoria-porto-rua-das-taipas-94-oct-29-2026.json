@@ -10,7 +10,7 @@
   "category": "music",
   "description": "The event features an authentic Fado show with a talented fadista, accompanied by Portuguese guitar and Fado viola. Attendees can also enjoy a glass of Port wine and Singeverga liqueur, prepared by Benedictine monks, and explore the Mosteiro de São Bento da Vitória with a local guide.",
   "longDescription": "Experience the authenticity of Fado in a live show at the Mosteiro de São Bento da Vitória in Porto. The event includes a performance by a talented fadista, accompanied by Portuguese guitar and Fado viola, offering a unique cultural experience.\n\nBefore the Fado show, a local guide will lead a tour of the Mosteiro de São Bento da Vitória, one of Portugal's most beautiful monasteries. Guests will also be served a glass of Port wine and Singeverga liqueur, an artisanal monastic liqueur produced by Benedictine monks.\n\nThe event takes place on Thursday, October 29, 2026, at 6:30 PM, at Rua das Taipasº 94, Porto. Tickets are available from €26. The experience has a duration of 1 hour and 30 minutes and is suitable for ages 6 and above, though it is not adapted for people with reduced mobility.",
-  "sourceEdition": "forward-scan",
+  "sourceEdition": "october-29-november-4-2026",
   "externalLink": "https://concerts50.com/show/fado-no-mosteiro-de-s-o-bento-da-vit-ria-porto-in-porto-tickets-oct-29-2026",
   "pickCandidate": true,
   "addedAt": "2026-10-27T12:57:28.157Z",
@@ -20,5 +20,6 @@
   "image": {
     "url": "https://i.imgur.com/Ef2T038.jpeg",
     "credit": "AI illustration · Oporto Weekly"
-  }
+  },
+  "editorPickRank": 2
 }

@@ -8,7 +8,7 @@
   "category": "other",
   "description": "Lucía Solla Sobral will launch her debut novel, \"Comerás flores,\" for the first time in Portugal. The event will include a session moderated by Álvaro Curia.",
   "longDescription": "Lucía Solla Sobral is launching her debut novel, \"Comerás flores,\" in Portugal. The book has received awards such as Cálamo Livro do Ano 2025 and El Ojo Crítico 2025, and its publication rights have been sold in approximately 20 countries.\n\nThe novel introduces Marina, a 25-year-old who, after her father's death, enters a relationship with Jaime, a man twenty years her senior. What begins as a love story transforms into a relationship of control and emotional dependence, threatening her autonomy and identity. The book explores themes of grief, maturation, toxic relationships, and the importance of friendship.\n\nThe launch will take place on November 4, 2026, at 6:00 PM, in the Auditorium of Livraria Lello in Porto. Admission is free but requires prior registration, and seating is limited.",
-  "sourceEdition": "forward-scan",
+  "sourceEdition": "october-29-november-4-2026",
   "externalLink": "https://livrarialello.pt/events/lucia-solla-sobral-lancamento-livro-comeras-flores/",
   "pickCandidate": true,
   "addedAt": "2026-10-28T08:32:07.840Z",
@@ -19,5 +19,6 @@
     "url": "https://i.imgur.com/HIlIf1J.png",
     "credit": "Photo: Livrarialello",
     "sourceUrl": "https://livrarialello.pt/events/lucia-solla-sobral-lancamento-livro-comeras-flores/"
-  }
+  },
+  "editorPickRank": 5
 }

@@ -7,7 +7,7 @@
   "category": "music",
   "description": "Moonspell is performing at Hard Club on October 31st. The event is scheduled for Room 1 and starts at 9 PM.",
   "longDescription": "Moonspell is scheduled to perform at the Hard Club in Porto on October 31st. The performance will take place in Room 1, starting at 9 PM.\n\nAnother event, Scary Groove Quest, is also listed for October 31st in Room 1, beginning at 11:59 PM. The Hard Club's ticket office is temporarily closed, but typically operates Tuesday to Friday from 11 AM to 6 PM, and Saturdays from 1 PM to 8 PM.",
-  "sourceEdition": "forward-scan",
+  "sourceEdition": "october-29-november-4-2026",
   "externalLink": "https://www.hardclubporto.com/en/evento/moonspell-invicta-halloween-2026/",
   "pickCandidate": true,
   "addedAt": "2026-10-26T13:51:31.822Z",
@@ -17,5 +17,6 @@
   "image": {
     "url": "https://i.imgur.com/FrFIFv3.jpeg",
     "credit": "AI illustration · Oporto Weekly"
-  }
+  },
+  "editorPickRank": 1
 }
