@@ -168,7 +168,11 @@
       "url": "https://casadamusica.com/event/jazz-in-the-space-age-de-george-russel/?selected_session=55741",
       "note": "Sala Suggia; piano month.",
       "source": "casa-da-musica-newsletter-2026-11",
-      "addedAt": "2026-10-25T12:00:00Z"
+      "addedAt": "2026-10-25T12:00:00Z",
+      "status": "done",
+      "eventSlug": "jazz-in-the-space-age-de-george-russell-mario-laginha-miguel-meirinhos-orquestra-jazz-de-matosinhos-casa-da-musica-nov-22-2026",
+      "lastTriedAt": "2026-10-30T13:48:49.794Z",
+      "resolvedAt": "2026-10-30T13:48:49.794Z"
     },
     {
       "name": "Pizarro interpreta Britten",
@@ -177,7 +181,11 @@
       "url": "https://casadamusica.com/event/pizarro-interpreta-britten/?selected_session=44144",
       "note": "Sala Suggia; Artur Pizarro + Orquestra Sinfónica: Britten piano concerto + Brahms Symphony 2 — one concert.",
       "source": "casa-da-musica-newsletter-2026-11",
-      "addedAt": "2026-10-25T12:00:00Z"
+      "addedAt": "2026-10-25T12:00:00Z",
+      "status": "done",
+      "eventSlug": "pizarro-interpreta-britten-casa-da-musica-nov-27-2026",
+      "lastTriedAt": "2026-10-30T13:48:49.794Z",
+      "resolvedAt": "2026-10-30T13:48:49.794Z"
     },
     {
       "name": "Javier Perianes",
@@ -259,7 +267,12 @@
       "url": "https://casadamusica.com/event/vincent-peirani/?selected_session=49412",
       "note": "Sala 2; Misty Fest.",
       "source": "casa-da-musica-newsletter-2026-11",
-      "addedAt": "2026-10-25T12:00:00Z"
+      "addedAt": "2026-10-25T12:00:00Z",
+      "status": "done",
+      "eventSlug": "misty-fest-2026-casa-da-musica-nov-10-2026",
+      "reason": "already listed",
+      "lastTriedAt": "2026-10-30T13:48:49.794Z",
+      "resolvedAt": "2026-10-30T13:48:49.794Z"
     },
     {
       "name": "Rodrigo Leão",
@@ -269,7 +282,12 @@
       "url": "https://casadamusica.com/event/rodrigo-leao-3/?selected_session=51205",
       "note": "Sala Suggia; Misty Fest; sessions 23 Nov 21:00, 24 Nov 18:30 and 21:00.",
       "source": "casa-da-musica-newsletter-2026-11",
-      "addedAt": "2026-10-25T12:00:00Z"
+      "addedAt": "2026-10-25T12:00:00Z",
+      "status": "done",
+      "eventSlug": "misty-fest-2026-casa-da-musica-nov-10-2026",
+      "reason": "already listed",
+      "lastTriedAt": "2026-10-30T13:48:49.794Z",
+      "resolvedAt": "2026-10-30T13:48:49.794Z"
     },
     {
       "name": "Christian Löffler & Ensemble",
@@ -278,7 +296,11 @@
       "url": "https://casadamusica.com/event/christian-loffler-until-we-meet-again-tour/?selected_session=49751",
       "note": "Sala Suggia; Misty Fest; Until We Meet Again Tour.",
       "source": "casa-da-musica-newsletter-2026-11",
-      "addedAt": "2026-10-25T12:00:00Z"
+      "addedAt": "2026-10-25T12:00:00Z",
+      "status": "done",
+      "eventSlug": "christian-loffler-until-we-meet-again-tour-casa-da-musica-nov-25-2026",
+      "lastTriedAt": "2026-10-30T13:48:49.794Z",
+      "resolvedAt": "2026-10-30T13:48:49.794Z"
     },
     {
       "name": "Al Di Meola",
@@ -287,7 +309,11 @@
       "url": "https://casadamusica.com/event/al-di-meola/?selected_session=51478",
       "note": "Sala Suggia; Misty Fest; second show 29 Nov is sold out.",
       "source": "casa-da-musica-newsletter-2026-11",
-      "addedAt": "2026-10-25T12:00:00Z"
+      "addedAt": "2026-10-25T12:00:00Z",
+      "status": "done",
+      "eventSlug": "al-di-meola-casa-da-musica-nov-26-2026",
+      "lastTriedAt": "2026-10-30T13:48:49.794Z",
+      "resolvedAt": "2026-10-30T13:48:49.794Z"
     },
     {
       "name": "Youn Sun Nah",
@@ -516,10 +542,11 @@
       "note": "Film run by Medeia Filmes at Campo Alegre; tickets",
       "source": "teatro-municipal-do-porto-newsletter-2026-10",
       "addedAt": "2026-10-29T05:00:37Z",
-      "status": "pending",
-      "attempts": 2,
-      "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
-      "lastTriedAt": "2026-10-30T08:32:23.806Z"
+      "status": "rejected",
+      "attempts": 3,
+      "reason": "page does not confirm the event (https://www.noticiasaominuto.com/mundo/3070899/filme-memorias-do-carcere-de-sergio-graciano-estreia-se-nos-cinemas)",
+      "lastTriedAt": "2026-10-30T13:48:49.794Z",
+      "resolvedAt": "2026-10-30T13:48:49.794Z"
     },
     {
       "name": "Ressonâncias – Prelúdio, conversa com Bianca Dacosta e Rodrigo Alzuguir",
@@ -529,9 +556,9 @@
       "source": "casa-da-musica-newsletter-2026-10",
       "addedAt": "2026-10-30T05:00:23Z",
       "status": "pending",
-      "attempts": 1,
+      "attempts": 2,
       "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
-      "lastTriedAt": "2026-10-30T08:32:23.806Z"
+      "lastTriedAt": "2026-10-30T13:48:49.794Z"
     }
   ]
 }
