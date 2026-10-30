@@ -511,6 +511,14 @@
       "attempts": 1,
       "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
       "lastTriedAt": "2026-10-29T06:06:58.684Z"
+    },
+    {
+      "name": "Ressonâncias – Prelúdio, conversa com Bianca Dacosta e Rodrigo Alzuguir",
+      "date": "2026-11-14",
+      "venue": "Casa da Música",
+      "note": "16:00, Foyer Nascente, free entry; talk on Villa-Lobos and Bianca Dacosta's visuals before Floresta do Amazonas, moderated by François Bou (Festival Floresta Amazónica)",
+      "source": "casa-da-musica-newsletter-2026-10",
+      "addedAt": "2026-10-30T05:00:23Z"
     }
   ]
 }
