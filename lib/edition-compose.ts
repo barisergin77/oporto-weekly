@@ -159,13 +159,31 @@ ${long || '(none)'}`;
 
 export const ALSO_ON_PLACEHOLDER = '<!-- ALSO_ON -->';
 
+/** Picks already chosen before Gemini writes (lib/opus-picks.ts), in order. */
+export interface PresetPick {
+  name: string;
+  venue: string;
+  when: string;
+  why: string;
+}
+
+/** The Editor's Picks rule: Gemini chooses, or writes copy for preset picks. */
+function picksRule(weekRange: string, picks?: PresetPick[]): string {
+  if (!picks?.length) {
+    return `- Editor's Picks: choose five from the SHORT EVENTS marked "pick-eligible: yes", preferring "strong candidate"; spread them across categories and days of ${weekRange} where possible. Never pick a LONG RUN.`;
+  }
+  const list = picks.map((p, i) => `  ${i + 1}. ${p.name} — ${p.venue} — ${p.when}${p.why ? ` — editor's note: ${p.why}` : ''}`).join('\n');
+  return `- Editor's Picks are ALREADY CHOSEN by the editor. Use EXACTLY these ${picks.length} events as Pick #1–${picks.length}, in this order, with each "name" copied exactly from the list (this overrides the quality bar and the pick-eligible flags above). Do not swap, add or drop a pick; write the pick copy for each, drawing on its listed description and the editor's note:
+${list}`;
+}
+
 /** Prompt block appended to the edition prompt in compose mode. */
-export function composeRules(weekRange: string): string {
+export function composeRules(weekRange: string, picks?: PresetPick[]): string {
   return `
 COMPOSITION RULES (this edition is composed from the VERIFIED EVENTS list above, not from web research):
 - Use ONLY events from the list. Never add an event that is not in it, and never change an event's date, venue or price.
 - Copy each event's "name" EXACTLY as listed into its heading, and its "venue" exactly into the meta line — we link headings to event pages by exact name.
-- Editor's Picks: choose five from the SHORT EVENTS marked "pick-eligible: yes", preferring "strong candidate"; spread them across categories and days of ${weekRange} where possible. Never pick a LONG RUN.
+${picksRule(weekRange, picks)}
 - Category sections: fill each from SHORT EVENTS of that category (2-4 each). A section may borrow at most one LONG RUN when it would otherwise have fewer than two events. If the list has nothing at all for a section, drop that section rather than invent one.
 - "More info" links: use the event's "link" exactly.
 - Do NOT write an "Also on" or "still running" list yourself: put the literal HTML comment ${ALSO_ON_PLACEHOLDER} on its own line immediately before the TIP OF THE WEEK block. We insert the long-run list there.

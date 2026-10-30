@@ -28,6 +28,7 @@ import { formatWeekRange, generateSlug, assertValidNewsletterHtml } from '../lib
 import { extractEventsFromHtml, injectEventLinks } from '../lib/events-pipeline';
 import { blocklistCorrections, type BlockedPick } from '../lib/pick-blocklist';
 import { whenText, type EditionSelection } from '../lib/edition-compose';
+import { choosePicks, presetPicks, pickLogLine } from '../lib/opus-picks';
 import { CATEGORY_LABEL } from '../lib/events';
 
 const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
@@ -118,14 +119,18 @@ async function main() {
     corpus = [...corpus, ...topup];
   }
 
+  const recentPicks = await recentPickNames(4);
   const sel = selectEditionEvents(corpus, weekStartISO, weekEndISO, {
     blocked: blocklist.map((b) => b.name),
-    recentPicks: await recentPickNames(4),
+    recentPicks,
   });
   console.log(`composing from ${sel.short.length} short + ${sel.longRuns.length} long-run events (${sel.pickPool.length} pick-eligible)`);
+  // Same picks step as the route (#34): Opus picks, else Gemini (no key → fallback).
+  const chosen = await choosePicks(sel, { recentPicks });
+  console.log(pickLogLine(chosen));
 
   const t = Date.now();
-  const raw = await generateNewsletter(eventDigest(sel), FALLBACK_HERO_URL, weekRange, blocklistCorrections(blocklist), { compose: true });
+  const raw = await generateNewsletter(eventDigest(sel), FALLBACK_HERO_URL, weekRange, blocklistCorrections(blocklist), { compose: true, picks: presetPicks(chosen) });
   gemini += 1;
   assertValidNewsletterHtml(raw, { lang: 'en' });
   const events = await extractEventsFromHtml(raw, slug, corpus);

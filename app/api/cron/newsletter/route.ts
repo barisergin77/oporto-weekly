@@ -11,6 +11,7 @@ import {
 import {
   selectEditionEvents, eventDigest, insertAlsoOn, renderAlsoOn, longRunsNotFeatured, mergeEventFiles,
 } from '@/lib/edition-compose';
+import { choosePicks, refreshPicks, presetPicks, pickLogLine, type PickResult } from '@/lib/opus-picks';
 
 /** Top-up search budget inside the 300s function (runs alongside the hero image). */
 const TOPUP_BUDGET_MS = 90_000;
@@ -249,11 +250,18 @@ export async function GET(req: NextRequest) {
       researchData = composed.digest;
       console.log(`[cron/newsletter] composing from ${composed.sel.short.length} short + ${composed.sel.longRuns.length} long-run events (${composed.sel.pickPool.length} pick-eligible, ${topupEvents.length} from top-up)`);
     }
+    // Editor's Picks by Claude Opus 5.5 (#34). Never throws; on any failure
+    // Gemini picks as before (path=gemini-fallback).
+    let picks: PickResult | null = null;
+    if (composed) {
+      picks = await choosePicks(composed.sel, { recentPicks });
+      console.log(pickLogLine(picks));
+    }
     await markStepComplete(slug, 'research');
 
     // 3. Generate newsletter HTML (embedded hero URL)
     let built = await buildEdition(
-      await generateNewsletter(researchData!, heroImageUrl, weekRange, blocklistCorrections(blocklist), { compose: path === 'compose' }),
+      await generateNewsletter(researchData!, heroImageUrl, weekRange, blocklistCorrections(blocklist), { compose: path === 'compose', picks: presetPicks(picks) }),
       slug, corpus,
     );
 
@@ -304,12 +312,16 @@ export async function GET(req: NextRequest) {
           // Drop the wrong-week events from the list itself, not just the prompt.
           composed = digestFor([...blocklist.map((b) => b.name), ...first.mismatches.map((m) => m.name)]);
           researchData = composed.digest;
+          if (picks) {
+            picks = refreshPicks(picks, composed.sel, recentPicks);
+            console.log(pickLogLine(picks));
+          }
         }
         built = await buildEdition(
           await generateNewsletter(
             researchData!, heroImageUrl, weekRange,
             [...blocklistCorrections(blocklist), ...corrections],
-            { compose: path === 'compose' },
+            { compose: path === 'compose', picks: presetPicks(picks) },
           ), slug, corpus,
         );
         const second = await verifyPickDates(built.events, weekStartISO, weekEndISO);
@@ -389,6 +401,7 @@ export async function GET(req: NextRequest) {
         pickEligible: composed.sel.pickPool.length,
         alsoOn: alsoOnCount,
         topup: topupInfo,
+        picks: picks ? { path: picks.path, reason: picks.reason, names: picks.picks.map((p) => p.event.name) } : null,
       } : null,
       archived: true,
       send: 'deferred to /api/cron/newsletter-send',
