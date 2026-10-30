@@ -7,6 +7,53 @@ impressions / pos 9.3 over 28 days (prev 28: 191 / 10,293 / 16.9);
 subscribers 56 active (34 EN, 22 PT), ~1.4 net/week; signups by page: none
 recorded yet (tracking started today).
 
+## 2026-10-30 — Forward scan: room-only venue names → site's venue (#33)
+- Run 09:00 UTC Fri, outside the freeze.
+- Metrics (`metrics/2026-10-30.json`): 312 clicks / 15,057 impr / pos 10.80
+  over 28d (yesterday 305 / 14,773 / 10.71; prev 28d 285 / 12,769 / 11.29).
+  Last 7d 74 clicks vs 78, impressions 3,714 vs 3,049 (+22%), CTR 2.0% vs
+  2.6%; 7d position 13.1 vs 11.9: sixth day of the same pattern (more
+  impressions, deeper average; top pages hold 8–9). GA4 7d 48 users / 59
+  sessions / 131 PV (prev 34 / 39 / 68), best week so far; 25 organic, 19
+  direct, 8 organic social, 7 AI. **Subscribers 60 on 10-29 (was 55; EN 38
+  +5, PT 22)**, the biggest weekly gain so far. Signups attributed in 28d: 7 (new:
+  10-29 13:34 EN from the new archive edition, 10-30 08:22 PT from a PT event
+  page). No result due today (first is 10-31).
+- Thursday 10-29 pipeline: EN/PT web + email + Instagram all marked complete
+  in the ledger. The edition doesn't mention the "Library" event.
+- Why: the Serralves talk (forward scan 10-29) had venue "Library" → thin
+  `/venue/library` page, live since the 10-29 flush. Owner approved (b) 10-29.
+  Same host data shows the pattern isn't one-off: serralves.pt records also
+  carry "museu" / "galeria-contemporanea-do-museu", casadamusica.com "blue-lounge",
+  "cibermusica" (older records, left as they are).
+- Change (fa2a6cb): (a) record → venue "Serralves", venueSlug `serralves`;
+  `library` → `serralves` in `redirectOnly`, so /venue/library and
+  /pt/venue/library 301. (b) `isGenericRoomName()` + `hostVenueName()` in
+  `lib/venues.ts`; `hostVenues` in `data/venue-aliases.json` (serralves.pt,
+  casadamusica.com, hardclubporto.com, coliseu.pt, galeriamunicipaldoporto.pt).
+  The scan's page check swaps a room-only venue for the host's venue, or
+  rejects the candidate with a logged reason if the host isn't known.
+  2 new tests in test:dedupe (20 pass).
+- Verified: tsc; test:dedupe 20 + find-duplicates --check; test:leads 5;
+  build OK (`/venue/library` no longer built, event page links
+  `/venue/serralves`, serralves page lists the talk, redirect in routes-manifest).
+  Live: /api/version = fa2a6cb (deploy took ~8 min); /venue/library and
+  /pt/venue/library 308 → serralves; event page 200 and links
+  /venue/serralves; health ok (9/9). No Indexing API call: the venue page
+  was 1 day old and the event URL is unchanged.
+- Expect: no new room-named venue pages from the scan. Rejections with
+  "is a room name" in the scan log point at hosts worth adding to `hostVenues`.
+- Measure on: 2026-11-13 (scan commits of the next 2 weeks: no generic
+  venueSlugs; count "room name" rejections).
+- Result:
+- Next run: #34 (Opus 5.5 Editor's Picks) as a PR for the owner to merge;
+  it has to be live before the Wed 11-04 18:00 freeze, so Sat/Sun at the
+  latest. Then the 10-31 signups result (entry 10-17).
+- Needs owner: (1) #34 PR is next (tomorrow), not today: one change per run.
+  Say if you want it sooner. (2) Optional: may I also merge the older
+  sub-venue records (serralves "museu", casadamusica "blue-lounge",
+  "cibermusica") into their venues with 301s? Data + redirects only.
+
 ## 2026-10-29 — Freeze day: observe only
 - Run 09:00 UTC Thu, inside the freeze (Wed 18:00 → Thu 23:59). No code, no
   data edits, no deploy.

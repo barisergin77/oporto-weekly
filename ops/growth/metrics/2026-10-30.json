@@ -1,0 +1,261 @@
+{
+  "takenAt": "2026-10-30T09:00:26.212Z",
+  "search": {
+    "last7": {
+      "clicks": 74,
+      "impressions": 3714,
+      "ctr": 0.01992460958535272,
+      "position": 13.061927840603124
+    },
+    "prev7": {
+      "clicks": 78,
+      "impressions": 3049,
+      "ctr": 0.025582158084617907,
+      "position": 11.90095113151853
+    },
+    "last28": {
+      "clicks": 312,
+      "impressions": 15057,
+      "ctr": 0.020721259214983065,
+      "position": 10.799163179916318
+    },
+    "prev28": {
+      "clicks": 285,
+      "impressions": 12769,
+      "ctr": 0.022319680476153184,
+      "position": 11.28780640613987
+    },
+    "topPages28": [
+      {
+        "page": "/blog/porto-shopping-guide-your-map-to-vintage-artisan-finds",
+        "clicks": 42,
+        "impressions": 1138,
+        "position": 8.5
+      },
+      {
+        "page": "/event/iberanime-porto-2026-exponor-oct-10-2026",
+        "clicks": 12,
+        "impressions": 2556,
+        "position": 7.8
+      },
+      {
+        "page": "/blog/shop-like-a-local-in-porto-your-2026-vintage-market-guide",
+        "clicks": 11,
+        "impressions": 820,
+        "position": 9.3
+      },
+      {
+        "page": "/event/fimp26-international-puppet-festival-various-venues-oct-9-2026",
+        "clicks": 11,
+        "impressions": 119,
+        "position": 5.9
+      },
+      {
+        "page": "/blog/porto-on-a-budget-free-sights-cheap-eats-guide",
+        "clicks": 9,
+        "impressions": 372,
+        "position": 10.6
+      },
+      {
+        "page": "/event/magic-show-escola-de-magicos-teatro-sa-da-bandeira-oct-4-2026",
+        "clicks": 9,
+        "impressions": 46,
+        "position": 6
+      },
+      {
+        "page": "/pt/venue/largo-do-amor-de-perdicao",
+        "clicks": 9,
+        "impressions": 64,
+        "position": 4.6
+      },
+      {
+        "page": "/blog/porto-nightlife-your-ultimate-after-dark-guide-for-2025",
+        "clicks": 8,
+        "impressions": 569,
+        "position": 13
+      },
+      {
+        "page": "/archive/october-8-14-2026",
+        "clicks": 7,
+        "impressions": 91,
+        "position": 6.9
+      },
+      {
+        "page": "/porto-events/this-weekend",
+        "clicks": 7,
+        "impressions": 18,
+        "position": 15.4
+      },
+      {
+        "page": "/event/miguel-bombarda-simultaneous-openings-bombarda-art-district-sep-19-2026",
+        "clicks": 6,
+        "impressions": 32,
+        "position": 2.9
+      },
+      {
+        "page": "/event/throwback-porto-party-museu-do-carro-electrico-oct-17-2026",
+        "clicks": 6,
+        "impressions": 62,
+        "position": 4.9
+      },
+      {
+        "page": "/archive/october-22-28-2026",
+        "clicks": 5,
+        "impressions": 67,
+        "position": 4.2
+      },
+      {
+        "page": "/blog/portos-best-coffee-pastis-de-nata-the-2026-guide",
+        "clicks": 5,
+        "impressions": 198,
+        "position": 9.2
+      },
+      {
+        "page": "/porto-events/october-2026",
+        "clicks": 5,
+        "impressions": 105,
+        "position": 7.3
+      }
+    ],
+    "lowCtr28": [
+      {
+        "query": "iberanime porto 2026",
+        "impressions": 2099,
+        "ctr": 0.2,
+        "position": 7.8
+      },
+      {
+        "query": "what to eat in porto",
+        "impressions": 90,
+        "ctr": 1.1,
+        "position": 32.4
+      },
+      {
+        "query": "best neighborhoods in porto for expats",
+        "impressions": 69,
+        "ctr": 0,
+        "position": 60.1
+      },
+      {
+        "query": "mike stern casa da musica",
+        "impressions": 68,
+        "ctr": 0,
+        "position": 6.2
+      },
+      {
+        "query": "iberanime 2026 porto",
+        "impressions": 63,
+        "ctr": 0,
+        "position": 8.3
+      },
+      {
+        "query": "porto city guide",
+        "impressions": 46,
+        "ctr": 0,
+        "position": 72.4
+      }
+    ]
+  },
+  "visitors": {
+    "last7": {
+      "users": 48,
+      "sessions": 59,
+      "pageViews": 131
+    },
+    "prev7": {
+      "users": 34,
+      "sessions": 39,
+      "pageViews": 68
+    },
+    "channels7": [
+      {
+        "channel": "Organic Search",
+        "sessions": 25
+      },
+      {
+        "channel": "Direct",
+        "sessions": 19
+      },
+      {
+        "channel": "Organic Social",
+        "sessions": 8
+      },
+      {
+        "channel": "AI Assistant",
+        "sessions": 7
+      }
+    ],
+    "signUpEvents7": 1
+  },
+  "subscribers": [
+    {
+      "week": "2026-10-08",
+      "active": 54,
+      "en": 34,
+      "pt": 20
+    },
+    {
+      "week": "2026-10-15",
+      "active": 56,
+      "en": 34,
+      "pt": 22
+    },
+    {
+      "week": "2026-10-22",
+      "active": 55,
+      "en": 33,
+      "pt": 22
+    },
+    {
+      "week": "2026-10-29",
+      "active": 60,
+      "en": 38,
+      "pt": 22
+    }
+  ],
+  "signups28": {
+    "total": 7,
+    "byPageType": {
+      "porto-events": 1,
+      "event": 4,
+      "archive": 2
+    },
+    "recent": [
+      {
+        "at": "2026-10-22T00:15:12.666Z",
+        "lang": "en",
+        "source": "/porto-events/this-weekend"
+      },
+      {
+        "at": "2026-10-25T08:12:01.925Z",
+        "lang": "en",
+        "source": "/event/final-days-for-voice-by-lydia-ourahmane-galeria-municipal-do-porto-oct-25-2026"
+      },
+      {
+        "at": "2026-10-25T15:19:35.930Z",
+        "lang": "en",
+        "source": "/archive/october-22-28-2026"
+      },
+      {
+        "at": "2026-10-25T16:20:24.040Z",
+        "lang": "en",
+        "source": "/event/ballet-of-lights-the-sleeping-beauty-venue-varies-oct-24-2026"
+      },
+      {
+        "at": "2026-10-29T08:24:56.555Z",
+        "lang": "en",
+        "source": "/event/candlelight-queen-vs-the-beatles-palacio-da-bolsa-oct-31-2026"
+      },
+      {
+        "at": "2026-10-29T13:34:20.937Z",
+        "lang": "en",
+        "source": "/archive/october-29-november-4-2026"
+      },
+      {
+        "at": "2026-10-30T08:22:35.632Z",
+        "lang": "pt",
+        "source": "/pt/event/concurso-de-saltos-nacional-b-provas-de-escolas-centro-hipico-do-porto-e-matosinhos-oct-30-2026"
+      }
+    ]
+  }
+}
