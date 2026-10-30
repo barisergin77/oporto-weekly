@@ -107,7 +107,11 @@
       "url": "https://casadamusica.com/event/zaynara-fafa-de-belem/?selected_session=59196",
       "note": "Sala Suggia; Floresta Amazónica.",
       "source": "casa-da-musica-newsletter-2026-11",
-      "addedAt": "2026-10-25T12:00:00Z"
+      "addedAt": "2026-10-25T12:00:00Z",
+      "status": "done",
+      "eventSlug": "zaynara-fafa-de-belem-casa-da-musica-nov-15-2026",
+      "lastTriedAt": "2026-10-30T08:32:23.806Z",
+      "resolvedAt": "2026-10-30T08:32:23.806Z"
     },
     {
       "name": "O Último Canto dos Pássaros",
@@ -151,7 +155,11 @@
       "url": "https://casadamusica.com/event/sinfonia-orgao/?selected_session=44140",
       "note": "Sala Suggia; page title 'Sinfonia Órgão'.",
       "source": "casa-da-musica-newsletter-2026-11",
-      "addedAt": "2026-10-25T12:00:00Z"
+      "addedAt": "2026-10-25T12:00:00Z",
+      "status": "done",
+      "eventSlug": "sinfonia-orgao-casa-da-musica-nov-21-2026",
+      "lastTriedAt": "2026-10-30T08:32:23.806Z",
+      "resolvedAt": "2026-10-30T08:32:23.806Z"
     },
     {
       "name": "Jazz in the Space Age de George Russell – Mário Laginha & Miguel Meirinhos + Orquestra Jazz de Matosinhos",
@@ -224,7 +232,11 @@
       "url": "https://casadamusica.com/event/svaneborg-kardyb-vega-trails/?selected_session=50695",
       "note": "Sala 2; Misty Fest.",
       "source": "casa-da-musica-newsletter-2026-11",
-      "addedAt": "2026-10-25T12:00:00Z"
+      "addedAt": "2026-10-25T12:00:00Z",
+      "status": "done",
+      "eventSlug": "svaneborg-kardyb-vega-trails-casa-da-musica-nov-18-2026",
+      "lastTriedAt": "2026-10-30T08:32:23.806Z",
+      "resolvedAt": "2026-10-30T08:32:23.806Z"
     },
     {
       "name": "Niklas Paschburg",
@@ -233,7 +245,12 @@
       "url": "https://casadamusica.com/event/niklas-paschburg/?selected_session=49435",
       "note": "Sala 2; Misty Fest.",
       "source": "casa-da-musica-newsletter-2026-11",
-      "addedAt": "2026-10-25T12:00:00Z"
+      "addedAt": "2026-10-25T12:00:00Z",
+      "status": "done",
+      "eventSlug": "misty-fest-2026-casa-da-musica-nov-10-2026",
+      "reason": "already listed",
+      "lastTriedAt": "2026-10-30T08:32:23.806Z",
+      "resolvedAt": "2026-10-30T08:32:23.806Z"
     },
     {
       "name": "Vincent Peirani",
@@ -306,7 +323,11 @@
       "url": "https://casadamusica.com/event/bruno-pernadas-interpreta-steamboat-bill-jr-de-buster-keaton/?selected_session=58777",
       "note": "Sala Suggia; Grande Ecrã live cine-concert.",
       "source": "casa-da-musica-newsletter-2026-11",
-      "addedAt": "2026-10-25T12:00:00Z"
+      "addedAt": "2026-10-25T12:00:00Z",
+      "status": "done",
+      "eventSlug": "bruno-pernadas-interpreta-steamboat-bill-jr-casa-da-musica-nov-19-2026",
+      "lastTriedAt": "2026-10-30T08:32:23.806Z",
+      "resolvedAt": "2026-10-30T08:32:23.806Z"
     },
     {
       "name": "Do Lixo Se Faz Música",
@@ -316,19 +337,6 @@
       "note": "Family workshop, kids 6+; Sala de Ensaio 2; sessions 10:30 and 14:30.",
       "source": "casa-da-musica-newsletter-2026-11",
       "addedAt": "2026-10-25T12:00:00Z"
-    },
-    {
-      "name": "They All Lie – Matías Piñeiro Special",
-      "date": "2026-10-29",
-      "venue": "Batalha Centro de Cinema",
-      "note": "19:15; Matías Piñeiro (Argentina, 2009, 76'), English subtitles; with the filmmaker and Garbiñe Ortega; ticketed",
-      "source": "batalha-newsletter-2026-10",
-      "addedAt": "2026-10-26T11:47:50Z",
-      "status": "rejected",
-      "attempts": 3,
-      "reason": "not an organiser/venue/ticketing page (https://www.viralagenda.com/pt/events/1857214/experience-trindade-by-night-especial-halloween)",
-      "lastTriedAt": "2026-10-27T12:57:45.953Z",
-      "resolvedAt": "2026-10-27T12:57:45.953Z"
     },
     {
       "name": "You Burn Me + Prefacio para el dialoguito – Matías Piñeiro Special",
@@ -457,10 +465,11 @@
       "note": "Theatre directed by Raquel Castro: five teenagers tackle Garrett's Frei Luís de Sousa for school homework. ~1h, M/12. Portuguese Sign Language sessions Fri 6 Nov 15:00 + 21:00; post-show talk Sat 7 Nov. Ticketed.",
       "source": "tnsj-newsletter-2026-10",
       "addedAt": "2026-10-26T12:16:53Z",
-      "status": "pending",
-      "attempts": 2,
+      "status": "rejected",
+      "attempts": 3,
       "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
-      "lastTriedAt": "2026-10-28T13:48:53.240Z"
+      "lastTriedAt": "2026-10-30T08:32:23.806Z",
+      "resolvedAt": "2026-10-30T08:32:23.806Z"
     },
     {
       "name": "Conversa com Paulo Rangel – Vexation of Spirit. The Duerckheim Collection x Serralves",
@@ -508,9 +517,9 @@
       "source": "teatro-municipal-do-porto-newsletter-2026-10",
       "addedAt": "2026-10-29T05:00:37Z",
       "status": "pending",
-      "attempts": 1,
+      "attempts": 2,
       "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
-      "lastTriedAt": "2026-10-29T06:06:58.684Z"
+      "lastTriedAt": "2026-10-30T08:32:23.806Z"
     },
     {
       "name": "Ressonâncias – Prelúdio, conversa com Bianca Dacosta e Rodrigo Alzuguir",
@@ -518,7 +527,11 @@
       "venue": "Casa da Música",
       "note": "16:00, Foyer Nascente, free entry; talk on Villa-Lobos and Bianca Dacosta's visuals before Floresta do Amazonas, moderated by François Bou (Festival Floresta Amazónica)",
       "source": "casa-da-musica-newsletter-2026-10",
-      "addedAt": "2026-10-30T05:00:23Z"
+      "addedAt": "2026-10-30T05:00:23Z",
+      "status": "pending",
+      "attempts": 1,
+      "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
+      "lastTriedAt": "2026-10-30T08:32:23.806Z"
     }
   ]
 }

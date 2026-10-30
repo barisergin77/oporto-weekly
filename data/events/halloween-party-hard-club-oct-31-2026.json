@@ -1,0 +1,26 @@
+{
+  "slug": "halloween-party-hard-club-oct-31-2026",
+  "name": "Halloween Party",
+  "date": "2026-10-31T23:59",
+  "venue": "Hard Club",
+  "venueSlug": "hard-club",
+  "price": "€12",
+  "priceFrom": 12,
+  "currency": "EUR",
+  "category": "nightlife",
+  "description": "This is a Halloween Party organized by ESN Porto for international students, taking place at Hard Club in Porto.",
+  "longDescription": "The Halloween Party is an event specifically for international students, organized by ESN Porto. It is scheduled to take place on Saturday, October 31, 2026.\n\nThe event will be held at the Hard Club, located at Rua de Olivença 27, 4000-369 Porto, Portugal. The start time for the party is 23:59.\n\nTickets for the Halloween Party are priced at €12.",
+  "sourceEdition": "forward-scan",
+  "externalLink": "https://esnporto.org/en/events/halloween-party-ea4f0387",
+  "pickCandidate": true,
+  "addedAt": "2026-10-30T08:32:07.952Z",
+  "lastSeenAt": "2026-10-30T08:32:07.952Z",
+  "descriptionPt": "Esta é uma Festa de Halloween organizada pela ESN Porto para estudantes internacionais, a ter lugar no Hard Club, no Porto.",
+  "namePt": "Festa de Halloween",
+  "longDescriptionPt": "A Festa de Halloween é um evento especificamente para estudantes internacionais, organizado pela ESN Porto. Está agendada para sábado, 31 de outubro de 2026.\n\nO evento será realizado no Hard Club, localizado na Rua de Olivença 27, 4000-369 Porto, Portugal. A hora de início da festa é às 23:59.\n\nOs bilhetes para a Festa de Halloween têm o preço de 12€.",
+  "image": {
+    "url": "https://i.imgur.com/NltapOi.jpeg",
+    "credit": "Photo: Esnporto",
+    "sourceUrl": "https://esnporto.org/en/events/halloween-party-ea4f0387"
+  }
+}
