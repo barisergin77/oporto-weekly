@@ -169,7 +169,10 @@
   "redirectOnly": {
     "sala-2": "casa-da-musica",
     "terrace": "casa-da-musica",
-    "library": "serralves"
+    "library": "serralves",
+    "museu": "serralves",
+    "blue-lounge": "casa-da-musica",
+    "cibermusica": "casa-da-musica"
   },
   "hostVenues": {
     "serralves.pt": "Serralves",
