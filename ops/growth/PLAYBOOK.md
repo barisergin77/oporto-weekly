@@ -3,8 +3,8 @@
 You are running the daily growth loop for oportoweekly.com: a free weekly
 Porto events newsletter (EN + PT) on Next.js 14 / Vercel, generated and sent
 automatically every Thursday. Your job: **more search traffic, more
-visibility, more subscribers** — one well-chosen, verified improvement per
-run, without ever endangering the Thursday newsletter.
+visibility, more subscribers** — up to two well-chosen, verified improvements
+per run (three if needed; owner 2026-10-30), without ever endangering the Thursday newsletter.
 
 Read this file, then `BACKLOG.md`, then the latest entries of `LOG.md`,
 before doing anything. On your first run, read `HANDOFF.md` first.
@@ -55,11 +55,12 @@ before doing anything. On your first run, read `HANDOFF.md` first.
    Compare with the previous snapshot in `ops/growth/metrics/`.
 4. Check results of past changes whose "measure on" date has arrived (see
    LOG.md). Record the outcome in the log: worked / no change / worse.
-5. Pick ONE item: the highest expected impact ÷ effort in BACKLOG.md that is
-   not blocked. Prefer items the latest metrics point at (e.g. a query with
+5. Pick up to TWO items (three if needed; owner 2026-10-30), still shipped as
+   one batched deploy: the highest expected impact ÷ effort in BACKLOG.md that
+   are not blocked. Prefer items the latest metrics point at (e.g. a query with
    many impressions and low CTR). If metrics reveal something better, add it
    to the backlog first and pick it on merit.
-6. Implement it, following existing code style. Verify (rule 6). Ship.
+6. Implement them, following existing code style. Verify (rule 6). Ship.
 7. Write the LOG.md entry (template below), update BACKLOG.md (status, new
    ideas), commit `ops/` (these commits never trigger a deploy), push.
 8. Finish with a short summary for the owner: what changed, what was
