@@ -60,7 +60,7 @@ import { acquireEventImage, translateEventFields } from './events-pipeline';
 import { type ForwardLead, type LeadOutcome, LEADS_PER_RUN, leadKey, selectLeads } from './forward-leads';
 import { lookup } from 'node:dns/promises';
 import { sameSourcePageReason } from './event-identity';
-import { kebab } from './venues';
+import { kebab, isGenericRoomName, hostVenueName } from './venues';
 
 const UA =
   'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 ' +
@@ -765,6 +765,12 @@ ${page.text}`;
   if (facts.endDate && (!/^\d{4}-\d{2}-\d{2}$/.test(facts.endDate) || facts.endDate < facts.date)) facts.endDate = null;
   // On during the window: starts in it, or a run that started earlier and is still on.
   if (facts.date > window.to || (facts.endDate ?? facts.date) < window.from) return { reason: `date ${facts.date} outside window` };
+  // A room name alone ("Library") is the room inside the site's venue (owner OK 2026-10-29).
+  if (isGenericRoomName(facts.venue)) {
+    const parent = hostVenueName(page.finalUrl);
+    if (!parent) return { reason: `venue "${facts.venue}" is a room name and ${new URL(page.finalUrl).hostname} has no known venue` };
+    facts.venue = parent;
+  }
   if (!PORTO_AREA.test(`${facts.city} ${facts.venue}`)) return { reason: `not in the Porto area (${facts.city})` };
   if (!CATEGORIES.includes(facts.category)) facts.category = 'other';
   if (!facts.description?.trim() || !facts.longDescription?.trim()) return { reason: 'no description' };

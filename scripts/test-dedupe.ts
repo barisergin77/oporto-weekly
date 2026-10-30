@@ -6,7 +6,7 @@
  */
 
 import assert from 'node:assert/strict';
-import { canonicalVenueSlugFor, venueSlugRedirects } from '../lib/venues';
+import { canonicalVenueSlugFor, venueSlugRedirects, isGenericRoomName, hostVenueName } from '../lib/venues';
 import { isSameEvent, normalizeEventUrl, sameSourcePageReason } from '../lib/event-identity';
 import { findExistingEventByIdentity, type EventRecord } from '../lib/events';
 import { findDuplicate } from '../lib/forward-scan';
@@ -31,6 +31,15 @@ test('unknown venues and room-first strings with unknown parents are untouched',
   assert.equal(canonicalVenueSlugFor('Sala Estúdio IG, Gaia'), 'sala-estudio-ig');
   assert.equal(canonicalVenueSlugFor('Palácio do Bolhão'), 'palacio-do-bolhao');
   assert.equal(canonicalVenueSlugFor('Hard Club'), 'hard-club');
+});
+test('room-only venue names are generic; real venues are not', () => {
+  for (const v of ['Library', 'Biblioteca', 'Grande Auditório', 'Sala 2', 'Museu', 'The Garden', 'Main Hall']) assert.ok(isGenericRoomName(v), v);
+  for (const v of ['Serralves', 'Sala Estúdio IG', 'Biblioteca Municipal Almeida Garrett', 'Parque da Cidade', 'Hard Club', 'Café Casa da Música']) assert.ok(!isGenericRoomName(v), v);
+});
+test('single-venue sites map to their venue', () => {
+  assert.equal(hostVenueName('https://www.serralves.pt/en/atividades-serralves/3110-conversa-com-paulo-rangel/'), 'Serralves');
+  assert.equal(canonicalVenueSlugFor(hostVenueName('https://casadamusica.com/pt/agenda/x')!), 'casa-da-musica');
+  assert.equal(hostVenueName('https://www.bol.pt/Comprar/Bilhetes/1'), undefined);
 });
 test('every alias redirects to a canonical slug that is not itself an alias', () => {
   const from = new Set(venueSlugRedirects().map(([a]) => a));

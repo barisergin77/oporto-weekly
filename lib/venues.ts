@@ -116,6 +116,30 @@ export function venueSlugRedirects(): Array<[string, string]> {
  * `^city-` covers City Centre / City Center / City-wide / City Bandstands /
  * City Waterfront — all city-scale, none an actual venue.
  */
+// A venue name made only of room words ("Library", "Grande Auditório",
+// "Museu") names a room, not a place: it would open a thin /venue/library
+// page (forward scan, Serralves talk 2026-10-29).
+const GENERIC_ROOM_WORDS = new Set(('library biblioteca auditorium auditorio garden gardens jardim jardins sala salao room hall foyer lobby ' +
+  'terrace terraco cafe bar lounge museum museu gallery galeria park parque studio estudio stage palco cinema chapel capela ' +
+  'cloister claustro courtyard patio atrium main grand great small big little pequeno pequena grande principal upper lower ' +
+  'ground floor piso the do da de dos das of at').split(' '));
+
+export function isGenericRoomName(venue: string): boolean {
+  const words = kebab(venue).split('-').filter(Boolean);
+  return words.length > 0 && words.every((w) => GENERIC_ROOM_WORDS.has(w) || /^\d+$/.test(w));
+}
+
+const HOST_VENUES = (aliasData as { hostVenues?: Record<string, string> }).hostVenues ?? {};
+
+/** The venue a single-venue website belongs to (serralves.pt → "Serralves"), if known. */
+export function hostVenueName(url: string): string | undefined {
+  try {
+    return HOST_VENUES[new URL(url).hostname.replace(/^www\./, '')];
+  } catch {
+    return undefined;
+  }
+}
+
 export const PLACEHOLDER_VENUE = /^(tbc|tbd|tba|venue-tb[acd]|porto|online|downtown|downtown-porto|central-porto)$|^(various|multiple|city)-|-various$/;
 
 export function hasVenuePage(venueSlug: string | undefined): venueSlug is string {

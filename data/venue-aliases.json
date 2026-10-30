@@ -1,5 +1,5 @@
 {
-  "_comment": "Single source of truth for venue identity. Keys of `venues` are canonical venue slugs (/venue/<slug>); `aliases` are slugs that venueToSlug() produces for other spellings/languages of the same place (PT/EN/ES names, sub-rooms, 'X Club' vs 'X'). Every alias resolves to its canonical slug when events are composed (lib/events.ts canonicalVenueSlugFor), when records are read (listEvents), and old /venue/<alias> and /pt/venue/<alias> URLs 301 to the canonical page (next.config.mjs). `redirectOnly` slugs are too generic to apply to new data (e.g. 'terrace') but were used by past records, so their URLs still redirect. `name` is the display name on the venue page. Only add an alias when it is certainly the same place; check with `npm run find-duplicates`.",
+  "_comment": "Single source of truth for venue identity. Keys of `venues` are canonical venue slugs (/venue/<slug>); `aliases` are slugs that venueToSlug() produces for other spellings/languages of the same place (PT/EN/ES names, sub-rooms, 'X Club' vs 'X'). Every alias resolves to its canonical slug when events are composed (lib/events.ts canonicalVenueSlugFor), when records are read (listEvents), and old /venue/<alias> and /pt/venue/<alias> URLs 301 to the canonical page (next.config.mjs). `redirectOnly` slugs are too generic to apply to new data (e.g. 'terrace') but were used by past records, so their URLs still redirect. `name` is the display name on the venue page. `hostVenues` maps a single-venue website to its venue name: the forward scan uses it when a page gives only a room ('Library') as the venue. Only add an alias when it is certainly the same place; check with `npm run find-duplicates`.",
   "venues": {
     "casa-da-musica": {
       "name": "Casa da Música",
@@ -168,6 +168,14 @@
   },
   "redirectOnly": {
     "sala-2": "casa-da-musica",
-    "terrace": "casa-da-musica"
+    "terrace": "casa-da-musica",
+    "library": "serralves"
+  },
+  "hostVenues": {
+    "serralves.pt": "Serralves",
+    "casadamusica.com": "Casa da Música",
+    "hardclubporto.com": "Hard Club",
+    "coliseu.pt": "Coliseu Porto Ageas",
+    "galeriamunicipaldoporto.pt": "Galeria Municipal do Porto"
   }
 }
