@@ -8,7 +8,7 @@
 
 import { generateImage } from './imagen';
 import { uploadImageToImgur } from './imgur';
-import { composeRules, composeDecision, selectEditionEvents, type EditionSelection } from './edition-compose';
+import { composeRules, composeDecision, selectEditionEvents, type EditionSelection, type PresetPick } from './edition-compose';
 import type { EventRecord } from './events';
 
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY!;
@@ -198,7 +198,7 @@ export async function generateNewsletter(
   heroImageUrl: string,
   weekRange: string,
   corrections: string[] = [],
-  opts: { compose?: boolean } = {},
+  opts: { compose?: boolean; picks?: PresetPick[] } = {},
 ): Promise<string> {
   const today = new Date().toLocaleDateString('en-GB', {
     weekday: 'long', year: 'numeric', month: 'long', day: 'numeric',
@@ -350,7 +350,7 @@ EDITOR'S PICKS QUALITY BAR (this is what readers come for — be selective):
   infer or guess a date — especially for annual events (races, festivals)
   whose coverage may refer to a different week. If unsure, leave it out.
   The same applies to the Tip of the Week.${exclusionBlock}${correctionBlock}
-${opts.compose ? composeRules(weekRange) : ''}
+${opts.compose ? composeRules(weekRange, opts.picks) : ''}
 
 CRITICAL OUTPUT:
 Return ONLY the complete HTML. No markdown fences, no commentary, no code blocks.`;
