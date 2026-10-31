@@ -144,16 +144,22 @@ const COMPOSERS =
   'britten|debussy|ravel|villa-lobos|stravinsky|prokofiev|shostakovich|handel|strauss';
 // Description matches use the stricter list: "along with a choir" or "on cello"
 // turns up in rock and pop write-ups too.
+const COMPOSER_NAME = words(COMPOSERS);
 const CLASSICAL_DESC = words(
   'orquestra|orchestra|sinfonia|sinfonica|symphony|symphonic|philharmonic|filarmonica|string-quartet|' +
   'quarteto-de-cordas|recital|requiem|opera|baroque|barroco|chamber-music|musica-de-camara|remix-ensemble|' +
-  'candlelight|' + COMPOSERS
+  COMPOSERS
 );
 const CLASSICAL_NAME = words(
   'orquestra|orchestra|sinfonia|sinfonica|symphony|symphonic|philharmonic|filarmonica|quartet|quarteto|' +
-  'recital|requiem|barroco|baroque|opera|operas|coro|choir|missa|cantata|oratorio|candlelight|piano-solo|' +
+  'recital|requiem|barroco|baroque|opera|operas|coro|choir|missa|cantata|oratorio|piano-solo|' +
   'violoncelo|violino|cello|violin|orgao|musica-de-camara|chamber-music|remix-ensemble|musica-antiga|' +
   'early-music|' + COMPOSERS
+);
+// Pop played by an orchestra or string quartet is a concert, not classical
+// (owner 2026-10-31): Candlelight covers nights, "Orchestral Tour" pop acts.
+const POP_ORCHESTRAL = words(
+  'candlelight|orchestral-tour|tributo|tribute|covers|hits|best-of|songs-of|music-of|plays|meets|homenagem'
 );
 const DJ_CLUB = words(
   'dj|djs|dj-set|b2b|techno|house-music|deep-house|tech-house|drum-and-bass|dnb|club-night|clubbing|rave|raves|' +
@@ -191,6 +197,7 @@ export function classifyEvent(ev: ClassifyInput): EventSubcategory {
   if (MUSICAL.includes(legacy)) {
     if (FADO.test(withVenue)) return 'fado';
     if (JAZZ.test(kebab(`${ev.name} ${ev.venue ?? ''}`)) && legacy !== 'other') return 'jazz';
+    if (POP_ORCHESTRAL.test(name) && !COMPOSER_NAME.test(name)) return 'concerts';
     if (CLASSICAL_NAME.test(name) || CLASSICAL_DESC.test(kebab(ev.description ?? ''))) return 'classical';
     if (DJ_CLUB.test(all) || ELECTRONIC.test(name)) return 'dj-club';
   }

@@ -32,7 +32,10 @@ test('music splits into concerts, fado, jazz, classical, dj-club', () => {
   assert.equal(c('Jazz in the Space Age', 'music'), 'jazz');
   assert.equal(c('A Terceira de Rachmaninoff', 'music'), 'classical');
   assert.equal(c('Floresta do Amazonas', 'music', 'The Orquestra Sinfónica do Porto performs Villa-Lobos.'), 'classical');
-  assert.equal(c('Candlelight: Queen vs. The Beatles', 'music', '', 'Palácio da Bolsa'), 'classical');
+  assert.equal(c('Candlelight: Queen vs. The Beatles', 'music', '', 'Palácio da Bolsa'), 'concerts'); // pop covers by a quartet (owner 2026-10-31)
+  assert.equal(c('Candlelight: Vivaldi Four Seasons', 'music', '', 'Igreja'), 'classical');
+  assert.equal(c('Sigur Rós Orchestral Tour', 'music', '', 'Coliseu'), 'concerts');
+  assert.equal(c('Orquestra Sinfónica do Porto: Mahler 5', 'music', '', 'Casa da Música'), 'classical');
   assert.equal(c('Outworld', 'music', 'German DJ and producer Klangkuenstler, known for his techno sound.'), 'dj-club');
   assert.equal(c('Techno Night at Gare Porto', 'nightlife', '', 'Gare Porto'), 'dj-club');
   assert.equal(c('Electronic Sunday Brunch', 'music', '', 'Parque da Cidade'), 'dj-club');
