@@ -109,6 +109,22 @@ Image hit rate varies by week (~50-80% depending on how many events have working
 
 ---
 
+## Finer categories, filters, landing pages, calendar + share (2026-10-31)
+
+**Subcategories** (`lib/event-categories.ts`): `music` splits into `concerts`, `fado`, `jazz`, `classical`, `dj-club`; plus `markets`, `talks-workshops`, `outdoor-sport`; everything else keeps its category name. Derived on read by `subcategoryOf(e)` (deterministic keyword rules over name / description / venue, old `category` as fallback) and **never stored**: `category` stays the only persisted field, so the extraction prompts, newsletter sections, related guides and the Instagram carousel are unchanged. `SUBCATEGORY_PARENT` maps back (`fado` -> `music`); `?cat=music` matches every music subcategory. To fix a misclassification, add or tighten a rule and a case in `scripts/test-event-filters.ts`.
+
+**Areas** (`lib/event-areas.ts` + `data/venue-areas.json`): curated venue slug -> area list (only venues whose location is certain), then place words in the venue name. No match = no area; never guessed.
+
+**Filters** (`lib/event-filters.ts`, `app/components/EventFilters.tsx`): text search, free, today, this weekend, kids & family, category, area, price band, on `/porto-events`, today, this-weekend, month hubs (EN + PT). Client-side over the full server-rendered list; state in the query string (`?q=&when=&price=&kids=1&cat=&area=`); canonical stays the unfiltered page. Indoor/outdoor is not offered: records carry no such field and venue names don't say.
+
+**Landing pages** (`lib/event-landings.ts`, `app/porto-events/LandingHub.tsx`): `/porto-events/free`, `/porto-events/kids`, `/porto-events/this-weekend/free` and `/pt/eventos/gratis`, `/pt/eventos/criancas`, `/pt/eventos/este-fim-de-semana/gratis`. Hourly ISR. Below `MIN_INDEXABLE` (3) events a page is `noindex,follow` and leaves the sitemap.
+
+**Add to calendar + share** (`lib/event-calendar.ts`, `app/components/EventActions.tsx`): Google Calendar template link, `.ics` at `/event/<slug>/calendar.ics` (PT: `/pt/event/<slug>/calendar.ics`, prerendered), Web Share API with copy-link fallback, WhatsApp link. GA4: `add_to_calendar` (`method`: google | ics) and `share_event` (`method`: native | copy | whatsapp), both with `event_slug`.
+
+Tests: `npm run test:filters`, `npm run test:calendar`.
+
+---
+
 ## CTAs and the "never google.com" rule
 
 The event page shows a `Get tickets →` button **only when `externalLink` passes `isRealEventUrl()`**, which rejects `google.com` / `google.pt` / any `*/search` URL.

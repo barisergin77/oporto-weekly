@@ -4,8 +4,9 @@ import {
   listEvents,
   CATEGORY_EMOJI,
   CATEGORY_LABEL,
-  type EventRecord,
 } from '@/lib/events';
+import { filterOptions, toFilterItem } from '@/lib/event-listing';
+import { EventFilters } from '../components/EventFilters';
 import { colors, typography } from '@/lib/design';
 import { listEventMonths } from '@/lib/event-months';
 import Link from 'next/link';
@@ -57,6 +58,7 @@ export default function PortoEventsPage() {
   const displayEvents = upcoming.length > 0 ? upcoming : recentPast;
   const isShowingPast = upcoming.length === 0;
   const guides = guidesForHub(displayEvents, new Date().getUTCMonth(), listBlogPosts());
+  const items = displayEvents.map((e) => toFilterItem(e, 'en'));
 
   // ItemList JSON-LD helps Google show this page as a structured event list.
   const jsonLd = {
@@ -299,17 +301,13 @@ export default function PortoEventsPage() {
                 {isShowingPast ? 'Previously in Porto' : "What's on"}
               </h2>
 
-              <div
-                style={{
-                  display: 'grid',
-                  gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
-                  gap: 20,
-                }}
-              >
-                {displayEvents.map((e) => (
-                  <EventCard key={e.slug} event={e} />
-                ))}
-              </div>
+              {/* Search + filters (lib/event-filters.ts) over the full server-rendered grid. */}
+              <EventFilters
+                lang="en"
+                variant="cards"
+                options={filterOptions(items, 'en')}
+                groups={[{ key: 'all', items }]}
+              />
             </>
           ) : (
             <div
@@ -506,112 +504,4 @@ export default function PortoEventsPage() {
       <Footer lang="en" />
     </div>
   );
-}
-
-// ---------------------------------------------------------------------------
-// Event card — Porto-Secreto-style thumbnail with metadata pins
-// ---------------------------------------------------------------------------
-
-function EventCard({ event: e }: { event: EventRecord }) {
-  return (
-    <Link
-      href={`/event/${e.slug}`}
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        background: colors.card,
-        border: `1px solid ${colors.divider}`,
-        borderRadius: 4,
-        textDecoration: 'none',
-        color: 'inherit',
-        overflow: 'hidden',
-        transition: 'transform 120ms ease, box-shadow 120ms ease',
-      }}
-    >
-      {/* Hero image or placeholder */}
-      {e.image ? (
-        <img
-          src={e.image.url}
-          alt={e.name}
-          style={{
-            width: '100%',
-            aspectRatio: '16 / 10',
-            objectFit: 'cover',
-            display: 'block',
-          }}
-        />
-      ) : (
-        <div
-          style={{
-            width: '100%',
-            aspectRatio: '16 / 10',
-            background: `linear-gradient(135deg, ${colors.bgSoft} 0%, ${colors.bgAlt} 100%)`,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-            gap: 10,
-          }}
-          aria-label={`${CATEGORY_LABEL[e.category]} — photo coming soon`}
-        >
-          <div style={{ fontSize: 48 }}>{CATEGORY_EMOJI[e.category]}</div>
-          <div
-            style={{
-              fontSize: 10,
-              letterSpacing: 2,
-              textTransform: 'uppercase',
-              color: colors.accent,
-              fontWeight: 700,
-            }}
-          >
-            {CATEGORY_LABEL[e.category]}
-          </div>
-        </div>
-      )}
-
-      {/* Card body */}
-      <div style={{ padding: '16px 18px 18px', display: 'flex', flexDirection: 'column', gap: 8 }}>
-        <div
-          style={{
-            fontSize: 10,
-            letterSpacing: 2,
-            textTransform: 'uppercase',
-            color: colors.accent,
-            fontWeight: 700,
-          }}
-        >
-          {CATEGORY_EMOJI[e.category]} {CATEGORY_LABEL[e.category]}
-        </div>
-        <h3
-          style={{
-            fontFamily: typography.serif,
-            fontSize: 19,
-            color: colors.heading,
-            margin: 0,
-            lineHeight: 1.3,
-            letterSpacing: -0.2,
-          }}
-        >
-          {e.name}
-        </h3>
-        <div style={{ fontSize: 13, color: colors.textSoft, lineHeight: 1.5 }}>
-          {formatCardDate(e.date, e.endDate)} · {e.venue}
-        </div>
-        {e.price && (
-          <div style={{ fontSize: 13, color: colors.text, fontWeight: 500 }}>{e.price}</div>
-        )}
-      </div>
-    </Link>
-  );
-}
-
-function formatCardDate(iso: string, endIso?: string): string {
-  const d = new Date(iso);
-  const opts: Intl.DateTimeFormatOptions = { day: 'numeric', month: 'short' };
-  const start = d.toLocaleDateString('en-GB', opts);
-  if (endIso) {
-    const end = new Date(endIso).toLocaleDateString('en-GB', opts);
-    if (start !== end) return `${start} – ${end}`;
-  }
-  return start;
 }

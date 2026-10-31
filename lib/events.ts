@@ -14,6 +14,7 @@ import fs from 'fs';
 import path from 'path';
 import { canonicalVenueSlug, canonicalVenueSlugFor, venueToSlug } from './venues';
 import { isSameEvent, sameSourcePageReason, pickCanonical } from './event-identity';
+import { classifyEvent, isKidsEvent, type EventSubcategory } from './event-categories';
 
 export type EventCategory =
   | 'music'
@@ -115,6 +116,22 @@ function readEvent(file: string): EventRecord {
   if (e.venueSlug) e.venueSlug = canonicalVenueSlug(e.venueSlug);
   return e;
 }
+
+/**
+ * Finer category (concerts, fado, jazz, classical, dj-club, markets,
+ * talks-workshops, outdoor-sport, or the category itself), derived by
+ * lib/event-categories.ts classifyEvent(). Deliberately NOT a record field:
+ * the forward scan and the crons spread read records back into commits, and
+ * `category` must stay the only stored category. Memoised per record object.
+ */
+const SUBCATEGORY = new WeakMap<EventRecord, EventSubcategory>();
+export function subcategoryOf(e: EventRecord): EventSubcategory {
+  let s = SUBCATEGORY.get(e);
+  if (!s) SUBCATEGORY.set(e, (s = classifyEvent(e)));
+  return s;
+}
+
+export { isKidsEvent };
 
 export function listEvents(): EventRecord[] {
   if (!fs.existsSync(EVENTS_DIR)) return [];

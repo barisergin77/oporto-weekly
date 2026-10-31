@@ -7,10 +7,9 @@ import {
   canonicalVenueName,
   toEventJsonLd,
   eventDisplay,
-  CATEGORY_EMOJI,
-  CATEGORY_LABEL_PT,
   type EventRecord,
 } from '@/lib/events';
+import { subcategoryEmoji, subcategoryLabel } from '@/lib/event-listing';
 import { colors, typography, spacing } from '@/lib/design';
 import { Header } from '@/app/components/Header';
 import { Footer } from '@/app/components/Footer';
@@ -130,13 +129,13 @@ function EventRow({ event: e, muted = false }: { event: EventRecord; muted?: boo
   return (
     <li style={{ borderBottom: `1px solid ${colors.divider}`, padding: '16px 0', opacity: muted ? 0.7 : 1 }}>
       <Link href={`/pt/event/${e.slug}`} style={{ textDecoration: 'none', color: 'inherit', display: 'flex', gap: 16, alignItems: 'flex-start' }}>
-        <div style={{ fontSize: 24, lineHeight: 1, marginTop: 2 }}>{CATEGORY_EMOJI[e.category]}</div>
+        <div style={{ fontSize: 24, lineHeight: 1, marginTop: 2 }}>{subcategoryEmoji(e)}</div>
         <div style={{ flex: 1, minWidth: 0 }}>
           <div style={{ fontSize: 17, fontWeight: 600, color: colors.heading, marginBottom: 4, lineHeight: 1.3 }}>
             {disp.name}
           </div>
           <div style={{ fontSize: 13, color: colors.textSoft }}>
-            {formatShortDatePT(e.date, e.endDate)} · {CATEGORY_LABEL_PT[e.category]}{e.price && ` · ${e.price}`}
+            {formatShortDatePT(e.date, e.endDate)} · {subcategoryLabel(e, 'pt')}{e.price && ` · ${e.price}`}
           </div>
         </div>
       </Link>

@@ -24,6 +24,8 @@
     "test:picks": "tsx scripts/test-opus-picks.ts",
     "test:humanizer": "tsx scripts/test-humanizer.ts",
     "test:guides": "tsx scripts/test-related-guides.ts",
+    "test:filters": "tsx scripts/test-event-filters.ts",
+    "test:calendar": "tsx scripts/test-event-calendar.ts",
     "compose-dry-run": "tsx --env-file=.env.local scripts/compose-edition-dry-run.ts"
   },
   "dependencies": {

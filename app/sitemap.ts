@@ -4,6 +4,7 @@ import { listBlogPosts, listBlogPostsPT } from '@/lib/blog';
 import { listEvents, hasVenuePage } from '@/lib/events';
 import { listEventMonths, ptSlug } from '@/lib/event-months';
 import { DAY_HUB_PATHS } from '@/lib/event-days';
+import { LANDING_PATHS, landingIndexable, type LandingKind } from '@/lib/event-landings';
 
 // A page's lastmod is max(content date, last time its markup changed). Content
 // here is often frozen (a sent edition, a past event) while the <head> is not,
@@ -134,6 +135,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...Object.values(DAY_HUB_PATHS).flatMap((p) => [
       { url: `https://oportoweekly.com${p.en}`, lastModified: new Date(), changeFrequency: 'daily' as const, priority: 0.85 },
       { url: `https://oportoweekly.com${p.pt}`, lastModified: new Date(), changeFrequency: 'daily' as const, priority: 0.8 },
+    ]),
+    // Free / kids / free-this-weekend landings (lib/event-landings.ts), only
+    // while they list enough events to be worth indexing (they noindex below that).
+    ...(Object.keys(LANDING_PATHS) as LandingKind[]).filter((k) => landingIndexable(k)).flatMap((k) => [
+      { url: `https://oportoweekly.com${LANDING_PATHS[k].en}`, lastModified: new Date(), changeFrequency: 'daily' as const, priority: 0.85 },
+      { url: `https://oportoweekly.com${LANDING_PATHS[k].pt}`, lastModified: new Date(), changeFrequency: 'daily' as const, priority: 0.8 },
     ]),
     { url: 'https://oportoweekly.com/pt', lastModified: new Date(), changeFrequency: 'weekly', priority: 0.9 },
     { url: 'https://oportoweekly.com/pt/blog', lastModified: new Date(), changeFrequency: 'weekly', priority: 0.8 },

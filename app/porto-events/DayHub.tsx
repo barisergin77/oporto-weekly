@@ -1,9 +1,9 @@
 import Link from 'next/link';
 import type { Metadata } from 'next';
-import { CATEGORY_EMOJI, eventDisplay, type EventRecord } from '@/lib/events';
+import { eventDisplay } from '@/lib/events';
 import { listEventMonths, ptLabel, ptSlug } from '@/lib/event-months';
 import { DAY_HUB_PATHS, dayHubRange, eventsInRange, listingsPending, monthOfIso, type DayHubKind } from '@/lib/event-days';
-import { priceText, shortDates } from '@/lib/event-seo';
+import { filterOptions, toFilterItem } from '@/lib/event-listing';
 import { colors, typography } from '@/lib/design';
 import { Header } from '@/app/components/Header';
 import { Footer } from '@/app/components/Footer';
@@ -12,6 +12,7 @@ import { ShortcutChips } from '@/app/components/ShortcutChips';
 import { GuidesStrip } from '@/app/components/RelatedGuide';
 import { listBlogPosts } from '@/lib/blog';
 import { guidesForHub } from '@/lib/related-guides';
+import { EventFilters } from '@/app/components/EventFilters';
 
 /**
  * "Today" / "This weekend", shared by /porto-events/{today,this-weekend} (EN)
@@ -71,33 +72,6 @@ export function dayHubMetadata(kind: DayHubKind, lang: Lang): Metadata {
   };
 }
 
-const h2: React.CSSProperties = {
-  fontFamily: typography.serif,
-  fontSize: 24,
-  color: colors.heading,
-  margin: '40px 0 8px',
-  paddingBottom: 10,
-  borderBottom: `2px solid ${colors.accent}`,
-};
-
-function Row({ e, lang }: { e: EventRecord; lang: Lang }) {
-  const price = priceText(e.price, lang);
-  return (
-    <li style={{ borderBottom: `1px solid ${colors.divider}`, padding: '12px 0' }}>
-      <Link
-        href={lang === 'pt' ? `/pt/event/${e.slug}` : `/event/${e.slug}`}
-        style={{ color: colors.heading, textDecoration: 'none', fontSize: 16, fontWeight: 600 }}
-      >
-        {CATEGORY_EMOJI[e.category]} {eventDisplay(e, lang).name}
-      </Link>
-      <div style={{ fontSize: 13, color: colors.textSoft, marginTop: 3 }}>
-        {shortDates(e, lang, false)} · {e.venue}
-        {price ? ` · ${price}` : ''}
-      </div>
-    </li>
-  );
-}
-
 export function DayHub({ kind, lang }: { kind: DayHubKind; lang: Lang }) {
   const pt = lang === 'pt';
   const range = dayHubRange(kind);
@@ -105,6 +79,7 @@ export function DayHub({ kind, lang }: { kind: DayHubKind; lang: Lang }) {
   const when = rangeLabel(range.from, range.to, lang);
   const guides = guidesForHub([...main, ...longRuns], Number(range.from.slice(5, 7)) - 1, listBlogPosts());
   const h1 = heading(kind, lang);
+  const items = [...main, ...longRuns].map((e) => toFilterItem(e, lang));
 
   const month = monthOfIso(range.from);
   const hasHub = listEventMonths().some((m) => m.slug === month.slug);
@@ -188,27 +163,22 @@ export function DayHub({ kind, lang }: { kind: DayHubKind; lang: Lang }) {
           </div>
         )}
 
-        {main.length > 0 && (
-          <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-            {main.map((e) => <Row key={e.slug} e={e} lang={lang} />)}
-          </ul>
-        )}
-
-        <div style={{ marginTop: 32 }}>
-          <SubscribeCTA lang={lang} context="event" />
-        </div>
-
-        {longRuns.length > 0 && (
-          <section>
-            <h2 style={h2}>{pt ? 'Também a decorrer' : 'Also on'}</h2>
-            <p style={{ fontSize: 14, color: colors.textSoft, margin: '0 0 4px' }}>
-              {pt ? 'Exposições e eventos mais longos, por ordem de encerramento.' : 'Exhibitions and longer runs, closing soonest first.'}
-            </p>
-            <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-              {longRuns.map((e) => <Row key={e.slug} e={e} lang={lang} />)}
-            </ul>
-          </section>
-        )}
+        {/* Search + filters (lib/event-filters.ts); the server HTML lists everything. */}
+        <EventFilters
+          lang={lang}
+          options={filterOptions(items, lang)}
+          hide={['when']}
+          groups={[
+            { key: 'main', items: items.slice(0, main.length) },
+            {
+              key: 'long',
+              title: pt ? 'Também a decorrer' : 'Also on',
+              note: pt ? 'Exposições e eventos mais longos, por ordem de encerramento.' : 'Exhibitions and longer runs, closing soonest first.',
+              items: items.slice(main.length),
+            },
+          ]}
+          afterFirst={<div style={{ marginTop: 32 }}><SubscribeCTA lang={lang} context="event" /></div>}
+        />
 
         <GuidesStrip guides={guides} lang={lang} source="hub" />
 

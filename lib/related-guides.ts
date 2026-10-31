@@ -14,6 +14,7 @@
 import type { BlogPost } from './blog';
 import type { EventCategory, EventRecord } from './events';
 import { kebab } from './venues';
+import { classifyEvent, type EventSubcategory } from './event-categories';
 
 /** Topic key -> slug pattern. Order is also the newsletter rotation order. */
 export const GUIDE_TOPICS: Record<string, RegExp> = {
@@ -66,6 +67,17 @@ const AREA_RULES: Array<[RegExp, string[]]> = [
   [/(^|-)(foz|leca)(-|$)|matosinhos/, ['neighbourhood', 'beaches']],
 ];
 
+/**
+ * Finer categories (lib/event-categories.ts) that point at a guide the text
+ * rules can miss: a fado night at Casa da Guitarra never says "fado" in its
+ * name. Checked after the venue area, before the stored category.
+ */
+const SUBCATEGORY_TOPICS: Partial<Record<EventSubcategory, string[]>> = {
+  fado: ['fado', 'nightlife'],
+  markets: ['markets', 'madeinporto'],
+  'dj-club': ['nightlife'],
+};
+
 /** Last resort before FALLBACK_TOPIC: the event category. */
 const CATEGORY_TOPICS: Record<EventCategory, string[]> = {
   food: ['food'],
@@ -107,12 +119,13 @@ function resolve(topics: string[], posts: BlogPost[], limit: number): BlogPost[]
   return out;
 }
 
-/** Topic keys for one event: its words, then its venue's area, then its category. */
+/** Topic keys for one event: its words, then its venue's area, then its (sub)category. */
 export function eventTopics(ev: Pick<EventRecord, 'name' | 'description' | 'venue' | 'category' | 'price'>): string[] {
   const keys: string[] = [];
   collect(kebab(`${ev.name} ${ev.description ?? ''}`), TEXT_RULES, keys);
   if (ev.price && /^(free|gr[aá]tis|gratuito)/i.test(ev.price.trim()) && !keys.includes('budget')) keys.push('budget');
   collect(kebab(ev.venue), AREA_RULES, keys);
+  for (const k of SUBCATEGORY_TOPICS[classifyEvent(ev)] ?? []) if (!keys.includes(k)) keys.push(k);
   for (const k of CATEGORY_TOPICS[ev.category] ?? []) if (!keys.includes(k)) keys.push(k);
   return keys;
 }

@@ -7,10 +7,11 @@ import {
   listEventsByVenue, hasVenuePage,
   toEventJsonLd,
   isRealEventUrl,
-  CATEGORY_EMOJI,
-  CATEGORY_LABEL,
   type EventRecord,
 } from '@/lib/events';
+import { subcategoryEmoji, subcategoryLabel } from '@/lib/event-listing';
+import { googleCalendarUrl } from '@/lib/event-calendar';
+import { EventActions } from '@/app/components/EventActions';
 import { getNewsletterMeta } from '@/lib/archive';
 import { colors, typography, spacing } from '@/lib/design';
 import { Header } from '@/app/components/Header';
@@ -86,6 +87,7 @@ export default function EventPage({ params }: { params: { slug: string } }) {
   // Month hub for this event's start month, if that month has a page.
   const monthHub = monthHubFor(ev);
   const [guide] = relatedGuidesForEvent(ev, listBlogPosts());
+  const pageUrl = `https://oportoweekly.com/event/${ev.slug}`;
 
   return (
     <div
@@ -122,7 +124,7 @@ export default function EventPage({ params }: { params: { slug: string } }) {
           </Link>
           <span style={{ margin: '0 8px', color: colors.divider }}>›</span>
           <span style={{ color: colors.accent, fontWeight: 700 }}>
-            {CATEGORY_EMOJI[ev.category]} {CATEGORY_LABEL[ev.category]}
+            {subcategoryEmoji(ev)} {subcategoryLabel(ev, 'en')}
           </span>
         </nav>
 
@@ -175,6 +177,16 @@ export default function EventPage({ params }: { params: { slug: string } }) {
           <MetaPin icon="📍" text={ev.venue} href={hasVenuePage(ev.venueSlug) ? `/venue/${ev.venueSlug}` : undefined} />
           <MetaPin icon="📅" text={formatLongDate(ev.date, ev.endDate)} />
         </div>
+
+        {/* Add to calendar (Google + .ics) and share (lib/event-calendar.ts). */}
+        <EventActions
+          lang="en"
+          slug={ev.slug}
+          title={ev.name}
+          url={pageUrl}
+          googleUrl={googleCalendarUrl(ev, { title: ev.name, description: ev.description, location: `${ev.venue}, Porto`, url: pageUrl })}
+          icsHref={`/event/${ev.slug}/calendar.ics`}
+        />
 
         {/* Description. Prefer the 3-paragraph long form when available —
             gives the visitor enough context to decide whether to go. Falls
@@ -402,9 +414,9 @@ function EventHero({ event }: { event: EventRecord }) {
         justifyContent: 'center',
         gap: 14,
       }}
-      aria-label={`${CATEGORY_LABEL[event.category]} — photo coming soon`}
+      aria-label={`${subcategoryLabel(event, 'en')}, photo coming soon`}
     >
-      <div style={{ fontSize: 64 }}>{CATEGORY_EMOJI[event.category]}</div>
+      <div style={{ fontSize: 64 }}>{subcategoryEmoji(event)}</div>
       <div
         style={{
           fontSize: 11,
@@ -414,7 +426,7 @@ function EventHero({ event }: { event: EventRecord }) {
           fontWeight: 700,
         }}
       >
-        {CATEGORY_LABEL[event.category]}
+        {subcategoryLabel(event, 'en')}
       </div>
     </div>
   );

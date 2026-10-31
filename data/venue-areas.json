@@ -1,0 +1,41 @@
+{
+  "_comment": "Venue slug -> Porto area, for the area filter on the events hubs (lib/event-areas.ts). Keys of `areas` are area ids; values are canonical venue slugs (data/venue-aliases.json resolves aliases first). Only list a venue whose location is certain; venues missing here fall back to place words in the venue name (Ribeira, Foz, Gaia, Matosinhos, Boavista...) and otherwise get no area, so they show under 'Any area' only. Multi-venue / TBC slugs must never be listed.",
+  "areas": {
+    "baixa": [
+      "avenida-dos-aliados", "general-humberto-delgado-square", "mercado-do-bolhao", "palacio-do-bolhao", "rua-formosa",
+      "coliseu-porto-ageas", "maus-habitos", "rivoli-theatre", "rivoli-palco-do-grande-auditorio", "teatro-sa-da-bandeira",
+      "rua-de-sa-da-bandeira", "batalha-centro-de-cinema", "hot-five-jazz-blues-club", "sao-bento-station", "gare-porto",
+      "praca-de-carlos-alberto", "plano-b", "clerigos-museum", "clerigos-church", "near-lello-bookstore", "livraria-lello",
+      "jardim-da-cordoaria", "centro-portugues-de-fotografia", "largo-do-amor-de-perdicao", "praca-de-gomes-teixeira",
+      "casa-comum", "reitoria-da-universidade-do-porto", "galerias-de-paris-area", "rua-das-carmelitas",
+      "casa-da-guitarra", "monastery-of-sao-bento-da-vitoria", "mosteiro-de-sao-bento", "rua-das-taipas-94", "fado-na-baixa"
+    ],
+    "ribeira": [
+      "ribeira", "ribeira-docks", "hard-club", "palacio-da-bolsa", "alfandega-do-porto", "miragaia", "rua-de-miragaia",
+      "casa-do-infante"
+    ],
+    "palacio-de-cristal": [
+      "jardins-do-palacio-de-cristal", "super-bock-arena", "galeria-municipal-do-porto",
+      "biblioteca-municipal-almeida-garrett", "museu-do-carro-electrico", "massarelos", "museu-nacional-soares-dos-reis",
+      "rua-de-dom-manuel-ii"
+    ],
+    "boavista": [
+      "casa-da-musica", "cafe-casa-da-musica", "rca-radioclube-agramonte", "rotunda-da-boavista",
+      "mercado-biologico-do-rotunda-da-boavista", "praca-do-bom-sucesso", "serralves", "casa-do-cinema-manoel-de-oliveira",
+      "livraria-de-serralves", "ala-alvaro-siza"
+    ],
+    "foz": [
+      "terreiro-do-molhe", "passeio-alegre-garden", "praia-internacional-do-porto", "parque-da-cidade", "queimodromo"
+    ],
+    "gaia": [
+      "hilton-porto-gaia", "world-of-wine", "atkinson-museum", "caves-calem", "the-yeatman-hotel", "mafamude",
+      "auditorio-municipal-de-gaia"
+    ],
+    "matosinhos": [
+      "exponor", "praia-do-aterro", "escola-secundaria-da-boa-nova", "port-of-leixoes", "leca-beach"
+    ],
+    "east": [
+      "estadio-do-dragao", "pestana-palacio-do-freixo", "m-odu-matadouro", "lavadouros-das-fontainhas"
+    ]
+  }
+}

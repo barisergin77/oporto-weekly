@@ -6,10 +6,9 @@ import {
   listEventsByVenue, hasVenuePage,
   canonicalVenueName,
   toEventJsonLd,
-  CATEGORY_EMOJI,
-  CATEGORY_LABEL,
   type EventRecord,
 } from '@/lib/events';
+import { subcategoryEmoji, subcategoryLabel } from '@/lib/event-listing';
 import { colors, typography, spacing } from '@/lib/design';
 import { Header } from '@/app/components/Header';
 import { Footer } from '@/app/components/Footer';
@@ -239,7 +238,7 @@ function EventRow({ event: e, muted = false }: { event: EventRecord; muted?: boo
         style={{ textDecoration: 'none', color: 'inherit', display: 'flex', gap: 16, alignItems: 'flex-start' }}
       >
         <div style={{ fontSize: 24, lineHeight: 1, marginTop: 2 }}>
-          {CATEGORY_EMOJI[e.category]}
+          {subcategoryEmoji(e)}
         </div>
         <div style={{ flex: 1, minWidth: 0 }}>
           <div
@@ -254,7 +253,7 @@ function EventRow({ event: e, muted = false }: { event: EventRecord; muted?: boo
             {e.name}
           </div>
           <div style={{ fontSize: 13, color: colors.textSoft }}>
-            {formatShortDate(e.date, e.endDate)} · {CATEGORY_LABEL[e.category]}
+            {formatShortDate(e.date, e.endDate)} · {subcategoryLabel(e, 'en')}
             {e.price && ` · ${e.price}`}
           </div>
         </div>
