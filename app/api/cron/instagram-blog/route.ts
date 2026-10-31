@@ -19,6 +19,7 @@ import { listBlogPosts, type BlogPost } from '@/lib/blog';
 import { generateImage } from '@/lib/imagen';
 import { uploadImageToImgur } from '@/lib/imgur';
 import { scheduleBufferPost } from '@/lib/buffer';
+import { HUMANIZER_RULES } from '@/lib/humanizer';
 import { checkCronAuth } from '@/lib/cron-auth';
 
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY!;
@@ -105,7 +106,9 @@ STRICT RULES:
 - NO emoji-flood — one or two max, only where a normal person would use them (not at every line start).
 - Factual, observational voice. Write like a local sharing a recommendation, not marketing copy.
 - Don't repeat the article title verbatim in the hook.
-- Output the caption text only — no markdown fences, no "Caption:" prefix, no commentary.`;
+- Output the caption text only — no markdown fences, no "Caption:" prefix, no commentary.
+
+${HUMANIZER_RULES}`;
 
   for (const model of GEMINI_CAPTION_MODELS) {
     try {

@@ -5,6 +5,7 @@
  */
 
 import type { BlogPost } from './blog';
+import { HUMANIZER_RULES, humanizeHtml, humanizeText } from './humanizer';
 
 const GEMINI_KEY = process.env.GEMINI_API_KEY;
 const url = (model: string) =>
@@ -36,6 +37,7 @@ export async function translateBlogPost(post: BlogPost, enHtml: string): Promise
       `Translate to European Portuguese (pt-PT, not Brazilian). Keep proper nouns ` +
       `(place names, venue names, "Porto") as-is. Return ONLY JSON, no fences:\n` +
       `{"titlePt": "...", "excerptPt": "..."}\n\n` +
+      `${HUMANIZER_RULES}\n\n` +
       `TITLE: ${post.title}\nEXCERPT: ${post.excerpt}` }] }],
     generationConfig: { temperature: 0.2, maxOutputTokens: 1000, thinkingConfig: { thinkingBudget: 0 }, responseMimeType: 'application/json' },
   });
@@ -51,13 +53,13 @@ export async function translateBlogPost(post: BlogPost, enHtml: string): Promise
       `classes, and href/src values EXACTLY as-is — translate only human-` +
       `readable text between tags. Keep proper nouns (venues, place names, ` +
       `"Porto") untranslated. Output ONLY the translated HTML, no markdown ` +
-      `fences, no commentary.\n\nHTML:\n${enHtml}` }] }],
+      `fences, no commentary.\n\n${HUMANIZER_RULES}\n\nHTML:\n${enHtml}` }] }],
     generationConfig: { temperature: 0.2, maxOutputTokens: 32768, thinkingConfig: { thinkingBudget: 0 } },
   });
-  htmlPt = htmlPt.replace(/^```html\n?/i, '').replace(/\n?```$/, '').trim();
+  htmlPt = humanizeHtml(htmlPt.replace(/^```html\n?/i, '').replace(/\n?```$/, '').trim());
   if (htmlPt.length < enHtml.length * 0.4) {
     throw new Error(`Blog body translation suspiciously short (${htmlPt.length} vs ${enHtml.length}) — likely truncated`);
   }
 
-  return { titlePt: meta.titlePt.trim(), excerptPt: meta.excerptPt.trim(), htmlPt };
+  return { titlePt: humanizeText(meta.titlePt.trim(), { title: true }), excerptPt: humanizeText(meta.excerptPt.trim()), htmlPt };
 }

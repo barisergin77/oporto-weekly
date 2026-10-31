@@ -9,6 +9,8 @@
  * an Instagram post via Buffer's automatic scheduler.
  */
 
+import { humanizeText } from './humanizer';
+
 const BUFFER_API = 'https://api.buffer.com/graphql';
 
 export interface ScheduledPost {
@@ -36,6 +38,8 @@ export async function scheduleBufferPost(
   const channelId = process.env.BUFFER_CHANNEL_ID;
   if (!apiKey) throw new Error('BUFFER_API_KEY not set');
   if (!channelId) throw new Error('BUFFER_CHANNEL_ID not set');
+  // Humanizer post-pass for every Instagram caption (owner 2026-10-31).
+  caption = humanizeText(caption);
 
   const payload = {
     query: `mutation CreatePost($input: CreatePostInput!) {
@@ -112,6 +116,8 @@ export async function scheduleBufferReel(
   const channelId = process.env.BUFFER_CHANNEL_ID;
   if (!apiKey) throw new Error('BUFFER_API_KEY not set');
   if (!channelId) throw new Error('BUFFER_CHANNEL_ID not set');
+  // Humanizer post-pass for every Instagram caption (owner 2026-10-31).
+  caption = humanizeText(caption);
   const payload = {
     query: `mutation CreatePost($input: CreatePostInput!) {
       createPost(input: $input) {

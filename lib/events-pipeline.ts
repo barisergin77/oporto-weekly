@@ -22,6 +22,7 @@ import {
   listEvents,
 } from './events';
 import { isSameEvent } from './event-identity';
+import { HUMANIZER_RULES, humanizeText } from './humanizer';
 
 const UA =
   'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 ' +
@@ -739,7 +740,9 @@ STRICT RULES:
 - Do NOT repeat phrases from the short description above. Expand, don't rephrase.
 - Use "Porto" (not "Oporto"). European Portuguese context.
 - Output: plain prose only. No headings, no "Paragraph 1:" prefixes, no markdown, no bullet lists. Separate paragraphs with a blank line.
-- Total length target: 180–280 words across all three paragraphs. Quality over length.`;
+- Total length target: 180–280 words across all three paragraphs. Quality over length.
+
+${HUMANIZER_RULES}`;
 
   const res = await fetch(geminiUrl('gemini-2.5-flash'), {
     method: 'POST',
@@ -760,7 +763,7 @@ STRICT RULES:
   const data = await res.json();
   const text: string = (data?.candidates?.[0]?.content?.parts?.[0]?.text ?? '').trim();
   if (!text) throw new Error('Gemini returned empty long description');
-  return text;
+  return humanizeText(text);
 }
 
 // ---------------------------------------------------------------------------
@@ -796,6 +799,9 @@ RULES:
 - For NAME: if it is a DESCRIPTIVE/editorial title (e.g. "Paper Costume Parade", "Guided Tour", "Organic Market", "Family Film"), translate it and return it in "namePt". If it is a PROPER NOUN (a band, a named show, a person), DO NOT translate it and return "namePt" as null.
 - Use "Porto" not "Oporto". Do not add or remove information.
 
+The PT text is reader-facing and follows these rules:
+${HUMANIZER_RULES}
+
 Return ONLY this JSON (no markdown fences):
 {"namePt": string|null, "descriptionPt": string, "longDescriptionPt": string|null}`;
 
@@ -826,14 +832,14 @@ Return ONLY this JSON (no markdown fences):
   if (!parsed.descriptionPt || !parsed.descriptionPt.trim()) {
     throw new Error('Translation returned empty descriptionPt');
   }
-  const out: EventTranslation = { descriptionPt: parsed.descriptionPt.trim() };
+  const out: EventTranslation = { descriptionPt: humanizeText(parsed.descriptionPt.trim()) };
   // Only keep namePt when it actually differs from the original (the model
   // sometimes echoes proper nouns instead of returning null).
   if (parsed.namePt && parsed.namePt.trim() && parsed.namePt.trim() !== event.name.trim()) {
     out.namePt = parsed.namePt.trim();
   }
   if (event.longDescription && parsed.longDescriptionPt && parsed.longDescriptionPt.trim()) {
-    out.longDescriptionPt = parsed.longDescriptionPt.trim();
+    out.longDescriptionPt = humanizeText(parsed.longDescriptionPt.trim());
   }
   return out;
 }

@@ -8,6 +8,7 @@ import { sendBatch } from '@/lib/resend-client';
 import { withForwardBlock } from '@/lib/forward-block';
 import { notifySearchEngines } from '@/lib/search-engines';
 import { checkCronAuth } from '@/lib/cron-auth';
+import { HUMANIZER_RULES, humanizeHtml } from '@/lib/humanizer';
 
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY!;
 const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro:generateContent?key=${GEMINI_API_KEY}`;
@@ -42,14 +43,16 @@ RULES:
   * Venue names ("Casa da Música", "Alfândega Congress Center", "WOW")
   * Place names ("Porto", "Vila Nova de Gaia", "Avenida dos Aliados")
 - DO translate the editorial newsletter title in <h1> at the top of the hero
-  (e.g. "Porto In Bloom" → "Porto em Flor", "Porto's Vibrant Palette" →
-  "A Paleta Vibrante do Porto"). It's an editorial headline, not a proper noun.
+  (e.g. "Porto In Bloom" → "Porto em Flor", "Porto's Autumn Palette" →
+  "A Paleta de Outono do Porto"). It's an editorial headline, not a proper noun.
 - Translate day abbreviations: Mon→Seg, Tue→Ter, Wed→Qua, Thu→Qui, Fri→Sex, Sat→Sáb, Sun→Dom.
 - Translate common phrases: "Free"→"Gratuito", "More info"→"Mais info", "Get tickets"→"Comprar bilhetes", "Book"→"Reservar", "Unsubscribe"→"Cancelar subscrição", "Visit website"→"Visitar site".
 - Use 24h time format (9 PM → 21h00).
 - Change <html lang="en"> to <html lang="pt">.
 - Keep ALL HTML structure, CSS classes, inline styles, links (href), and image URLs EXACTLY the same.
 - Output ONLY the complete translated HTML. No markdown fences, no commentary.
+
+${HUMANIZER_RULES}
 
 HTML TO TRANSLATE:
 ${enHtml}`;
@@ -71,7 +74,8 @@ ${enHtml}`;
       .join('') ?? '';
 
   html = html.replace(/^```html\n?/i, '').replace(/\n?```$/, '').trim();
-  return html;
+  // Humanizer post-pass (owner 2026-10-31): em dashes and curly quotes out of the visible text.
+  return humanizeHtml(html);
 }
 
 export async function GET(req: NextRequest) {

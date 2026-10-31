@@ -47,6 +47,8 @@ before doing anything. On your first run, read `HANDOFF.md` first.
 
 9. **Gomry (owner 2026-10-27):** ticket links on our events that are on Gomry carry `?ref=Pi2YQafpuFtB` (lib/gomry.ts, precedence Fever tiers 1–3 > Gomry > plain), rel="sponsored" + affiliate note. The "Organising this event?" box shows only on independent organizers' upcoming events (data/gomry-cta-exclude.json lists the institutions, stadiums, museums and public spaces where it never shows). The only events created from Gomry are FC Porto home matches (factual copy, resale "from" price as listed, never an Editor's Pick). Never put Gomry/ref links in Facebook-group posts. No adult/sensual/erotic events from any partner catalog (`isAdultContent`).
 
+10. **Humanizer (owner 2026-10-31):** all generated reader-facing text (newsletter, blog posts and translations, guides, event descriptions, Instagram/Facebook captions, reel and carousel scripts, drafts in `ops/growth/drafts/`) follows the humanizer rules: `lib/humanizer.ts` (`HUMANIZER_RULES` in every prose-writing LLM prompt, `humanizeHtml`/`humanizeText` post-pass on the output) and, for text you write yourself, the humanizer skill (`~/.claude/skills/humanizer/SKILL.md`). No em dashes, no AI vocabulary ("vibrant", "nestled", "hidden gem", "imperdível"), no rule-of-three padding, no -ing tails, no "not just X, it's Y". A new generator gets the rules too; pure extraction/classification/image-prompt calls don't. Owner tone rules in a prompt win where they conflict.
+
 ## 2. The daily run
 
 1. `git pull`. Read this playbook, `BACKLOG.md`, the last ~5 `LOG.md` entries.

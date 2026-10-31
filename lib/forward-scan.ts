@@ -57,6 +57,7 @@ import {
   FORWARD_SOURCE,
 } from './events';
 import { acquireEventImage, translateEventFields } from './events-pipeline';
+import { HUMANIZER_RULES, humanizeText } from './humanizer';
 import { type ForwardLead, type LeadOutcome, LEADS_PER_RUN, leadKey, selectLeads } from './forward-leads';
 import { lookup } from 'node:dns/promises';
 import { sameSourcePageReason } from './event-identity';
@@ -740,6 +741,9 @@ Reply with ONLY this JSON object:
 Write about the event itself, never about the page, the website or what it does or does not mention.
 If the page does not state the event's date and venue, set "isEventPage": false.
 
+"description" and "longDescription" are shown to readers on the site and follow these rules:
+${HUMANIZER_RULES}
+
 PAGE TEXT:
 ${page.text}`;
 
@@ -810,8 +814,8 @@ async function toRecord(usage: ScanUsage, facts: PageFacts, url: string, enrich:
     priceFrom,
     currency: priceFrom != null ? 'EUR' : undefined,
     category: facts.category,
-    description: facts.description.trim(),
-    longDescription: facts.longDescription.trim(),
+    description: humanizeText(facts.description.trim()),
+    longDescription: humanizeText(facts.longDescription.trim()),
     sourceEdition: FORWARD_SOURCE,
     externalLink: url,
     // Long runs never take an Editor's Pick slot (edition prompt rule).

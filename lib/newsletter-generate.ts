@@ -10,6 +10,7 @@ import { generateImage } from './imagen';
 import { uploadImageToImgur } from './imgur';
 import { composeRules, composeDecision, selectEditionEvents, type EditionSelection, type PresetPick } from './edition-compose';
 import type { EventRecord } from './events';
+import { HUMANIZER_RULES, humanizeHtml } from './humanizer';
 
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY!;
 const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro:generateContent?key=${GEMINI_API_KEY}`;
@@ -352,6 +353,8 @@ EDITOR'S PICKS QUALITY BAR (this is what readers come for — be selective):
   The same applies to the Tip of the Week.${exclusionBlock}${correctionBlock}
 ${opts.compose ? composeRules(weekRange, opts.picks) : ''}
 
+${HUMANIZER_RULES}
+
 CRITICAL OUTPUT:
 Return ONLY the complete HTML. No markdown fences, no commentary, no code blocks.`;
 
@@ -373,6 +376,8 @@ Return ONLY the complete HTML. No markdown fences, no commentary, no code blocks
 
   // Strip markdown code fences if model wraps output
   html = html.replace(/^```html\n?/i, '').replace(/\n?```$/, '').trim();
+  // Humanizer post-pass (owner 2026-10-31): em dashes and curly quotes out of the visible text.
+  html = humanizeHtml(html);
 
   // Replace hero image placeholder with the real URL.
   // LLMs often truncate/hallucinate long URLs, so we never let them write the real one.

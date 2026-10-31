@@ -9,6 +9,7 @@ import { listEvents, type EventRecord } from '@/lib/events';
 import { generateImage } from '@/lib/imagen';
 import { uploadImageToImgur } from '@/lib/imgur';
 import { scheduleBufferPost } from '@/lib/buffer';
+import { HUMANIZER_RULES } from '@/lib/humanizer';
 import { checkCronAuth } from '@/lib/cron-auth';
 
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY!;
@@ -128,6 +129,8 @@ Rules:
 - Then add a PT translation (label it "🇵🇹 PT:")
 - Then a hashtag block (15-20 tags, mix of #porto #events #oporto #portugal etc.)
 - Keep it natural, not corporate
+
+${HUMANIZER_RULES}
 
 Output format:
 [EN caption]
