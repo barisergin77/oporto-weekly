@@ -120,7 +120,11 @@
       "url": "https://casadamusica.com/event/o-ultimo-canto-dos-passaros-2/?selected_session=57363",
       "note": "Sala 2; family concert; Floresta Amazónica.",
       "source": "casa-da-musica-newsletter-2026-11",
-      "addedAt": "2026-10-25T12:00:00Z"
+      "addedAt": "2026-10-25T12:00:00Z",
+      "status": "done",
+      "eventSlug": "o-ultimo-canto-dos-passaros-casa-da-musica-nov-28-2026",
+      "lastTriedAt": "2026-10-31T08:32:37.308Z",
+      "resolvedAt": "2026-10-31T08:32:37.308Z"
     },
     {
       "name": "Irmãos Jussen",
@@ -194,7 +198,11 @@
       "url": "https://casadamusica.com/event/javier-perianes/?selected_session=44148",
       "note": "Sala Suggia; piano recital.",
       "source": "casa-da-musica-newsletter-2026-11",
-      "addedAt": "2026-10-25T12:00:00Z"
+      "addedAt": "2026-10-25T12:00:00Z",
+      "status": "done",
+      "eventSlug": "javier-perianes-casa-da-musica-nov-28-2026",
+      "lastTriedAt": "2026-10-31T08:32:37.308Z",
+      "resolvedAt": "2026-10-31T08:32:37.308Z"
     },
     {
       "name": "Brahms, a Segunda Sinfonia – concerto comentado",
@@ -203,7 +211,11 @@
       "url": "https://casadamusica.com/event/brahms-a-segunda-sinfonia/?selected_session=44152",
       "note": "Sala Suggia; Orquestra Sinfónica, Brahms 2 with commentary (family concert).",
       "source": "casa-da-musica-newsletter-2026-11",
-      "addedAt": "2026-10-25T12:00:00Z"
+      "addedAt": "2026-10-25T12:00:00Z",
+      "status": "done",
+      "eventSlug": "brahms-casa-da-musica-nov-29-2026",
+      "lastTriedAt": "2026-10-31T08:32:37.308Z",
+      "resolvedAt": "2026-10-31T08:32:37.308Z"
     },
     {
       "name": "Misty Fest 2026",
@@ -322,7 +334,12 @@
       "url": "https://casadamusica.com/event/youn-sun-nah/?selected_session=52511",
       "note": "Sala 2; Misty Fest.",
       "source": "casa-da-musica-newsletter-2026-11",
-      "addedAt": "2026-10-25T12:00:00Z"
+      "addedAt": "2026-10-25T12:00:00Z",
+      "status": "done",
+      "eventSlug": "misty-fest-2026-casa-da-musica-nov-10-2026",
+      "reason": "already listed",
+      "lastTriedAt": "2026-10-31T08:32:37.308Z",
+      "resolvedAt": "2026-10-31T08:32:37.308Z"
     },
     {
       "name": "PAUS",
@@ -362,20 +379,11 @@
       "url": "https://casadamusica.com/event/do-lixo-se-faz-musica-3/?selected_session=57239",
       "note": "Family workshop, kids 6+; Sala de Ensaio 2; sessions 10:30 and 14:30.",
       "source": "casa-da-musica-newsletter-2026-11",
-      "addedAt": "2026-10-25T12:00:00Z"
-    },
-    {
-      "name": "You Burn Me + Prefacio para el dialoguito – Matías Piñeiro Special",
-      "date": "2026-10-30",
-      "venue": "Batalha Centro de Cinema",
-      "note": "19:15; two Piñeiro films (2025, 6'; 2024, 64'), English subtitles; book launch, with the filmmaker and Garbiñe Ortega; ticketed",
-      "source": "batalha-newsletter-2026-10",
-      "addedAt": "2026-10-26T11:47:50Z",
-      "status": "rejected",
-      "attempts": 3,
-      "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
-      "lastTriedAt": "2026-10-28T08:32:10.943Z",
-      "resolvedAt": "2026-10-28T08:32:10.943Z"
+      "addedAt": "2026-10-25T12:00:00Z",
+      "status": "done",
+      "eventSlug": "do-lixo-se-faz-musica-casa-da-musica-nov-28-2026",
+      "lastTriedAt": "2026-10-31T08:32:37.308Z",
+      "resolvedAt": "2026-10-31T08:32:37.308Z"
     },
     {
       "name": "The Addams Family – Families Halloween Special",
@@ -510,31 +518,6 @@
       "resolvedAt": "2026-10-29T06:06:58.684Z"
     },
     {
-      "name": "Atlas, mapeamento poético – Joana Providência / Teatro do Bolhão",
-      "date": "2026-10-29",
-      "endDate": "2026-10-30",
-      "venue": "Teatro Campo Alegre",
-      "note": "19:30; premiere; choreographic piece on world poetry and migration; 12+; Portuguese Sign Language interpretation on 29.10, audio description on 30.10",
-      "source": "teatro-municipal-do-porto-newsletter-2026-10",
-      "addedAt": "2026-10-29T05:00:37Z",
-      "status": "pending",
-      "attempts": 1,
-      "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
-      "lastTriedAt": "2026-10-29T06:06:58.684Z"
-    },
-    {
-      "name": "Tō Yō",
-      "date": "2026-10-30",
-      "venue": "Teatro Rivoli",
-      "note": "22:30; Understage; Tokyo psychedelic rock quartet, with Lovers & Lollypops; 12+; tickets",
-      "source": "teatro-municipal-do-porto-newsletter-2026-10",
-      "addedAt": "2026-10-29T05:00:37Z",
-      "status": "pending",
-      "attempts": 1,
-      "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
-      "lastTriedAt": "2026-10-29T06:06:58.684Z"
-    },
-    {
       "name": "Memórias do Cárcere – Sérgio Graciano",
       "date": "2026-10-29",
       "endDate": "2026-11-04",
@@ -555,10 +538,11 @@
       "note": "16:00, Foyer Nascente, free entry; talk on Villa-Lobos and Bianca Dacosta's visuals before Floresta do Amazonas, moderated by François Bou (Festival Floresta Amazónica)",
       "source": "casa-da-musica-newsletter-2026-10",
       "addedAt": "2026-10-30T05:00:23Z",
-      "status": "pending",
-      "attempts": 2,
+      "status": "rejected",
+      "attempts": 3,
       "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
-      "lastTriedAt": "2026-10-30T13:48:49.794Z"
+      "lastTriedAt": "2026-10-31T08:32:37.308Z",
+      "resolvedAt": "2026-10-31T08:32:37.308Z"
     },
     {
       "name": "Miguel Gomes: Retrospetiva Integral e Carta Branca",
@@ -567,7 +551,12 @@
       "venue": "Serralves",
       "note": "Weekly film-and-talk series in the Casa do Cinema Manoel de Oliveira auditorium. It shows all of Miguel Gomes's films, from the early shorts to Tabu, As Mil e Uma Noites and Grand Tour, plus a carte blanche of films he chose. Films are in the original language with Portuguese subtitles.",
       "source": "serralves-newsletter-2026-10",
-      "addedAt": "2026-10-31T05:00:21Z"
+      "addedAt": "2026-10-31T05:00:21Z",
+      "status": "done",
+      "eventSlug": "miguel-gomes-manoel-de-oliveira-house-of-cinema-oct-31-2026",
+      "reason": "already listed",
+      "lastTriedAt": "2026-10-31T08:32:37.308Z",
+      "resolvedAt": "2026-10-31T08:32:37.308Z"
     },
     {
       "name": "Miguel Gomes: Retrospetiva Integral e Carta Branca – 1ª Sessão",
@@ -575,7 +564,12 @@
       "venue": "Serralves",
       "note": "Sun 17:00, Casa do Cinema Manoel de Oliveira auditorium. Shows Entretanto, Inventário de Natal and Kalkitos, introduced by António Preto. Enter from Rua de Serralves 873, 30 min before the start. Price not stated.",
       "source": "serralves-newsletter-2026-10",
-      "addedAt": "2026-10-31T05:00:21Z"
+      "addedAt": "2026-10-31T05:00:21Z",
+      "status": "rejected",
+      "attempts": 1,
+      "reason": "not in the Porto area (null)",
+      "lastTriedAt": "2026-10-31T08:32:37.308Z",
+      "resolvedAt": "2026-10-31T08:32:37.308Z"
     }
   ]
 }
