@@ -559,6 +559,23 @@
       "attempts": 2,
       "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
       "lastTriedAt": "2026-10-30T13:48:49.794Z"
+    },
+    {
+      "name": "Miguel Gomes: Retrospetiva Integral e Carta Branca",
+      "date": "2026-11-01",
+      "endDate": "2027-05-16",
+      "venue": "Serralves",
+      "note": "Weekly film-and-talk series in the Casa do Cinema Manoel de Oliveira auditorium. It shows all of Miguel Gomes's films, from the early shorts to Tabu, As Mil e Uma Noites and Grand Tour, plus a carte blanche of films he chose. Films are in the original language with Portuguese subtitles.",
+      "source": "serralves-newsletter-2026-10",
+      "addedAt": "2026-10-31T05:00:21Z"
+    },
+    {
+      "name": "Miguel Gomes: Retrospetiva Integral e Carta Branca – 1ª Sessão",
+      "date": "2026-11-01",
+      "venue": "Serralves",
+      "note": "Sun 17:00, Casa do Cinema Manoel de Oliveira auditorium. Shows Entretanto, Inventário de Natal and Kalkitos, introduced by António Preto. Enter from Rua de Serralves 873, 30 min before the start. Price not stated.",
+      "source": "serralves-newsletter-2026-10",
+      "addedAt": "2026-10-31T05:00:21Z"
     }
   ]
 }
