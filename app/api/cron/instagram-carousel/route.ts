@@ -33,8 +33,8 @@ export async function POST(req: NextRequest) {
     }
     if (body.action === 'schedule') {
       const urls = body.urls ?? [];
-      if (urls.length < 2 || urls.length > 10) {
-        return NextResponse.json({ error: 'a carousel needs 2–10 image urls' }, { status: 400 });
+      if (urls.length < 2 || urls.length > 20) {
+        return NextResponse.json({ error: 'a carousel needs 2–20 image urls (Buffer and Instagram allow 20)' }, { status: 400 });
       }
       if (!urls.every((u) => /^https:\/\/i\.imgur\.com\//.test(u))) {
         return NextResponse.json({ error: 'only i.imgur.com urls' }, { status: 400 });
