@@ -1,5 +1,6 @@
 import Link from 'next/link';
-import { CATEGORY_EMOJI, eventDisplay, listUpcomingEvents, type EventRecord } from '@/lib/events';
+import { eventDisplay, listUpcomingEvents, type EventRecord } from '@/lib/events';
+import { subcategoryEmoji } from '@/lib/event-listing';
 import { listEventMonths, monthOf, ptLabel, ptSlug } from '@/lib/event-months';
 import { priceText, shortDates } from '@/lib/event-seo';
 import { colors, typography } from '@/lib/design';
@@ -66,7 +67,7 @@ export function GuideUpcoming({ lang, now = new Date() }: { lang: Lang; now?: Da
                   href={pt ? `/pt/event/${e.slug}` : `/event/${e.slug}`}
                   style={{ color: colors.heading, textDecoration: 'none', fontSize: 16, fontWeight: 600 }}
                 >
-                  {CATEGORY_EMOJI[e.category]} {eventDisplay(e, lang).name}
+                  {subcategoryEmoji(e)} {eventDisplay(e, lang).name}
                 </Link>
                 <div style={{ fontSize: 13, color: colors.textSoft, marginTop: 3 }}>
                   {shortDates(e, lang, true)} · {e.venue}

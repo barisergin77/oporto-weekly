@@ -11,33 +11,10 @@
 import { listEvents, FORWARD_SOURCE, type EventRecord } from './events';
 import { monthOf } from './event-months';
 
-export type DayHubKind = 'today' | 'weekend';
-
-/** ISO date (YYYY-MM-DD) in Porto. */
-export function portoToday(now: Date = new Date()): string {
-  // en-CA formats as YYYY-MM-DD.
-  return new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Lisbon' }).format(now);
-}
-
-const addDays = (iso: string, n: number) => {
-  const d = new Date(iso + 'T00:00:00Z');
-  d.setUTCDate(d.getUTCDate() + n);
-  return d.toISOString().slice(0, 10);
-};
-const weekday = (iso: string) => new Date(iso + 'T00:00:00Z').getUTCDay(); // 0 = Sun
-
-/**
- * Date range a page covers. The weekend is Fri–Sun: the coming one Mon–Thu,
- * the current one from today on Fri–Sun (Saturday shows Sat–Sun).
- */
-export function dayHubRange(kind: DayHubKind, now: Date = new Date()): { from: string; to: string } {
-  const today = portoToday(now);
-  if (kind === 'today') return { from: today, to: today };
-  const wd = weekday(today);
-  if (wd === 0) return { from: today, to: today };
-  if (wd >= 5) return { from: today, to: addDays(today, 7 - wd) };
-  return { from: addDays(today, 5 - wd), to: addDays(today, 7 - wd) };
-}
+// Pure date helpers live in lib/event-filters.ts (bundled client-side by the
+// listing filters); re-exported so existing imports keep working.
+import type { DayHubKind } from './event-filters';
+export { portoToday, dayHubRange, type DayHubKind } from './event-filters';
 
 /** Runs longer than this go under "Also on" so exhibitions don't bury tonight's gig. */
 const LONG_RUN_DAYS = 7;

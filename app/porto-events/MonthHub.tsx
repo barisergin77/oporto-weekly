@@ -1,8 +1,9 @@
 import Link from 'next/link';
 import type { Metadata } from 'next';
-import { CATEGORY_EMOJI, CATEGORY_LABEL, CATEGORY_LABEL_PT, eventDisplay, type EventRecord } from '@/lib/events';
+import { eventDisplay, subcategoryOf, type EventRecord } from '@/lib/events';
+import { SUBCATEGORY_LABEL, SUBCATEGORY_LABEL_PT } from '@/lib/event-categories';
 import { eventsInMonth, listEventMonths, ptLabel, ptSlug, type Month } from '@/lib/event-months';
-import { priceText, shortDates } from '@/lib/event-seo';
+import { filterOptions, toFilterItem } from '@/lib/event-listing';
 import { colors, typography } from '@/lib/design';
 import { Header } from '@/app/components/Header';
 import { Footer } from '@/app/components/Footer';
@@ -10,6 +11,7 @@ import { SubscribeCTA } from '@/app/components/SubscribeCTA';
 import { GuidesStrip } from '@/app/components/RelatedGuide';
 import { listBlogPosts } from '@/lib/blog';
 import { guidesForHub } from '@/lib/related-guides';
+import { EventFilters } from '@/app/components/EventFilters';
 
 /**
  * Month hub, shared by /porto-events/<month> (EN) and /pt/eventos/<mes> (PT).
@@ -46,33 +48,6 @@ export function monthHubMetadata(m: Month, lang: Lang): Metadata {
   };
 }
 
-const h2: React.CSSProperties = {
-  fontFamily: typography.serif,
-  fontSize: 24,
-  color: colors.heading,
-  margin: '40px 0 8px',
-  paddingBottom: 10,
-  borderBottom: `2px solid ${colors.accent}`,
-};
-
-function Row({ e, lang }: { e: EventRecord; lang: Lang }) {
-  const price = priceText(e.price, lang);
-  return (
-    <li style={{ borderBottom: `1px solid ${colors.divider}`, padding: '12px 0' }}>
-      <Link
-        href={lang === 'pt' ? `/pt/event/${e.slug}` : `/event/${e.slug}`}
-        style={{ color: colors.heading, textDecoration: 'none', fontSize: 16, fontWeight: 600 }}
-      >
-        {CATEGORY_EMOJI[e.category]} {eventDisplay(e, lang).name}
-      </Link>
-      <div style={{ fontSize: 13, color: colors.textSoft, marginTop: 3 }}>
-        {shortDates(e, lang, true)} · {e.venue}
-        {price ? ` · ${price}` : ''}
-      </div>
-    </li>
-  );
-}
-
 export function MonthHub({ m, lang }: { m: Month; lang: Lang }) {
   const { starting, ongoing } = eventsInMonth(m);
   const guides = guidesForHub([...starting, ...ongoing], m.month, listBlogPosts());
@@ -85,10 +60,10 @@ export function MonthHub({ m, lang }: { m: Month; lang: Lang }) {
     byDay.set(k, [...(byDay.get(k) ?? []), e]);
   }
   const counts = new Map<string, number>();
-  for (const e of [...starting, ...ongoing]) counts.set(e.category, (counts.get(e.category) ?? 0) + 1);
-  const catLabel = pt ? CATEGORY_LABEL_PT : CATEGORY_LABEL;
+  for (const e of [...starting, ...ongoing]) counts.set(subcategoryOf(e), (counts.get(subcategoryOf(e)) ?? 0) + 1);
+  const catLabel = pt ? SUBCATEGORY_LABEL_PT : SUBCATEGORY_LABEL;
   const topCats = Array.from(counts.entries()).sort((a, b) => b[1] - a[1]).slice(0, 3)
-    .map(([c, n]) => `${n} ${catLabel[c as EventRecord['category']].toLowerCase()}`);
+    .map(([c, n]) => `${n} ${catLabel[c as keyof typeof catLabel].toLowerCase()}`);
 
   const months = listEventMonths();
   const idx = months.findIndex((x) => x.slug === m.slug);
@@ -102,6 +77,22 @@ export function MonthHub({ m, lang }: { m: Month; lang: Lang }) {
     });
     return t.charAt(0).toUpperCase() + t.slice(1);
   };
+
+  const groups = [
+    ...Array.from(byDay.entries()).map(([iso, evs]) => ({
+      key: iso,
+      title: dayLabel(iso),
+      items: evs.map((e) => toFilterItem(e, lang, true)),
+    })),
+    {
+      key: 'ongoing',
+      title: pt ? 'Durante todo o mês' : 'On all month',
+      note: pt
+        ? `Exposições e eventos mais longos que começaram antes e continuam em ${l}.`
+        : `Exhibitions and longer runs that started earlier and continue through ${l}.`,
+      items: ongoing.map((e) => toFilterItem(e, lang, true)),
+    },
+  ];
 
   const url = hubUrl(m, lang);
   const eventsHub = pt ? '/pt' : '/porto-events';
@@ -160,28 +151,14 @@ export function MonthHub({ m, lang }: { m: Month; lang: Lang }) {
 
         <SubscribeCTA lang={lang} context="event" />
 
-        {Array.from(byDay.entries()).map(([iso, evs]) => (
-          <section key={iso}>
-            <h2 style={h2}>{dayLabel(iso)}</h2>
-            <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-              {evs.map((e) => <Row key={e.slug} e={e} lang={lang} />)}
-            </ul>
-          </section>
-        ))}
-
-        {ongoing.length > 0 && (
-          <section>
-            <h2 style={h2}>{pt ? 'Durante todo o mês' : 'On all month'}</h2>
-            <p style={{ fontSize: 14, color: colors.textSoft, margin: '0 0 4px' }}>
-              {pt
-                ? `Exposições e eventos mais longos que começaram antes e continuam em ${l}.`
-                : `Exhibitions and longer runs that started earlier and continue through ${l}.`}
-            </p>
-            <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-              {ongoing.map((e) => <Row key={e.slug} e={e} lang={lang} />)}
-            </ul>
-          </section>
-        )}
+        {/* Search + filters (lib/event-filters.ts); the server HTML lists everything. */}
+        <div style={{ marginTop: 28 }}>
+          <EventFilters
+            lang={lang}
+            options={filterOptions(groups.flatMap((g) => g.items), lang)}
+            groups={groups}
+          />
+        </div>
 
         <GuidesStrip guides={guides} lang={lang} source="hub" />
 

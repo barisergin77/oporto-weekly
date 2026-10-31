@@ -8,10 +8,11 @@ import {
   toEventJsonLd,
   isRealEventUrl,
   eventDisplay,
-  CATEGORY_EMOJI,
-  CATEGORY_LABEL_PT,
   type EventRecord,
 } from '@/lib/events';
+import { subcategoryEmoji, subcategoryLabel } from '@/lib/event-listing';
+import { googleCalendarUrl } from '@/lib/event-calendar';
+import { EventActions } from '@/app/components/EventActions';
 import { getNewsletterMetaPT } from '@/lib/archive';
 import { colors, typography, spacing } from '@/lib/design';
 import { Header } from '@/app/components/Header';
@@ -68,6 +69,7 @@ export default function EventPagePT({ params }: { params: { slug: string } }) {
   const monthHub = monthHubFor(ev);
   // Matched on the EN record (the rules know both languages' keywords).
   const [guide] = relatedGuidesForEvent(ev, listBlogPosts());
+  const pageUrl = `https://oportoweekly.com/pt/event/${ev.slug}`;
 
   return (
     <div style={{ background: colors.bg, minHeight: '100vh', fontFamily: typography.sans, color: colors.text }}>
@@ -89,7 +91,7 @@ export default function EventPagePT({ params }: { params: { slug: string } }) {
           </Link>
           <span style={{ margin: '0 8px', color: colors.divider }}>›</span>
           <span style={{ color: colors.accent, fontWeight: 700 }}>
-            {CATEGORY_EMOJI[ev.category]} {CATEGORY_LABEL_PT[ev.category]}
+            {subcategoryEmoji(ev)} {subcategoryLabel(ev, 'pt')}
           </span>
         </nav>
 
@@ -113,6 +115,16 @@ export default function EventPagePT({ params }: { params: { slug: string } }) {
           <MetaPin icon="📍" text={ev.venue} href={hasVenuePage(ev.venueSlug) ? `/pt/venue/${ev.venueSlug}` : undefined} />
           <MetaPin icon="📅" text={formatLongDatePT(ev.date, ev.endDate)} />
         </div>
+
+        {/* Adicionar ao calendário (Google + .ics) e partilhar (lib/event-calendar.ts). */}
+        <EventActions
+          lang="pt"
+          slug={ev.slug}
+          title={disp.name}
+          url={pageUrl}
+          googleUrl={googleCalendarUrl(ev, { title: disp.name, description: disp.description, location: `${ev.venue}, Porto`, url: pageUrl })}
+          icsHref={`/pt/event/${ev.slug}/calendar.ics`}
+        />
 
         <EventDescription event={ev} />
 
@@ -240,11 +252,11 @@ function EventHero({ event }: { event: EventRecord }) {
   return (
     <div
       style={{ width: '100%', aspectRatio: '16 / 9', background: `linear-gradient(135deg, ${colors.bgSoft} 0%, ${colors.bgAlt} 100%)`, border: `1px solid ${colors.divider}`, borderRadius: 2, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 14 }}
-      aria-label={`${CATEGORY_LABEL_PT[event.category]} — foto em breve`}
+      aria-label={`${subcategoryLabel(event, 'pt')}, foto em breve`}
     >
-      <div style={{ fontSize: 64 }}>{CATEGORY_EMOJI[event.category]}</div>
+      <div style={{ fontSize: 64 }}>{subcategoryEmoji(event)}</div>
       <div style={{ fontSize: 11, letterSpacing: 3, textTransform: 'uppercase', color: colors.accent, fontWeight: 700 }}>
-        {CATEGORY_LABEL_PT[event.category]}
+        {subcategoryLabel(event, 'pt')}
       </div>
     </div>
   );

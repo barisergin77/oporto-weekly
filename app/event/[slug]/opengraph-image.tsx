@@ -1,5 +1,6 @@
 import { ImageResponse } from 'next/og';
-import { getEvent, listEvents, CATEGORY_EMOJI, CATEGORY_LABEL } from '@/lib/events';
+import { getEvent, listEvents } from '@/lib/events';
+import { subcategoryEmoji, subcategoryLabel } from '@/lib/event-listing';
 
 export const size = { width: 1200, height: 630 };
 export const contentType = 'image/png';
@@ -49,8 +50,8 @@ export default function Image({ params }: { params: { slug: string } }) {
   }
 
   const dateStr = formatDateForCard(ev.date, ev.endDate);
-  const categoryLabel = CATEGORY_LABEL[ev.category];
-  const categoryEmoji = CATEGORY_EMOJI[ev.category];
+  const categoryLabel = subcategoryLabel(ev, 'en');
+  const categoryEmoji = subcategoryEmoji(ev);
 
   return new ImageResponse(
     (
