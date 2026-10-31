@@ -6,6 +6,9 @@ import { SubscribeFormPT } from '../SubscribeFormPT';
 import { Header } from '../components/Header';
 import { Footer } from '../components/Footer';
 import { ShortcutChips } from '../components/ShortcutChips';
+import { GuidesStrip } from '../components/RelatedGuide';
+import { listBlogPostsPT } from '@/lib/blog';
+import { featuredGuides } from '@/lib/related-guides';
 import { listEventMonths, ptLabel, ptSlug } from '@/lib/event-months';
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -47,6 +50,8 @@ export default function HomePT() {
   const latest = newsletters[0] ?? null;
   const rawHtml = latest ? getNewsletterHtmlPT(latest.slug) : null;
   const html = rawHtml ? toEmbeddableHtml(stripEmailFooter(rawHtml)) : null;
+  // PT home: only guides with a PT version (lib/related-guides.ts picks the newest per topic).
+  const guides = featuredGuides(listBlogPostsPT(), 4);
 
   return (
     <div style={{ background: colors.bg, minHeight: '100vh', fontFamily: typography.sans, color: colors.text }}>
@@ -73,6 +78,7 @@ export default function HomePT() {
               Primeira edição a caminho esta quinta-feira!
             </div>
           )}
+          <GuidesStrip guides={guides} lang="pt" source="home" />
         </div>
 
         {/* Sticky subscribe sidebar */}

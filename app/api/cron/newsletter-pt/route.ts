@@ -9,6 +9,9 @@ import { withForwardBlock } from '@/lib/forward-block';
 import { notifySearchEngines } from '@/lib/search-engines';
 import { checkCronAuth } from '@/lib/cron-auth';
 import { HUMANIZER_RULES, humanizeHtml } from '@/lib/humanizer';
+import { localizeFromTheBlog } from '@/lib/edition-compose';
+import type { BlogPost } from '@/lib/blog';
+import blogIndex from '@/data/blog-posts.json';
 
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY!;
 const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro:generateContent?key=${GEMINI_API_KEY}`;
@@ -141,6 +144,8 @@ export async function GET(req: NextRequest) {
       // in the PT experience (was sending them to the English /event/ pages).
       // Only rewrites our own /event/ links; external hrefs are untouched.
       ptHtml = ptHtml.replace(/https:\/\/oportoweekly\.com\/event\//g, 'https://oportoweekly.com/pt/event/');
+      // Same for the "From the blog" line: PT title + /pt/blog/ link, not Gemini's translation.
+      ptHtml = localizeFromTheBlog(ptHtml, blogIndex as BlogPost[]);
 
       // 3. Archive the PT edition. Marks pt-web after the commit lands.
       await archiveViaGitHub({

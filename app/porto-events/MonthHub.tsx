@@ -7,6 +7,9 @@ import { colors, typography } from '@/lib/design';
 import { Header } from '@/app/components/Header';
 import { Footer } from '@/app/components/Footer';
 import { SubscribeCTA } from '@/app/components/SubscribeCTA';
+import { GuidesStrip } from '@/app/components/RelatedGuide';
+import { listBlogPosts } from '@/lib/blog';
+import { guidesForHub } from '@/lib/related-guides';
 
 /**
  * Month hub, shared by /porto-events/<month> (EN) and /pt/eventos/<mes> (PT).
@@ -72,6 +75,7 @@ function Row({ e, lang }: { e: EventRecord; lang: Lang }) {
 
 export function MonthHub({ m, lang }: { m: Month; lang: Lang }) {
   const { starting, ongoing } = eventsInMonth(m);
+  const guides = guidesForHub([...starting, ...ongoing], m.month, listBlogPosts());
   const l = label(m, lang);
   const pt = lang === 'pt';
 
@@ -178,6 +182,8 @@ export function MonthHub({ m, lang }: { m: Month; lang: Lang }) {
             </ul>
           </section>
         )}
+
+        <GuidesStrip guides={guides} lang={lang} source="hub" />
 
         <nav style={{ display: 'flex', justifyContent: 'space-between', gap: 16, marginTop: 48, fontSize: 14 }}>
           <span>{prev && <Link href={hubPath(prev, lang)} style={{ color: colors.heading }}>← {label(prev, lang)}</Link>}</span>

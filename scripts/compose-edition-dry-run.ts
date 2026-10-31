@@ -27,7 +27,9 @@ import {
 import { formatWeekRange, generateSlug, assertValidNewsletterHtml } from '../lib/archive';
 import { extractEventsFromHtml, injectEventLinks } from '../lib/events-pipeline';
 import { blocklistCorrections, type BlockedPick } from '../lib/pick-blocklist';
-import { whenText, type EditionSelection } from '../lib/edition-compose';
+import { whenText, insertFromTheBlog, renderFromTheBlog, type EditionSelection } from '../lib/edition-compose';
+import { listBlogPosts } from '../lib/blog';
+import { newsletterGuide } from '../lib/related-guides';
 import { choosePicks, presetPicks, pickLogLine } from '../lib/opus-picks';
 import { CATEGORY_LABEL } from '../lib/events';
 
@@ -138,6 +140,8 @@ async function main() {
   const { html: linked, linked: anchors } = injectEventLinks(raw, events);
   const alsoOn = longRunsNotFeatured(sel.longRuns, events);
   let html = insertAlsoOn(linked, renderAlsoOn(alsoOn));
+  const guide = newsletterGuide(listBlogPosts(), weekStartISO);
+  if (guide) html = insertFromTheBlog(html, renderFromTheBlog(guide, 'en'));
   html = html.replace(/<body([^>]*)>/i, (m) => `${m}\n<!-- oporto-weekly:path=compose (dry run) -->`);
   fs.writeFileSync(out, html);
 

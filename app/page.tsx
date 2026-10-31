@@ -1,5 +1,6 @@
 import { listNewsletters, getNewsletterHtml, stripEmailFooter, toEmbeddableHtml } from '@/lib/archive';
 import { listBlogPosts } from '@/lib/blog';
+import { featuredGuides } from '@/lib/related-guides';
 import { colors, typography } from '@/lib/design';
 import Link from 'next/link';
 import type { Metadata } from 'next';
@@ -7,6 +8,7 @@ import { SubscribeForm } from './SubscribeForm';
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
 import { ShortcutChips } from './components/ShortcutChips';
+import { GuidesStrip } from './components/RelatedGuide';
 
 export async function generateMetadata(): Promise<Metadata> {
   const newsletters = listNewsletters();
@@ -83,7 +85,9 @@ export default function Home() {
   const latest = newsletters[0] ?? null;
   const rawHtml = latest ? getNewsletterHtml(latest.slug) : null;
   const html = rawHtml ? toEmbeddableHtml(stripEmailFooter(rawHtml)) : null;
-  const recentPosts = listBlogPosts().slice(0, 3);
+  // Newest guide per topic (lib/related-guides.ts); replaces the sidebar's
+  // "From the Blog" title list with image cards under the edition.
+  const guides = featuredGuides(listBlogPosts(), 4);
 
   return (
     <div style={{ background: colors.bg, minHeight: '100vh', fontFamily: typography.sans, color: colors.text }}>
@@ -114,6 +118,7 @@ export default function Home() {
               First edition coming this Thursday!
             </div>
           )}
+          <GuidesStrip guides={guides} lang="en" source="home" />
         </div>
 
         {/* Sticky subscribe sidebar */}
@@ -178,63 +183,6 @@ export default function Home() {
               Archive →
             </Link>
           </div>
-
-          {/* Recent blog posts */}
-          {recentPosts.length > 0 && (
-            <div style={{
-              background: colors.card,
-              borderRadius: 8,
-              padding: '20px 18px',
-              marginTop: 20,
-              border: `1px solid ${colors.divider}`,
-            }}>
-              <h3 style={{
-                fontFamily: typography.serif,
-                fontSize: 16,
-                color: colors.heading,
-                margin: '0 0 14px',
-                paddingBottom: 10,
-                borderBottom: `2px solid ${colors.accent}`,
-                letterSpacing: -0.2,
-              }}>
-                From the Blog
-              </h3>
-              {recentPosts.map((post, i) => (
-                <Link
-                  key={post.slug}
-                  href={`/blog/${post.slug}`}
-                  style={{
-                    display: 'block',
-                    textDecoration: 'none',
-                    padding: '10px 0',
-                    borderBottom: i < recentPosts.length - 1 ? `1px solid ${colors.divider}` : 'none',
-                  }}
-                >
-                  <div style={{ fontSize: 13, color: colors.heading, fontWeight: 500, lineHeight: 1.4, marginBottom: 4 }}>
-                    {post.title}
-                  </div>
-                  <div style={{ fontSize: 11, color: colors.textSoft }}>
-                    {new Date(post.publishedAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}
-                  </div>
-                </Link>
-              ))}
-              <Link
-                href="/blog"
-                style={{
-                  display: 'block',
-                  textAlign: 'center',
-                  fontSize: 12,
-                  color: colors.accent,
-                  textDecoration: 'none',
-                  marginTop: 14,
-                  fontWeight: 600,
-                  letterSpacing: 0.3,
-                }}
-              >
-                All articles →
-              </Link>
-            </div>
-          )}
         </div>
 
       </div>

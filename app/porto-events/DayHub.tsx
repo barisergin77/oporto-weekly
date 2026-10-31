@@ -9,6 +9,9 @@ import { Header } from '@/app/components/Header';
 import { Footer } from '@/app/components/Footer';
 import { SubscribeCTA } from '@/app/components/SubscribeCTA';
 import { ShortcutChips } from '@/app/components/ShortcutChips';
+import { GuidesStrip } from '@/app/components/RelatedGuide';
+import { listBlogPosts } from '@/lib/blog';
+import { guidesForHub } from '@/lib/related-guides';
 
 /**
  * "Today" / "This weekend", shared by /porto-events/{today,this-weekend} (EN)
@@ -100,6 +103,7 @@ export function DayHub({ kind, lang }: { kind: DayHubKind; lang: Lang }) {
   const range = dayHubRange(kind);
   const { main, longRuns } = eventsInRange(range);
   const when = rangeLabel(range.from, range.to, lang);
+  const guides = guidesForHub([...main, ...longRuns], Number(range.from.slice(5, 7)) - 1, listBlogPosts());
   const h1 = heading(kind, lang);
 
   const month = monthOfIso(range.from);
@@ -205,6 +209,8 @@ export function DayHub({ kind, lang }: { kind: DayHubKind; lang: Lang }) {
             </ul>
           </section>
         )}
+
+        <GuidesStrip guides={guides} lang={lang} source="hub" />
 
         <nav style={{ display: 'flex', justifyContent: 'space-between', gap: 16, marginTop: 48, fontSize: 14 }}>
           <Link href={monthHref} style={{ color: colors.heading }}>{pt ? `Agenda de ${monthName}` : `All events in ${monthName}`} →</Link>

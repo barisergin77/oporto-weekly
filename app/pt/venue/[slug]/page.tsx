@@ -16,6 +16,9 @@ import { Header } from '@/app/components/Header';
 import { Footer } from '@/app/components/Footer';
 import { venueSeo } from '@/lib/event-seo';
 import { SubscribeCTA } from '@/app/components/SubscribeCTA';
+import { RelatedGuideCard } from '@/app/components/RelatedGuide';
+import { listBlogPosts } from '@/lib/blog';
+import { relatedGuidesForVenue } from '@/lib/related-guides';
 
 export function generateStaticParams() {
   const seen = new Set<string>();
@@ -59,6 +62,7 @@ export default function VenuePagePT({ params }: { params: { slug: string } }) {
   const today = new Date().toISOString().slice(0, 10);
   const upcoming = events.filter((e) => (e.endDate ?? e.date) >= today).sort((a, b) => a.date.localeCompare(b.date));
   const past = events.filter((e) => (e.endDate ?? e.date) < today).sort((a, b) => b.date.localeCompare(a.date));
+  const [guide] = relatedGuidesForVenue(name, events, listBlogPosts());
 
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -100,6 +104,7 @@ export default function VenuePagePT({ params }: { params: { slug: string } }) {
           </section>
         )}
 
+        <RelatedGuideCard guide={guide} lang="pt" source="venue" />
         <SubscribeCTA lang="pt" context="venue" />
 
         {past.length > 0 && (

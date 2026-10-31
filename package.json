@@ -23,6 +23,7 @@
     "test:gyg": "tsx scripts/test-gyg.ts",
     "test:picks": "tsx scripts/test-opus-picks.ts",
     "test:humanizer": "tsx scripts/test-humanizer.ts",
+    "test:guides": "tsx scripts/test-related-guides.ts",
     "compose-dry-run": "tsx --env-file=.env.local scripts/compose-edition-dry-run.ts"
   },
   "dependencies": {

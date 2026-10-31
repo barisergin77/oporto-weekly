@@ -16,6 +16,8 @@ import { kebab } from './venues';
 import { MAX_FEVER_PER_EDITION, isFeverEvent } from './fever';
 import { isGomryEvent } from './gomry';
 import { ticketFor } from './tickets';
+import { humanizeText } from './humanizer';
+import type { BlogPost } from './blog';
 
 /** Below these the window is too thin to compose; the legacy research path runs. */
 export const COMPOSE_MIN_TOTAL = 10;
@@ -236,6 +238,53 @@ export function insertAlsoOn(html: string, block: string): string {
   const m = FOOTER_MARKER.exec(html);
   if (!m) return html; // nowhere safe to put it — ship without
   return html.slice(0, m.index) + block + '\n' + html.slice(m.index);
+}
+
+// ---------------------------------------------------------------------------
+// "From the blog": one guide link per edition (owner 2026-10-31). The guide is
+// picked by newsletterGuide() (lib/related-guides.ts); the line is inserted
+// before the footer of the EN edition, and the PT cron swaps the translated
+// line for a deterministic PT one (PT title, /pt/blog/ link when it exists).
+// ---------------------------------------------------------------------------
+
+export const FROM_THE_BLOG_START = '<!-- FROM THE BLOG -->';
+export const FROM_THE_BLOG_END = '<!-- END FROM THE BLOG -->';
+const FROM_THE_BLOG_RE = /<!-- FROM THE BLOG -->[\s\S]*?<!-- END FROM THE BLOG -->/;
+
+/** The one-line block. PT links /pt/blog/ only for guides with a PT version (titlePt is set with the PT file). */
+export function renderFromTheBlog(post: BlogPost, lang: 'en' | 'pt'): string {
+  const pt = lang === 'pt' && Boolean(post.titlePt);
+  const title = humanizeText(pt ? post.titlePt! : post.title, { title: true });
+  const href = `https://oportoweekly.com/${pt ? 'pt/blog' : 'blog'}/${post.slug}`;
+  return `${FROM_THE_BLOG_START}
+<table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="background:#fffdf7;">
+  <tr>
+    <td style="padding:8px 28px 28px;">
+      <p style="margin:0;font-family:'Inter', Arial, sans-serif;font-size:14px;line-height:1.6;color:#3a3a3a;">` +
+    `<span style="color:#6b6b6b;">${lang === 'pt' ? 'Do blog' : 'From the blog'}:</span> ` +
+    `<a href="${esc(href)}" style="color:#1a1a2e;font-weight:600;text-decoration:none;border-bottom:1px solid #c9a96e;">${esc(title)}</a></p>
+    </td>
+  </tr>
+</table>
+${FROM_THE_BLOG_END}`;
+}
+
+/** Put the block before the footer (replacing an earlier one, so a re-run never doubles it). */
+export function insertFromTheBlog(html: string, block: string): string {
+  if (FROM_THE_BLOG_RE.test(html)) return html.replace(FROM_THE_BLOG_RE, () => block);
+  if (!block) return html;
+  const m = FOOTER_MARKER.exec(html);
+  if (!m) return html; // nowhere safe to put it, ship without
+  return html.slice(0, m.index) + block + '\n' + html.slice(m.index);
+}
+
+/** PT edition: replace the (machine-translated) block with the PT render of the same guide. */
+export function localizeFromTheBlog(ptHtml: string, posts: BlogPost[]): string {
+  const m = FROM_THE_BLOG_RE.exec(ptHtml);
+  if (!m) return ptHtml;
+  const slug = /oportoweekly\.com\/(?:pt\/)?blog\/([a-z0-9-]+)/.exec(m[0])?.[1];
+  const post = slug ? posts.find((p) => p.slug === slug) : undefined;
+  return post ? ptHtml.replace(FROM_THE_BLOG_RE, () => renderFromTheBlog(post, 'pt')) : ptHtml;
 }
 
 /** Records to commit with the archive: extracted ones win; top-up finds are added. */
