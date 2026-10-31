@@ -7,6 +7,8 @@
 
 import assert from 'node:assert/strict';
 import { HUMANIZER_RULES, humanizeText, humanizeHtml } from '../lib/humanizer';
+import facts from '../data/porto-facts.json';
+import puzzles from '../data/play-puzzles.json';
 
 const D = '—';
 let passed = 0;
@@ -97,6 +99,25 @@ test('rules block covers the core rules and stays compact', () => {
     assert.ok(HUMANIZER_RULES.includes(s), `rules mention ${s}`);
   }
   assert.ok(HUMANIZER_RULES.split('\n').length <= 50, 'rules block stays under 50 lines');
+});
+
+// Static copy that ships as data (Porto facts box, Porto Zoom notes): already
+// human, so the post-pass must not change a byte, and no hype words.
+const HYPE = /\b(delve|tapestry|testament|pivotal|crucial|vibrant|nestled|seamless|elevate|unlock|leverage|foster|robust|comprehensive|game-changer|cutting-edge|realm|underscore|showcase|boasts?|breathtaking|stunning|unmissable|must-see|hidden gem|immerse|iconic|vibrante|imperd[ií]vel|deslumbrante|m[aá]gic[oa]|aut[eê]ntica joia|mergulhe|n[aã]o perca|experi[eê]ncia [uú]nica|tape[cç]aria|no cora[cç][aã]o d[eao]|sem d[uú]vida)\b/i;
+const dataStrings: Array<[string, string]> = [
+  ...(facts as Array<{ id: string; en: string; pt: string }>).flatMap((f) => [[`fact ${f.id} en`, f.en], [`fact ${f.id} pt`, f.pt]] as Array<[string, string]>),
+  ...(puzzles as Array<{ id: string; en: string; pt: string; noteEn: string; notePt: string; aliases: string[] }>).flatMap((p) => [
+    [`puzzle ${p.id} en`, p.en], [`puzzle ${p.id} pt`, p.pt], [`puzzle ${p.id} noteEn`, p.noteEn], [`puzzle ${p.id} notePt`, p.notePt],
+    ...p.aliases.map((a) => [`puzzle ${p.id} alias`, a]),
+  ] as Array<[string, string]>),
+];
+test('Porto facts and Porto Zoom notes pass the humanizer unchanged', () => {
+  assert.ok(dataStrings.length > 200, `only ${dataStrings.length} strings`);
+  for (const [where, s] of dataStrings) {
+    assert.equal(humanizeText(s), s, `${where} changed by humanizeText`);
+    assert.ok(!/–\s|\s–/.test(s), `${where} has a spaced en dash`);
+    assert.ok(!HYPE.test(s), `${where} uses a hype word: ${s.match(HYPE)?.[0]}`);
+  }
 });
 
 console.log(`test-humanizer: ${passed} passed`);

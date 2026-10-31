@@ -144,6 +144,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ]),
     { url: 'https://oportoweekly.com/pt', lastModified: new Date(), changeFrequency: 'weekly', priority: 0.9 },
     { url: 'https://oportoweekly.com/pt/blog', lastModified: new Date(), changeFrequency: 'weekly', priority: 0.8 },
+    // Porto Zoom, the daily game: a new puzzle every day (owner 2026-10-31).
+    { url: 'https://oportoweekly.com/play', lastModified: new Date(), changeFrequency: 'daily', priority: 0.7 },
+    { url: 'https://oportoweekly.com/pt/jogar', lastModified: new Date(), changeFrequency: 'daily', priority: 0.6 },
     { url: 'https://oportoweekly.com/archive', lastModified: new Date(), changeFrequency: 'weekly', priority: 0.8 },
     ...eventUrls,
     ...venueUrls,

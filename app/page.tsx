@@ -9,6 +9,8 @@ import { Header } from './components/Header';
 import { Footer } from './components/Footer';
 import { ShortcutChips } from './components/ShortcutChips';
 import { GuidesStrip } from './components/RelatedGuide';
+import { PlayTeaser } from './components/PlayTeaser';
+import { PortoFactsBox } from './components/PortoFactsBox';
 
 export async function generateMetadata(): Promise<Metadata> {
   const newsletters = listNewsletters();
@@ -119,6 +121,8 @@ export default function Home() {
             </div>
           )}
           <GuidesStrip guides={guides} lang="en" source="home" />
+          {/* Porto facts (owner 2026-10-31): one sourced fact a day, "Another fact" on click. */}
+          <div style={{ marginTop: 32 }}><PortoFactsBox lang="en" /></div>
         </div>
 
         {/* Sticky subscribe sidebar */}
@@ -183,6 +187,9 @@ export default function Home() {
               Archive →
             </Link>
           </div>
+
+          {/* Daily game teaser (owner 2026-10-31) */}
+          <div style={{ marginTop: 20 }}><PlayTeaser lang="en" /></div>
         </div>
 
       </div>

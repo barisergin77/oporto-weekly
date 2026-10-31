@@ -55,6 +55,16 @@ img, table, iframe, video {
     gap: 10px !important;
   }
 
+  /* Room for the 4th nav item (Play / Jogar) on one line */
+  .site-header {
+    padding: 12px 14px !important;
+    gap: 8px;
+  }
+  .site-header > a:first-child {
+    font-size: 18px !important;
+    white-space: nowrap;
+  }
+
   /* Newsletter content - ensure it doesn't overflow */
   .newsletter-content {
     overflow-x: auto;
