@@ -7,6 +7,7 @@ import { generateImage } from '@/lib/imagen';
 import { commitFiles } from '@/lib/github';
 import { notifySearchEngines } from '@/lib/search-engines';
 import { checkCronAuth } from '@/lib/cron-auth';
+import { HUMANIZER_RULES, humanizeHtml, humanizeText } from '@/lib/humanizer';
 
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY!;
 const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro:generateContent?key=${GEMINI_API_KEY}`;
@@ -151,6 +152,7 @@ export async function GET(req: NextRequest) {
     const metaRaw = await geminiGenerate(
       `Based on this research about Porto, generate a blog article plan.\n\n` +
       `RESEARCH:\n${research.slice(0, 4000)}\n\n` +
+      `The "title" and "excerpt" are reader-facing and follow these rules (the image prompts do not):\n${HUMANIZER_RULES}\n\n` +
       `Return ONLY valid JSON (no markdown, no code fences) with these fields:\n` +
       `{\n` +
       `  "title": "SEO-optimized article title (50-65 chars, include 'Porto')",\n` +
@@ -164,6 +166,8 @@ export async function GET(req: NextRequest) {
     // Parse metadata JSON — strip code fences if present
     const cleanMeta = metaRaw.replace(/^```json?\n?/i, '').replace(/\n?```$/, '').trim();
     const meta = JSON.parse(cleanMeta);
+    if (typeof meta.title === 'string') meta.title = humanizeText(meta.title, { title: true });
+    if (typeof meta.excerpt === 'string') meta.excerpt = humanizeText(meta.excerpt);
 
     await new Promise(r => setTimeout(r, 2000));
 
@@ -187,13 +191,14 @@ export async function GET(req: NextRequest) {
       `- End with a brief practical tip or recommendation\n` +
       `- Do NOT include the title (it's rendered by the page template)\n` +
       `- Do NOT include author byline (it's rendered by the page template)\n\n` +
+      `${HUMANIZER_RULES}\n\n` +
       `Output ONLY the HTML. No markdown, no code fences, no explanation.`
     );
 
-    let articleHtml = articleRaw
+    let articleHtml = humanizeHtml(articleRaw
       .replace(/^```html\n?/i, '')
       .replace(/\n?```$/, '')
-      .trim();
+      .trim());
 
     // 5. Generate images
     console.log('[cron/blog] Generating hero image...');

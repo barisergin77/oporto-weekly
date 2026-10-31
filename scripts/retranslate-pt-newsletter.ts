@@ -19,6 +19,7 @@
 
 import fs from 'fs';
 import path from 'path';
+import { HUMANIZER_RULES, humanizeHtml } from '../lib/humanizer';
 
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 const MODEL = 'gemini-2.5-pro';
@@ -40,6 +41,8 @@ RULES:
 - Keep ALL HTML structure, CSS classes, inline styles, links (href), and image URLs EXACTLY the same.
 - Output ONLY the complete translated HTML. No markdown fences, no commentary.
 
+${HUMANIZER_RULES}
+
 HTML TO TRANSLATE:
 ${enHtml}`;
 
@@ -59,7 +62,7 @@ ${enHtml}`;
       data?.candidates?.[0]?.content?.parts
         ?.map((p: { text?: string }) => p.text ?? '')
         .join('') ?? '';
-    return text.replace(/^```html\n?/i, '').replace(/\n?```$/, '').trim();
+    return humanizeHtml(text.replace(/^```html\n?/i, '').replace(/\n?```$/, '').trim());
   }
 
   try {
