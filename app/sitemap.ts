@@ -34,8 +34,13 @@ const RETITLED_SLUGS = new Set<string>([
 // one and 301s here (next.config.mjs), so its body changed.
 const COFFEE_MERGED = new Date('2026-10-26T12:00:00Z');
 const MERGED_SLUGS = new Set<string>(['portos-best-coffee-pastis-de-nata-the-2026-guide']);
+// 2026-10-31: facts re-checked against sources (closed shop moved, market day
+// fixed, unsourced prices removed) and a new description (backlog #4).
+const FACTS_REFRESHED = new Date('2026-10-31T12:00:00Z');
+const REFRESHED_SLUGS = new Set<string>(['porto-shopping-guide-your-map-to-vintage-artisan-finds']);
 
 function blogRevision(slug: string): Date {
+  if (REFRESHED_SLUGS.has(slug)) return FACTS_REFRESHED;
   if (MERGED_SLUGS.has(slug)) return COFFEE_MERGED;
   return RETITLED_SLUGS.has(slug) ? BLOG_RETITLED : PT_NAMESPACE;
 }
