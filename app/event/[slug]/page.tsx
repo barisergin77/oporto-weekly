@@ -24,6 +24,9 @@ import { organizerCtaEligible } from '@/lib/gomry';
 import { ticketFor } from '@/lib/tickets';
 import { OrganizerCta } from '@/app/components/OrganizerCta';
 import { TrackedLink } from '@/app/components/TrackedLink';
+import { RelatedGuideCard } from '@/app/components/RelatedGuide';
+import { listBlogPosts } from '@/lib/blog';
+import { relatedGuidesForEvent } from '@/lib/related-guides';
 
 export function generateStaticParams() {
   return listEvents().map((e) => ({ slug: e.slug }));
@@ -82,6 +85,7 @@ export default function EventPage({ params }: { params: { slug: string } }) {
     : [];
   // Month hub for this event's start month, if that month has a page.
   const monthHub = monthHubFor(ev);
+  const [guide] = relatedGuidesForEvent(ev, listBlogPosts());
 
   return (
     <div
@@ -238,6 +242,9 @@ export default function EventPage({ params }: { params: { slug: string } }) {
             — the weekly Oporto Weekly edition.
           </div>
         )}
+
+        {/* Related blog guide (lib/related-guides.ts): the next read after the event. */}
+        <RelatedGuideCard guide={guide} lang="en" source="event" />
 
         {/* Subscribe — the visitor has just found one event; offer the weekly list. */}
         {monthHub && (

@@ -20,6 +20,8 @@
 import fs from 'fs';
 import path from 'path';
 import { HUMANIZER_RULES, humanizeHtml } from '../lib/humanizer';
+import { localizeFromTheBlog } from '../lib/edition-compose';
+import { listBlogPosts } from '../lib/blog';
 
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 const MODEL = 'gemini-2.5-pro';
@@ -108,7 +110,7 @@ async function main() {
   }
 
   console.log('\n🤖 Translating…');
-  const ptHtml = await translateNewsletter(enHtml);
+  const ptHtml = localizeFromTheBlog(await translateNewsletter(enHtml), listBlogPosts());
   const outEventLinks = (ptHtml.match(/href="https:\/\/oportoweekly\.com\/event\//g) ?? []).length;
   const outGoogleLinks = (ptHtml.match(/href="https:\/\/www\.google\.com\/search/g) ?? []).length;
   console.log(`   PT (after):  ${outEventLinks} event links, ${outGoogleLinks} google.com links (${ptHtml.length} bytes)`);

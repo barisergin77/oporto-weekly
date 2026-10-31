@@ -14,6 +14,9 @@ import { SubscribeForm } from '../SubscribeForm';
 import { Header } from '../components/Header';
 import { Footer } from '../components/Footer';
 import { ShortcutChips } from '../components/ShortcutChips';
+import { GuidesStrip } from '../components/RelatedGuide';
+import { listBlogPosts } from '@/lib/blog';
+import { guidesForHub } from '@/lib/related-guides';
 
 export const metadata: Metadata = {
   title: 'Porto Events This Week — Upcoming Things To Do in Porto',
@@ -53,6 +56,7 @@ export default function PortoEventsPage() {
 
   const displayEvents = upcoming.length > 0 ? upcoming : recentPast;
   const isShowingPast = upcoming.length === 0;
+  const guides = guidesForHub(displayEvents, new Date().getUTCMonth(), listBlogPosts());
 
   // ItemList JSON-LD helps Google show this page as a structured event list.
   const jsonLd = {
@@ -321,6 +325,8 @@ export default function PortoEventsPage() {
               First edition coming this Thursday!
             </div>
           )}
+
+          <GuidesStrip guides={guides} lang="en" source="hub" />
 
           <div
             style={{

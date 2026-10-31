@@ -23,7 +23,9 @@ const linkStyle = (isActive: boolean) => ({
 export function Header({ lang = 'en', active }: HeaderProps) {
   const isEN = lang === 'en';
   const home = isEN ? '/' : '/pt';
+  // The blog's nav item reads "Guides" (owner 2026-10-31): that is what the posts are.
   const blogHref = isEN ? '/blog' : '/pt/blog';
+  const blogLabel = isEN ? 'Guides' : 'Guias';
   const archiveHref = isEN ? '/archive' : '/pt/arquivo';
   const archiveLabel = isEN ? 'Archive' : 'Arquivo';
   const langHref = isEN ? '/pt' : '/';
@@ -52,7 +54,7 @@ export function Header({ lang = 'en', active }: HeaderProps) {
       {/* Nav */}
       <nav className="header-nav" style={{ display: 'flex', gap: 20, alignItems: 'center' }}>
         <Link href={blogHref} style={linkStyle(active === 'blog')}>
-          Blog
+          {blogLabel}
         </Link>
         <Link href={archiveHref} style={linkStyle(active === 'archive')}>
           {archiveLabel}

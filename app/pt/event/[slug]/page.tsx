@@ -25,6 +25,9 @@ import { organizerCtaEligible } from '@/lib/gomry';
 import { ticketFor } from '@/lib/tickets';
 import { OrganizerCta } from '@/app/components/OrganizerCta';
 import { TrackedLink } from '@/app/components/TrackedLink';
+import { RelatedGuideCard } from '@/app/components/RelatedGuide';
+import { listBlogPosts } from '@/lib/blog';
+import { relatedGuidesForEvent } from '@/lib/related-guides';
 
 export function generateStaticParams() {
   return listEvents().map((e) => ({ slug: e.slug }));
@@ -63,6 +66,8 @@ export default function EventPagePT({ params }: { params: { slug: string } }) {
     : [];
   // Month hub for this event's start month, if that month has a page.
   const monthHub = monthHubFor(ev);
+  // Matched on the EN record (the rules know both languages' keywords).
+  const [guide] = relatedGuidesForEvent(ev, listBlogPosts());
 
   return (
     <div style={{ background: colors.bg, minHeight: '100vh', fontFamily: typography.sans, color: colors.text }}>
@@ -139,6 +144,8 @@ export default function EventPagePT({ params }: { params: { slug: string } }) {
             da Oporto Weekly.
           </div>
         )}
+
+        <RelatedGuideCard guide={guide} lang="pt" source="event" />
 
         {monthHub && (
           <p style={{ margin: '0 0 24px', fontSize: 14 }}>

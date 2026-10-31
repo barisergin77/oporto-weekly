@@ -15,6 +15,9 @@ import { Header } from '@/app/components/Header';
 import { Footer } from '@/app/components/Footer';
 import { venueSeo } from '@/lib/event-seo';
 import { SubscribeCTA } from '@/app/components/SubscribeCTA';
+import { RelatedGuideCard } from '@/app/components/RelatedGuide';
+import { listBlogPosts } from '@/lib/blog';
+import { relatedGuidesForVenue } from '@/lib/related-guides';
 
 /**
  * `/venue/<slug>` — aggregates every event we've indexed at a given venue.
@@ -92,6 +95,7 @@ export default function VenuePage({ params }: { params: { slug: string } }) {
   const past = events
     .filter((e) => (e.endDate ?? e.date) < today)
     .sort((a, b) => b.date.localeCompare(a.date));
+  const [guide] = relatedGuidesForVenue(name, events, listBlogPosts());
 
   // schema.org Place for rich snippets on the venue page.
   // Nested events use toEventJsonLd() so they pass GSC validation — Google
@@ -186,6 +190,7 @@ export default function VenuePage({ params }: { params: { slug: string } }) {
           </section>
         )}
 
+        <RelatedGuideCard guide={guide} lang="en" source="venue" />
         <SubscribeCTA lang="en" context="venue" />
 
         {past.length > 0 && (

@@ -15,7 +15,10 @@ import {
 import {
   selectEditionEvents, composeDecision, eventDigest, renderAlsoOn, insertAlsoOn, longRunsNotFeatured,
   mergeEventFiles, ALSO_ON_PLACEHOLDER, whenText,
+  renderFromTheBlog, insertFromTheBlog, localizeFromTheBlog,
 } from '../lib/edition-compose';
+import { newsletterGuide } from '../lib/related-guides';
+import { listBlogPosts, type BlogPost } from '../lib/blog';
 import { gitBlobSha } from '../lib/event-store';
 import { FORWARD_SOURCE, type EventRecord } from '../lib/events';
 
@@ -156,6 +159,33 @@ test('also on: unfeatured long runs, placeholder or footer, escaped', () => {
   assert.ok(out.indexOf('Also on') < out.indexOf('background:#efe8da'));
   assert.equal(insertAlsoOn('<body>no footer</body>', block), '<body>no footer</body>', 'no safe spot → unchanged');
   assert.equal(renderAlsoOn([]), '');
+});
+// ------------------------------------------------------------- from the blog
+test('from the blog: one guide per week, rotating, same for EN and PT', () => {
+  const posts = listBlogPosts();
+  const weeks = Array.from({ length: 8 }, (_, i) => new Date(Date.UTC(2026, 9, 29 + 7 * i)).toISOString().slice(0, 10));
+  const picks = weeks.map((w) => newsletterGuide(posts, w)!.slug);
+  assert.equal(new Set(picks).size, picks.length, 'no repeat within 8 weeks');
+  assert.equal(newsletterGuide(posts, '2026-10-29')!.slug, newsletterGuide(posts, '2026-10-29T05:30:00Z')!.slug, 'deterministic per week');
+  assert.ok(picks.every((s) => posts.some((p) => p.slug === s)), 'only real slugs');
+  assert.equal(newsletterGuide([], '2026-10-29'), undefined);
+});
+test('from the blog: one line, before the footer, PT swap', () => {
+  const post: BlogPost = { slug: 'food-guide', title: 'Food \u2014 Porto', excerpt: '', author: '', publishedAt: '2026-10-01', heroImage: '', images: [], tags: [], titlePt: 'Comer no Porto' };
+  const en = renderFromTheBlog(post, 'en');
+  assert.match(en, /From the blog:<\/span> <a href="https:\/\/oportoweekly\.com\/blog\/food-guide"[^>]*>Food: Porto<\/a>/);
+  assert.equal(en.includes('\u2014'), false, 'humanizer: no em dash');
+  const footer = '<body><p>TIP</p><div style="background:#efe8da;padding:36px 28px;text-align:center;">Oporto Weekly</div></body>';
+  const out = insertFromTheBlog(footer, en);
+  assert.ok(out.indexOf('TIP') < out.indexOf('From the blog') && out.indexOf('From the blog') < out.indexOf('background:#efe8da'));
+  assert.equal(insertFromTheBlog(out, en), out, 're-run does not double it');
+  assert.equal(insertFromTheBlog('<body>no footer</body>', en), '<body>no footer</body>');
+  const translated = out.replace('From the blog', 'Do blogue').replace('Food: Porto', 'Comida: Porto');
+  const pt = localizeFromTheBlog(translated, [post]);
+  assert.match(pt, /Do blog:<\/span> <a href="https:\/\/oportoweekly\.com\/pt\/blog\/food-guide"[^>]*>Comer no Porto<\/a>/);
+  const noPt = localizeFromTheBlog(translated, [{ ...post, titlePt: undefined }]);
+  assert.match(noPt, /href="https:\/\/oportoweekly\.com\/blog\/food-guide"[^>]*>Food: Porto</, 'no PT version: EN title + EN link');
+  assert.equal(localizeFromTheBlog('<body>x</body>', [post]), '<body>x</body>');
 });
 test('event files: extracted win, top-up finds added once', () => {
   const extracted = [ev({ name: 'X', date: '2026-10-30', slug: 'x', sourceEdition: 'october-29-november-4-2026' })];

@@ -10,7 +10,11 @@ import {
 } from '@/lib/newsletter-generate';
 import {
   selectEditionEvents, eventDigest, insertAlsoOn, renderAlsoOn, longRunsNotFeatured, mergeEventFiles,
+  insertFromTheBlog, renderFromTheBlog,
 } from '@/lib/edition-compose';
+import { newsletterGuide } from '@/lib/related-guides';
+import type { BlogPost } from '@/lib/blog';
+import blogIndex from '@/data/blog-posts.json';
 import { choosePicks, refreshPicks, presetPicks, pickLogLine, type PickResult } from '@/lib/opus-picks';
 
 /** Top-up search budget inside the 300s function (runs alongside the hero image). */
@@ -349,6 +353,10 @@ export async function GET(req: NextRequest) {
         content: JSON.stringify(e, null, 2),
       }));
     }
+    // "From the blog": one guide per edition, rotated by week (both paths).
+    // Bundled JSON index, not fs: the function bundle has no data/ dir.
+    const guide = newsletterGuide(blogIndex as BlogPost[], weekStartISO);
+    if (guide) html = insertFromTheBlog(html, renderFromTheBlog(guide, 'en'));
     // Which path made this edition — read by /api/cron/newsletter-test for the owner's copy.
     html = html.replace(/<body([^>]*)>/i, (m) => `${m}\n<!-- oporto-weekly:path=${path} -->`);
 
