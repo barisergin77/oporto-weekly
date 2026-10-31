@@ -7,6 +7,74 @@ impressions / pos 9.3 over 28 days (prev 28: 191 / 10,293 / 16.9);
 subscribers 56 active (34 EN, 22 PT), ~1.4 net/week; signups by page: none
 recorded yet (tracking started today).
 
+## 2026-10-31 — Top shopping guide fact-checked (#4); #34 branch verified for merge
+- Run 09:00 UTC Sat, outside the freeze.
+- Metrics (`metrics/2026-10-31.json`): 318 clicks / 15,400 impr / pos 10.98
+  over 28d (yesterday 312 / 15,057 / 10.80; prev 28d 285 / 12,897 / 11.08).
+  Last 7d 77 clicks vs 72, impressions 4,048 vs 3,041 (+33%), CTR 1.9% vs
+  2.4%, position 13.3 vs 11.8 (seventh day of the same wider-but-deeper
+  pattern; clicks are up this time). GA4 7d 53 users / 64 sessions / 132 PV
+  (prev 36 / 41 / 80), best week so far; 30 organic, 19 direct, 8 organic
+  social, 7 AI. Subscribers 60 (10-29). Signups attributed 28d: 7, none new.
+- **Result due (10-17 "Subscribe forms where search visitors land"): worked,
+  modestly.** Subscribers 56 (10-15) → 55 → 60 (10-29): +4 net in two weeks,
+  2.0/week vs the ~1.4/week baseline. All 7 attributed signups came from
+  pages that had no form before: 4 event pages, 2 archive, 1 this-weekend.
+  Blog pages: 0 signups despite being the top landing pages → idea #35.
+- Housekeeping: local `main` had the owner's playbook commit (164229d, ops
+  only) unpushed and diverged from origin; rebased onto origin/main and
+  pushed with this log.
+- #34 (Opus picks): the 10-30 session pushed `feat/34-opus-picks` (33c363c +
+  e79b178 room-name venue merges). Checked in a worktree merged with today's
+  main: clean merge, tsc OK, `test:picks` 13 pass, build OK. Read the diff:
+  never throws, 60 s deadline, Gemini fallback on any failure, slug
+  validation. Note the 60 s sits inside the route's 300 s budget, before
+  Gemini; fine if Gemini + verify stay under ~200 s as now. I could not
+  open/see the PR from here (`gh` needs approval). Not merged by me: it
+  touches `app/api/cron/newsletter/route.ts` (send path, rule 2).
+- Why (#4): `/blog/porto-shopping-guide-your-map-to-vintage-artisan-finds`
+  is the #1 page (43 of 318 clicks, 1,155 impr, pos 8.5) and had never been
+  fact-checked. Checked every listing against sources (Visit Porto, Agenda
+  Porto, porto.pt, Shop in Porto, clausporto.com, Time Out):
+  - A Vida Portuguesa, Rua de Cândido dos Reis 36: **closed in 2020**; the
+    brand returned in 2024 inside Time Out Market (São Bento, south wing).
+    The guide sent readers to the closed shop first.
+  - Mercado da Alegria (Passeio Alegre): **Sundays** from 9:00 (city listings,
+    2025 Christmas calendar, 2026 Agenda Porto); guide said 2nd/4th Saturday.
+  - Porto Belo: Saturdays, but hours differ by source/season → "Saturdays,
+    check Agenda Porto" instead of 10–19.
+  - Vandoma: Sat 8–13, Av. 25 de Abril (Campanhã): confirmed, added Campanhã.
+  - Claus Porto: Rua das Flores 22 confirmed; official hours daily 10–19
+    added; prices in **$** with no source removed.
+  - CRU: address confirmed; hours conflict between sources → removed; the
+    "2026 planner €16.80 / hoodie €99" prices removed (unsourced).
+  - CCB shop names (Collectiva, Daily day, Free Bird) not verifiable → made
+    generic. Armazém: city's Shop in Porto lists it daily 11:30–20:00 and the
+    Old & Vintage fair on the 3rd weekend; kept, "café" → "bar".
+  - "2025-2026 guide" dropped from the intro and the description.
+- Change (afae206): EN + PT bodies, new EN/PT excerpt (meta description:
+  names the places + "checked October 2026"), sitemap `FACTS_REFRESHED`
+  revision for this slug.
+- Verified: tsc; build OK; built EN + PT pages carry the new text, old
+  address/$ prices gone. Live: /api/version = afae206, page 200, health
+  ok: true. Indexing API: EN + PT URLs → 200.
+- Expect: CTR on this page up from 3.7% (43/1,155), fewer bounces from people
+  sent to a closed shop. Small, slow.
+- Measure on: 2026-11-28 (GSC page clicks/CTR, 28d vs the 28d to 10-30).
+- Result:
+- Next run (Sun 11-01): #4 continued: `shop-like-a-local-in-porto-your-2026-
+  vintage-market-guide` (#3 page, has "2026" in its slug/title, so its facts
+  matter most). Check whether #34 was merged; if not, remind the owner (must
+  be live before Wed 11-04 18:00).
+- Needs owner: (1) **#34: please merge `feat/34-opus-picks` into main** (open
+  the PR on GitHub if the 10-30 session didn't). Verified today against
+  current main; it's the send path, so I won't merge it myself. Deadline Wed
+  11-04 18:00 UTC. The branch also carries e79b178 (museu / blue-lounge /
+  cibermusica → Serralves / Casa da Música, with 301s), which answers
+  yesterday's question (2). (2) The guide is in your first-person voice
+  ("I've lost count of the vinyl I've picked up here"); I only changed facts,
+  not the voice.
+
 ## 2026-10-30 — Forward scan: room-only venue names → site's venue (#33)
 - Run 09:00 UTC Fri, outside the freeze.
 - Metrics (`metrics/2026-10-30.json`): 312 clicks / 15,057 impr / pos 10.80
