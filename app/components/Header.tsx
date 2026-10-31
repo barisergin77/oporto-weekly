@@ -9,7 +9,7 @@ const InstagramIcon = () => (
 
 interface HeaderProps {
   lang?: 'en' | 'pt';
-  active?: 'home' | 'blog' | 'archive' | 'events';
+  active?: 'home' | 'blog' | 'archive' | 'events' | 'play';
 }
 
 const linkStyle = (isActive: boolean) => ({
@@ -28,11 +28,14 @@ export function Header({ lang = 'en', active }: HeaderProps) {
   const blogLabel = isEN ? 'Guides' : 'Guias';
   const archiveHref = isEN ? '/archive' : '/pt/arquivo';
   const archiveLabel = isEN ? 'Archive' : 'Arquivo';
+  // Porto Zoom, the daily game (owner 2026-10-31).
+  const playHref = isEN ? '/play' : '/pt/jogar';
+  const playLabel = isEN ? 'Play' : 'Jogar';
   const langHref = isEN ? '/pt' : '/';
   const langLabel = isEN ? 'PT' : 'EN';
 
   return (
-    <header style={{
+    <header className="site-header" style={{
       background: colors.bg,
       padding: '14px 28px',
       display: 'flex',
@@ -58,6 +61,9 @@ export function Header({ lang = 'en', active }: HeaderProps) {
         </Link>
         <Link href={archiveHref} style={linkStyle(active === 'archive')}>
           {archiveLabel}
+        </Link>
+        <Link href={playHref} style={linkStyle(active === 'play')}>
+          {playLabel}
         </Link>
 
         {/* Separator */}

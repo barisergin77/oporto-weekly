@@ -7,6 +7,8 @@ import { Header } from '../components/Header';
 import { Footer } from '../components/Footer';
 import { ShortcutChips } from '../components/ShortcutChips';
 import { GuidesStrip } from '../components/RelatedGuide';
+import { PlayTeaser } from '../components/PlayTeaser';
+import { PortoFactsBox } from '../components/PortoFactsBox';
 import { listBlogPostsPT } from '@/lib/blog';
 import { featuredGuides } from '@/lib/related-guides';
 import { listEventMonths, ptLabel, ptSlug } from '@/lib/event-months';
@@ -79,6 +81,8 @@ export default function HomePT() {
             </div>
           )}
           <GuidesStrip guides={guides} lang="pt" source="home" />
+          {/* Porto facts (owner 2026-10-31): one sourced fact a day, "Another fact" on click. */}
+          <div style={{ marginTop: 32 }}><PortoFactsBox lang="pt" /></div>
         </div>
 
         {/* Sticky subscribe sidebar */}
@@ -138,6 +142,9 @@ export default function HomePT() {
               Ver todas as edições →
             </Link>
           </div>
+
+          {/* Jogo diário (owner 2026-10-31) */}
+          <div style={{ marginTop: 20 }}><PlayTeaser lang="pt" /></div>
 
           {/* Month hubs — /pt has no events index of its own, so this is how
               readers and Google reach /pt/eventos/<mes>. */}

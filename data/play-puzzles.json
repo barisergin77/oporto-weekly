@@ -1,0 +1,1151 @@
+[
+  {
+    "id": "capela-almas",
+    "en": "Capela das Almas",
+    "pt": "Capela das Almas",
+    "aliases": [
+      "Chapel of Souls",
+      "Capela de Santa Catarina"
+    ],
+    "image": "/play/p/e92927bc76.webp",
+    "width": 1200,
+    "height": 871,
+    "fx": 70,
+    "fy": 50,
+    "noteEn": "The walls were plain white until 1929. Today 15,947 azulejo tiles designed by Eduardo Leite cover about 360 square metres of the outside.",
+    "notePt": "Até 1929 as paredes eram brancas e lisas. Hoje há 15.947 azulejos, desenhados por Eduardo Leite, a cobrir cerca de 360 metros quadrados do exterior.",
+    "guide": "art",
+    "sourceUrl": "https://en.wikipedia.org/wiki/Chapel_of_Santa_Catarina",
+    "credit": {
+      "file": "Capilla de las Almas, Oporto, Portugal, 2012-05-09, DD 01.JPG",
+      "page": "https://commons.wikimedia.org/wiki/File:Capilla_de_las_Almas,_Oporto,_Portugal,_2012-05-09,_DD_01.JPG",
+      "author": "Diego Delso",
+      "licence": "CC BY-SA 3.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+    }
+  },
+  {
+    "id": "luis-i",
+    "en": "Dom Luís I Bridge",
+    "pt": "Ponte Luís I",
+    "aliases": [
+      "Ponte D. Luís",
+      "Luiz I Bridge",
+      "Ponte Dom Luís I"
+    ],
+    "image": "/play/p/4e4e458c68.webp",
+    "width": 1200,
+    "height": 741,
+    "fx": 35,
+    "fy": 70,
+    "noteEn": "Théophile Seyrig, a former partner of Gustave Eiffel, designed it. Metro line D runs on the upper deck, and cars, buses and walkers use the lower one.",
+    "notePt": "O projeto é de Théophile Seyrig, antigo sócio de Gustave Eiffel. A linha D do metro passa no tabuleiro de cima e os carros, autocarros e peões usam o de baixo.",
+    "guide": "views",
+    "sourceUrl": "https://en.wikipedia.org/wiki/Dom_Lu%C3%ADs_I_Bridge",
+    "credit": {
+      "file": "Puente Don Luis I, Oporto, Portugal, 2012-05-09, DD 13.JPG",
+      "page": "https://commons.wikimedia.org/wiki/File:Puente_Don_Luis_I,_Oporto,_Portugal,_2012-05-09,_DD_13.JPG",
+      "author": "Diego Delso",
+      "licence": "CC BY-SA 3.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+    }
+  },
+  {
+    "id": "bolhao",
+    "en": "Bolhão Market",
+    "pt": "Mercado do Bolhão",
+    "aliases": [
+      "Bolhao",
+      "Mercado do Bolhao"
+    ],
+    "image": "/play/p/119ef860d0.webp",
+    "width": 1200,
+    "height": 800,
+    "fx": 50,
+    "fy": 20,
+    "noteEn": "The city decided to build a market here in 1839, and the building you see went up in 1914 to a design by architect Correia da Silva.",
+    "notePt": "A Câmara decidiu fazer aqui uma praça de mercado em 1839. O edifício atual é de 1914, com projeto do arquiteto Correia da Silva.",
+    "guide": "markets",
+    "sourceUrl": "https://pt.wikipedia.org/wiki/Mercado_do_Bolh%C3%A3o",
+    "credit": {
+      "file": "Santo Ildefonso-Mercado do Bolhão.jpg",
+      "page": "https://commons.wikimedia.org/wiki/File:Santo_Ildefonso-Mercado_do_Bolh%C3%A3o.jpg",
+      "author": "António Amen",
+      "licence": "CC BY-SA 3.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+    }
+  },
+  {
+    "id": "clerigos",
+    "en": "Clérigos Tower",
+    "pt": "Torre dos Clérigos",
+    "aliases": [
+      "Clerigos",
+      "Igreja dos Clérigos",
+      "Clérigos Church"
+    ],
+    "image": "/play/p/53b8c87c80.webp",
+    "width": 612,
+    "height": 1200,
+    "fx": 50,
+    "fy": 40,
+    "noteEn": "Nicolau Nasoni designed the church and its tower. The tower, at the back of the church, was built between 1754 and 1763.",
+    "notePt": "Nicolau Nasoni desenhou a igreja e a torre. A torre, nas traseiras da igreja, foi construída entre 1754 e 1763.",
+    "guide": "walking",
+    "sourceUrl": "https://en.wikipedia.org/wiki/Cl%C3%A9rigos_Church",
+    "credit": {
+      "file": "Torre de los Clérigos, Oporto, Portugal, 2012-05-09, DD 01.JPG",
+      "page": "https://commons.wikimedia.org/wiki/File:Torre_de_los_Cl%C3%A9rigos,_Oporto,_Portugal,_2012-05-09,_DD_01.JPG",
+      "author": "Diego Delso",
+      "licence": "CC BY-SA 3.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+    }
+  },
+  {
+    "id": "casa-musica",
+    "en": "Casa da Música",
+    "pt": "Casa da Música",
+    "aliases": [
+      "Casa da Musica"
+    ],
+    "image": "/play/p/b0d0b5bca3.webp",
+    "width": 1200,
+    "height": 800,
+    "fx": 35,
+    "fy": 40,
+    "noteEn": "Rem Koolhaas designed the concert hall for Porto's year as European Capital of Culture in 2001. It opened on 15 April 2005, on the site of an old tram terminus at Boavista.",
+    "notePt": "Rem Koolhaas desenhou a sala para o Porto Capital Europeia da Cultura 2001. Abriu a 15 de abril de 2005, onde antes ficava uma estação de elétricos na Boavista.",
+    "guide": "art",
+    "sourceUrl": "https://en.wikipedia.org/wiki/Casa_da_M%C3%BAsica",
+    "credit": {
+      "file": "86724-Porto (49052540207).jpg",
+      "page": "https://commons.wikimedia.org/wiki/File:86724-Porto_(49052540207).jpg",
+      "author": "xiquinhosilva from Cacau",
+      "licence": "CC BY 2.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by/2.0"
+    }
+  },
+  {
+    "id": "majestic",
+    "en": "Majestic Café",
+    "pt": "Café Majestic",
+    "aliases": [
+      "Majestic"
+    ],
+    "image": "/play/p/49dfd1a290.webp",
+    "width": 1200,
+    "height": 937,
+    "fx": 60,
+    "fy": 30,
+    "noteEn": "The café at no. 112 Rua de Santa Catarina opened on 17 December 1921. Its first name was Elite.",
+    "notePt": "O café do n.º 112 da Rua de Santa Catarina abriu a 17 de dezembro de 1921. O primeiro nome foi Elite.",
+    "guide": "coffee",
+    "sourceUrl": "https://pt.wikipedia.org/wiki/Caf%C3%A9_Majestic",
+    "credit": {
+      "file": "Cafe Majestic in Porto (6).jpg",
+      "page": "https://commons.wikimedia.org/wiki/File:Cafe_Majestic_in_Porto_(6).jpg",
+      "author": "Krzysztof Golik",
+      "licence": "CC BY-SA 4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+    }
+  },
+  {
+    "id": "sao-bento",
+    "en": "São Bento Station",
+    "pt": "Estação de São Bento",
+    "aliases": [
+      "Sao Bento",
+      "São Bento railway station"
+    ],
+    "image": "/play/p/424f34ac64.webp",
+    "width": 1200,
+    "height": 893,
+    "fx": 45,
+    "fy": 30,
+    "noteEn": "Architect José Marques da Silva designed the station, and Jorge Colaço painted the roughly 20,000 azulejo tiles in the hall with scenes from Portuguese history.",
+    "notePt": "O projeto é do arquiteto José Marques da Silva. Os cerca de 20 mil azulejos do átrio, com cenas da história de Portugal, foram pintados por Jorge Colaço.",
+    "guide": "walking",
+    "sourceUrl": "https://en.wikipedia.org/wiki/S%C3%A3o_Bento_railway_station",
+    "credit": {
+      "file": "Estação Ferroviária de Porto - São Bento.JPG",
+      "page": "https://commons.wikimedia.org/wiki/File:Esta%C3%A7%C3%A3o_Ferrovi%C3%A1ria_de_Porto_-_S%C3%A3o_Bento.JPG",
+      "author": "HombreDHojalata",
+      "licence": "CC BY-SA 4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+    }
+  },
+  {
+    "id": "serra-pilar",
+    "en": "Serra do Pilar Monastery",
+    "pt": "Mosteiro da Serra do Pilar",
+    "aliases": [
+      "Serra do Pilar"
+    ],
+    "image": "/play/p/1e8690b235.webp",
+    "width": 1200,
+    "height": 843,
+    "fx": 50,
+    "fy": 30,
+    "noteEn": "Both the church and the cloister are circular, with the same diameter. The church was inaugurated on 17 July 1672.",
+    "notePt": "A igreja e o claustro são ambos circulares e têm o mesmo diâmetro. A igreja foi inaugurada a 17 de julho de 1672.",
+    "guide": "views",
+    "sourceUrl": "https://en.wikipedia.org/wiki/Monastery_of_Serra_do_Pilar",
+    "credit": {
+      "file": "Iglesia Serra do Pilar, Oporto, Portugal, 2012-05-09, DD 03.JPG",
+      "page": "https://commons.wikimedia.org/wiki/File:Iglesia_Serra_do_Pilar,_Oporto,_Portugal,_2012-05-09,_DD_03.JPG",
+      "author": "Diego Delso",
+      "licence": "CC BY-SA 3.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+    }
+  },
+  {
+    "id": "queijo",
+    "en": "Castelo do Queijo",
+    "pt": "Castelo do Queijo",
+    "aliases": [
+      "Forte de São Francisco Xavier",
+      "Queijo"
+    ],
+    "image": "/play/p/2832841547.webp",
+    "width": 1200,
+    "height": 800,
+    "fx": 63,
+    "fy": 35,
+    "noteEn": "Its real name is Forte de São Francisco Xavier. The nickname comes from the round granite rock it stands on, which tradition says looks like a cheese.",
+    "notePt": "O nome oficial é Forte de São Francisco Xavier. A alcunha vem da rocha de granito arredondada onde assenta, que, segundo a tradição, parece um queijo.",
+    "guide": "beaches",
+    "sourceUrl": "https://pt.wikipedia.org/wiki/Forte_de_S%C3%A3o_Francisco_Xavier_do_Queijo",
+    "credit": {
+      "file": "Castelo do Queijo (26).jpg",
+      "page": "https://commons.wikimedia.org/wiki/File:Castelo_do_Queijo_(26).jpg",
+      "author": "Krzysztof Golik",
+      "licence": "CC BY-SA 4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+    }
+  },
+  {
+    "id": "freixo",
+    "en": "Freixo Palace",
+    "pt": "Palácio do Freixo",
+    "aliases": [
+      "Freixo"
+    ],
+    "image": "/play/p/e96e20c241.webp",
+    "width": 1200,
+    "height": 800,
+    "fx": 45,
+    "fy": 35,
+    "noteEn": "Nicolau Nasoni designed this riverside house in the middle of the 18th century for Canon Jerónimo de Távora.",
+    "notePt": "Nicolau Nasoni desenhou esta casa à beira-rio em meados do século XVIII, para o cónego Jerónimo de Távora.",
+    "guide": "hiddengems",
+    "sourceUrl": "https://en.wikipedia.org/wiki/Pal%C3%A1cio_do_Freixo",
+    "credit": {
+      "file": "Palácio do Freixo - Fachada.jpg",
+      "page": "https://commons.wikimedia.org/wiki/File:Pal%C3%A1cio_do_Freixo_-_Fachada.jpg",
+      "author": "António Amen",
+      "licence": "CC BY-SA 3.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+    }
+  },
+  {
+    "id": "santo-ildefonso",
+    "en": "Church of Santo Ildefonso",
+    "pt": "Igreja de Santo Ildefonso",
+    "aliases": [
+      "Santo Ildefonso"
+    ],
+    "image": "/play/p/80db9eedbf.webp",
+    "width": 1200,
+    "height": 1096,
+    "fx": 28,
+    "fy": 55,
+    "noteEn": "The church was blessed on 18 July 1739. About 11,000 azulejo tiles by Jorge Colaço have covered its façade since November 1932.",
+    "notePt": "A igreja foi benzida a 18 de julho de 1739. Cerca de 11 mil azulejos de Jorge Colaço cobrem a fachada desde novembro de 1932.",
+    "guide": "walking",
+    "sourceUrl": "https://en.wikipedia.org/wiki/Church_of_Saint_Ildefonso",
+    "credit": {
+      "file": "Classic architecture in Porto, Portugal (54042684688).jpg",
+      "page": "https://commons.wikimedia.org/wiki/File:Classic_architecture_in_Porto,_Portugal_(54042684688).jpg",
+      "author": "Frank Kovalchek from USA",
+      "licence": "CC BY 2.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by/2.0"
+    }
+  },
+  {
+    "id": "dragao",
+    "en": "Estádio do Dragão",
+    "pt": "Estádio do Dragão",
+    "aliases": [
+      "Dragão",
+      "Dragao",
+      "Dragon Stadium"
+    ],
+    "image": "/play/p/52dc663f2b.webp",
+    "width": 1200,
+    "height": 900,
+    "fx": 60,
+    "fy": 30,
+    "noteEn": "FC Porto's stadium opened on 16 November 2003 with a friendly against Barcelona. It was one of the venues of Euro 2004 and seats 50,033.",
+    "notePt": "O estádio do FC Porto foi inaugurado a 16 de novembro de 2003 com um jogo particular contra o Barcelona. Recebeu jogos do Euro 2004 e tem 50.033 lugares.",
+    "guide": "family",
+    "sourceUrl": "https://en.wikipedia.org/wiki/Est%C3%A1dio_do_Drag%C3%A3o",
+    "credit": {
+      "file": "Estádio do Dragão (8468978586).jpg",
+      "page": "https://commons.wikimedia.org/wiki/File:Est%C3%A1dio_do_Drag%C3%A3o_(8468978586).jpg",
+      "author": "Edgar Jiménez from Porto, Portugal",
+      "licence": "CC BY-SA 2.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by-sa/2.0"
+    }
+  },
+  {
+    "id": "bolsa",
+    "en": "Palácio da Bolsa",
+    "pt": "Palácio da Bolsa",
+    "aliases": [
+      "Stock Exchange Palace",
+      "Bolsa"
+    ],
+    "image": "/play/p/30ed36d144.webp",
+    "width": 1200,
+    "height": 863,
+    "fx": 44,
+    "fy": 22,
+    "noteEn": "The city's merchants built it on the ruins of the São Francisco convent from 1842. Most of it was finished by 1850, but the interior decoration took until 1910.",
+    "notePt": "Os comerciantes da cidade construíram-no a partir de 1842 nas ruínas do convento de São Francisco. Quase tudo estava pronto em 1850, mas a decoração interior só terminou em 1910.",
+    "guide": "walking",
+    "sourceUrl": "https://en.wikipedia.org/wiki/Pal%C3%A1cio_da_Bolsa",
+    "credit": {
+      "file": "Palacio da Bolsa in Porto (2).jpg",
+      "page": "https://commons.wikimedia.org/wiki/File:Palacio_da_Bolsa_in_Porto_(2).jpg",
+      "author": "Krzysztof Golik",
+      "licence": "CC BY-SA 4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+    }
+  },
+  {
+    "id": "rua-das-flores",
+    "en": "Rua das Flores",
+    "pt": "Rua das Flores",
+    "aliases": [
+      "Flores"
+    ],
+    "image": "/play/p/f92e48d4d2.webp",
+    "width": 1200,
+    "height": 800,
+    "fx": 85,
+    "fy": 30,
+    "noteEn": "The street was opened between 1521 and 1525. It is home to the Misericórdia church, started in 1559, and to old family houses with coats of arms over the doors.",
+    "notePt": "A rua foi aberta entre 1521 e 1525. Aqui fica a Igreja da Misericórdia, começada em 1559, e várias casas de família com brasão na fachada.",
+    "guide": "walking",
+    "sourceUrl": "https://pt.wikipedia.org/wiki/Rua_das_Flores_(Porto)",
+    "credit": {
+      "file": "Old porto reminds me of the atlantic version of pre-olympic old barcelona- authentic, abandoned, nostalgic (29342755442).jpg",
+      "page": "https://commons.wikimedia.org/wiki/File:Old_porto_reminds_me_of_the_atlantic_version_of_pre-olympic_old_barcelona-_authentic,_abandoned,_nostalgic_(29342755442).jpg",
+      "author": "Nicolás Boullosa from Fontainebleau, France",
+      "licence": "CC BY 2.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by/2.0"
+    }
+  },
+  {
+    "id": "tnsj",
+    "en": "São João National Theatre",
+    "pt": "Teatro Nacional São João",
+    "aliases": [
+      "TNSJ",
+      "Teatro São João"
+    ],
+    "image": "/play/p/cfe8b17f7e.webp",
+    "width": 1200,
+    "height": 1028,
+    "fx": 12,
+    "fy": 40,
+    "noteEn": "The first theatre here opened on 13 May 1798. A fire destroyed its interior in 1908, and the building you see replaced it.",
+    "notePt": "O primeiro teatro neste local abriu a 13 de maio de 1798. Um incêndio destruiu o interior em 1908 e foi construído o edifício atual.",
+    "guide": "art",
+    "sourceUrl": "https://en.wikipedia.org/wiki/S%C3%A3o_Jo%C3%A3o_National_Theatre",
+    "credit": {
+      "file": "Porto Teatro de Sao Joao.JPG",
+      "page": "https://commons.wikimedia.org/wiki/File:Porto_Teatro_de_Sao_Joao.JPG",
+      "author": "AntoniusJ",
+      "licence": "Public domain",
+      "licenceUrl": ""
+    }
+  },
+  {
+    "id": "fonte-leoes",
+    "en": "Lions Fountain",
+    "pt": "Fonte dos Leões",
+    "aliases": [
+      "Praça dos Leões",
+      "Praça de Gomes Teixeira",
+      "Fonte dos Leoes"
+    ],
+    "image": "/play/p/ebf696c19e.webp",
+    "width": 1041,
+    "height": 1200,
+    "fx": 25,
+    "fy": 50,
+    "noteEn": "The fountain was installed in 1885 by the French company that then ran the city's water supply. It gave the square its popular name, Praça dos Leões.",
+    "notePt": "A fonte foi instalada em 1885 pela empresa francesa que geria o abastecimento de água da cidade. É por causa dela que a praça é conhecida por Praça dos Leões.",
+    "guide": "walking",
+    "sourceUrl": "https://pt.wikipedia.org/wiki/Pra%C3%A7a_de_Gomes_Teixeira",
+    "credit": {
+      "file": "Fonte dos Leoes in Porto (1).jpg",
+      "page": "https://commons.wikimedia.org/wiki/File:Fonte_dos_Leoes_in_Porto_(1).jpg",
+      "author": "Krzysztof Golik",
+      "licence": "CC BY-SA 4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+    }
+  },
+  {
+    "id": "anemona",
+    "en": "She Changes (Matosinhos)",
+    "pt": "Anémona de Matosinhos",
+    "aliases": [
+      "Anémona",
+      "Anemona",
+      "She Changes"
+    ],
+    "image": "/play/p/92f9c1d869.webp",
+    "width": 1200,
+    "height": 900,
+    "fx": 55,
+    "fy": 45,
+    "noteEn": "Janet Echelman's net sculpture hangs from three steel poles between 25 and 50 metres tall. Locals call it the anémona. It was her first permanent public artwork.",
+    "notePt": "A escultura em rede de Janet Echelman está pendurada em três postes de aço com 25 a 50 metros. Toda a gente lhe chama anémona. Foi a primeira obra pública permanente da artista.",
+    "guide": "beaches",
+    "sourceUrl": "https://en.wikipedia.org/wiki/She_Changes",
+    "credit": {
+      "file": "Porto (31662007562).jpg",
+      "page": "https://commons.wikimedia.org/wiki/File:Porto_(31662007562).jpg",
+      "author": "Sergei Gussev",
+      "licence": "CC BY 2.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by/2.0"
+    }
+  },
+  {
+    "id": "maria-pia",
+    "en": "Maria Pia Bridge",
+    "pt": "Ponte Maria Pia",
+    "aliases": [
+      "Ponte D. Maria Pia",
+      "Ponte de Dona Maria Pia"
+    ],
+    "image": "/play/p/da5deccc27.webp",
+    "width": 1200,
+    "height": 797,
+    "fx": 40,
+    "fy": 40,
+    "noteEn": "The wrought iron railway bridge from 1877 is attributed to Gustave Eiffel. Trains stopped using it in 1991, when the São João bridge replaced it.",
+    "notePt": "A ponte ferroviária em ferro forjado, de 1877, é atribuída a Gustave Eiffel. Deixou de ter comboios em 1991, quando a Ponte de São João a substituiu.",
+    "guide": "views",
+    "sourceUrl": "https://en.wikipedia.org/wiki/Maria_Pia_Bridge",
+    "credit": {
+      "file": "Ponte D. Maria Pia-Porto.JPG",
+      "page": "https://commons.wikimedia.org/wiki/File:Ponte_D._Maria_Pia-Porto.JPG",
+      "author": "Joseolgon",
+      "licence": "CC BY-SA 3.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+    }
+  },
+  {
+    "id": "guindais",
+    "en": "Guindais Funicular",
+    "pt": "Funicular dos Guindais",
+    "aliases": [
+      "Guindais"
+    ],
+    "image": "/play/p/1bde6616ab.webp",
+    "width": 800,
+    "height": 1200,
+    "fx": 50,
+    "fy": 50,
+    "noteEn": "The funicular links Batalha with the riverside next to the Luís I bridge. The current line opened in 2004, on the route of one that ran in the 1890s.",
+    "notePt": "O funicular liga a Batalha à margem do rio, junto à Ponte Luís I. A linha atual abriu em 2004, no traçado de outra que funcionou na década de 1890.",
+    "guide": "family",
+    "sourceUrl": "https://en.wikipedia.org/wiki/Funicular_dos_Guindais",
+    "credit": {
+      "file": "Oporto - Funicular dos Guindais - 20110425 132242.jpg",
+      "page": "https://commons.wikimedia.org/wiki/File:Oporto_-_Funicular_dos_Guindais_-_20110425_132242.jpg",
+      "author": "Barcex",
+      "licence": "CC BY-SA 3.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+    }
+  },
+  {
+    "id": "lello",
+    "en": "Livraria Lello",
+    "pt": "Livraria Lello",
+    "aliases": [
+      "Lello",
+      "Lello Bookshop"
+    ],
+    "image": "/play/p/a5b631ddc3.webp",
+    "width": 803,
+    "height": 1200,
+    "fx": 50,
+    "fy": 25,
+    "noteEn": "The bookshop opened in this building in 1906. Inside, a forked staircase climbs to a gallery under a stained glass window with the motto Decus in Labore.",
+    "notePt": "A livraria abriu neste edifício em 1906. Lá dentro, uma escadaria bifurcada sobe até uma galeria por baixo de um vitral com o lema Decus in Labore.",
+    "guide": "hiddengems",
+    "sourceUrl": "https://en.wikipedia.org/wiki/Livraria_Lello",
+    "credit": {
+      "file": "20110924 D80 LivrariaLello-72272 0534.jpg",
+      "page": "https://commons.wikimedia.org/wiki/File:20110924_D80_LivrariaLello-72272_0534.jpg",
+      "author": "Glaucco97",
+      "licence": "CC BY-SA 3.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+    }
+  },
+  {
+    "id": "bom-sucesso",
+    "en": "Bom Sucesso Market",
+    "pt": "Mercado do Bom Sucesso",
+    "aliases": [
+      "Bom Sucesso"
+    ],
+    "image": "/play/p/b2daa4049b.webp",
+    "width": 1200,
+    "height": 900,
+    "fx": 35,
+    "fy": 35,
+    "noteEn": "It opened in 1952 as a fresh food market. After a refit it reopened in June 2013 with food stalls, shops, offices and a hotel.",
+    "notePt": "Abriu em 1952 como mercado de frescos. Depois de obras, reabriu em junho de 2013 com bancas de comida, lojas, escritórios e um hotel.",
+    "guide": "food",
+    "sourceUrl": "https://pt.wikipedia.org/wiki/Mercado_do_Bom_Sucesso",
+    "credit": {
+      "file": "Massarelos-Mercado Bom Sucesso.jpg",
+      "page": "https://commons.wikimedia.org/wiki/File:Massarelos-Mercado_Bom_Sucesso.jpg",
+      "author": "António Amen",
+      "licence": "CC BY-SA 3.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+    }
+  },
+  {
+    "id": "carmo",
+    "en": "Carmo Church",
+    "pt": "Igreja do Carmo",
+    "aliases": [
+      "Igreja do Carmo",
+      "Carmo"
+    ],
+    "image": "/play/p/1eda0cf35e.webp",
+    "width": 1200,
+    "height": 800,
+    "fx": 50,
+    "fy": 60,
+    "noteEn": "The church was built between 1756 and 1768. The big azulejo panel on its side wall dates from 1912 and was designed by Silvestre Silvestri and painted by Carlos Branco.",
+    "notePt": "A igreja foi construída entre 1756 e 1768. O grande painel de azulejos da fachada lateral é de 1912, com desenho de Silvestre Silvestri e pintura de Carlos Branco.",
+    "guide": "walking",
+    "sourceUrl": "https://pt.wikipedia.org/wiki/Igreja_do_Carmo_(Porto)",
+    "credit": {
+      "file": "01. Igreja do Carmo (Porto).JPG",
+      "page": "https://commons.wikimedia.org/wiki/File:01._Igreja_do_Carmo_(Porto).JPG",
+      "author": "Otourly",
+      "licence": "CC BY-SA 3.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+    }
+  },
+  {
+    "id": "santa-catarina",
+    "en": "Rua de Santa Catarina",
+    "pt": "Rua de Santa Catarina",
+    "aliases": [
+      "Santa Catarina"
+    ],
+    "image": "/play/p/ff326200e6.webp",
+    "width": 900,
+    "height": 1200,
+    "fx": 80,
+    "fy": 35,
+    "noteEn": "Downtown's main shopping street, mostly closed to cars. The Majestic Café and the Capela das Almas are both on it.",
+    "notePt": "A rua mais comercial da Baixa, quase toda fechada ao trânsito. O Café Majestic e a Capela das Almas ficam nesta rua.",
+    "guide": "madeinporto",
+    "sourceUrl": "https://pt.wikipedia.org/wiki/Rua_de_Santa_Catarina",
+    "credit": {
+      "file": "Elétricos do Porto (8298269236).jpg",
+      "page": "https://commons.wikimedia.org/wiki/File:El%C3%A9tricos_do_Porto_(8298269236).jpg",
+      "author": "IngolfBLN",
+      "licence": "CC BY-SA 2.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by-sa/2.0"
+    }
+  },
+  {
+    "id": "infante-bridge",
+    "en": "Infante Bridge",
+    "pt": "Ponte do Infante",
+    "aliases": [
+      "Ponte Infante D. Henrique",
+      "Infante Dom Henrique Bridge"
+    ],
+    "image": "/play/p/d538805416.webp",
+    "width": 1200,
+    "height": 779,
+    "fx": 50,
+    "fy": 15,
+    "noteEn": "Completed in 2003, it took over the car traffic from the upper deck of the Luís I bridge, which became part of metro line D.",
+    "notePt": "Concluída em 2003, ficou com o trânsito automóvel que passava no tabuleiro de cima da Ponte Luís I, entregue à linha D do metro.",
+    "guide": "views",
+    "sourceUrl": "https://en.wikipedia.org/wiki/Infante_Dom_Henrique_Bridge",
+    "credit": {
+      "file": "20190514 RP 0055 (47455462442).jpg",
+      "page": "https://commons.wikimedia.org/wiki/File:20190514_RP_0055_(47455462442).jpg",
+      "author": "icpcnews icpcnews",
+      "licence": "CC BY 2.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by/2.0"
+    }
+  },
+  {
+    "id": "trindade",
+    "en": "Trindade Church",
+    "pt": "Igreja da Trindade",
+    "aliases": [
+      "Trindade"
+    ],
+    "image": "/play/p/8b4a7a733b.webp",
+    "width": 732,
+    "height": 1200,
+    "fx": 55,
+    "fy": 25,
+    "noteEn": "The church behind the City Hall was designed by Carlos Amarante, who is buried inside. It opened for worship on 5 June 1841.",
+    "notePt": "A igreja por trás da Câmara Municipal tem projeto de Carlos Amarante, que está ali sepultado. Abriu ao culto a 5 de junho de 1841.",
+    "guide": "walking",
+    "sourceUrl": "https://pt.wikipedia.org/wiki/Igreja_da_Trindade_(Porto)",
+    "credit": {
+      "file": "Iglesia de la Trinidad, Oporto, Portugal, 2012-05-09, DD 01.JPG",
+      "page": "https://commons.wikimedia.org/wiki/File:Iglesia_de_la_Trinidad,_Oporto,_Portugal,_2012-05-09,_DD_01.JPG",
+      "author": "Diego Delso",
+      "licence": "CC BY-SA 3.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+    }
+  },
+  {
+    "id": "arrabida",
+    "en": "Arrábida Bridge",
+    "pt": "Ponte da Arrábida",
+    "aliases": [
+      "Arrabida"
+    ],
+    "image": "/play/p/03bf2d17c0.webp",
+    "width": 1200,
+    "height": 900,
+    "fx": 40,
+    "fy": 40,
+    "noteEn": "Edgar Cardoso designed this concrete arch bridge. It was inaugurated on 22 June 1963 and carries six lanes of traffic between Porto and Gaia.",
+    "notePt": "Edgar Cardoso projetou esta ponte em arco de betão. Foi inaugurada a 22 de junho de 1963 e liga o Porto a Gaia com seis faixas de rodagem.",
+    "guide": "views",
+    "sourceUrl": "https://en.wikipedia.org/wiki/Arr%C3%A1bida_Bridge",
+    "credit": {
+      "file": "Ponte da Arrabida - Porto.JPG",
+      "page": "https://commons.wikimedia.org/wiki/File:Ponte_da_Arrabida_-_Porto.JPG",
+      "author": "Joseolgon",
+      "licence": "Public domain",
+      "licenceUrl": ""
+    }
+  },
+  {
+    "id": "alfandega",
+    "en": "Old Customs House",
+    "pt": "Alfândega do Porto",
+    "aliases": [
+      "Alfândega",
+      "Alfandega",
+      "Alfândega Nova"
+    ],
+    "image": "/play/p/5807ae3b7a.webp",
+    "width": 1200,
+    "height": 900,
+    "fx": 50,
+    "fy": 40,
+    "noteEn": "French architect Jean-François Colson designed the riverside customs house in Miragaia. Since a restoration by Eduardo Souto de Moura it holds a congress centre and a transport museum.",
+    "notePt": "O projeto da Alfândega, à beira-rio em Miragaia, é do arquiteto francês Jean-François Colson. Depois do restauro de Eduardo Souto de Moura, tem um centro de congressos e o Museu dos Transportes.",
+    "guide": "walking",
+    "sourceUrl": "https://pt.wikipedia.org/wiki/Alf%C3%A2ndega_Nova_(Porto)",
+    "credit": {
+      "file": "Alfândega do Porto vista do Palácio.jpg",
+      "page": "https://commons.wikimedia.org/wiki/File:Alf%C3%A2ndega_do_Porto_vista_do_Pal%C3%A1cio.jpg",
+      "author": "Júlio Reis",
+      "licence": "CC BY-SA 3.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+    }
+  },
+  {
+    "id": "lapa",
+    "en": "Lapa Church",
+    "pt": "Igreja da Lapa",
+    "aliases": [
+      "Lapa",
+      "Nossa Senhora da Lapa"
+    ],
+    "image": "/play/p/afce6ce174.webp",
+    "width": 1200,
+    "height": 800,
+    "fx": 55,
+    "fy": 25,
+    "noteEn": "The first stone was laid on 17 July 1756. King Pedro IV left his heart to the church in his will, and it is kept in the chancel.",
+    "notePt": "A primeira pedra foi lançada a 17 de julho de 1756. O rei D. Pedro IV deixou o coração em testamento à igreja, onde está guardado na capela-mor.",
+    "guide": "hiddengems",
+    "sourceUrl": "https://pt.wikipedia.org/wiki/Igreja_da_Lapa_(Porto)",
+    "credit": {
+      "file": "Igreja da Lapa - Porto - Portugal (53401906606).jpg",
+      "page": "https://commons.wikimedia.org/wiki/File:Igreja_da_Lapa_-_Porto_-_Portugal_(53401906606).jpg",
+      "author": "Vitor Oliveira from Torres Vedras, PORTUGAL",
+      "licence": "CC BY-SA 2.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by-sa/2.0"
+    }
+  },
+  {
+    "id": "cadeia-relacao",
+    "en": "Old Court of Appeal Prison",
+    "pt": "Cadeia da Relação",
+    "aliases": [
+      "Centro Português de Fotografia",
+      "Cadeia da Relacao"
+    ],
+    "image": "/play/p/c3684f0535.webp",
+    "width": 1200,
+    "height": 820,
+    "fx": 20,
+    "fy": 30,
+    "noteEn": "Writer Camilo Castelo Branco was held here in 1860. Since 1997 the old prison has been home to the Portuguese Centre of Photography.",
+    "notePt": "O escritor Camilo Castelo Branco esteve aqui preso em 1860. Desde 1997, a antiga cadeia é a sede do Centro Português de Fotografia.",
+    "guide": "art",
+    "sourceUrl": "https://pt.wikipedia.org/wiki/Cadeia_da_Rela%C3%A7%C3%A3o",
+    "credit": {
+      "file": "Centro Portugués de Fotografía, Oporto, Portugal, 2012-05-09, DD 01.JPG",
+      "page": "https://commons.wikimedia.org/wiki/File:Centro_Portugu%C3%A9s_de_Fotograf%C3%ADa,_Oporto,_Portugal,_2012-05-09,_DD_01.JPG",
+      "author": "Diego Delso",
+      "licence": "CC BY-SA 3.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+    }
+  },
+  {
+    "id": "cedofeita",
+    "en": "Old Church of Cedofeita",
+    "pt": "Igreja Românica de Cedofeita",
+    "aliases": [
+      "Cedofeita",
+      "São Martinho de Cedofeita"
+    ],
+    "image": "/play/p/11ffe7672d.webp",
+    "width": 1200,
+    "height": 800,
+    "fx": 25,
+    "fy": 60,
+    "noteEn": "The small Romanesque church of São Martinho stands in Largo do Priorado. A new parish church, designed by José Marques da Silva, was built about 50 metres away.",
+    "notePt": "A pequena igreja românica de São Martinho fica no Largo do Priorado. A cerca de 50 metros foi construída a nova igreja paroquial, com projeto de José Marques da Silva.",
+    "guide": "hiddengems",
+    "sourceUrl": "https://pt.wikipedia.org/wiki/Igreja_de_S%C3%A3o_Martinho_de_Cedofeita",
+    "credit": {
+      "file": "Cedofeita-Igreja Romanica de Cedofeita (2).jpg",
+      "page": "https://commons.wikimedia.org/wiki/File:Cedofeita-Igreja_Romanica_de_Cedofeita_(2).jpg",
+      "author": "António Amen",
+      "licence": "CC BY-SA 3.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+    }
+  },
+  {
+    "id": "felgueiras",
+    "en": "Felgueiras Lighthouse",
+    "pt": "Farolim de Felgueiras",
+    "aliases": [
+      "Farol de Felgueiras",
+      "Foz lighthouse"
+    ],
+    "image": "/play/p/402e012e48.webp",
+    "width": 1200,
+    "height": 679,
+    "fx": 65,
+    "fy": 15,
+    "noteEn": "The small lighthouse at the end of the Foz pier was built in 1886. It was switched off in 2009, but its foghorn still works.",
+    "notePt": "O farolim no fim do molhe da Foz foi construído em 1886. Foi desativado em 2009, mas o sinal sonoro continua a funcionar.",
+    "guide": "beaches",
+    "sourceUrl": "https://pt.wikipedia.org/wiki/Farolim_de_Felgueiras",
+    "credit": {
+      "file": "20190514 RP 0549 (46784454444).jpg",
+      "page": "https://commons.wikimedia.org/wiki/File:20190514_RP_0549_(46784454444).jpg",
+      "author": "icpcnews icpcnews",
+      "licence": "CC BY 2.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by/2.0"
+    }
+  },
+  {
+    "id": "camara",
+    "en": "Avenida dos Aliados",
+    "pt": "Avenida dos Aliados",
+    "aliases": [
+      "Aliados",
+      "Porto City Hall",
+      "Câmara Municipal do Porto",
+      "Camara"
+    ],
+    "image": "/play/p/3340b2510e.webp",
+    "width": 1200,
+    "height": 639,
+    "fx": 50,
+    "fy": 25,
+    "noteEn": "Work on the avenue began on 1 February 1916. The tower at the top belongs to the City Hall, and the statue A Juventude by Henrique Moreira has stood here since 1929.",
+    "notePt": "As obras da avenida começaram a 1 de fevereiro de 1916. A torre ao fundo é a da Câmara Municipal, e a estátua A Juventude, de Henrique Moreira, está aqui desde 1929.",
+    "guide": "walking",
+    "sourceUrl": "https://pt.wikipedia.org/wiki/Avenida_dos_Aliados",
+    "credit": {
+      "file": "Avenue dos Aliados (5813392930).jpg",
+      "page": "https://commons.wikimedia.org/wiki/File:Avenue_dos_Aliados_(5813392930).jpg",
+      "author": "Alex Ristea from Vancouver, Canada",
+      "licence": "CC BY-SA 2.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by-sa/2.0"
+    }
+  },
+  {
+    "id": "ribeira",
+    "en": "Praça da Ribeira",
+    "pt": "Praça da Ribeira",
+    "aliases": [
+      "Ribeira",
+      "Ribeira Square",
+      "Cais da Ribeira"
+    ],
+    "image": "/play/p/6eaa72e748.webp",
+    "width": 1200,
+    "height": 803,
+    "fx": 45,
+    "fy": 45,
+    "noteEn": "The arcaded houses around the square went up after a fire in 1491, and the city walls that closed it off from the river came down in 1821. The bronze cube in the middle is by sculptor José Rodrigues.",
+    "notePt": "As casas com arcadas à volta da praça foram reconstruídas depois de um incêndio em 1491, e as muralhas que a separavam do rio caíram em 1821. O cubo de bronze ao centro é do escultor José Rodrigues.",
+    "guide": "neighbourhood",
+    "sourceUrl": "https://en.wikipedia.org/wiki/Ribeira_Square",
+    "credit": {
+      "file": "A Ribeira do Porto.jpg",
+      "page": "https://commons.wikimedia.org/wiki/File:A_Ribeira_do_Porto.jpg",
+      "author": "Rititaneves",
+      "licence": "CC BY-SA 3.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+    }
+  },
+  {
+    "id": "jardim-morro",
+    "en": "Jardim do Morro",
+    "pt": "Jardim do Morro",
+    "aliases": [
+      "Morro"
+    ],
+    "image": "/play/p/0802d546a7.webp",
+    "width": 1200,
+    "height": 778,
+    "fx": 55,
+    "fy": 45,
+    "noteEn": "This garden in Gaia was laid out in 1927 at the foot of Serra do Pilar, next to the upper deck of the Luís I bridge. It looks straight across at the old town.",
+    "notePt": "Este jardim de Gaia foi feito em 1927, no sopé da Serra do Pilar, junto ao tabuleiro superior da Ponte Luís I. Tem vista direta para o centro histórico.",
+    "guide": "views",
+    "sourceUrl": "https://pt.wikipedia.org/wiki/Jardim_do_Morro",
+    "credit": {
+      "file": "Jardim do Morro, Vila Nova de Gaia, Portugal, 2012-05-09, DD 01.JPG",
+      "page": "https://commons.wikimedia.org/wiki/File:Jardim_do_Morro,_Vila_Nova_de_Gaia,_Portugal,_2012-05-09,_DD_01.JPG",
+      "author": "Diego Delso",
+      "licence": "CC BY-SA 3.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+    }
+  },
+  {
+    "id": "coliseu",
+    "en": "Coliseu do Porto",
+    "pt": "Coliseu do Porto",
+    "aliases": [
+      "Coliseu",
+      "Coliseum of Porto"
+    ],
+    "image": "/play/p/2630cb1984.webp",
+    "width": 1200,
+    "height": 800,
+    "fx": 20,
+    "fy": 40,
+    "noteEn": "The Coliseu opened on 19 December 1941, on the site of the old Passos Manuel garden hall. It holds about 4,000 people standing.",
+    "notePt": "O Coliseu abriu a 19 de dezembro de 1941, onde antes ficava o Jardim Passos Manuel. Leva cerca de 4.000 pessoas em pé.",
+    "guide": "nightlife",
+    "sourceUrl": "https://en.wikipedia.org/wiki/Coliseu_do_Porto",
+    "credit": {
+      "file": "Santo Ildefonso-Coliseu do Porto.jpg",
+      "page": "https://commons.wikimedia.org/wiki/File:Santo_Ildefonso-Coliseu_do_Porto.jpg",
+      "author": "António Amen",
+      "licence": "CC BY-SA 3.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+    }
+  },
+  {
+    "id": "muralha",
+    "en": "Fernandine Walls",
+    "pt": "Muralha Fernandina",
+    "aliases": [
+      "Muralhas Fernandinas",
+      "City walls"
+    ],
+    "image": "/play/p/ca877a816d.webp",
+    "width": 1200,
+    "height": 797,
+    "fx": 85,
+    "fy": 35,
+    "noteEn": "The 14th-century city walls were nearly finished around 1370. The sections that survive have been a national monument since 1926.",
+    "notePt": "As muralhas do século XIV ficaram praticamente concluídas por volta de 1370. Os troços que restam são monumento nacional desde 1926.",
+    "guide": "walking",
+    "sourceUrl": "https://pt.wikipedia.org/wiki/Muralhas_fernandinas_do_Porto",
+    "credit": {
+      "file": "City wall from Ponte Luís I, Porto (24378862648).jpg",
+      "page": "https://commons.wikimedia.org/wiki/File:City_wall_from_Ponte_Lu%C3%ADs_I,_Porto_(24378862648).jpg",
+      "author": "Matt Kieffer from London, United Kingdom",
+      "licence": "CC BY-SA 2.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by-sa/2.0"
+    }
+  },
+  {
+    "id": "piscina-mares",
+    "en": "Leça Tidal Pools",
+    "pt": "Piscinas das Marés",
+    "aliases": [
+      "Piscina das Marés",
+      "Leça da Palmeira pools"
+    ],
+    "image": "/play/p/3bc7318f86.webp",
+    "width": 1200,
+    "height": 788,
+    "fx": 55,
+    "fy": 70,
+    "noteEn": "Álvaro Siza designed the two seawater pools between 1960 and 1973. They have been a national monument since 2011.",
+    "notePt": "Álvaro Siza desenhou as duas piscinas de água salgada entre 1960 e 1973. São monumento nacional desde 2011.",
+    "guide": "beaches",
+    "sourceUrl": "https://en.wikipedia.org/wiki/Tidal_pools_of_Le%C3%A7a_de_Palmeira",
+    "credit": {
+      "file": "Piscina das Marés - Leça da Palmeira - Portugal (27747007423).jpg",
+      "page": "https://commons.wikimedia.org/wiki/File:Piscina_das_Mar%C3%A9s_-_Le%C3%A7a_da_Palmeira_-_Portugal_(27747007423).jpg",
+      "author": "Vitor Oliveira from Torres Vedras, PORTUGAL",
+      "licence": "CC BY-SA 2.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by-sa/2.0"
+    }
+  },
+  {
+    "id": "cristal",
+    "en": "Crystal Palace Gardens",
+    "pt": "Jardins do Palácio de Cristal",
+    "aliases": [
+      "Palácio de Cristal",
+      "Palacio de Cristal",
+      "Crystal Palace"
+    ],
+    "image": "/play/p/ea3258c164.webp",
+    "width": 1200,
+    "height": 900,
+    "fx": 50,
+    "fy": 70,
+    "noteEn": "German landscape designer Émile David laid out the gardens in the 1860s. The small chapel in the photo was built in 1849 in memory of King Carlo Alberto of Sardinia.",
+    "notePt": "Os jardins foram desenhados na década de 1860 pelo paisagista alemão Émile David. A pequena capela da foto, de 1849, lembra o rei Carlos Alberto da Sardenha.",
+    "guide": "views",
+    "sourceUrl": "https://pt.wikipedia.org/wiki/Jardins_do_Pal%C3%A1cio_de_Cristal",
+    "credit": {
+      "file": "Capela de Carlos Alberto da Sardenha.jpg",
+      "page": "https://commons.wikimedia.org/wiki/File:Capela_de_Carlos_Alberto_da_Sardenha.jpg",
+      "author": "Tuga9890",
+      "licence": "Public domain",
+      "licenceUrl": ""
+    }
+  },
+  {
+    "id": "rosa-mota",
+    "en": "Rosa Mota Pavilion",
+    "pt": "Pavilhão Rosa Mota",
+    "aliases": [
+      "Super Bock Arena",
+      "Pavilhão Rosa Mota"
+    ],
+    "image": "/play/p/6bc14221cd.webp",
+    "width": 1200,
+    "height": 725,
+    "fx": 50,
+    "fy": 25,
+    "noteEn": "José Carlos Loureiro's dome replaced the old Crystal Palace, demolished in 1951. Portugal won the 1952 roller hockey world championship here before the roof was even finished.",
+    "notePt": "A cúpula de José Carlos Loureiro substituiu o antigo Palácio de Cristal, demolido em 1951. Portugal ganhou aqui o Mundial de Hóquei em Patins de 1952, ainda com a cobertura por acabar.",
+    "guide": "family",
+    "sourceUrl": "https://pt.wikipedia.org/wiki/Super_Bock_Arena",
+    "credit": {
+      "file": "Lordelo do Ouro e Massarelos - Pavilhão Rosa Mota - 2025-10-27 16-52-42 007.jpg",
+      "page": "https://commons.wikimedia.org/wiki/File:Lordelo_do_Ouro_e_Massarelos_-_Pavilh%C3%A3o_Rosa_Mota_-_2025-10-27_16-52-42_007.jpg",
+      "author": "Vimacopeca",
+      "licence": "CC BY-SA 4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+    }
+  },
+  {
+    "id": "paco-episcopal",
+    "en": "Bishop's Palace",
+    "pt": "Paço Episcopal",
+    "aliases": [
+      "Paço Episcopal do Porto",
+      "Bishops Palace"
+    ],
+    "image": "/play/p/95748c4557.webp",
+    "width": 1200,
+    "height": 794,
+    "fx": 65,
+    "fy": 45,
+    "noteEn": "The old residence of Porto's bishops stands next to the cathedral. Between 1916 and 1956 it housed the City Hall while the new one on Aliados was built.",
+    "notePt": "A antiga residência dos bispos do Porto fica ao lado da Sé. Entre 1916 e 1956 foi a sede da Câmara Municipal, enquanto se construíam os novos Paços do Concelho nos Aliados.",
+    "guide": "walking",
+    "sourceUrl": "https://pt.wikipedia.org/wiki/Pa%C3%A7o_Episcopal_do_Porto",
+    "credit": {
+      "file": "OPORTO, PORTUGAL (17122810192).jpg",
+      "page": "https://commons.wikimedia.org/wiki/File:OPORTO,_PORTUGAL_(17122810192).jpg",
+      "author": "Marcello Saponaro from Bergamo, Italia",
+      "licence": "CC BY 2.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by/2.0"
+    }
+  },
+  {
+    "id": "se",
+    "en": "Porto Cathedral",
+    "pt": "Sé do Porto",
+    "aliases": [
+      "Se",
+      "Sé",
+      "Cathedral"
+    ],
+    "image": "/play/p/33179ea8c6.webp",
+    "width": 1200,
+    "height": 800,
+    "fx": 28,
+    "fy": 35,
+    "noteEn": "Building started in the second half of the 12th century and went on until the 16th. King John I married Philippa of Lancaster here in 1387.",
+    "notePt": "A construção começou na segunda metade do século XII e prolongou-se até ao século XVI. D. João I casou aqui com Filipa de Lencastre em 1387.",
+    "guide": "walking",
+    "sourceUrl": "https://en.wikipedia.org/wiki/Porto_Cathedral",
+    "credit": {
+      "file": "Portugal April 2025 DSC 7728 (54482864661).jpg",
+      "page": "https://commons.wikimedia.org/wiki/File:Portugal_April_2025_DSC_7728_(54482864661).jpg",
+      "author": "Ralf Peter Reimann",
+      "licence": "CC BY-SA 2.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by-sa/2.0"
+    }
+  },
+  {
+    "id": "ferreira-borges",
+    "en": "Ferreira Borges Market",
+    "pt": "Mercado Ferreira Borges",
+    "aliases": [
+      "Ferreira Borges",
+      "Hard Club"
+    ],
+    "image": "/play/p/08a56ef198.webp",
+    "width": 1200,
+    "height": 639,
+    "fx": 45,
+    "fy": 25,
+    "noteEn": "The iron market hall was built in 1885 to replace the Ribeira market, but the traders refused to move. Today it hosts cultural events and exhibitions.",
+    "notePt": "O mercado de ferro foi construído em 1885 para substituir o da Ribeira, mas os vendedores nunca quiseram mudar-se. Hoje recebe exposições e eventos culturais.",
+    "guide": "nightlife",
+    "sourceUrl": "https://pt.wikipedia.org/wiki/Mercado_Ferreira_Borges",
+    "credit": {
+      "file": "São Nicolau-Mercado Ferreira Borges.jpg",
+      "page": "https://commons.wikimedia.org/wiki/File:S%C3%A3o_Nicolau-Mercado_Ferreira_Borges.jpg",
+      "author": "António Amen",
+      "licence": "CC BY-SA 3.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+    }
+  },
+  {
+    "id": "estacao-gaia-teleferico",
+    "en": "Gaia Cable Car",
+    "pt": "Teleférico de Gaia",
+    "aliases": [
+      "Teleferico",
+      "Teleférico"
+    ],
+    "image": "/play/p/4cdaee0f64.webp",
+    "width": 1200,
+    "height": 799,
+    "fx": 35,
+    "fy": 55,
+    "noteEn": "The cable car has run since April 2011 between Jardim do Morro and the Cais de Gaia, along 562 metres of line.",
+    "notePt": "O teleférico funciona desde abril de 2011 entre o Jardim do Morro e o Cais de Gaia, numa linha com 562 metros.",
+    "guide": "family",
+    "sourceUrl": "https://en.wikipedia.org/wiki/Gaia_Cable_Car",
+    "credit": {
+      "file": "Vila Nova de Gaia, Portugal - panoramio (4).jpg",
+      "page": "https://commons.wikimedia.org/wiki/File:Vila_Nova_de_Gaia,_Portugal_-_panoramio_(4).jpg",
+      "author": "Mister No",
+      "licence": "CC BY 3.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by/3.0"
+    }
+  },
+  {
+    "id": "congregados",
+    "en": "Congregados Church",
+    "pt": "Igreja dos Congregados",
+    "aliases": [
+      "Congregados"
+    ],
+    "image": "/play/p/13a6f8bb2d.webp",
+    "width": 751,
+    "height": 1200,
+    "fx": 50,
+    "fy": 50,
+    "noteEn": "The church on Praça de Almeida Garrett, opposite São Bento, was built in 1703. The azulejos on the façade are by Jorge Colaço.",
+    "notePt": "A igreja da Praça de Almeida Garrett, em frente a São Bento, foi construída em 1703. Os azulejos da fachada são de Jorge Colaço.",
+    "guide": "walking",
+    "sourceUrl": "https://pt.wikipedia.org/wiki/Igreja_dos_Congregados",
+    "credit": {
+      "file": "Iglesia de los Congregados, Oporto, Portugal, 2012-05-09, DD 01.JPG",
+      "page": "https://commons.wikimedia.org/wiki/File:Iglesia_de_los_Congregados,_Oporto,_Portugal,_2012-05-09,_DD_01.JPG",
+      "author": "Diego Delso",
+      "licence": "CC BY-SA 3.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+    }
+  },
+  {
+    "id": "sao-francisco",
+    "en": "Church of São Francisco",
+    "pt": "Igreja de São Francisco",
+    "aliases": [
+      "Sao Francisco",
+      "São Francisco Church"
+    ],
+    "image": "/play/p/980032dd16.webp",
+    "width": 1200,
+    "height": 800,
+    "fx": 50,
+    "fy": 30,
+    "noteEn": "The Gothic church was begun in 1383 and finished around 1425. Inside it is covered in gilded Baroque woodwork.",
+    "notePt": "A igreja gótica começou a ser construída em 1383 e ficou pronta por volta de 1425. O interior está coberto de talha dourada barroca.",
+    "guide": "walking",
+    "sourceUrl": "https://en.wikipedia.org/wiki/Church_of_S%C3%A3o_Francisco_(Porto)",
+    "credit": {
+      "file": "Igreja de São Francisco (Porto) 01.jpg",
+      "page": "https://commons.wikimedia.org/wiki/File:Igreja_de_S%C3%A3o_Francisco_(Porto)_01.jpg",
+      "author": "John Samuel",
+      "licence": "CC BY-SA 4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+    }
+  },
+  {
+    "id": "serralves",
+    "en": "Casa de Serralves",
+    "pt": "Casa de Serralves",
+    "aliases": [
+      "Serralves",
+      "Serralves Villa",
+      "Fundação de Serralves"
+    ],
+    "image": "/play/p/1cf9882dd7.webp",
+    "width": 1200,
+    "height": 798,
+    "fx": 50,
+    "fy": 35,
+    "noteEn": "The pink Art Deco villa sits in the Serralves park, next to the contemporary art museum designed by Álvaro Siza. The park won the Henry Ford Prize for the environment in 1997.",
+    "notePt": "A casa cor-de-rosa, em estilo Art Déco, fica no parque de Serralves, ao lado do museu de arte contemporânea de Álvaro Siza. O parque ganhou o Prémio Henry Ford para o ambiente em 1997.",
+    "guide": "art",
+    "sourceUrl": "https://en.wikipedia.org/wiki/Serralves",
+    "credit": {
+      "file": "Art deco mansion (32608592537).jpg",
+      "page": "https://commons.wikimedia.org/wiki/File:Art_deco_mansion_(32608592537).jpg",
+      "author": "Francisco Anzola from United States",
+      "licence": "CC BY 2.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by/2.0"
+    }
+  }
+]

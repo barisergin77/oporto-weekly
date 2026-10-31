@@ -14,7 +14,7 @@ import { SubscribeFormPT } from '../SubscribeFormPT';
  * by the form itself, so results can be compared per page type.
  */
 
-type Context = 'event' | 'blog' | 'venue';
+type Context = 'event' | 'blog' | 'venue' | 'play';
 
 const COPY: Record<'en' | 'pt', Record<Context, { eyebrow: string; title: string; body: string }>> = {
   en: {
@@ -33,6 +33,11 @@ const COPY: Record<'en' | 'pt', Record<Context, { eyebrow: string; title: string
       title: 'Know what’s on before it sells out',
       body: 'A weekly pick of the best events across Porto’s venues, delivered Thursday morning. Free.',
     },
+    play: {
+      eyebrow: 'Know Porto this well?',
+      title: 'Get the week in Porto every Thursday',
+      body: 'One short email with the concerts, exhibitions and markets worth going to. Free, and you can leave anytime.',
+    },
   },
   pt: {
     event: {
@@ -49,6 +54,11 @@ const COPY: Record<'en' | 'pt', Record<Context, { eyebrow: string; title: string
       eyebrow: 'Todas as quintas-feiras',
       title: 'Saiba o que há antes de esgotar',
       body: 'Uma seleção semanal dos melhores eventos nas salas do Porto, à quinta-feira de manhã. Grátis.',
+    },
+    play: {
+      eyebrow: 'Conhece bem o Porto?',
+      title: 'Receba a semana no Porto à quinta-feira',
+      body: 'Um email curto com os concertos, exposições e mercados que valem a pena. Grátis, e pode sair quando quiser.',
     },
   },
 };
