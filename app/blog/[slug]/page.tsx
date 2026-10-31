@@ -7,6 +7,7 @@ import type { Metadata } from 'next';
 import { Header } from '../../components/Header';
 import { Footer } from '../../components/Footer';
 import { SubscribeCTA } from '../../components/SubscribeCTA';
+import { PortoFactsBox } from '../../components/PortoFactsBox';
 import { GuideUpcoming } from '../../components/GuideUpcoming';
 import { BookItBox } from '../../components/BookItBox';
 
@@ -215,6 +216,7 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
             leave the article and find the form there. */}
         <div style={{ marginTop: 48 }}>
           <SubscribeCTA lang="en" context="blog" />
+          <div style={{ marginTop: 8 }}><PortoFactsBox lang="en" compact /></div>
         </div>
 
         {/* Back to blog */}

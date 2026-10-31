@@ -7,6 +7,7 @@ import type { Metadata } from 'next';
 import { Header } from '../../../components/Header';
 import { Footer } from '../../../components/Footer';
 import { SubscribeCTA } from '../../../components/SubscribeCTA';
+import { PortoFactsBox } from '../../../components/PortoFactsBox';
 import { GuideUpcoming } from '../../../components/GuideUpcoming';
 import { BookItBox } from '../../../components/BookItBox';
 
@@ -109,6 +110,7 @@ export default function BlogPostPagePT({ params }: { params: { slug: string } })
 
         <div style={{ marginTop: 48 }}>
           <SubscribeCTA lang="pt" context="blog" />
+          <div style={{ marginTop: 8 }}><PortoFactsBox lang="pt" compact /></div>
         </div>
 
         <div style={{ textAlign: 'center', marginTop: 28 }}>
