@@ -348,7 +348,11 @@
       "url": "https://casadamusica.com/event/paus/?selected_session=51857",
       "note": "Sala 2; Misty Fest; farewell show.",
       "source": "casa-da-musica-newsletter-2026-11",
-      "addedAt": "2026-10-25T12:00:00Z"
+      "addedAt": "2026-10-25T12:00:00Z",
+      "status": "done",
+      "eventSlug": "paus-casa-da-musica-nov-29-2026",
+      "lastTriedAt": "2026-10-31T13:17:41.871Z",
+      "resolvedAt": "2026-10-31T13:17:41.871Z"
     },
     {
       "name": "Eliana Glass + Anne Paceo + Mammal Hands",
@@ -357,7 +361,11 @@
       "url": "https://casadamusica.com/event/mammal-hands-anne-paceo/?selected_session=50683",
       "note": "Sala Suggia; Misty Fest.",
       "source": "casa-da-musica-newsletter-2026-11",
-      "addedAt": "2026-10-25T12:00:00Z"
+      "addedAt": "2026-10-25T12:00:00Z",
+      "status": "done",
+      "eventSlug": "eliana-glass-anne-paceo-mammal-hands-casa-da-musica-nov-30-2026",
+      "lastTriedAt": "2026-10-31T13:17:41.871Z",
+      "resolvedAt": "2026-10-31T13:17:41.871Z"
     },
     {
       "name": "Bruno Pernadas interpreta Steamboat Bill Jr., de Buster Keaton",

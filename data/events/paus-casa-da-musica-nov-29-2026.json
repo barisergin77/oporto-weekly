@@ -1,0 +1,25 @@
+{
+  "slug": "paus-casa-da-musica-nov-29-2026",
+  "name": "Paus",
+  "date": "2026-11-29T21:30",
+  "venue": "Casa da Música",
+  "venueSlug": "casa-da-musica",
+  "price": "€20,00",
+  "priceFrom": 20,
+  "currency": "EUR",
+  "category": "music",
+  "description": "PAUS, a band from Lisbon, performs their final show after 18 years. This farewell concert is part of their \"Enterro\" tour and features a mix of math rock, krautrock, progressive rock, and African music, along with a choir.",
+  "longDescription": "PAUS, the Lisbon-based band, is performing their final show after 18 years. This unique and unrepeatable concert is part of their \"Enterro\" farewell tour.\n\nThe band's distinctive sound blends styles and influences such as math rock, krautrock, progressive rock, and African music. The performance will also include images and sounds from their history, along with a choir of voices.\n\nThe event takes place on Sunday, November 29, 2026, at 21:30 in Sala 2 of Casa da Música. Tickets are priced at €20,00.",
+  "sourceEdition": "forward-scan",
+  "externalLink": "https://casadamusica.com/event/paus/?selected_session=51857",
+  "pickCandidate": true,
+  "addedAt": "2026-10-31T13:17:39.062Z",
+  "lastSeenAt": "2026-10-31T13:17:39.062Z",
+  "descriptionPt": "Os PAUS, banda de Lisboa, fazem o seu último concerto após 18 anos. Este espetáculo de despedida faz parte da \"Enterro\" tour e apresenta uma mistura de math rock, krautrock, rock progressivo e música africana, com um coro.",
+  "longDescriptionPt": "Os PAUS, banda de Lisboa, fazem o seu último concerto após 18 anos. Este espetáculo único e irrepetível faz parte da \"Enterro\" tour de despedida.\n\nO som característico da banda mistura estilos e influências como math rock, krautrock, rock progressivo e música africana. A atuação incluirá também imagens e sons da sua história, juntamente com um coro de vozes.\n\nO evento acontece no domingo, 29 de novembro de 2026, às 21:30, na Sala 2 da Casa da Música. Os bilhetes custam 20,00€.",
+  "image": {
+    "url": "https://i.imgur.com/n6MVkuF.jpeg",
+    "credit": "Photo: Casa da Música",
+    "sourceUrl": "https://casadamusica.com/event/paus/?selected_session=51857"
+  }
+}
