@@ -5,8 +5,10 @@
     "excerpt": "Port, sardines, soap, tiles, filigree and more from 12 Porto makers with their own web shops. Prices and shipping checked on each site, October 2026.",
     "author": "Baris Ergin",
     "publishedAt": "2026-10-31T15:33:28.619Z",
-    "heroImage": "",
-    "images": [],
+    "heroImage": "/blog/images/made-in-porto-shop-online-hero.png",
+    "images": [
+      "/blog/images/made-in-porto-shop-online-inline.png"
+    ],
     "tags": [
       "Porto",
       "Shopping",
