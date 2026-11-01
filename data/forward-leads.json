@@ -394,32 +394,6 @@
       "resolvedAt": "2026-10-31T08:32:37.308Z"
     },
     {
-      "name": "The Addams Family – Families Halloween Special",
-      "date": "2026-10-31",
-      "venue": "Batalha Centro de Cinema",
-      "note": "15:15; family session; Barry Sonnenfeld (USA, 1991, 99'); ticketed",
-      "source": "batalha-newsletter-2026-10",
-      "addedAt": "2026-10-26T11:47:50Z",
-      "status": "rejected",
-      "attempts": 3,
-      "reason": "date quote not on page",
-      "lastTriedAt": "2026-10-29T06:06:58.684Z",
-      "resolvedAt": "2026-10-29T06:06:58.684Z"
-    },
-    {
-      "name": "Hair – Miloš Forman Retrospective",
-      "date": "2026-10-31",
-      "venue": "Batalha Centro de Cinema",
-      "note": "21:15; Miloš Forman (USA, 1979, 121'); ticketed",
-      "source": "batalha-newsletter-2026-10",
-      "addedAt": "2026-10-26T11:47:50Z",
-      "status": "rejected",
-      "attempts": 3,
-      "reason": "page does not confirm the event (https://www.batalhacentrodecinema.pt/en/filme/hair/)",
-      "lastTriedAt": "2026-10-29T06:06:58.684Z",
-      "resolvedAt": "2026-10-29T06:06:58.684Z"
-    },
-    {
       "name": "Last Movies – Afterlife: Day of the Dead Special",
       "date": "2026-11-01",
       "venue": "Batalha Centro de Cinema",
@@ -446,60 +420,6 @@
       "resolvedAt": "2026-10-29T06:06:58.684Z"
     },
     {
-      "name": "Fogo Fátuo",
-      "date": "2026-10-31",
-      "venue": "Galeria Municipal do Porto",
-      "note": "15:00–21:00; 5th edition, inside and outside the gallery: music, dance, cinema and performance (Sohrab Hura, Brahim Tall, Lukas Karvelis, Jejuno, Serpente); the newsletter headline says free",
-      "source": "agenda-porto-newsletter-2026-10",
-      "addedAt": "2026-10-26T12:16:43Z",
-      "status": "done",
-      "attempts": 1,
-      "reason": "already listed",
-      "lastTriedAt": "2026-10-27T12:57:45.953Z",
-      "eventSlug": "fogo-fatuo-live-art-performance-galeria-municipal-do-porto-jul-4-2026",
-      "resolvedAt": "2026-10-27T12:57:45.953Z"
-    },
-    {
-      "name": "Festa, de Marcio Abreu",
-      "date": "2026-10-28",
-      "endDate": "2026-10-31",
-      "venue": "Teatro Carlos Alberto",
-      "note": "Wed, Thu, Sat 19:00, Fri 21:00; theatre made together by TEP – Teatro Experimental do Porto and Brazil's companhia brasileira de teatro",
-      "source": "agenda-porto-newsletter-2026-10",
-      "addedAt": "2026-10-26T12:16:43Z",
-      "status": "rejected",
-      "attempts": 3,
-      "reason": "page not fetchable: https://www.tnsj.pt/en/espetaculos/7264/festa/ → HTTP 403 | https://www.tnsj.pt/pt/espetaculos/7264/festa/ → HTTP 403",
-      "lastTriedAt": "2026-10-27T12:57:45.953Z",
-      "resolvedAt": "2026-10-27T12:57:45.953Z"
-    },
-    {
-      "name": "Entre Bruxas e Feitiços, Pé-de-Cabra e Ouriços",
-      "date": "2026-10-31",
-      "venue": "Biblioteca Municipal Almeida Garrett",
-      "note": "11:00 + 16:00; Halloween show for young children based on the 'Bruxa Mimi' books, by O Som de Algodão; part of the Nano Mini Micro festival",
-      "source": "agenda-porto-newsletter-2026-10",
-      "addedAt": "2026-10-26T12:16:43Z",
-      "status": "rejected",
-      "attempts": 3,
-      "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
-      "lastTriedAt": "2026-10-28T08:32:10.943Z",
-      "resolvedAt": "2026-10-28T08:32:10.943Z"
-    },
-    {
-      "name": "Experience Trindade by Night: Especial Halloween",
-      "date": "2026-10-31",
-      "venue": "Ordem da Trindade",
-      "note": "18:30 + 22:00; night tour of the church, circuit and terraces, with music from soprano Daniela Rego and organist Samuel Pinto",
-      "source": "agenda-porto-newsletter-2026-10",
-      "addedAt": "2026-10-26T12:16:43Z",
-      "status": "rejected",
-      "attempts": 3,
-      "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
-      "lastTriedAt": "2026-10-28T08:32:10.943Z",
-      "resolvedAt": "2026-10-28T08:32:10.943Z"
-    },
-    {
       "name": "TPC: Frei Luís de Sousaaa",
       "date": "2026-11-04",
       "endDate": "2026-11-07",
@@ -512,18 +432,6 @@
       "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
       "lastTriedAt": "2026-10-30T08:32:23.806Z",
       "resolvedAt": "2026-10-30T08:32:23.806Z"
-    },
-    {
-      "name": "Conversa com Paulo Rangel – Vexation of Spirit. The Duerckheim Collection x Serralves",
-      "date": "2026-10-31",
-      "venue": "Serralves",
-      "note": "17:00, Biblioteca de Serralves; free, registration required; talk with Paulo Rangel about the exhibition and the Duerckheim Collection (war, religion, ideologies, freedom of thought)",
-      "source": "serralves-newsletter-2026-10",
-      "addedAt": "2026-10-29T05:00:19Z",
-      "status": "done",
-      "eventSlug": "talk-with-paulo-rangel-vexation-of-spirit-the-duerckheim-collection-x-serralves-library-oct-31-2026",
-      "lastTriedAt": "2026-10-29T06:06:58.684Z",
-      "resolvedAt": "2026-10-29T06:06:58.684Z"
     },
     {
       "name": "Memórias do Cárcere – Sérgio Graciano",
@@ -593,7 +501,12 @@
       "venue": "Coliseu Porto Ageas",
       "note": "21:00; concert, part of Misty Fest",
       "source": "coliseu-newsletter-2026-10",
-      "addedAt": "2026-11-01T05:00:47Z"
+      "addedAt": "2026-11-01T05:00:47Z",
+      "status": "done",
+      "eventSlug": "jose-gonzalez-misty-fest-coliseu-porto-ageas-nov-2-2026",
+      "reason": "already listed",
+      "lastTriedAt": "2026-11-01T08:32:02.940Z",
+      "resolvedAt": "2026-11-01T08:32:02.940Z"
     },
     {
       "name": "Canções de Granito – 25 anos Porto Capital Europeia da Cultura",
@@ -601,7 +514,12 @@
       "venue": "Coliseu Porto Ageas",
       "note": "21:00; Pedro Abrunhosa, GNR, Três Tristes Tigres and Pedro Burmester play songs tied to Porto, with DJ Pedro Tenreiro and visual artist João Parra; marks 25 years since Porto 2001",
       "source": "coliseu-newsletter-2026-10",
-      "addedAt": "2026-11-01T05:00:47Z"
+      "addedAt": "2026-11-01T05:00:47Z",
+      "status": "done",
+      "eventSlug": "cancoes-de-granito-25-anos-porto-capital-europeia-da-cultura-coliseu-porto-ageas-nov-6-2026",
+      "reason": "already listed",
+      "lastTriedAt": "2026-11-01T08:32:02.940Z",
+      "resolvedAt": "2026-11-01T08:32:02.940Z"
     },
     {
       "name": "Coro Comunitário Alquimia",
@@ -609,7 +527,12 @@
       "venue": "Coliseu Porto Ageas",
       "note": "10:00; community choir",
       "source": "coliseu-newsletter-2026-10",
-      "addedAt": "2026-11-01T05:00:47Z"
+      "addedAt": "2026-11-01T05:00:47Z",
+      "status": "done",
+      "eventSlug": "coro-comunitario-alquimia-coliseu-porto-ageas-nov-8-2026",
+      "reason": "already listed",
+      "lastTriedAt": "2026-11-01T08:32:02.940Z",
+      "resolvedAt": "2026-11-01T08:32:02.940Z"
     },
     {
       "name": "Fado – Homenagem a Gina Santos",
@@ -617,7 +540,12 @@
       "venue": "Coliseu Porto Ageas",
       "note": "16:00; fado tribute concert",
       "source": "coliseu-newsletter-2026-10",
-      "addedAt": "2026-11-01T05:00:47Z"
+      "addedAt": "2026-11-01T05:00:47Z",
+      "status": "done",
+      "eventSlug": "fado-homenagem-a-gina-santos-coliseu-porto-ageas-nov-8-2026",
+      "reason": "already listed",
+      "lastTriedAt": "2026-11-01T08:32:02.940Z",
+      "resolvedAt": "2026-11-01T08:32:02.940Z"
     },
     {
       "name": "Linda Martini – SON Estrella Galicia",
@@ -625,7 +553,12 @@
       "venue": "Coliseu Porto Ageas",
       "note": "21:00; concert",
       "source": "coliseu-newsletter-2026-10",
-      "addedAt": "2026-11-01T05:00:47Z"
+      "addedAt": "2026-11-01T05:00:47Z",
+      "status": "done",
+      "eventSlug": "linda-martini-son-estrella-galicia-coliseu-porto-ageas-nov-11-2026",
+      "reason": "already listed",
+      "lastTriedAt": "2026-11-01T08:32:02.940Z",
+      "resolvedAt": "2026-11-01T08:32:02.940Z"
     },
     {
       "name": "Em Casa D'Amália – O concerto ao vivo nos Coliseus",
@@ -634,7 +567,11 @@
       "venue": "Coliseu Porto Ageas",
       "note": "21:30 both nights; live concert",
       "source": "coliseu-newsletter-2026-10",
-      "addedAt": "2026-11-01T05:00:47Z"
+      "addedAt": "2026-11-01T05:00:47Z",
+      "status": "pending",
+      "attempts": 1,
+      "reason": "page not fetchable: https://www.coliseu.pt/evento/20261112-em-casa-damalia-o-concerto-ao-vivo-nos-coliseus → only 19 chars of text",
+      "lastTriedAt": "2026-11-01T08:32:02.940Z"
     },
     {
       "name": "Amor de Perdição – Fiato",
@@ -642,7 +579,11 @@
       "venue": "Coliseu Porto Ageas",
       "note": "17:00; opera based on Camilo Castelo Branco",
       "source": "coliseu-newsletter-2026-10",
-      "addedAt": "2026-11-01T05:00:47Z"
+      "addedAt": "2026-11-01T05:00:47Z",
+      "status": "pending",
+      "attempts": 1,
+      "reason": "not an organiser/venue/ticketing page (https://iporto.amp.pt/en/eventos/amor-de-perdicao-2/)",
+      "lastTriedAt": "2026-11-01T08:32:02.940Z"
     },
     {
       "name": "Les Ballets Trockadero de Monte Carlo",
@@ -650,7 +591,12 @@
       "venue": "Coliseu Porto Ageas",
       "note": "21:00; dance",
       "source": "coliseu-newsletter-2026-10",
-      "addedAt": "2026-11-01T05:00:47Z"
+      "addedAt": "2026-11-01T05:00:47Z",
+      "status": "done",
+      "eventSlug": "les-ballets-trockadero-de-monte-carlo-coliseu-porto-ageas-nov-17-2026",
+      "reason": "already listed",
+      "lastTriedAt": "2026-11-01T08:32:02.940Z",
+      "resolvedAt": "2026-11-01T08:32:02.940Z"
     },
     {
       "name": "Bate Papo com Theodoro",
