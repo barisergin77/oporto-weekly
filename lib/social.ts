@@ -8,7 +8,7 @@ export const INSTAGRAM_HANDLE = '@oportoweekly';
 
 export const INSTAGRAM_CTA = {
   en: 'Follow us on Instagram',
-  pt: 'Segue-nos no Instagram',
+  pt: 'Siga-nos no Instagram',
 } as const;
 
 /** One footer line for the email editions, styled like the footer's other links. */

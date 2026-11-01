@@ -50,7 +50,7 @@ RULES:
   (e.g. "Porto In Bloom" → "Porto em Flor", "Porto's Autumn Palette" →
   "A Paleta de Outono do Porto"). It's an editorial headline, not a proper noun.
 - Translate day abbreviations: Mon→Seg, Tue→Ter, Wed→Qua, Thu→Qui, Fri→Sex, Sat→Sáb, Sun→Dom.
-- Translate common phrases: "Free"→"Gratuito", "More info"→"Mais info", "Get tickets"→"Comprar bilhetes", "Book"→"Reservar", "Unsubscribe"→"Cancelar subscrição", "Visit website"→"Visitar site", "Follow us on Instagram"→"Segue-nos no Instagram".
+- Translate common phrases: "Free"→"Gratuito", "More info"→"Mais info", "Get tickets"→"Comprar bilhetes", "Book"→"Reservar", "Unsubscribe"→"Cancelar subscrição", "Visit website"→"Visitar site", "Follow us on Instagram"→"Siga-nos no Instagram".
 - Use 24h time format (9 PM → 21h00).
 - Change <html lang="en"> to <html lang="pt">.
 - Keep ALL HTML structure, CSS classes, inline styles, links (href), and image URLs EXACTLY the same.
