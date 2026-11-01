@@ -354,8 +354,6 @@ const CLUB_SOURCES: SweepSource[] = ['dice', 'shotgun'];
 /** Promoter weekly-night templates ("Sat. 07/11 - Maria Pistolas"): not a named event. */
 const TEMPLATE_NAME = /^(mon|tue|wed|thu|fri|sat|sun|seg|ter|qua|qui|sex|s[aá]b|dom)[a-z]*\.?\s*\d{1,2}([/.-]\d{1,2}|\s+[a-z]{3})\b|^\d{1,2}[/.]\d{1,2}\s+[a-z]{3}\b/i;
 const MULTI_VENUE = /v[aá]rios (locais|espa[cç]os)|various|multiple|diversos locais|cidade do porto|vários/i;
-/** Talks, book launches, debates: real but borderline for the site — the owner decides. */
-const TALK = /lan[cç]amento (do |de )?livro|apresenta[cç][aã]o (do |de )?livro|book launch|\bconversa\b|\bdebate|debat[ií]vel|palestra|confer[eê]ncia|\btalks?\b|mesa[- ]redonda|col[oó]quio/i;
 
 export type Route = { route: 'auto' } | { route: 'review'; reason: string };
 
@@ -366,11 +364,9 @@ export function routeCandidate(c: SweepCandidate, knownVenues: Set<string>): Rou
   if (c.recurring) return { route: 'review', reason: `sessions spread over ${Math.round(spanDays(c.date, c.endDate))} days (recurring series?)` };
   if (!c.venue || MULTI_VENUE.test(c.venue) || isVagueVenue(slug)) return { route: 'review', reason: `multi-venue or vague venue (${c.venue || 'none'})` };
   if (TEMPLATE_NAME.test(c.name)) return { route: 'review', reason: 'promoter weekly-night title' };
-  if (c.tags.includes('end month only')) return { route: 'review', reason: `end date given as a month only (until ${c.endDate?.slice(0, 7)})` };
-  if (TALK.test(c.name) || (c.source === 'casadamusica' && TALK.test(c.tags.join(' '))) || (c.source === 'agendaporto' && c.tags.some((t) => /^conversas$/i.test(t)))) return { route: 'review', reason: 'talk / book launch' };
-  if (CLUB_SOURCES.includes(c.source)) {
-    return CLUB_ALLOWLIST.has(slug) ? { route: 'auto' } : { route: 'review', reason: `club night at a venue not on the allowlist (${c.venue})` };
-  }
+  // Owner 2026-11-01: publish any decent, real event and sort what shows on top later. Talks,
+  // month-only end dates and club nights at any named venue now auto-publish (page check still applies).
+  if (CLUB_SOURCES.includes(c.source)) return { route: 'auto' };
   if (!STRUCTURED.includes(c.source)) return { route: 'review', reason: `source ${c.source}` };
   if (c.source === 'fever' && !knownVenues.has(slug)) return { route: 'review', reason: `Fever listing at an unknown venue (${c.venue})` };
   return { route: 'auto' };

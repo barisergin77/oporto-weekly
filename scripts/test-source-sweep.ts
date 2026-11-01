@@ -100,13 +100,13 @@ test('the same event from two sources merges; the venue\'s own page wins', () =>
   assert.equal(k[0].primary.source, 'coliseu');
   assert.equal(k[0].members.length, 2);
 });
-test('routing: club nights only at allowlisted venues; templates and vague venues to review', () => {
+test('routing: club nights at any named venue and talks auto (owner 2026-11-01); templates and vague venues to review', () => {
   assert.equal(routeCandidate(c({ source: 'shotgun', venue: 'Switch', name: 'Rebolledo' }), known).route, 'auto');
-  assert.equal(routeCandidate(c({ source: 'shotgun', venue: 'MOVE CLUB', name: 'Divas Pop' }), known).route, 'review');
+  assert.equal(routeCandidate(c({ source: 'shotgun', venue: 'MOVE CLUB', name: 'Divas Pop' }), known).route, 'auto');
   assert.equal(routeCandidate(c({ source: 'shotgun', venue: 'Maria Pistolas', name: 'Sat. 07/11 - Nexo X Maria Pistolas' }), known).route, 'review');
   assert.equal(routeCandidate(c({ source: 'shotgun', venue: 'Era Uma Vez no Porto', name: 'Domingo 08 Nov - Zdm / Zoe' }), known).route, 'review');
   assert.equal(routeCandidate(c({ source: 'agendaporto', venue: 'Vários locais', name: 'BALUARTE' }), known).route, 'review');
-  assert.equal(routeCandidate(c({ source: 'bol', venue: 'Teatro Nacional São João', name: 'Lançamento de Livro | ABC da Guerra' }), known).route, 'review');
+  assert.equal(routeCandidate(c({ source: 'bol', venue: 'Teatro Nacional São João', name: 'Lançamento de Livro | ABC da Guerra' }), known).route, 'auto');
   assert.equal(routeCandidate(c({ source: 'bol', venue: 'Teatro Nacional São João', name: 'Auto da Barca do Inferno' }), known).route, 'auto');
 });
 test('digest: header, numbered review lines, reply hint, under 2000 chars per message', () => {
@@ -130,7 +130,7 @@ test('parsers: Agenda Porto card, Shotgun card, Serralves card, Casa da Música 
   const sv = parseSerralves('[![2607 Lee Ufan](https://img/x.jpg)\\\n\\\nLee Ufan\\\n\\\nFRAGMENTOS DO INFINITO\\\n\\\nCasa de Serralves\\\n\\\n16 OUT 2026 – MAR 2027](https://www.serralves.pt/ciclo-serralves/2607-lee-ufan/)');
   assert.equal(sv.length, 1);
   assert.deepEqual([sv[0].name, sv[0].date, sv[0].endDate, sv[0].venue], ['Lee Ufan: FRAGMENTOS DO INFINITO', '2026-10-16', '2027-03-31', 'Serralves']);
-  assert.equal(routeCandidate(sv[0], known).route, 'review'); // end month only
+  assert.equal(routeCandidate(sv[0], known).route, 'auto'); // end month only now publishes (owner 2026-11-01)
   const cdm = parseCdm('21.11.2026 sábado, 18:00\n\nSala Suggia\n\n[![x](y)](https://casadamusica.com/event/sinfonia-orgao/?selected_session=1)\n\n## [Sinfonia Órgão](https://casadamusica.com/event/sinfonia-orgao/?selected_session=1)\n\nOrquestra Sinfónica · Concerto\n');
   assert.deepEqual([cdm[0].name, cdm[0].date], ['Sinfonia Órgão', '2026-11-21T18:00']);
 });
