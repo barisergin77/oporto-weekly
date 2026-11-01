@@ -10,6 +10,7 @@ import { notifySearchEngines } from '@/lib/search-engines';
 import { checkCronAuth } from '@/lib/cron-auth';
 import { HUMANIZER_RULES, humanizeHtml } from '@/lib/humanizer';
 import { localizeFromTheBlog } from '@/lib/edition-compose';
+import { ensureInstagramFooter } from '@/lib/social';
 import type { BlogPost } from '@/lib/blog';
 import blogIndex from '@/data/blog-posts.json';
 
@@ -49,7 +50,7 @@ RULES:
   (e.g. "Porto In Bloom" → "Porto em Flor", "Porto's Autumn Palette" →
   "A Paleta de Outono do Porto"). It's an editorial headline, not a proper noun.
 - Translate day abbreviations: Mon→Seg, Tue→Ter, Wed→Qua, Thu→Qui, Fri→Sex, Sat→Sáb, Sun→Dom.
-- Translate common phrases: "Free"→"Gratuito", "More info"→"Mais info", "Get tickets"→"Comprar bilhetes", "Book"→"Reservar", "Unsubscribe"→"Cancelar subscrição", "Visit website"→"Visitar site".
+- Translate common phrases: "Free"→"Gratuito", "More info"→"Mais info", "Get tickets"→"Comprar bilhetes", "Book"→"Reservar", "Unsubscribe"→"Cancelar subscrição", "Visit website"→"Visitar site", "Follow us on Instagram"→"Segue-nos no Instagram".
 - Use 24h time format (9 PM → 21h00).
 - Change <html lang="en"> to <html lang="pt">.
 - Keep ALL HTML structure, CSS classes, inline styles, links (href), and image URLs EXACTLY the same.
@@ -146,6 +147,8 @@ export async function GET(req: NextRequest) {
       ptHtml = ptHtml.replace(/https:\/\/oportoweekly\.com\/event\//g, 'https://oportoweekly.com/pt/event/');
       // Same for the "From the blog" line: PT title + /pt/blog/ link, not Gemini's translation.
       ptHtml = localizeFromTheBlog(ptHtml, blogIndex as BlogPost[]);
+      // Instagram footer line in pt-PT, whatever the translation did with it (owner 2026-11-01).
+      ptHtml = ensureInstagramFooter(ptHtml, 'pt');
 
       // 3. Archive the PT edition. Marks pt-web after the commit lands.
       await archiveViaGitHub({

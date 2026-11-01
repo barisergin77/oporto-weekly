@@ -1,0 +1,21 @@
+{
+  "_comment": "Instagram handles of venues, keyed by canonical venue slug. Only handles linked from the venue's OWN website (verifiedFrom), checked on verifiedAt. Never add a handle from a guess, a third-party listing or an event page. Used for Instagram photo tags on the weekly carousel (Buffer userTags) and @mentions in captions. The site route only accepts handles listed here.",
+  "venues": {
+    "casa-da-musica": { "handle": "casadamusicaporto", "verifiedFrom": "https://casadamusica.com/", "verifiedAt": "2026-11-01" },
+    "coliseu-porto-ageas": { "handle": "coliseuportoageas", "verifiedFrom": "https://www.coliseu.pt/", "verifiedAt": "2026-11-01" },
+    "serralves": { "handle": "fundacao_serralves", "verifiedFrom": "https://www.serralves.pt/", "verifiedAt": "2026-11-01" },
+    "super-bock-arena": { "handle": "superbockarena", "verifiedFrom": "https://www.superbockarena.pt/", "verifiedAt": "2026-11-01" },
+    "hard-club": { "handle": "hardclubporto", "verifiedFrom": "https://www.hardclubporto.com/", "verifiedAt": "2026-11-01" },
+    "maus-habitos": { "handle": "maushabitos", "verifiedFrom": "https://www.maushabitos.com/", "verifiedAt": "2026-11-01" },
+    "rivoli-theatre": { "handle": "teatromunicipaldoporto", "verifiedFrom": "https://www.teatromunicipaldoporto.pt/", "verifiedAt": "2026-11-01" },
+    "teatro-campo-alegre": { "handle": "teatromunicipaldoporto", "verifiedFrom": "https://www.teatromunicipaldoporto.pt/", "verifiedAt": "2026-11-01" },
+    "teatro-nacional-sao-joao": { "handle": "teatronacionalsaojoao", "verifiedFrom": "https://www.tnsj.pt/", "verifiedAt": "2026-11-01" },
+    "teatro-carlos-alberto": { "handle": "teatronacionalsaojoao", "verifiedFrom": "https://www.tnsj.pt/", "verifiedAt": "2026-11-01" },
+    "batalha-centro-de-cinema": { "handle": "batalhacentrodecinema", "verifiedFrom": "https://www.batalhacentrodecinema.pt/", "verifiedAt": "2026-11-01" },
+    "galeria-municipal-do-porto": { "handle": "galeriamunicipaldoporto", "verifiedFrom": "https://galeriamunicipaldoporto.pt/", "verifiedAt": "2026-11-01" },
+    "palacio-da-bolsa": { "handle": "palaciodabolsa", "verifiedFrom": "https://palaciodabolsa.com/", "verifiedAt": "2026-11-01" },
+    "hot-five-jazz-blues-club": { "handle": "hotfivejazzbluesclub", "verifiedFrom": "https://www.hotfive.pt/", "verifiedAt": "2026-11-01" },
+    "m-ou-co": { "handle": "mouco_pt", "verifiedFrom": "https://www.mouco.pt/", "verifiedAt": "2026-11-01" },
+    "estadio-do-dragao": { "handle": "fcporto", "verifiedFrom": "https://www.fcporto.pt/", "verifiedAt": "2026-11-01" }
+  }
+}

@@ -321,6 +321,7 @@ STRUCTURE (in this exact order):
        &nbsp;·&nbsp;
        <a href="https://oportoweekly.com" style="color:#1a1a2e;border-bottom:1px solid #c9a96e;text-decoration:none;">Visit website</a>
      </p>
+     <p style="font-size:12px;color:#5a5a5a;margin:10px 0 0;"><a href="https://www.instagram.com/oportoweekly/" style="color:#1a1a2e;border-bottom:1px solid #c9a96e;text-decoration:none;">Follow us on Instagram</a> @oportoweekly</p>
      <p style="font-size:11px;color:#8a8170;margin:16px 0 0;">Some ticket links are affiliate links; we may earn a small commission at no extra cost to you.</p>
      <p style="font-size:11px;color:#8a8170;margin-top:16px;">&copy; Oporto Weekly · Made with ♡ in Porto</p>
    </div>

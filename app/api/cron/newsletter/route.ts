@@ -2,6 +2,7 @@ export const dynamic = 'force-dynamic';
 export const maxDuration = 300;
 import { NextRequest, NextResponse } from 'next/server';
 import { generateSlug, formatWeekRange, thursdayWeekStart, assertValidNewsletterHtml } from '@/lib/archive';
+import { ensureInstagramFooter } from '@/lib/social';
 import { archiveViaGitHub } from '@/lib/github';
 import { notifySearchEngines } from '@/lib/search-engines';
 import { checkCronAuth } from '@/lib/cron-auth';
@@ -357,6 +358,8 @@ export async function GET(req: NextRequest) {
     // Bundled JSON index, not fs: the function bundle has no data/ dir.
     const guide = newsletterGuide(blogIndex as BlogPost[], weekStartISO);
     if (guide) html = insertFromTheBlog(html, renderFromTheBlog(guide, 'en'));
+    // Instagram line in the footer, deterministic (owner 2026-11-01).
+    html = ensureInstagramFooter(html, 'en');
     // Which path made this edition — read by /api/cron/newsletter-test for the owner's copy.
     html = html.replace(/<body([^>]*)>/i, (m) => `${m}\n<!-- oporto-weekly:path=${path} -->`);
 

@@ -1,6 +1,27 @@
 'use client';
 
 import { useState } from 'react';
+import { INSTAGRAM_URL, INSTAGRAM_CTA } from '@/lib/social';
+
+function InstagramLine({ color }: { color: string }) {
+  return (
+    <a
+      href={INSTAGRAM_URL}
+      target="_blank"
+      rel="noopener noreferrer"
+      onClick={() => {
+        try {
+          const w = window as unknown as { dataLayer?: unknown[] };
+          w.dataLayer = w.dataLayer || [];
+          w.dataLayer.push({ event: 'instagram_click', lang: 'en', link_location: 'subscribe_form' });
+        } catch { /* ignore */ }
+      }}
+      style={{ color, textDecoration: 'none', borderBottom: `1px solid ${color}66` }}
+    >
+      {INSTAGRAM_CTA.en}
+    </a>
+  );
+}
 
 export function SubscribeForm() {
   const [email, setEmail] = useState('');
@@ -55,6 +76,9 @@ export function SubscribeForm() {
           textAlign: 'center',
         }}>
           ✅ {message}
+          <div style={{ marginTop: 6, fontSize: '0.82rem' }}>
+            <InstagramLine color={gold} />
+          </div>
         </div>
       ) : (
         <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
@@ -103,6 +127,9 @@ export function SubscribeForm() {
           )}
           <p style={{ color: '#8892b0', fontSize: '0.72rem', margin: 0, textAlign: 'center' }}>
             Free · No spam · Unsubscribe anytime
+          </p>
+          <p style={{ fontSize: '0.72rem', margin: 0, textAlign: 'center' }}>
+            <InstagramLine color="#8892b0" />
           </p>
         </form>
       )}

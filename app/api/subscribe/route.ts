@@ -19,6 +19,7 @@ const WELCOME_HTML_EN = `
     <li>Nightlife picks</li>
   </ul>
   <p>First issue lands this Thursday. See you then!</p>
+  <p><a href="https://www.instagram.com/oportoweekly/" style="color:#c9a96e;">Follow us on Instagram</a> @oportoweekly</p>
   <p style="color:#8892b0;font-size:0.85rem;">© Oporto Weekly · Porto, Portugal</p>
 </body>
 </html>
@@ -39,6 +40,7 @@ const WELCOME_HTML_PT = `
     <li>Sugestões de vida noturna</li>
   </ul>
   <p>A primeira edição chega esta quinta-feira. Até lá!</p>
+  <p><a href="https://www.instagram.com/oportoweekly/" style="color:#c9a96e;">Segue-nos no Instagram</a> @oportoweekly</p>
   <p style="color:#8892b0;font-size:0.85rem;">© Oporto Weekly · Porto, Portugal</p>
 </body>
 </html>
