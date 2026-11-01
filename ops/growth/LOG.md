@@ -7,6 +7,61 @@ impressions / pos 9.3 over 28 days (prev 28: 191 / 10,293 / 16.9);
 subscribers 56 active (34 EN, 22 PT), ~1.4 net/week; signups by page: none
 recorded yet (tracking started today).
 
+## 2026-11-01 — Subscribe box inside guides (#35) + vintage market guide fact-checked (#4)
+- Run 09:00 UTC Sun, outside the freeze.
+- Metrics (`metrics/2026-11-01.json`): 320 clicks / 15,869 impr / pos 11.04
+  over 28d (yesterday 318 / 15,400 / 10.98; prev 28d 290 / 12,896 / 10.72).
+  Last 7d 80 clicks vs 73, impressions 4,435 vs 3,094 (+43%), CTR 1.8% vs
+  2.4%, position 12.9 vs 12.2 (same wider-but-deeper pattern). GA4 7d 60
+  users / 73 sessions / 155 PV (prev 33 / 39 / 80), best week so far; 39
+  organic, 21 direct, 8 organic social, 5 AI. Subscribers 60 (10-29).
+  Signups attributed 28d: 7, none new since 10-30.
+- **Result due (10-18 "Guides link to upcoming events"): worked, small
+  sample** (filled in that entry): blog-landing pages/session 1.00 → 1.45.
+- Owner shipped a lot overnight (PRs #10–#17): #34 Opus picks merged
+  (2141ab7), humanizer, Made-in-Porto guide, guide promos, /play game, event
+  search/filters, daily source sweep (213 + 39 events on 11-01). Not reviewed
+  by me beyond the build passing with them.
+- Change 1 (#35): guides were the top landing pages but had 0 of 7 signups;
+  the only form sat after the article, sign-off, Book-it box and upcoming
+  events. Now `SubscribeCTA context="blog-inline"` sits before each guide's
+  second `<h2>` (≈40% down), EN + PT, new copy ("Planning a trip to Porto?" /
+  "Todas as quintas-feiras"); end form kept. Body only, no `<head>` change.
+- Change 2 (#4): `shop-like-a-local-in-porto-your-2026-vintage-market-guide`
+  (#5 page: 9 clicks / 823 impr, "2026" in title). Checked against
+  mercadobolhao.pt, Porto Secreto (06/2024), Shop in Porto, Time Out, porto.pt,
+  Visit Porto, Domus Arte listings:
+  - Bolhão hours confirmed (official); "322, 4000-248" vs "214" conflict →
+    "Rua Formosa, Baixa" + side entrances; "about ten restaurants" removed.
+  - Chiclete "moved to Praça dos Poveiros 2025, 10th anniversary": no source;
+    listings give Rua da Firmeza 408 and Rua do Heroísmo 333 → no address,
+    "check Instagram".
+  - Mon Père "cash only", Yeahllow "by appointment only", Com Sotaque café,
+    Matérica, Domus Arte filigree, CRU prices: unsourced → removed.
+  - Armazém "closed end of 2022": unsourced, and Shop in Porto lists it daily
+    (Airbnb says permanently closed) → note removed. **The 10-31 guide still
+    lists Armazém as open; status is unresolved** (backlog #4).
+  - A Vida Portuguesa → Time Out Market at São Bento (first shop closed 2020);
+    Porto Belo hours → Agenda Porto; Vandoma + Campanhã; Yeahllow full
+    address; O'Kilo €10/kg marked as the 2024 price; "2025 and 2026" dropped.
+  - New EN/PT description (places + "checked November 2026"); sitemap
+    `FACTS_REFRESHED` → 11-01 with this slug added.
+- Commit f3fa10e. Verified: tsc; build OK; inline box on 37/37 EN and 37/37
+  PT built guides; vintage guide EN + PT carry the new facts, removed claims
+  absent. Live: /api/version = f3fa10e, page 200 with new text, health ok
+  (9 checks). Indexing API: EN + PT URLs → 200.
+- Expect: (1) first blog-page signups; target ≥2 in 4 weeks (0 so far).
+  (2) CTR on the vintage guide up from 1.1% (9/823), small and slow.
+- Measure on: 2026-11-29 (signup-sources byPageType blog, 28d; GSC page
+  CTR for the vintage guide vs the 28d to 10-31).
+- Result:
+- Next run (Mon 11-02): result due for 10-19 Today/This weekend pages.
+  Then #4 Armazém re-check, or budget/nightlife guide. Wed 11-04 18:00 freeze.
+- Needs owner: (1) Do you know whether **Armazém (Rua de Miragaia 93)** is
+  still open? Sources conflict; one of our guides lists it, the other said
+  closed. (2) Thu 11-05 is the first Opus-picks edition; I'll check
+  `picks path=` on Fri.
+
 ## 2026-10-31 — Top shopping guide fact-checked (#4); #34 branch verified for merge
 - Run 09:00 UTC Sat, outside the freeze.
 - Metrics (`metrics/2026-10-31.json`): 318 clicks / 15,400 impr / pos 10.98
@@ -662,7 +717,10 @@ recorded yet (tracking started today).
   37 sessions = 1.65 sitewide today); search effect with the hubs 2026-11-14.
 - Noticed: duplicate event records ("Porto Contemporary Art Exhibition" ×2)
   → backlog #17.
-- Result:
+- Result (2026-11-01): **worked, small sample.** GA4 pages/session for
+  sessions landing on /blog/*: 1.00 (24 sessions / 24 PV, 10-04→10-17) →
+  1.45 (20 / 29, 10-18→10-31). Sitewide also rose 1.55 → 2.10, so not all of
+  it is this change. Search part still due 11-14.
 
 ## 2026-10-17 — Edition pages: single <head>; archive + venue snippets
 - Why: homepage + ~70 archive pages embedded the stored email as a second
