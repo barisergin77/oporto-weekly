@@ -27,6 +27,7 @@
     "test:filters": "tsx scripts/test-event-filters.ts",
     "test:calendar": "tsx scripts/test-event-calendar.ts",
     "test:play": "tsx scripts/test-play.ts",
+    "test:sweep": "tsx scripts/test-source-sweep.ts",
     "compose-dry-run": "tsx --env-file=.env.local scripts/compose-edition-dry-run.ts"
   },
   "dependencies": {
