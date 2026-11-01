@@ -364,7 +364,7 @@ export async function GET(req: NextRequest) {
     // Display dates derive from Thursday (weekStart), not now() — so a
     // forced Friday re-send still labels the edition with Thursday's date.
     const weekDate = weekStart.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
-    const subject = `Oporto Weekly — ${weekDate}`;
+    const subject = `Oporto Weekly: ${weekDate}`;
 
     // 6. Archive. This is this endpoint's terminal action — the commit
     //    triggers a Vercel deploy, and the SEND happens in the next
@@ -373,7 +373,7 @@ export async function GET(req: NextRequest) {
     await archiveViaGitHub(
       {
         slug,
-        title: `Oporto Weekly — ${weekStart.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}`,
+        title: `Oporto Weekly: ${weekStart.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}`,
         description: subject,
         sentAt: now.toISOString(),
         weekRange,

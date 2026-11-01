@@ -95,7 +95,7 @@ export async function GET(req: NextRequest) {
 
       // 4. Send.
       const weekDate = weekStart.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
-      const subject = `Oporto Weekly — ${weekDate}`;
+      const subject = `Oporto Weekly: ${weekDate}`;
       const enSubscribers = await getActiveSubscribers('en');
       const enEmails = enSubscribers.map(s => s.email);
       const emailHtml = withForwardBlock(html, 'en', `https://oportoweekly.com/archive/${slug}`);

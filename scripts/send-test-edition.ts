@@ -44,7 +44,7 @@ async function main() {
   const { data, error } = await new Resend(process.env.RESEND_API_KEY!).emails.send({
     from: 'Oporto Weekly <hello@oportoweekly.com>',
     to,
-    subject: `[TEST] Oporto Weekly — ${file}`,
+    subject: `[TEST] Oporto Weekly: ${file}`,
     html,
     tags: [{ name: 'type', value: 'test' }, { name: 'lang', value: lang }],
   });

@@ -144,7 +144,7 @@ export async function GET(req: NextRequest) {
     // Email the editor.
     const deltaSuffix = prev ? ` (${dTotal >= 0 ? '+' : ''}${dTotal} this week)` : '';
     const igSuffix = ig ? ` · ${ig.followers} IG${dIg != null ? ` (${dIg >= 0 ? '+' : ''}${dIg})` : ''}` : '';
-    const subject = `${preview ? '[preview] ' : ''}Oporto Weekly — ${stats.activeUniqueTotal} subscribers${deltaSuffix}${igSuffix}`;
+    const subject = `${preview ? '[preview] ' : ''}Oporto Weekly: ${stats.activeUniqueTotal} subscribers${deltaSuffix}${igSuffix}`;
     const html = `<!DOCTYPE html>
 <html>
 <body style="font-family:-apple-system,Segoe UI,Inter,sans-serif;max-width:520px;margin:24px auto;padding:0 16px;color:#1a1a2e;">

@@ -122,7 +122,7 @@ export async function GET(req: NextRequest) {
     }
 
     const ptWeekDate = formatWeekRangePT(weekStart);
-    const ptSubject = `Oporto Weekly — ${ptWeekDate}`;
+    const ptSubject = `Oporto Weekly: ${ptWeekDate}`;
 
     // 2. Obtain the PT HTML: reuse the archived translation if a prior run
     //    already produced it (recoverable), else translate the EN edition.
@@ -150,7 +150,7 @@ export async function GET(req: NextRequest) {
       // 3. Archive the PT edition. Marks pt-web after the commit lands.
       await archiveViaGitHub({
         slug: ptSlug,
-        title: `Oporto Weekly — ${ptWeekDate}`,
+        title: `Oporto Weekly: ${ptWeekDate}`,
         description: `Eventos no Porto: ${ptWeekDate}`,
         sentAt: now.toISOString(),
         weekRange: ptWeekDate,
