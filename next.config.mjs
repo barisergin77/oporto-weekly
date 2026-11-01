@@ -102,6 +102,30 @@ const nextConfig = {
     const blogMerges = [
       // 2026-10-26: Sep coffee guide merged into the May one (15 vs 2 clicks).
       ['portos-best-coffee-pastis-de-nata-a-2026-guide', 'portos-best-coffee-pastis-de-nata-the-2026-guide'],
+      // 2026-11-01 (owner): 37 auto-written guides consolidated into 15
+      // canonical ones (canonical = most GSC clicks Jan-Oct, then impressions),
+      // each fact-checked; data/guide-checks.json drives the monthly re-check.
+      ['portos-hidden-gems-your-guide-to-the-citys-secrets', 'secret-porto-a-guide-to-the-citys-hidden-gems'],
+      ['portos-hidden-gems-your-2025-2026-insiders-guide', 'secret-porto-a-guide-to-the-citys-hidden-gems'],
+      ['portos-hidden-gems-uncover-local-secrets-for-2025-2026', 'secret-porto-a-guide-to-the-citys-hidden-gems'],
+      ['porto-on-foot-a-self-guided-walk-through-history-2025', 'explore-historic-porto-a-self-guided-walking-tour'],
+      ['portos-best-views-top-rooftops-viewpoints-for-2025', 'portos-best-views-rooftops-viewpoints-for-2026'],
+      ['the-ultimate-foodies-guide-to-porto-what-to-eat-in-2025', 'the-ultimate-food-guide-to-porto-5-dishes-you-must-try'],
+      ['a-food-lovers-guide-to-porto-what-to-eat-in-2025', 'the-ultimate-food-guide-to-porto-5-dishes-you-must-try'],
+      ['sip-see-porto-your-2025-2026-port-wine-cellar-guide', 'sip-savor-porto-your-2025-guide-to-port-wine-cellars'],
+      ['your-porto-neighborhood-guide-where-to-stay-eat-2025', 'porto-neighborhood-guide-where-to-stay-eat-explore'],
+      ['porto-neighborhood-guide-where-to-stay-eat-in-2026', 'porto-neighborhood-guide-where-to-stay-eat-explore'],
+      ['porto-nightlife-your-ultimate-after-dark-guide-for-2025', 'porto-nightlife-2025-2026-fado-bars-unforgettable-evenings'],
+      ['the-ultimate-seasonal-guide-to-porto-2025-2026', 'porto-a-seasonal-guide-for-your-2025-2026-trip'],
+      ['porto-on-a-budget-free-activities-cheap-eats-guide-2025-2026', 'porto-on-a-budget-free-sights-cheap-eats-guide'],
+      ['porto-on-a-budget-the-ultimate-free-activity-guide', 'porto-on-a-budget-free-sights-cheap-eats-guide'],
+      ['family-fun-in-porto-your-2025-2026-kid-friendly-guide', 'family-fun-porto-kid-friendly-activities-2025-2026'],
+      ['porto-with-kids-the-ultimate-family-adventure-guide', 'family-fun-porto-kid-friendly-activities-2025-2026'],
+      ['portos-best-beaches-your-2025-2026-swim-surf-guide', 'portos-best-beaches-your-2025-2026-surf-swim-guide'],
+      ['shop-like-a-local-in-porto-your-2026-vintage-market-guide', 'porto-shopping-guide-your-map-to-vintage-artisan-finds'],
+      ['portos-ultimate-vintage-artisan-shopping-guide-2025', 'porto-shopping-guide-your-map-to-vintage-artisan-finds'],
+      ['portos-art-culture-guide-galleries-street-art-in-2025', 'the-ultimate-art-lovers-guide-to-porto-2025-2026'],
+      ['best-day-trips-from-porto-the-ultimate-2025-2026-guide', 'porto-day-trips-your-ultimate-douro-valley-wine-guide'],
     ];
     const blogRedirects = blogMerges.flatMap(([from, to]) => [
       { source: `/blog/${from}`, destination: `/blog/${to}`, permanent: true },

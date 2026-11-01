@@ -1,6 +1,7 @@
 import { MetadataRoute } from 'next';
 import { listNewsletters, listNewslettersPT } from '@/lib/archive';
 import { listBlogPosts, listBlogPostsPT } from '@/lib/blog';
+import { guideLastChecked } from '@/lib/guide-checks';
 import { listEvents, hasVenuePage } from '@/lib/events';
 import { listEventMonths, ptSlug } from '@/lib/event-months';
 import { DAY_HUB_PATHS } from '@/lib/event-days';
@@ -15,39 +16,16 @@ import { LANDING_PATHS, landingIndexable, type LandingKind } from '@/lib/event-l
 const ARCHIVE_HREFLANG = new Date('2026-07-18T12:50:00Z'); // bidirectional hreflang on archive + home
 const PT_NAMESPACE = new Date('2026-08-29T19:36:57Z'); // /pt/event, /pt/venue, /pt/blog + EN hreflang back-links
 const EVENT_SNIPPETS = new Date('2026-10-17T18:00:00Z'); // event <title>/description rewrite (lib/event-seo.ts)
-// Guides retitled year-neutral on 2026-10-17 (they still said "2025").
-const BLOG_RETITLED = new Date('2026-10-17T18:00:00Z');
 // Archive + venue <title>/description rewrite, and the archive pages no longer
 // embed a second <head>/<title> from the stored email HTML.
 const ARCHIVE_VENUE_SNIPPETS = new Date('2026-10-17T20:00:00Z');
-const RETITLED_SLUGS = new Set<string>([
-    "the-ultimate-foodies-guide-to-porto-what-to-eat-in-2025",
-    "portos-art-culture-guide-galleries-street-art-in-2025",
-    "your-porto-neighborhood-guide-where-to-stay-eat-2025",
-    "porto-nightlife-your-ultimate-after-dark-guide-for-2025",
-    "a-food-lovers-guide-to-porto-what-to-eat-in-2025",
-    "sip-savor-porto-your-2025-guide-to-port-wine-cellars",
-    "portos-best-views-top-rooftops-viewpoints-for-2025",
-    "porto-on-foot-a-self-guided-walk-through-history-2025",
-    "portos-ultimate-vintage-artisan-shopping-guide-2025"
-  ]);
-// 2026-10-26: the September coffee guide (…-a-2026-guide) was merged into this
-// one and 301s here (next.config.mjs), so its body changed.
-const COFFEE_MERGED = new Date('2026-10-26T12:00:00Z');
-const MERGED_SLUGS = new Set<string>(['portos-best-coffee-pastis-de-nata-the-2026-guide']);
-// 2026-10-31: facts re-checked against sources (closed shop moved, market day
-// fixed, unsourced prices removed) and a new description (backlog #4).
-// 2026-11-01: same for the vintage market guide.
-const FACTS_REFRESHED = new Date('2026-11-01T12:00:00Z');
-const REFRESHED_SLUGS = new Set<string>([
-  'porto-shopping-guide-your-map-to-vintage-artisan-finds',
-  'shop-like-a-local-in-porto-your-2026-vintage-market-guide',
-]);
 
+// A guide's body changes when it is fact-checked (data/guide-checks.json,
+// re-checked monthly since the 2026-11 consolidation), so its lastmod is its
+// last check. Guides without an entry fall back to the PT namespace date.
 function blogRevision(slug: string): Date {
-  if (REFRESHED_SLUGS.has(slug)) return FACTS_REFRESHED;
-  if (MERGED_SLUGS.has(slug)) return COFFEE_MERGED;
-  return RETITLED_SLUGS.has(slug) ? BLOG_RETITLED : PT_NAMESPACE;
+  const checked = guideLastChecked(slug);
+  return checked ? new Date(`${checked}T12:00:00Z`) : PT_NAMESPACE;
 }
 
 function notBefore(date: string | Date, revision: Date): Date {

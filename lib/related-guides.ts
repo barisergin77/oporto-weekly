@@ -29,7 +29,7 @@ export const GUIDE_TOPICS: Record<string, RegExp> = {
   markets: /vintage|artisan/,
   walking: /walk|on-foot|historic/,
   daytrips: /day-trips/,
-  nightlife: /nightlife-your|after-dark/,
+  nightlife: /nightlife|after-dark/,
   beaches: /beach|surf/,
   coffee: /coffee|pastis|nata/,
   hiddengems: /hidden-gems|secret/,
