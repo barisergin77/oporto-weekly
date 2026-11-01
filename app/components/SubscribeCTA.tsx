@@ -14,7 +14,7 @@ import { SubscribeFormPT } from '../SubscribeFormPT';
  * by the form itself, so results can be compared per page type.
  */
 
-type Context = 'event' | 'blog' | 'venue' | 'play';
+type Context = 'event' | 'blog' | 'blog-inline' | 'venue' | 'play';
 
 const COPY: Record<'en' | 'pt', Record<Context, { eyebrow: string; title: string; body: string }>> = {
   en: {
@@ -27,6 +27,11 @@ const COPY: Record<'en' | 'pt', Record<Context, { eyebrow: string; title: string
       eyebrow: 'Enjoyed this guide?',
       title: 'Get Porto’s best events every Thursday',
       body: 'One short email a week with the concerts, exhibitions, markets and festivals worth your time. Free, and you can leave anytime.',
+    },
+    'blog-inline': {
+      eyebrow: 'Planning a trip to Porto?',
+      title: 'Get this week’s events every Thursday',
+      body: 'A short email with the concerts, markets and exhibitions on while you’re here. Free. Unsubscribe in one click.',
     },
     venue: {
       eyebrow: 'Every Thursday',
@@ -49,6 +54,11 @@ const COPY: Record<'en' | 'pt', Record<Context, { eyebrow: string; title: string
       eyebrow: 'Gostou deste guia?',
       title: 'Receba os melhores eventos do Porto à quinta',
       body: 'Um email curto por semana com os concertos, exposições, mercados e festivais que valem a pena. Grátis, e pode sair quando quiser.',
+    },
+    'blog-inline': {
+      eyebrow: 'Todas as quintas-feiras',
+      title: 'Receba os eventos da semana no Porto',
+      body: 'Um email curto com os concertos, mercados e exposições em cartaz nessa semana. Grátis, e pode cancelar com um clique.',
     },
     venue: {
       eyebrow: 'Todas as quintas-feiras',

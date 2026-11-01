@@ -50,6 +50,20 @@ export function listBlogPostsPT(): BlogPost[] {
   return listBlogPosts().filter((p) => hasBlogPT(p.slug));
 }
 
+/**
+ * Split an article body just before its second <h2>, so a subscribe box can
+ * sit inside the guide instead of only after ~1,300 words (backlog #35: guides
+ * were the top landing pages with 0 signups). Bodies with fewer than two <h2>s
+ * come back whole, with no inline box.
+ */
+export function splitForInlineCta(html: string): [string, string] | null {
+  const first = html.indexOf('<h2');
+  if (first < 0) return null;
+  const second = html.indexOf('<h2', first + 3);
+  if (second < 0) return null;
+  return [html.slice(0, second), html.slice(second)];
+}
+
 /** Display fields for a post in a given language, with EN fallback. */
 export function blogDisplay(p: BlogPost, lang: 'en' | 'pt') {
   if (lang === 'pt') {

@@ -37,8 +37,12 @@ const COFFEE_MERGED = new Date('2026-10-26T12:00:00Z');
 const MERGED_SLUGS = new Set<string>(['portos-best-coffee-pastis-de-nata-the-2026-guide']);
 // 2026-10-31: facts re-checked against sources (closed shop moved, market day
 // fixed, unsourced prices removed) and a new description (backlog #4).
-const FACTS_REFRESHED = new Date('2026-10-31T12:00:00Z');
-const REFRESHED_SLUGS = new Set<string>(['porto-shopping-guide-your-map-to-vintage-artisan-finds']);
+// 2026-11-01: same for the vintage market guide.
+const FACTS_REFRESHED = new Date('2026-11-01T12:00:00Z');
+const REFRESHED_SLUGS = new Set<string>([
+  'porto-shopping-guide-your-map-to-vintage-artisan-finds',
+  'shop-like-a-local-in-porto-your-2026-vintage-market-guide',
+]);
 
 function blogRevision(slug: string): Date {
   if (REFRESHED_SLUGS.has(slug)) return FACTS_REFRESHED;

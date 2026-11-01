@@ -1,4 +1,4 @@
-import { listBlogPostsPT, getBlogPost, getBlogPostHtmlPT, hasBlogPT, blogDisplay } from '@/lib/blog';
+import { listBlogPostsPT, getBlogPost, getBlogPostHtmlPT, hasBlogPT, blogDisplay, splitForInlineCta } from '@/lib/blog';
 import { colors, typography } from '@/lib/design';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -42,6 +42,8 @@ export default function BlogPostPagePT({ params }: { params: { slug: string } })
   if (!post) notFound();
   const html = getBlogPostHtmlPT(params.slug);
   if (!html) notFound();
+  const split = splitForInlineCta(html);
+  const bodyStyle = { fontSize: 17, lineHeight: 1.8, color: colors.text };
 
   const disp = blogDisplay(post, 'pt');
   const d = new Date(post.publishedAt);
@@ -102,7 +104,16 @@ export default function BlogPostPagePT({ params }: { params: { slug: string } })
           {publishedDate}
         </div>
 
-        <div className="blog-article" dangerouslySetInnerHTML={{ __html: html }} style={{ fontSize: 17, lineHeight: 1.8, color: colors.text }} />
+        {/* Subscribe box before the second section (#35) */}
+        {split ? (
+          <>
+            <div className="blog-article" dangerouslySetInnerHTML={{ __html: split[0] }} style={bodyStyle} />
+            <div style={{ margin: '12px 0 8px' }}><SubscribeCTA lang="pt" context="blog-inline" /></div>
+            <div className="blog-article" dangerouslySetInnerHTML={{ __html: split[1] }} style={bodyStyle} />
+          </>
+        ) : (
+          <div className="blog-article" dangerouslySetInnerHTML={{ __html: html }} style={bodyStyle} />
+        )}
 
         <BookItBox slug={post.slug} title={post.title} lang="pt" />
 
