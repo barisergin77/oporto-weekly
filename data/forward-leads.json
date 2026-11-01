@@ -569,9 +569,9 @@
       "source": "coliseu-newsletter-2026-10",
       "addedAt": "2026-11-01T05:00:47Z",
       "status": "pending",
-      "attempts": 1,
-      "reason": "page not fetchable: https://www.coliseu.pt/evento/20261112-em-casa-damalia-o-concerto-ao-vivo-nos-coliseus → only 19 chars of text",
-      "lastTriedAt": "2026-11-01T08:32:02.940Z"
+      "attempts": 2,
+      "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
+      "lastTriedAt": "2026-11-01T14:01:20.564Z"
     },
     {
       "name": "Amor de Perdição – Fiato",
@@ -581,9 +581,9 @@
       "source": "coliseu-newsletter-2026-10",
       "addedAt": "2026-11-01T05:00:47Z",
       "status": "pending",
-      "attempts": 1,
-      "reason": "not an organiser/venue/ticketing page (https://iporto.amp.pt/en/eventos/amor-de-perdicao-2/)",
-      "lastTriedAt": "2026-11-01T08:32:02.940Z"
+      "attempts": 2,
+      "reason": "page not fetchable: https://www.ticketline.pt/en/evento/opera-amor-de-perdicao-fiato-108581/sessao/129919_16_1794762000 → fetch error (fetch failed: Response does not match the HTTP/1.1 protocol (Unexpected whitespace after header value))",
+      "lastTriedAt": "2026-11-01T14:01:20.564Z"
     },
     {
       "name": "Les Ballets Trockadero de Monte Carlo",
@@ -604,7 +604,11 @@
       "venue": "Coliseu Porto Ageas",
       "note": "21:30; talk show",
       "source": "coliseu-newsletter-2026-10",
-      "addedAt": "2026-11-01T05:00:47Z"
+      "addedAt": "2026-11-01T05:00:47Z",
+      "status": "pending",
+      "attempts": 1,
+      "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
+      "lastTriedAt": "2026-11-01T14:01:20.564Z"
     },
     {
       "name": "RUBEL – Beleza. Rubel & Violão",
@@ -612,7 +616,12 @@
       "venue": "Coliseu Porto Ageas",
       "note": "21:30; concert",
       "source": "coliseu-newsletter-2026-10",
-      "addedAt": "2026-11-01T05:00:47Z"
+      "addedAt": "2026-11-01T05:00:47Z",
+      "status": "done",
+      "eventSlug": "rubel-beleza-rubel-violao-coliseu-porto-ageas-nov-19-2026",
+      "reason": "already listed",
+      "lastTriedAt": "2026-11-01T14:01:20.564Z",
+      "resolvedAt": "2026-11-01T14:01:20.564Z"
     },
     {
       "name": "As três da manhã – Ao vivo",
@@ -620,7 +629,12 @@
       "venue": "Coliseu Porto Ageas",
       "note": "21:30; comedy",
       "source": "coliseu-newsletter-2026-10",
-      "addedAt": "2026-11-01T05:00:47Z"
+      "addedAt": "2026-11-01T05:00:47Z",
+      "status": "done",
+      "eventSlug": "as-tres-da-manha-ao-vivo-coliseu-porto-ageas-nov-20-2026",
+      "reason": "already listed",
+      "lastTriedAt": "2026-11-01T14:01:20.564Z",
+      "resolvedAt": "2026-11-01T14:01:20.564Z"
     },
     {
       "name": "Vizinhos ao Vivo nos Coliseus",
@@ -628,7 +642,12 @@
       "venue": "Coliseu Porto Ageas",
       "note": "21:30; concert",
       "source": "coliseu-newsletter-2026-10",
-      "addedAt": "2026-11-01T05:00:47Z"
+      "addedAt": "2026-11-01T05:00:47Z",
+      "status": "done",
+      "eventSlug": "vizinhos-ao-vivo-nos-coliseus-coliseu-porto-ageas-nov-21-2026",
+      "reason": "already listed",
+      "lastTriedAt": "2026-11-01T14:01:20.564Z",
+      "resolvedAt": "2026-11-01T14:01:20.564Z"
     },
     {
       "name": "The Music of Morricone, Zimmer & Williams",
@@ -636,7 +655,12 @@
       "venue": "Coliseu Porto Ageas",
       "note": "16:30; film music concert",
       "source": "coliseu-newsletter-2026-10",
-      "addedAt": "2026-11-01T05:00:47Z"
+      "addedAt": "2026-11-01T05:00:47Z",
+      "status": "done",
+      "eventSlug": "the-music-of-morricone-coliseu-porto-ageas-nov-22-2026",
+      "reason": "already listed",
+      "lastTriedAt": "2026-11-01T14:01:20.564Z",
+      "resolvedAt": "2026-11-01T14:01:20.564Z"
     },
     {
       "name": "DJ Symphonic & Royal Film Concert Orchestra",
@@ -644,7 +668,12 @@
       "venue": "Coliseu Porto Ageas",
       "note": "21:00; concert",
       "source": "coliseu-newsletter-2026-10",
-      "addedAt": "2026-11-01T05:00:47Z"
+      "addedAt": "2026-11-01T05:00:47Z",
+      "status": "done",
+      "eventSlug": "dj-symphonic-royal-film-concert-orchestra-coliseu-porto-ageas-nov-22-2026",
+      "reason": "already listed",
+      "lastTriedAt": "2026-11-01T14:01:20.564Z",
+      "resolvedAt": "2026-11-01T14:01:20.564Z"
     },
     {
       "name": "Quem decide o que ouvimos? – Mantras Coliseu",
