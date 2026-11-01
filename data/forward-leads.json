@@ -578,6 +578,168 @@
       "reason": "not in the Porto area (null)",
       "lastTriedAt": "2026-10-31T08:32:37.308Z",
       "resolvedAt": "2026-10-31T08:32:37.308Z"
+    },
+    {
+      "name": "Alceu Valença – 80 Girassóis",
+      "date": "2026-11-01",
+      "venue": "Coliseu Porto Ageas",
+      "note": "21:30; concert",
+      "source": "coliseu-newsletter-2026-10",
+      "addedAt": "2026-11-01T05:00:47Z"
+    },
+    {
+      "name": "José González – Misty Fest",
+      "date": "2026-11-02",
+      "venue": "Coliseu Porto Ageas",
+      "note": "21:00; concert, part of Misty Fest",
+      "source": "coliseu-newsletter-2026-10",
+      "addedAt": "2026-11-01T05:00:47Z"
+    },
+    {
+      "name": "Canções de Granito – 25 anos Porto Capital Europeia da Cultura",
+      "date": "2026-11-06",
+      "venue": "Coliseu Porto Ageas",
+      "note": "21:00; Pedro Abrunhosa, GNR, Três Tristes Tigres and Pedro Burmester play songs tied to Porto, with DJ Pedro Tenreiro and visual artist João Parra; marks 25 years since Porto 2001",
+      "source": "coliseu-newsletter-2026-10",
+      "addedAt": "2026-11-01T05:00:47Z"
+    },
+    {
+      "name": "Coro Comunitário Alquimia",
+      "date": "2026-11-08",
+      "venue": "Coliseu Porto Ageas",
+      "note": "10:00; community choir",
+      "source": "coliseu-newsletter-2026-10",
+      "addedAt": "2026-11-01T05:00:47Z"
+    },
+    {
+      "name": "Fado – Homenagem a Gina Santos",
+      "date": "2026-11-08",
+      "venue": "Coliseu Porto Ageas",
+      "note": "16:00; fado tribute concert",
+      "source": "coliseu-newsletter-2026-10",
+      "addedAt": "2026-11-01T05:00:47Z"
+    },
+    {
+      "name": "Linda Martini – SON Estrella Galicia",
+      "date": "2026-11-11",
+      "venue": "Coliseu Porto Ageas",
+      "note": "21:00; concert",
+      "source": "coliseu-newsletter-2026-10",
+      "addedAt": "2026-11-01T05:00:47Z"
+    },
+    {
+      "name": "Em Casa D'Amália – O concerto ao vivo nos Coliseus",
+      "date": "2026-11-12",
+      "endDate": "2026-11-13",
+      "venue": "Coliseu Porto Ageas",
+      "note": "21:30 both nights; live concert",
+      "source": "coliseu-newsletter-2026-10",
+      "addedAt": "2026-11-01T05:00:47Z"
+    },
+    {
+      "name": "Amor de Perdição – Fiato",
+      "date": "2026-11-15",
+      "venue": "Coliseu Porto Ageas",
+      "note": "17:00; opera based on Camilo Castelo Branco",
+      "source": "coliseu-newsletter-2026-10",
+      "addedAt": "2026-11-01T05:00:47Z"
+    },
+    {
+      "name": "Les Ballets Trockadero de Monte Carlo",
+      "date": "2026-11-17",
+      "venue": "Coliseu Porto Ageas",
+      "note": "21:00; dance",
+      "source": "coliseu-newsletter-2026-10",
+      "addedAt": "2026-11-01T05:00:47Z"
+    },
+    {
+      "name": "Bate Papo com Theodoro",
+      "date": "2026-11-18",
+      "venue": "Coliseu Porto Ageas",
+      "note": "21:30; talk show",
+      "source": "coliseu-newsletter-2026-10",
+      "addedAt": "2026-11-01T05:00:47Z"
+    },
+    {
+      "name": "RUBEL – Beleza. Rubel & Violão",
+      "date": "2026-11-19",
+      "venue": "Coliseu Porto Ageas",
+      "note": "21:30; concert",
+      "source": "coliseu-newsletter-2026-10",
+      "addedAt": "2026-11-01T05:00:47Z"
+    },
+    {
+      "name": "As três da manhã – Ao vivo",
+      "date": "2026-11-20",
+      "venue": "Coliseu Porto Ageas",
+      "note": "21:30; comedy",
+      "source": "coliseu-newsletter-2026-10",
+      "addedAt": "2026-11-01T05:00:47Z"
+    },
+    {
+      "name": "Vizinhos ao Vivo nos Coliseus",
+      "date": "2026-11-21",
+      "venue": "Coliseu Porto Ageas",
+      "note": "21:30; concert",
+      "source": "coliseu-newsletter-2026-10",
+      "addedAt": "2026-11-01T05:00:47Z"
+    },
+    {
+      "name": "The Music of Morricone, Zimmer & Williams",
+      "date": "2026-11-22",
+      "venue": "Coliseu Porto Ageas",
+      "note": "16:30; film music concert",
+      "source": "coliseu-newsletter-2026-10",
+      "addedAt": "2026-11-01T05:00:47Z"
+    },
+    {
+      "name": "DJ Symphonic & Royal Film Concert Orchestra",
+      "date": "2026-11-22",
+      "venue": "Coliseu Porto Ageas",
+      "note": "21:00; concert",
+      "source": "coliseu-newsletter-2026-10",
+      "addedAt": "2026-11-01T05:00:47Z"
+    },
+    {
+      "name": "Quem decide o que ouvimos? – Mantras Coliseu",
+      "date": "2026-11-25",
+      "venue": "Coliseu Porto Ageas",
+      "note": "18:30; Mantras Coliseu talk series",
+      "source": "coliseu-newsletter-2026-10",
+      "addedAt": "2026-11-01T05:00:47Z"
+    },
+    {
+      "name": "O Lago dos Cisnes – Imperial Heritage Ballet",
+      "date": "2026-11-27",
+      "venue": "Coliseu Porto Ageas",
+      "note": "21:00; classical ballet",
+      "source": "coliseu-newsletter-2026-10",
+      "addedAt": "2026-11-01T05:00:47Z"
+    },
+    {
+      "name": "O Quebra-Nozes – Imperial Heritage Ballet",
+      "date": "2026-11-28",
+      "venue": "Coliseu Porto Ageas",
+      "note": "15:00 and 18:30; classical ballet",
+      "source": "coliseu-newsletter-2026-10",
+      "addedAt": "2026-11-01T05:00:47Z"
+    },
+    {
+      "name": "Uma Sinfonia Alpina, de R. Strauss – Concertos Promenade",
+      "date": "2026-11-29",
+      "venue": "Coliseu Porto Ageas",
+      "note": "11:00; Concertos Promenade series",
+      "source": "coliseu-newsletter-2026-10",
+      "addedAt": "2026-11-01T05:00:47Z"
+    },
+    {
+      "name": "Circo de Natal do Coliseu Porto Ageas",
+      "date": "2026-12-11",
+      "endDate": "2027-01-03",
+      "venue": "Coliseu Porto Ageas",
+      "note": "Family Christmas circus, opens to the public on 11 Dec; artists not yet announced",
+      "source": "coliseu-newsletter-2026-10",
+      "addedAt": "2026-11-01T05:00:47Z"
     }
   ]
 }
