@@ -246,7 +246,7 @@ function parseJson<T>(text: string, open: '[' | '{'): T | null {
 // 1. Discover
 // ---------------------------------------------------------------------------
 
-interface Candidate {
+export interface Candidate {
   name: string;
   venue: string;
   date: string;
@@ -575,7 +575,7 @@ export function mergeVerified(existing: EventRecord, fresh: EventRecord, now: Da
 /** The record `c` duplicates (already published, or already accepted this run), if any. */
 export function findDuplicate(c: { name: string; venue: string; date: string; endDate?: string | null }, existing: EventRecord[]): EventRecord | undefined {
   return existing.find((e) =>
-    similarNames(c.name, e.name) &&
+    (similarNames(c.name, e.name) || (!!e.namePt && similarNames(c.name, e.namePt))) &&
     (overlaps(c, e) || canonicalVenueSlugFor(c.venue) === canonicalVenueSlug(e.venueSlug))
   );
 }
@@ -589,7 +589,7 @@ export function isDuplicate(c: { name: string; venue: string; date: string; endD
 // 3. Verify against the fetched page
 // ---------------------------------------------------------------------------
 
-interface LdEvent {
+export interface LdEvent {
   name?: string;
   startDate?: string;
   endDate?: string;
@@ -631,7 +631,7 @@ function ldEvents(html: string): LdEvent[] {
   return out;
 }
 
-type Page = { text: string; finalUrl: string; ld: LdEvent[] };
+export type Page = { text: string; finalUrl: string; ld: LdEvent[] };
 
 export async function fetchPageText(url: string): Promise<Page | { reason: string }> {
   try {
@@ -643,18 +643,7 @@ export async function fetchPageText(url: string): Promise<Page | { reason: strin
     if (!res.ok) return { reason: `HTTP ${res.status}` };
     const type = res.headers.get('content-type') ?? '';
     if (!type.includes('html')) return { reason: `not HTML (${type.split(';')[0] || 'no type'})` };
-    const html = await res.text();
-    const ld = ldEvents(html);
-    // JSON-LD often carries the date on JS-rendered ticket pages: put it first,
-    // as plain fields the reader can quote.
-    const ldText = ld.map((e) =>
-      `Event data: ${[['name', e.name], ['startDate', e.startDate], ['endDate', e.endDate], ['location', e.venue], ['city', e.city], ['price', e.price], ['description', e.description]]
-        .filter(([, v]) => v).map(([k, v]) => `${k}: ${v}`).join('; ')}.`);
-    const body = html
-      .replace(/<script[\s\S]*?<\/script>|<style[\s\S]*?<\/style>|<noscript[\s\S]*?<\/noscript>/gi, ' ')
-      .replace(/<[^>]+>/g, ' ');
-    const text = [...ldText, decodeEntities(body)].join(' ').replace(/\s+/g, ' ').trim().slice(0, 40_000);
-    return text.length > 200 ? { text, finalUrl: res.url || url, ld } : { reason: `only ${text.length} chars of text` };
+    return pageFromHtml(await res.text(), res.url || url);
   } catch (err) {
     if (err instanceof Error && err.name === 'TimeoutError') return { reason: 'timeout' };
     // undici hides the real cause ("fetch failed"): ECONNRESET = likely a bot
@@ -665,6 +654,21 @@ export async function fetchPageText(url: string): Promise<Page | { reason: strin
   }
 }
 
+/** A fetched page's HTML → the reader's text (JSON-LD Event data first). Shared with scripts/source-sweep.ts. */
+export function pageFromHtml(html: string, finalUrl: string): Page | { reason: string } {
+  const ld = ldEvents(html);
+  // JSON-LD often carries the date on JS-rendered ticket pages: put it first,
+  // as plain fields the reader can quote.
+  const ldText = ld.map((e) =>
+    `Event data: ${[['name', e.name], ['startDate', e.startDate], ['endDate', e.endDate], ['location', e.venue], ['city', e.city], ['price', e.price], ['description', e.description]]
+      .filter(([, v]) => v).map(([k, v]) => `${k}: ${v}`).join('; ')}.`);
+  const body = html
+    .replace(/<script[\s\S]*?<\/script>|<style[\s\S]*?<\/style>|<noscript[\s\S]*?<\/noscript>/gi, ' ')
+    .replace(/<[^>]+>/g, ' ');
+  const text = [...ldText, decodeEntities(body)].join(' ').replace(/\s+/g, ' ').trim().slice(0, 40_000);
+  return text.length > 200 ? { text, finalUrl, ld } : { reason: `only ${text.length} chars of text` };
+}
+
 function decodeEntities(s: string): string {
   return s
     .replace(/&nbsp;/g, ' ').replace(/&amp;/g, '&').replace(/&quot;/g, '"').replace(/&#39;|&apos;/g, "'")
@@ -673,7 +677,7 @@ function decodeEntities(s: string): string {
     .replace(/&#x([0-9a-f]+);/gi, (_, n) => String.fromCodePoint(parseInt(n, 16)));
 }
 
-interface PageFacts {
+export interface PageFacts {
   isEventPage: boolean;
   audienceFit?: boolean;
   sourceType: 'organiser' | 'venue' | 'ticketing' | 'other';
@@ -699,14 +703,33 @@ export const META_COPY = /\b(?:the|this) (?:web ?)?(?:page|site|website|webpage|
 
 const norm = (s: string) => s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/\s+/g, ' ').trim();
 
+/**
+ * The page check every published event passes. `opts.page` hands in a page
+ * the caller already has (scripts/source-sweep.ts: fetched politely under its
+ * own user agent, or built from a venue's own event data when its site is
+ * JavaScript-only); the same quote, date and copy checks apply to it.
+ */
+/** `acceptListing`: the page is a trusted official agenda (Agenda Porto, the city's own), not an aggregator. */
+export type VerifyOpts = { page?: Page; minLongWords?: number; acceptListing?: boolean };
+
+export async function verifyCandidate(
+  usage: ScanUsage,
+  c: Candidate,
+  window: { from: string; to: string },
+  opts: VerifyOpts = {}
+): Promise<{ facts: PageFacts; url: string } | { reason: string }> {
+  return verify(usage, c, window, opts);
+}
+
 async function verify(
   usage: ScanUsage,
   c: Candidate,
-  window: { from: string; to: string }
+  window: { from: string; to: string },
+  opts: VerifyOpts = {}
 ): Promise<{ facts: PageFacts; url: string } | { reason: string }> {
-  let page: Page | null = null;
+  let page: Page | null = opts.page ?? null;
   const failures: string[] = [];
-  for (const url of c.urls) {
+  for (const url of page ? [] : c.urls) {
     const r = await fetchPageText(url);
     if ('reason' in r) { failures.push(`${url} → ${r.reason}`); continue; }
     if (BLOCKED_HOSTS.test(new URL(r.finalUrl).hostname)) { failures.push(`${url} → redirected to ${r.finalUrl}`); continue; }
@@ -756,7 +779,7 @@ ${page.text}`;
   if (!facts || !facts.isEventPage) return { reason: `page does not confirm the event (${page.finalUrl})` };
   // Owner 2026-10-26: sales pitches and trade events don't fit the audience.
   if (facts.audienceFit === false) return { reason: `sales or trade event, not for our audience (${page.finalUrl})` };
-  if (facts.sourceType === 'other') return { reason: `not an organiser/venue/ticketing page (${page.finalUrl})` };
+  if (facts.sourceType === 'other' && !opts.acceptListing) return { reason: `not an organiser/venue/ticketing page (${page.finalUrl})` };
 
   // Anti-hallucination: the quotes must really be on the page.
   const text = norm(page.text);
@@ -790,7 +813,7 @@ ${page.text}`;
   const copy = `${facts.description} ${facts.longDescription}`;
   if (META_COPY.test(copy)) return { reason: `meta copy: "${copy.match(META_COPY)![0]}"` };
   const words = facts.longDescription.split(/\s+/).filter(Boolean).length;
-  if (words < MIN_LONG_WORDS) return { reason: `thin copy (${words} words)` };
+  if (words < (opts.minLongWords ?? MIN_LONG_WORDS)) return { reason: `thin copy (${words} words)` };
   return { facts, url: page.finalUrl };
 }
 
@@ -800,10 +823,11 @@ ${page.text}`;
 
 const spanDays = (from: string, to?: string | null) => (Date.parse(day(to || from)) - Date.parse(day(from))) / 86_400_000;
 
-async function toRecord(usage: ScanUsage, facts: PageFacts, url: string, enrich: boolean): Promise<EventRecord | { reason: string }> {
+/** Verified page facts → the record (EN copy humanized), before PT and image. */
+export function recordFromFacts(facts: PageFacts, url: string, now: Date = new Date()): EventRecord {
   const date = facts.time && /^\d{2}:\d{2}$/.test(facts.time) ? `${facts.date}T${facts.time}` : facts.date;
   const priceFrom = typeof facts.priceFrom === 'number' && facts.priceFrom > 0 ? facts.priceFrom : undefined;
-  const base: EventRecord = {
+  return {
     slug: composeEventSlug(facts.name, facts.venue, facts.date),
     name: facts.name.trim(),
     date,
@@ -820,9 +844,13 @@ async function toRecord(usage: ScanUsage, facts: PageFacts, url: string, enrich:
     externalLink: url,
     // Long runs never take an Editor's Pick slot (edition prompt rule).
     pickCandidate: facts.pickCandidate === true && spanDays(facts.date, facts.endDate) <= 7,
-    addedAt: new Date().toISOString(),
-    lastSeenAt: new Date().toISOString(),
+    addedAt: now.toISOString(),
+    lastSeenAt: now.toISOString(),
   };
+}
+
+async function toRecord(usage: ScanUsage, facts: PageFacts, url: string, enrich: boolean): Promise<EventRecord | { reason: string }> {
+  const base = recordFromFacts(facts, url);
   if (!enrich) return base; // local test only: skips PT + image (Imgur, image generation)
 
   const [pt, img] = await Promise.all([

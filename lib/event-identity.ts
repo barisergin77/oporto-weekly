@@ -19,6 +19,13 @@
  *     Answers") only counts when both are multi-day runs, so a festival
  *     night ("Porto Jazz Festival: X", one day) is never folded into the
  *     festival itself.
+ *
+ * 2026-11-01 (event-coverage audit): records carry a PT title in `namePt`
+ * and PT sources name events in Portuguese, so "Sinfonia Órgão" (CdM's PT
+ * page) never matched the existing "Organ Symphony" and became a second
+ * record. Every name variant (name / namePt) on each side is now compared,
+ * and a few common PT words fold to their EN form (sinfonia → symphony,
+ * órgão → organ, maratona → marathon) before tokens are compared.
  */
 
 import type { EventRecord } from './events';
@@ -34,10 +41,22 @@ const STOP = new Set([
   'opening', 'inauguracao', 'vernissage', 'final', 'last', 'days', 'chance', 'closing',
 ]);
 
+/**
+ * PT (and a few ES/EN spelling) words folded to one EN form so a Portuguese
+ * title and its English record share tokens. Keep to unambiguous words.
+ */
+const FOLD: Record<string, string> = {
+  sinfonia: 'symphony', sinfonica: 'symphony', symphonic: 'symphony',
+  orgao: 'organ', orquestra: 'orchestra', orquesta: 'orchestra', coro: 'choir',
+  maratona: 'marathon', natal: 'christmas', noite: 'night', mercado: 'market', feira: 'fair',
+  danca: 'dance', teatro: 'theatre', theater: 'theatre', jardim: 'garden', luz: 'light',
+  concerto: 'concert', concertos: 'concert', concerts: 'concert', bailado: 'ballet',
+};
+
 /** Distinctive name tokens; venue words dropped ("… at Serralves"). */
 export function nameTokens(name: string, venueSlug?: string): Set<string> {
-  const all = kebab(name).split('-').filter((t) => t.length > 1 && !STOP.has(t) && !/^\d{4}$/.test(t));
-  const venueWords = new Set((venueSlug ?? '').split('-'));
+  const all = kebab(name).split('-').filter((t) => t.length > 1 && !STOP.has(t) && !/^\d{4}$/.test(t)).map((t) => FOLD[t] ?? t);
+  const venueWords = new Set((venueSlug ?? '').split('-').map((t) => FOLD[t] ?? t));
   const distinct = all.filter((t) => !venueWords.has(t));
   return new Set(distinct.length ? distinct : all);
 }
@@ -68,8 +87,28 @@ export function datesOverlap(a: Dated, b: Dated, slackDays = 1): boolean {
 
 export interface EventLike extends Dated {
   name: string;
+  /** PT title (records: only when it differs from `name`). Compared too. */
+  namePt?: string | null;
   venue: string;
   venueSlug?: string;
+}
+
+/** Every distinct title an event goes by (name, namePt). */
+export const nameVariants = (e: Pick<EventLike, 'name' | 'namePt'>): string[] =>
+  e.namePt?.trim() && e.namePt.trim() !== e.name ? [e.name, e.namePt.trim()] : [e.name];
+
+const MATCH_RANK: Record<Exclude<NameMatch, null>, number> = { equal: 3, similar: 2, contained: 1 };
+
+/** Best name match over all name variants of `a` and `b`. */
+export function compareEventNames(a: Pick<EventLike, 'name' | 'namePt'>, b: Pick<EventLike, 'name' | 'namePt'>, va?: string, vb?: string): NameMatch {
+  let best: NameMatch = null;
+  for (const na of nameVariants(a)) {
+    for (const nb of nameVariants(b)) {
+      const m = compareNames(nameTokens(na, va), nameTokens(nb, vb));
+      if (m && (!best || MATCH_RANK[m] > MATCH_RANK[best])) best = m;
+    }
+  }
+  return best;
 }
 
 /** Canonical venue slug of a record (stored slug may predate the alias map). */
@@ -93,11 +132,11 @@ export function sameEventReason(a: EventLike, b: EventLike): string | null {
   if (!sameVenue) {
     // Venue words only get dropped at a shared venue ("Joan Miró at Serralves"
     // vs "Joan Miró"); across venues compare the full names.
-    return compareNames(nameTokens(a.name), nameTokens(b.name)) === 'equal'
+    return compareEventNames(a, b) === 'equal'
       ? `same name, vague venue (${va} / ${vb})`
       : null;
   }
-  const m = compareNames(nameTokens(a.name, va), nameTokens(b.name, vb));
+  const m = compareEventNames(a, b, va, vb);
   if (!m) return null;
   if (m === 'contained' && !(isMultiDay(a) && isMultiDay(b))) return null;
   return `${m} name, same venue (${va})`;

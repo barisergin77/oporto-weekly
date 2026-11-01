@@ -73,6 +73,8 @@ const nextConfig = {
       ['moonspell-hard-club-oct-31-2026', 'moonspell-invicta-halloween-hard-club-oct-31-2026'],
       // 2026-10-27 (owner): festival + its exhibition programme, same page and dates.
       ['caminhos-da-floresta-casa-da-musica-nov-12-2026', 'festival-floresta-amazonica-girando-mundos-casa-da-musica-nov-12-2026'],
+      // 2026-11-01: same CdM concert from its EN and PT pages (identity now compares PT names too).
+      ['organ-symphony-casa-da-musica-nov-21-2026', 'sinfonia-orgao-casa-da-musica-nov-21-2026'],
     ];
     const eventRedirects = dedupes.flatMap(([from, to]) => [
       { source: `/event/${from}`, destination: `/event/${to}`, permanent: true },

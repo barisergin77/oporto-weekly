@@ -136,4 +136,29 @@ test('forward scan: shared text after a comma alone does not merge different eve
   assert.equal(findDuplicate({ name: 'Jazz Jam, Hot Five', venue: 'Hot Five Jazz & Blues Club', date: '2026-11-05' }, [a]), undefined);
 });
 
+// ------------------------------------------------- PT names (2026-11-01 coverage audit)
+test('Sinfonia Órgão (PT page) is the existing Organ Symphony', () => {
+  assert.ok(isSameEvent(
+    ev('Organ Symphony', 'Casa da Música', '2026-11-21T18:00'),
+    ev('Sinfonia Órgão', 'Casa da Música, Sala Suggia', '2026-11-21'),
+  ));
+  const rec = { slug: 'organ-symphony-casa-da-musica-nov-21-2026', name: 'Organ Symphony', venue: 'Casa da Música', venueSlug: 'casa-da-musica', date: '2026-11-21T18:00', category: 'music', description: '', sourceEdition: 'forward-scan', addedAt: '2026-10-31T00:00:00Z' } as EventRecord;
+  assert.equal(findExistingEventByIdentity('Sinfonia Órgão', 'Casa da Música', { date: '2026-11-21' }, [rec])?.slug, rec.slug);
+});
+test('a record\'s namePt is compared with a PT source name', () => {
+  const rec = { slug: 'x', name: 'Paper Costume Parade', namePt: 'Cortejo do Traje de Papel', venue: 'Avenida dos Aliados', venueSlug: 'avenida-dos-aliados', date: '2026-11-08', category: 'family', description: '', sourceEdition: 'forward-scan', addedAt: '2026-10-31T00:00:00Z' } as EventRecord;
+  assert.equal(findExistingEventByIdentity('Cortejo do Traje de Papel', 'Avenida dos Aliados', { date: '2026-11-08' }, [rec])?.slug, 'x');
+  assert.equal(findDuplicate({ name: 'Cortejo do Traje de Papel', venue: 'Av. dos Aliados', date: '2026-11-08' }, [rec])?.slug, 'x');
+});
+test('PT folding does not merge different works at the same venue and date', () => {
+  assert.ok(!isSameEvent(
+    ev('Organ Symphony', 'Casa da Música', '2026-11-21'),
+    ev('Sinfonia Alpina', 'Casa da Música', '2026-11-21'),
+  ));
+  assert.ok(!isSameEvent(
+    ev('Sinfonia Órgão', 'Casa da Música', '2026-11-21'),
+    ev('Sinfonia Órgão', 'Casa da Música', '2026-12-21'),
+  ));
+});
+
 console.log(`ok — ${passed} dedupe tests passed`);
