@@ -1,9 +1,11 @@
 # Generates a long-form blog article every Tuesday morning.
 name: Cron · Blog Article
 
+# PAUSED (owner 2026-11-01): unchecked auto-generated guides stop. New guides are researched and
+# fact-checked by hand every 2 weeks; this stays available as a manual run only.
 on:
-  schedule:
-    - cron: '0 9 * * 2' # Tue 09:00 UTC
+  # schedule:
+  #   - cron: '0 9 * * 2' # Tue 09:00 UTC
   workflow_dispatch:
 
 concurrency:
