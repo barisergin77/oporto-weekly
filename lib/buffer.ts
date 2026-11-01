@@ -218,3 +218,37 @@ export async function inspectBufferPost(postId: string): Promise<unknown> {
   if (data?.errors) throw new Error(`Buffer inspect failed: ${JSON.stringify(data.errors).slice(0, 400)}`);
   return data?.data?.post ?? null;
 }
+
+/**
+ * Carousel safety net (owner 2026-11-01): schedule with photo tags; if Buffer refuses the post,
+ * retry ONCE without userTags. The caption @handles are stripped too only when the error points
+ * at mentions/the caption. Publish-time failures (after Buffer accepted the post) can't be seen
+ * here. `schedule` is injectable so the fallback can be tested without posting.
+ */
+export interface TagFallbackResult {
+  post: ScheduledPost;
+  tagsDropped: boolean;
+  mentionsDropped: boolean;
+  firstError?: string;
+}
+
+export async function scheduleWithTagFallback(
+  urls: string[],
+  caption: string,
+  dueAt: string,
+  extras: InstagramExtras,
+  schedule: typeof scheduleBufferPost = scheduleBufferPost,
+): Promise<TagFallbackResult> {
+  const hasTags = !!extras.userTags?.some((t) => t.length);
+  try {
+    return { post: await schedule(urls, caption, dueAt, extras), tagsDropped: false, mentionsDropped: false };
+  } catch (err) {
+    if (!hasTags) throw err;
+    const firstError = err instanceof Error ? err.message : String(err);
+    const mentionsDropped = /mention|caption|\btext\b|@/i.test(firstError);
+    const retryCaption = mentionsDropped ? caption.replace(/[ \t]+@[A-Za-z0-9_.]+/g, '') : caption;
+    console.error(`[buffer] carousel with userTags failed (${firstError.slice(0, 200)}); retrying once without tags${mentionsDropped ? ' and caption @handles' : ''}`);
+    const post = await schedule(urls, retryCaption, dueAt, { altTexts: extras.altTexts });
+    return { post, tagsDropped: true, mentionsDropped, firstError: firstError.slice(0, 400) };
+  }
+}

@@ -18,7 +18,7 @@ export const maxDuration = 60;
 import { NextRequest, NextResponse } from 'next/server';
 import { checkCronAuth } from '@/lib/cron-auth';
 import { uploadImageToImgur } from '@/lib/imgur';
-import { scheduleBufferPost, inspectBufferPost, type UserTag } from '@/lib/buffer';
+import { scheduleWithTagFallback, inspectBufferPost, type UserTag } from '@/lib/buffer';
 import { isKnownVenueHandle } from '@/lib/venue-instagram';
 
 export async function POST(req: NextRequest) {
@@ -66,9 +66,13 @@ export async function POST(req: NextRequest) {
       }
       const cleanTags = userTags?.map((tags) => tags.map((t) => ({ handle: t.handle.replace(/^@/, ''), x: t.x, y: t.y })));
       const altTexts = Array.isArray(body.altTexts) ? body.altTexts.map((a) => String(a).slice(0, 1000)) : undefined;
-      const post = await scheduleBufferPost(urls, body.caption, due, { userTags: cleanTags, altTexts });
-      console.log(`[cron/instagram-carousel] scheduled ${post.id} (${urls.length} slides, due ${post.dueAt})`);
-      return NextResponse.json({ success: true, buffer: post });
+      // Safety net: a refused post with tags is retried once without them (lib/buffer.ts).
+      const r = await scheduleWithTagFallback(urls, body.caption, due, { userTags: cleanTags, altTexts });
+      console.log(`[cron/instagram-carousel] scheduled ${r.post.id} (${urls.length} slides, due ${r.post.dueAt})${r.tagsDropped ? ' WITHOUT userTags' : ''}`);
+      return NextResponse.json({
+        success: true, buffer: r.post, tagsDropped: r.tagsDropped, mentionsDropped: r.mentionsDropped,
+        ...(r.firstError ? { tagError: r.firstError } : {}),
+      });
     }
     if (body.action === 'inspect') {
       if (!body.postId || !/^[A-Za-z0-9]{8,40}$/.test(body.postId)) {
