@@ -1,0 +1,25 @@
+{
+  "slug": "orquestra-sinfonica-do-porto-casa-da-musica-casa-da-musica-nov-6-2026",
+  "name": "Orquestra Sinfónica do Porto Casa da Música",
+  "date": "2026-11-06T21:30",
+  "venue": "Casa da Música",
+  "venueSlug": "casa-da-musica",
+  "price": "25–35€",
+  "priceFrom": 25,
+  "currency": "EUR",
+  "category": "music",
+  "description": "The Orquestra Sinfónica do Porto Casa da Música performs a concert in support of the Liga Portuguesa Contra o Cancro. The event takes place in Sala Suggia.",
+  "longDescription": "The Orquestra Sinfónica do Porto Casa da Música presents a solidarity concert at Casa da Música. This event supports the Liga Portuguesa Contra o Cancro, with music serving a greater cause.\n\nThe concert is scheduled for November 6, 2026, starting at 9:30 PM. It will be held in Sala Suggia at Casa da Música, located on Av. da Boavista, 604-610.\n\nTickets for the concert are priced between €25 and €35. The event is suitable for ages 6 and up.",
+  "sourceEdition": "forward-scan",
+  "externalLink": "https://www.agenda-porto.pt/evento/orquestra-sinfonica-do-porto-casa-da-musica-1786464770407/",
+  "pickCandidate": true,
+  "addedAt": "2026-11-01T06:01:00.672Z",
+  "lastSeenAt": "2026-11-01T06:01:00.672Z",
+  "descriptionPt": "A Orquestra Sinfónica do Porto Casa da Música atua num concerto de apoio à Liga Portuguesa Contra o Cancro. O evento acontece na Sala Suggia.",
+  "longDescriptionPt": "A Orquestra Sinfónica do Porto Casa da Música apresenta um concerto solidário na Casa da Música. Este evento apoia a Liga Portuguesa Contra o Cancro, com a música a servir uma causa maior.\n\nO concerto está marcado para 6 de novembro de 2026, com início às 21h30. Será na Sala Suggia da Casa da Música, na Av. da Boavista, 604-610.\n\nOs bilhetes para o concerto custam entre 25€ e 35€. O evento é adequado para maiores de 6 anos.",
+  "image": {
+    "url": "https://i.imgur.com/TO03onk.jpeg",
+    "credit": "Photo: Agenda-porto",
+    "sourceUrl": "https://www.agenda-porto.pt/evento/orquestra-sinfonica-do-porto-casa-da-musica-1786464770407/"
+  }
+}

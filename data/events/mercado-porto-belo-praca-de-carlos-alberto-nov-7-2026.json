@@ -1,0 +1,24 @@
+{
+  "slug": "mercado-porto-belo-praca-de-carlos-alberto-nov-7-2026",
+  "name": "Mercado Porto Belo",
+  "date": "2026-11-07T09:00",
+  "endDate": "2026-11-28",
+  "venue": "Praça de Carlos Alberto",
+  "venueSlug": "praca-de-carlos-alberto",
+  "price": "Gratuito",
+  "category": "other",
+  "description": "Mercado Porto Belo is an urban market held on Saturdays, focusing on vinyl records, illustration, typewriters, accessories, clothing, jewelry, sweets, and organic products.",
+  "longDescription": "Mercado Porto Belo is an urban market that takes place every Saturday. It specializes in the sale of various items, including vinyl records, illustrations, and typewriters. Visitors can also find accessories, clothing, and jewelry.\n\nThe market offers a selection of sweets and organic products. It is held at Praça de Carlos Alberto, operating from 09:00 to 18:00. Entry to the market is free.",
+  "sourceEdition": "forward-scan",
+  "externalLink": "https://www.agenda-porto.pt/evento/mercado-porto-belo-nov26/",
+  "pickCandidate": false,
+  "addedAt": "2026-11-01T06:01:07.499Z",
+  "lastSeenAt": "2026-11-01T06:01:07.499Z",
+  "descriptionPt": "O Mercado Porto Belo é um mercado urbano que se realiza aos sábados, com foco em discos de vinil, ilustração, máquinas de escrever, acessórios, roupa, joalharia, doces e produtos biológicos.",
+  "longDescriptionPt": "O Mercado Porto Belo é um mercado urbano que acontece todos os sábados. É especializado na venda de vários artigos, incluindo discos de vinil, ilustrações e máquinas de escrever. Os visitantes também podem encontrar acessórios, roupa e joalharia.\n\nO mercado oferece uma seleção de doces e produtos biológicos. Realiza-se na Praça de Carlos Alberto, funcionando das 09:00 às 18:00. A entrada no mercado é gratuita.",
+  "image": {
+    "url": "https://i.imgur.com/Gfq0PbQ.jpeg",
+    "credit": "Photo: Agenda-porto",
+    "sourceUrl": "https://www.agenda-porto.pt/evento/mercado-porto-belo-nov26/"
+  }
+}
