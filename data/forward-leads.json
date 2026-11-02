@@ -534,10 +534,11 @@
       "note": "17:00; opera based on Camilo Castelo Branco",
       "source": "coliseu-newsletter-2026-10",
       "addedAt": "2026-11-01T05:00:47Z",
-      "status": "pending",
-      "attempts": 2,
-      "reason": "page not fetchable: https://www.ticketline.pt/en/evento/opera-amor-de-perdicao-fiato-108581/sessao/129919_16_1794762000 → fetch error (fetch failed: Response does not match the HTTP/1.1 protocol (Unexpected whitespace after header value))",
-      "lastTriedAt": "2026-11-01T14:01:20.564Z"
+      "status": "rejected",
+      "attempts": 3,
+      "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
+      "lastTriedAt": "2026-11-02T16:49:37.561Z",
+      "resolvedAt": "2026-11-02T16:49:37.561Z"
     },
     {
       "name": "Les Ballets Trockadero de Monte Carlo",
@@ -560,9 +561,9 @@
       "source": "coliseu-newsletter-2026-10",
       "addedAt": "2026-11-01T05:00:47Z",
       "status": "pending",
-      "attempts": 1,
-      "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
-      "lastTriedAt": "2026-11-01T14:01:20.564Z"
+      "attempts": 2,
+      "reason": "page not fetchable: https://www.coliseu.pt/noticia/musicais-teatro-danca-concertos-e-muito-mais-2026-e-um-dos-anos-com-mai → only 19 chars of text | https://www.coliseu.pt/noticia/mantras-do-coliseu-ciclo-dedicado-ao-pensamento-com-novas-propostas-em-202 → only 19 chars of text",
+      "lastTriedAt": "2026-11-02T16:49:37.561Z"
     },
     {
       "name": "RUBEL – Beleza. Rubel & Violão",
@@ -635,7 +636,11 @@
       "venue": "Coliseu Porto Ageas",
       "note": "18:30; Mantras Coliseu talk series",
       "source": "coliseu-newsletter-2026-10",
-      "addedAt": "2026-11-01T05:00:47Z"
+      "addedAt": "2026-11-01T05:00:47Z",
+      "status": "pending",
+      "attempts": 1,
+      "reason": "page not fetchable: https://www.coliseu.pt/noticia/mantras-do-coliseu-ciclo-dedicado-ao-pensamento-com-novas-propostas-em-202 → only 19 chars of text | https://www.coliseu.pt/mantras → only 19 chars of text",
+      "lastTriedAt": "2026-11-02T16:49:37.561Z"
     },
     {
       "name": "O Lago dos Cisnes – Imperial Heritage Ballet",
@@ -643,7 +648,12 @@
       "venue": "Coliseu Porto Ageas",
       "note": "21:00; classical ballet",
       "source": "coliseu-newsletter-2026-10",
-      "addedAt": "2026-11-01T05:00:47Z"
+      "addedAt": "2026-11-01T05:00:47Z",
+      "status": "done",
+      "eventSlug": "o-lago-dos-cisnes-imperial-heritage-ballet-coliseu-porto-ageas-nov-27-2026",
+      "reason": "already listed",
+      "lastTriedAt": "2026-11-02T16:49:37.561Z",
+      "resolvedAt": "2026-11-02T16:49:37.561Z"
     },
     {
       "name": "O Quebra-Nozes – Imperial Heritage Ballet",
@@ -651,7 +661,12 @@
       "venue": "Coliseu Porto Ageas",
       "note": "15:00 and 18:30; classical ballet",
       "source": "coliseu-newsletter-2026-10",
-      "addedAt": "2026-11-01T05:00:47Z"
+      "addedAt": "2026-11-01T05:00:47Z",
+      "status": "done",
+      "eventSlug": "o-quebra-nozes-imperial-heritage-ballet-coliseu-porto-ageas-nov-28-2026",
+      "reason": "already listed",
+      "lastTriedAt": "2026-11-02T16:49:37.561Z",
+      "resolvedAt": "2026-11-02T16:49:37.561Z"
     },
     {
       "name": "Uma Sinfonia Alpina, de R. Strauss – Concertos Promenade",
@@ -692,9 +707,9 @@
       "source": "batalha-newsletter-2026-11",
       "addedAt": "2026-11-02T05:00:27Z",
       "status": "pending",
-      "attempts": 1,
+      "attempts": 2,
       "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
-      "lastTriedAt": "2026-11-02T08:31:57.526Z"
+      "lastTriedAt": "2026-11-02T16:49:37.561Z"
     },
     {
       "name": "Porto/Post/Doc – No País Dos Outros",
@@ -703,7 +718,11 @@
       "venue": "Batalha Centro de Cinema",
       "note": "Documentary film festival; last part of its trilogy on displacement, with films incl. Io Capitano, Soy Cuba, The Double Life of Véronique",
       "source": "batalha-newsletter-2026-11",
-      "addedAt": "2026-11-02T05:00:27Z"
+      "addedAt": "2026-11-02T05:00:27Z",
+      "status": "pending",
+      "attempts": 1,
+      "reason": "page not fetchable: https://www.coliseu.pt/noticia/mantras-do-coliseu-ciclo-dedicado-ao-pensamento-com-novas-propostas-em-202 → only 19 chars of text",
+      "lastTriedAt": "2026-11-02T16:49:37.561Z"
     },
     {
       "name": "Visita em Português – Exposição Frank Gehry",
@@ -720,10 +739,11 @@
       "note": "11:00, Casa e Parque de Serralves; guided tour in Portuguese of the Lee Ufan exhibition; free with Serralves general ticket",
       "source": "serralves-newsletter-2026-11",
       "addedAt": "2026-11-02T05:00:47Z",
-      "status": "pending",
+      "status": "done",
       "attempts": 1,
-      "reason": "not an organiser/venue/ticketing page (https://agendaculturalporto.org/eventos/lee-ufan-apresenta-em-serralves-a-primeira-grande-exposicao-em-portugal/)",
-      "lastTriedAt": "2026-11-02T08:31:57.526Z"
+      "lastTriedAt": "2026-11-02T16:49:37.561Z",
+      "eventSlug": "lee-ufan-fragments-of-infinity-casa-e-parque-de-serralves-oct-16-2026",
+      "resolvedAt": "2026-11-02T16:49:37.561Z"
     },
     {
       "name": "Visita em Inglês – Exposição Frank Gehry",
