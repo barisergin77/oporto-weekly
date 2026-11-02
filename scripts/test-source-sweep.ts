@@ -11,6 +11,8 @@ import {
   noiseReason, normalizeVenue, portoAreaReason, portoPostalCode, routeCandidate, splitMessages,
 } from '../lib/source-sweep';
 import { parseAgendaCards, parseCdm, parseSerralves, parseShotgun } from './source-sweep';
+import { type PageFields, reconcile, timesIn } from '../lib/sweep-double-check';
+import type { EventRecord } from '../lib/events';
 
 let passed = 0;
 function test(name: string, fn: () => void) {
@@ -133,6 +135,136 @@ test('parsers: Agenda Porto card, Shotgun card, Serralves card, Casa da Música 
   assert.equal(routeCandidate(sv[0], known).route, 'auto'); // end month only now publishes (owner 2026-11-01)
   const cdm = parseCdm('21.11.2026 sábado, 18:00\n\nSala Suggia\n\n[![x](y)](https://casadamusica.com/event/sinfonia-orgao/?selected_session=1)\n\n## [Sinfonia Órgão](https://casadamusica.com/event/sinfonia-orgao/?selected_session=1)\n\nOrquestra Sinfónica · Concerto\n');
   assert.deepEqual([cdm[0].name, cdm[0].date], ['Sinfonia Órgão', '2026-11-21T18:00']);
+});
+
+// ------------------------------------------------- second check (owner rule 2026-11-01)
+// The 5 errors a manual re-check of 11 sweep picks found on 2026-11-01, as the
+// refetched page showed them. The reader's fields are given (the LLM is not
+// under test); reconcile() must correct or hold each one.
+const rec = (o: Partial<EventRecord>): EventRecord => ({
+  slug: 's', name: 'X', date: '2026-11-15', venue: 'Era Uma Vez no Porto', venueSlug: 'era-uma-vez-no-porto', category: 'nightlife',
+  description: 'A night of house music.', longDescription: 'DJs play house music all night.', sourceEdition: 'forward-scan', addedAt: '2026-11-01T00:00:00Z', ...o,
+} as EventRecord);
+const fields = (o: Partial<PageFields>): PageFields => ({
+  name: null, nameQuote: null, date: null, dateQuote: null, time: null, timeQuote: null, endDate: null, endDateQuote: null,
+  venue: null, venueQuote: null, venueRole: 'venue', price: null, priceFrom: null, priceQuote: null, ...o,
+});
+
+test('times on pages: "11:59 PM", "23h59", "21.30", "9 pm"', () => {
+  assert.deepEqual(timesIn('Sun, Nov 15 · 11:59 PM'), ['23:59']);
+  assert.deepEqual(timesIn('Início: 23h59'), ['23:59']);
+  assert.deepEqual(timesIn('às 21.30'), ['21:30']);
+  assert.deepEqual(timesIn('doors 9 pm'), ['21:00']);
+  assert.deepEqual(timesIn('Duração 45 minutos, 15 nov 2026'), []);
+});
+
+test('failure 1: start 23:00 stored, page says 23:59 → corrected to 23:59', () => {
+  const page = 'Domingo 15 Nov - T-Cross B2b K-Croix / Project-2tk Era Uma Vez No Porto Sun, Nov 15 · 11:59 PM From €10.00';
+  const r = reconcile(rec({ name: 'Domingo 15 Nov - T-Cross B2b K-Croix / Project-2tk', date: '2026-11-15T23:00', price: 'From €10', priceFrom: 10 }), fields({
+    name: 'Domingo 15 Nov - T-Cross B2b K-Croix / Project-2tk', nameQuote: 'Domingo 15 Nov - T-Cross B2b K-Croix / Project-2tk',
+    date: '2026-11-15', dateQuote: 'Sun, Nov 15', time: '23:59', timeQuote: '11:59 PM',
+    venue: 'Era Uma Vez No Porto', venueQuote: 'Era Uma Vez No Porto', price: '€10.00', priceFrom: 10, priceQuote: 'From €10.00',
+  }), page);
+  assert.equal(r.status, 'corrected');
+  assert.equal(r.record.date, '2026-11-15T23:59');
+  assert.deepEqual(r.corrections, ['start time 23:00 → 23:59']);
+});
+
+test('failure 2: start 20:00 stored, page says 23:59 → corrected', () => {
+  const page = 'Domingo 29 Nov - Especial Bday Manuel Malheiro Era Uma Vez No Porto Sunday 29 November 23:59';
+  const r = reconcile(rec({ name: 'Domingo 29 Nov - Especial Bday Manuel Malheiro', date: '2026-11-29T20:00' }), fields({
+    name: 'Domingo 29 Nov - Especial Bday Manuel Malheiro', nameQuote: 'Domingo 29 Nov - Especial Bday Manuel Malheiro',
+    date: '2026-11-29', dateQuote: 'Sunday 29 November', time: '23:59', timeQuote: '23:59',
+    venue: 'Era Uma Vez No Porto', venueQuote: 'Era Uma Vez No Porto',
+  }), page);
+  assert.equal(r.status, 'corrected');
+  assert.equal(r.record.date, '2026-11-29T23:59');
+});
+
+test('failure 3: a festival series end date on a single 45-minute concert → end date removed', () => {
+  const page = 'NOVOS TALENTOS | Gil Brito Teatro & Arte | Música TMP-Rivoli Próxima Sessão 14 nov 2026 19:00 Duração 45 minutos Preços 7€';
+  const r = reconcile(rec({ name: 'Novos Talentos: Gil Brito', date: '2026-11-14T19:00', endDate: '2026-12-12', venue: 'Rivoli Theatre', venueSlug: 'rivoli-theatre', category: 'music', price: '€7', priceFrom: 7 }), fields({
+    name: 'NOVOS TALENTOS | Gil Brito', nameQuote: 'NOVOS TALENTOS | Gil Brito', date: '2026-11-14', dateQuote: '14 nov 2026', time: '19:00', timeQuote: '14 nov 2026 19:00',
+    endDate: null, venue: 'TMP-Rivoli', venueQuote: 'TMP-Rivoli', price: '7€', priceFrom: 7, priceQuote: 'Preços 7€',
+  }), page);
+  assert.equal(r.status, 'corrected');
+  assert.equal(r.record.endDate, undefined);
+  assert.deepEqual(r.corrections, ['end date 2026-12-12 removed (page shows one date)']);
+});
+
+test('failure 4: a one-night show given an extra day → end date removed', () => {
+  const page = 'V Festival Internacional de Magia da Maia - O Carcereiro Fórum da Maia 11 dez 2026 21:30 Preço 10€';
+  const r = reconcile(rec({ name: 'V Festival Internacional de Magia da Maia: O Carcereiro', date: '2026-12-11T21:30', endDate: '2026-12-12', venue: 'Fórum da Maia', venueSlug: 'forum-da-maia', category: 'family', price: '€10', priceFrom: 10 }), fields({
+    name: 'V Festival Internacional de Magia da Maia - O Carcereiro', nameQuote: 'V Festival Internacional de Magia da Maia - O Carcereiro',
+    date: '2026-12-11', dateQuote: '11 dez 2026', time: '21:30', timeQuote: '21:30', venue: 'Fórum da Maia', venueQuote: 'Fórum da Maia',
+    price: '10€', priceFrom: 10, priceQuote: 'Preço 10€',
+  }), page);
+  assert.equal(r.status, 'corrected');
+  assert.equal(r.record.endDate, undefined);
+  assert.equal(r.record.date, '2026-12-11T21:30');
+});
+
+test('failure 5: a promoter listed as the venue → held for review', () => {
+  const page = 'The Groove People presented by Too Much Information Sat, Dec 5 · 11:30 PM Porto';
+  const r = reconcile(rec({ name: 'The Groove People', date: '2026-12-05T23:30', venue: 'Too Much Information', venueSlug: 'too-much-information' }), fields({
+    name: 'The Groove People', nameQuote: 'The Groove People', date: '2026-12-05', dateQuote: 'Sat, Dec 5', time: '23:30', timeQuote: '11:30 PM',
+    venue: 'Too Much Information', venueQuote: 'Too Much Information', venueRole: 'organiser',
+  }), page);
+  assert.equal(r.status, 'hold');
+  assert.match(r.problems.join(' '), /organiser\/promoter/);
+  assert.equal(r.record.venue, 'Too Much Information'); // held records are not altered
+});
+
+test('no time on the page → no time stored (never guessed); price not on the page → removed', () => {
+  const page = 'Feira de Antiguidades e Velharias Praça Velásquez 21 de novembro';
+  const r = reconcile(rec({ name: 'Feira de Antiguidades e Velharias', date: '2026-11-21T08:00', venue: 'Praça Velásquez', venueSlug: 'praca-velasquez', price: '€5', priceFrom: 5 }), fields({
+    name: 'Feira de Antiguidades e Velharias', nameQuote: 'Feira de Antiguidades e Velharias', date: '2026-11-21', dateQuote: '21 de novembro',
+    venue: 'Praça Velásquez', venueQuote: 'Praça Velásquez',
+  }), page);
+  assert.equal(r.status, 'corrected');
+  assert.equal(r.record.date, '2026-11-21');
+  assert.equal(r.record.price, undefined);
+});
+
+test('held, not corrected: invented quote, other date without corroboration, other venue, copy repeating the old time', () => {
+  const base = { name: 'Linda Martini', nameQuote: 'Linda Martini', date: '2026-11-11', dateQuote: '11 de novembro', venue: 'Coliseu Box', venueQuote: 'Coliseu Box' };
+  const page = 'Linda Martini 11 de novembro 21:00 Coliseu Box Coliseu Porto Ageas';
+  const r0 = rec({ name: 'Linda Martini', date: '2026-11-11T21:00', venue: 'Coliseu Porto Ageas', venueSlug: 'coliseu-porto-ageas' });
+  assert.equal(reconcile(r0, fields({ ...base, time: '21:00', timeQuote: '21:00' }), page).status, 'ok');
+  assert.equal(reconcile(r0, fields({ ...base, time: '21:00', timeQuote: '21:00', nameQuote: 'Linda Martini ao vivo' }), page).status, 'hold');
+  assert.equal(reconcile(r0, fields({ ...base, date: '2026-11-12', dateQuote: '12 de novembro' }), 'Linda Martini 12 de novembro Coliseu Box').status, 'hold');
+  assert.equal(reconcile(r0, fields({ ...base, venue: 'Hard Club', venueQuote: 'Hard Club' }), page + ' Hard Club').status, 'hold');
+  const said = rec({ ...r0, date: '2026-11-11T20:00', longDescription: 'The concert starts at 20:00 in the Coliseu Box.' });
+  const h = reconcile(said, fields({ ...base, time: '21:00', timeQuote: '21:00' }), page);
+  assert.equal(h.status, 'hold');
+  assert.match(h.problems.join(' '), /old time 20:00/);
+});
+
+test('a run shown on the page keeps (or gains) its end date; JSON-LD backs the date', () => {
+  const page = 'Auto da Barca do Inferno | Gil Vicente 2026 nov 12 a 2026 dez 13 Próxima Sessão 12 nov 2026 19:00 Teatro Nacional São João';
+  const r = reconcile(rec({ name: 'Auto da Barca do Inferno', date: '2026-11-12T19:00', venue: 'Teatro Nacional São João', venueSlug: 'teatro-nacional-sao-joao' }), fields({
+    name: 'Auto da Barca do Inferno', nameQuote: 'Auto da Barca do Inferno', date: '2026-11-12', dateQuote: '12 nov 2026', time: '19:00', timeQuote: '12 nov 2026 19:00',
+    endDate: '2026-12-13', endDateQuote: '2026 dez 13', venue: 'Teatro Nacional São João', venueQuote: 'Teatro Nacional São João',
+  }), page, [{ name: 'Auto da Barca do Inferno', startDate: '2026-11-12T19:00:00.0000000' }]);
+  assert.equal(r.status, 'corrected');
+  assert.equal(r.record.endDate, '2026-12-13');
+});
+
+test('one page per night: the source\'s own session list keeps a two-night run; a festival fold does not', () => {
+  const page = 'Bryan Adams 17 Novembro, 21:00 Super Bock Arena';
+  const f = fields({ name: 'Bryan Adams', nameQuote: 'Bryan Adams', date: '2026-11-17', dateQuote: '17 Novembro', time: '21:00', timeQuote: '21:00', venue: 'Super Bock Arena', venueQuote: 'Super Bock Arena' });
+  const r0 = rec({ name: 'Bryan Adams', date: '2026-11-17T21:00', endDate: '2026-11-18', venue: 'Super Bock Arena', venueSlug: 'super-bock-arena', category: 'music' });
+  assert.equal(reconcile(r0, f, page, [], ['2026-11-17T21:00', '2026-11-18T21:00']).status, 'ok');
+  assert.equal(reconcile(r0, f, page, []).record.endDate, undefined);
+});
+test('a stored lowest price written on the page is kept (BOL lists full and discount prices)', () => {
+  const page = 'Gisela João 14 nov 2026 21:30 Teatro Municipal Constantino Nery Preços Plateia 12,50€ Desconto 6,25€';
+  const r = reconcile(rec({ name: 'Gisela João', date: '2026-11-14T21:30', venue: 'Teatro Municipal Constantino Nery', venueSlug: 'teatro-municipal-constantino-nery', price: '€6.25–€12.50', priceFrom: 6.25 }), fields({
+    name: 'Gisela João', nameQuote: 'Gisela João', date: '2026-11-14', dateQuote: '14 nov 2026', time: '21:30', timeQuote: '21:30',
+    venue: 'Teatro Municipal Constantino Nery', venueQuote: 'Teatro Municipal Constantino Nery', price: '12,50€', priceFrom: 12.5, priceQuote: 'Plateia 12,50€',
+  }), page);
+  assert.equal(r.status, 'ok');
+  assert.equal(r.record.priceFrom, 6.25);
 });
 
 console.log(`ok — ${passed} source-sweep tests passed`);

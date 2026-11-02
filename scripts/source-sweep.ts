@@ -30,6 +30,7 @@ import { normalizeEventUrl, datesOverlap, nameTokens, nameVariants } from '../li
 import { type Candidate, type Page, type ScanUsage, findDuplicate, inFreezeWindow, pageFromHtml, recordFromFacts, verifyCandidate } from '../lib/forward-scan';
 import { acquireEventImage, translateEventFields } from '../lib/events-pipeline';
 import { humanizeText } from '../lib/humanizer';
+import { type CheckResult, extractPageFields, reconcile } from '../lib/sweep-double-check';
 import {
   type DigestItem, type SweepCandidate, type SweepCluster, type SweepSource,
   FINAL_REJECT, SOURCES, WEEKLY_SOURCES, addDays, collapseSessions, day, formatDigest, inWindow, lisbonToday,
@@ -435,10 +436,59 @@ async function pool<T, R>(items: T[], n: number, fn: (x: T, i: number) => Promis
   return out;
 }
 
-interface SourceStat { found: number; inWindow: number; filtered: number; dup: number; published: number; review: number; dropped: number; failed: number; error?: string }
-const emptyStat = (): SourceStat => ({ found: 0, inWindow: 0, filtered: 0, dup: 0, published: 0, review: 0, dropped: 0, failed: 0 });
+interface SourceStat { found: number; inWindow: number; filtered: number; dup: number; published: number; review: number; dropped: number; failed: number; held: number; corrected: number; error?: string }
+const emptyStat = (): SourceStat => ({ found: 0, inWindow: 0, filtered: 0, dup: 0, published: 0, review: 0, dropped: 0, failed: 0, held: 0, corrected: 0 });
 
 interface ReviewItem extends DigestItem { key: string; source: SweepSource; candidate: SweepCandidate }
+
+// ---------------------------------------------------------------- second check (owner rule 2026-11-01)
+/** Coliseu's site is JavaScript-only: its own API is the page. All sessions of the show, fetched fresh. */
+async function coliseuPage(url: string, name: string): Promise<Page | { reason: string }> {
+  const today = lisbonToday();
+  const query = `{ events(paging:{limit:300}, filter:{startDate:{between:{lower:"${addDays(today, -1)}",upper:"${addDays(today, 400)}"}}}) { nodes { name startDate slug state description ticketsInfo room { name } } } }`;
+  const res = await politeFetch('https://nest.coliseu.pt/graph/', { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify({ query }) });
+  if (!res.ok) return { reason: `Coliseu GraphQL HTTP ${res.status}` };
+  const nodes = ((await res.json()) as { data?: { events?: { nodes?: Array<Record<string, any>> } } }).data?.events?.nodes ?? [];
+  const slug = url.split('/').filter(Boolean).pop();
+  const me = nodes.find((n) => n.slug === slug);
+  if (!me) return { reason: 'Coliseu no longer lists this event' };
+  const sessions = nodes.filter((n) => n.state === 'ACTIVE' && str(n.name) === str(me.name)).map((n) => wall(String(n.startDate).replace(/\.\d+Z$|Z$/, ''))).sort();
+  const text = `Coliseu Porto Ageas event page (${url}). Event: ${str(me.name)}. Performance dates and times: ${sessions.map((x) => `${x.slice(8, 10)}/${x.slice(5, 7)}/${x.slice(0, 4)} ${x.slice(11, 16)}`.trim()).join('; ')}. Venue: ${me.room?.name ? `${me.room.name}, ` : ''}Coliseu Porto Ageas, Rua de Passos Manuel 137, Porto.\nDescription: ${stripHtml(me.description)}\nTickets: ${stripHtml(me.ticketsInfo)}`;
+  return { text: text.replace(/\s+/g, ' ').slice(0, 40_000), finalUrl: url, ld: [] };
+}
+
+/** Refetch the record's own page, never from the cache. */
+async function refetchPage(c: SweepCandidate, url: string): Promise<Page | { reason: string }> {
+  try {
+    if (c.source === 'coliseu') return await coliseuPage(url, c.name);
+    if (c.source === 'fever') return { text: (c.pageText ?? '').replace(/\s+/g, ' '), finalUrl: url, ld: [] }; // Fever's catalog is its page data (synced 04:30 today)
+    if (c.source === 'shotgun') {
+      const md = await firecrawl(url, 0);
+      return { text: md.replace(/!\[[^\]]*\]\([^)]*\)/g, ' ').replace(/\s+/g, ' ').slice(0, 40_000), finalUrl: url, ld: [] };
+    }
+    const { text, finalUrl } = await getText(url, 0);
+    return pageFromHtml(text, finalUrl);
+  } catch (err) {
+    return { reason: `refetch failed: ${err instanceof Error ? err.message : err}` };
+  }
+}
+
+/** The independent, field-by-field second check (lib/sweep-double-check.ts). Never throws: failures hold the event. */
+async function doubleCheck(usage: ScanUsage, rec: EventRecord, c: SweepCandidate): Promise<CheckResult> {
+  const hold = (p: string): CheckResult => ({ status: 'hold', record: rec, corrections: [], problems: [p] });
+  const url = rec.externalLink ?? c.url;
+  const page = await refetchPage(c, url);
+  if ('reason' in page) return hold(`second check: ${page.reason}`);
+  try {
+    usage.geminiCalls++;
+    const f = await extractPageFields(page.text, url, { name: rec.name, date: rec.date });
+    // Same-name sessions the source itself listed (not festival folds) count as the series.
+    const sessionDays = c.festival ? [] : (c.sessions ?? []);
+    return reconcile(rec, f, page.text, page.ld.map((e) => ({ name: e.name, startDate: e.startDate, endDate: e.endDate })), sessionDays);
+  } catch (err) {
+    return hold(`second check failed: ${err instanceof Error ? err.message : err}`);
+  }
+}
 
 async function verifyAndBuild(
   usage: ScanUsage, c: SweepCandidate, window: { from: string; to: string }, minLongWords: number
@@ -575,6 +625,7 @@ async function run() {
   // 7. Page check (+ PT, write) for auto candidates
   const published: Array<{ slug: string; name: string; date: string; venue: string; source: SweepSource; url: string }> = [];
   const accepted: EventRecord[] = [];
+  const corrected: Array<{ name: string; slug: string; corrections: string[] }> = [];
   const minLongWords = 40;
   const noCheck = flag('--no-check'); // collection test: skip the page check, list what would be checked
   await pool(autoNow, 4, async (k) => {
@@ -591,10 +642,21 @@ async function run() {
     // Same event under the page's own name? (existing + accepted this run)
     const dup = existingMatch({ ...c, name: r.rec.name, date: r.rec.date, endDate: r.rec.endDate }, [...existing, ...accepted]);
     if (dup) { st(c.source).dup++; dupMatches.push({ c, slug: dup.slug }); return; }
-    accepted.push(r.rec);
-    if (!write) { st(c.source).published++; published.push({ slug: r.rec.slug, name: r.rec.name, date: r.rec.date, venue: r.rec.venue, source: c.source, url: r.rec.externalLink ?? c.url }); return; }
-    const full = await enrich(r.rec);
-    if ('reason' in full) { st(c.source).failed++; log.push(`not written ${r.rec.slug}: ${full.reason}`); return; }
+    // Second, independent check before anything is published (owner rule 2026-11-01).
+    const dc = await doubleCheck(usage, r.rec, c);
+    if (dc.status === 'hold') {
+      st(c.source).held++;
+      failedState[keyOf(c)] = { reason: `held: ${dc.problems.join('; ')}`.slice(0, 160), at: today };
+      toReview(c, `held: ${dc.problems.join('; ')}`.slice(0, 140));
+      log.push(`held ${r.rec.slug}: ${dc.problems.join('; ')}`);
+      return;
+    }
+    const rec = dc.record;
+    if (dc.status === 'corrected') { st(c.source).corrected++; corrected.push({ name: rec.name, slug: rec.slug, corrections: dc.corrections }); }
+    accepted.push(rec);
+    if (!write) { st(c.source).published++; published.push({ slug: rec.slug, name: rec.name, date: rec.date, venue: rec.venue, source: c.source, url: rec.externalLink ?? c.url }); return; }
+    const full = await enrich(rec);
+    if ('reason' in full) { st(c.source).failed++; log.push(`not written ${rec.slug}: ${full.reason}`); return; }
     if (!writeRecord(full)) { st(c.source).dup++; log.push(`slug exists: ${full.slug}`); return; }
     st(c.source).published++;
     published.push({ slug: full.slug, name: full.name, date: full.date, venue: full.venue, source: c.source, url: full.externalLink ?? c.url });
@@ -615,11 +677,18 @@ async function run() {
     if (zeroState[s] >= 2) notes.push(`⚠️ ${s} returned nothing ${zeroState[s]} runs in a row${st(s).error ? ` (${st(s).error!.slice(0, 120)})` : ''}: site change?`);
     else if (st(s).error) notes.push(`⚠️ ${s} failed today: ${st(s).error!.slice(0, 120)}`);
   }
-  const digest = formatDigest(bySource, shown.map(({ name, date, endDate, venue, url }) => ({ name, date, endDate, venue, url })), notes, Math.max(0, newReview.length - SHOW));
+  const heldCount = wanted.reduce((n, s) => n + st(s).held, 0);
+  const digest = formatDigest(
+    bySource,
+    // Held items say why; other review items keep the short line.
+    shown.map(({ name, date, endDate, venue, url, reason }) => ({ name, date, endDate, venue, url, reason: reason?.startsWith('held:') ? reason : undefined })),
+    notes, Math.max(0, newReview.length - SHOW),
+    { corrected: corrected.filter((x) => published.some((p) => p.slug === x.slug)).map((x) => `${x.name}: ${x.corrections.join(', ')}`), held: heldCount },
+  );
 
   const summary = {
     ranAt: now.toISOString(), today, window, write, sources: wanted, stats, usage, httpRequests, firecrawlCredits,
-    published, review: shown.map((r, i) => ({ n: i + 1, ...r })), reviewAll: review.map((r) => ({ key: r.key, name: r.name, date: r.date, venue: r.venue, url: r.url, reason: r.reason })),
+    published, corrected, review: shown.map((r, i) => ({ n: i + 1, ...r })), reviewAll: review.map((r) => ({ key: r.key, name: r.name, date: r.date, venue: r.venue, url: r.url, reason: r.reason })),
     dupMatches: dupMatches.map(({ c, slug }) => ({ source: c.source, name: c.name, date: c.date, venue: c.venue, slug })),
     filteredOut: filteredOut.map(({ c, why }) => ({ source: c.source, name: c.name, date: c.date, venue: c.venue, why })),
     log, digest,
@@ -636,10 +705,10 @@ async function run() {
 
   // Console report
   console.log(`window ${from} → ${to}  write=${write}  sources=${wanted.join(',')}`);
-  console.log('source          found  inWin  filt   dup  publ  review  fail  drop  error');
+  console.log('source          found  inWin  filt   dup  publ  corr  held  review  fail  drop  error');
   for (const s of wanted) {
     const x = st(s);
-    console.log(`${s.padEnd(15)} ${String(x.found).padStart(5)} ${String(x.inWindow).padStart(6)} ${String(x.filtered).padStart(5)} ${String(x.dup).padStart(5)} ${String(x.published).padStart(5)} ${String(x.review).padStart(7)} ${String(x.failed).padStart(5)} ${String(x.dropped).padStart(5)}  ${x.error ?? ''}`);
+    console.log(`${s.padEnd(15)} ${String(x.found).padStart(5)} ${String(x.inWindow).padStart(6)} ${String(x.filtered).padStart(5)} ${String(x.dup).padStart(5)} ${String(x.published).padStart(5)} ${String(x.corrected).padStart(5)} ${String(x.held).padStart(5)} ${String(x.review).padStart(7)} ${String(x.failed).padStart(5)} ${String(x.dropped).padStart(5)}  ${x.error ?? ''}`);
   }
   console.log(`auto ${auto.length} (checked ${autoNow.length}), review ${review.length} (${newReview.length} new), published ${published.length}; gemini ${usage.geminiCalls} calls, http ${httpRequests}, firecrawl ${firecrawlCredits}`);
   console.log('\nDIGEST:\n' + digest.join('\n---\n'));
@@ -663,8 +732,11 @@ async function add(file: string, picks: string) {
     if (dup) { results.push({ n, reason: `already listed (${dup.slug})` }); continue; }
     const r = await verifyAndBuild(usage, c, { from: addDays(window.from, -400), to: window.to }, 25);
     if ('reason' in r) { results.push({ n, reason: r.reason }); continue; }
-    const full = await enrich(r.rec);
+    const dc = await doubleCheck(usage, r.rec, c);
+    if (dc.status === 'hold') { results.push({ n, reason: `held by the second check: ${dc.problems.join('; ')}` }); continue; }
+    const full = await enrich(dc.record);
     if ('reason' in full) { results.push({ n, reason: full.reason }); continue; }
+    if (dc.corrections.length) results.push({ n, reason: `corrected: ${dc.corrections.join(', ')}` });
     if (!writeRecord(full)) { results.push({ n, reason: `slug exists (${full.slug})` }); continue; }
     existing.push(full);
     results.push({ n, slug: full.slug });

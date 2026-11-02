@@ -409,7 +409,8 @@ export function formatDigest(
   publishedBySource: Partial<Record<SweepSource, number>>,
   review: DigestItem[],
   notes: string[] = [],
-  moreReview = 0
+  moreReview = 0,
+  check: { corrected?: string[]; held?: number } = {}
 ): string[] {
   const total = Object.values(publishedBySource).reduce((a, b) => a + (b ?? 0), 0);
   const by = Object.entries(publishedBySource).filter(([, n]) => n).map(([s, n]) => `${s} ${n}`).join(', ');
@@ -420,6 +421,14 @@ export function formatDigest(
   });
   if (moreReview) lines.push(`…and ${moreReview} more in the sweep log.`);
   if (review.length) lines.push('Reply "add 1,3" to publish or "skip 2" to drop.');
+  // Second check (owner rule 2026-11-01): what it fixed and what it held back.
+  const fixed = check.corrected ?? [];
+  if (fixed.length) {
+    lines.push(`Second check auto-corrected ${fixed.length}:`);
+    fixed.slice(0, 15).forEach((x) => lines.push(`• ${x}`));
+    if (fixed.length > 15) lines.push(`• …and ${fixed.length - 15} more in the sweep log.`);
+  }
+  if (check.held) lines.push(`Second check held back ${check.held} (marked "held:" above or in the log).`);
   lines.push(...notes);
   return splitMessages(lines);
 }
