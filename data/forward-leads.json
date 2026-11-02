@@ -715,6 +715,80 @@
       "note": "Family Christmas circus, opens to the public on 11 Dec; artists not yet announced",
       "source": "coliseu-newsletter-2026-10",
       "addedAt": "2026-11-01T05:00:47Z"
+    },
+    {
+      "name": "Queer Porto 12",
+      "date": "2026-11-03",
+      "endDate": "2026-11-07",
+      "venue": "Batalha Centro de Cinema",
+      "note": "12th edition of the queer film festival; Portuguese premieres of recent LGBTQIA+ cinema",
+      "source": "batalha-newsletter-2026-11",
+      "addedAt": "2026-11-02T05:00:27Z"
+    },
+    {
+      "name": "Elephant, de Gus Van Sant – Mental Health, Stigma and Resilience Project",
+      "date": "2026-11-13",
+      "venue": "Batalha Centro de Cinema",
+      "note": "Special screening of Gus Van Sant's Elephant, part of a film programme on mental illness and stigma",
+      "source": "batalha-newsletter-2026-11",
+      "addedAt": "2026-11-02T05:00:27Z"
+    },
+    {
+      "name": "Porto/Post/Doc – No País Dos Outros",
+      "date": "2026-11-19",
+      "endDate": "2026-11-28",
+      "venue": "Batalha Centro de Cinema",
+      "note": "Documentary film festival; last part of its trilogy on displacement, with films incl. Io Capitano, Soy Cuba, The Double Life of Véronique",
+      "source": "batalha-newsletter-2026-11",
+      "addedAt": "2026-11-02T05:00:27Z"
+    },
+    {
+      "name": "Visita em Português – Exposição Frank Gehry",
+      "date": "2026-11-02",
+      "venue": "Serralves",
+      "note": "15:00, Ala Álvaro Siza; guided tour in Portuguese of the Frank Gehry exhibition; free with Serralves general ticket",
+      "source": "serralves-newsletter-2026-11",
+      "addedAt": "2026-11-02T05:00:47Z"
+    },
+    {
+      "name": "Visita em Português – Exposição Lee Ufan",
+      "date": "2026-11-03",
+      "venue": "Serralves",
+      "note": "11:00, Casa e Parque de Serralves; guided tour in Portuguese of the Lee Ufan exhibition; free with Serralves general ticket",
+      "source": "serralves-newsletter-2026-11",
+      "addedAt": "2026-11-02T05:00:47Z"
+    },
+    {
+      "name": "Visita em Inglês – Exposição Frank Gehry",
+      "date": "2026-11-04",
+      "venue": "Serralves",
+      "note": "15:00, Ala Álvaro Siza; guided tour in English of the Frank Gehry exhibition; free with Serralves general ticket",
+      "source": "serralves-newsletter-2026-11",
+      "addedAt": "2026-11-02T05:00:47Z"
+    },
+    {
+      "name": "Visita em Português pela Curadora Inês Grosso – Exposição Alice Neel",
+      "date": "2026-11-05",
+      "venue": "Serralves",
+      "note": "17:00, Ala Álvaro Siza; curator-led tour in Portuguese of the Alice Neel exhibition by curator Inês Grosso; free with Serralves general ticket",
+      "source": "serralves-newsletter-2026-11",
+      "addedAt": "2026-11-02T05:00:47Z"
+    },
+    {
+      "name": "Visita em Inglês – Exposição Frank Gehry",
+      "date": "2026-11-06",
+      "venue": "Serralves",
+      "note": "11:00, Ala Álvaro Siza; guided tour in English of the Frank Gehry exhibition; free with Serralves general ticket",
+      "source": "serralves-newsletter-2026-11",
+      "addedAt": "2026-11-02T05:00:47Z"
+    },
+    {
+      "name": "Visita em Inglês – Exposição Alice Neel",
+      "date": "2026-11-07",
+      "venue": "Serralves",
+      "note": "11:00, Ala Álvaro Siza; guided tour in English of the Alice Neel exhibition; free with Serralves general ticket",
+      "source": "serralves-newsletter-2026-11",
+      "addedAt": "2026-11-02T05:00:47Z"
     }
   ]
 }
