@@ -30,9 +30,9 @@ for (const line of envFile.split('\n')) {
 }
 
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
-const BUFFER_API_KEY = 'zhR3BWV7iy_fOGH6-lfwCPQMrSmA6_vuplUZYnz0jSW';
-const BUFFER_CHANNEL_ID = '69bfb432af47dacb69420430';
-const IMGUR_CLIENT_ID = '546c25a59c58ad7';
+const BUFFER_API_KEY = process.env.BUFFER_API_KEY;
+const BUFFER_CHANNEL_ID = process.env.BUFFER_CHANNEL_ID || '69bfb432af47dacb69420430';
+const IMGUR_CLIENT_ID = process.env.IMGUR_CLIENT_ID;
 
 const slugArg = process.argv[2];
 const doPost = process.argv.includes('--post');
