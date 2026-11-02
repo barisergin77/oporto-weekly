@@ -121,13 +121,21 @@ export function isVagueVenue(slug: string): boolean {
   return !hasVenuePage(slug) || /(^|-)(various|multiple|varies|vary|tbc|tbd)(-|$)/.test(slug);
 }
 
+/**
+ * isVagueVenue plus PT "many places" venues ("Vários locais", "Diversos
+ * locais"), for identity only: "EDP Maratona do Porto" (Vários locais) and
+ * "EDP Porto Marathon" (Queimódromo) were two records (#37, 2026-11-02).
+ * Kept out of isVagueVenue itself, which also gates venue pages and Gomry.
+ */
+const isVagueForIdentity = (slug: string) => isVagueVenue(slug) || /(^|-)(varios|diversos)-(locais|lugares|espacos)(-|$)/.test(slug);
+
 /** Why two records are the same event, or null. */
 export function sameEventReason(a: EventLike, b: EventLike): string | null {
   if (!datesOverlap(a, b)) return null;
   const va = venueKey(a);
   const vb = venueKey(b);
   const sameVenue = va === vb;
-  if (!sameVenue && !(isVagueVenue(va) || isVagueVenue(vb))) return null;
+  if (!sameVenue && !(isVagueForIdentity(va) || isVagueForIdentity(vb))) return null;
 
   if (!sameVenue) {
     // Venue words only get dropped at a shared venue ("Joan Miró at Serralves"
@@ -169,13 +177,107 @@ export function normalizeEventUrl(url: string | null | undefined): string | null
 
 export function sameSourcePageReason(a: EventLike & { externalLink?: string | null }, b: EventLike & { externalLink?: string | null }): string | null {
   const ua = normalizeEventUrl(a.externalLink);
-  if (!ua || ua !== normalizeEventUrl(b.externalLink)) return null;
+  if (!ua) return null;
+  const ub = normalizeEventUrl(b.externalLink);
+  if (!ub) return null;
+  if (ua !== ub) return sameSiteOtherLanguageReason(a, b);
   // Exact same dates: a festival page also hosts its single nights
   // (Primavera Sound: the festival and "The xx + Big Thief" share one URL).
-  const end = (e: Dated) => day(e.endDate || e.date);
-  if (day(a.date) !== day(b.date) || end(a) !== end(b)) return null;
+  if (!sameDays(a, b)) return null;
   const va = venueKey(a);
   return va === venueKey(b) ? `same source page (${ua}), same venue (${va})` : null;
+}
+
+const endDay = (e: Dated) => day(e.endDate || e.date);
+const sameDays = (a: Dated, b: Dated) => day(a.date) === day(b.date) && endDay(a) === endDay(b);
+const startTime = (e: Dated) => (/T(\d{2}:\d{2})/.exec(e.date)?.[1] ?? null);
+
+/**
+ * Multi-venue listing, ticketing and municipal agenda sites: one host, many
+ * venues and many events per evening (agenda-porto.pt lists three TMP Campo
+ * Alegre shows all at 19:30 on 11-06), so "same site" says nothing there.
+ */
+const LISTING_HOSTS = new Set([
+  'agenda-porto.pt', 'visitporto.travel', 'cm-porto.pt', 'portoalive.pt', 'cm-matosinhos.pt', 'cm-gaia.pt',
+  'bol.pt', 'ticketline.pt', 'blueticket.pt', 'feverup.com', 'shotgun.live', '3cket.com', 'seetickets.com',
+  'eventbrite.com', 'eventbrite.pt', 'viralagenda.com', 'xceed.me', 'dice.fm', 'ra.co',
+]);
+
+/** Registrable domain ("www.serralves.pt" → "serralves.pt", "x.com.pt" kept 3 labels). */
+export function siteOf(url: string | null | undefined): string | null {
+  if (!url) return null;
+  let host: string;
+  try { host = new URL(url).hostname.toLowerCase().replace(/^www\./, ''); } catch { return null; }
+  const p = host.split('.');
+  const n = p.length >= 3 && /^(com|org|gov|edu|co|net)$/.test(p[p.length - 2]) ? 3 : 2;
+  return p.slice(-n).join('.');
+}
+
+const LANG_SEG = /^(en|pt|es|fr|de)(-[a-z]{2})?$/;
+/**
+ * Page language from the URL ("/en/event/x" → en, "?lang=pt" → pt, "x-en"
+ * → en), "" when the URL doesn't say (the site's default language), and the
+ * path with the language marker removed, so /en/x and /x are one page.
+ */
+export function urlLanguage(url: string): { lang: string; page: string } | null {
+  let u: URL;
+  try { u = new URL(url); } catch { return null; }
+  let lang = '';
+  const segs = u.pathname.toLowerCase().split('/').filter(Boolean).filter((s) => {
+    if (LANG_SEG.test(s)) { lang = s.slice(0, 2); return false; }
+    return true;
+  });
+  const q = u.searchParams.get('lang') ?? u.searchParams.get('language') ?? u.searchParams.get('locale');
+  if (q) lang = q.toLowerCase().slice(0, 2);
+  if (segs.length) {
+    const m = /^(.*?)[-_](en|pt)$/.exec(segs[segs.length - 1]);
+    if (m && m[1]) { lang = lang || m[2]; segs[segs.length - 1] = m[1]; }
+  }
+  return { lang, page: siteOf(url) + '/' + segs.join('/') };
+}
+
+/**
+ * Backlog #37 (owner OK 2026-11-02): the forward scan picks up the PT and the
+ * EN page of one event on the venue's own site, under translated names and
+ * different slugs (casadamusica.com/event/irmaos-jussen vs
+ * /en/event/jussen-brothers; serralves.pt "O MUSEU COMO PERFORMANCE" vs
+ * /en/… "THE MUSEUM AS PERFORMANCE"), so neither the name nor the URL match
+ * sees it. Same event when ALL of:
+ *   - same site (registrable domain), not a listing/ticketing host;
+ *   - same canonical venue, not a placeholder;
+ *   - identical start day and end day;
+ * and EITHER the two URLs are one page in two languages (/en/x vs /x), OR
+ * the pages are in different languages and
+ *   - both have a start time: the times are equal, or
+ *   - otherwise: the names share a distinctive word ("performance") or
+ *     match by name (namePt / PT→EN folding).
+ * Checked against all 878 records 2026-11-02: 40 same-site, same-venue,
+ * same-day pairs; the rule matches exactly 3, all real EN/PT duplicates
+ * (Jussen 11-05, The Art of Fugue 11-08, The Museum as Performance 11-07).
+ * Same time but same page language (three TMP shows at 19:30 on
+ * agenda-porto.pt, a listing host anyway), different end dates (GMP opening
+ * vs the exhibition) or different times (CdM, Serralves, Coliseu same-day
+ * programmes) stay separate.
+ */
+export function sameSiteOtherLanguageReason(a: EventLike & { externalLink?: string | null }, b: EventLike & { externalLink?: string | null }): string | null {
+  if (!a.externalLink || !b.externalLink) return null;
+  const site = siteOf(a.externalLink);
+  if (!site || site !== siteOf(b.externalLink) || LISTING_HOSTS.has(site)) return null;
+  const va = venueKey(a);
+  if (va !== venueKey(b) || isVagueForIdentity(va)) return null;
+  if (!sameDays(a, b)) return null;
+  const la = urlLanguage(a.externalLink);
+  const lb = urlLanguage(b.externalLink);
+  if (!la || !lb) return null;
+  if (la.page === lb.page) return `same page in two languages (${la.page}), same venue (${va})`;
+  if (la.lang === lb.lang) return null;
+  const ta = startTime(a);
+  const tb = startTime(b);
+  if (ta && tb) return ta === tb ? `${site} EN/PT pages, same venue (${va}), same day and time (${ta})` : null;
+  const na = new Set(nameVariants(a).flatMap((n) => Array.from(nameTokens(n, va))));
+  const shared = nameVariants(b).flatMap((n) => Array.from(nameTokens(n, va))).filter((t) => t.length >= 4 && na.has(t));
+  if (shared.length || compareEventNames(a, b, va, va)) return `${site} EN/PT pages, same venue (${va}), same days, shared name (${shared[0] ?? 'variant'})`;
+  return null;
 }
 
 export function isSameEvent(a: EventLike, b: EventLike): boolean {

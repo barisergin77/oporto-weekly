@@ -4,7 +4,8 @@
  *   npm run find-duplicates            # report (strong + review candidates)
  *   npm run find-duplicates -- --check # exit 1 if any STRONG duplicate exists
  *
- * STRONG event pairs are what lib/event-identity.ts isSameEvent() would merge
+ * STRONG event pairs are what lib/event-identity.ts isSameEvent() or
+ * sameSourcePageReason() (same page, or its other-language page, #37) would merge
  * in the pipeline (same canonical venue or a placeholder venue, overlapping
  * dates, matching distinctive name). REVIEW pairs are looser leads for a human:
  * similar names with overlapping dates at different venues, or contained
@@ -29,6 +30,7 @@ import {
   isVagueVenue,
   nameTokens,
   sameEventReason,
+  sameSourcePageReason,
   venueKey,
 } from '../lib/event-identity';
 import { canonicalVenueSlugFor, hasVenuePage } from '../lib/venues';
@@ -53,7 +55,7 @@ for (let i = 0; i < events.length; i++) {
   for (let j = i + 1; j < events.length; j++) {
     const a = events[i];
     const b = events[j];
-    const why = sameEventReason(a, b);
+    const why = sameEventReason(a, b) ?? sameSourcePageReason(a, b);
     if (why) { strong.push([a, b, why]); continue; }
     const va = venueKey(a);
     const vb = venueKey(b);

@@ -75,6 +75,11 @@ const nextConfig = {
       ['caminhos-da-floresta-casa-da-musica-nov-12-2026', 'festival-floresta-amazonica-girando-mundos-casa-da-musica-nov-12-2026'],
       // 2026-11-01: same CdM concert from its EN and PT pages (identity now compares PT names too).
       ['organ-symphony-casa-da-musica-nov-21-2026', 'sinfonia-orgao-casa-da-musica-nov-21-2026'],
+      // 2026-11-02 (#37): forward scan wrote the EN and PT page of one event (same site, venue, day).
+      ['jussen-brothers-casa-da-musica-nov-5-2026', 'irmaos-jussen-casa-da-musica-nov-5-2026'],
+      ['the-museum-as-performance-12nd-edition-serralves-nov-7-2026', 'o-museu-como-performance-museu-nov-7-2026'],
+      ['the-art-of-fugue-casa-da-musica-nov-8-2026', 'a-arte-da-fuga-casa-da-musica-nov-8-2026'],
+      ['edp-maratona-do-porto-varios-locais-nov-8-2026', 'edp-porto-marathon-queimodromo-nov-8-2026'],
     ];
     const eventRedirects = dedupes.flatMap(([from, to]) => [
       { source: `/event/${from}`, destination: `/event/${to}`, permanent: true },

@@ -161,4 +161,69 @@ test('PT folding does not merge different works at the same venue and date', () 
   ));
 });
 
+// ------------------------------------------------- EN + PT page of one event (2026-11-02, #37)
+const page = (name: string, venue: string, date: string, externalLink: string, endDate?: string) => ({ name, venue, date, endDate, externalLink });
+const rec37 = (slug: string, p: ReturnType<typeof page>) => ({ slug, ...p, venueSlug: canonicalVenueSlugFor(p.venue), category: 'music', description: '', sourceEdition: 'forward-scan', addedAt: '2026-10-26T00:00:00Z' } as EventRecord);
+test('#37 Jussen: CdM PT page + EN page, same day and time, is one event', () => {
+  const pt = page('Irmãos Jussen', 'Casa da Música', '2026-11-05T19:30', 'https://casadamusica.com/event/irmaos-jussen/?selected_session=44120');
+  const en = page('Jussen Brothers', 'Sala Suggia', '2026-11-05T19:30', 'https://casadamusica.com/en/event/jussen-brothers/');
+  assert.ok(sameSourcePageReason(pt, en));
+  assert.ok(sameSourcePageReason(en, pt));
+  // The scan's lookup against an existing record (lib/events.ts).
+  assert.equal(findExistingEventByIdentity(en.name, en.venue, { date: en.date, url: en.externalLink }, [rec37('irmaos-jussen', pt)])?.slug, 'irmaos-jussen');
+});
+test('#37 Serralves: O MUSEU COMO PERFORMANCE / THE MUSEUM AS PERFORMANCE (no times) is one event', () => {
+  const pt = page('O MUSEU COMO PERFORMANCE', 'Serralves', '2026-11-07', 'https://www.serralves.pt/atividades-serralves/070811-museu-como-performance/', '2026-11-08');
+  const en = page('THE MUSEUM AS PERFORMANCE - 12nd EDITION', 'Serralves Museum', '2026-11-07', 'https://www.serralves.pt/en/ciclo-serralves/0711-o-museu-como-performance/', '2026-11-08');
+  assert.ok(sameSourcePageReason(pt, en));
+  assert.equal(findExistingEventByIdentity(en.name, en.venue, { date: en.date, endDate: en.endDate, url: en.externalLink }, [rec37('museu', pt)])?.slug, 'museu');
+});
+test('#37 EDP Maratona do Porto (Vários locais) is the EDP Porto Marathon', () => {
+  const en = page('EDP Porto Marathon', 'Queimódromo (Parque da Cidade do Porto)', '2026-11-08T08:00', 'https://www.porto-marathon.com/en/marathon.html');
+  const pt = page('EDP Maratona do Porto', 'Vários locais', '2026-11-08T08:00', 'https://www.agenda-porto.pt/evento/edp-maratona-do-porto-2026/');
+  assert.ok(isSameEvent(en, pt));
+  assert.equal(findExistingEventByIdentity(pt.name, pt.venue, { date: pt.date, url: pt.externalLink }, [rec37('marathon', en)])?.slug, 'marathon');
+  // Different hosts: the same-site rule itself does not fire, the name does.
+  assert.equal(sameSourcePageReason(en, pt), null);
+});
+test('#37 Art of Fugue: one CdM page in two languages, translated slugs', () => {
+  assert.ok(sameSourcePageReason(
+    page('A Arte da Fuga', 'Casa da Música - Sala Suggia', '2026-11-08T18:00', 'https://casadamusica.com/event/a-arte-da-fuga/'),
+    page('The Art of Fugue', 'Sala Suggia', '2026-11-08T18:00', 'https://casadamusica.com/en/event/the-art-of-fugue/'),
+  ));
+});
+test('#37 one page in two languages: /en/ prefix, ?lang= and -en suffix', () => {
+  const a = page('Concerto X', 'Hard Club', '2026-11-20T21:00', 'https://hardclubporto.com/evento/concerto-x');
+  assert.ok(sameSourcePageReason(a, { ...a, name: 'X Concert', date: '2026-11-20', externalLink: 'https://hardclubporto.com/en/evento/concerto-x' }));
+  assert.ok(sameSourcePageReason(a, { ...a, name: 'X Concert', externalLink: 'https://hardclubporto.com/evento/concerto-x?lang=en' }));
+  assert.ok(sameSourcePageReason(a, { ...a, name: 'X Concert', externalLink: 'https://hardclubporto.com/evento/concerto-x-en' }));
+});
+test('#37 different concerts at Casa da Música the same day stay separate', () => {
+  // Real 11-29 records (Brahms given an EN URL so the page languages differ): different times.
+  const paus = page('Paus', 'Casa da Música', '2026-11-29T21:30', 'https://casadamusica.com/event/paus/?selected_session=51857');
+  const brahms = page('Brahms, a Segunda Sinfonia', 'Casa da Música', '2026-11-29T12:00', 'https://casadamusica.com/en/event/brahms-the-second-symphony/');
+  assert.equal(sameSourcePageReason(paus, brahms), null);
+  // Same day AND same time, but both PT pages (Sala 2 and Sala Suggia at once).
+  const s2 = page('Remix Ensemble', 'Casa da Música, Sala 2', '2026-11-28T18:00', 'https://casadamusica.com/event/remix-ensemble/');
+  const suggia = page('Javier Perianes', 'Casa da Música', '2026-11-28T18:00', 'https://casadamusica.com/event/javier-perianes/?selected_session=44148');
+  assert.equal(sameSourcePageReason(s2, suggia), null);
+});
+test('#37 same site, same venue, same day: other events stay separate', () => {
+  // Real 11-07 Serralves programme: a timed performance vs the weekend EN page.
+  assert.equal(sameSourcePageReason(
+    page('IVAN CHENG - THE FOUNTAIN', 'Serralves', '2026-11-07T14:30', 'https://www.serralves.pt/atividades-serralves/0711-ivan-cheng-the-fountain/'),
+    page('THE MUSEUM AS PERFORMANCE - 12nd EDITION', 'Serralves Museum', '2026-11-07', 'https://www.serralves.pt/en/ciclo-serralves/0711-o-museu-como-performance/', '2026-11-08'),
+  ), null);
+  // GMP: exhibition opening (EN page, one evening) vs the exhibition run (PT page): end dates differ.
+  assert.equal(sameSourcePageReason(
+    page('Exhibition opening: Isabel Carvalho + Basel Abbas and Ruanne Abou-Rahme + Leonor Parda', 'Galeria Municipal do Porto', '2026-11-21T17:00', 'https://galeriamunicipaldoporto.pt/en/event/exhibition-opening-2/'),
+    page('Leonor Parda. Bosque da Noite', 'Galeria Municipal do Porto', '2026-11-21T17:00', 'https://galeriamunicipaldoporto.pt/evento/leonor-parda/', '2027-02-14'),
+  ), null);
+  // Listing hosts never count as "same site": three TMP shows at 19:30 on agenda-porto.pt.
+  assert.equal(sameSourcePageReason(
+    page('Albatroz, de Vasco Gomes', 'Teatro Campo Alegre', '2026-11-06T19:30', 'https://www.agenda-porto.pt/evento/tmp-albatroz/', '2026-11-07'),
+    page('NOCAUTE, by Inês Pinho', 'Teatro Campo Alegre', '2026-11-06T19:30', 'https://www.agenda-porto.pt/en/evento/tmp-nocaute/', '2026-11-07'),
+  ), null);
+});
+
 console.log(`ok — ${passed} dedupe tests passed`);
