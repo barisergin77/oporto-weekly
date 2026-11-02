@@ -7,6 +7,55 @@ impressions / pos 9.3 over 28 days (prev 28: 191 / 10,293 / 16.9);
 subscribers 56 active (34 EN, 22 PT), ~1.4 net/week; signups by page: none
 recorded yet (tracking started today).
 
+## 2026-11-02 — Venue snippets name the next events (#36)
+- Run 09:00 UTC Mon, outside the freeze.
+- Metrics (`metrics/2026-11-02.json`): 322 clicks / 16,119 impr / pos 11.10
+  over 28d (yesterday 320 / 15,869 / 11.04; prev 28d 309 / 13,213 / 10.54).
+  Last 7d 85 clicks vs 80, impressions 4,781 vs 3,092 (+55%), CTR 1.8% vs
+  2.6%, position 12.4 vs 12.8. GA4 7d 62 users / 81 sessions / 168 PV (prev
+  35 / 41 / 86), best week so far; 44 organic, 23 direct, 9 organic social,
+  4 AI. Subscribers 60 (10-29). Signups attributed 28d: 8 (new: 11-01 EN
+  from /porto-events/november-2026). Blog pages still 0 (inline box live 1 day).
+- **Result due (10-19 Today/This weekend pages): worked, small** (filled in
+  that entry): 9 clicks / 70 impr across the 4 pages, 33 GA4 views, 1 signup.
+- Guide re-check (2b): `guidesDue('2026-11-02')` = [] (all 16 guides checked
+  10-31 or 11-01 in the owner's consolidation). Nothing to re-check; first due
+  11-30 (made-in-porto). Armazém question from yesterday: answered by the
+  owner (d4a18cb, removed, closed 2022).
+- Why: venue pages (247 with impressions) had 29 clicks / 2,341 impr in 28d,
+  1.2% at pos ~9–10. Most of it is venue-name searches: "move club porto"
+  0/66, "move club" 0/67, "the alchemist porto" 0/21, Casa da Música EN+PT
+  0/273. Every description said "concerts, exhibitions and more, with dates
+  and prices. Updated every Thursday." with an em dash, nightclubs included.
+- Change (be129d9): `venueSeo(venue, events, lang)` names the next 1–2
+  events with dates (dated events first, "until 7 Mar" for open runs), then
+  the count; with nothing upcoming, the latest past event with its date and
+  "Nothing listed right now". Em dashes in event names → commas. Optional
+  sentences are dropped when they don't fit 155 chars, so 0 of 562
+  descriptions are clipped (first draft: 241 clipped). Titles unchanged.
+  Sitemap `VENUE_NEXT_EVENTS` lastmod for venue URLs.
+- Verified: tsc; build OK (first attempt hit my 10-min background limit, not
+  an error; rerun passed); 0 built venue pages keep the old text; Move Club
+  EN/PT and Alchemist read as intended. Live: /api/version = be129d9, EN
+  Move Club page 200 with the new description, health ok (9/9). Indexing
+  API: Move Club + Casa da Música EN/PT → 200.
+- Expect: venue-page CTR from 1.2% toward 2%+; positions shouldn't move.
+- Measure on: 2026-11-30 (GSC /venue + /pt/venue clicks/impr/CTR, 28d vs
+  the 28d to 11-01).
+- Result:
+- Found, not fixed (one change per run): `find-duplicates` shows 3 upcoming
+  duplicate pairs in this Thursday's week: Jussen at Casa da Música 11-05
+  (EN and PT pages of the same concert), Serralves "Museum as Performance"
+  11-07 (STRONG), Porto Marathon EN/PT 11-08 → backlog #37.
+- Next run (Tue 11-03): #37 dedupe those 3 pairs before the Wed 18:00
+  freeze. Fri 11-06: check `picks path=` on the first Opus-picks edition.
+- Needs owner: (1) The 3 duplicates look like the scan creating the EN and
+  PT page of one event as two events. I'll remove the copies by hand
+  tomorrow (data only, like abc1131); a fix in the scan's dedupe (same host
+  + same date) touches the scan, so: OK to do it? (2) Reminder: #13
+  Instagram ↔ FB Page link may be retried once from Meta Business Suite on
+  or after Wed 11-04.
+
 ## 2026-11-01 — Subscribe box inside guides (#35) + vintage market guide fact-checked (#4)
 - Run 09:00 UTC Sun, outside the freeze.
 - Metrics (`metrics/2026-11-01.json`): 320 clicks / 15,869 impr / pos 11.04
@@ -662,7 +711,14 @@ recorded yet (tracking started today).
   chips into the pages (GA4 pageviews).
 - Measure on: 2026-11-02 (GA4 views of the 4 pages; GSC impressions),
   search effect 2026-11-16.
-- Result:
+- Result (11-02, 10-19 → 11-01): **worked, small.** GSC: this-weekend 8
+  clicks / 31 impr (pos 19.5), today 1 / 17 (pos 3.9), PT fim-de-semana 0 /
+  17 (pos 14.9), PT hoje 0 / 5. Queries match the intent ("whats on in porto
+  this weekend" pos 8, "eventos no porto este fim de semana" pos 16.7, "o
+  que fazer no porto hoje" pos 25.5). GA4: this-weekend 26 views / 18
+  sessions, today 7 views (PT pages 0, consent-only). Traffic sources: Facebook 11
+  (the Porto Expats posts), chips on event pages ~12, Google 3. 1 signup came
+  from /porto-events/this-weekend (10-22). Search effect still due 11-16.
 
 ## 2026-10-18 — Organiser photo-removal line on event pages (owner-approved)
 - Why: event photos are the organiser's official share image (og:image)
