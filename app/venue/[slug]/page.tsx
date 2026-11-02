@@ -68,9 +68,7 @@ export async function generateMetadata({
   if (!resolved) return { title: 'Venue not found' };
 
   const { name, events } = resolved;
-  const today = new Date().toISOString().slice(0, 10);
-  const upcomingCount = events.filter((e) => (e.endDate ?? e.date) >= today).length;
-  const { title, description } = venueSeo(name, upcomingCount, events.length, 'en');
+  const { title, description } = venueSeo(name, events, 'en');
   const url = `https://oportoweekly.com/venue/${params.slug}`;
   const ptUrl = `https://oportoweekly.com/pt/venue/${params.slug}`;
 

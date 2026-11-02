@@ -38,9 +38,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   const resolved = resolveVenueDisplay(params.slug);
   if (!resolved) return { title: 'Local não encontrado' };
   const { name, events } = resolved;
-  const today = new Date().toISOString().slice(0, 10);
-  const upcomingCount = events.filter((e) => (e.endDate ?? e.date) >= today).length;
-  const { title, description } = venueSeo(name, upcomingCount, events.length, 'pt');
+  const { title, description } = venueSeo(name, events, 'pt');
   const url = `https://oportoweekly.com/pt/venue/${params.slug}`;
   const enUrl = `https://oportoweekly.com/venue/${params.slug}`;
   return {

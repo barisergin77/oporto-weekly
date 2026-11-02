@@ -137,14 +137,52 @@ export function editionSeo(
 }
 
 /** "Casa da Música: What's On & Upcoming Events" — we don't sell tickets. */
-export function venueSeo(venue: string, upcoming: number, total: number, lang: 'en' | 'pt') {
+/**
+ * 2026-11-02: venue pages drew 2,341 impressions but 29 clicks (1.2%) in 28
+ * days, mostly people searching the venue's name ("move club porto" 0/66).
+ * The description said "concerts, exhibitions and more" for every venue,
+ * nightclubs included. Name the venue's next events and dates instead.
+ */
+export function venueSeo(venue: string, events: EventRecord[], lang: 'en' | 'pt', now: Date = new Date()) {
+  const today = now.toISOString().slice(0, 10);
+  const started = (e: EventRecord) => e.date.slice(0, 10) < today;
+  // Dated events still to come first, then runs already open.
+  const upcoming = events
+    .filter((e) => (e.endDate ?? e.date).slice(0, 10) >= today)
+    .sort((a, b) => Number(started(a)) - Number(started(b)) || a.date.localeCompare(b.date));
+  const n = upcoming.length;
+  const until = (e: EventRecord) => {
+    const end = shortDates({ ...e, date: e.endDate!, endDate: undefined }, lang, false);
+    return lang === 'pt' ? `até ${end}` : `until ${end}`;
+  };
+  const item = (e: EventRecord, withYear: boolean) => {
+    const name = eventDisplay(e, lang).name.trim().replace(/\s*—\s*/g, ', ');
+    const when = !withYear && started(e) && e.endDate ? until(e) : shortDates(e, lang, withYear);
+    return `${name} (${when})`;
+  };
+  // Optional sentences go in only while the whole thing still fits.
+  const fit = (...parts: string[]) => parts.reduce((acc, p) => (acc && `${acc} ${p}`.length > DESC_MAX ? acc : acc ? `${acc} ${p}` : p), '');
+
   const title = lang === 'pt'
     ? clip(`${venue}: agenda e próximos eventos no Porto`, TITLE_MAX + 8)
     : clip(`${venue}: What's On & Upcoming Events in Porto`, TITLE_MAX + 8);
-  const description = lang === 'pt'
-    // Phrased to avoid "de/da/do + venue": the right contraction depends on the
-    // venue's gender/article, which we can't know ("Agenda de Casa da Música").
-    ? clip(`${venue} (Porto): ${upcoming > 0 ? `${upcoming} evento${upcoming === 1 ? '' : 's'} em breve` : `${total} evento${total === 1 ? '' : 's'} recente${total === 1 ? '' : 's'}`} — concertos, exposições e mais, com datas e preços. Atualizado todas as quintas.`, DESC_MAX)
-    : clip(`What's on at ${venue}, Porto: ${upcoming > 0 ? `${upcoming} upcoming event${upcoming === 1 ? '' : 's'}` : `${total} recent event${total === 1 ? '' : 's'}`} — concerts, exhibitions and more, with dates and prices. Updated every Thursday.`, DESC_MAX);
-  return { title, description };
+
+  let description: string;
+  if (n > 0) {
+    // Two names when they fit, otherwise the next one only.
+    const two = upcoming.slice(0, 2).map((e) => item(e, false));
+    const and = lang === 'pt' ? ' e ' : ' and ';
+    const list = two.join(and).length <= 95 ? two.join(and) : two[0];
+    description = lang === 'pt'
+      // Phrased to avoid "de/da/do + venue": the right contraction depends on the
+      // venue's gender/article, which we can't know ("Agenda de Casa da Música").
+      ? fit(`${venue} (Porto): a seguir, ${list}.`, n === 1 ? 'Data, preço e bilhetes.' : `${n} eventos com datas, preços e bilhetes.`)
+      : fit(`${venue}, Porto: next up ${list}.`, n === 1 ? 'Date, price and tickets.' : `${n} upcoming events with dates, prices and tickets.`);
+  } else {
+    const last = events.slice().sort((a, b) => b.date.localeCompare(a.date))[0];
+    description = lang === 'pt'
+      ? fit(`${venue} (Porto): o último evento na nossa agenda foi ${item(last, true)}.`, 'Nada anunciado por agora.', 'Veja o que há no Porto esta semana.')
+      : fit(`Events at ${venue}, Porto. Most recent: ${item(last, true)}.`, 'Nothing listed right now.', "See what's on in Porto this week.");
+  }
+  return { title, description: clip(description, DESC_MAX) };
 }

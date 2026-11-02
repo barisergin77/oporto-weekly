@@ -19,6 +19,7 @@ const EVENT_SNIPPETS = new Date('2026-10-17T18:00:00Z'); // event <title>/descri
 // Archive + venue <title>/description rewrite, and the archive pages no longer
 // embed a second <head>/<title> from the stored email HTML.
 const ARCHIVE_VENUE_SNIPPETS = new Date('2026-10-17T20:00:00Z');
+const VENUE_NEXT_EVENTS = new Date('2026-11-02T09:30:00Z'); // venue descriptions name the next events
 
 // A guide's body changes when it is fact-checked (data/guide-checks.json,
 // re-checked monthly since the 2026-11 consolidation), so its lastmod is its
@@ -89,7 +90,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const venueUrls = venueSlugs.flatMap((slug) => {
     const venueEvents = events.filter((e) => e.venueSlug === slug);
     const lastAdded = venueEvents.map((e) => e.addedAt).sort().pop();
-    const lastModified = notBefore(lastAdded ?? new Date(), ARCHIVE_VENUE_SNIPPETS);
+    const lastModified = notBefore(lastAdded ?? new Date(), VENUE_NEXT_EVENTS);
     return [
       { url: `https://oportoweekly.com/venue/${slug}`, lastModified, changeFrequency: 'weekly' as const, priority: 0.85 },
       { url: `https://oportoweekly.com/pt/venue/${slug}`, lastModified, changeFrequency: 'weekly' as const, priority: 0.75 },
