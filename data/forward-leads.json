@@ -394,32 +394,6 @@
       "resolvedAt": "2026-10-31T08:32:37.308Z"
     },
     {
-      "name": "Last Movies – Afterlife: Day of the Dead Special",
-      "date": "2026-11-01",
-      "venue": "Batalha Centro de Cinema",
-      "note": "17:15; documentary by Stanley Schtinter (UK, 2026, 86'); with the filmmaker; ticketed",
-      "source": "batalha-newsletter-2026-10",
-      "addedAt": "2026-10-26T11:47:50Z",
-      "status": "rejected",
-      "attempts": 3,
-      "reason": "date quote lacks the day",
-      "lastTriedAt": "2026-10-29T06:06:58.684Z",
-      "resolvedAt": "2026-10-29T06:06:58.684Z"
-    },
-    {
-      "name": "Dog + Wuthering Heights – Andrea Arnold Retrospective",
-      "date": "2026-11-01",
-      "venue": "Batalha Centro de Cinema",
-      "note": "19:15; Andrea Arnold short Dog (2001, 10') and Wuthering Heights (UK, 2011, 129'); ticketed",
-      "source": "batalha-newsletter-2026-10",
-      "addedAt": "2026-10-26T11:47:50Z",
-      "status": "rejected",
-      "attempts": 3,
-      "reason": "meta copy: \"This page\"",
-      "lastTriedAt": "2026-10-29T06:06:58.684Z",
-      "resolvedAt": "2026-10-29T06:06:58.684Z"
-    },
-    {
       "name": "TPC: Frei Luís de Sousaaa",
       "date": "2026-11-04",
       "endDate": "2026-11-07",
@@ -473,27 +447,6 @@
       "reason": "already listed",
       "lastTriedAt": "2026-10-31T08:32:37.308Z",
       "resolvedAt": "2026-10-31T08:32:37.308Z"
-    },
-    {
-      "name": "Miguel Gomes: Retrospetiva Integral e Carta Branca – 1ª Sessão",
-      "date": "2026-11-01",
-      "venue": "Serralves",
-      "note": "Sun 17:00, Casa do Cinema Manoel de Oliveira auditorium. Shows Entretanto, Inventário de Natal and Kalkitos, introduced by António Preto. Enter from Rua de Serralves 873, 30 min before the start. Price not stated.",
-      "source": "serralves-newsletter-2026-10",
-      "addedAt": "2026-10-31T05:00:21Z",
-      "status": "rejected",
-      "attempts": 1,
-      "reason": "not in the Porto area (null)",
-      "lastTriedAt": "2026-10-31T08:32:37.308Z",
-      "resolvedAt": "2026-10-31T08:32:37.308Z"
-    },
-    {
-      "name": "Alceu Valença – 80 Girassóis",
-      "date": "2026-11-01",
-      "venue": "Coliseu Porto Ageas",
-      "note": "21:30; concert",
-      "source": "coliseu-newsletter-2026-10",
-      "addedAt": "2026-11-01T05:00:47Z"
     },
     {
       "name": "José González – Misty Fest",
@@ -568,10 +521,11 @@
       "note": "21:30 both nights; live concert",
       "source": "coliseu-newsletter-2026-10",
       "addedAt": "2026-11-01T05:00:47Z",
-      "status": "pending",
-      "attempts": 2,
-      "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
-      "lastTriedAt": "2026-11-01T14:01:20.564Z"
+      "status": "rejected",
+      "attempts": 3,
+      "reason": "not an organiser/venue/ticketing page (https://www.dn.pt/cultura/lee-ufan-expe-em-serralves-e-cria-pintura-mural-numa-das-paredes-da-casa)",
+      "lastTriedAt": "2026-11-02T08:31:57.526Z",
+      "resolvedAt": "2026-11-02T08:31:57.526Z"
     },
     {
       "name": "Amor de Perdição – Fiato",
@@ -723,7 +677,12 @@
       "venue": "Batalha Centro de Cinema",
       "note": "12th edition of the queer film festival; Portuguese premieres of recent LGBTQIA+ cinema",
       "source": "batalha-newsletter-2026-11",
-      "addedAt": "2026-11-02T05:00:27Z"
+      "addedAt": "2026-11-02T05:00:27Z",
+      "status": "done",
+      "eventSlug": "queer-porto-12-mouse-various-venues-nov-3-2026",
+      "reason": "already listed",
+      "lastTriedAt": "2026-11-02T08:31:57.526Z",
+      "resolvedAt": "2026-11-02T08:31:57.526Z"
     },
     {
       "name": "Elephant, de Gus Van Sant – Mental Health, Stigma and Resilience Project",
@@ -731,7 +690,11 @@
       "venue": "Batalha Centro de Cinema",
       "note": "Special screening of Gus Van Sant's Elephant, part of a film programme on mental illness and stigma",
       "source": "batalha-newsletter-2026-11",
-      "addedAt": "2026-11-02T05:00:27Z"
+      "addedAt": "2026-11-02T05:00:27Z",
+      "status": "pending",
+      "attempts": 1,
+      "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
+      "lastTriedAt": "2026-11-02T08:31:57.526Z"
     },
     {
       "name": "Porto/Post/Doc – No País Dos Outros",
@@ -756,7 +719,11 @@
       "venue": "Serralves",
       "note": "11:00, Casa e Parque de Serralves; guided tour in Portuguese of the Lee Ufan exhibition; free with Serralves general ticket",
       "source": "serralves-newsletter-2026-11",
-      "addedAt": "2026-11-02T05:00:47Z"
+      "addedAt": "2026-11-02T05:00:47Z",
+      "status": "pending",
+      "attempts": 1,
+      "reason": "not an organiser/venue/ticketing page (https://agendaculturalporto.org/eventos/lee-ufan-apresenta-em-serralves-a-primeira-grande-exposicao-em-portugal/)",
+      "lastTriedAt": "2026-11-02T08:31:57.526Z"
     },
     {
       "name": "Visita em Inglês – Exposição Frank Gehry",
@@ -764,7 +731,12 @@
       "venue": "Serralves",
       "note": "15:00, Ala Álvaro Siza; guided tour in English of the Frank Gehry exhibition; free with Serralves general ticket",
       "source": "serralves-newsletter-2026-11",
-      "addedAt": "2026-11-02T05:00:47Z"
+      "addedAt": "2026-11-02T05:00:47Z",
+      "status": "done",
+      "eventSlug": "visita-curatorial-a-exposicao-alice-neel-ala-alvaro-siza-nov-5-2026",
+      "reason": "already listed",
+      "lastTriedAt": "2026-11-02T08:31:57.526Z",
+      "resolvedAt": "2026-11-02T08:31:57.526Z"
     },
     {
       "name": "Visita em Português pela Curadora Inês Grosso – Exposição Alice Neel",
@@ -772,7 +744,12 @@
       "venue": "Serralves",
       "note": "17:00, Ala Álvaro Siza; curator-led tour in Portuguese of the Alice Neel exhibition by curator Inês Grosso; free with Serralves general ticket",
       "source": "serralves-newsletter-2026-11",
-      "addedAt": "2026-11-02T05:00:47Z"
+      "addedAt": "2026-11-02T05:00:47Z",
+      "status": "done",
+      "eventSlug": "visita-curatorial-a-exposicao-alice-neel-ala-alvaro-siza-nov-5-2026",
+      "reason": "already listed",
+      "lastTriedAt": "2026-11-02T08:31:57.526Z",
+      "resolvedAt": "2026-11-02T08:31:57.526Z"
     },
     {
       "name": "Visita em Inglês – Exposição Frank Gehry",
@@ -780,7 +757,12 @@
       "venue": "Serralves",
       "note": "11:00, Ala Álvaro Siza; guided tour in English of the Frank Gehry exhibition; free with Serralves general ticket",
       "source": "serralves-newsletter-2026-11",
-      "addedAt": "2026-11-02T05:00:47Z"
+      "addedAt": "2026-11-02T05:00:47Z",
+      "status": "done",
+      "eventSlug": "visita-curatorial-a-exposicao-alice-neel-ala-alvaro-siza-nov-5-2026",
+      "reason": "already listed",
+      "lastTriedAt": "2026-11-02T08:31:57.526Z",
+      "resolvedAt": "2026-11-02T08:31:57.526Z"
     },
     {
       "name": "Visita em Inglês – Exposição Alice Neel",
@@ -788,7 +770,12 @@
       "venue": "Serralves",
       "note": "11:00, Ala Álvaro Siza; guided tour in English of the Alice Neel exhibition; free with Serralves general ticket",
       "source": "serralves-newsletter-2026-11",
-      "addedAt": "2026-11-02T05:00:47Z"
+      "addedAt": "2026-11-02T05:00:47Z",
+      "status": "done",
+      "eventSlug": "visita-curatorial-a-exposicao-alice-neel-ala-alvaro-siza-nov-5-2026",
+      "reason": "already listed",
+      "lastTriedAt": "2026-11-02T08:31:57.526Z",
+      "resolvedAt": "2026-11-02T08:31:57.526Z"
     }
   ]
 }
