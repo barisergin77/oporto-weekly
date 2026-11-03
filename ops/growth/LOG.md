@@ -7,6 +7,57 @@ impressions / pos 9.3 over 28 days (prev 28: 191 / 10,293 / 16.9);
 subscribers 56 active (34 EN, 22 PT), ~1.4 net/week; signups by page: none
 recorded yet (tracking started today).
 
+## 2026-11-03 — Two cross-site duplicates out of Thursday's week (#38)
+- Run 09:00 UTC Tue, outside the freeze (starts Wed 18:00).
+- Metrics (`metrics/2026-11-03.json`): 340 clicks / 16,726 impr / pos 11.08
+  over 28d (yesterday 322 / 16,119 / 11.10; prev 28d 316 / 13,407 / 10.39).
+  Last 7d **100 clicks vs 74** (first 100-click week), impressions 5,208 vs
+  3,138, CTR 1.9% vs 2.4%, position 12.2 vs 12.9 (improving for once). GA4
+  7d 72 users / 93 sessions / 259 PV (prev 37 / 43 / 87), best week again;
+  49 organic, 28 direct, 9 organic social, 5 AI. Subscribers 60 (10-29).
+  Signups attributed 28d: 9 (new: 11-02 EN from a Cabarex event page).
+  Blog pages still 0 (inline box live 2 days).
+- **Result due (10-20 forward scan phase 1): worked on volume** (filled in
+  that entry): 84 records 10-23→10-31, ~49/week vs 3–10 expected;
+  duplicates are the cost.
+- Guide re-check (2b): `guidesDue('2026-11-03')` = []. First due 11-30.
+- Lowest-CTR queries: nothing new to act on (iberanime past; "move club"
+  handled by #36 yesterday; the rest rank 30+).
+- Why: Thursday 11-05's edition reads this week's events. Filenames showed
+  two pairs find-duplicates didn't flag (different sites, so #37's
+  same-site rule doesn't apply): Skryabin at Hard Club 11-05 (venue page +
+  karabas.co page with a Cyrillic name, slug `-hard-club-nov-5-2026`), and
+  Isabél Zuaa "AFRO SALOYÁ" at Rivoli 11-06 (TMP page + bol.pt page, venue
+  "Rivoli Palco do Grande Auditório" → its own thin venue page). Both were
+  pickCandidates.
+- Change (6eff5e7): kept `skryabin-hard-club-nov-5-2026` with the venue's
+  own time (Room 2, 19:00, hardclubporto.com fetched today; karabas JSON-LD
+  says 20:00, so likely show vs doors, and the copy says "Hard Club lists
+  19:00"), price €35–100 and the real photo from karabas JSON-LD; copy
+  rewritten from those two pages, EN + PT, no em dashes. Kept the older
+  Zuaa record, venue → Rivoli Theatre; new `rivoli-theatre` alias entry
+  (`rivoli-palco-do-grande-auditorio`, `tmp-rivoli`, `teatro-rivoli`).
+  Removed both copies, 301 EN + PT.
+- Verified: tsc; test:dedupe 30 + find-duplicates --check; build OK; built
+  Rivoli venue page lists Zuaa once, the Skryabin page has the new copy.
+  Live: /api/version = 6eff5e7; both copies 308 → kept pages (EN + PT
+  checked one each); kept Skryabin page 200; health ok (9 checks). No
+  Indexing API call (kept URLs unchanged).
+- Expect: no doubled Skryabin/Zuaa listing in Thursday's edition or on the
+  month hub/weekend page.
+- Measure on: 2026-11-05 edition (check Fri 11-06 with `picks path=`).
+- Result:
+- Next run (Wed 11-04, before 18:00): another duplicate pass over the
+  11-05→11-11 window after that morning's scan + sweep. Fri 11-06: Opus
+  picks check.
+- Needs owner: (1) #38 scan fixes, all scan code: (a) reject or
+  transliterate names with no Latin letters, never a slug starting with
+  "-"; (b) same canonical venue + same start day and time + a shared rare
+  name word counts as one event even across sites; (c) treat venue stages
+  like "Palco do Grande Auditório" like room names. OK to build these?
+  (2) Reminder: #13 Instagram ↔ FB Page link can be retried once from Meta
+  Business Suite on desktop from Wed 11-04.
+
 ## 2026-11-02 — Venue snippets name the next events (#36)
 - Run 09:00 UTC Mon, outside the freeze.
 - Metrics (`metrics/2026-11-02.json`): 322 clicks / 16,119 impr / pos 11.10
@@ -675,7 +726,14 @@ recorded yet (tracking started today).
   Mon–Wed.
 - Measure on: 2026-11-03 (events published, Gemini usage); search effect
   2026-11-17 (impressions/clicks on forward-scan event pages).
-- Result:
+- Result (11-03): **worked, well above target on volume.** Records tagged
+  `forward-scan` by day added: 0 until 10-22, then 84 from 10-23 to 10-31
+  (about 49 a week, against the 3 to 10 expected). The 280 on 11-01 and
+  the later ones also include the owner's daily source sweep, which writes
+  the same tag, so they can't be split from the scan this way. Quality cost:
+  duplicates keep reaching the edition week (10-27, 10-28, 11-02, and 2
+  more on 11-03, see that entry). Gemini usage: not measurable from here
+  (no runtime-log access). Search effect still due 11-17.
 
 ## 2026-10-19 — "Today" + "This weekend" pages (owner priority, backlog #19)
 - Metrics (`metrics/2026-10-19.json`): 328 clicks / 14,599 impr / pos 9.44
