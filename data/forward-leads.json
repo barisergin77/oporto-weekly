@@ -796,6 +796,65 @@
       "reason": "already listed",
       "lastTriedAt": "2026-11-02T08:31:57.526Z",
       "resolvedAt": "2026-11-02T08:31:57.526Z"
+    },
+    {
+      "name": "Bruno Pernadas – Porto Sounds Secret",
+      "date": "2026-11-08",
+      "venue": "Escola Secundária Garcia de Orta",
+      "note": "18:00; last Porto Sounds Secret concert of the year (pop-up concert series in surprise locations); presenting Unlikely, Maybe",
+      "source": "agenda-porto-newsletter-2026-11",
+      "addedAt": "2026-11-03T05:00:34Z"
+    },
+    {
+      "name": "O Museu como Performance",
+      "date": "2026-11-07",
+      "endDate": "2026-11-08",
+      "venue": "Serralves",
+      "note": "Two days of performance, visual arts, dance and music in the corridors and galleries of the Museu de Serralves; artists include Ivan Cheng, Sofia Kafol, Joana Sá, Nasa4nasa, Ruth Childs",
+      "source": "agenda-porto-newsletter-2026-11",
+      "addedAt": "2026-11-03T05:00:34Z"
+    },
+    {
+      "name": "Porto de Letras — Sophia",
+      "date": "2026-11-03",
+      "venue": "Biblioteca de Autores Portuenses",
+      "note": "18:00; reading club session on Sophia de Mello Breyner Andresen",
+      "source": "agenda-porto-newsletter-2026-11",
+      "addedAt": "2026-11-03T05:00:34Z"
+    },
+    {
+      "name": "Mostra Estufa",
+      "date": "2026-11-06",
+      "endDate": "2026-11-07",
+      "venue": "Teatro do Campo Alegre",
+      "note": "Contemporary circus showcase (Erva Daninha + Teatro Municipal do Porto), final edition: Albatroz (Vasco Gomes), Equilíbrios (Pedro Matias), NOCAUTE (Inês Pinho)",
+      "source": "agenda-porto-newsletter-2026-11",
+      "addedAt": "2026-11-03T05:00:34Z"
+    },
+    {
+      "name": "Afro Jazz",
+      "date": "2026-11-03",
+      "venue": "Bamu Zunta Mon",
+      "note": "18:00; fortnightly Tuesday dance class with Edmilson Botelho (São Tomé/Angola traditional dance + authentic jazz), all levels",
+      "source": "agenda-porto-newsletter-2026-11",
+      "addedAt": "2026-11-03T05:00:34Z"
+    },
+    {
+      "name": "Cerâmica em Família",
+      "date": "2026-11-07",
+      "endDate": "2026-11-08",
+      "venue": "Oficina Matérica",
+      "note": "Family ceramics workshop, sessions 10:30–13:00, 14:30–17:00, 17:30–20:00; mould with clay or glaze pre-fired pieces",
+      "source": "agenda-porto-newsletter-2026-11",
+      "addedAt": "2026-11-03T05:00:34Z"
+    },
+    {
+      "name": "A Herança do Duque da Ribeira",
+      "date": "2026-11-08",
+      "venue": "Casa do Infante / Batalha Centro de Cinema",
+      "note": "Tribute 30 years after his death: 10:30 walk Passos do Duque (meet at Casa do Infante); 17:00 + 17:45 talk and documentary A Herança do Duque (Rui Nunes) at Batalha Centro de Cinema",
+      "source": "agenda-porto-newsletter-2026-11",
+      "addedAt": "2026-11-03T05:00:34Z"
     }
   ]
 }
