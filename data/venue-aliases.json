@@ -159,6 +159,14 @@
         "palacio-da-bolsa-more"
       ]
     },
+    "rivoli-theatre": {
+      "name": "Rivoli Theatre",
+      "aliases": [
+        "rivoli-palco-do-grande-auditorio",
+        "tmp-rivoli",
+        "teatro-rivoli"
+      ]
+    },
     "rca-radioclube-agramonte": {
       "name": "RCA - Radioclube Agramonte",
       "aliases": [

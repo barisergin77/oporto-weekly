@@ -4,18 +4,22 @@
   "date": "2026-11-05T19:00",
   "venue": "Hard Club",
   "venueSlug": "hard-club",
+  "price": "35 - 100 EUR",
+  "priceFrom": 35,
+  "currency": "EUR",
   "category": "music",
-  "description": "Skryabin is performing at Hard Club, Porto, on November 5, 2026. The performance is scheduled for Room 2 and starts at 7 PM.",
-  "longDescription": "Skryabin is scheduled to perform at Hard Club in Porto on November 5, 2026. The event will take place in Room 2, with the performance starting at 7 PM.\n\nHard Club is located at Praça do Infante D. Henrique in Porto. The ticket office is temporarily closed, but usually operates Tuesday to Friday from 11 AM to 6 PM, and Saturdays from 1 PM to 8 PM.",
+  "description": "Ukrainian band Skryabin plays Room 2 at Hard Club with its original members and guest singer Roman Farbota. Tickets from €35 to €100.",
+  "longDescription": "Ukrainian band Skryabin plays Hard Club in Porto on 5 November 2026. Hard Club lists the show in Room 2 at 19:00.\n\nThe band's original members play: Lyosha Zvolynskyi on guitar, Kostia Hlytin on bass and Vadym Kolisnichenko on drums. Roman Farbota, who serves in the National Guard of Ukraine, joins them as guest vocalist.\n\nTickets cost €35 to €100 on Karabas. The FAN ticket adds early entry to watch the band rehearse, a meeting with the musicians, autographs and an exclusive T-shirt. FAN ticket holders should arrive 40 minutes before general doors open.",
   "sourceEdition": "forward-scan",
   "externalLink": "https://www.hardclubporto.com/EN/evento/skryabin-2026/",
   "pickCandidate": true,
-  "addedAt": "2026-11-02T16:49:20.349Z",
+  "addedAt": "2026-10-31T13:17:39.066Z",
   "lastSeenAt": "2026-11-02T16:49:20.349Z",
-  "descriptionPt": "Skryabin atua no Hard Club, Porto, a 5 de novembro de 2026. O espetáculo está marcado para a Sala 2 e começa às 19h.",
-  "longDescriptionPt": "Skryabin tem um espetáculo agendado para o Hard Club, no Porto, a 5 de novembro de 2026. O evento terá lugar na Sala 2, com o espetáculo a começar às 19h.\n\nO Hard Club fica na Praça do Infante D. Henrique, no Porto. A bilheteira está temporariamente encerrada, mas normalmente funciona de terça a sexta-feira, das 11h às 18h, e aos sábados, das 13h às 20h.",
+  "descriptionPt": "A banda ucraniana Skryabin toca na Sala 2 do Hard Club com os membros originais e o vocalista convidado Roman Farbota. Bilhetes de 35 a 100 €.",
+  "longDescriptionPt": "A banda ucraniana Skryabin toca no Hard Club, no Porto, a 5 de novembro de 2026. O Hard Club anuncia o concerto na Sala 2, às 19h00.\n\nTocam os membros originais da banda: Lyosha Zvolynskyi na guitarra, Kostia Hlytin no baixo e Vadym Kolisnichenko na bateria. Roman Farbota, que serve na Guarda Nacional da Ucrânia, junta-se como vocalista convidado.\n\nOs bilhetes custam entre 35 e 100 € na Karabas. O bilhete FAN inclui entrada antecipada para ver o ensaio da banda, encontro com os músicos, autógrafos e uma T-shirt exclusiva. Quem tem bilhete FAN deve chegar 40 minutos antes da abertura geral das portas.",
   "image": {
-    "url": "https://i.imgur.com/ZPnW4Bu.jpeg",
-    "credit": "AI illustration · Oporto Weekly"
+    "url": "https://i.imgur.com/HZ0BFYh.jpeg",
+    "credit": "Photo: Porto.karabas",
+    "sourceUrl": "https://porto.karabas.co/kontsert-hurtu-skryabin-10/"
   }
 }

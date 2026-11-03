@@ -80,6 +80,9 @@ const nextConfig = {
       ['the-museum-as-performance-12nd-edition-serralves-nov-7-2026', 'o-museu-como-performance-museu-nov-7-2026'],
       ['the-art-of-fugue-casa-da-musica-nov-8-2026', 'a-arte-da-fuga-casa-da-musica-nov-8-2026'],
       ['edp-maratona-do-porto-varios-locais-nov-8-2026', 'edp-porto-marathon-queimodromo-nov-8-2026'],
+      // 2026-11-03: same concert/show from two sites (ticket seller vs venue, TMP vs BOL).
+      ['-hard-club-nov-5-2026', 'skryabin-hard-club-nov-5-2026'],
+      ['isabel-zuaa-rivoli-theatre-nov-6-2026', 'isabel-zuaa-rivoli-palco-do-grande-auditorio-nov-6-2026'],
     ];
     const eventRedirects = dedupes.flatMap(([from, to]) => [
       { source: `/event/${from}`, destination: `/event/${to}`, permanent: true },
