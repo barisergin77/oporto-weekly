@@ -449,19 +449,6 @@
       "resolvedAt": "2026-10-31T08:32:37.308Z"
     },
     {
-      "name": "José González – Misty Fest",
-      "date": "2026-11-02",
-      "venue": "Coliseu Porto Ageas",
-      "note": "21:00; concert, part of Misty Fest",
-      "source": "coliseu-newsletter-2026-10",
-      "addedAt": "2026-11-01T05:00:47Z",
-      "status": "done",
-      "eventSlug": "jose-gonzalez-misty-fest-coliseu-porto-ageas-nov-2-2026",
-      "reason": "already listed",
-      "lastTriedAt": "2026-11-01T08:32:02.940Z",
-      "resolvedAt": "2026-11-01T08:32:02.940Z"
-    },
-    {
       "name": "Canções de Granito – 25 anos Porto Capital Europeia da Cultura",
       "date": "2026-11-06",
       "venue": "Coliseu Porto Ageas",
@@ -560,10 +547,11 @@
       "note": "21:30; talk show",
       "source": "coliseu-newsletter-2026-10",
       "addedAt": "2026-11-01T05:00:47Z",
-      "status": "pending",
-      "attempts": 2,
-      "reason": "page not fetchable: https://www.coliseu.pt/noticia/musicais-teatro-danca-concertos-e-muito-mais-2026-e-um-dos-anos-com-mai → only 19 chars of text | https://www.coliseu.pt/noticia/mantras-do-coliseu-ciclo-dedicado-ao-pensamento-com-novas-propostas-em-202 → only 19 chars of text",
-      "lastTriedAt": "2026-11-02T16:49:37.561Z"
+      "status": "rejected",
+      "attempts": 3,
+      "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
+      "lastTriedAt": "2026-11-03T08:32:38.400Z",
+      "resolvedAt": "2026-11-03T08:32:38.400Z"
     },
     {
       "name": "RUBEL – Beleza. Rubel & Violão",
@@ -706,10 +694,11 @@
       "note": "Special screening of Gus Van Sant's Elephant, part of a film programme on mental illness and stigma",
       "source": "batalha-newsletter-2026-11",
       "addedAt": "2026-11-02T05:00:27Z",
-      "status": "pending",
-      "attempts": 2,
-      "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
-      "lastTriedAt": "2026-11-02T16:49:37.561Z"
+      "status": "rejected",
+      "attempts": 3,
+      "reason": "date quote not on page",
+      "lastTriedAt": "2026-11-03T08:32:38.400Z",
+      "resolvedAt": "2026-11-03T08:32:38.400Z"
     },
     {
       "name": "Porto/Post/Doc – No País Dos Outros",
@@ -720,17 +709,9 @@
       "source": "batalha-newsletter-2026-11",
       "addedAt": "2026-11-02T05:00:27Z",
       "status": "pending",
-      "attempts": 1,
-      "reason": "page not fetchable: https://www.coliseu.pt/noticia/mantras-do-coliseu-ciclo-dedicado-ao-pensamento-com-novas-propostas-em-202 → only 19 chars of text",
-      "lastTriedAt": "2026-11-02T16:49:37.561Z"
-    },
-    {
-      "name": "Visita em Português – Exposição Frank Gehry",
-      "date": "2026-11-02",
-      "venue": "Serralves",
-      "note": "15:00, Ala Álvaro Siza; guided tour in Portuguese of the Frank Gehry exhibition; free with Serralves general ticket",
-      "source": "serralves-newsletter-2026-11",
-      "addedAt": "2026-11-02T05:00:47Z"
+      "attempts": 2,
+      "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
+      "lastTriedAt": "2026-11-03T08:32:38.400Z"
     },
     {
       "name": "Visita em Português – Exposição Lee Ufan",
@@ -803,7 +784,12 @@
       "venue": "Escola Secundária Garcia de Orta",
       "note": "18:00; last Porto Sounds Secret concert of the year (pop-up concert series in surprise locations); presenting Unlikely, Maybe",
       "source": "agenda-porto-newsletter-2026-11",
-      "addedAt": "2026-11-03T05:00:34Z"
+      "addedAt": "2026-11-03T05:00:34Z",
+      "status": "done",
+      "eventSlug": "porto-sounds-secret-bruno-pernadas-escola-secundaria-garcia-de-orta-nov-8-2026",
+      "reason": "already listed",
+      "lastTriedAt": "2026-11-03T08:32:38.400Z",
+      "resolvedAt": "2026-11-03T08:32:38.400Z"
     },
     {
       "name": "O Museu como Performance",
@@ -812,7 +798,12 @@
       "venue": "Serralves",
       "note": "Two days of performance, visual arts, dance and music in the corridors and galleries of the Museu de Serralves; artists include Ivan Cheng, Sofia Kafol, Joana Sá, Nasa4nasa, Ruth Childs",
       "source": "agenda-porto-newsletter-2026-11",
-      "addedAt": "2026-11-03T05:00:34Z"
+      "addedAt": "2026-11-03T05:00:34Z",
+      "status": "done",
+      "eventSlug": "o-museu-como-performance-museu-nov-7-2026",
+      "reason": "already listed",
+      "lastTriedAt": "2026-11-03T08:32:38.400Z",
+      "resolvedAt": "2026-11-03T08:32:38.400Z"
     },
     {
       "name": "Porto de Letras — Sophia",
@@ -829,7 +820,11 @@
       "venue": "Teatro do Campo Alegre",
       "note": "Contemporary circus showcase (Erva Daninha + Teatro Municipal do Porto), final edition: Albatroz (Vasco Gomes), Equilíbrios (Pedro Matias), NOCAUTE (Inês Pinho)",
       "source": "agenda-porto-newsletter-2026-11",
-      "addedAt": "2026-11-03T05:00:34Z"
+      "addedAt": "2026-11-03T05:00:34Z",
+      "status": "done",
+      "eventSlug": "mostra-estufa-2026-teatro-campo-alegre-nov-6-2026",
+      "lastTriedAt": "2026-11-03T08:32:38.400Z",
+      "resolvedAt": "2026-11-03T08:32:38.400Z"
     },
     {
       "name": "Afro Jazz",
@@ -846,7 +841,11 @@
       "venue": "Oficina Matérica",
       "note": "Family ceramics workshop, sessions 10:30–13:00, 14:30–17:00, 17:30–20:00; mould with clay or glaze pre-fired pieces",
       "source": "agenda-porto-newsletter-2026-11",
-      "addedAt": "2026-11-03T05:00:34Z"
+      "addedAt": "2026-11-03T05:00:34Z",
+      "status": "pending",
+      "attempts": 1,
+      "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
+      "lastTriedAt": "2026-11-03T08:32:38.400Z"
     },
     {
       "name": "A Herança do Duque da Ribeira",
@@ -854,7 +853,11 @@
       "venue": "Casa do Infante / Batalha Centro de Cinema",
       "note": "Tribute 30 years after his death: 10:30 walk Passos do Duque (meet at Casa do Infante); 17:00 + 17:45 talk and documentary A Herança do Duque (Rui Nunes) at Batalha Centro de Cinema",
       "source": "agenda-porto-newsletter-2026-11",
-      "addedAt": "2026-11-03T05:00:34Z"
+      "addedAt": "2026-11-03T05:00:34Z",
+      "status": "pending",
+      "attempts": 1,
+      "reason": "venue quote not on page",
+      "lastTriedAt": "2026-11-03T08:32:38.400Z"
     }
   ]
 }
