@@ -921,3 +921,8 @@ Owner flagged Porto Expats' "Porto Weekly Guide" (Substack, Fridays, Mon–Sun).
   URLs that 404 (casadamusica.com/agenda/…, serralves.pt/pt/actividades/…) or
   pages that don't confirm the event. NEXT RUN (Sat 10-24): #23 grounding /
   URL-quality fix is the top priority, ahead of #24. Told owner.
+
+## 2026-11-03 — Gomry back on, links only (#30, owner OK)
+- Faris (Gomry): event pages now show visitor currency; verified € 322 for a PT visitor on Porto vs Sporting. Catalog API still returns `usd` (currency/country params ignored) and og/twitter descriptions still say $350.45; replied in the thread asking for EUR in the API.
+- PR #19 (d3ad523): `GOMRY_ENABLED = true`; `priceText` quotes Gomry only in EUR, so no Gomry prices for now. Sporting 29 Nov copy EN/PT: resale via Gomry, official at fcporto.pt. Live and verified (ref link EN/PT). `~/fever-sync/run.sh` Gomry steps re-enabled (04:30 UTC).
+- Next: when the API returns EUR, prices come back on their own; check after Faris replies.
