@@ -926,3 +926,4 @@ Owner flagged Porto Expats' "Porto Weekly Guide" (Substack, Fridays, Mon–Sun).
 - Faris (Gomry): event pages now show visitor currency; verified € 322 for a PT visitor on Porto vs Sporting. Catalog API still returns `usd` (currency/country params ignored) and og/twitter descriptions still say $350.45; replied in the thread asking for EUR in the API.
 - PR #19 (d3ad523): `GOMRY_ENABLED = true`; `priceText` quotes Gomry only in EUR, so no Gomry prices for now. Sporting 29 Nov copy EN/PT: resale via Gomry, official at fcporto.pt. Live and verified (ref link EN/PT). `~/fever-sync/run.sh` Gomry steps re-enabled (04:30 UTC).
 - Next: when the API returns EUR, prices come back on their own; check after Faris replies.
+- JSON-LD (PR #20, 826233b): unknown prices no longer emitted as 0 EUR (30 of 387 upcoming events); price only from priceFrom, free label or € text. Watch GSC for the non-critical "Missing field 'price'" warning.
