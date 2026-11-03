@@ -39,12 +39,15 @@ export function kickoff(i: GomryItem): string | null {
   return lisbonLocal(i.start);
 }
 
-/** "From US$87.05" exactly as the catalog lists it (resale), or null. */
+/**
+ * "From €322" exactly as the catalog lists it (resale), or null. Only EUR is
+ * quoted (owner 2026-11-03): the catalog API still returns USD, and readers
+ * see EUR on Gomry's own page.
+ */
 export function priceText(i: GomryItem): string | null {
   if (i.isFree) return 'Free';
-  if (i.priceFrom == null) return null;
-  const cur = i.currency === 'EUR' ? '€' : i.currency === 'USD' ? 'US$' : i.currency === 'GBP' ? '£' : `${i.currency} `;
-  return `From ${cur}${i.priceFrom % 1 ? i.priceFrom.toFixed(2) : i.priceFrom}`;
+  if (i.priceFrom == null || i.currency !== 'EUR') return null;
+  return `From €${i.priceFrom % 1 ? i.priceFrom.toFixed(2) : i.priceFrom}`;
 }
 
 const DATE_EN = (d: string) => new Date(`${day(d)}T12:00:00Z`).toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long', timeZone: 'UTC' });
@@ -58,8 +61,8 @@ export function matchRecord(i: GomryItem, now = new Date().toISOString()): Event
   const name = `FC Porto vs ${opp}`;
   const when = ko ? `${DATE_EN(date)} at ${ko.slice(11)}` : `${DATE_EN(date)} (kickoff time to be confirmed)`;
   const whenPt = ko ? `${DATE_PT(date)}, às ${ko.slice(11)}` : `${DATE_PT(date)} (hora a confirmar)`;
-  const priceEn = price ? ` Tickets via Gomry ${price.replace(/^From/, 'from')} (resale prices).` : ' Tickets via Gomry (resale).';
-  const pricePt = price ? ` Bilhetes via Gomry desde ${price.replace(/^From /, '')} (preços de revenda).` : ' Bilhetes via Gomry (revenda).';
+  const priceEn = price ? ` Resale tickets via Gomry ${price.replace(/^From/, 'from')}; official tickets at fcporto.pt.` : ' Resale tickets via Gomry; official tickets at fcporto.pt.';
+  const pricePt = price ? ` Bilhetes de revenda via Gomry desde ${price.replace(/^From /, '')}; bilhetes oficiais em fcporto.pt.` : ' Bilhetes de revenda via Gomry; bilhetes oficiais em fcporto.pt.';
   return {
     slug: composeEventSlug(name, VENUE, date),
     name,
@@ -68,14 +71,14 @@ export function matchRecord(i: GomryItem, now = new Date().toISOString()): Event
     venueSlug: VENUE_SLUG,
     price: price ? `${price} (resale)` : undefined,
     // JSON-LD Offer price (lib/events.ts toEventJsonLd): the listed resale "from" price in its own currency.
-    priceFrom: !i.isFree && i.priceFrom != null ? i.priceFrom : undefined,
-    currency: !i.isFree && i.priceFrom != null && i.currency ? i.currency : undefined,
+    priceFrom: price && !i.isFree ? i.priceFrom! : undefined,
+    currency: price && !i.isFree ? 'EUR' : undefined,
     category: 'sports',
     description: `FC Porto host ${opp} at the Estádio do Dragão on ${when}.${priceEn}`,
     longDescription:
       `FC Porto play ${opp} at home at the Estádio do Dragão on ${when}. Kickoff times can still be moved by the league, so check before you go.\n\n` +
       `The stadium has its own metro stop, Estádio do Dragão (lines A, B, E and F).\n\n` +
-      `Tickets are sold through Gomry, a resale platform.${price ? ` Listed prices start at ${price.replace(/^From /, '')}.` : ''}`,
+      `Resale tickets are sold through Gomry${price ? `, from ${price.replace(/^From /, '')}` : ''}. FC Porto's official box office (fcporto.pt) also sells tickets when available.`,
     descriptionPt: `O FC Porto recebe o ${opp} no Estádio do Dragão, ${whenPt}.${pricePt}`,
     sourceEdition: FORWARD_SOURCE,
     externalLink: i.url,
