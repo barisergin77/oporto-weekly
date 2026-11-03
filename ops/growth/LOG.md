@@ -928,3 +928,4 @@ Owner flagged Porto Expats' "Porto Weekly Guide" (Substack, Fridays, Mon–Sun).
 - Next: when the API returns EUR, prices come back on their own; check after Faris replies.
 - JSON-LD (PR #20, 826233b): unknown prices no longer emitted as 0 EUR (30 of 387 upcoming events); price only from priceFrom, free label or € text. Watch GSC for the non-critical "Missing field 'price'" warning.
 - Watchdog (PR #21, 1c3ad24): removed paused blog-post/blog-instagram (false alarm 11-03 18:34). Dispatch returned 403: PAT Claude-Server lacks Actions write, so watchdog rescue can't dispatch any workflow (incl. Thu newsletter). Asked owner to add Actions: Read and write; then probe with a bad-ref dispatch (expect 422).
+- 18:50 owner added Actions: Read and write to Claude-Server PAT; probe now 422 (authorized). Watchdog rescue restored.
