@@ -540,7 +540,7 @@ async function run() {
   const days = Number(opt('--days') ?? 60);
   const maxAuto = Number(opt('--max-auto') ?? 250);
   const now = new Date();
-  // Never commit in the newsletter freeze (Wed 18:00 → Thu 23:59 UTC, except Thu before 07:30), e.g. a late catch-up run.
+  // Never commit in the newsletter freeze (Thu 07:30 → 17:00 UTC), e.g. a late catch-up run.
   if (write && inFreezeWindow(now) && !flag('--ignore-freeze')) {
     console.log('newsletter freeze window: nothing written');
     const out = opt('--out');

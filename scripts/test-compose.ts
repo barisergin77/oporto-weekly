@@ -56,7 +56,10 @@ test('freeze: Thursday early scan allowed until 07:30, Wed evening frozen', () =
   assert.equal(inFreezeWindow(new Date('2026-10-29T07:29:00Z')), false);
   assert.equal(inFreezeWindow(new Date('2026-10-29T07:30:00Z')), true);
   assert.equal(inFreezeWindow(new Date('2026-10-29T12:00:00Z')), true);
-  assert.equal(inFreezeWindow(new Date('2026-10-28T18:00:00Z')), true);
+  assert.equal(inFreezeWindow(new Date('2026-10-29T16:59:00Z')), true);
+  assert.equal(inFreezeWindow(new Date('2026-10-29T17:00:00Z')), false);
+  assert.equal(inFreezeWindow(new Date('2026-10-28T18:00:00Z')), false);
+  assert.equal(inFreezeWindow(new Date('2026-10-28T23:00:00Z')), false);
   assert.equal(inFreezeWindow(new Date('2026-10-28T07:00:00Z')), false);
 });
 test('discovery searches are bounded: ≤ 8 daily, 2 top-up', () => {

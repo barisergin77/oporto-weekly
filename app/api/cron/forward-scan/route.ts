@@ -10,9 +10,9 @@
  * coming edition week thoroughly, and re-found events update their record
  * (same slug) instead of being skipped or duplicated.
  *
- * Refuses to run in the newsletter freeze (Wed 18:00 → Thu 23:59 UTC) since
- * GitHub's scheduler can fire hours late — except Thursday before 07:30,
- * the early run that feeds that morning's composition.
+ * Refuses to run in the newsletter freeze (Thu 07:30 → 17:00 UTC) since
+ * GitHub's scheduler can fire hours late. Thursday before 07:30 is the
+ * early run that feeds that morning's composition.
  *
  * Leads (data/forward-leads.json, lib/forward-leads.ts): read from GitHub main,
  * the due ones verified first through the same path, and their outcomes

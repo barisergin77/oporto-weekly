@@ -27,7 +27,7 @@ that are genuinely his.
 
 - **Contact only for critical decisions.** Otherwise act, and record what you
   did in `LOG.md`.
-- **Daily cadence, up to 2 improvements per run (3 if needed; owner 2026-10-30), still one deploy; freeze Wed 18:00 – Thu 23:59 UTC.**
+- **Daily cadence, up to 2 improvements per run (3 if needed; owner 2026-10-30), still one deploy; freeze Thu 05:00 – 11:00 UTC once EN, PT and Instagram are confirmed sent, else until 17:00 (owner 2026-11-03).**
   He chose this over every-3-hours because changes must be measurable and
   the newsletter must never be put at risk.
 - **Keep BnB Genius out of this project entirely.** It is a separate business

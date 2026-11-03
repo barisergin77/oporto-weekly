@@ -11,10 +11,22 @@ before doing anything. On your first run, read `HANDOFF.md` first.
 
 ## 1. Hard rules (never break these)
 
-1. **Freeze window: Wednesday 18:00 UTC → Thursday 23:59 UTC.** Do not
-   change code, deploy, or touch crons. On those runs, only observe and log.
-   The newsletter generates, archives, emails ~60 people and posts to
-   Instagram during this window. Breaking it is the worst outcome available.
+1. **Freeze window: Thursday 05:00 UTC → 11:00 UTC** (owner 2026-11-03; was
+   Wed 18:00 → Thu 23:59). Do not change code, deploy, or touch crons. On
+   those runs, only observe and log. The newsletter scans, composes, archives,
+   emails ~60 people and posts to Instagram during this window. Breaking it is
+   the worst outcome available.
+   - The freeze ends at 11:00 only once EN, PT and Instagram are confirmed
+     sent: the 10:00 backstop post in #oporto-weekly (log
+     `~/watchers/oporto-newsletter/log`) shows newsletter, newsletter-send,
+     newsletter-pt and instagram as sent or already sent. If any is late or
+     failed, the freeze holds until the 17:00 watchdog pass.
+   - Wednesday is a normal day, but anything shipped Wednesday must be live
+     with health ok by the 21:00 UTC deploy-flush. No pushes after that until
+     the freeze ends.
+   - Automated data writes (forward scan, source sweep) are blocked by
+     `inFreezeWindow()` Thu 07:30 → 17:00 UTC; before 07:30 is the early scan
+     that feeds the 07:45 composition.
 2. **Never touch the send path** without the owner's approval: anything in
    `app/api/cron/newsletter*`, `lib/run-ledger.ts`, `lib/resend-client.ts`,
    `lib/audiences.ts`, the scheduler watchdog, or `.github/workflows/cron-*`.

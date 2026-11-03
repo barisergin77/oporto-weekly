@@ -50,9 +50,9 @@ to *do* is git, npm and the scripts in this repo.
 - `--allowedTools` is deliberately narrower than skipping permissions
   entirely: the run can edit the repo, build, push and call the site, but
   nothing else on the server.
-- The freeze window (Wed 18:00 – Thu 23:59 UTC) is enforced by the playbook,
-  so the job can run every day; on Wednesday evening/Thursday it only
-  observes.
+- The freeze window (Thu 05:00 – 11:00 UTC, or 17:00 if a send is late) is
+  enforced by the playbook, so the job can run every day; on Thursday's
+  09:00 run it only observes.
 
 ## Checking on it
 

@@ -172,14 +172,19 @@ export function scanWindow(now: Date = new Date()): Window {
 export const THURSDAY_SCAN_CUTOFF_MIN = 7 * 60 + 30;
 
 /**
- * Wed 18:00 → Thu 23:59 UTC: the newsletter's window. Never commit then —
- * except Thursday before 07:30, the early scan that feeds that morning's
+ * Thu 07:30 → 17:00 UTC: the newsletter's window for automated writes (owner
+ * 2026-11-03; was Wed 18:00 → Thu 23:59). It covers composition, the sends,
+ * Instagram, enrichment and the last watchdog pass (17:00), since GitHub's
+ * scheduler can fire hours late. Never commit then. Before 07:30 is the early
+ * scan that feeds that morning's
  * composition (cron-forward-scan.yml runs Thu 05:30).
  */
+export const THURSDAY_FREEZE_END_MIN = 17 * 60;
+
 export function inFreezeWindow(now: Date = new Date()): boolean {
-  const wd = now.getUTCDay();
-  if (wd === 4) return now.getUTCHours() * 60 + now.getUTCMinutes() >= THURSDAY_SCAN_CUTOFF_MIN;
-  return wd === 3 && now.getUTCHours() >= 18;
+  if (now.getUTCDay() !== 4) return false;
+  const min = now.getUTCHours() * 60 + now.getUTCMinutes();
+  return min >= THURSDAY_SCAN_CUTOFF_MIN && min < THURSDAY_FREEZE_END_MIN;
 }
 
 // ---------------------------------------------------------------------------
