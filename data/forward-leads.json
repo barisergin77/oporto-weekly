@@ -626,9 +626,9 @@
       "source": "coliseu-newsletter-2026-10",
       "addedAt": "2026-11-01T05:00:47Z",
       "status": "pending",
-      "attempts": 1,
-      "reason": "page not fetchable: https://www.coliseu.pt/noticia/mantras-do-coliseu-ciclo-dedicado-ao-pensamento-com-novas-propostas-em-202 → only 19 chars of text | https://www.coliseu.pt/mantras → only 19 chars of text",
-      "lastTriedAt": "2026-11-02T16:49:37.561Z"
+      "attempts": 2,
+      "reason": "not an organiser/venue/ticketing page (https://agendaculturalporto.org/eventos/a-heranca-do-duque-da-ribeira-percurso-e-filme-no-porto/)",
+      "lastTriedAt": "2026-11-03T14:52:06.038Z"
     },
     {
       "name": "O Lago dos Cisnes – Imperial Heritage Ballet",
@@ -662,7 +662,12 @@
       "venue": "Coliseu Porto Ageas",
       "note": "11:00; Concertos Promenade series",
       "source": "coliseu-newsletter-2026-10",
-      "addedAt": "2026-11-01T05:00:47Z"
+      "addedAt": "2026-11-01T05:00:47Z",
+      "status": "done",
+      "eventSlug": "promenade-2026-uma-sinfonia-alpina-de-r-strauss-coliseu-porto-ageas-nov-29-2026",
+      "reason": "already listed",
+      "lastTriedAt": "2026-11-03T14:52:06.038Z",
+      "resolvedAt": "2026-11-03T14:52:06.038Z"
     },
     {
       "name": "Circo de Natal do Coliseu Porto Ageas",
@@ -671,7 +676,11 @@
       "venue": "Coliseu Porto Ageas",
       "note": "Family Christmas circus, opens to the public on 11 Dec; artists not yet announced",
       "source": "coliseu-newsletter-2026-10",
-      "addedAt": "2026-11-01T05:00:47Z"
+      "addedAt": "2026-11-01T05:00:47Z",
+      "status": "pending",
+      "attempts": 1,
+      "reason": "page not fetchable: https://coliseu.pt/evento/20210103-circo-de-natal-coliseu-porto-ageas → only 19 chars of text | https://www.coliseu.pt/circo → only 19 chars of text",
+      "lastTriedAt": "2026-11-03T14:52:06.038Z"
     },
     {
       "name": "Queer Porto 12",
@@ -708,10 +717,11 @@
       "note": "Documentary film festival; last part of its trilogy on displacement, with films incl. Io Capitano, Soy Cuba, The Double Life of Véronique",
       "source": "batalha-newsletter-2026-11",
       "addedAt": "2026-11-02T05:00:27Z",
-      "status": "pending",
-      "attempts": 2,
+      "status": "rejected",
+      "attempts": 3,
       "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
-      "lastTriedAt": "2026-11-03T08:32:38.400Z"
+      "lastTriedAt": "2026-11-03T14:52:06.038Z",
+      "resolvedAt": "2026-11-03T14:52:06.038Z"
     },
     {
       "name": "Visita em Português – Exposição Lee Ufan",
@@ -843,9 +853,9 @@
       "source": "agenda-porto-newsletter-2026-11",
       "addedAt": "2026-11-03T05:00:34Z",
       "status": "pending",
-      "attempts": 1,
-      "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
-      "lastTriedAt": "2026-11-03T08:32:38.400Z"
+      "attempts": 2,
+      "reason": "not an organiser/venue/ticketing page (https://pumpkin.pt/eventos/ceramica-em-familia-oficina-materica-porto/)",
+      "lastTriedAt": "2026-11-03T14:52:06.038Z"
     },
     {
       "name": "A Herança do Duque da Ribeira",
@@ -855,9 +865,9 @@
       "source": "agenda-porto-newsletter-2026-11",
       "addedAt": "2026-11-03T05:00:34Z",
       "status": "pending",
-      "attempts": 1,
-      "reason": "venue quote not on page",
-      "lastTriedAt": "2026-11-03T08:32:38.400Z"
+      "attempts": 2,
+      "reason": "not an organiser/venue/ticketing page (https://agendaculturalporto.org/eventos/a-heranca-do-duque-da-ribeira-percurso-e-filme-no-porto/)",
+      "lastTriedAt": "2026-11-03T14:52:06.038Z"
     }
   ]
 }
