@@ -27,8 +27,12 @@ import { type EventRecord, isRealEventUrl } from './events';
 import { compareNames, isVagueVenue, nameTokens } from './event-identity';
 import { canonicalVenueSlug, canonicalVenueSlugFor } from './venues';
 
-/** Paused by owner 2026-10-27: Gomry shows prices in USD, not EUR. Flip back once Erick confirms EUR pricing. */
-export const GOMRY_ENABLED = false;
+/**
+ * Paused 2026-10-27 (prices in USD); back on 2026-11-03 (owner): Gomry's pages now
+ * show EUR to visitors in Portugal, but the catalog API still returns USD, so we
+ * link without quoting Gomry prices (scripts/gomry-events.ts priceText) until it does.
+ */
+export const GOMRY_ENABLED = true;
 
 export const GOMRY_REF = 'Pi2YQafpuFtB';
 /** Organizer referral landing (Gomry home with our ref). */

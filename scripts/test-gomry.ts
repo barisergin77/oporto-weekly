@@ -103,9 +103,16 @@ test('match record: factual copy, Lisbon kickoff, resale price as listed, never 
   assert.equal(r.name, 'FC Porto vs Estoril Praia');
   assert.equal(r.date, '2026-10-31T20:30');
   assert.equal(r.venueSlug, 'estadio-do-dragao');
-  assert.equal(r.price, 'From US$87.05 (resale)');
-  assert.equal(r.priceFrom, 87.05);
-  assert.equal(r.currency, 'USD');
+  // USD from the catalog API is never quoted (owner 2026-11-03); EUR is.
+  assert.equal(r.price, undefined);
+  assert.equal(r.priceFrom, undefined);
+  assert.equal(r.currency, undefined);
+  assert.doesNotMatch(r.description + r.longDescription! + r.descriptionPt!, /US\$|\$/);
+  assert.match(r.description, /Resale tickets via Gomry; official tickets at fcporto\.pt\./);
+  const eur = matchRecord({ ...ESTORIL, priceFrom: 80, currency: 'EUR' }, '2026-10-27T00:00:00Z');
+  assert.equal(eur.price, 'From €80 (resale)');
+  assert.equal(eur.priceFrom, 80);
+  assert.equal(eur.currency, 'EUR');
   assert.equal(r.category, 'sports');
   assert.equal(r.gomryId, ESTORIL.id);
   assert.equal(r.pickCandidate, false);
