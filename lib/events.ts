@@ -15,6 +15,7 @@ import path from 'path';
 import { canonicalVenueSlug, canonicalVenueSlugFor, venueToSlug } from './venues';
 import { isSameEvent, sameSourcePageReason, pickCanonical } from './event-identity';
 import { classifyEvent, isKidsEvent, type EventSubcategory } from './event-categories';
+import { isFreePrice, lowestPrice } from './event-filters';
 
 export type EventCategory =
   | 'music'
@@ -366,26 +367,23 @@ export function toEventJsonLd(
     ? `${siteUrl}/pt/event/${e.slug}`
     : `${siteUrl}/event/${e.slug}`;
 
-  // Offers: ALWAYS emit, with `price` and `priceCurrency` ALWAYS present.
+  // Offers: ALWAYS emit (GSC "Missing field 'offers'", 2026-04-30).
   //
-  // Iteration history:
-  //   - 2026-04-30: emitted offers only when we had priceFrom or "free".
-  //     GSC: "Missing field 'offers'" for ~60% of events.
-  //   - 2026-05-01: always emit offers, but price/priceCurrency only when
-  //     known. GSC: "Missing field 'price' (in 'offers')" warning.
-  //   - This iteration: price + priceCurrency are always present. Unknown
-  //     prices fall back to 0 EUR. Trade-off: rich-result snippets may
-  //     show "Free" for ticketed-but-price-unknown events. The event detail
-  //     page itself still displays the correct "Tickets Required" label,
-  //     so click-through visitors aren't misled — only a small minority of
-  //     SERP impressions surface the price chip at all.
-  const hasPaidOffer = e.priceFrom != null;
-  const isFree = !hasPaidOffer && e.price?.toLowerCase().includes('free');
-  const price = hasPaidOffer ? e.priceFrom : (isFree ? 0 : 0);
+  // `price` only when we actually know it: priceFrom, a "free" label, or a
+  // euro amount in the price text. Until 2026-11-03 unknown prices fell
+  // back to 0 EUR to clear GSC's "Missing field 'price'" warning, but that
+  // tells Google a ticketed event is free (owner 2026-11-03: drop it). The
+  // missing-price warning is non-critical; the event stays eligible.
+  const known = e.priceFrom != null
+    ? { price: e.priceFrom, priceCurrency: e.currency ?? 'EUR' }
+    : isFreePrice(e.price)
+      ? { price: 0, priceCurrency: 'EUR' }
+      : lowestPrice(e.price) != null
+        ? { price: lowestPrice(e.price)!, priceCurrency: 'EUR' }
+        : {};
   const offers = {
     '@type': 'Offer',
-    price,
-    priceCurrency: e.currency ?? 'EUR',
+    ...known,
     url: e.externalLink ?? url,
     availability: 'https://schema.org/InStock',
     validFrom: e.addedAt,
