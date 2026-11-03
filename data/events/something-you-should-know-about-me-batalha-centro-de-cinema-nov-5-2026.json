@@ -1,0 +1,25 @@
+{
+  "slug": "something-you-should-know-about-me-batalha-centro-de-cinema-nov-5-2026",
+  "name": "Something You Should Know About Me",
+  "date": "2026-11-05T19:30",
+  "venue": "Batalha Centro de Cinema",
+  "venueSlug": "batalha-centro-de-cinema",
+  "price": "€5",
+  "priceFrom": 5,
+  "currency": "EUR",
+  "category": "other",
+  "description": "This event features a screening of the film \"Something You Should Know About Me,\" a sweet and daring trans romantic comedy. Following the film, there will be a Q&A session with director Andy Fidoten, actor EJ Marcus, and producer Liza Renzulli.",
+  "longDescription": "The film \"Something You Should Know About Me\" is a trans romantic comedy where Al, an insecure cartoonist, faces the challenge of confessing his true feelings to his best friend or risking losing him to an attractive rival.\n\nThe session includes a Q&A with the film's director, Andy Fidoten, actor EJ Marcus, and producer Liza Renzulli. The event takes place on November 5, 2026, at Batalha Centro de Cinema, starting at 19:30. Tickets are priced at €5.",
+  "sourceEdition": "forward-scan",
+  "externalLink": "https://www.agenda-porto.pt/evento/something-you-should-know-about-me/",
+  "pickCandidate": true,
+  "addedAt": "2026-11-03T06:00:43.007Z",
+  "lastSeenAt": "2026-11-03T06:00:43.007Z",
+  "descriptionPt": "Este evento inclui a exibição do filme \"Something You Should Know About Me\", uma comédia romântica trans, doce e ousada. Após o filme, haverá uma sessão de perguntas e respostas com o realizador Andy Fidoten, o ator EJ Marcus e a produtora Liza Renzulli.",
+  "longDescriptionPt": "O filme \"Something You Should Know About Me\" é uma comédia romântica trans onde Al, um cartoonista inseguro, enfrenta o desafio de confessar os seus verdadeiros sentimentos ao melhor amigo ou arriscar perdê-lo para um rival atraente.\n\nA sessão inclui uma conversa com o realizador do filme, Andy Fidoten, o ator EJ Marcus e a produtora Liza Renzulli. O evento acontece a 5 de novembro de 2026, no Batalha Centro de Cinema, a partir das 19:30. Os bilhetes custam 5€.",
+  "image": {
+    "url": "https://i.imgur.com/9wA76Eb.jpeg",
+    "credit": "Photo: Agenda-porto",
+    "sourceUrl": "https://www.agenda-porto.pt/evento/something-you-should-know-about-me/"
+  }
+}
