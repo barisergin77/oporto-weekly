@@ -7,6 +7,24 @@ impressions / pos 9.3 over 28 days (prev 28: 191 / 10,293 / 16.9);
 subscribers 56 active (34 EN, 22 PT), ~1.4 net/week; signups by page: none
 recorded yet (tracking started today).
 
+## 2026-11-04 (owner session) — #38 shipped, held sweep items, Instagram link
+- **#38 live** (e259148, PR #22, owner "build backlog 38"): non-Latin names
+  rejected; same venue + day + start time + a rare shared word = one event
+  across sites (Zuaa TMP/bol.pt); "Rivoli Palco do Grande Auditório" and
+  similar stage names → the known venue. Checked on 927 records: 0 merges,
+  0 venueSlug changes. test:dedupe 35. **Measure Thu 11-05+**: scan/sweep
+  logs should show no new cross-site pairs in find-duplicates.
+- **Held sweep items fixed by hand** (owner "fix by hand", e4f7b9b): Lemonade
+  stand-up 11-12 (Evento Café), Voulez-Vous 11-12 + 11-19, TT Club Experience
+  12-05 (venue was "Porto"), Jardim das Chegadas (INSTITUTO, 11-05→12-17).
+  Dropped the Árvore bees talk: agenda-porto says 11-07 but its text and 4
+  other listings say 10-31.
+- **#13 blocked**: the owner's personal FB account is ad-restricted since
+  2023 (no appeal), so the IG ↔ Page link fails. Plan: wife as Page admin
+  links it; IG followers from the public profile meanwhile. Owner wants the
+  empty FB Page set up (Claude prepares + applies via Chrome, owner reviews
+  first).
+
 ## 2026-11-04 — Four duplicates out of Thursday's week (#17/#38)
 - Run 09:00 UTC Wed. Freeze now Thu 05:00 → 11:00 (owner 11-03); today's
   push must be live by the 21:00 flush. Not Mon/Tue, so no guide re-check.
