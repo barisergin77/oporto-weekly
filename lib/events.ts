@@ -13,7 +13,7 @@
 import fs from 'fs';
 import path from 'path';
 import { canonicalVenueSlug, canonicalVenueSlugFor, venueToSlug } from './venues';
-import { isSameEvent, sameSourcePageReason, sameStartRareWordReason, rareTokens, pickCanonical } from './event-identity';
+import { aggregatorCopyReason, isSameEvent, sameSourcePageReason, sameStartRareWordReason, rareTokens, pickCanonical } from './event-identity';
 import { classifyEvent, isKidsEvent, type EventSubcategory } from './event-categories';
 import { isFreePrice, lowestPrice } from './event-filters';
 
@@ -243,7 +243,7 @@ export function findExistingEventByIdentity(
   if (fuzzy.length) return pickCanonical(fuzzy);
   // Same venue, day and start time + a rare shared word, across sites (#38b).
   const isRare = rareTokens(events);
-  const crossSite = events.filter((e) => sameStartRareWordReason(probe, e, isRare) !== null);
+  const crossSite = events.filter((e) => sameStartRareWordReason(probe, e, isRare) !== null || aggregatorCopyReason(probe, e) !== null);
   return crossSite.length ? pickCanonical(crossSite) : null;
 }
 
