@@ -87,6 +87,8 @@ export function datesOverlap(a: Dated, b: Dated, slackDays = 1): boolean {
 
 export interface EventLike extends Dated {
   name: string;
+  description?: string | null;
+  longDescription?: string | null;
   /** PT title (records: only when it differs from `name`). Compared too. */
   namePt?: string | null;
   venue: string;
@@ -324,6 +326,52 @@ export function rareTokens(events: readonly EventLike[]): (token: string) => boo
   }
   const counts = df;
   return (t) => (counts.get(t) ?? 0) <= RARE_MAX;
+}
+
+/**
+ * Backlog #26c (owner OK 2026-11-04: "stop using aggregator sites if the event
+ * is already added from the venue page"). On 11-04, 3 of 4 duplicates were
+ * agenda-porto.pt copies of events already listed from the venue's or ticket
+ * seller's page, under other titles and venue spellings: Accordia ("Serralves"
+ * vs "Livraria de Serralves"), Nativo ("Palácio do Bolhão" vs "Teatro do
+ * Bolhão"), the OSP solidarity concert ("Orquestra Sinfónica do Porto Casa da
+ * Música" vs "Concerto Solidário · Liga Portuguesa Contra o Cancro").
+ * An aggregator page is the same event as a record from a non-aggregator page
+ * when both state the same day and start time at the same place: the same
+ * canonical venue, or venues sharing a distinctive word ("serralves",
+ * "bolhao"). No name match needed: the aggregator retitles. The cost is that
+ * a second show at the same venue and minute, listed only on the aggregator,
+ * is skipped; the owner prefers that to duplicates.
+ */
+export const AGGREGATOR_SITES = new Set(['agenda-porto.pt', 'viralagenda.com', 'agendaculturalporto.org', 'e-cultura.pt', 'rottacuradoria.com.br', 'portoalive.pt', 'visitporto.travel', 'sustainableliving.pt']);
+const GENERIC_VENUE_WORDS = new Set(['teatro', 'theatre', 'theater', 'palacio', 'palace', 'livraria', 'museu', 'museum', 'galeria', 'gallery', 'centro', 'centre', 'center', 'casa', 'auditorio', 'jardim', 'garden', 'igreja', 'church', 'biblioteca', 'library', 'mercado', 'market', 'praca', 'square', 'municipal', 'cultural', 'cultura', 'espaco', 'space', 'porto', 'oporto', 'sala', 'salao', 'grande', 'clube', 'club', 'fundacao', 'foundation', 'cinema', 'escola', 'school', 'hotel', 'restaurante', 'restaurant']);
+const venueWords = (e: EventLike) => new Set([venueKey(e), canonicalVenueSlugFor(e.venue)].flatMap((s) => s.split('-')).filter((w) => w.length >= 5 && !GENERIC_VENUE_WORDS.has(w)));
+export function aggregatorCopyReason(a: EventLike & { externalLink?: string | null }, b: EventLike & { externalLink?: string | null }): string | null {
+  const sa = siteOf(a.externalLink);
+  const sb = siteOf(b.externalLink);
+  if (!sa || !sb || AGGREGATOR_SITES.has(sa) === AGGREGATOR_SITES.has(sb)) return null;
+  const ta = startTime(a);
+  if (!ta || ta !== startTime(b) || day(a.date) !== day(b.date)) return null;
+  const va = venueKey(a);
+  const vb = venueKey(b);
+  if (isVagueForIdentity(va) || isVagueForIdentity(vb)) return null;
+  let where = `same venue (${va})`;
+  if (va !== vb) {
+    const wb = venueWords(b);
+    const shared = Array.from(venueWords(a)).find((w) => wb.has(w));
+    if (!shared) return null;
+    where = `venues share "${shared}" (${va} / ${vb})`;
+  }
+  // The aggregator's title must point at the other record: one of its words
+  // (venue words dropped) in that record's name or copy. "Orquestra Sinfónica
+  // do Porto" is in the solidarity concert's description; an unrelated show in
+  // the next room at the same minute is not.
+  const [agg, own] = AGGREGATOR_SITES.has(sa) ? [a, b] : [b, a];
+  const vw = new Set([...Array.from(venueWords(agg)), ...Array.from(venueWords(own)), ...venueKey(agg).split('-'), ...venueKey(own).split('-')]);
+  const ownWords = new Set([own.name, own.namePt ?? '', own.description ?? '', own.longDescription ?? ''].flatMap((t) => Array.from(nameTokens(t))));
+  const hit = nameVariants(agg).flatMap((n) => Array.from(nameTokens(n))).find((t) => t.length >= 4 && !vw.has(t) && ownWords.has(t));
+  if (!hit) return null;
+  return `aggregator copy (${AGGREGATOR_SITES.has(sa) ? sa : sb}): ${where}, same day and time (${day(a.date)} ${ta}), "${hit}" in the other record`;
 }
 
 export function isSameEvent(a: EventLike, b: EventLike): boolean {

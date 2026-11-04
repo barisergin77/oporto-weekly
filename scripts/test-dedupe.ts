@@ -7,7 +7,7 @@
 
 import assert from 'node:assert/strict';
 import { canonicalVenueSlugFor, venueSlugRedirects, isGenericRoomName, hostVenueName } from '../lib/venues';
-import { isSameEvent, normalizeEventUrl, rareTokens, sameSourcePageReason, sameStartRareWordReason } from '../lib/event-identity';
+import { aggregatorCopyReason, isSameEvent, normalizeEventUrl, rareTokens, sameSourcePageReason, sameStartRareWordReason } from '../lib/event-identity';
 import { composeEventSlug, findExistingEventByIdentity, listEvents, type EventRecord } from '../lib/events';
 import { findDuplicate } from '../lib/forward-scan';
 
@@ -277,6 +277,30 @@ test('#38b no pair among the live records is newly merged', () => {
     if (isSameEvent(a, b) || sameSourcePageReason(a, b)) continue;
     assert.equal(sameStartRareWordReason(a, b, rare), null, `${a.slug} / ${b.slug}`);
   }
+});
+
+// ---------------------------------------------------------------- #26c (owner OK 2026-11-04)
+test('#26c an agenda-porto.pt copy of a venue-page event is the same event', () => {
+  const live = listEvents();
+  const probe = (name: string, venue: string, date: string, time: string, url: string) =>
+    findExistingEventByIdentity(name, venue, { date, time, url }, live)?.slug;
+  // The three copies removed by hand on 11-04 (929dadb).
+  assert.equal(probe('Accordia', 'Serralves', '2026-11-05', '18:30', 'https://www.agenda-porto.pt/evento/0511-apresentacao-da-accordia/'), 'apresentacao-da-accordia-livraria-de-serralves-nov-5-2026');
+  assert.equal(probe('Nativo', 'Palácio do Bolhão', '2026-11-07', '21:00', 'https://www.agenda-porto.pt/evento/nativo-de-tiago-manuel-soares/'), 'nativo-concerto-de-tiago-manuel-soares-teatro-do-bolhao-nov-7-2026');
+  assert.equal(probe('Orquestra Sinfónica do Porto Casa da Música', 'Casa da Música', '2026-11-06', '21:30', 'https://www.agenda-porto.pt/evento/orquestra-sinfonica-do-porto-casa-da-musica-1786464770407/'), 'concerto-solidario-liga-portuguesa-contra-o-cancro-casa-da-musica-nov-6-2026');
+  // The same copies from a venue's own site are not caught by this rule.
+  assert.notEqual(probe('Nativo', 'Palácio do Bolhão', '2026-11-07', '21:00', 'https://www.palaciodobolhao.pt/nativo'), 'nativo-concerto-de-tiago-manuel-soares-teatro-do-bolhao-nov-7-2026');
+});
+test('#26c an unrelated show at the same venue and minute is kept', () => {
+  const own = { ...ev('Concerto Solidário · Liga Portuguesa Contra o Cancro', 'Casa da Música', '2026-11-06T21:30'), externalLink: 'https://casadamusica.com/event/x/', description: 'The Orquestra Sinfónica do Porto presents a solidarity concert.' };
+  const agg = (name: string, date = '2026-11-06T21:30', venue = 'Casa da Música') => ({ ...ev(name, venue, date), externalLink: 'https://www.agenda-porto.pt/evento/y/' });
+  assert.ok(aggregatorCopyReason(agg('Orquestra Sinfónica do Porto'), own));
+  assert.equal(aggregatorCopyReason(agg('Remix Ensemble: Novas Obras'), own), null);
+  assert.equal(aggregatorCopyReason(agg('Orquestra Sinfónica do Porto', '2026-11-06T19:00'), own), null);
+  assert.equal(aggregatorCopyReason(agg('Orquestra Sinfónica do Porto', '2026-11-06'), own), null);
+  assert.equal(aggregatorCopyReason(agg('Orquestra Sinfónica do Porto', '2026-11-06T21:30', 'Hard Club'), own), null);
+  // Two aggregator pages, or two venue pages, are never matched by this rule.
+  assert.equal(aggregatorCopyReason(agg('Orquestra Sinfónica do Porto'), { ...own, externalLink: 'https://www.agenda-porto.pt/evento/z/' }), null);
 });
 
 console.log(`ok — ${passed} dedupe tests passed`);
