@@ -7,6 +7,58 @@ impressions / pos 9.3 over 28 days (prev 28: 191 / 10,293 / 16.9);
 subscribers 56 active (34 EN, 22 PT), ~1.4 net/week; signups by page: none
 recorded yet (tracking started today).
 
+## 2026-11-04 — Four duplicates out of Thursday's week (#17/#38)
+- Run 09:00 UTC Wed. Freeze now Thu 05:00 → 11:00 (owner 11-03); today's
+  push must be live by the 21:00 flush. Not Mon/Tue, so no guide re-check.
+- Metrics (`metrics/2026-11-04.json`): 348 clicks / 17,231 impr / pos 11.12
+  over 28d (yesterday 340 / 16,726 / 11.08; prev 28d 317 / 13,295 / 10.29).
+  Last 7d **109 clicks vs 74** (+47%), impressions 5,522 vs 3,314, CTR 2.0%
+  vs 2.2%, position 11.9 vs 13.1. GA4 7d 76 users / 102 sessions / 267 PV
+  (prev 39 / 48 / 101), best week again; 58 organic, 26 direct, 8 AI, 8
+  organic social. Subscribers 60 (10-29; next snapshot Thu). Signups
+  attributed 28d: **14** (was 9 yesterday): 8 event pages, 4 porto-events,
+  2 archive; 5 new since yesterday's run (2 from the Baluarte 4 event page,
+  /porto-events/november-2026, /porto-events/may-2026, CdM organ symphony).
+  Blog still 0 (inline box live 3 days).
+- Results due: none today. Filled the 10-17 subscribe-forms entry's empty
+  Result (measured 10-31, never written into that entry).
+- Why: Thursday 11-05's edition reads 11-05 → 11-11. find-duplicates shows 0
+  STRONG; I listed all 131 records in the window by venue + time and read
+  every same-venue, same-slot pair.
+- Change (929dadb): removed 4 copies, 301 EN + PT to the kept page:
+  - Accordia book launch, Serralves 11-05 18:30: agenda-porto.pt copy →
+    kept the serralves.pt record.
+  - Nativo (Tiago Manuel Soares), Bolhão 11-07 21:00: agenda-porto.pt copy
+    (added this morning, venue "Palácio do Bolhão") → kept the bol.pt record
+    (Teatro do Bolhão, which is in the Palácio). Carried over the photo and
+    the student price from Agenda Porto (€15, students €10; EN + PT copy says
+    "Agenda Porto lists €10 for students").
+  - OSP solidarity concert for the Liga Contra o Cancro, Casa da Música 11-06
+    21:30: agenda-porto.pt copy → kept the casadamusica.com record.
+  - "Queer Porto 12", "Various venues", 11-03 → 11-07: really one screening
+    (Mouse, bol.pt) stored as the festival → kept the Batalha festival
+    record; its forward lead now points there.
+  - Left alone (distinct events): Fujifilm anniversary opening vs the Life
+    as You See It run, Mimosa APO 6K vs the marathon, Mostra Estufa vs its
+    three pieces.
+- Verified: tsc; test:dedupe 30 + find-duplicates --check (0 STRONG, also
+  after rebasing onto the owner's e4f7b9b sweep fixes); build OK; no built
+  pages for the 4 copies; kept Nativo page has the new price line. Live:
+  /api/version = 929dadb; Accordia EN and Queer Porto PT copies 308 → kept
+  pages; Nativo page 200; health ok (9 checks). No Indexing API call (kept
+  URLs unchanged).
+- Expect: no doubled listings in Thursday's edition, the weekend page or the
+  November hub.
+- Measure on: 2026-11-05 edition (check Fri 11-06 with `picks path=`).
+- Result:
+- Needs owner: (1) 3 of today's 4 copies came from **agenda-porto.pt**, the
+  city's aggregator, re-listing events the scan already had from the venue's
+  own page. Backlog #26c would stop using aggregator pages as sources (keep
+  them as leads only). Scan code, so: OK to build it, together with #38
+  (a)–(c) from yesterday? (2) #13: the Instagram ↔ FB Page link can be
+  retried once from today, from Meta Business Suite on desktop (Settings →
+  Linked accounts → Instagram), not the app.
+
 ## 2026-11-03 — Two cross-site duplicates out of Thursday's week (#38)
 - Run 09:00 UTC Tue, outside the freeze (starts Wed 18:00).
 - Metrics (`metrics/2026-11-03.json`): 340 clicks / 16,726 impr / pos 11.08
@@ -901,7 +953,9 @@ recorded yet (tracking started today).
 - Expect: net subscriber growth above ~1.4/week; first signups attributed
   to event/blog pages.
 - Measure on: 2026-10-31 (two weekly snapshots)
-- Result:
+- Result (10-31, written into this entry 11-04): worked, modestly. +4 net in
+  two weeks (2.0/week vs ~1.4); all 7 attributed signups from pages that had
+  no form before; blog 0 → #35. See the 10-31 entry.
 
 ## 2026-10-23 (owner tip) Porto Expats as an edition source
 Owner flagged Porto Expats' "Porto Weekly Guide" (Substack, Fridays, Mon–Sun). Their 26 Oct–1 Nov issue listed 8 events (Batalha Halloween quiz + film, Bloom & MAZ at Real Companhia Velha, LOOK.Sharp 6th birthday, Casa da Música Halloween, Three Sixty at Póvoa Arena, Porto Expats Meetup at Eleven Lab Baixa); data/events had none of them (only Adriana Calcanhotto that week). Added `site:portoexpats.substack.com Porto Weekly Guide events` to the Thursday SEARCH_QUERIES. Their posts are indexed within hours, so Thursday's grounded search sees Friday's issue. Leads only: never copy their text. Check the Oct 29 edition for the Halloween weekend.
