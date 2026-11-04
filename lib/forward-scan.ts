@@ -791,6 +791,9 @@ ${page.text}`;
   for (const [k, q] of [['name', facts.nameQuote], ['date', facts.dateQuote], ['venue', facts.venueQuote]] as const) {
     if (!q || norm(q).length < 3 || !text.includes(norm(q))) return { reason: `${k} quote not on page` };
   }
+  // #38a: "Концерт гурту «Скрябін»" (karabas.co) kebabs to "" and gave the
+  // slug "-hard-club-nov-5-2026"; the venue's own page names it in Latin script.
+  if (!/[a-z]/.test(norm(facts.name))) return { reason: `name has no Latin letters ("${facts.name}")` };
   if (!/^\d{4}-\d{2}-\d{2}$/.test(facts.date ?? '')) return { reason: 'no date' };
   const dom = String(Number(facts.date.slice(8, 10)));
   if (!new RegExp(`(^|\\D)0?${dom}(\\D|$)`).test(facts.dateQuote)) return { reason: 'date quote lacks the day' };
@@ -944,7 +947,7 @@ async function checkLeads(
         outcomes.push({ key, kind: FINAL_LEAD_FAILURE.test(r.reason) ? 'rejected' : 'failed', reason: r.reason });
         return;
       }
-      const match = findExistingEventByIdentity(r.facts.name, r.facts.venue, { date: r.facts.date, endDate: r.facts.endDate, url: r.url }, existing) ?? c.existing;
+      const match = findExistingEventByIdentity(r.facts.name, r.facts.venue, { date: r.facts.date, time: r.facts.time, endDate: r.facts.endDate, url: r.url }, existing) ?? c.existing;
       if (match) {
         if (needsUpdate(match)) updates.push({ ...r, lead: c.lead, existing: match });
         else outcomes.push({ key, kind: 'done', slug: match.slug, reason: 'already listed' });
@@ -1046,7 +1049,7 @@ export async function runForwardScan(
   const keep: Verified[] = [];
   const updates: Array<Verified & { existing: EventRecord }> = [];
   for (const v of verified) {
-    const match = findExistingEventByIdentity(v.facts.name, v.facts.venue, { date: v.facts.date, endDate: v.facts.endDate, url: v.url }, existing) ?? v.existing;
+    const match = findExistingEventByIdentity(v.facts.name, v.facts.venue, { date: v.facts.date, time: v.facts.time, endDate: v.facts.endDate, url: v.url }, existing) ?? v.existing;
     if (match) {
       if (L.maxUpdate > 0 && needsUpdate(match) && !updates.some((u) => u.existing.slug === match.slug) &&
           !leadRun.updates.some((u) => u.existing.slug === match.slug)) updates.push({ ...v, existing: match });

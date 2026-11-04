@@ -7,8 +7,8 @@
 
 import assert from 'node:assert/strict';
 import { canonicalVenueSlugFor, venueSlugRedirects, isGenericRoomName, hostVenueName } from '../lib/venues';
-import { isSameEvent, normalizeEventUrl, sameSourcePageReason } from '../lib/event-identity';
-import { findExistingEventByIdentity, type EventRecord } from '../lib/events';
+import { isSameEvent, normalizeEventUrl, rareTokens, sameSourcePageReason, sameStartRareWordReason } from '../lib/event-identity';
+import { composeEventSlug, findExistingEventByIdentity, listEvents, type EventRecord } from '../lib/events';
 import { findDuplicate } from '../lib/forward-scan';
 
 let passed = 0;
@@ -224,6 +224,59 @@ test('#37 same site, same venue, same day: other events stay separate', () => {
     page('Albatroz, de Vasco Gomes', 'Teatro Campo Alegre', '2026-11-06T19:30', 'https://www.agenda-porto.pt/evento/tmp-albatroz/', '2026-11-07'),
     page('NOCAUTE, by Inês Pinho', 'Teatro Campo Alegre', '2026-11-06T19:30', 'https://www.agenda-porto.pt/en/evento/tmp-nocaute/', '2026-11-07'),
   ), null);
+});
+
+// ---------------------------------------------------------------- #38 (owner OK 2026-11-04)
+test('#38a a name with no Latin letters never gives a slug starting with "-"', () => {
+  const slug = composeEventSlug('Концерт гурту «Скрябін»', 'Hard Club', '2026-11-05T19:00');
+  assert.ok(!slug.startsWith('-'), slug);
+  assert.equal(slug, 'hard-club-nov-5-2026');
+  assert.equal(composeEventSlug('Skryabin', 'Hard Club', '2026-11-05T19:00'), 'skryabin-hard-club-nov-5-2026');
+});
+test('#38c a stage or room of a known venue is that venue', () => {
+  for (const v of ['Rivoli Palco do Grande Auditório', 'Rivoli Sala Estúdio', 'Teatro Rivoli Palco Principal', 'Rivoli Theatre - Grande Auditório', 'Rivoli Auditório Manoel de Oliveira']) {
+    assert.equal(canonicalVenueSlugFor(v), 'rivoli-theatre', v);
+  }
+  // Unknown venues keep their own name; a name that starts with a room word is a place.
+  assert.equal(canonicalVenueSlugFor('Maus Hábitos Sala 2'), 'maus-habitos'); // known venue
+  assert.equal(canonicalVenueSlugFor('Espaço Novo Palco 2'), 'espaco-novo-palco-2');
+  assert.equal(canonicalVenueSlugFor('Sala Estúdio Perpétuo'), 'sala-estudio-perpetuo');
+});
+test('#38b same venue, day and start time + a rare shared word is one event across sites', () => {
+  const tmp = { ...ev('Isabél Zuaa / AFRO SALOYÁ', 'Rivoli Theatre', '2026-11-06T19:30', '2026-11-07'), externalLink: 'https://www.teatromunicipaldoporto.pt/pt/programa/isab-l-zuaa-afro-sal-oy/' };
+  const bol = { ...ev('Isabél Zuaa - AFRO SAL.OYÁ', 'Rivoli Palco do Grande Auditório', '2026-11-06T19:30', '2026-11-07'), externalLink: 'https://www.bol.pt/Comprar/Bilhetes/171234-afro_sal_oya-rivoli/' };
+  const rare = (t: string) => t !== 'common';
+  assert.ok(sameStartRareWordReason(bol, tmp, rare));
+  // Not without a stated time, at another time, on another day, or at another venue.
+  assert.equal(sameStartRareWordReason({ ...bol, date: '2026-11-06' }, tmp, rare), null);
+  assert.equal(sameStartRareWordReason({ ...bol, date: '2026-11-06T21:30' }, tmp, rare), null);
+  assert.equal(sameStartRareWordReason({ ...bol, date: '2026-11-07T19:30' }, tmp, rare), null);
+  assert.equal(sameStartRareWordReason({ ...bol, venue: 'Teatro Campo Alegre' }, tmp, rare), null);
+  // A shared word that isn't rare is not enough.
+  assert.equal(sameStartRareWordReason(ev('Common Night A', 'Hard Club', '2026-11-06T21:00'), ev('Common Night B', 'Hard Club', '2026-11-06T21:00'), () => false), null);
+  // An opening night is not the exhibition it opens (GMP 11-21), and "solo" says nothing.
+  assert.equal(sameStartRareWordReason(
+    ev('Exhibition opening: Isabel Carvalho + Basel Abbas and Ruanne Abou-Rahme + Leonor Parda', 'Galeria Municipal do Porto', '2026-11-21T17:00'),
+    ev('Leonor Parda. Bosque da Noite', 'Galeria Municipal do Porto', '2026-11-21T17:00', '2027-02-14'), rare), null);
+  assert.equal(sameStartRareWordReason(
+    ev('Isabel Carvalho. Solo show', 'Galeria Municipal do Porto', '2026-11-21T17:00', '2027-02-14'),
+    ev('Basel Abbas & Ruanne Abou-Rahme. Solo show', 'Galeria Municipal do Porto', '2026-11-21T17:00', '2027-02-14'), rare), null);
+});
+test('#38b the scan finds the live record from the other site (start time passed separately)', () => {
+  const live = listEvents();
+  const hit = findExistingEventByIdentity('AFRO SAL.OYÁ, de Isabél Zuaa', 'Rivoli Palco do Grande Auditório', { date: '2026-11-06', time: '19:30', endDate: '2026-11-07', url: 'https://www.bol.pt/x' }, live);
+  assert.equal(hit?.slug, 'isabel-zuaa-rivoli-palco-do-grande-auditorio-nov-6-2026');
+  assert.equal(findExistingEventByIdentity('AFRO SAL.OYÁ, de Isabél Zuaa', 'Rivoli Palco do Grande Auditório', { date: '2026-11-06', time: '21:00', url: 'https://www.bol.pt/x' }, live), null);
+  assert.ok(rareTokens(live)('zuaa'));
+});
+test('#38b no pair among the live records is newly merged', () => {
+  const live = listEvents();
+  const rare = rareTokens(live);
+  for (let i = 0; i < live.length; i++) for (let j = i + 1; j < live.length; j++) {
+    const a = live[i], b = live[j];
+    if (isSameEvent(a, b) || sameSourcePageReason(a, b)) continue;
+    assert.equal(sameStartRareWordReason(a, b, rare), null, `${a.slug} / ${b.slug}`);
+  }
 });
 
 console.log(`ok — ${passed} dedupe tests passed`);

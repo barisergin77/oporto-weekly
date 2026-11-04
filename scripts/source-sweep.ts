@@ -403,7 +403,7 @@ async function pageFor(c: SweepCandidate): Promise<Page | { reason: string }> {
 // ---------------------------------------------------------------- dedupe
 function existingMatch(c: SweepCandidate, existing: EventRecord[]): EventRecord | undefined {
   const probe = { name: c.name, venue: c.venue, date: day(c.date), endDate: c.endDate ? day(c.endDate) : undefined };
-  const m = findExistingEventByIdentity(c.name, c.venue, { ...probe, url: c.url }, existing);
+  const m = findExistingEventByIdentity(c.name, c.venue, { ...probe, time: /T(\d{2}:\d{2})/.exec(c.date)?.[1], url: c.url }, existing);
   // The exact (name, venue) tier ignores dates: a weekly night on another date is not this one.
   if (m && datesOverlap(m, probe)) return m;
   const dup = findDuplicate(probe, existing);

@@ -280,6 +280,52 @@ export function sameSiteOtherLanguageReason(a: EventLike & { externalLink?: stri
   return null;
 }
 
+/**
+ * Backlog #38b (owner OK 2026-11-04): the same show on two different sites
+ * under two spellings. Isabél Zuaa "AFRO SALOYÁ" (teatromunicipaldoporto.pt)
+ * and "AFRO SAL.OYÁ" (bol.pt, venue "Rivoli Palco do Grande Auditório") at the
+ * Rivoli on 11-06 at 19:30 share no URL and too few words for the name match.
+ * Same event when ALL of:
+ *   - same canonical venue, not a placeholder;
+ *   - same start day AND the same stated start time (both sides have one);
+ *   - the names share a rare word: 4+ letters, in at most RARE_MAX names
+ *     among the known records (`isRare`), venue words dropped.
+ * Different shows at one venue at one time (two rooms at Casa da Música at
+ * 21:00) don't share a rare word; weekly nights differ by day.
+ */
+export const RARE_MAX = 3;
+/** Format words that are rare in titles but say nothing about which show it is. */
+const FORMAT_WORDS = new Set(['solo', 'group', 'collective', 'coletiva', 'colectiva', 'individual', 'duo', 'trio', 'quartet', 'quarteto', 'launch', 'lancamento', 'talk', 'conversa', 'workshop', 'oficina', 'visit', 'visita', 'guided', 'guiada']);
+const runDays = (e: Dated) => (Date.parse(endDay(e)) - Date.parse(day(e.date))) / 86_400_000;
+export function sameStartRareWordReason(a: EventLike, b: EventLike, isRare: (token: string) => boolean): string | null {
+  const ta = startTime(a);
+  if (!ta || ta !== startTime(b) || day(a.date) !== day(b.date)) return null;
+  // An opening night and the exhibition it opens start together (GMP 11-21:
+  // one opening for three shows); a long run is never the same as a one-off.
+  if ((runDays(a) > 3) !== (runDays(b) > 3)) return null;
+  const va = venueKey(a);
+  if (va !== venueKey(b) || isVagueForIdentity(va)) return null;
+  const na = new Set(nameVariants(a).flatMap((n) => Array.from(nameTokens(n, va))));
+  const shared = nameVariants(b).flatMap((n) => Array.from(nameTokens(n, va))).find((t) => t.length >= 4 && !FORMAT_WORDS.has(t) && na.has(t) && isRare(t));
+  return shared ? `same venue (${va}), same start (${day(a.date)} ${ta}), shared rare word (${shared})` : null;
+}
+
+const rarityCache = new WeakMap<readonly EventLike[], Map<string, number>>();
+/** Name-token document frequency over `events` (cached per array) → "is this word rare?". */
+export function rareTokens(events: readonly EventLike[]): (token: string) => boolean {
+  let df = rarityCache.get(events);
+  if (!df) {
+    const m = new Map<string, number>();
+    for (const e of events) {
+      new Set(nameVariants(e).flatMap((n) => Array.from(nameTokens(n)))).forEach((t) => m.set(t, (m.get(t) ?? 0) + 1));
+    }
+    rarityCache.set(events, m);
+    df = m;
+  }
+  const counts = df;
+  return (t) => (counts.get(t) ?? 0) <= RARE_MAX;
+}
+
 export function isSameEvent(a: EventLike, b: EventLike): boolean {
   return sameEventReason(a, b) !== null;
 }
