@@ -19,6 +19,11 @@ recorded yet (tracking started today).
   12-05 (venue was "Porto"), Jardim das Chegadas (INSTITUTO, 11-05→12-17).
   Dropped the Árvore bees talk: agenda-porto says 11-07 but its text and 4
   other listings say 10-31.
+- **#26c live** (12fc95b, PR #23, owner: stop using aggregator sites if the
+  event is already added from the venue page): agenda-porto.pt-style copies of
+  venue-page events are skipped by the scan and the sweep. On live data it
+  also folds the three TMP circus pieces into Mostra Estufa 2026 (its copy
+  names them). **Measure**: Fri 11-06 find-duplicates + Wednesday dedupe pass.
 - **#13 blocked**: the owner's personal FB account is ad-restricted since
   2023 (no appeal), so the IG ↔ Page link fails. Plan: wife as Page admin
   links it; IG followers from the public profile meanwhile. Owner wants the
