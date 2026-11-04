@@ -724,19 +724,6 @@
       "resolvedAt": "2026-11-03T14:52:06.038Z"
     },
     {
-      "name": "Visita em Português – Exposição Lee Ufan",
-      "date": "2026-11-03",
-      "venue": "Serralves",
-      "note": "11:00, Casa e Parque de Serralves; guided tour in Portuguese of the Lee Ufan exhibition; free with Serralves general ticket",
-      "source": "serralves-newsletter-2026-11",
-      "addedAt": "2026-11-02T05:00:47Z",
-      "status": "done",
-      "attempts": 1,
-      "lastTriedAt": "2026-11-02T16:49:37.561Z",
-      "eventSlug": "lee-ufan-fragments-of-infinity-casa-e-parque-de-serralves-oct-16-2026",
-      "resolvedAt": "2026-11-02T16:49:37.561Z"
-    },
-    {
       "name": "Visita em Inglês – Exposição Frank Gehry",
       "date": "2026-11-04",
       "venue": "Serralves",
@@ -816,14 +803,6 @@
       "resolvedAt": "2026-11-03T08:32:38.400Z"
     },
     {
-      "name": "Porto de Letras — Sophia",
-      "date": "2026-11-03",
-      "venue": "Biblioteca de Autores Portuenses",
-      "note": "18:00; reading club session on Sophia de Mello Breyner Andresen",
-      "source": "agenda-porto-newsletter-2026-11",
-      "addedAt": "2026-11-03T05:00:34Z"
-    },
-    {
       "name": "Mostra Estufa",
       "date": "2026-11-06",
       "endDate": "2026-11-07",
@@ -837,14 +816,6 @@
       "resolvedAt": "2026-11-03T08:32:38.400Z"
     },
     {
-      "name": "Afro Jazz",
-      "date": "2026-11-03",
-      "venue": "Bamu Zunta Mon",
-      "note": "18:00; fortnightly Tuesday dance class with Edmilson Botelho (São Tomé/Angola traditional dance + authentic jazz), all levels",
-      "source": "agenda-porto-newsletter-2026-11",
-      "addedAt": "2026-11-03T05:00:34Z"
-    },
-    {
       "name": "Cerâmica em Família",
       "date": "2026-11-07",
       "endDate": "2026-11-08",
@@ -852,10 +823,11 @@
       "note": "Family ceramics workshop, sessions 10:30–13:00, 14:30–17:00, 17:30–20:00; mould with clay or glaze pre-fired pieces",
       "source": "agenda-porto-newsletter-2026-11",
       "addedAt": "2026-11-03T05:00:34Z",
-      "status": "pending",
-      "attempts": 2,
-      "reason": "not an organiser/venue/ticketing page (https://pumpkin.pt/eventos/ceramica-em-familia-oficina-materica-porto/)",
-      "lastTriedAt": "2026-11-03T14:52:06.038Z"
+      "status": "rejected",
+      "attempts": 3,
+      "reason": "not an organiser/venue/ticketing page (https://www.viralagenda.com/pt/events/1878311/ceramica-em-familia-family-ceramics)",
+      "lastTriedAt": "2026-11-04T08:32:01.874Z",
+      "resolvedAt": "2026-11-04T08:32:01.874Z"
     },
     {
       "name": "A Herança do Duque da Ribeira",
@@ -864,10 +836,11 @@
       "note": "Tribute 30 years after his death: 10:30 walk Passos do Duque (meet at Casa do Infante); 17:00 + 17:45 talk and documentary A Herança do Duque (Rui Nunes) at Batalha Centro de Cinema",
       "source": "agenda-porto-newsletter-2026-11",
       "addedAt": "2026-11-03T05:00:34Z",
-      "status": "pending",
-      "attempts": 2,
+      "status": "rejected",
+      "attempts": 3,
       "reason": "not an organiser/venue/ticketing page (https://agendaculturalporto.org/eventos/a-heranca-do-duque-da-ribeira-percurso-e-filme-no-porto/)",
-      "lastTriedAt": "2026-11-03T14:52:06.038Z"
+      "lastTriedAt": "2026-11-04T08:32:01.874Z",
+      "resolvedAt": "2026-11-04T08:32:01.874Z"
     },
     {
       "name": "Entre a liberdade e a violência – Encontro com ZABRA",
@@ -875,7 +848,12 @@
       "venue": "Serralves",
       "note": "11:30, Biblioteca; free entry; talk/meeting, part of O Museu como Performance",
       "source": "serralves-newsletter-2026-11",
-      "addedAt": "2026-11-04T05:00:27Z"
+      "addedAt": "2026-11-04T05:00:27Z",
+      "status": "done",
+      "eventSlug": "entre-a-liberdade-e-a-violencia-encontro-com-zabra-serralves-nov-7-2026",
+      "reason": "already listed",
+      "lastTriedAt": "2026-11-04T08:32:01.874Z",
+      "resolvedAt": "2026-11-04T08:32:01.874Z"
     },
     {
       "name": "The Fountain – Ivan Cheng",
@@ -883,7 +861,12 @@
       "venue": "Serralves",
       "note": "14:30 and 19:50, Galerias do Museu; 30 min performance, part of O Museu como Performance",
       "source": "serralves-newsletter-2026-11",
-      "addedAt": "2026-11-04T05:00:27Z"
+      "addedAt": "2026-11-04T05:00:27Z",
+      "status": "done",
+      "eventSlug": "ivan-cheng-the-fountain-serralves-nov-7-2026",
+      "reason": "already listed",
+      "lastTriedAt": "2026-11-04T08:32:01.874Z",
+      "resolvedAt": "2026-11-04T08:32:01.874Z"
     },
     {
       "name": "Vorace – Sofia Kafol",
@@ -891,7 +874,12 @@
       "venue": "Serralves",
       "note": "15:10, Galeria Contemporânea; 50 min performance, part of O Museu como Performance",
       "source": "serralves-newsletter-2026-11",
-      "addedAt": "2026-11-04T05:00:27Z"
+      "addedAt": "2026-11-04T05:00:27Z",
+      "status": "done",
+      "eventSlug": "sofia-kafol-vorace-galeria-contemporanea-do-museu-nov-7-2026",
+      "reason": "already listed",
+      "lastTriedAt": "2026-11-04T08:32:01.874Z",
+      "resolvedAt": "2026-11-04T08:32:01.874Z"
     },
     {
       "name": "It's Got Legs!!!!!! – Samir Kennedy & Sean Alexander Murray",
@@ -899,7 +887,12 @@
       "venue": "Serralves",
       "note": "16:10, Auditório do Museu; 60 min performance, contains full nudity; part of O Museu como Performance",
       "source": "serralves-newsletter-2026-11",
-      "addedAt": "2026-11-04T05:00:27Z"
+      "addedAt": "2026-11-04T05:00:27Z",
+      "status": "done",
+      "eventSlug": "samir-kennedy-sean-alexander-murray-its-got-legs-museu-nov-7-2026",
+      "reason": "already listed",
+      "lastTriedAt": "2026-11-04T08:32:01.874Z",
+      "resolvedAt": "2026-11-04T08:32:01.874Z"
     },
     {
       "name": "Ermo, a título provisório – Mário Afonso",
@@ -907,7 +900,12 @@
       "venue": "Serralves",
       "note": "17:15, Garagem do Museu; 90 min performance, part of O Museu como Performance",
       "source": "serralves-newsletter-2026-11",
-      "addedAt": "2026-11-04T05:00:27Z"
+      "addedAt": "2026-11-04T05:00:27Z",
+      "status": "done",
+      "eventSlug": "ermo-serralves-nov-7-2026",
+      "reason": "already listed",
+      "lastTriedAt": "2026-11-04T08:32:01.874Z",
+      "resolvedAt": "2026-11-04T08:32:01.874Z"
     },
     {
       "name": "Corpo: Território - Variações Sobre Inquietação – Joana Sá",
@@ -915,7 +913,12 @@
       "venue": "Serralves",
       "note": "18:50, Galerias do Museu; 60 min performance, part of O Museu como Performance",
       "source": "serralves-newsletter-2026-11",
-      "addedAt": "2026-11-04T05:00:27Z"
+      "addedAt": "2026-11-04T05:00:27Z",
+      "status": "done",
+      "eventSlug": "joana-sa-corpo-territorio-variacoes-sobre-inquietacao-serralves-nov-7-2026",
+      "reason": "already listed",
+      "lastTriedAt": "2026-11-04T08:32:01.874Z",
+      "resolvedAt": "2026-11-04T08:32:01.874Z"
     },
     {
       "name": "Enciclopédia das Escadas – Bruno Humberto",
