@@ -83,6 +83,12 @@ const nextConfig = {
       // 2026-11-03: same concert/show from two sites (ticket seller vs venue, TMP vs BOL).
       ['-hard-club-nov-5-2026', 'skryabin-hard-club-nov-5-2026'],
       ['isabel-zuaa-rivoli-theatre-nov-6-2026', 'isabel-zuaa-rivoli-palco-do-grande-auditorio-nov-6-2026'],
+      // 2026-11-04: Agenda Porto / BOL copies of events already listed from the venue's own page.
+      ['accordia-serralves-nov-5-2026', 'apresentacao-da-accordia-livraria-de-serralves-nov-5-2026'],
+      ['nativo-palacio-do-bolhao-nov-7-2026', 'nativo-concerto-de-tiago-manuel-soares-teatro-do-bolhao-nov-7-2026'],
+      ['orquestra-sinfonica-do-porto-casa-da-musica-casa-da-musica-nov-6-2026', 'concerto-solidario-liga-portuguesa-contra-o-cancro-casa-da-musica-nov-6-2026'],
+      // One Queer Porto screening (Mouse) stored as the whole festival, "Various venues", 3-7 Nov.
+      ['queer-porto-12-mouse-various-venues-nov-3-2026', 'queer-porto-batalha-centro-de-cinema-nov-3-2026'],
     ];
     const eventRedirects = dedupes.flatMap(([from, to]) => [
       { source: `/event/${from}`, destination: `/event/${to}`, permanent: true },
