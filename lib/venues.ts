@@ -92,7 +92,39 @@ export function canonicalVenueSlugFor(venue: string): string {
     const parent = canonicalVenueSlug(venueToSlug(segs[1]));
     if (VENUES[parent]) return parent;
   }
-  return canonicalVenueSlug(venueToSlug(noParens));
+  const slug = canonicalVenueSlug(venueToSlug(noParens));
+  return VENUES[slug] ? slug : stageOfKnownVenue(slug) ?? slug;
+}
+
+// Backlog #38c (owner OK 2026-11-04): bol.pt calls the Rivoli "Rivoli Palco do
+// Grande Auditório", which became its own venue until an alias was added by
+// hand. A known venue's name followed by a stage or room word ("Palco …",
+// "Sala …", "Auditório …") is that venue. Known venues only: an unknown
+// "X Sala Y" may well be its own place.
+const STAGE_WORD = /^(palco|sala|salao|auditorio|auditorium|stage|room|studio|estudio|foyer|terrace|terraco)$/;
+const GENERIC_VENUE_WORD = /^(teatro|theatre|theater|tmp|museu|museum)$/;
+const SHORT_NAMES = new Map<string, string>();
+for (const [canonical, entry] of Object.entries(VENUES)) {
+  for (const s of [canonical, ...entry.aliases]) {
+    SHORT_NAMES.set(s, canonical);
+    const words = s.split('-');
+    const core = words.filter((w, i) => !((i === 0 || i === words.length - 1) && GENERIC_VENUE_WORD.test(w)));
+    if (core.length && core.length < words.length) SHORT_NAMES.set(core.join('-'), canonical);
+  }
+}
+// "Rivoli Theatre - Grande Auditório", "… Palco do Grande Auditório": size and
+// linking words in front of the room word belong to the room, not the venue.
+const ROOM_FILLER = /^(grande|grand|pequeno|pequena|main|big|small|principal|do|da|de|the)$/;
+function stageOfKnownVenue(slug: string): string | undefined {
+  const words = slug.split('-');
+  for (let i = 1; i < words.length; i++) {
+    if (!STAGE_WORD.test(words[i])) continue;
+    let k = i;
+    while (k > 1 && ROOM_FILLER.test(words[k - 1])) k--;
+    const parent = SHORT_NAMES.get(words.slice(0, i).join('-')) ?? SHORT_NAMES.get(words.slice(0, k).join('-'));
+    if (parent) return parent;
+  }
+  return undefined;
 }
 
 /** Display name for a canonical venue, when the alias map defines one. */

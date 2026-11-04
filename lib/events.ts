@@ -13,7 +13,7 @@
 import fs from 'fs';
 import path from 'path';
 import { canonicalVenueSlug, canonicalVenueSlugFor, venueToSlug } from './venues';
-import { isSameEvent, sameSourcePageReason, pickCanonical } from './event-identity';
+import { isSameEvent, sameSourcePageReason, sameStartRareWordReason, rareTokens, pickCanonical } from './event-identity';
 import { classifyEvent, isKidsEvent, type EventSubcategory } from './event-categories';
 import { isFreePrice, lowestPrice } from './event-filters';
 
@@ -199,7 +199,8 @@ export function composeEventSlug(name: string, venue: string, isoDate: string): 
   const month = d.toLocaleDateString('en-US', { month: 'short' }).toLowerCase(); // apr
   const day = d.getDate();
   const year = d.getFullYear();
-  return `${nameSlug}-${venueSlug}-${month}-${day}-${year}`;
+  // A name with no Latin letters kebabs to "" (#38a: "-hard-club-nov-5-2026").
+  return [nameSlug, venueSlug, month, day, year].filter((p) => p !== '').join('-');
 }
 
 /**
@@ -226,7 +227,7 @@ export function composeEventSlug(name: string, venue: string, isoDate: string): 
 export function findExistingEventByIdentity(
   name: string,
   venue: string,
-  dates?: { date: string; endDate?: string | null; url?: string | null },
+  dates?: { date: string; time?: string | null; endDate?: string | null; url?: string | null },
   events: EventRecord[] = listEvents()
 ): EventRecord | null {
   const targetName = venueToSlug(name);
@@ -236,9 +237,14 @@ export function findExistingEventByIdentity(
   );
   if (exact.length) return pickCanonical(exact);
   if (!dates?.date) return null;
-  const probe = { name, venue, venueSlug: targetVenue, date: dates.date, endDate: dates.endDate, externalLink: dates.url };
+  const date = dates.time && /^\d{2}:\d{2}$/.test(dates.time) && !dates.date.includes('T') ? `${dates.date}T${dates.time}` : dates.date;
+  const probe = { name, venue, venueSlug: targetVenue, date, endDate: dates.endDate, externalLink: dates.url };
   const fuzzy = events.filter((e) => isSameEvent(probe, e) || sameSourcePageReason(probe, e) !== null);
-  return fuzzy.length ? pickCanonical(fuzzy) : null;
+  if (fuzzy.length) return pickCanonical(fuzzy);
+  // Same venue, day and start time + a rare shared word, across sites (#38b).
+  const isRare = rareTokens(events);
+  const crossSite = events.filter((e) => sameStartRareWordReason(probe, e, isRare) !== null);
+  return crossSite.length ? pickCanonical(crossSite) : null;
 }
 
 /**
