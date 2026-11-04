@@ -868,6 +868,94 @@
       "attempts": 2,
       "reason": "not an organiser/venue/ticketing page (https://agendaculturalporto.org/eventos/a-heranca-do-duque-da-ribeira-percurso-e-filme-no-porto/)",
       "lastTriedAt": "2026-11-03T14:52:06.038Z"
+    },
+    {
+      "name": "Entre a liberdade e a violência – Encontro com ZABRA",
+      "date": "2026-11-07",
+      "venue": "Serralves",
+      "note": "11:30, Biblioteca; free entry; talk/meeting, part of O Museu como Performance",
+      "source": "serralves-newsletter-2026-11",
+      "addedAt": "2026-11-04T05:00:27Z"
+    },
+    {
+      "name": "The Fountain – Ivan Cheng",
+      "date": "2026-11-07",
+      "venue": "Serralves",
+      "note": "14:30 and 19:50, Galerias do Museu; 30 min performance, part of O Museu como Performance",
+      "source": "serralves-newsletter-2026-11",
+      "addedAt": "2026-11-04T05:00:27Z"
+    },
+    {
+      "name": "Vorace – Sofia Kafol",
+      "date": "2026-11-07",
+      "venue": "Serralves",
+      "note": "15:10, Galeria Contemporânea; 50 min performance, part of O Museu como Performance",
+      "source": "serralves-newsletter-2026-11",
+      "addedAt": "2026-11-04T05:00:27Z"
+    },
+    {
+      "name": "It's Got Legs!!!!!! – Samir Kennedy & Sean Alexander Murray",
+      "date": "2026-11-07",
+      "venue": "Serralves",
+      "note": "16:10, Auditório do Museu; 60 min performance, contains full nudity; part of O Museu como Performance",
+      "source": "serralves-newsletter-2026-11",
+      "addedAt": "2026-11-04T05:00:27Z"
+    },
+    {
+      "name": "Ermo, a título provisório – Mário Afonso",
+      "date": "2026-11-07",
+      "venue": "Serralves",
+      "note": "17:15, Garagem do Museu; 90 min performance, part of O Museu como Performance",
+      "source": "serralves-newsletter-2026-11",
+      "addedAt": "2026-11-04T05:00:27Z"
+    },
+    {
+      "name": "Corpo: Território - Variações Sobre Inquietação – Joana Sá",
+      "date": "2026-11-07",
+      "venue": "Serralves",
+      "note": "18:50, Galerias do Museu; 60 min performance, part of O Museu como Performance",
+      "source": "serralves-newsletter-2026-11",
+      "addedAt": "2026-11-04T05:00:27Z"
+    },
+    {
+      "name": "Enciclopédia das Escadas – Bruno Humberto",
+      "date": "2026-11-08",
+      "venue": "Serralves",
+      "note": "11:30 and 15:50, Parque de Serralves; 70 min performance, part of O Museu como Performance",
+      "source": "serralves-newsletter-2026-11",
+      "addedAt": "2026-11-04T05:00:27Z"
+    },
+    {
+      "name": "Vorace – Sofia Kafol",
+      "date": "2026-11-08",
+      "venue": "Serralves",
+      "note": "14:45, Galeria Contemporânea; 50 min performance, part of O Museu como Performance",
+      "source": "serralves-newsletter-2026-11",
+      "addedAt": "2026-11-04T05:00:27Z"
+    },
+    {
+      "name": "Sham3dan – Nasa4Nasa",
+      "date": "2026-11-08",
+      "venue": "Serralves",
+      "note": "17:15, Hall do Museu; 45 min performance, part of O Museu como Performance",
+      "source": "serralves-newsletter-2026-11",
+      "addedAt": "2026-11-04T05:00:27Z"
+    },
+    {
+      "name": "Six Moving Guitars – Fredrik Rasten",
+      "date": "2026-11-08",
+      "venue": "Serralves",
+      "note": "18:10, Galerias do Museu; 45 min music performance, part of O Museu como Performance",
+      "source": "serralves-newsletter-2026-11",
+      "addedAt": "2026-11-04T05:00:27Z"
+    },
+    {
+      "name": "Blast! – Ruth Childs",
+      "date": "2026-11-08",
+      "venue": "Serralves",
+      "note": "19:00, Auditório do Museu; 55 min performance, part of O Museu como Performance",
+      "source": "serralves-newsletter-2026-11",
+      "addedAt": "2026-11-04T05:00:27Z"
     }
   ]
 }
