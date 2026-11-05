@@ -1,0 +1,25 @@
+{
+  "slug": "homicidio-no-circo-look-sharp-nov-7-2026",
+  "name": "Homicídio no Circo",
+  "date": "2026-11-07T19:30",
+  "venue": "Look Sharp Café",
+  "venueSlug": "look-sharp",
+  "price": "30€",
+  "priceFrom": 30,
+  "currency": "EUR",
+  "category": "other",
+  "description": "This interactive dinner event invites guests to solve a murder mystery set in a circus. Each participant plays a character and works to uncover clues before the show ends.",
+  "longDescription": "Homicídio no Circo is an interactive murder mystery dinner taking place at Look Sharp Café. Guests will participate in a three-hour guided mystery, complete with clues and character scripts, aiming to solve a crime before the event concludes. The experience includes a three-course dinner and a drink.\n\nParticipants can come alone or in a group, and there is an optional costume element with a prize for the best disguise. The event is limited to 12 places, so advance booking is recommended. It runs from 19:30 to 22:30 on November 7, 2026.",
+  "sourceEdition": "forward-scan",
+  "externalLink": "https://www.agenda-porto.pt/evento/homicidio-no-circo/",
+  "pickCandidate": true,
+  "addedAt": "2026-11-05T06:00:33.656Z",
+  "lastSeenAt": "2026-11-05T06:00:33.656Z",
+  "descriptionPt": "Este jantar interativo convida os participantes a resolver um mistério de homicídio passado num circo. Cada um interpreta uma personagem e trabalha para descobrir pistas antes do fim do espetáculo.",
+  "longDescriptionPt": "Homicídio no Circo é um jantar interativo com mistério de homicídio que acontece no Look Sharp Café. Os convidados participam num mistério guiado de três horas, com pistas e guiões de personagens, com o objetivo de resolver um crime antes do evento terminar. A experiência inclui um jantar de três pratos e uma bebida.\n\nOs participantes podem vir sozinhos ou em grupo, e há um elemento opcional de disfarce com um prémio para o melhor. O evento está limitado a 12 lugares, por isso recomenda-se a reserva antecipada. Decorre das 19:30 às 22:30 no dia 7 de novembro de 2026.",
+  "image": {
+    "url": "https://i.imgur.com/8GjVOJz.png",
+    "credit": "Photo: Agenda-porto",
+    "sourceUrl": "https://www.agenda-porto.pt/evento/homicidio-no-circo/"
+  }
+}
