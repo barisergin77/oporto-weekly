@@ -7,6 +7,38 @@ impressions / pos 9.3 over 28 days (prev 28: 191 / 10,293 / 16.9);
 subscribers 56 active (34 EN, 22 PT), ~1.4 net/week; signups by page: none
 recorded yet (tracking started today).
 
+## 2026-11-05 — Freeze day: observe only
+- Run 09:00 UTC Thu, inside the freeze (Thu 05:00 → 11:00, held until the
+  10:00 backstop confirms EN, PT and Instagram sent). No code, no data edits,
+  no deploy. Not Mon/Tue, so no guide re-check.
+- Metrics (`metrics/2026-11-05.json`): 377 clicks / 18,403 impr / pos 10.96
+  over 28d (yesterday 348 / 17,231 / 11.12; prev 28d 324 / 13,302 / 10.18).
+  Last 7d **144 clicks vs 71** (doubled), impressions 6,567 vs 3,477, CTR
+  2.2% vs 2.0%, position 11.2 vs 13.1. GA4 7d 83 users / 109 sessions / 276
+  PV (prev 42 / 51 / 115), best week again; 66 organic, 24 direct, 9 AI, 8
+  organic social; `sign_up` 2. Subscribers 60 (10-29; today's snapshot comes
+  with the send). Signups attributed 28d: **15** (9 event, 4 porto-events,
+  2 archive); 1 new since yesterday (11-04 15:25 EN, DesobeDOC event page).
+  Blog still 0 (inline box live 4 days, measure 11-29).
+- Low-CTR queries: Iberanime still 2,099 impr / 0.2% (past event; #39 is the
+  general fix), the rest rank 30+ or are past. Nothing new.
+- Pipeline: `/api/cron/status` has no `november-5-…` entry at 09:00 (10-29
+  started 10:00). Backstop at 10:00 not read in this run.
+- Duplicates before today's edition: today's forward scan (7eff3d5) and
+  source sweep (7498e50) ran; `find-duplicates` 0 STRONG over 938 records.
+  Review pairs touching 11-05 → 11-11 are all distinct events (Curtas
+  Portuguesas 1 vs 2, Fujifilm opening vs its run, Porto Belo Aug vs Nov,
+  Voulez-Vous 11-12 vs 11-19, two different TNSJ "Inferno" shows). So no
+  doubled listing should reach today's edition. **#38 early read: no new
+  cross-site pair after its first real scan + sweep**; full check Fri 11-06.
+- Results due: none today (11-05 edition checks are Fri 11-06).
+- Change: none (freeze).
+- Next run: Fri 11-06: `picks path=` for the first Opus-picks edition (#34),
+  duplicates in the sent edition (11-03/11-04 entries), #26c/#38 measure via
+  find-duplicates; then pick from #39 (event snippets) or #40 (Christmas/NYE
+  hub, should be live by mid-Nov).
+- Needs owner: nothing new.
+
 ## 2026-11-04 (owner session) — #38 shipped, held sweep items, Instagram link
 - **#38 live** (e259148, PR #22, owner "build backlog 38"): non-Latin names
   rejected; same venue + day + start time + a rare shared word = one event
