@@ -982,6 +982,24 @@
       "attempts": 1,
       "reason": "not an organiser/venue/ticketing page (https://www.viralagenda.com/pt/events/1869032/ruth-childs-blast)",
       "lastTriedAt": "2026-11-04T15:04:18.884Z"
+    },
+    {
+      "name": "Isabél Zuaa – AFRO SALOYÁ",
+      "date": "2026-11-06",
+      "endDate": "2026-11-07",
+      "venue": "Teatro Rivoli",
+      "note": "19:30 both nights; Isabél Zuaa's show built around the many versions of herself; ages 12+; ticketed",
+      "source": "teatro-municipal-do-porto-newsletter-2026-11",
+      "addedAt": "2026-11-05T05:00:19Z"
+    },
+    {
+      "name": "Memórias do Cárcere – Sérgio Graciano",
+      "date": "2026-11-05",
+      "endDate": "2026-11-11",
+      "venue": "Teatro Campo Alegre",
+      "note": "Film screenings (Medeia Filmes) of Sérgio Graciano's film, 5–11 Nov; ticketed",
+      "source": "teatro-municipal-do-porto-newsletter-2026-11",
+      "addedAt": "2026-11-05T05:00:19Z"
     }
   ]
 }
