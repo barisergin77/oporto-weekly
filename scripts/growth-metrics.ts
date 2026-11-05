@@ -73,6 +73,15 @@ async function ga(token: string, body: object) {
   }
   out.signups28 = { total: src.length, byPageType: bySrc, recent: src.slice(-10) };
 
+  // @oportoweekly followers, from the daily log on the ops server (~/oporto-ig/followers.csv). Backlog #13.
+  const igCsv = path.join(process.env.HOME ?? '', 'oporto-ig/followers.csv');
+  if (fs.existsSync(igCsv)) {
+    const ig = fs.readFileSync(igCsv, 'utf8').trim().split('\n').slice(1).map((l) => l.split(','));
+    const last = ig.at(-1);
+    const weekAgo = ig.filter((r) => r[0] <= day(7)).at(-1);
+    if (last) out.instagram = { date: last[0], followers: +last[1], weekAgo: weekAgo ? +weekAgo[1] : null };
+  }
+
   console.log(JSON.stringify(out, null, 2));
   if (process.argv.includes('--write')) {
     const f = path.join('ops/growth/metrics', `${new Date().toISOString().slice(0, 10)}.json`);
