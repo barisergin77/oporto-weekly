@@ -7,11 +7,12 @@
   "category": "sports",
   "description": "FC Porto host Estrela Amadora at the Estádio do Dragão on Sunday 13 December (kickoff time to be confirmed). Resale tickets via Gomry; official tickets at fcporto.pt.",
   "longDescription": "FC Porto play Estrela Amadora at home at the Estádio do Dragão on Sunday 13 December (kickoff time to be confirmed). Kickoff times can still be moved by the league, so check before you go.\n\nThe stadium has its own metro stop, Estádio do Dragão (lines A, B, E and F).\n\nResale tickets are sold through Gomry. FC Porto's official box office (fcporto.pt) also sells tickets when available.",
-  "descriptionPt": "O FC Porto recebe o Estrela Amadora no Estádio do Dragão, domingo, 13 de dezembro (hora a confirmar). Bilhetes de revenda via Gomry; bilhetes oficiais em fcporto.pt.",
+  "descriptionPt": "O FC Porto recebe o Estrela Amadora no Estádio do Dragão no domingo, 13 de dezembro (hora de início a confirmar). Bilhetes de revenda via Gomry; bilhetes oficiais em fcporto.pt.",
   "sourceEdition": "forward-scan",
   "externalLink": "https://www.gomry.com/event/Porto-vs-Estrela-Amadora-pUYs1CyrvDglXc8CM3g9",
   "gomryId": "pUYs1CyrvDglXc8CM3g9",
   "pickCandidate": false,
   "addedAt": "2026-11-04T04:30:27.328Z",
-  "lastSeenAt": "2026-11-04T04:30:27.328Z"
+  "lastSeenAt": "2026-11-04T04:30:27.328Z",
+  "longDescriptionPt": "O FC Porto joga em casa contra o Estrela Amadora no Estádio do Dragão no domingo, 13 de dezembro (hora de início a confirmar). As horas de início ainda podem ser alteradas pela liga, por isso verifique antes de ir.\n\nO estádio tem a sua própria estação de metro, Estádio do Dragão (linhas A, B, E e F).\n\nOs bilhetes de revenda são vendidos através da Gomry. A bilheteira oficial do FC Porto (fcporto.pt) também vende bilhetes quando disponíveis."
 }
