@@ -12,7 +12,7 @@
   "category": "art",
   "description": "The event \"O Museu como Performance\" is the 12th edition of a program where artists from various fields combine performance, visual arts, dance, and music to offer new perspectives on the museum space. It invites artists and the public to experience different relationships with the architecture and usual uses of Serralves.",
   "longDescription": "The 12th edition of \"O Museu como Performance\" takes place at Serralves on November 7 and 8, 2026. This weekend event features artists such as Bruno Humberto, Fredrik Rasten, Ivan Cheng, Joana Sá, Mário Afonso, NASA4NASA, Ruth Childs, Samir Kennedy & Sean Alexander Murray, and Sofia Kafol.\n\nArtists from different areas will blend performance, visual arts, dance, and music, proposing new ways to view and inhabit the museum. Body, sound, gesture, image, and presence will temporarily occupy galleries and other spaces, inviting both artists and the public to engage with Serralves' architecture and its usual functions in novel ways.\n\nAccess to the event is through the purchase of a Serralves ticket, priced at €15 for residents and €19 for non-residents during November 2-8. Tickets are exclusively available at the Museum Reception ticket office, with a 25% discount for purchasing tickets for both days, cumulative with usual discounts for students and those over 65. Friends of Serralves receive free entry.",
-  "sourceEdition": "forward-scan",
+  "sourceEdition": "november-5-11-2026",
   "externalLink": "https://www.serralves.pt/atividades-serralves/070811-museu-como-performance/",
   "pickCandidate": true,
   "addedAt": "2026-10-30T08:32:07.954Z",
@@ -23,5 +23,6 @@
     "url": "https://i.imgur.com/ohfMQM7.jpeg",
     "credit": "Photo: Serralves",
     "sourceUrl": "https://www.serralves.pt/atividades-serralves/070811-museu-como-performance/"
-  }
+  },
+  "editorPickRank": 2
 }
