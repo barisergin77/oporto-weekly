@@ -408,20 +408,6 @@
       "resolvedAt": "2026-10-30T08:32:23.806Z"
     },
     {
-      "name": "Memórias do Cárcere – Sérgio Graciano",
-      "date": "2026-10-29",
-      "endDate": "2026-11-04",
-      "venue": "Teatro Campo Alegre",
-      "note": "Film run by Medeia Filmes at Campo Alegre; tickets",
-      "source": "teatro-municipal-do-porto-newsletter-2026-10",
-      "addedAt": "2026-10-29T05:00:37Z",
-      "status": "rejected",
-      "attempts": 3,
-      "reason": "page does not confirm the event (https://www.noticiasaominuto.com/mundo/3070899/filme-memorias-do-carcere-de-sergio-graciano-estreia-se-nos-cinemas)",
-      "lastTriedAt": "2026-10-30T13:48:49.794Z",
-      "resolvedAt": "2026-10-30T13:48:49.794Z"
-    },
-    {
       "name": "Ressonâncias – Prelúdio, conversa com Bianca Dacosta e Rodrigo Alzuguir",
       "date": "2026-11-14",
       "venue": "Casa da Música",
@@ -678,10 +664,11 @@
       "note": "Family Christmas circus, opens to the public on 11 Dec; artists not yet announced",
       "source": "coliseu-newsletter-2026-10",
       "addedAt": "2026-11-01T05:00:47Z",
-      "status": "pending",
-      "attempts": 2,
-      "reason": "page not fetchable: https://coliseu.pt/evento/20210103-circo-de-natal-coliseu-porto-ageas → only 19 chars of text | https://www.coliseu.pt/noticia/mantras-do-coliseu-ciclo-dedicado-ao-pensamento-com-novas-propostas-em-202 → only 19 chars of text",
-      "lastTriedAt": "2026-11-04T15:04:18.884Z"
+      "status": "rejected",
+      "attempts": 3,
+      "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
+      "lastTriedAt": "2026-11-05T06:07:13.515Z",
+      "resolvedAt": "2026-11-05T06:07:13.515Z"
     },
     {
       "name": "Queer Porto 12",
@@ -723,19 +710,6 @@
       "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
       "lastTriedAt": "2026-11-03T14:52:06.038Z",
       "resolvedAt": "2026-11-03T14:52:06.038Z"
-    },
-    {
-      "name": "Visita em Inglês – Exposição Frank Gehry",
-      "date": "2026-11-04",
-      "venue": "Serralves",
-      "note": "15:00, Ala Álvaro Siza; guided tour in English of the Frank Gehry exhibition; free with Serralves general ticket",
-      "source": "serralves-newsletter-2026-11",
-      "addedAt": "2026-11-02T05:00:47Z",
-      "status": "done",
-      "eventSlug": "visita-curatorial-a-exposicao-alice-neel-ala-alvaro-siza-nov-5-2026",
-      "reason": "already listed",
-      "lastTriedAt": "2026-11-02T08:31:57.526Z",
-      "resolvedAt": "2026-11-02T08:31:57.526Z"
     },
     {
       "name": "Visita em Português pela Curadora Inês Grosso – Exposição Alice Neel",
@@ -979,9 +953,9 @@
       "source": "serralves-newsletter-2026-11",
       "addedAt": "2026-11-04T05:00:27Z",
       "status": "pending",
-      "attempts": 1,
-      "reason": "not an organiser/venue/ticketing page (https://www.viralagenda.com/pt/events/1869032/ruth-childs-blast)",
-      "lastTriedAt": "2026-11-04T15:04:18.884Z"
+      "attempts": 2,
+      "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
+      "lastTriedAt": "2026-11-05T06:07:13.515Z"
     },
     {
       "name": "Isabél Zuaa – AFRO SALOYÁ",
@@ -990,7 +964,12 @@
       "venue": "Teatro Rivoli",
       "note": "19:30 both nights; Isabél Zuaa's show built around the many versions of herself; ages 12+; ticketed",
       "source": "teatro-municipal-do-porto-newsletter-2026-11",
-      "addedAt": "2026-11-05T05:00:19Z"
+      "addedAt": "2026-11-05T05:00:19Z",
+      "status": "done",
+      "eventSlug": "isabel-zuaa-rivoli-palco-do-grande-auditorio-nov-6-2026",
+      "reason": "already listed",
+      "lastTriedAt": "2026-11-05T06:07:13.515Z",
+      "resolvedAt": "2026-11-05T06:07:13.515Z"
     },
     {
       "name": "Memórias do Cárcere – Sérgio Graciano",
@@ -999,7 +978,12 @@
       "venue": "Teatro Campo Alegre",
       "note": "Film screenings (Medeia Filmes) of Sérgio Graciano's film, 5–11 Nov; ticketed",
       "source": "teatro-municipal-do-porto-newsletter-2026-11",
-      "addedAt": "2026-11-05T05:00:19Z"
+      "addedAt": "2026-11-05T05:00:19Z",
+      "status": "done",
+      "eventSlug": "memorias-do-carcere-teatro-campo-alegre-nov-1-2026",
+      "reason": "already listed",
+      "lastTriedAt": "2026-11-05T06:07:13.515Z",
+      "resolvedAt": "2026-11-05T06:07:13.515Z"
     }
   ]
 }
