@@ -127,19 +127,6 @@
       "resolvedAt": "2026-10-31T08:32:37.308Z"
     },
     {
-      "name": "Irmãos Jussen",
-      "date": "2026-11-05T19:30",
-      "venue": "Casa da Música",
-      "url": "https://casadamusica.com/event/irmaos-jussen/?selected_session=44120",
-      "note": "Sala Suggia; piano month.",
-      "source": "casa-da-musica-newsletter-2026-11",
-      "addedAt": "2026-10-25T12:00:00Z",
-      "status": "done",
-      "eventSlug": "irmaos-jussen-casa-da-musica-nov-5-2026",
-      "lastTriedAt": "2026-10-26T09:31:57.768Z",
-      "resolvedAt": "2026-10-26T09:31:57.768Z"
-    },
-    {
       "name": "A Terceira de Rachmaninoff",
       "date": "2026-11-07T18:00",
       "venue": "Casa da Música",
@@ -712,19 +699,6 @@
       "resolvedAt": "2026-11-03T14:52:06.038Z"
     },
     {
-      "name": "Visita em Português pela Curadora Inês Grosso – Exposição Alice Neel",
-      "date": "2026-11-05",
-      "venue": "Serralves",
-      "note": "17:00, Ala Álvaro Siza; curator-led tour in Portuguese of the Alice Neel exhibition by curator Inês Grosso; free with Serralves general ticket",
-      "source": "serralves-newsletter-2026-11",
-      "addedAt": "2026-11-02T05:00:47Z",
-      "status": "done",
-      "eventSlug": "visita-curatorial-a-exposicao-alice-neel-ala-alvaro-siza-nov-5-2026",
-      "reason": "already listed",
-      "lastTriedAt": "2026-11-02T08:31:57.526Z",
-      "resolvedAt": "2026-11-02T08:31:57.526Z"
-    },
-    {
       "name": "Visita em Inglês – Exposição Frank Gehry",
       "date": "2026-11-06",
       "venue": "Serralves",
@@ -952,10 +926,11 @@
       "note": "19:00, Auditório do Museu; 55 min performance, part of O Museu como Performance",
       "source": "serralves-newsletter-2026-11",
       "addedAt": "2026-11-04T05:00:27Z",
-      "status": "pending",
+      "status": "done",
       "attempts": 2,
-      "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
-      "lastTriedAt": "2026-11-05T06:07:13.515Z"
+      "lastTriedAt": "2026-11-06T08:32:03.909Z",
+      "eventSlug": "blast-ruth-childs-serralves-nov-8-2026",
+      "resolvedAt": "2026-11-06T08:32:03.909Z"
     },
     {
       "name": "Isabél Zuaa – AFRO SALOYÁ",
