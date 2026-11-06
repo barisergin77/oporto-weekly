@@ -1,0 +1,25 @@
+{
+  "slug": "immerse-fest-escola-normal-casa-cultural-nov-7-2026",
+  "name": "Immerse Fest",
+  "date": "2026-11-07T15:00",
+  "venue": "Escola Normal — Casa Cultural",
+  "venueSlug": "escola-normal-casa-cultural",
+  "price": "Donativo, mínimo 5€",
+  "priceFrom": 5,
+  "currency": "EUR",
+  "category": "art",
+  "description": "Immerse Fest is a one-day festival created by artists for artists, bringing together various art forms. It features artists with stalls, exhibitions, installations, and artistic residencies, alongside a lineup of musicians and poetry.",
+  "longDescription": "Immerse Fest is a one-day festival designed by artists for other artists. It aims to combine the individual worlds of each participant to create a unified universe of art.\n\nThe event includes artists presenting their work at stalls, as well as through exhibitions, installations, and artistic residencies. There will also be a program of live music and poetry performances.\n\nThe festival takes place on November 7, 2026, from 3 PM until midnight, at Escola Normal, Casa Cultural. Entry is by donation, with a minimum contribution of 5€.",
+  "sourceEdition": "forward-scan",
+  "externalLink": "https://www.agenda-porto.pt/evento/immerse-fest/",
+  "pickCandidate": true,
+  "addedAt": "2026-11-06T06:00:43.064Z",
+  "lastSeenAt": "2026-11-06T06:00:43.064Z",
+  "descriptionPt": "O Immerse Fest é um festival de um dia, criado por artistas para artistas, que junta várias formas de arte. Conta com artistas com bancas, exposições, instalações e residências artísticas, além de um alinhamento de músicos e poesia.",
+  "longDescriptionPt": "O Immerse Fest é um festival de um dia, pensado por artistas para outros artistas. O objetivo é combinar os mundos individuais de cada participante para criar um universo unificado de arte.\n\nO evento inclui artistas a apresentar o seu trabalho em bancas, bem como através de exposições, instalações e residências artísticas. Haverá também um programa de música ao vivo e performances de poesia.\n\nO festival acontece a 7 de novembro de 2026, das 15h até à meia-noite, na Escola Normal, Casa Cultural. A entrada é por doação, com uma contribuição mínima de 5€.",
+  "image": {
+    "url": "https://i.imgur.com/hImOZ8u.jpeg",
+    "credit": "Photo: Agenda-porto",
+    "sourceUrl": "https://www.agenda-porto.pt/evento/immerse-fest/"
+  }
+}
