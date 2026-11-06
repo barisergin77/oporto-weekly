@@ -89,6 +89,8 @@ const nextConfig = {
       ['orquestra-sinfonica-do-porto-casa-da-musica-casa-da-musica-nov-6-2026', 'concerto-solidario-liga-portuguesa-contra-o-cancro-casa-da-musica-nov-6-2026'],
       // One Queer Porto screening (Mouse) stored as the whole festival, "Various venues", 3-7 Nov.
       ['queer-porto-12-mouse-various-venues-nov-3-2026', 'queer-porto-batalha-centro-de-cinema-nov-3-2026'],
+      // 2026-11-06: the 11-05 edition re-created the forward-scan record from the same Agenda Porto page.
+      ['1-aniversario-fujifilm-inauguracao-da-exposicao-life-as-you-see-it-passeio-fotografico-com-duarte-silva-fujifilm-house-of-photography-nov-7-2026', '1-aniversario-fujifilm-fujifilm-house-of-photography-nov-7-2026'],
     ];
     const eventRedirects = dedupes.flatMap(([from, to]) => [
       { source: `/event/${from}`, destination: `/event/${to}`, permanent: true },

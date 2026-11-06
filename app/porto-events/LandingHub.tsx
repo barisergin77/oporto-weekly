@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 import { eventDisplay, subcategoryOf, type EventRecord } from '@/lib/events';
 import { SUBCATEGORY_LABEL, SUBCATEGORY_LABEL_PT } from '@/lib/event-categories';
 import { DAY_HUB_PATHS, dayHubRange, listingsPending } from '@/lib/event-days';
-import { LANDING_PATHS, MIN_INDEXABLE, landingEvents, type LandingKind } from '@/lib/event-landings';
+import { LANDING_PATHS, MIN_INDEXABLE, christmasSeason, landingEvents, type LandingKind } from '@/lib/event-landings';
 import { filterOptions, toFilterItem } from '@/lib/event-listing';
 import { colors, typography } from '@/lib/design';
 import { Header } from '@/app/components/Header';
@@ -84,13 +84,35 @@ const COPY = {
       empty: 'Não temos eventos grátis listados para este fim de semana.',
     },
   },
+  christmas: {
+    en: {
+      h1: 'Christmas and New Year in Porto',
+      title: "Christmas in Porto {y}: Concerts, Shows and New Year's Eve",
+      crumb: 'Christmas',
+      desc: (n: number) => `${n ? `${n} Christmas and New Year events` : 'Christmas and New Year events'} in Porto, from Christmas concerts to New Year's Eve parties, with dates, venues and prices. Updated every week.`,
+      empty: 'No Christmas or New Year events are listed yet. We add them as venues announce them.',
+    },
+    pt: {
+      h1: 'Natal e Passagem de Ano no Porto',
+      title: 'Natal no Porto {y}: concertos, espetáculos e Passagem de Ano',
+      crumb: 'Natal',
+      desc: (n: number) => `${n ? `${n} eventos` : 'Eventos'} de Natal e Passagem de Ano no Porto, de concertos de Natal a festas de fim de ano, com datas, locais e preços. Atualizado todas as semanas.`,
+      empty: 'Ainda não há eventos de Natal ou de Passagem de Ano listados. Juntamos novos à medida que os locais os anunciam.',
+    },
+  },
 };
+
+function pageTitle(kind: LandingKind, lang: Lang): string {
+  const c = COPY[kind][lang];
+  if (kind === 'weekend-free') return `${c.title} · ${weekendLabel(lang)}`;
+  return c.title.replace('{y}', String(christmasSeason().year));
+}
 
 export function landingMetadata(kind: LandingKind, lang: Lang): Metadata {
   const { main, longRuns } = landingEvents(kind);
   const total = main.length + longRuns.length;
   const c = COPY[kind][lang];
-  const title = kind === 'weekend-free' ? `${c.title} · ${weekendLabel(lang)}` : c.title;
+  const title = pageTitle(kind, lang);
   const description = c.desc(total);
   const p = LANDING_PATHS[kind];
   const url = `${SITE}${lang === 'pt' ? p.pt : p.en}`;
@@ -144,6 +166,10 @@ export function LandingHub({ kind, lang }: { kind: LandingKind; lang: Lang }) {
       intro = pt
         ? `${all.length} evento${all.length === 1 ? '' : 's'} para crianças e famílias no Porto${top ? `, incluindo ${top}` : ''}. Cada um com datas, local e preço.`
         : `${all.length} kids and family event${all.length === 1 ? '' : 's'} coming up in Porto${top ? `, including ${top}` : ''}. Each with dates, venue and price.`;
+    } else if (kind === 'christmas') {
+      intro = pt
+        ? `${all.length} evento${all.length === 1 ? '' : 's'} de Natal e Passagem de Ano no Porto até agora${top ? `, incluindo ${top}` : ''}. Os locais anunciam mais ao longo de novembro e dezembro, e juntamos cada um quando a data está confirmada.`
+        : `${all.length} Christmas and New Year event${all.length === 1 ? '' : 's'} in Porto so far${top ? `, including ${top}` : ''}. Venues keep announcing more through November and December, and we add each one once its date is confirmed.`;
     } else {
       intro = pt
         ? `${all.length} evento${all.length === 1 ? '' : 's'} grátis no Porto este fim de semana (${weekendLabel('pt')})${top ? `, incluindo ${top}` : ''}.`
@@ -178,9 +204,12 @@ export function LandingHub({ kind, lang }: { kind: LandingKind; lang: Lang }) {
   const longTitle = pt ? 'Também a decorrer' : 'Also on';
   const longNote = pt ? 'Exposições e eventos mais longos, por ordem de encerramento.' : 'Exhibitions and longer runs, closing soonest first.';
   const link = { color: colors.heading, fontWeight: 600 } as const;
+  const xmasYear = christmasSeason().year;
   const sibling = kind === 'free'
     ? { href: pt ? LANDING_PATHS['weekend-free'].pt : LANDING_PATHS['weekend-free'].en, label: pt ? 'Grátis este fim de semana' : 'Free this weekend' }
-    : { href: pt ? LANDING_PATHS.free.pt : LANDING_PATHS.free.en, label: pt ? 'Todos os eventos grátis' : 'All free events' };
+    : kind === 'christmas'
+      ? { href: pt ? `/pt/eventos/dezembro-${xmasYear}` : `/porto-events/december-${xmasYear}`, label: pt ? `Tudo em dezembro de ${xmasYear}` : `Everything in December ${xmasYear}` }
+      : { href: pt ? LANDING_PATHS.free.pt : LANDING_PATHS.free.en, label: pt ? 'Todos os eventos grátis' : 'All free events' };
 
   return (
     <div style={{ background: colors.bg, minHeight: '100vh', fontFamily: typography.sans, color: colors.text }}>
@@ -223,7 +252,7 @@ export function LandingHub({ kind, lang }: { kind: LandingKind; lang: Lang }) {
           <EventFilters
             lang={lang}
             options={filterOptions(items, lang)}
-            hide={kind === 'kids' ? ['kids'] : weekend ? ['price', 'when'] : ['price']}
+            hide={kind === 'kids' ? ['kids'] : weekend ? ['price', 'when'] : kind === 'christmas' ? [] : ['price']}
             groups={[
               { key: 'main', items: items.slice(0, main.length) },
               { key: 'long', title: longTitle, note: longNote, items: items.slice(main.length) },

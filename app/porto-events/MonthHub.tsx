@@ -12,6 +12,7 @@ import { GuidesStrip } from '@/app/components/RelatedGuide';
 import { listBlogPosts } from '@/lib/blog';
 import { guidesForHub } from '@/lib/related-guides';
 import { EventFilters } from '@/app/components/EventFilters';
+import { LANDING_PATHS, landingIndexable } from '@/lib/event-landings';
 
 /**
  * Month hub, shared by /porto-events/<month> (EN) and /pt/eventos/<mes> (PT).
@@ -96,6 +97,8 @@ export function MonthHub({ m, lang }: { m: Month; lang: Lang }) {
 
   const url = hubUrl(m, lang);
   const eventsHub = pt ? '/pt' : '/porto-events';
+  // Nov, Dec and Jan hubs point to the Christmas page (#40) while it has enough events to be indexed.
+  const showXmas = [10, 11, 0].includes(m.month) && landingIndexable('christmas');
   const jsonLd = {
     '@context': 'https://schema.org',
     '@graph': [
@@ -159,6 +162,14 @@ export function MonthHub({ m, lang }: { m: Month; lang: Lang }) {
             groups={groups}
           />
         </div>
+
+        {showXmas && (
+          <p style={{ fontSize: 15, margin: '32px 0 0' }}>
+            <Link href={LANDING_PATHS.christmas[lang]} style={{ color: colors.heading, fontWeight: 600 }}>
+              {pt ? 'Natal e Passagem de Ano no Porto' : 'Christmas and New Year in Porto'} →
+            </Link>
+          </p>
+        )}
 
         <GuidesStrip guides={guides} lang={lang} source="hub" />
 
