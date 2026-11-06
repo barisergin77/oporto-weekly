@@ -1,0 +1,275 @@
+{
+  "takenAt": "2026-11-06T09:00:50.643Z",
+  "search": {
+    "last7": {
+      "clicks": 182,
+      "impressions": 7776,
+      "ctr": 0.023405349794238684,
+      "position": 10.572145061728396
+    },
+    "prev7": {
+      "clicks": 74,
+      "impressions": 3714,
+      "ctr": 0.01992460958535272,
+      "position": 13.061927840603124
+    },
+    "last28": {
+      "clicks": 415,
+      "impressions": 19781,
+      "ctr": 0.020979728021839138,
+      "position": 10.816440018199282
+    },
+    "prev28": {
+      "clicks": 331,
+      "impressions": 13272,
+      "ctr": 0.02493972272453285,
+      "position": 10.112492465340567
+    },
+    "topPages28": [
+      {
+        "page": "/blog/porto-shopping-guide-your-map-to-vintage-artisan-finds",
+        "clicks": 37,
+        "impressions": 1406,
+        "position": 8.6
+      },
+      {
+        "page": "/event/iberanime-porto-2026-exponor-oct-10-2026",
+        "clicks": 12,
+        "impressions": 2558,
+        "position": 7.8
+      },
+      {
+        "page": "/blog/porto-nightlife-your-ultimate-after-dark-guide-for-2025",
+        "clicks": 11,
+        "impressions": 722,
+        "position": 13
+      },
+      {
+        "page": "/event/fimp26-international-puppet-festival-various-venues-oct-9-2026",
+        "clicks": 11,
+        "impressions": 126,
+        "position": 5.9
+      },
+      {
+        "page": "/blog/porto-on-a-budget-free-sights-cheap-eats-guide",
+        "clicks": 10,
+        "impressions": 428,
+        "position": 10.6
+      },
+      {
+        "page": "/pt/event/freaky-halloween-discoteca-via-rapida-oct-31-2026",
+        "clicks": 10,
+        "impressions": 139,
+        "position": 4
+      },
+      {
+        "page": "/porto-events/this-weekend",
+        "clicks": 8,
+        "impressions": 40,
+        "position": 19.4
+      },
+      {
+        "page": "/archive/october-8-14-2026",
+        "clicks": 7,
+        "impressions": 98,
+        "position": 6.7
+      },
+      {
+        "page": "/blog/shop-like-a-local-in-porto-your-2026-vintage-market-guide",
+        "clicks": 6,
+        "impressions": 764,
+        "position": 9.3
+      },
+      {
+        "page": "/event/outworld-super-bock-arena-nov-28-2026",
+        "clicks": 6,
+        "impressions": 292,
+        "position": 7.6
+      },
+      {
+        "page": "/event/throwback-porto-party-museu-do-carro-electrico-oct-17-2026",
+        "clicks": 6,
+        "impressions": 63,
+        "position": 4.9
+      },
+      {
+        "page": "/porto-events/november-2026",
+        "clicks": 6,
+        "impressions": 69,
+        "position": 4.2
+      },
+      {
+        "page": "/porto-events/october-2026",
+        "clicks": 6,
+        "impressions": 139,
+        "position": 6.8
+      },
+      {
+        "page": "/pt/event/intenso-iii-festival-de-tunas-de-elite-casa-da-musica-oct-31-2026",
+        "clicks": 6,
+        "impressions": 119,
+        "position": 6
+      },
+      {
+        "page": "/pt/eventos/outubro-2026",
+        "clicks": 6,
+        "impressions": 64,
+        "position": 3.7
+      }
+    ],
+    "lowCtr28": [
+      {
+        "query": "iberanime porto 2026",
+        "impressions": 2099,
+        "ctr": 0.2,
+        "position": 7.8
+      },
+      {
+        "query": "what to eat in porto",
+        "impressions": 91,
+        "ctr": 1.1,
+        "position": 32.4
+      },
+      {
+        "query": "best neighborhoods in porto for expats",
+        "impressions": 69,
+        "ctr": 0,
+        "position": 63.7
+      },
+      {
+        "query": "iberanime 2026 porto",
+        "impressions": 63,
+        "ctr": 0,
+        "position": 8.3
+      }
+    ]
+  },
+  "visitors": {
+    "last7": {
+      "users": 93,
+      "sessions": 117,
+      "pageViews": 310
+    },
+    "prev7": {
+      "users": 48,
+      "sessions": 59,
+      "pageViews": 131
+    },
+    "channels7": [
+      {
+        "channel": "Organic Search",
+        "sessions": 76
+      },
+      {
+        "channel": "Direct",
+        "sessions": 22
+      },
+      {
+        "channel": "AI Assistant",
+        "sessions": 10
+      },
+      {
+        "channel": "Organic Social",
+        "sessions": 7
+      },
+      {
+        "channel": "Unassigned",
+        "sessions": 3
+      }
+    ],
+    "signUpEvents7": 3
+  },
+  "subscribers": [
+    {
+      "week": "2026-10-15",
+      "active": 56,
+      "en": 34,
+      "pt": 22
+    },
+    {
+      "week": "2026-10-22",
+      "active": 55,
+      "en": 33,
+      "pt": 22
+    },
+    {
+      "week": "2026-10-29",
+      "active": 60,
+      "en": 38,
+      "pt": 22
+    },
+    {
+      "week": "2026-11-05",
+      "active": 69,
+      "en": 45,
+      "pt": 24
+    }
+  ],
+  "signups28": {
+    "total": 17,
+    "byPageType": {
+      "porto-events": 4,
+      "event": 9,
+      "archive": 2,
+      "blog": 1,
+      "home": 1
+    },
+    "recent": [
+      {
+        "at": "2026-11-01T09:32:58.089Z",
+        "lang": "en",
+        "source": "/porto-events/november-2026"
+      },
+      {
+        "at": "2026-11-02T23:48:02.790Z",
+        "lang": "en",
+        "source": "/event/cabarex-maus-habitos-nov-11-2026"
+      },
+      {
+        "at": "2026-11-03T12:35:31.255Z",
+        "lang": "en",
+        "source": "/porto-events/november-2026"
+      },
+      {
+        "at": "2026-11-03T19:34:08.653Z",
+        "lang": "en",
+        "source": "/event/baluarte-4-exposicao-de-arte-urbana-do-porto-varios-locais-nov-13-2026"
+      },
+      {
+        "at": "2026-11-03T19:39:24.205Z",
+        "lang": "en",
+        "source": "/event/baluarte-4-exposicao-de-arte-urbana-do-porto-varios-locais-nov-13-2026"
+      },
+      {
+        "at": "2026-11-04T00:12:26.531Z",
+        "lang": "en",
+        "source": "/porto-events/may-2026"
+      },
+      {
+        "at": "2026-11-04T08:49:40.304Z",
+        "lang": "en",
+        "source": "/event/sinfonia-orgao-casa-da-musica-nov-21-2026"
+      },
+      {
+        "at": "2026-11-04T15:25:27.216Z",
+        "lang": "en",
+        "source": "/event/desobedoc-sala-estudio-perpetuo-nov-6-2026"
+      },
+      {
+        "at": "2026-11-05T20:18:57.499Z",
+        "lang": "pt",
+        "source": "/pt/blog/porto-nightlife-2025-2026-fado-bars-unforgettable-evenings"
+      },
+      {
+        "at": "2026-11-06T07:25:58.919Z",
+        "lang": "pt",
+        "source": "/pt"
+      }
+    ]
+  },
+  "instagram": {
+    "date": "2026-11-06",
+    "followers": 21,
+    "weekAgo": null
+  }
+}

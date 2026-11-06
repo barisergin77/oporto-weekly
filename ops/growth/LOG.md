@@ -7,6 +7,72 @@ impressions / pos 9.3 over 28 days (prev 28: 191 / 10,293 / 16.9);
 subscribers 56 active (34 EN, 22 PT), ~1.4 net/week; signups by page: none
 recorded yet (tracking started today).
 
+## 2026-11-06 — Christmas + New Year hub (#40); Fujifilm duplicate merged
+- Run 09:00 UTC Fri, outside the freeze. Not Mon/Tue, so no guide re-check.
+- Metrics (`metrics/2026-11-06.json`): 415 clicks / 19,781 impr / pos 10.82
+  over 28d (yesterday 377 / 18,403 / 10.96; prev 28d 331 / 13,272 / 10.11).
+  Last 7d **182 clicks vs 74**, impressions 7,776 vs 3,714, CTR 2.3% vs
+  2.0%, position 10.6 vs 13.1. GA4 7d 93 users / 117 sessions / 310 PV (prev
+  48 / 59 / 131), best week again; 76 organic, 22 direct, 10 AI, 7 organic
+  social; `sign_up` 3. **Subscribers 69 on 11-05 (45 EN, 24 PT), +9 in a
+  week**, best week so far (was 60). Signups attributed 28d: 17. **First
+  blog signup** (11-05 PT, nightlife guide; inline box #35 live 5 days) and
+  one from /pt home. Instagram 21 followers.
+- 11-05 edition: all 6 steps done 10:01 → 10:12 UTC. Read the live archive
+  page: no event listed twice. Picks: Canções de Granito (Coliseu, Porto
+  2001 anniversary), Museum as Performance, Jussen, Max Cooper, Magusto
+  Melancólico (free, the week's occasion). That fits the Opus rubric
+  (one-off first, occasion, one free pick, 4 days), but **`picks path=` is
+  not readable from this host**: it is only in the workflow's HTTP response
+  and Vercel logs (gh, Vercel MCP and the watcher log are blocked here).
+- Results due: 11-03 and 11-04 dedupe entries → worked (filled in).
+  #26c/#38 early read: 0 new cross-site or aggregator pairs from the scan or
+  sweep since 11-04.
+- Why (1): find-duplicates showed 1 STRONG pair: Fujifilm House of
+  Photography 1st anniversary, 11-07, twice from the same Agenda Porto page.
+  The forward scan had it since 11-03; Thursday's archive step created a
+  second record → root cause in backlog #41 (needs owner).
+- Change (1): kept the edition's slug (the sent edition links to it) with
+  the scan record's copy, image and pickCandidate, re-checked against the
+  Agenda Porto page today (14:30 to 20:30, Rua de Sá da Bandeira 289, free,
+  photowalk with Duarte Silva, 3-month participatory show). Copy removed,
+  301 EN + PT.
+- Why (2): #40. "porto events october 2026" was a top query in October;
+  seasonal searches start weeks ahead, and we had no Christmas page.
+- Change (2): `/porto-events/christmas` + `/pt/eventos/natal`, a new
+  LandingHub kind: events whose own name is festive (Natal, Christmas,
+  Réveillon, New Year, Passagem de Ano, Presépio, Quebra-Nozes, Advent), up
+  to 6 Jan. 7 at launch (Gospel de Natal at Hard Club, Quebra-Nozes at the
+  Coliseu, Yeatman Christmas Wine, TNSJ Schubertíada Christmas concert, Natal
+  ao Vivo, Gare NYE, Natal na Árvore), 0 false matches. Under 3 events it
+  goes noindex and leaves the sitemap; out of season it is empty. Linked
+  from the Nov/Dec/Jan month hubs; its bottom nav links to the December hub.
+- Commit a169da5. Verified: tsc; test:dedupe 37; find-duplicates 0 STRONG;
+  build OK; built pages have the right title/description, index,follow,
+  hreflang pair and the month-hub link. Live: /api/version = a169da5, both
+  pages 200, Fujifilm copy 308 → kept page, health ok (9 checks). Indexing
+  API: both new URLs → 200.
+- Expect: the two pages start getting impressions within 2 to 3 weeks and
+  pick up clicks through December; event count grows as the scan adds
+  festive events.
+- Measure on: 2026-12-04 (GSC impressions/clicks for both URLs and
+  christmas/natal queries); final read 2027-01-07.
+- Result:
+- Found, not fixed: the shared SubscribeCTA text has an em dash ("concerts,
+  exhibitions and markets — in your inbox Thursday morning"), and the month
+  hub intros/descriptions have one too. Older copy, humanizer rule → backlog.
+  January 2027 hub doesn't exist yet although a 5 Jan 2027 event exists;
+  check how listEventMonths picks months (11-20).
+- Next run (Sat 11-07): #39 (event snippets) or the em-dash pass.
+- **Needs owner:** (1) #41: Thursday's archive step
+  (`lib/events-pipeline.ts:167`) looks up existing events without the
+  source URL or start time, so a page the forward scan already added gets
+  re-created (Fujifilm this week). Fix: pass `url: r.externalLink` and the
+  time, plus a test. It is the Thursday path, so: OK to change it?
+  (2) To confirm the Opus picks path, someone with Actions or Vercel log
+  access has to read `picks path=` from the 11-05 run (or grant this host
+  read access).
+
 ## 2026-11-05 — Freeze day: observe only
 - Run 09:00 UTC Thu, inside the freeze (Thu 05:00 → 11:00, held until the
   10:00 backstop confirms EN, PT and Instagram sent). No code, no data edits,
@@ -105,7 +171,11 @@ recorded yet (tracking started today).
 - Expect: no doubled listings in Thursday's edition, the weekend page or the
   November hub.
 - Measure on: 2026-11-05 edition (check Fri 11-06 with `picks path=`).
-- Result:
+- Result (11-06): worked. The sent edition (live archive page read 11-06)
+  lists the OSP solidarity concert once; Accordia, Nativo and Queer Porto
+  'Mouse' aren't in it; no event appears twice across Picks and sections,
+  and find-duplicates finds no new copy of the four. One new pair
+  did appear on the site (Fujifilm anniversary, see the 11-06 entry).
 - Needs owner: (1) 3 of today's 4 copies came from **agenda-porto.pt**, the
   city's aggregator, re-listing events the scan already had from the venue's
   own page. Backlog #26c would stop using aggregator pages as sources (keep
@@ -153,7 +223,8 @@ recorded yet (tracking started today).
 - Expect: no doubled Skryabin/Zuaa listing in Thursday's edition or on the
   month hub/weekend page.
 - Measure on: 2026-11-05 edition (check Fri 11-06 with `picks path=`).
-- Result:
+- Result (11-06): worked. Neither Skryabin nor Zuaa is listed twice in the
+  sent edition; find-duplicates finds no new copy of either.
 - Next run (Wed 11-04, before 18:00): another duplicate pass over the
   11-05→11-11 window after that morning's scan + sweep. Fri 11-06: Opus
   picks check.
