@@ -98,6 +98,8 @@ export interface FilterItem {
   name: string;
   /** Second line: dates · venue · price. */
   meta: string;
+  /** Short description, shown under meta in list rows. */
+  summary?: string;
   emoji: string;
   categoryLabel: string;
   /** EventSubcategory and its legacy parent ("music" for concerts, fado…). */

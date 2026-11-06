@@ -28,6 +28,7 @@ export function toFilterItem(e: EventRecord, lang: Lang, withYear = false): Filt
     href: lang === 'pt' ? `/pt/event/${e.slug}` : `/event/${e.slug}`,
     name: disp.name,
     meta: [shortDates(e, lang, withYear), e.venue, price].filter(Boolean).join(' · '),
+    ...(disp.description ? { summary: disp.description } : {}),
     emoji: SUBCATEGORY_EMOJI[sub],
     categoryLabel: (lang === 'pt' ? SUBCATEGORY_LABEL_PT : SUBCATEGORY_LABEL)[sub],
     sub,

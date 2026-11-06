@@ -257,6 +257,7 @@ function Row({ i }: { i: FilterItem }) {
         {i.emoji} {i.name}
       </Link>
       <div style={{ fontSize: 13, color: colors.textSoft, marginTop: 3 }}>{i.meta}</div>
+      {i.summary && <p style={{ fontSize: 15, color: colors.text, lineHeight: 1.55, margin: '6px 0 0' }}>{i.summary}</p>}
     </li>
   );
 }
@@ -293,6 +294,11 @@ function Card({ i, soon }: { i: FilterItem; soon: string }) {
           {i.name}
         </h3>
         <div style={{ fontSize: 13, color: colors.textSoft, lineHeight: 1.5 }}>{i.meta}</div>
+        {i.summary && (
+          <p style={{ fontSize: 14, color: colors.text, lineHeight: 1.5, margin: 0, display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+            {i.summary}
+          </p>
+        )}
       </div>
     </Link>
   );
