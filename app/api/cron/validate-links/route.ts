@@ -25,12 +25,13 @@ import { NextRequest, NextResponse } from 'next/server';
 import { isRealEventUrl, type EventRecord } from '@/lib/events';
 import { getFileContent, commitFiles } from '@/lib/github';
 import { checkCronAuth } from '@/lib/cron-auth';
+import { FLASH, geminiEndpoint } from '@/lib/gemini-models';
 
 const MAX_PER_RUN = 50;
 const UA =
   'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 ' +
   '(KHTML, like Gecko) Chrome/120.0 Safari/537.36';
-const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${process.env.GEMINI_API_KEY}`;
+const GEMINI_URL = geminiEndpoint(FLASH);
 
 // ---------------------------------------------------------------------------
 // HTTP helpers — duplicated from scripts/validate-event-links.ts because the

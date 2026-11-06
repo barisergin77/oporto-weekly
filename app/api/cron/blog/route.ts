@@ -8,9 +8,10 @@ import { commitFiles } from '@/lib/github';
 import { notifySearchEngines } from '@/lib/search-engines';
 import { checkCronAuth } from '@/lib/cron-auth';
 import { HUMANIZER_RULES, humanizeHtml, humanizeText } from '@/lib/humanizer';
+import { PRO, geminiEndpoint } from '@/lib/gemini-models';
 
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY!;
-const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro:generateContent?key=${GEMINI_API_KEY}`;
+const GEMINI_URL = geminiEndpoint(PRO);
 
 // Blog stays on Pro — long-form research + writing benefits more from
 // reasoning-tier than from speed. Instead of falling through to Flash on

@@ -11,10 +11,11 @@ import { uploadImageToImgur } from './imgur';
 import { composeRules, composeDecision, selectEditionEvents, type EditionSelection, type PresetPick } from './edition-compose';
 import type { EventRecord } from './events';
 import { HUMANIZER_RULES, humanizeHtml } from './humanizer';
+import { FLASH, PRO, geminiEndpoint } from './gemini-models';
 
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY!;
-const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro:generateContent?key=${GEMINI_API_KEY}`;
-const GEMINI_URL_FALLBACK = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`;
+const GEMINI_URL = geminiEndpoint(PRO);
+const GEMINI_URL_FALLBACK = geminiEndpoint(FLASH);
 
 export async function geminiPost(url: string, body: object, attempt = 0): Promise<Response> {
   const res = await fetch(url, {
@@ -25,19 +26,19 @@ export async function geminiPost(url: string, body: object, attempt = 0): Promis
 
   // Fall back from Pro to Flash on rate-limit or overload
   if ((res.status === 429 || res.status === 503) && url === GEMINI_URL) {
-    console.log(`[geminiPost] ${res.status} on gemini-2.5-pro, falling back to gemini-2.5-flash`);
+    console.log(`[geminiPost] ${res.status} on ${PRO}, falling back to ${FLASH}`);
     return geminiPost(GEMINI_URL_FALLBACK, body, attempt);
   }
 
   // If flash is also overloaded, retry once after a short wait
   if (res.status === 503 && url === GEMINI_URL_FALLBACK && attempt < 2) {
     const wait = 3000 * (attempt + 1);
-    console.log(`[geminiPost] 503 on gemini-2.5-flash, retrying in ${wait}ms (attempt ${attempt + 1}/2)`);
+    console.log(`[geminiPost] 503 on ${FLASH}, retrying in ${wait}ms (attempt ${attempt + 1}/2)`);
     await new Promise(r => setTimeout(r, wait));
     return geminiPost(url, body, attempt + 1);
   }
 
-  console.log(`[geminiPost] Used model: ${url.includes('2.5-pro') ? 'gemini-2.5-pro' : 'gemini-2.5-flash'} (status ${res.status})`);
+  console.log(`[geminiPost] Used model: ${url.includes(`/${PRO}:`) ? PRO : FLASH} (status ${res.status})`);
   return res;
 }
 

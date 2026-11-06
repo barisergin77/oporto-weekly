@@ -23,6 +23,7 @@ import {
 } from './events';
 import { isSameEvent } from './event-identity';
 import { HUMANIZER_RULES, humanizeText } from './humanizer';
+import { FLASH } from './gemini-models';
 
 const UA =
   'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 ' +
@@ -111,7 +112,7 @@ RULES:
 Newsletter HTML:
 ${html}`;
 
-  const res = await fetch(geminiUrl('gemini-2.5-flash'), {
+  const res = await fetch(geminiUrl(FLASH), {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
@@ -259,7 +260,7 @@ Reply with ONLY a JSON object, no markdown:
 {"date":"YYYY-MM-DD","endDate":"YYYY-MM-DD or null","confidence":"high"|"low","source":"URL"}
 Use "high" only if a source explicitly states the ${year} date. If you cannot find it, reply {"confidence":"low"}.`;
     try {
-      const res = await fetch(geminiUrl('gemini-2.5-flash'), {
+      const res = await fetch(geminiUrl(FLASH), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -314,7 +315,7 @@ async function findEventUrlViaGemini(ev: EventRecord): Promise<string | null> {
     // whole 300s Vercel budget and the cron times out before committing
     // anything (observed 2026-05-28 — workflow failed at 5m3s with no
     // commit, partial work lost).
-    const res = await fetch(geminiUrl('gemini-2.5-flash'), {
+    const res = await fetch(geminiUrl(FLASH), {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -744,7 +745,7 @@ STRICT RULES:
 
 ${HUMANIZER_RULES}`;
 
-  const res = await fetch(geminiUrl('gemini-2.5-flash'), {
+  const res = await fetch(geminiUrl(FLASH), {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
@@ -805,7 +806,7 @@ ${HUMANIZER_RULES}
 Return ONLY this JSON (no markdown fences):
 {"namePt": string|null, "descriptionPt": string, "longDescriptionPt": string|null}`;
 
-  const res = await fetch(geminiUrl('gemini-2.5-flash'), {
+  const res = await fetch(geminiUrl(FLASH), {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({

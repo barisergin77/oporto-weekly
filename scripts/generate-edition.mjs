@@ -25,7 +25,7 @@ for (const line of envFile.split('\n')) {
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 if (!GEMINI_API_KEY) { console.error('Missing GEMINI_API_KEY'); process.exit(1); }
 
-const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`;
+const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/${process.env.GEMINI_FLASH_MODEL ?? 'gemini-3.8-flash'}:generateContent?key=${GEMINI_API_KEY}`;
 
 const weekRange = process.argv[2];
 if (!weekRange) { console.error('Usage: node scripts/generate-edition.mjs "March 12-19, 2026"'); process.exit(1); }
