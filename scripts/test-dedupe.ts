@@ -303,4 +303,18 @@ test('#26c an unrelated show at the same venue and minute is kept', () => {
   assert.equal(aggregatorCopyReason(agg('Orquestra Sinfónica do Porto'), { ...own, externalLink: 'https://www.agenda-porto.pt/evento/z/' }), null);
 });
 
+// #41: the Thursday archive step passes the edition's link, so an event the
+// forward scan already stored under another name matches on its source page.
+test('archive lookup matches a scanned record by source URL (Fujifilm, 2026-11-05)', () => {
+  const scanned = {
+    slug: '1-aniversario-fujifilm-fujifilm-house-of-photography-nov-7-2026', name: '1.º Aniversário FUJIFILM',
+    date: '2026-11-07T14:30', venue: 'FUJIFILM House of Photography', category: 'art', description: '', sourceEdition: 'forward-scan',
+    externalLink: 'https://www.agenda-porto.pt/evento/inauguracao-life-as-you-see-it/',
+  } as EventRecord;
+  const fromEdition = { date: '2026-11-07T14:30', url: 'https://www.agenda-porto.pt/evento/inauguracao-life-as-you-see-it/' };
+  assert.equal(findExistingEventByIdentity('Fujifilm House of Photography 1st Anniversary', 'Fujifilm House of Photography', fromEdition, [scanned])?.slug, scanned.slug);
+  // Same page on another day is a different session, not this record.
+  assert.equal(findExistingEventByIdentity('Fujifilm House of Photography 1st Anniversary', 'Fujifilm House of Photography', { ...fromEdition, date: '2026-11-14T14:30' }, [scanned]), null);
+});
+
 console.log(`ok — ${passed} dedupe tests passed`);

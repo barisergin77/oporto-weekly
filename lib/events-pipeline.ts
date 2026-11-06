@@ -165,7 +165,13 @@ ${html}`;
     // Dedup pass (2): is this event already canonical somewhere? Exact
     // (name, canonical venue) first, then fuzzy name + overlapping dates
     // (lib/event-identity.ts) — "Wrong Answers" vs "Jenny Holzer: Wrong Answers".
-    const existing = findExistingEventByIdentity(r.name, r.venue, { date: r.date, endDate: r.endDate }, corpus);
+    // The URL lets a record the forward scan already added under another name
+    // match on its source page (#41: Fujifilm anniversary, 2026-11-05).
+    const existing = findExistingEventByIdentity(
+      r.name, r.venue,
+      { date: r.date, endDate: r.endDate, url: isRealEventUrl(r.externalLink) ? r.externalLink : null },
+      corpus
+    );
     const slug = existing?.slug ?? composeEventSlug(r.name, r.venue, r.date);
     if (seen.has(slug)) continue;
     // Dedup pass (1b): the same event twice in this run under two names
