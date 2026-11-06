@@ -6,6 +6,7 @@
 
 import type { BlogPost } from './blog';
 import { HUMANIZER_RULES, humanizeHtml, humanizeText } from './humanizer';
+import { FLASH } from './gemini-models';
 
 const GEMINI_KEY = process.env.GEMINI_API_KEY;
 const url = (model: string) =>
@@ -32,7 +33,7 @@ export async function translateBlogPost(post: BlogPost, enHtml: string): Promise
   if (!GEMINI_KEY) throw new Error('GEMINI_API_KEY not set');
 
   // 1. Title + excerpt (short, structured).
-  const metaRaw = await gemini('gemini-2.5-flash', {
+  const metaRaw = await gemini(FLASH, {
     contents: [{ parts: [{ text:
       `Translate to European Portuguese (pt-PT, not Brazilian). Keep proper nouns ` +
       `(place names, venue names, "Porto") as-is. Return ONLY JSON, no fences:\n` +
@@ -46,7 +47,7 @@ export async function translateBlogPost(post: BlogPost, enHtml: string): Promise
   if (!meta.titlePt || !meta.excerptPt) throw new Error('Blog meta translation incomplete');
 
   // 2. Article body HTML (structure-preserving).
-  let htmlPt = await gemini('gemini-2.5-flash', {
+  let htmlPt = await gemini(FLASH, {
     contents: [{ parts: [{ text:
       `Translate the VISIBLE TEXT of this HTML article fragment to European ` +
       `Portuguese (pt-PT, not Brazilian). Keep ALL HTML tags, attributes, ` +

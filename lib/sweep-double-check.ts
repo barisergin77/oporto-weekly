@@ -29,6 +29,7 @@ import { composeEventSlug, canonicalVenueSlugFor } from './events';
 import { compareEventNames } from './event-identity';
 import { kebab } from './venues';
 import { lisbonWallClock, normalizeVenue } from './source-sweep';
+import { FLASH, geminiEndpoint } from './gemini-models';
 
 export interface PageFields {
   name: string | null;
@@ -248,7 +249,7 @@ Return ONLY this JSON:
 PAGE TEXT:
 ${pageText.slice(0, 30_000)}`;
   const res = await fetch(
-    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${process.env.GEMINI_API_KEY}`,
+    geminiEndpoint(FLASH),
     {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },

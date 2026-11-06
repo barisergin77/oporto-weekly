@@ -13,10 +13,11 @@ import { localizeFromTheBlog } from '@/lib/edition-compose';
 import { ensureInstagramFooter } from '@/lib/social';
 import type { BlogPost } from '@/lib/blog';
 import blogIndex from '@/data/blog-posts.json';
+import { FLASH, PRO, geminiEndpoint } from '@/lib/gemini-models';
 
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY!;
-const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro:generateContent?key=${GEMINI_API_KEY}`;
-const GEMINI_URL_FALLBACK = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`;
+const GEMINI_URL = geminiEndpoint(PRO);
+const GEMINI_URL_FALLBACK = geminiEndpoint(FLASH);
 
 async function geminiPost(url: string, body: object): Promise<Response> {
   const res = await fetch(url, {
@@ -26,7 +27,7 @@ async function geminiPost(url: string, body: object): Promise<Response> {
   });
 
   if (res.status === 429 && url === GEMINI_URL) {
-    console.log('[cron/newsletter-pt] 429 on gemini-2.5-pro, retrying with gemini-2.5-flash');
+    console.log(`[cron/newsletter-pt] 429 on ${PRO}, retrying with ${FLASH}`);
     return geminiPost(GEMINI_URL_FALLBACK, body);
   }
 

@@ -21,12 +21,12 @@ import { uploadImageToImgur } from '@/lib/imgur';
 import { scheduleBufferPost } from '@/lib/buffer';
 import { HUMANIZER_RULES } from '@/lib/humanizer';
 import { checkCronAuth } from '@/lib/cron-auth';
+import { FLASH, PRO } from '@/lib/gemini-models';
 
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY!;
 const GEMINI_CAPTION_MODELS = [
-  'gemini-2.5-flash',
-  'gemini-2.5-flash-lite',
-  'gemini-2.5-pro',
+  FLASH,
+  PRO,
 ];
 
 // ---------------------------------------------------------------------------

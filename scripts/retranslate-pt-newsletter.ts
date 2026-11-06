@@ -22,10 +22,11 @@ import path from 'path';
 import { HUMANIZER_RULES, humanizeHtml } from '../lib/humanizer';
 import { localizeFromTheBlog } from '../lib/edition-compose';
 import { listBlogPosts } from '../lib/blog';
+import { FLASH, PRO } from '../lib/gemini-models';
 
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
-const MODEL = 'gemini-2.5-pro';
-const FALLBACK = 'gemini-2.5-flash';
+const MODEL = PRO;
+const FALLBACK = FLASH;
 
 async function translateNewsletter(enHtml: string): Promise<string> {
   if (!GEMINI_API_KEY) throw new Error('GEMINI_API_KEY not set');

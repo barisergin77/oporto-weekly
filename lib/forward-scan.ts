@@ -62,6 +62,7 @@ import { type ForwardLead, type LeadOutcome, LEADS_PER_RUN, leadKey, selectLeads
 import { lookup } from 'node:dns/promises';
 import { sameSourcePageReason } from './event-identity';
 import { kebab, isGenericRoomName, hostVenueName } from './venues';
+import { FLASH, geminiEndpoint } from './gemini-models';
 
 const UA =
   'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 ' +
@@ -198,7 +199,7 @@ async function gemini(
 ): Promise<string> {
   usage.geminiCalls++;
   const res = await fetch(
-    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${process.env.GEMINI_API_KEY}`,
+    geminiEndpoint(FLASH),
     {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
