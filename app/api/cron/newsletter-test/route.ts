@@ -19,6 +19,7 @@ import { generateSlug, formatWeekRange, thursdayWeekStart } from '@/lib/archive'
 import { getFileContent } from '@/lib/github';
 import { sendEmail } from '@/lib/resend-client';
 import { withForwardBlock } from '@/lib/forward-block';
+import { withGameBlock } from '@/lib/game-block';
 import { checkCronAuth } from '@/lib/cron-auth';
 
 export async function GET(req: NextRequest) {
@@ -49,7 +50,7 @@ export async function GET(req: NextRequest) {
     }
 
     const path = /<!-- oporto-weekly:path=(\w+) -->/.exec(archived)?.[1] ?? 'unknown';
-    const html = withForwardBlock(archived, 'en', `https://oportoweekly.com/archive/${slug}`)
+    const html = withForwardBlock(withGameBlock(archived, 'en'), 'en', `https://oportoweekly.com/archive/${slug}`)
       .replace(/SUBSCRIBER_EMAIL/g, encodeURIComponent(to));
     const weekDate = weekStart.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
     await sendEmail(to, `[TEST · ${path}] Oporto Weekly — ${weekDate}`, html, [

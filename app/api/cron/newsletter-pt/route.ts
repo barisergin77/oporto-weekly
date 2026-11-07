@@ -6,6 +6,7 @@ import { archiveViaGitHub, getFileContent } from '@/lib/github';
 import { getActiveSubscribers } from '@/lib/audiences';
 import { sendBatch } from '@/lib/resend-client';
 import { withForwardBlock } from '@/lib/forward-block';
+import { withGameBlock } from '@/lib/game-block';
 import { notifySearchEngines } from '@/lib/search-engines';
 import { checkCronAuth } from '@/lib/cron-auth';
 import { HUMANIZER_RULES, humanizeHtml } from '@/lib/humanizer';
@@ -200,7 +201,7 @@ export async function GET(req: NextRequest) {
     let sentPT = 0;
     if (ptEmails.length > 0) {
       try {
-        sentPT = await sendBatch(ptEmails, ptSubject, withForwardBlock(ptHtml, 'pt', `https://oportoweekly.com/pt/arquivo/${ptSlug}`), [
+        sentPT = await sendBatch(ptEmails, ptSubject, withForwardBlock(withGameBlock(ptHtml, 'pt'), 'pt', `https://oportoweekly.com/pt/arquivo/${ptSlug}`), [
           { name: 'type', value: 'newsletter' },
           { name: 'lang', value: 'pt' },
           { name: 'edition', value: ptSlug },
