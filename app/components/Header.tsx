@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { colors, typography } from '@/lib/design';
+import { MyListLink } from './MyListLink';
 
 const InstagramIcon = () => (
   <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style={{ verticalAlign: 'middle' }}>
@@ -65,6 +66,7 @@ export function Header({ lang = 'en', active }: HeaderProps) {
         <Link href={playHref} style={linkStyle(active === 'play')}>
           {playLabel}
         </Link>
+        <MyListLink lang={lang} style={linkStyle(false)} />
 
         {/* Separator */}
         <span style={{ color: colors.divider, fontSize: 12 }}>|</span>

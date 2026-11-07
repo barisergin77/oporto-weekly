@@ -13,6 +13,7 @@ import {
 import { subcategoryEmoji, subcategoryLabel } from '@/lib/event-listing';
 import { googleCalendarUrl } from '@/lib/event-calendar';
 import { EventActions } from '@/app/components/EventActions';
+import { SaveButton } from '@/app/components/SaveButton';
 import { getNewsletterMetaPT } from '@/lib/archive';
 import { colors, typography, spacing } from '@/lib/design';
 import { Header } from '@/app/components/Header';
@@ -117,6 +118,9 @@ export default function EventPagePT({ params }: { params: { slug: string } }) {
         </div>
 
         {/* Adicionar ao calendário (Google + .ics) e partilhar (lib/event-calendar.ts). */}
+        <div style={{ marginBottom: 10 }}>
+          <SaveButton slug={ev.slug} lang="pt" />
+        </div>
         <EventActions
           lang="pt"
           slug={ev.slug}

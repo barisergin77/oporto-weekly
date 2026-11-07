@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState, type ReactNode } from 'react';
 import Link from 'next/link';
 import { colors, typography } from '@/lib/design';
+import { SaveButton } from './SaveButton';
 import {
   activeCount, filtersToSearch, matchesFilters, parseFilters, PRICE_BANDS,
   type FilterItem, type Filters, type PriceBand,
@@ -234,11 +235,11 @@ export function EventFilters({
               {g.note && <p style={{ fontSize: 14, color: colors.textSoft, margin: '0 0 4px' }}>{g.note}</p>}
               {variant === 'cards' ? (
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 20 }}>
-                  {g.items.map((i) => <Card key={i.slug} i={i} soon={t.photoSoon} />)}
+                  {g.items.map((i) => <Card key={i.slug} i={i} soon={t.photoSoon} lang={lang} />)}
                 </div>
               ) : (
                 <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-                  {g.items.map((i) => <Row key={i.slug} i={i} />)}
+                  {g.items.map((i) => <Row key={i.slug} i={i} lang={lang} />)}
                 </ul>
               )}
             </section>
@@ -250,21 +251,24 @@ export function EventFilters({
   );
 }
 
-function Row({ i }: { i: FilterItem }) {
+function Row({ i, lang }: { i: FilterItem; lang: Lang }) {
   return (
-    <li style={{ borderBottom: `1px solid ${colors.divider}`, padding: '12px 0' }}>
+    <li style={{ borderBottom: `1px solid ${colors.divider}`, padding: '12px 0', display: 'flex', gap: 10, alignItems: 'flex-start' }}>
+      <div style={{ flex: 1, minWidth: 0 }}>
       <Link href={i.href} style={{ color: colors.heading, textDecoration: 'none', fontSize: 16, fontWeight: 600 }}>
         {i.emoji} {i.name}
       </Link>
       {i.subtitle && <div style={{ fontSize: 14, fontStyle: 'italic', color: colors.textSoft, marginTop: 2 }}>{i.subtitle}</div>}
       <div style={{ fontSize: 13, color: colors.textSoft, marginTop: 3 }}>{i.meta}</div>
       {i.summary && <p style={{ fontSize: 15, color: colors.text, lineHeight: 1.55, margin: '6px 0 0' }}>{i.summary}</p>}
+      </div>
+      <SaveButton slug={i.slug} lang={lang} compact />
     </li>
   );
 }
 
 // Same look as the /porto-events grid card it replaces.
-function Card({ i, soon }: { i: FilterItem; soon: string }) {
+function Card({ i, soon, lang }: { i: FilterItem; soon: string; lang: Lang }) {
   const label: React.CSSProperties = { fontSize: 10, letterSpacing: 2, textTransform: 'uppercase', color: colors.accent, fontWeight: 700 };
   return (
     <Link
@@ -290,7 +294,10 @@ function Card({ i, soon }: { i: FilterItem; soon: string }) {
         </div>
       )}
       <div style={{ padding: '16px 18px 18px', display: 'flex', flexDirection: 'column', gap: 8 }}>
-        <div style={label}>{i.emoji} {i.categoryLabel}</div>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <div style={label}>{i.emoji} {i.categoryLabel}</div>
+          <SaveButton slug={i.slug} lang={lang} compact />
+        </div>
         <h3 style={{ fontFamily: typography.serif, fontSize: 19, color: colors.heading, margin: 0, lineHeight: 1.3, letterSpacing: -0.2 }}>
           {i.name}
         </h3>
