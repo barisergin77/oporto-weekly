@@ -959,6 +959,15 @@
       "reason": "already listed",
       "lastTriedAt": "2026-11-05T06:07:13.515Z",
       "resolvedAt": "2026-11-05T06:07:13.515Z"
+    },
+    {
+      "name": "Siza Talks: Conversas Internacionais",
+      "date": "2026-11-12",
+      "endDate": "2026-11-14",
+      "venue": "Serralves",
+      "note": "Architecture talks cycle with the Aga Khan Award for Architecture. 12 Nov: opening 19:00, Kjetil Thorsen (Snøhetta) 19:30. 13 Nov from 16:00: Nuno Melo Sousa, Mariana Simas, Alberto Campo Baeza, Elizabeth Diller. 14 Nov from 16:00: Elias & Yousef Anastas, Anouk Legendre, Tony Fretton, Carlos Facio. Price not stated",
+      "source": "serralves-newsletter-2026-11",
+      "addedAt": "2026-11-07T05:00:24Z"
     }
   ]
 }
