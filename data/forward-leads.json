@@ -422,19 +422,6 @@
       "resolvedAt": "2026-10-31T08:32:37.308Z"
     },
     {
-      "name": "Canções de Granito – 25 anos Porto Capital Europeia da Cultura",
-      "date": "2026-11-06",
-      "venue": "Coliseu Porto Ageas",
-      "note": "21:00; Pedro Abrunhosa, GNR, Três Tristes Tigres and Pedro Burmester play songs tied to Porto, with DJ Pedro Tenreiro and visual artist João Parra; marks 25 years since Porto 2001",
-      "source": "coliseu-newsletter-2026-10",
-      "addedAt": "2026-11-01T05:00:47Z",
-      "status": "done",
-      "eventSlug": "cancoes-de-granito-25-anos-porto-capital-europeia-da-cultura-coliseu-porto-ageas-nov-6-2026",
-      "reason": "already listed",
-      "lastTriedAt": "2026-11-01T08:32:02.940Z",
-      "resolvedAt": "2026-11-01T08:32:02.940Z"
-    },
-    {
       "name": "Coro Comunitário Alquimia",
       "date": "2026-11-08",
       "venue": "Coliseu Porto Ageas",
@@ -699,19 +686,6 @@
       "resolvedAt": "2026-11-03T14:52:06.038Z"
     },
     {
-      "name": "Visita em Inglês – Exposição Frank Gehry",
-      "date": "2026-11-06",
-      "venue": "Serralves",
-      "note": "11:00, Ala Álvaro Siza; guided tour in English of the Frank Gehry exhibition; free with Serralves general ticket",
-      "source": "serralves-newsletter-2026-11",
-      "addedAt": "2026-11-02T05:00:47Z",
-      "status": "done",
-      "eventSlug": "visita-curatorial-a-exposicao-alice-neel-ala-alvaro-siza-nov-5-2026",
-      "reason": "already listed",
-      "lastTriedAt": "2026-11-02T08:31:57.526Z",
-      "resolvedAt": "2026-11-02T08:31:57.526Z"
-    },
-    {
       "name": "Visita em Inglês – Exposição Alice Neel",
       "date": "2026-11-07",
       "venue": "Serralves",
@@ -967,7 +941,11 @@
       "venue": "Serralves",
       "note": "Architecture talks cycle with the Aga Khan Award for Architecture. 12 Nov: opening 19:00, Kjetil Thorsen (Snøhetta) 19:30. 13 Nov from 16:00: Nuno Melo Sousa, Mariana Simas, Alberto Campo Baeza, Elizabeth Diller. 14 Nov from 16:00: Elias & Yousef Anastas, Anouk Legendre, Tony Fretton, Carlos Facio. Price not stated",
       "source": "serralves-newsletter-2026-11",
-      "addedAt": "2026-11-07T05:00:24Z"
+      "addedAt": "2026-11-07T05:00:24Z",
+      "status": "pending",
+      "attempts": 1,
+      "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
+      "lastTriedAt": "2026-11-07T08:31:54.231Z"
     }
   ]
 }
