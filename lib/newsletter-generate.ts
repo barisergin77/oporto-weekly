@@ -11,11 +11,14 @@ import { uploadImageToImgur } from './imgur';
 import { composeRules, composeDecision, selectEditionEvents, type EditionSelection, type PresetPick } from './edition-compose';
 import type { EventRecord } from './events';
 import { HUMANIZER_RULES, humanizeHtml } from './humanizer';
-import { FLASH, PRO, geminiEndpoint } from './gemini-models';
+import { FLASH, PRO, PRO_FALLBACK, geminiEndpoint } from './gemini-models';
 
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY!;
 const GEMINI_URL = geminiEndpoint(PRO);
+const GEMINI_URL_PRO_FALLBACK = geminiEndpoint(PRO_FALLBACK);
 const GEMINI_URL_FALLBACK = geminiEndpoint(FLASH);
+// PRO is a preview model: on these statuses try PRO_FALLBACK (2.5 Pro until 1 Dec), then Flash.
+const PRO_FALLBACK_STATUSES = new Set([404, 429, 500, 503]);
 
 export async function geminiPost(url: string, body: object, attempt = 0): Promise<Response> {
   const res = await fetch(url, {
@@ -24,9 +27,13 @@ export async function geminiPost(url: string, body: object, attempt = 0): Promis
     body: JSON.stringify(body),
   });
 
-  // Fall back from Pro to Flash on rate-limit or overload
-  if ((res.status === 429 || res.status === 503) && url === GEMINI_URL) {
-    console.log(`[geminiPost] ${res.status} on ${PRO}, falling back to ${FLASH}`);
+  if (PRO_FALLBACK_STATUSES.has(res.status) && url === GEMINI_URL && PRO_FALLBACK !== PRO && PRO_FALLBACK !== FLASH) {
+    console.log(`[geminiPost] ${res.status} on ${PRO}, falling back to ${PRO_FALLBACK}`);
+    return geminiPost(GEMINI_URL_PRO_FALLBACK, body, attempt);
+  }
+  // Then to Flash on rate-limit, overload or a missing model
+  if (PRO_FALLBACK_STATUSES.has(res.status) && (url === GEMINI_URL || url === GEMINI_URL_PRO_FALLBACK)) {
+    console.log(`[geminiPost] ${res.status} on ${/\/models\/([^:]+):/.exec(url)?.[1]}, falling back to ${FLASH}`);
     return geminiPost(GEMINI_URL_FALLBACK, body, attempt);
   }
 
@@ -361,7 +368,7 @@ CRITICAL OUTPUT:
 Return ONLY the complete HTML. No markdown fences, no commentary, no code blocks.`;
 
   // opts.model: owner test copies only (/api/cron/newsletter-model-test).
-  // Real editions never pass it, so they keep PRO with the Flash fallback.
+  // Real editions never pass it, so they keep PRO with its fallbacks.
   const res = await geminiPost(opts.model ? geminiEndpoint(opts.model) : GEMINI_URL, {
     contents: [{ parts: [{ text: prompt }] }],
     generationConfig: { maxOutputTokens: 65536 },

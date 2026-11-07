@@ -13,10 +13,11 @@ import { localizeFromTheBlog } from '@/lib/edition-compose';
 import { ensureInstagramFooter } from '@/lib/social';
 import type { BlogPost } from '@/lib/blog';
 import blogIndex from '@/data/blog-posts.json';
-import { FLASH, PRO, geminiEndpoint } from '@/lib/gemini-models';
+import { FLASH, PRO, PRO_FALLBACK, geminiEndpoint } from '@/lib/gemini-models';
 
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY!;
 const GEMINI_URL = geminiEndpoint(PRO);
+const GEMINI_URL_PRO_FALLBACK = geminiEndpoint(PRO_FALLBACK);
 const GEMINI_URL_FALLBACK = geminiEndpoint(FLASH);
 
 async function geminiPost(url: string, body: object): Promise<Response> {
@@ -26,8 +27,14 @@ async function geminiPost(url: string, body: object): Promise<Response> {
     body: JSON.stringify(body),
   });
 
-  if (res.status === 429 && url === GEMINI_URL) {
-    console.log(`[cron/newsletter-pt] 429 on ${PRO}, retrying with ${FLASH}`);
+  // PRO is a preview model (3.1 Pro since 2026-11-07): PRO → PRO_FALLBACK (2.5 Pro until 1 Dec) → Flash.
+  const retry = [404, 429, 500, 503].includes(res.status);
+  if (retry && url === GEMINI_URL && PRO_FALLBACK !== PRO && PRO_FALLBACK !== FLASH) {
+    console.log(`[cron/newsletter-pt] ${res.status} on ${PRO}, retrying with ${PRO_FALLBACK}`);
+    return geminiPost(GEMINI_URL_PRO_FALLBACK, body);
+  }
+  if (retry && (url === GEMINI_URL || url === GEMINI_URL_PRO_FALLBACK)) {
+    console.log(`[cron/newsletter-pt] ${res.status}, retrying with ${FLASH}`);
     return geminiPost(GEMINI_URL_FALLBACK, body);
   }
 
