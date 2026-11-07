@@ -7,6 +7,54 @@ impressions / pos 9.3 over 28 days (prev 28: 191 / 10,293 / 16.9);
 subscribers 56 active (34 EN, 22 PT), ~1.4 net/week; signups by page: none
 recorded yet (tracking started today).
 
+## 2026-11-07 — Event snippets: weekday, start time, tidy prices (#39); em-dash pass (#42)
+- Run 09:30 UTC Sat, outside the freeze. Not Mon/Tue, so no guide re-check.
+- Metrics (`metrics/2026-11-07.json`): 464 clicks / 21,184 impr / pos 10.69
+  over 28d (yesterday 415 / 19,781 / 10.82; prev 28d 330 / 13,278 / 10.05).
+  Last 7d **223 clicks vs 77**, impressions 8,895 vs 4,048, CTR 2.5% vs
+  1.9%, position 10.0 vs 13.3. GA4 7d 106 users / 134 sessions / 356 PV
+  (prev 53 / 64 / 132), best week again; 84 organic, 27 direct, 13 AI, 7
+  organic social; `sign_up` 3. Subscribers 69 (11-05). Signups attributed
+  28d: 18 (9 event, 4 porto-events, 2 archive, 2 home, 1 blog); 1 new since
+  yesterday (11-06 20:46 EN, homepage). Instagram 22 followers (+1).
+- Result due: 10-17 event snippets → **worked, modestly** (filled in): /event/
+  CTR 2.03% → 3.08% (ex-Iberanime 2.87% → 3.08%).
+- Why: #39. Upcoming event pages rank on page one but lose the click:
+  Outworld 323 impr / 2.2% at pos 7.6, Bate Papo com Theo (PT) 178 / 1.1% at
+  pos 6, Siza Talks 92 / 1.1% at pos 4, Al Di Meola PT 76 / 1.3%. Snippets had
+  no weekday or start time, prices in mixed formats ("53€",
+  "€30.00–€70.00"), 32 upcoming EN pages said "Gratuito", and every title
+  had an em dash (humanizer rule; also #42).
+- Change (d039227), `lib/event-seo.ts`: titles "Outworld · Sat 28 Nov 2026,
+  Super Bock Arena · Tickets & Info" (weekday for one-day events when it
+  fits, else the old form); descriptions start "Saturday 28 November 2026,
+  22:00, at Super Bock Arena. Tickets €53." (time only from the record, 367 of
+  394 upcoming have one; none for ranges or 00:00). `priceText` puts euro
+  prices in one format and maps PT labels on EN pages to Free/Free entry.
+  It also feeds guide "Coming up" blocks, listings and the PT event price pin,
+  so those read the same. It only reformats numbers already in the text.
+  Em dashes gone from event titles/descriptions (incl. names and venues
+  holding one), archive descriptions, SubscribeCTA (EN+PT) and the month-hub
+  description + intro. Sitemap EVENT_SNIPPETS + ARCHIVE_VENUE_SNIPPETS → 11-07.
+- Verified: tsc; all 972 events × 2 languages: max title 77 (as before),
+  max description 155, 0 em dashes; 21 price samples checked by hand; build OK
+  (twice; the second after removing a dash from archive pick names); built
+  Outworld EN, Bate Papo PT, November hub, October 8-14 archive checked;
+  SubscribeCTA text on 1,944 event pages. Live: /api/version = d039227,
+  Outworld title live, health ok (9 checks, 0 failed). Indexing API: 5
+  changed event URLs → 200.
+- Expect: /event/ CTR from 3.08% toward 3.5–4% over 28d, mostly on upcoming
+  events that rank on page one.
+- Measure on: 2026-12-05 (GSC /event/ pages CTR, 11-08 → 12-02 vs 10-18 → 11-04;
+  and the four pages above).
+- Result:
+- Left for later (#42): em dashes in site-wide brand titles (app/layout.tsx
+  default title/description/OG, /archive index, archive JSON-LD headline).
+- Next run (Mon 11-09): guide re-check if guidesDue() has any; #29/#30
+  Fever + Gomry measurement due 11-10.
+- Needs owner: nothing new. Still open from 11-06: reading `picks path=` for
+  the 11-05 run (Opus picks) needs Actions or Vercel log access.
+
 ## 2026-11-06 — Christmas + New Year hub (#40); Fujifilm duplicate merged
 - Run 09:00 UTC Fri, outside the freeze. Not Mon/Tue, so no guide re-check.
 - Metrics (`metrics/2026-11-06.json`): 415 clicks / 19,781 impr / pos 10.82
@@ -1067,7 +1115,12 @@ recorded yet (tracking started today).
 - Expect: event-page CTR up (target ≥2% on queries with 100+ impressions);
   guide CTR up.
 - Measure on: 2026-11-07
-- Result:
+- Result (11-07, GSC /event/ pages, 09-19→10-16 vs 10-18→11-04): **worked,
+  modestly.** CTR 2.03% → 3.08% (147 / 7,255 → 225 / 7,305) on twice the
+  pages (417 → 893). Without Iberanime 2.87% → 3.08%; Iberanime itself 0.2%
+  → 0.5% (12 / 2,558 in 28d, past event). Only one query now has 100+ impr
+  on an event page in the window ("outworld porto" 88 / 3 clicks, pos 7.6).
+  Follow-up shipped as #39 on 11-07.
 
 ## 2026-10-17 — Subscribe forms where search visitors land
 - Why: 11 of the top 12 landing pages (guides, events) couldn't convert:
