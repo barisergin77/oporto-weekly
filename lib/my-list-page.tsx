@@ -15,7 +15,7 @@ import { MyList } from '@/app/components/MyList';
  */
 export function myListMetadata(lang: 'en' | 'pt'): Metadata {
   return {
-    title: lang === 'en' ? 'My list · Oporto Weekly' : 'A minha lista · Oporto Weekly',
+    title: lang === 'en' ? 'My list' : 'A minha lista',
     robots: { index: false, follow: true },
     alternates: { languages: { en: '/my-list', pt: '/pt/minha-lista' } },
   };
