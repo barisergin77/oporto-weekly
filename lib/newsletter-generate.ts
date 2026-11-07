@@ -38,7 +38,7 @@ export async function geminiPost(url: string, body: object, attempt = 0): Promis
     return geminiPost(url, body, attempt + 1);
   }
 
-  console.log(`[geminiPost] Used model: ${url.includes(`/${PRO}:`) ? PRO : FLASH} (status ${res.status})`);
+  console.log(`[geminiPost] Used model: ${/\/models\/([^:]+):/.exec(url)?.[1] ?? '?'} (status ${res.status})`);
   return res;
 }
 
@@ -200,7 +200,7 @@ export async function generateNewsletter(
   heroImageUrl: string,
   weekRange: string,
   corrections: string[] = [],
-  opts: { compose?: boolean; picks?: PresetPick[] } = {},
+  opts: { compose?: boolean; picks?: PresetPick[]; model?: string } = {},
 ): Promise<string> {
   const today = new Date().toLocaleDateString('en-GB', {
     weekday: 'long', year: 'numeric', month: 'long', day: 'numeric',
@@ -360,7 +360,9 @@ ${HUMANIZER_RULES}
 CRITICAL OUTPUT:
 Return ONLY the complete HTML. No markdown fences, no commentary, no code blocks.`;
 
-  const res = await geminiPost(GEMINI_URL, {
+  // opts.model: owner test copies only (/api/cron/newsletter-model-test).
+  // Real editions never pass it, so they keep PRO with the Flash fallback.
+  const res = await geminiPost(opts.model ? geminiEndpoint(opts.model) : GEMINI_URL, {
     contents: [{ parts: [{ text: prompt }] }],
     generationConfig: { maxOutputTokens: 65536 },
   });
