@@ -1,5 +1,5 @@
 {
-  "syncedAt": "2026-11-06T04:30:12Z",
+  "syncedAt": "2026-11-07T04:30:56Z",
   "source": "https://www.gomry.com/api/v1/catalog/events",
   "items": [
     {
@@ -48,10 +48,10 @@
       "end": "2026-12-27T14:00:00.000Z",
       "venue": "Estadio do Dragao",
       "city": "Porto",
-      "priceFrom": 105.49,
+      "priceFrom": 100.32,
       "currency": "USD",
       "isFree": false,
-      "availability": "unknown",
+      "availability": "on_sale",
       "organization": "Gomry Retail",
       "categories": [
         "sports",
@@ -70,7 +70,7 @@
       "priceFrom": 147.95,
       "currency": "USD",
       "isFree": false,
-      "availability": "on_sale",
+      "availability": "unknown",
       "organization": "Gomry Retail",
       "categories": [
         "sports",
@@ -86,7 +86,7 @@
       "end": "2027-02-07T14:00:00.000Z",
       "venue": "Estadio do Dragao",
       "city": "Porto",
-      "priceFrom": 164.22,
+      "priceFrom": 163.08,
       "currency": "USD",
       "isFree": false,
       "availability": "on_sale",
@@ -108,7 +108,7 @@
       "priceFrom": 206.52,
       "currency": "USD",
       "isFree": false,
-      "availability": "on_sale",
+      "availability": "unknown",
       "organization": "Gomry Retail",
       "categories": [
         "sports",
@@ -124,7 +124,7 @@
       "end": "2027-03-07T14:00:00.000Z",
       "venue": "Estadio do Dragao",
       "city": "Porto",
-      "priceFrom": 164.32,
+      "priceFrom": 164.22,
       "currency": "USD",
       "isFree": false,
       "availability": "unknown",
@@ -146,7 +146,7 @@
       "priceFrom": 210.15,
       "currency": "USD",
       "isFree": false,
-      "availability": "on_sale",
+      "availability": "unknown",
       "organization": "Gomry Retail",
       "categories": [
         "sports",
@@ -162,7 +162,7 @@
       "end": "2027-04-04T20:00:00.000Z",
       "venue": "Estadio do Dragao",
       "city": "Porto",
-      "priceFrom": 164.22,
+      "priceFrom": 163.08,
       "currency": "USD",
       "isFree": false,
       "availability": "on_sale",
@@ -181,10 +181,10 @@
       "end": "2027-04-18T20:00:00.000Z",
       "venue": "Estadio do Dragao",
       "city": "Porto",
-      "priceFrom": 261.99,
+      "priceFrom": 261.84,
       "currency": "USD",
       "isFree": false,
-      "availability": "on_sale",
+      "availability": "unknown",
       "organization": "Gomry Retail",
       "categories": [
         "sports",
