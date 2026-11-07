@@ -1,0 +1,26 @@
+{
+  "slug": "em-casa-damalia-o-concerto-ao-vivo-coliseu-porto-ageas-nov-12-2026",
+  "name": "Em Casa D'Amália — O Concerto ao Vivo",
+  "date": "2026-11-12T21:30",
+  "endDate": "2026-11-13",
+  "venue": "Coliseu Porto Ageas",
+  "venueSlug": "coliseu-porto-ageas",
+  "price": "25–55€",
+  "priceFrom": 25,
+  "currency": "EUR",
+  "category": "music",
+  "description": "Em Casa D'Amália, O Concerto ao Vivo comes to Coliseu Porto Ageas to celebrate the life and music of Amália Rodrigues.",
+  "longDescription": "Em Casa D'Amália, O Concerto ao Vivo comes to Coliseu Porto Ageas on 12 and 13 November 2026, starting at 21:30. The production adapts its format for the venue, bringing together notable voices in Portuguese music to celebrate the songs, life, and legacy of Amália Rodrigues.\n\nThe show features traditional fado alongside other musical styles influenced by the fadista. Tickets range from 25€ to 55€, and the event is rated for ages 6 and over.",
+  "sourceEdition": "forward-scan",
+  "externalLink": "https://www.agenda-porto.pt/evento/coliseu-em-casa-damalia/",
+  "pickCandidate": true,
+  "addedAt": "2026-11-07T06:00:50.684Z",
+  "lastSeenAt": "2026-11-07T06:00:50.684Z",
+  "descriptionPt": "Em Casa D'Amália, O Concerto ao Vivo chega ao Coliseu Porto Ageas para celebrar a vida e a música de Amália Rodrigues.",
+  "longDescriptionPt": "Em Casa D'Amália, O Concerto ao Vivo sobe ao palco do Coliseu Porto Ageas a 12 e 13 de novembro de 2026, com início às 21:30. A produção adapta o seu formato à sala portuense e junta várias vozes de destaque da música portuguesa para recordar as canções, a vida e o legado de Amália Rodrigues.\n\nO espetáculo combina o fado tradicional com outros géneros musicais influenciados pela fadista. Os bilhetes custam entre 25€ e 55€, e a entrada é permitida a maiores de 6 anos.",
+  "image": {
+    "url": "https://i.imgur.com/SleaK5n.jpeg",
+    "credit": "Photo: Agenda-porto",
+    "sourceUrl": "https://www.agenda-porto.pt/evento/coliseu-em-casa-damalia/"
+  }
+}

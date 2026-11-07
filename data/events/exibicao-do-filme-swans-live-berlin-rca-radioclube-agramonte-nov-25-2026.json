@@ -1,0 +1,25 @@
+{
+  "slug": "exibicao-do-filme-swans-live-berlin-rca-radioclube-agramonte-nov-25-2026",
+  "name": "Exibição do Filme: SWANS LIVE BERLIN",
+  "date": "2026-11-25T20:00",
+  "venue": "RCA - Radioclube Agramonte",
+  "venueSlug": "rca-radioclube-agramonte",
+  "price": "4€",
+  "priceFrom": 4,
+  "currency": "EUR",
+  "category": "music",
+  "description": "Radioclube Agramonte hosts a screening of the concert film Swans Live Berlin in Porto.",
+  "longDescription": "Radioclube Agramonte hosts the screening of the concert film Swans Live Berlin on 25 November 2026 at 20:00.\n\nThe session has a duration of 120 minutes and is presented in collaboration with Music On Music. General admission tickets cost 4€.",
+  "sourceEdition": "forward-scan",
+  "externalLink": "https://www.bol.pt/Comprar/Bilhetes/188796-exibicao_do_filme_swans_live_berlin-radioclube_agramonte/",
+  "pickCandidate": true,
+  "addedAt": "2026-11-07T06:01:14.354Z",
+  "lastSeenAt": "2026-11-07T06:01:14.354Z",
+  "descriptionPt": "O Radioclube Agramonte recebe no Porto a exibição do filme-concerto Swans Live Berlin.",
+  "longDescriptionPt": "O Radioclube Agramonte recebe a exibição do filme-concerto Swans Live Berlin no dia 25 de novembro de 2026, às 20h00.\n\nA sessão dura 120 minutos e é apresentada em colaboração com a Music On Music. O bilhete geral custa 4€.",
+  "image": {
+    "url": "https://i.imgur.com/cvkubcQ.jpeg",
+    "credit": "Photo: BOL",
+    "sourceUrl": "https://www.bol.pt/Comprar/Bilhetes/188796-exibicao_do_filme_swans_live_berlin-radioclube_agramonte/"
+  }
+}

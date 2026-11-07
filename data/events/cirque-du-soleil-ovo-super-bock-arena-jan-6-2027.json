@@ -1,0 +1,26 @@
+{
+  "slug": "cirque-du-soleil-ovo-super-bock-arena-jan-6-2027",
+  "name": "Cirque Du Soleil – OVO",
+  "date": "2027-01-06T20:30",
+  "endDate": "2027-01-10",
+  "venue": "Super Bock Arena",
+  "venueSlug": "super-bock-arena",
+  "price": "45€ – 155€",
+  "priceFrom": 45,
+  "currency": "EUR",
+  "category": "family",
+  "description": "Cirque du Soleil presents OVO at Super Bock Arena, featuring an insect-themed production with 53 acrobats and performers.",
+  "longDescription": "Cirque du Soleil brings its production OVO to Porto for the first time, running from 6 to 10 January 2027 at Super Bock Arena. The show depicts the ecosystem of insects through acrobatics, comedy and character performances following Ladybug, Voyager and Master Flipo. On stage, 53 performers from an international cast present trampoline acts, contortion and aerial numbers.\n\nFirst created in 2009, this touring version features updated costumes, new characters, reworked acrobatic acts and an updated soundtrack. Ticket prices vary across seating categories from 45 euros up to 155 euros depending on the purchase window and section, including VIP, balcony tiers and reduced mobility seating.",
+  "sourceEdition": "forward-scan",
+  "externalLink": "https://www.superbockarena.pt/evento/cirque-du-soleil-ovo-3/",
+  "pickCandidate": true,
+  "addedAt": "2026-11-07T06:01:15.253Z",
+  "lastSeenAt": "2026-11-07T06:01:15.253Z",
+  "descriptionPt": "O Cirque du Soleil apresenta OVO na Super Bock Arena, com uma produção dedicada ao mundo dos insetos que junta 53 acrobatas e artistas.",
+  "longDescriptionPt": "O Cirque du Soleil traz a produção OVO ao Porto pela primeira vez, em cena de 6 a 10 de janeiro de 2027 na Super Bock Arena. O espetáculo retrata o ecossistema dos insetos através de acrobacias, comédia e personagens como a Joaninha, o Viajante e o Mestre Flipo. Em palco, 53 artistas de um elenco internacional apresentam números de trampolim, contorcionismo e acrobacias aéreas.\n\nCriada em 2009, esta versão em digressão inclui figurinos renovados, novas personagens, atos acrobáticos reformulados e uma banda sonora atualizada. Os bilhetes variam entre 45 e 155 euros, consoante a fase de compra e o setor escolhido, com opções em zona VIP, balcões e lugares para pessoas com mobilidade reduzida.",
+  "image": {
+    "url": "https://i.imgur.com/a9yN7IU.jpeg",
+    "credit": "Photo: Superbockarena",
+    "sourceUrl": "https://www.superbockarena.pt/evento/cirque-du-soleil-ovo-3/"
+  }
+}
