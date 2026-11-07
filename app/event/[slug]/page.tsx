@@ -135,12 +135,15 @@ export default function EventPage({ params }: { params: { slug: string } }) {
             fontSize: 40,
             lineHeight: 1.15,
             color: colors.heading,
-            margin: '0 0 20px',
+            margin: ev.nameEn ? '0 0 6px' : '0 0 20px',
             letterSpacing: -0.5,
           }}
         >
           {ev.name}
         </h1>
+        {ev.nameEn && (
+          <p style={{ fontSize: 18, fontStyle: 'italic', color: colors.textSoft, margin: '0 0 20px' }}>{ev.nameEn}</p>
+        )}
 
         {/* Hero image or placeholder */}
         <EventHero event={ev} />

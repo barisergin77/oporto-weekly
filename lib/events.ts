@@ -68,6 +68,14 @@ export interface EventRecord {
    * (bands, venues) that must stay as-is. All fall back to the EN field.
    */
   namePt?: string;
+  /**
+   * Short English gloss of a Portuguese event name, shown as a small second
+   * line under the title on EN pages only (owner 2026-11-07). The title itself
+   * stays Portuguese (posters, tickets, search). null = checked, nothing to
+   * translate (already English, or a band/artist/proper name). Filled by the
+   * server job ~/oporto-name-en (scripts/name-en.ts).
+   */
+  nameEn?: string | null;
   descriptionPt?: string;
   longDescriptionPt?: string;
   /** Slug of the newsletter edition this event was extracted from. */

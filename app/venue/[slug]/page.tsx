@@ -250,6 +250,7 @@ function EventRow({ event: e, muted = false }: { event: EventRecord; muted?: boo
           >
             {e.name}
           </div>
+          {e.nameEn && <div style={{ fontSize: 14, fontStyle: 'italic', color: colors.textSoft, marginBottom: 4 }}>{e.nameEn}</div>}
           <div style={{ fontSize: 13, color: colors.textSoft }}>
             {formatShortDate(e.date, e.endDate)} · {subcategoryLabel(e, 'en')}
             {e.price && ` · ${e.price}`}

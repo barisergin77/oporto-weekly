@@ -96,6 +96,8 @@ export interface FilterItem {
   slug: string;
   href: string;
   name: string;
+  /** EN pages: English gloss of a Portuguese name, shown under it. */
+  subtitle?: string;
   /** Second line: dates · venue · price. */
   meta: string;
   /** Short description, shown under meta in list rows. */

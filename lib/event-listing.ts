@@ -27,6 +27,7 @@ export function toFilterItem(e: EventRecord, lang: Lang, withYear = false): Filt
     slug: e.slug,
     href: lang === 'pt' ? `/pt/event/${e.slug}` : `/event/${e.slug}`,
     name: disp.name,
+    ...(lang === 'en' && e.nameEn ? { subtitle: e.nameEn } : {}),
     meta: [shortDates(e, lang, withYear), e.venue, price].filter(Boolean).join(' · '),
     ...(disp.description ? { summary: disp.description } : {}),
     emoji: SUBCATEGORY_EMOJI[sub],
@@ -38,7 +39,7 @@ export function toFilterItem(e: EventRecord, lang: Lang, withYear = false): Filt
     kids: isKidsEvent(e),
     start: day(e.date),
     end: day(e.endDate ?? e.date),
-    search: normalize([e.name, e.namePt, e.venue, disp.description].filter(Boolean).join(' ')),
+    search: normalize([e.name, e.namePt, e.nameEn, e.venue, disp.description].filter(Boolean).join(' ')),
     ...(e.image?.url ? { image: e.image.url } : {}),
   };
 }

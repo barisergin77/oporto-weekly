@@ -256,6 +256,7 @@ function Row({ i }: { i: FilterItem }) {
       <Link href={i.href} style={{ color: colors.heading, textDecoration: 'none', fontSize: 16, fontWeight: 600 }}>
         {i.emoji} {i.name}
       </Link>
+      {i.subtitle && <div style={{ fontSize: 14, fontStyle: 'italic', color: colors.textSoft, marginTop: 2 }}>{i.subtitle}</div>}
       <div style={{ fontSize: 13, color: colors.textSoft, marginTop: 3 }}>{i.meta}</div>
       {i.summary && <p style={{ fontSize: 15, color: colors.text, lineHeight: 1.55, margin: '6px 0 0' }}>{i.summary}</p>}
     </li>
@@ -293,6 +294,7 @@ function Card({ i, soon }: { i: FilterItem; soon: string }) {
         <h3 style={{ fontFamily: typography.serif, fontSize: 19, color: colors.heading, margin: 0, lineHeight: 1.3, letterSpacing: -0.2 }}>
           {i.name}
         </h3>
+        {i.subtitle && <div style={{ fontSize: 14, fontStyle: 'italic', color: colors.textSoft, marginTop: -4 }}>{i.subtitle}</div>}
         <div style={{ fontSize: 13, color: colors.textSoft, lineHeight: 1.5 }}>{i.meta}</div>
         {i.summary && (
           <p style={{ fontSize: 14, color: colors.text, lineHeight: 1.5, margin: 0, display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
