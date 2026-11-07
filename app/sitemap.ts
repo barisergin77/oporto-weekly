@@ -15,10 +15,13 @@ import { LANDING_PATHS, landingIndexable, type LandingKind } from '@/lib/event-l
 // 2026-09-05: crawled Jul 4, fixed Jul 18, lastmod still said Jul 2.
 const ARCHIVE_HREFLANG = new Date('2026-07-18T12:50:00Z'); // bidirectional hreflang on archive + home
 const PT_NAMESPACE = new Date('2026-08-29T19:36:57Z'); // /pt/event, /pt/venue, /pt/blog + EN hreflang back-links
-const EVENT_SNIPPETS = new Date('2026-10-17T18:00:00Z'); // event <title>/description rewrite (lib/event-seo.ts)
+// Event <title>/description rewrite (lib/event-seo.ts), 2026-10-17; again
+// 2026-11-07 (#39: weekday, start time, tidy prices, no em dash).
+const EVENT_SNIPPETS = new Date('2026-11-07T12:00:00Z');
 // Archive + venue <title>/description rewrite, and the archive pages no longer
-// embed a second <head>/<title> from the stored email HTML.
-const ARCHIVE_VENUE_SNIPPETS = new Date('2026-10-17T20:00:00Z');
+// embed a second <head>/<title> from the stored email HTML. Archive
+// descriptions lost their em dash 2026-11-07 (#42).
+const ARCHIVE_VENUE_SNIPPETS = new Date('2026-11-07T12:00:00Z');
 const VENUE_NEXT_EVENTS = new Date('2026-11-02T09:30:00Z'); // venue descriptions name the next events
 
 // A guide's body changes when it is fact-checked (data/guide-checks.json,

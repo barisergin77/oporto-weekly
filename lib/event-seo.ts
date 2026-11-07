@@ -43,12 +43,52 @@ export function shortDates(ev: EventRecord, lang: 'en' | 'pt', withYear: boolean
   return `${dm(s)} – ${dm(e)}${y(e)}`;
 }
 
-const venueRoot = (venue: string) => venue.split(/[,/]/)[0].trim();
+const venueRoot = (venue: string) => venue.split(/[,/]/)[0].trim().replace(/\s*—\s*/g, ', ');
+
+const WEEKDAYS = {
+  en: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+  pt: ['dom', 'seg', 'ter', 'qua', 'qui', 'sex', 'sáb'],
+};
+const WEEKDAYS_LONG = {
+  en: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+  pt: ['domingo', 'segunda-feira', 'terça-feira', 'quarta-feira', 'quinta-feira', 'sexta-feira', 'sábado'],
+};
+
+const singleDay = (ev: EventRecord) => !ev.endDate || ev.endDate.slice(0, 10) === ev.date.slice(0, 10);
+
+/** "21:30" from "2026-11-28T21:30"; '' when the record has no time (or a 00:00 placeholder). */
+function startTime(ev: EventRecord): string {
+  const m = ev.date.match(/T(\d{2}):(\d{2})/);
+  return m && `${m[1]}:${m[2]}` !== '00:00' ? `${m[1]}:${m[2]}` : '';
+}
+
+/**
+ * One euro format for the stored free-text prices ("53€", "€ 15", "30€ – 45€",
+ * "€30.00–€70.00" → "€53", "€15", "€30–€45", "€30–€70"). Only reformats
+ * numbers already in the text; anything else passes through unchanged.
+ */
+function tidyEuros(p: string): string {
+  const n = String.raw`(\d+(?:[.,]\d{1,2})?)`;
+  const num = (s: string) => s.replace(/[.,]00$/, '');
+  return p
+    .replace(new RegExp(String.raw`^€?\s?${n}\s?€?\s*(?:–|-|a|to)\s*€?\s?${n}\s?(?:€|euros?)$`, 'i'), (_, a, b) => `€${num(a)}–€${num(b)}`)
+    .replace(new RegExp(String.raw`€\s?${n}\s*(?:–|-)\s*€\s?${n}`, 'g'), (_, a, b) => `€${num(a)}–€${num(b)}`)
+    .replace(new RegExp(String.raw`(^|\s)${n}\s?(?:€|euros?\b)`, 'gi'), (_, pre, a) => `${pre}€${num(a)}`)
+    .replace(new RegExp(String.raw`€\s${n}`, 'g'), (_, a) => `€${num(a)}`)
+    .replace(new RegExp(String.raw`€${n}`, 'g'), (_, a) => `€${num(a)}`);
+}
 
 export function priceText(price: string | undefined, lang: 'en' | 'pt'): string {
   if (!price) return '';
-  const p = price.trim();
-  if (lang === 'en') return /^tickets?$/i.test(p) ? 'Ticketed' : p;
+  const p = tidyEuros(price.trim());
+  if (lang === 'en') {
+    // Some records carry the Portuguese label from a PT source page.
+    const en: Record<string, string> = {
+      gratuito: 'Free', 'entrada livre': 'Free entry', 'entrada gratuita': 'Free entry', grátis: 'Free',
+    };
+    if (en[p.toLowerCase()]) return en[p.toLowerCase()];
+    return /^tickets?$/i.test(p) ? 'Ticketed' : p.replace(/^A partir de\s+/i, 'From ');
+  }
   const map: Record<string, string> = {
     free: 'Gratuito', 'free entry': 'Entrada gratuita', 'free to explore': 'Entrada gratuita',
     ticketed: 'Com bilhete', tickets: 'Com bilhete', ticket: 'Com bilhete', 'tickets required': 'Com bilhete', varies: 'Preço variável',
@@ -81,28 +121,43 @@ function clip(text: string, max: number): string {
 
 export function eventSeo(ev: EventRecord, lang: 'en' | 'pt', now: Date = new Date()) {
   const disp = eventDisplay(ev, lang);
-  const name = disp.name.trim();
+  const name = disp.name.trim().replace(/\s*—\s*/g, ', ');
   const nameHasYear = /\b20\d{2}\b/.test(name);
   const dates = shortDates(ev, lang, !nameHasYear);
   const venue = venueRoot(ev.venue);
   const upcoming = (ev.endDate ?? ev.date).slice(0, 10) >= now.toISOString().slice(0, 10);
 
-  // Title: name — dates, venue · Tickets & Info — adding each part only while
-  // it still fits what Google shows. "Tickets & Info" mirrors how people
+  // Title: name · [weekday] dates, venue · Tickets & Info, taking the fullest
+  // version that fits what Google shows. "Tickets & Info" mirrors how people
   // search for an upcoming event, so it's left off once the event is over.
-  let title = `${name} — ${dates}`;
-  const withVenue = `${title}, ${venue}`;
-  if (withVenue.length <= TITLE_MAX && !name.toLowerCase().includes(venue.toLowerCase())) title = withVenue;
+  // 2026-11-07 (#39): weekday added for one-day events (people plan by day),
+  // and no em dash (humanizer rule).
+  const wd = singleDay(ev) ? `${WEEKDAYS[lang][toDate(ev.date).getUTCDay()]} ` : '';
   const suffix = lang === 'pt' ? ' · Bilhetes e Info' : ' · Tickets & Info';
-  if (upcoming && (title + suffix).length <= TITLE_MAX) title += suffix;
+  const showVenue = !name.toLowerCase().includes(venue.toLowerCase());
+  const candidates = [
+    ...(upcoming && showVenue ? [`${name} · ${wd}${dates}, ${venue}${suffix}`, `${name} · ${dates}, ${venue}${suffix}`] : []),
+    ...(showVenue ? [`${name} · ${wd}${dates}, ${venue}`, `${name} · ${dates}, ${venue}`] : []),
+    ...(upcoming ? [`${name} · ${wd}${dates}${suffix}`, `${name} · ${dates}${suffix}`] : []),
+    `${name} · ${wd}${dates}`,
+  ];
+  let title = candidates.find((t) => t.length <= TITLE_MAX) ?? `${name} · ${dates}`;
   if (title.length > TITLE_MAX + 15) title = clip(title, TITLE_MAX + 15);
 
-  // Description: the facts a searcher compares results on, then the hook.
+  // Description: the facts a searcher compares results on (day, start time,
+  // venue, price), then the hook.
   const longDates = shortDates(ev, lang, true, true);
-  const at = lang === 'pt' ? `${longDates}, ${ev.venue}` : `${longDates} at ${ev.venue}`;
+  const time = singleDay(ev) ? startTime(ev) : '';
+  const day = singleDay(ev) ? WEEKDAYS_LONG[lang][toDate(ev.date).getUTCDay()] : '';
+  const at = lang === 'pt'
+    ? `${day ? `${day[0].toUpperCase()}${day.slice(1)}, ` : ''}${longDates}${time ? `, às ${time}` : ''}, ${ev.venue}`
+    : `${day ? `${day} ` : ''}${longDates}${time ? `, ${time},` : ''} at ${ev.venue}`;
   const price = priceText(ev.price, lang);
+  const priceLine = !price ? '' : /^€/.test(price)
+    ? (lang === 'pt' ? `Bilhetes ${price}.` : `Tickets ${price}.`)
+    : `${price}.`;
   const firstSentence = (disp.description || '').split(/(?<=[.!?])\s/)[0] ?? '';
-  const description = clip([`${at}.`, price ? `${price}.` : '', firstSentence].filter(Boolean).join(' '), DESC_MAX);
+  const description = clip([`${at}.`, priceLine, firstSentence].filter(Boolean).join(' ').replace(/\s*—\s*/g, ', '), DESC_MAX);
 
   return { title, description };
 }
@@ -125,14 +180,14 @@ export function editionSeo(
     .slice()
     .sort((a, b) => (a.editorPickRank ?? 9) - (b.editorPickRank ?? 9))
     .slice(0, 3)
-    .map((e) => eventDisplay(e, lang).name);
+    .map((e) => eventDisplay(e, lang).name.trim().replace(/\s*—\s*/g, ', '));
   const title = lang === 'pt'
     ? `Eventos no Porto · ${edition.weekRange}`
     : `Porto Events · ${edition.weekRange}`;
   const list = names.length ? names.join(', ') : '';
   const description = lang === 'pt'
-    ? clip(`O que fazer no Porto na semana de ${edition.weekRange}${list ? `: ${list} e mais` : ''} — concertos, exposições, mercados e festivais escolhidos pela Oporto Weekly.`, DESC_MAX)
-    : clip(`What's on in Porto, ${edition.weekRange}${list ? `: ${list} and more` : ''} — concerts, exhibitions, markets and festivals picked by Oporto Weekly.`, DESC_MAX);
+    ? clip(`O que fazer no Porto na semana de ${edition.weekRange}${list ? `: ${list} e mais` : ''}. Concertos, exposições, mercados e festivais escolhidos pela Oporto Weekly.`, DESC_MAX)
+    : clip(`What's on in Porto, ${edition.weekRange}${list ? `: ${list} and more` : ''}. Concerts, exhibitions, markets and festivals picked by Oporto Weekly.`, DESC_MAX);
   return { title, description };
 }
 

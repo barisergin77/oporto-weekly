@@ -35,8 +35,8 @@ export function monthHubMetadata(m: Month, lang: Lang): Metadata {
     ? `Eventos no Porto em ${l}: concertos, festivais e exposições`
     : `Porto Events in ${l}: Concerts, Festivals & Exhibitions`;
   const description = lang === 'pt'
-    ? `Agenda do Porto para ${l}: ${total} eventos — concertos, festivais, exposições e mercados, com datas, locais e preços. Atualizada todas as quintas.`
-    : `All ${total} events in Porto in ${l} — concerts, festivals, exhibitions and markets, with dates, venues and prices. Updated every Thursday.`;
+    ? `Agenda do Porto para ${l}: ${total} eventos: concertos, festivais, exposições e mercados, com datas, locais e preços. Atualizada todas as quintas.`
+    : `All ${total} events in Porto in ${l}: concerts, festivals, exhibitions and markets, with dates, venues and prices. Updated every Thursday.`;
   const url = hubUrl(m, lang);
   return {
     title: { absolute: title },
@@ -130,8 +130,8 @@ export function MonthHub({ m, lang }: { m: Month; lang: Lang }) {
   };
 
   const intro = pt
-    ? `${starting.length} eventos começam no Porto em ${l}${ongoing.length ? `, e mais ${ongoing.length} decorrem durante o mês` : ''}${topCats.length ? ` — incluindo ${topCats.join(', ')}` : ''}. Cada evento tem datas, local e preço, com ligação à página completa. Escolhidos pela Oporto Weekly e atualizados todas as quintas-feiras.`
-    : `${starting.length} events start in Porto in ${l}${ongoing.length ? `, and ${ongoing.length} more run through the month` : ''}${topCats.length ? ` — including ${topCats.join(', ')}` : ''}. Every listing has dates, venue and price, and links to the full event page. Picked by Oporto Weekly and updated every Thursday.`;
+    ? `${starting.length} eventos começam no Porto em ${l}${ongoing.length ? `, e mais ${ongoing.length} decorrem durante o mês` : ''}${topCats.length ? `, incluindo ${topCats.join(', ')}` : ''}. Cada evento tem datas, local e preço, com ligação à página completa. Escolhidos pela Oporto Weekly e atualizados todas as quintas-feiras.`
+    : `${starting.length} events start in Porto in ${l}${ongoing.length ? `, and ${ongoing.length} more run through the month` : ''}${topCats.length ? `, including ${topCats.join(', ')}` : ''}. Every listing has dates, venue and price, and links to the full event page. Picked by Oporto Weekly and updated every Thursday.`;
 
   return (
     <div style={{ background: colors.bg, minHeight: '100vh', fontFamily: typography.sans, color: colors.text }}>

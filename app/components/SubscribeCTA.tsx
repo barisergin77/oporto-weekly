@@ -21,7 +21,7 @@ const COPY: Record<'en' | 'pt', Record<Context, { eyebrow: string; title: string
     event: {
       eyebrow: 'Every Thursday',
       title: 'Never miss what’s on in Porto',
-      body: 'The five best things to do in Porto each week, plus concerts, exhibitions and markets — in your inbox Thursday morning. Free.',
+      body: 'The five best things to do in Porto each week, plus concerts, exhibitions and markets, in your inbox Thursday morning. Free.',
     },
     blog: {
       eyebrow: 'Enjoyed this guide?',
@@ -48,7 +48,7 @@ const COPY: Record<'en' | 'pt', Record<Context, { eyebrow: string; title: string
     event: {
       eyebrow: 'Todas as quintas-feiras',
       title: 'Não perca o que acontece no Porto',
-      body: 'As cinco melhores coisas para fazer no Porto em cada semana, mais concertos, exposições e mercados — na sua caixa de correio à quinta de manhã. Grátis.',
+      body: 'As cinco melhores coisas para fazer no Porto em cada semana, mais concertos, exposições e mercados, na sua caixa de correio à quinta de manhã. Grátis.',
     },
     blog: {
       eyebrow: 'Gostou deste guia?',
