@@ -31,6 +31,7 @@ const T = {
     clear: 'Clear list',
     clearConfirm: 'Tap again to clear',
     past: 'Already happened',
+    clearPast: 'Remove past events',
     gone: (n: number) => `${n} event${n === 1 ? ' in this list is' : 's in this list are'} no longer listed.`,
     shareTitle: 'My Porto plans · Oporto Weekly',
     base: '/my-list',
@@ -50,6 +51,7 @@ const T = {
     clear: 'Limpar lista',
     clearConfirm: 'Toque de novo para limpar',
     past: 'Já aconteceu',
+    clearPast: 'Remover eventos passados',
     gone: (n: number) => `${n} evento${n === 1 ? ' desta lista já não está listado' : 's desta lista já não estão listados'}.`,
     shareTitle: 'Os meus planos no Porto · Oporto Weekly',
     base: '/pt/minha-lista',
@@ -86,6 +88,17 @@ export function MyList({ items, lang }: { items: FilterItem[]; lang: 'en' | 'pt'
   const missing = slugs.length - found.length;
   const upcoming = found.filter((i) => i.end >= today).sort((a, b) => a.start.localeCompare(b.start));
   const past = found.filter((i) => i.end < today).sort((a, b) => b.start.localeCompare(a.start));
+
+  // Housekeeping (owner 2026-11-07): past events stay visible (greyed) for a
+  // week, then drop out of the saved list on their own; "Remove past events"
+  // clears them sooner. Shared lists are never pruned.
+  useEffect(() => {
+    if (shared || items.length === 0) return;
+    const weekAgo = new Date(Date.now() - 7 * 86400000).toLocaleDateString('en-CA', { timeZone: 'Europe/Lisbon' });
+    const cur = readSaved();
+    const keep = cur.filter((s) => { const i = bySlug.get(s); return !i || i.end >= weekAgo; });
+    if (keep.length !== cur.length) writeSaved(keep);
+  }, [shared, items, bySlug]);
 
   const shareUrl = () => `${window.location.origin}${t.base}?e=${upcoming.map((i) => i.slug).join(',')}`;
   const onShare = async () => {
@@ -148,7 +161,15 @@ export function MyList({ items, lang }: { items: FilterItem[]; lang: 'en' | 'pt'
 
       {past.length > 0 && (
         <>
-          <h2 style={{ fontSize: 13, letterSpacing: 1.5, textTransform: 'uppercase', color: colors.textSoft, margin: '28px 0 4px' }}>{t.past}</h2>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', margin: '28px 0 4px', gap: 10 }}>
+            <h2 style={{ fontSize: 13, letterSpacing: 1.5, textTransform: 'uppercase', color: colors.textSoft, margin: 0 }}>{t.past}</h2>
+            {!shared && (
+              <button type="button" style={{ ...btn, padding: '4px 10px', fontSize: 12, color: colors.textSoft }}
+                onClick={() => writeSaved(readSaved().filter((s) => !past.some((p) => p.slug === s)))}>
+                {t.clearPast}
+              </button>
+            )}
+          </div>
           <ul style={{ listStyle: 'none', padding: 0, margin: 0, opacity: 0.55 }}>
             {past.map((i) => <Row key={i.slug} i={i} lang={lang} />)}
           </ul>
