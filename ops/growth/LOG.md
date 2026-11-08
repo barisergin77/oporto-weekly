@@ -7,6 +7,57 @@ impressions / pos 9.3 over 28 days (prev 28: 191 / 10,293 / 16.9);
 subscribers 56 active (34 EN, 22 PT), ~1.4 net/week; signups by page: none
 recorded yet (tracking started today).
 
+## 2026-11-08 — Site-wide copy: em dashes and AI words out (#42); blog title fixed
+- Run 09:30 UTC Sun, outside the freeze. Not Mon/Tue, so no guide re-check.
+- Metrics (`metrics/2026-11-08.json`): 506 clicks / 22,503 impr / pos 10.57
+  over 28d (yesterday 464 / 21,184 / 10.69; prev 28d 334 / 13,266 / 10.03).
+  Last 7d **266 clicks vs 80**, impressions 9,830 vs 4,435, CTR 2.7% vs
+  1.8%, position 9.7 vs 12.9. GA4 7d 111 users / 142 sessions / 385 PV
+  (prev 60 / 73 / 155), best week again; 86 organic, 27 direct, 16 AI, 9
+  organic social; `sign_up` 4. Subscribers 69 (11-05). Signups attributed
+  28d: 19 (10 event, 4 porto-events, 2 archive, 2 home, 1 blog); 1 new since
+  yesterday (11-07 PT, Feira da Mala event page). Instagram 24 (+4 in a week).
+- Results due: none today. Low-CTR list: nothing new (Iberanime past; "siza
+  talks 2026" and "bate papo com theo" were in yesterday's #39 set, too early).
+- Why: #42 leftovers (humanizer rule 10). The site-wide default title, OG and
+  Twitter cards, /porto-events (title, description, intro "one of Europe's
+  most vibrant cities", FAQ + FAQ JSON-LD), the archive and blog indexes and
+  the feed all had em dashes; the blog indexes also said "hidden gems" /
+  "tesouros escondidos". Found along the way: /blog and /pt/blog titles
+  rendered "Porto Guide — Blog | Oporto Weekly | Oporto Weekly" (the layout
+  template appended the brand a second time).
+- Change (65b51b7): layout default "Oporto Weekly: Porto Events & Culture
+  Newsletter", description "…picked every Thursday morning…"; /porto-events
+  title "Porto Events This Week: Upcoming Things To Do in Porto", rewritten
+  descriptions, intro and FAQ answers (no em dash, no "vibrant", "curates" →
+  "picks"); /blog "Porto Guides: Shopping, Food, Nightlife and More" + new
+  description naming the actual guide topics, PT "Guias do Porto: compras,
+  comida, noite e mais"; /archive + /pt/arquivo titles/descriptions, and the
+  list's stored "Oporto Weekly — <date>" lines rendered with a colon;
+  edition JSON-LD headline "Porto Events Guide: <week>" (EN+PT), feed and
+  news-sitemap titles likewise; DayHub descriptions; OG image text; llms.txt
+  price separator; "Featured in …, the weekly edition" line; guide byline.
+  Sitemap ARCHIVE_VENUE_SNIPPETS → 11-08. Not touched: app/api/ (internal
+  emails, prompts, send path), code comments, event names (official titles).
+- Verified: tsc; build OK (twice, the second after the archive-list fix);
+  built /blog, /pt/blog, /archive, /pt/arquivo, /porto-events, home titles +
+  descriptions read correctly, 0 em dashes on the four index pages (the
+  /porto-events ones left are event names), edition headline and the
+  "Featured in" line checked in built HTML. Live: /api/version = 65b51b7,
+  /blog 200 with the new single-brand title, health ok (9 checks, 0 failed).
+  Indexing API: 5 index URLs → 200.
+- Expect: small. Cleaner snippets on /porto-events and /blog; /blog CTR up
+  from the fixed title. Mainly a rule-compliance change.
+- Measure on: 2026-12-06 (GSC /blog, /pt/blog, /porto-events CTR 28d).
+- Result:
+- Left for later: lib/ reader strings (grep lib/ for em dashes in strings,
+  e.g. guide/hub helpers), noted in #42.
+- Next run (Mon 11-09): guide re-check if guidesDue() has any; #29/#30
+  Fever + Gomry measurement due 11-10; Wednesday duplicate pass before the
+  flush (today's sweep added 19 events).
+- Needs owner: nothing new. Still open: `picks path=` for the 11-05 run
+  needs Actions or Vercel log access.
+
 ## 2026-11-07 — Event snippets: weekday, start time, tidy prices (#39); em-dash pass (#42)
 - Run 09:30 UTC Sat, outside the freeze. Not Mon/Tue, so no guide re-check.
 - Metrics (`metrics/2026-11-07.json`): 464 clicks / 21,184 impr / pos 10.69
