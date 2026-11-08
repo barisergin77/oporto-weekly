@@ -1,0 +1,25 @@
+{
+  "slug": "recriacao-do-magusto-tradicional-parque-biologico-de-gaia-nov-14-2026",
+  "name": "Recriação do Magusto Tradicional",
+  "date": "2026-11-14T16:00",
+  "venue": "Parque Biológico de Gaia",
+  "venueSlug": "parque-biologico-de-gaia",
+  "price": "€1",
+  "priceFrom": 1,
+  "currency": "EUR",
+  "category": "food",
+  "description": "Parque Biológico de Gaia marks Dia de São Martinho with a recreation of a traditional magusto on 14 November.",
+  "longDescription": "Parque Biológico de Gaia hosts a recreation of a traditional magusto to mark Dia de São Martinho. The activity takes place on 14 November 2026, running from 16:00 to 18:00.\n\nParticipation requires registration by 9 November. Entry requires paying a specific activity fee of 1 euro on top of the regular admission ticket to the park. If a participant cancels, the fee is non-refundable. If the park cancels due to adverse weather, tickets are refunded as vouchers.",
+  "sourceEdition": "forward-scan",
+  "externalLink": "https://www.cm-gaia.pt/pt/eventos/recriacao-do-magusto-tradicional/",
+  "pickCandidate": true,
+  "addedAt": "2026-11-08T14:03:24.110Z",
+  "lastSeenAt": "2026-11-08T14:03:24.110Z",
+  "descriptionPt": "O Parque Biológico de Gaia assinala o Dia de São Martinho com a recriação de um magusto tradicional a 14 de novembro.",
+  "longDescriptionPt": "O Parque Biológico de Gaia recebe a recriação de um magusto tradicional para assinalar o Dia de São Martinho. A atividade decorre a 14 de novembro de 2026, entre as 16h00 e as 18h00.\n\nA participação exige inscrição prévia até 9 de novembro. A entrada tem um custo específico de 1 euro para a atividade, que acresce ao bilhete normal de acesso ao parque. Caso o participante cancele, o valor não é reembolsável. Se o parque cancelar a iniciativa devido ao mau tempo, os bilhetes são devolvidos sob a forma de vale.",
+  "image": {
+    "url": "https://i.imgur.com/qbI7aFk.png",
+    "credit": "Photo: Cm-gaia",
+    "sourceUrl": "https://www.cm-gaia.pt/pt/eventos/recriacao-do-magusto-tradicional/"
+  }
+}
