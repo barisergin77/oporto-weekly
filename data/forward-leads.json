@@ -127,19 +127,6 @@
       "resolvedAt": "2026-10-31T08:32:37.308Z"
     },
     {
-      "name": "A Terceira de Rachmaninoff",
-      "date": "2026-11-07T18:00",
-      "venue": "Casa da Música",
-      "url": "https://casadamusica.com/event/a-terceira-de-rachmaninoff/?selected_session=44124",
-      "note": "Sala Suggia; Orquestra Sinfónica with Leo de María (Villa-Lobos Bachianas Brasileiras 3) + Rachmaninoff Symphony 3 — one concert.",
-      "source": "casa-da-musica-newsletter-2026-11",
-      "addedAt": "2026-10-25T12:00:00Z",
-      "status": "done",
-      "eventSlug": "a-terceira-de-rachmaninoff-casa-da-musica-nov-7-2026",
-      "lastTriedAt": "2026-10-26T09:31:57.768Z",
-      "resolvedAt": "2026-10-26T09:31:57.768Z"
-    },
-    {
       "name": "Saint-Saëns Organ Symphony – Orquestra Sinfónica",
       "date": "2026-11-21T18:00",
       "venue": "Casa da Música",
@@ -379,20 +366,6 @@
       "eventSlug": "do-lixo-se-faz-musica-casa-da-musica-nov-28-2026",
       "lastTriedAt": "2026-10-31T08:32:37.308Z",
       "resolvedAt": "2026-10-31T08:32:37.308Z"
-    },
-    {
-      "name": "TPC: Frei Luís de Sousaaa",
-      "date": "2026-11-04",
-      "endDate": "2026-11-07",
-      "venue": "Teatro Carlos Alberto",
-      "note": "Theatre directed by Raquel Castro: five teenagers tackle Garrett's Frei Luís de Sousa for school homework. ~1h, M/12. Portuguese Sign Language sessions Fri 6 Nov 15:00 + 21:00; post-show talk Sat 7 Nov. Ticketed.",
-      "source": "tnsj-newsletter-2026-10",
-      "addedAt": "2026-10-26T12:16:53Z",
-      "status": "rejected",
-      "attempts": 3,
-      "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
-      "lastTriedAt": "2026-10-30T08:32:23.806Z",
-      "resolvedAt": "2026-10-30T08:32:23.806Z"
     },
     {
       "name": "Ressonâncias – Prelúdio, conversa com Bianca Dacosta e Rodrigo Alzuguir",
@@ -645,20 +618,6 @@
       "resolvedAt": "2026-11-05T06:07:13.515Z"
     },
     {
-      "name": "Queer Porto 12",
-      "date": "2026-11-03",
-      "endDate": "2026-11-07",
-      "venue": "Batalha Centro de Cinema",
-      "note": "12th edition of the queer film festival; Portuguese premieres of recent LGBTQIA+ cinema",
-      "source": "batalha-newsletter-2026-11",
-      "addedAt": "2026-11-02T05:00:27Z",
-      "status": "done",
-      "eventSlug": "queer-porto-batalha-centro-de-cinema-nov-3-2026",
-      "reason": "already listed",
-      "lastTriedAt": "2026-11-02T08:31:57.526Z",
-      "resolvedAt": "2026-11-02T08:31:57.526Z"
-    },
-    {
       "name": "Elephant, de Gus Van Sant – Mental Health, Stigma and Resilience Project",
       "date": "2026-11-13",
       "venue": "Batalha Centro de Cinema",
@@ -684,19 +643,6 @@
       "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
       "lastTriedAt": "2026-11-03T14:52:06.038Z",
       "resolvedAt": "2026-11-03T14:52:06.038Z"
-    },
-    {
-      "name": "Visita em Inglês – Exposição Alice Neel",
-      "date": "2026-11-07",
-      "venue": "Serralves",
-      "note": "11:00, Ala Álvaro Siza; guided tour in English of the Alice Neel exhibition; free with Serralves general ticket",
-      "source": "serralves-newsletter-2026-11",
-      "addedAt": "2026-11-02T05:00:47Z",
-      "status": "done",
-      "eventSlug": "visita-curatorial-a-exposicao-alice-neel-ala-alvaro-siza-nov-5-2026",
-      "reason": "already listed",
-      "lastTriedAt": "2026-11-02T08:31:57.526Z",
-      "resolvedAt": "2026-11-02T08:31:57.526Z"
     },
     {
       "name": "Bruno Pernadas – Porto Sounds Secret",
@@ -726,19 +672,6 @@
       "resolvedAt": "2026-11-03T08:32:38.400Z"
     },
     {
-      "name": "Mostra Estufa",
-      "date": "2026-11-06",
-      "endDate": "2026-11-07",
-      "venue": "Teatro do Campo Alegre",
-      "note": "Contemporary circus showcase (Erva Daninha + Teatro Municipal do Porto), final edition: Albatroz (Vasco Gomes), Equilíbrios (Pedro Matias), NOCAUTE (Inês Pinho)",
-      "source": "agenda-porto-newsletter-2026-11",
-      "addedAt": "2026-11-03T05:00:34Z",
-      "status": "done",
-      "eventSlug": "mostra-estufa-2026-teatro-campo-alegre-nov-6-2026",
-      "lastTriedAt": "2026-11-03T08:32:38.400Z",
-      "resolvedAt": "2026-11-03T08:32:38.400Z"
-    },
-    {
       "name": "Cerâmica em Família",
       "date": "2026-11-07",
       "endDate": "2026-11-08",
@@ -762,84 +695,6 @@
       "status": "rejected",
       "attempts": 3,
       "reason": "not an organiser/venue/ticketing page (https://agendaculturalporto.org/eventos/a-heranca-do-duque-da-ribeira-percurso-e-filme-no-porto/)",
-      "lastTriedAt": "2026-11-04T08:32:01.874Z",
-      "resolvedAt": "2026-11-04T08:32:01.874Z"
-    },
-    {
-      "name": "Entre a liberdade e a violência – Encontro com ZABRA",
-      "date": "2026-11-07",
-      "venue": "Serralves",
-      "note": "11:30, Biblioteca; free entry; talk/meeting, part of O Museu como Performance",
-      "source": "serralves-newsletter-2026-11",
-      "addedAt": "2026-11-04T05:00:27Z",
-      "status": "done",
-      "eventSlug": "entre-a-liberdade-e-a-violencia-encontro-com-zabra-serralves-nov-7-2026",
-      "reason": "already listed",
-      "lastTriedAt": "2026-11-04T08:32:01.874Z",
-      "resolvedAt": "2026-11-04T08:32:01.874Z"
-    },
-    {
-      "name": "The Fountain – Ivan Cheng",
-      "date": "2026-11-07",
-      "venue": "Serralves",
-      "note": "14:30 and 19:50, Galerias do Museu; 30 min performance, part of O Museu como Performance",
-      "source": "serralves-newsletter-2026-11",
-      "addedAt": "2026-11-04T05:00:27Z",
-      "status": "done",
-      "eventSlug": "ivan-cheng-the-fountain-serralves-nov-7-2026",
-      "reason": "already listed",
-      "lastTriedAt": "2026-11-04T08:32:01.874Z",
-      "resolvedAt": "2026-11-04T08:32:01.874Z"
-    },
-    {
-      "name": "Vorace – Sofia Kafol",
-      "date": "2026-11-07",
-      "venue": "Serralves",
-      "note": "15:10, Galeria Contemporânea; 50 min performance, part of O Museu como Performance",
-      "source": "serralves-newsletter-2026-11",
-      "addedAt": "2026-11-04T05:00:27Z",
-      "status": "done",
-      "eventSlug": "sofia-kafol-vorace-galeria-contemporanea-do-museu-nov-7-2026",
-      "reason": "already listed",
-      "lastTriedAt": "2026-11-04T08:32:01.874Z",
-      "resolvedAt": "2026-11-04T08:32:01.874Z"
-    },
-    {
-      "name": "It's Got Legs!!!!!! – Samir Kennedy & Sean Alexander Murray",
-      "date": "2026-11-07",
-      "venue": "Serralves",
-      "note": "16:10, Auditório do Museu; 60 min performance, contains full nudity; part of O Museu como Performance",
-      "source": "serralves-newsletter-2026-11",
-      "addedAt": "2026-11-04T05:00:27Z",
-      "status": "done",
-      "eventSlug": "samir-kennedy-sean-alexander-murray-its-got-legs-museu-nov-7-2026",
-      "reason": "already listed",
-      "lastTriedAt": "2026-11-04T08:32:01.874Z",
-      "resolvedAt": "2026-11-04T08:32:01.874Z"
-    },
-    {
-      "name": "Ermo, a título provisório – Mário Afonso",
-      "date": "2026-11-07",
-      "venue": "Serralves",
-      "note": "17:15, Garagem do Museu; 90 min performance, part of O Museu como Performance",
-      "source": "serralves-newsletter-2026-11",
-      "addedAt": "2026-11-04T05:00:27Z",
-      "status": "done",
-      "eventSlug": "ermo-serralves-nov-7-2026",
-      "reason": "already listed",
-      "lastTriedAt": "2026-11-04T08:32:01.874Z",
-      "resolvedAt": "2026-11-04T08:32:01.874Z"
-    },
-    {
-      "name": "Corpo: Território - Variações Sobre Inquietação – Joana Sá",
-      "date": "2026-11-07",
-      "venue": "Serralves",
-      "note": "18:50, Galerias do Museu; 60 min performance, part of O Museu como Performance",
-      "source": "serralves-newsletter-2026-11",
-      "addedAt": "2026-11-04T05:00:27Z",
-      "status": "done",
-      "eventSlug": "joana-sa-corpo-territorio-variacoes-sobre-inquietacao-serralves-nov-7-2026",
-      "reason": "already listed",
       "lastTriedAt": "2026-11-04T08:32:01.874Z",
       "resolvedAt": "2026-11-04T08:32:01.874Z"
     },
@@ -905,20 +760,6 @@
       "lastTriedAt": "2026-11-06T08:32:03.909Z",
       "eventSlug": "blast-ruth-childs-serralves-nov-8-2026",
       "resolvedAt": "2026-11-06T08:32:03.909Z"
-    },
-    {
-      "name": "Isabél Zuaa – AFRO SALOYÁ",
-      "date": "2026-11-06",
-      "endDate": "2026-11-07",
-      "venue": "Teatro Rivoli",
-      "note": "19:30 both nights; Isabél Zuaa's show built around the many versions of herself; ages 12+; ticketed",
-      "source": "teatro-municipal-do-porto-newsletter-2026-11",
-      "addedAt": "2026-11-05T05:00:19Z",
-      "status": "done",
-      "eventSlug": "isabel-zuaa-rivoli-palco-do-grande-auditorio-nov-6-2026",
-      "reason": "already listed",
-      "lastTriedAt": "2026-11-05T06:07:13.515Z",
-      "resolvedAt": "2026-11-05T06:07:13.515Z"
     },
     {
       "name": "Memórias do Cárcere – Sérgio Graciano",
