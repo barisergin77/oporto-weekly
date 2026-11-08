@@ -67,7 +67,7 @@ export default function EdicaoPTPage({ params }: { params: { slug: string } }) {
     '@graph': [
       {
         '@type': 'NewsArticle',
-        headline: `${meta.weekRange} — Guia de Eventos no Porto`,
+        headline: `Guia de Eventos no Porto: ${meta.weekRange}`,
         description: meta.description,
         datePublished: meta.sentAt,
         dateModified: meta.sentAt,
@@ -186,7 +186,7 @@ export default function EdicaoPTPage({ params }: { params: { slug: string } }) {
           Gostou do Oporto Weekly?
         </p>
         <p style={{ fontSize: 14, color: colors.textSoft, margin: '0 0 24px', lineHeight: 1.6 }}>
-          Receba o melhor do Porto todas as quintas-feiras de manhã — grátis.
+          Receba o melhor do Porto todas as quintas-feiras de manhã, grátis.
         </p>
         <Link href="/pt" style={{
           display: 'inline-block', background: colors.accent, color: colors.heading,

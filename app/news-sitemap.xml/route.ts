@@ -18,7 +18,7 @@ export function GET() {
         <news:language>en</news:language>
       </news:publication>
       <news:publication_date>${pubDate}</news:publication_date>
-      <news:title>${n.weekRange} — Porto Events Guide</news:title>
+      <news:title>Porto Events Guide: ${n.weekRange}</news:title>
       <news:keywords>Porto events, Porto guide, things to do in Porto, Porto culture</news:keywords>
     </news:news>
   </url>`;

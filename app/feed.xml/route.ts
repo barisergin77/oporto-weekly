@@ -15,7 +15,7 @@ export function GET() {
 
       return `
     <item>
-      <title><![CDATA[${n.weekRange} — Porto Events Guide]]></title>
+      <title><![CDATA[Porto Events Guide: ${n.weekRange}]]></title>
       <link>${url}</link>
       <guid isPermaLink="true">${url}</guid>
       <pubDate>${pubDate}</pubDate>
@@ -32,9 +32,9 @@ export function GET() {
   xmlns:content="http://purl.org/rss/1.0/modules/content/"
   xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Oporto Weekly — Porto Events &amp; Culture</title>
+    <title>Oporto Weekly: Porto Events &amp; Culture</title>
     <link>${site}</link>
-    <description>The best events, culture, food, and things to do in Porto — curated every Thursday morning.</description>
+    <description>The best events, culture, food, and things to do in Porto, picked every Thursday morning.</description>
     <language>en-gb</language>
     <copyright>© Oporto Weekly</copyright>
     <managingEditor>hello@oportoweekly.com (Oporto Weekly)</managingEditor>

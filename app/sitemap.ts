@@ -20,8 +20,9 @@ const PT_NAMESPACE = new Date('2026-08-29T19:36:57Z'); // /pt/event, /pt/venue, 
 const EVENT_SNIPPETS = new Date('2026-11-07T12:00:00Z');
 // Archive + venue <title>/description rewrite, and the archive pages no longer
 // embed a second <head>/<title> from the stored email HTML. Archive
-// descriptions lost their em dash 2026-11-07 (#42).
-const ARCHIVE_VENUE_SNIPPETS = new Date('2026-11-07T12:00:00Z');
+// descriptions lost their em dash 2026-11-07 (#42); the edition JSON-LD
+// headline 2026-11-08 (#42).
+const ARCHIVE_VENUE_SNIPPETS = new Date('2026-11-08T12:00:00Z');
 const VENUE_NEXT_EVENTS = new Date('2026-11-02T09:30:00Z'); // venue descriptions name the next events
 
 // A guide's body changes when it is fact-checked (data/guide-checks.json,

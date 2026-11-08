@@ -15,11 +15,11 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL('https://oportoweekly.com'),
   title: {
-    default: 'Oporto Weekly — Porto Events & Culture Newsletter',
+    default: 'Oporto Weekly: Porto Events & Culture Newsletter',
     template: '%s | Oporto Weekly',
   },
   description:
-    'The best events, culture, food, and things to do in Porto — curated every Thursday morning and delivered free to your inbox.',
+    'The best events, culture, food, and things to do in Porto, picked every Thursday morning and delivered free to your inbox.',
   keywords: [
     'Porto events',
     'Porto guide',
@@ -37,23 +37,23 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'en_GB',
     url: 'https://oportoweekly.com',
-    title: 'Oporto Weekly — Porto Events & Culture Newsletter',
+    title: 'Oporto Weekly: Porto Events & Culture Newsletter',
     description:
-      'The best events, culture, food, and things to do in Porto — curated every Thursday morning and delivered free to your inbox.',
+      'The best events, culture, food, and things to do in Porto, picked every Thursday morning and delivered free to your inbox.',
     images: [
       {
         url: '/opengraph-image',
         width: 1200,
         height: 630,
-        alt: 'Oporto Weekly — Porto Events & Culture Newsletter',
+        alt: 'Oporto Weekly: Porto Events & Culture Newsletter',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Oporto Weekly — Porto Events & Culture Newsletter',
+    title: 'Oporto Weekly: Porto Events & Culture Newsletter',
     description:
-      'The best events, culture, food, and things to do in Porto — curated every Thursday morning.',
+      'The best events, culture, food, and things to do in Porto, picked every Thursday morning.',
     images: ['/opengraph-image'],
   },
   robots: {

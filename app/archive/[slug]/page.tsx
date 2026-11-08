@@ -70,7 +70,7 @@ export default function EditionPage({ params }: { params: { slug: string } }) {
     '@graph': [
       {
         '@type': 'NewsArticle',
-        headline: `${meta.weekRange} — Porto Events Guide`,
+        headline: `Porto Events Guide: ${meta.weekRange}`,
         description: meta.description,
         datePublished: meta.sentAt,
         dateModified: meta.sentAt,
@@ -266,7 +266,7 @@ export default function EditionPage({ params }: { params: { slug: string } }) {
           Enjoying Oporto Weekly?
         </p>
         <p style={{ fontSize: 14, color: colors.textSoft, margin: '0 0 24px', lineHeight: 1.6 }}>
-          Get the best of Porto delivered every Thursday morning — free.
+          Get the best of Porto delivered every Thursday morning, free.
         </p>
         <Link href="/" style={{
           display: 'inline-block',

@@ -20,9 +20,9 @@ import { listBlogPosts } from '@/lib/blog';
 import { guidesForHub } from '@/lib/related-guides';
 
 export const metadata: Metadata = {
-  title: 'Porto Events This Week — Upcoming Things To Do in Porto',
+  title: 'Porto Events This Week: Upcoming Things To Do in Porto',
   description:
-    'A live, curated guide to upcoming Porto events — concerts, exhibitions, food markets, nightlife, and family activities. New events added every Thursday.',
+    'A live guide to upcoming Porto events: concerts, exhibitions, food markets, nightlife and family activities. New events added every week.',
   keywords: [
     'porto events this week',
     'things to do in porto',
@@ -37,9 +37,9 @@ export const metadata: Metadata = {
   ],
   alternates: { canonical: 'https://oportoweekly.com/porto-events' },
   openGraph: {
-    title: 'Porto Events This Week — Upcoming Things To Do in Porto',
+    title: 'Porto Events This Week: Upcoming Things To Do in Porto',
     description:
-      'A live, curated guide to upcoming Porto events — concerts, exhibitions, food markets, nightlife, and family activities.',
+      'A live guide to upcoming Porto events: concerts, exhibitions, food markets, nightlife and family activities.',
     url: 'https://oportoweekly.com/porto-events',
     type: 'website',
   },
@@ -68,7 +68,7 @@ export default function PortoEventsPage() {
         '@type': 'WebPage',
         '@id': 'https://oportoweekly.com/porto-events',
         name: 'Porto Events This Week',
-        description: 'Upcoming events in Porto, Portugal — updated weekly.',
+        description: 'Upcoming events in Porto, Portugal, updated weekly.',
         url: 'https://oportoweekly.com/porto-events',
         inLanguage: 'en',
         about: { '@type': 'Place', name: 'Porto', addressCountry: 'PT' },
@@ -98,7 +98,7 @@ export default function PortoEventsPage() {
             name: 'What events are happening in Porto this week?',
             acceptedAnswer: {
               '@type': 'Answer',
-              text: 'Porto runs a packed weekly cultural calendar — concerts at Casa da Música, art at Serralves and the Bonfim gallery district, food markets at Mercado do Bolhão, wine tastings in Vila Nova de Gaia, and nightlife in Ribeira. Every Thursday Oporto Weekly curates the best of it into one newsletter. Scroll above for the live list of upcoming events.',
+              text: 'Most weeks Porto has concerts at Casa da Música, art at Serralves and in the Bonfim gallery district, food markets at Mercado do Bolhão, wine tastings in Vila Nova de Gaia and nightlife in Ribeira. Every Thursday Oporto Weekly picks the best of it for one newsletter. Scroll above for the live list of upcoming events.',
             },
           },
           {
@@ -106,7 +106,7 @@ export default function PortoEventsPage() {
             name: 'How do I find out about events in Porto every week?',
             acceptedAnswer: {
               '@type': 'Answer',
-              text: 'Subscribe to Oporto Weekly — a free newsletter delivered every Thursday morning with the best events in Porto, Portugal. You can also check this page any time.',
+              text: 'Subscribe to Oporto Weekly, a free newsletter delivered every Thursday morning with the best events in Porto, Portugal. You can also check this page any time.',
             },
           },
           {
@@ -193,9 +193,8 @@ export default function PortoEventsPage() {
             lineHeight: 1.7,
           }}
         >
-          Porto is one of Europe&apos;s most vibrant cities — every week brings concerts at Casa
-          da Música, gallery openings in Rua Miguel Bombarda, rooftop parties in Foz, and food
-          markets along the Douro. Here&apos;s what&apos;s on.
+          Most weeks in Porto there are concerts at Casa da Música, gallery openings on Rua
+          Miguel Bombarda and food markets along the Douro. Here&apos;s what&apos;s on.
         </p>
         <div style={{ display: 'flex', gap: 10, justifyContent: 'center', flexWrap: 'wrap' }}>
           {(['music', 'art', 'food', 'family', 'nightlife'] as const).map((cat) => (
@@ -258,7 +257,7 @@ export default function PortoEventsPage() {
               }}
             >
               📅 <strong style={{ color: colors.heading }}>Latest edition: {latest.weekRange}</strong>
-              {' — '}
+              {': '}
               <Link
                 href={`/archive/${latest.slug}`}
                 style={{
@@ -469,7 +468,7 @@ export default function PortoEventsPage() {
           {[
             {
               q: 'What kinds of events happen in Porto every week?',
-              a: "Porto has a packed cultural calendar year-round — live music and fado at intimate venues, contemporary art in the Bonfim gallery district, surf competitions in Matosinhos, wine tastings in the Port wine lodges of Vila Nova de Gaia, and street festivals in the historic centre. Every Thursday, Oporto Weekly curates the best of it all in one email.",
+              a: "Something is on all year: live music and fado in small venues, contemporary art in the Bonfim gallery district, surf competitions in Matosinhos, tastings in the Port wine lodges of Vila Nova de Gaia and street festivals in the historic centre. Every Thursday, Oporto Weekly picks the best of it for one email.",
             },
             {
               q: 'Is Oporto Weekly free to subscribe?',
@@ -477,7 +476,7 @@ export default function PortoEventsPage() {
             },
             {
               q: 'Can I read past Porto events guides?',
-              a: 'Yes — every edition is archived and available to read at oportoweekly.com/archive. Every individual event also has its own page you can share or bookmark.',
+              a: 'Yes. Every edition is archived and available to read at oportoweekly.com/archive. Every individual event also has its own page you can share or bookmark.',
             },
           ].map(({ q, a }) => (
             <div

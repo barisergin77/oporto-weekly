@@ -206,7 +206,7 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
           </div>
           <div>
             <div style={{ fontWeight: 600, color: colors.heading, fontSize: 15 }}>{post.author}</div>
-            <div style={{ fontSize: 13, color: colors.textSoft }}>Editor, Oporto Weekly — Porto, Portugal</div>
+            <div style={{ fontSize: 13, color: colors.textSoft }}>Editor, Oporto Weekly · Porto, Portugal</div>
           </div>
         </div>
 

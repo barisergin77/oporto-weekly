@@ -6,11 +6,11 @@ import { Header } from '../../components/Header';
 import { Footer } from '../../components/Footer';
 
 export const metadata: Metadata = {
-  title: 'Arquivo — Todas as Edições',
-  description: 'Veja todas as edições anteriores do Oporto Weekly — o seu guia curado de eventos no Porto.',
+  title: 'Arquivo: Todas as Edições',
+  description: 'Todas as edições anteriores do Oporto Weekly, um guia de eventos no Porto por semana.',
   alternates: { canonical: 'https://oportoweekly.com/pt/arquivo' },
   openGraph: {
-    title: 'Arquivo — Oporto Weekly',
+    title: 'Arquivo | Oporto Weekly',
     description: 'Todas as edições do Oporto Weekly em português.',
     url: 'https://oportoweekly.com/pt/arquivo',
     locale: 'pt_PT',
@@ -38,7 +38,7 @@ export default function ArquivoPT() {
       {/* Archive list */}
       <div style={{ maxWidth: 640, margin: '32px auto', padding: '0 24px' }}>
         {newsletters.length === 0 ? (
-          <p style={{ textAlign: 'center', color: colors.textSoft }}>Ainda não há edições — a primeira sai quinta-feira!</p>
+          <p style={{ textAlign: 'center', color: colors.textSoft }}>Ainda não há edições. A primeira sai quinta-feira.</p>
         ) : (
           newsletters.map((n) => {
             const date = new Date(n.sentAt);
@@ -61,7 +61,7 @@ export default function ArquivoPT() {
                     {n.weekRange}
                   </h2>
                   <p style={{ fontSize: 14, color: colors.textSoft, lineHeight: 1.6, margin: '0 0 12px' }}>
-                    {n.description}
+                    {n.description.replace(/\s+—\s+/g, ': ')}
                   </p>
                   <span style={{ fontSize: 12, fontWeight: 600, color: colors.heading, letterSpacing: 0.5, borderBottom: `1.5px solid ${colors.accent}`, paddingBottom: 2 }}>
                     Ler esta edição →

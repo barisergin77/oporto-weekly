@@ -6,12 +6,12 @@ import { Header } from '../components/Header';
 import { Footer } from '../components/Footer';
 
 export const metadata: Metadata = {
-  title: 'Archive — All Porto Events Editions',
-  description: 'Archive of all Oporto Weekly editions — your curated Porto events, culture, food, and weekend guide, published every Thursday.',
+  title: 'Archive: All Porto Events Editions',
+  description: 'Every past Oporto Weekly edition: the week\'s Porto events, culture, food and weekend picks, published every Thursday.',
   alternates: { canonical: 'https://oportoweekly.com/archive' },
   openGraph: {
-    title: 'Archive — Oporto Weekly',
-    description: 'Archive of all Oporto Weekly editions — your curated Porto events guide.',
+    title: 'Archive | Oporto Weekly',
+    description: 'Every past Oporto Weekly edition, one Porto events guide per week.',
     url: 'https://oportoweekly.com/archive',
     type: 'website',
   },
@@ -38,7 +38,7 @@ export default function ArchivePage() {
       {/* Archive list */}
       <div style={{ maxWidth: 640, margin: '32px auto', padding: '0 24px' }}>
         {newsletters.length === 0 ? (
-          <p style={{ textAlign: 'center', color: colors.textSoft }}>No editions yet — first one coming Thursday!</p>
+          <p style={{ textAlign: 'center', color: colors.textSoft }}>No editions yet. The first one comes out Thursday.</p>
         ) : (
           newsletters.map((n) => {
             const date = new Date(n.sentAt);
@@ -62,7 +62,7 @@ export default function ArchivePage() {
                     {n.weekRange}
                   </h2>
                   <p style={{ fontSize: 14, color: colors.textSoft, lineHeight: 1.6, margin: '0 0 12px' }}>
-                    {n.description}
+                    {n.description.replace(/\s+—\s+/g, ': ')}
                   </p>
                   <span style={{ fontSize: 12, fontWeight: 600, color: colors.heading, letterSpacing: 0.5, borderBottom: `1.5px solid ${colors.accent}`, paddingBottom: 2 }}>
                     Read this edition →

@@ -257,8 +257,8 @@ export default function EventPage({ params }: { params: { slug: string } }) {
               style={{ color: colors.heading, fontWeight: 600 }}
             >
               {sourceEdition.weekRange}
-            </Link>{' '}
-            — the weekly Oporto Weekly edition.
+            </Link>
+            , the weekly Oporto Weekly edition.
           </div>
         )}
 

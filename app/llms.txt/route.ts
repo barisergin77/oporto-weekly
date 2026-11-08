@@ -49,7 +49,7 @@ export function GET() {
     ...months.map((m) => `- [Porto events in ${m.label}](${SITE}/porto-events/${m.slug})`),
     '',
     '## Upcoming events',
-    ...upcoming.map((e) => `- [${e.name}](${SITE}/event/${e.slug}): ${e.endDate && e.endDate !== e.date ? `${e.date.slice(0, 10)} to ${e.endDate}` : e.date.slice(0, 10)}, ${e.venue}${e.price ? ` — ${e.price}` : ''}`),
+    ...upcoming.map((e) => `- [${e.name}](${SITE}/event/${e.slug}): ${e.endDate && e.endDate !== e.date ? `${e.date.slice(0, 10)} to ${e.endDate}` : e.date.slice(0, 10)}, ${e.venue}${e.price ? `, ${e.price}` : ''}`),
     '',
     '## Guides',
     ...guides.map((p) => `- [${p.title}](${SITE}/blog/${p.slug}): ${p.excerpt}`),

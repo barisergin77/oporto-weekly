@@ -1,7 +1,7 @@
 import { ImageResponse } from 'next/og';
 
 export const runtime = 'edge';
-export const alt = 'Oporto Weekly — Porto Events & Culture Newsletter';
+export const alt = 'Oporto Weekly: Porto Events & Culture Newsletter';
 export const size = { width: 1200, height: 630 };
 export const contentType = 'image/png';
 
@@ -51,7 +51,7 @@ export default function Image() {
             display: 'flex',
           }}
         >
-          Porto&apos;s best events &amp; culture — every Thursday
+          Porto&apos;s best events &amp; culture, every Thursday
         </div>
 
         {/* Domain */}

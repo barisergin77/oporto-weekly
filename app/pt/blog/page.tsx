@@ -7,14 +7,14 @@ import { Header } from '../../components/Header';
 import { Footer } from '../../components/Footer';
 
 export const metadata: Metadata = {
-  title: 'Guia do Porto — Blog | Oporto Weekly',
-  description: 'Guias detalhados, dicas e artigos sobre o Porto — de tesouros escondidos e bares de esplanada a mercados locais e eventos culturais.',
+  title: 'Guias do Porto: compras, comida, noite e mais',
+  description: 'Guias verificados do Porto: lojas vintage, café e pastéis de nata, vida noturna e fado, passeios grátis, mercados e eventos culturais.',
   keywords: ['guia Porto', 'blog Porto', 'o que fazer no Porto', 'dicas Porto', 'viagem Porto', 'gastronomia Porto', 'cultura Porto'],
   alternates: {
     canonical: 'https://oportoweekly.com/pt/blog',
     languages: { en: 'https://oportoweekly.com/blog', 'pt-PT': 'https://oportoweekly.com/pt/blog', 'x-default': 'https://oportoweekly.com/blog' },
   },
-  openGraph: { title: 'Guia do Porto — Blog | Oporto Weekly', description: 'Guias detalhados e dicas de quem conhece o Porto.', url: 'https://oportoweekly.com/pt/blog', locale: 'pt_PT' },
+  openGraph: { title: 'Guias do Porto | Oporto Weekly', description: 'Guias detalhados e dicas de quem conhece o Porto.', url: 'https://oportoweekly.com/pt/blog', locale: 'pt_PT' },
 };
 
 const PT_MONTHS = ['janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho', 'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro'];
@@ -35,14 +35,14 @@ export default function BlogIndexPT() {
         </h1>
         <div style={{ width: 40, height: 2, background: colors.accent, margin: '0 auto 20px' }} />
         <p style={{ fontSize: 16, color: colors.textSoft, margin: 0, maxWidth: 540, marginLeft: 'auto', marginRight: 'auto', lineHeight: 1.6 }}>
-          Tesouros escondidos, gastronomia, cultura e dicas da cidade que adoramos.
+          Onde comprar, comer, beber e sair no Porto, confirmado na página de cada sítio.
         </p>
       </div>
 
       <div style={{ maxWidth: 960, margin: '0 auto', padding: '32px 24px 60px' }}>
         {posts.length === 0 ? (
           <div style={{ background: colors.card, borderRadius: 6, padding: 48, textAlign: 'center', color: colors.textSoft, border: `1px solid ${colors.divider}` }}>
-            Primeiros artigos em breve — fique atento!
+            Primeiros artigos em breve.
           </div>
         ) : (
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 28 }}>

@@ -7,15 +7,15 @@ import { Header } from '../components/Header';
 import { Footer } from '../components/Footer';
 
 export const metadata: Metadata = {
-  title: 'Porto Guide — Blog | Oporto Weekly',
-  description: 'In-depth guides, tips, and articles about Porto — from hidden gems and rooftop bars to local food markets and cultural events.',
+  title: 'Porto Guides: Shopping, Food, Nightlife and More',
+  description: 'Fact-checked guides to Porto: vintage shopping, coffee and pastéis de nata, nightlife and fado, free sights, markets and cultural events.',
   keywords: ['Porto guide', 'Porto blog', 'things to do in Porto', 'Porto tips', 'Porto travel', 'Porto food', 'Porto culture'],
   alternates: {
     canonical: 'https://oportoweekly.com/blog',
     languages: { en: 'https://oportoweekly.com/blog', 'pt-PT': 'https://oportoweekly.com/pt/blog', 'x-default': 'https://oportoweekly.com/blog' },
   },
   openGraph: {
-    title: 'Porto Guide — Blog | Oporto Weekly',
+    title: 'Porto Guides | Oporto Weekly',
     description: 'In-depth guides and insider tips about Porto, Portugal.',
     url: 'https://oportoweekly.com/blog',
   },
@@ -39,7 +39,7 @@ export default function BlogIndex() {
         </h1>
         <div style={{ width: 40, height: 2, background: colors.accent, margin: '0 auto 20px' }} />
         <p style={{ fontSize: 16, color: colors.textSoft, margin: 0, maxWidth: 540, marginLeft: 'auto', marginRight: 'auto', lineHeight: 1.6 }}>
-          Hidden gems, food, culture, and insider tips from the city we love.
+          Where to shop, eat, drink and go out in Porto, checked against each place&apos;s own listing.
         </p>
       </div>
 
@@ -47,7 +47,7 @@ export default function BlogIndex() {
       <div style={{ maxWidth: 960, margin: '0 auto', padding: '32px 24px 60px' }}>
         {posts.length === 0 ? (
           <div style={{ background: colors.card, borderRadius: 6, padding: 48, textAlign: 'center', color: colors.textSoft, border: `1px solid ${colors.divider}` }}>
-            First articles coming soon — stay tuned!
+            First articles coming soon.
           </div>
         ) : (
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 28 }}>

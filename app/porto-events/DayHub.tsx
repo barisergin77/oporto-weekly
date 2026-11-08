@@ -57,8 +57,8 @@ export function dayHubMetadata(kind: DayHubKind, lang: Lang): Metadata {
   const when = rangeLabel(range.from, range.to, lang);
   const title = `${heading(kind, lang)} · ${when}`;
   const description = lang === 'pt'
-    ? `${kind === 'today' ? 'Hoje' : 'Este fim de semana'} no Porto (${when}): ${total ? `${total} eventos — ` : ''}concertos, exposições, mercados e festas, com horários, locais e preços. Escolhidos pela Oporto Weekly.`
-    : `${kind === 'today' ? 'Today' : 'This weekend'} in Porto (${when}): ${total ? `${total} events — ` : ''}concerts, exhibitions, markets and parties, with venues and prices. Picked by Oporto Weekly.`;
+    ? `${kind === 'today' ? 'Hoje' : 'Este fim de semana'} no Porto (${when}): ${total ? `${total} eventos: ` : ''}concertos, exposições, mercados e festas, com horários, locais e preços. Escolhidos pela Oporto Weekly.`
+    : `${kind === 'today' ? 'Today' : 'This weekend'} in Porto (${when}): ${total ? `${total} events: ` : ''}concerts, exhibitions, markets and parties, with venues and prices. Picked by Oporto Weekly.`;
   const p = DAY_HUB_PATHS[kind];
   const url = `${SITE}${lang === 'pt' ? p.pt : p.en}`;
   return {
