@@ -1,0 +1,26 @@
+{
+  "slug": "vinhos-no-mercado-especial-de-natal-mercado-ferreira-borges-nov-28-2026",
+  "name": "Vinhos no Mercado: Especial de Natal",
+  "date": "2026-11-28T14:00",
+  "endDate": "2026-11-29",
+  "venue": "Mercado Ferreira Borges",
+  "venueSlug": "mercado-ferreira-borges",
+  "price": "12,50–20€",
+  "priceFrom": 12.5,
+  "currency": "EUR",
+  "category": "food",
+  "description": "Vinhos no Mercado returns for its second edition, gathering over 30 Portuguese wine producers at Mercado Ferreira Borges.",
+  "longDescription": "The second edition of Vinhos no Mercado brings together more than 30 producers from 10 wine regions across Portugal. Visitors can taste wines, meet the winemakers, and purchase bottles directly during the two-day fair at Mercado Ferreira Borges.\n\nTickets range from 12.50 to 20 euros, available for either a single day or the entire weekend. Each ticket includes an exclusive tasting glass. The event runs from 14:00 on 28 and 29 November.",
+  "sourceEdition": "forward-scan",
+  "externalLink": "https://www.agenda-porto.pt/evento/vinhos-no-mercado-1790872171702/",
+  "pickCandidate": true,
+  "addedAt": "2026-11-08T06:01:33.200Z",
+  "lastSeenAt": "2026-11-08T06:01:33.200Z",
+  "descriptionPt": "O Vinhos no Mercado está de volta para a sua segunda edição e junta mais de 30 produtores portugueses no Mercado Ferreira Borges.",
+  "longDescriptionPt": "A segunda edição do Vinhos no Mercado reúne mais de 30 produtores de 10 regiões vinícolas de Portugal. Durante os dois dias de feira no Mercado Ferreira Borges, pode provar vinhos, falar diretamente com os produtores e comprar garrafas no local.\n\nOs bilhetes custam entre 12,50 e 20 euros, com opção para um único dia ou para todo o fim de semana. Cada entrada inclui o copo oficial de prova. As portas abrem às 14:00 nos dias 28 e 29 de novembro.",
+  "image": {
+    "url": "https://i.imgur.com/WMH6H6B.jpeg",
+    "credit": "Photo: Agenda-porto",
+    "sourceUrl": "https://www.agenda-porto.pt/evento/vinhos-no-mercado-1790872171702/"
+  }
+}

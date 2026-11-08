@@ -1,0 +1,25 @@
+{
+  "slug": "the-twilight-sad-hard-club-nov-14-2026",
+  "name": "The Twilight Sad",
+  "date": "2026-11-14T21:00",
+  "venue": "Hard Club",
+  "venueSlug": "hard-club",
+  "price": "30",
+  "priceFrom": 30,
+  "currency": "EUR",
+  "category": "music",
+  "description": "Scottish post-punk band The Twilight Sad was scheduled to perform at Hard Club in Porto, but the concert has been cancelled.",
+  "longDescription": "Scottish post-punk band The Twilight Sad was scheduled to play Hard Club in Porto on 14 November 2026, with doors originally set to open at 20:00.\n\nThe organizers have cancelled the concert due to circumstances beyond their control. Refunds are available from the original point of sale.",
+  "sourceEdition": "forward-scan",
+  "externalLink": "https://www.bol.pt/Comprar/Bilhetes/175392-the_twilight_sad-hard_club_li/",
+  "pickCandidate": false,
+  "addedAt": "2026-11-08T06:01:09.838Z",
+  "lastSeenAt": "2026-11-08T06:01:09.838Z",
+  "descriptionPt": "A banda escocesa de post-punk The Twilight Sad tinha concerto marcado no Hard Club, no Porto, mas a data foi cancelada.",
+  "longDescriptionPt": "A banda escocesa de post-punk The Twilight Sad tinha concerto marcado no Hard Club, no Porto, a 14 de novembro de 2026, com abertura de portas prevista para as 20h00.\n\nA organização cancelou o espetáculo por motivos de força maior. Os reembolsos podem ser pedidos no ponto de venda onde comprou o bilhete.",
+  "image": {
+    "url": "https://i.imgur.com/bl8XLJW.jpeg",
+    "credit": "Photo: BOL",
+    "sourceUrl": "https://www.bol.pt/Comprar/Bilhetes/175392-the_twilight_sad-hard_club_li/"
+  }
+}

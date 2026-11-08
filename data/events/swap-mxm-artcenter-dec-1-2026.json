@@ -1,0 +1,23 @@
+{
+  "slug": "swap-mxm-artcenter-dec-1-2026",
+  "name": "Swap",
+  "date": "2026-12-01T12:00",
+  "venue": "MXM ArtCenter",
+  "venueSlug": "mxm-artcenter",
+  "price": "Free",
+  "category": "family",
+  "description": "Swap is a community clothing exchange for children and teenagers aged 2 to 18, taking place at MXM ArtCenter in Porto.",
+  "longDescription": "Swap takes place on 1 December from 12:00 to 15:00 at MXM ArtCenter, located at Rua do Ouro, 264 in Porto. The event focuses on exchanging clothes, footwear, and accessories for children and young people aged 2 to 18. Attendees should bring clean items without holes or stains.\n\nHandy studio will host upcycling workshops for children and youth during the afternoon. Participants for the workshop should bring a denim piece to repair or customise. The event also features music and a food area.\n\nAdmission is free. Any clothing items that are not exchanged by the end of the event will be donated to local community support organisations.",
+  "sourceEdition": "forward-scan",
+  "externalLink": "https://www.agenda-porto.pt/evento/swap-mxm/",
+  "pickCandidate": false,
+  "addedAt": "2026-11-08T06:01:36.783Z",
+  "lastSeenAt": "2026-11-08T06:01:36.783Z",
+  "descriptionPt": "O Swap é uma troca comunitária de roupa para crianças e jovens dos 2 aos 18 anos, no MXM ArtCenter, no Porto.",
+  "longDescriptionPt": "O Swap acontece a 1 de dezembro, das 12:00 às 15:00, no MXM ArtCenter, na Rua do Ouro, 264, no Porto. O encontro foca-se na troca de roupa, calçado e acessórios para crianças e jovens dos 2 aos 18 anos. Quem participar deve levar peças lavadas, sem buracos nem nódoas.\n\nDurante a tarde, o Handy studio orienta oficinas de upcycling para o público mais jovem. Para participar no workshop, é preciso levar uma peça em ganga para arranjar ou personalizar. O espaço conta ainda com música e uma zona de comida.\n\nA entrada é gratuita. As peças que sobrarem no final da troca seguem para doação a instituições locais de apoio social.",
+  "image": {
+    "url": "https://i.imgur.com/qzNlxMc.jpeg",
+    "credit": "Photo: Agenda-porto",
+    "sourceUrl": "https://www.agenda-porto.pt/evento/swap-mxm/"
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "slug": "basic-b2b-bassment-nu-nes-era-uma-vez-no-porto-nov-13-2026",
+  "name": "Basic b2b Bassment + Nu:nes",
+  "date": "2026-11-13T23:59",
+  "venue": "Era Uma Vez no Porto",
+  "venueSlug": "era-uma-vez-no-porto",
+  "price": "5€",
+  "priceFrom": 5,
+  "currency": "EUR",
+  "category": "nightlife",
+  "description": "Basic b2b Bassment and Nu:nes perform a club night at Era uma vez no Porto on 13 November 2026.",
+  "longDescription": "Basic b2b Bassment and Nu:nes take over the decks at Era uma vez no Porto on 13 November 2026. The night starts at 23:59 at Rua da Madeira, 126.\n\nEntry costs 5 euros, and the event is restricted to guests aged 18 and older.",
+  "sourceEdition": "forward-scan",
+  "externalLink": "https://www.agenda-porto.pt/evento/basic-b2b-bassment-nunes/",
+  "pickCandidate": true,
+  "addedAt": "2026-11-08T06:00:49.264Z",
+  "lastSeenAt": "2026-11-08T06:00:49.264Z",
+  "descriptionPt": "Basic b2b Bassment e Nu:nes passam música no Era uma vez no Porto a 13 de novembro de 2026.",
+  "longDescriptionPt": "Basic b2b Bassment e Nu:nes assumem a cabine do Era uma vez no Porto a 13 de novembro de 2026. A noite arranca às 23:59 na Rua da Madeira, 126.\n\nA entrada custa 5 euros e o evento é reservado a maiores de 18 anos.",
+  "image": {
+    "url": "https://i.imgur.com/J7nTXN9.jpeg",
+    "credit": "Photo: Agenda-porto",
+    "sourceUrl": "https://www.agenda-porto.pt/evento/basic-b2b-bassment-nunes/"
+  }
+}

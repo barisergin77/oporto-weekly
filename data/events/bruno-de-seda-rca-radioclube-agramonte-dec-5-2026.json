@@ -1,0 +1,25 @@
+{
+  "slug": "bruno-de-seda-rca-radioclube-agramonte-dec-5-2026",
+  "name": "BRUNO DE SEDA",
+  "date": "2026-12-05T22:00",
+  "venue": "RCA - Radioclube Agramonte",
+  "venueSlug": "rca-radioclube-agramonte",
+  "price": "8€",
+  "priceFrom": 8,
+  "currency": "EUR",
+  "category": "music",
+  "description": "Bruno de Seda presents a 60-minute concert at Radioclube Agramonte in Porto.",
+  "longDescription": "Bruno de Seda performs a concert at Radioclube Agramonte in Porto on 5 December 2026. The performance starts at 22:00 and runs for 60 minutes.\n\nGeneral admission tickets are 8€ in advance, or 10€ at the door. The concert is open to attendees aged 16 and older.",
+  "sourceEdition": "forward-scan",
+  "externalLink": "https://www.bol.pt/Comprar/Bilhetes/188814-bruno_de_seda-radioclube_agramonte/",
+  "pickCandidate": true,
+  "addedAt": "2026-11-08T06:01:45.162Z",
+  "lastSeenAt": "2026-11-08T06:01:45.162Z",
+  "descriptionPt": "Bruno de Seda apresenta um concerto de 60 minutos no Radioclube Agramonte, no Porto.",
+  "longDescriptionPt": "Bruno de Seda dá um concerto no Radioclube Agramonte, no Porto, a 5 de dezembro de 2026. A atuação começa às 22:00 e dura 60 minutos.\n\nOs bilhetes normais custam 8€ em pré-venda ou 10€ à porta. O concerto é para maiores de 16 anos.",
+  "image": {
+    "url": "https://i.imgur.com/FP4ci6B.jpeg",
+    "credit": "Photo: BOL",
+    "sourceUrl": "https://www.bol.pt/Comprar/Bilhetes/188814-bruno_de_seda-radioclube_agramonte/"
+  }
+}

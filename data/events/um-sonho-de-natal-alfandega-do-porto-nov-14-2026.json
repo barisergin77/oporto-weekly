@@ -1,0 +1,26 @@
+{
+  "slug": "um-sonho-de-natal-alfandega-do-porto-nov-14-2026",
+  "name": "Um Sonho de Natal",
+  "date": "2026-11-14T10:00",
+  "endDate": "2027-01-10",
+  "venue": "Alfândega do Porto",
+  "venueSlug": "alfandega-do-porto",
+  "price": "€12",
+  "priceFrom": 12,
+  "currency": "EUR",
+  "category": "family",
+  "description": "Um Sonho de Natal is a 45-minute virtual reality and interactive experience running at Alfândega do Porto.",
+  "longDescription": "Um Sonho de Natal is an interactive virtual reality experience running at Alfândega do Porto from 14 November to 10 January. Lasting around 45 minutes, it lets visitors take part in interactive installations, transform into Christmas characters in real time, and explore virtual settings.\n\nFrom 14 November to 18 December, sessions run Tuesday to Friday from 11:00 to 12:30 and 15:00 to 16:30, with weekend sessions starting at 10:00. From 19 December to 10 January, weekday sessions run continuously from 11:00 to 16:30, and weekend sessions from 10:00 to 16:30. The experience takes place at Immersivus Gallery inside Edifício da Alfândega, with tickets priced at 12 euros for visitors aged 3 and up.",
+  "sourceEdition": "forward-scan",
+  "externalLink": "https://www.agenda-porto.pt/evento/um-sonho-de-natal/",
+  "pickCandidate": false,
+  "addedAt": "2026-11-08T06:01:00.319Z",
+  "lastSeenAt": "2026-11-08T06:01:00.319Z",
+  "descriptionPt": "Um Sonho de Natal é uma experiência interativa de realidade virtual com a duração de 45 minutos, na Alfândega do Porto.",
+  "longDescriptionPt": "Um Sonho de Natal é uma experiência interativa de realidade virtual que decorre na Alfândega do Porto entre 14 de novembro e 10 de janeiro. Com uma duração de cerca de 45 minutos, permite participar em instalações interativas, encarnar figuras de Natal em tempo real e explorar cenários virtuais.\n\nDe 14 de novembro a 18 de dezembro, as sessões realizam-se de terça a sexta-feira, das 11:00 às 12:30 e das 15:00 às 16:30, com as do fim de semana a começarem às 10:00. De 19 de dezembro a 10 de janeiro, as sessões nos dias úteis funcionam em contínuo das 11:00 às 16:30, e aos fins de semana das 10:00 às 16:30. A experiência decorre na Immersivus Gallery, dentro do Edifício da Alfândega, com bilhetes a 12 euros para visitantes a partir dos 3 anos.",
+  "image": {
+    "url": "https://i.imgur.com/8gciDfA.jpeg",
+    "credit": "Photo: Agenda-porto",
+    "sourceUrl": "https://www.agenda-porto.pt/evento/um-sonho-de-natal/"
+  }
+}

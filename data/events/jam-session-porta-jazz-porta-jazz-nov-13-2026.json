@@ -1,0 +1,25 @@
+{
+  "slug": "jam-session-porta-jazz-porta-jazz-nov-13-2026",
+  "name": "Jam Session Porta-Jazz",
+  "date": "2026-11-13T21:30",
+  "venue": "Porta-Jazz",
+  "venueSlug": "porta-jazz",
+  "price": "5€",
+  "priceFrom": 5,
+  "currency": "EUR",
+  "category": "music",
+  "description": "Porta-Jazz hosts a live jazz concert led by pianist Martín Otero Ferreira, followed by an open jam session.",
+  "longDescription": "Porta-Jazz holds its regular Friday jazz night starting with a live concert followed by an open jam session. The session is open to musicians who want to join in.\n\nFor this date, the opening set is hosted by pianist Martín Otero Ferreira, accompanied by Gal Golob on double bass and Pau Planas Dalet on drums.\n\nThe event takes place at Espaço Porta-Jazz on Praça da República, starting at 21:30. Suggested admission is 5 euros, or 3 euros for members.",
+  "sourceEdition": "forward-scan",
+  "externalLink": "https://www.agenda-porto.pt/evento/jam-session-martin-otero-ferreira/",
+  "pickCandidate": true,
+  "addedAt": "2026-11-08T06:00:42.564Z",
+  "lastSeenAt": "2026-11-08T06:00:42.564Z",
+  "descriptionPt": "A Porta-Jazz recebe um concerto de jazz ao vivo liderado pelo pianista Martín Otero Ferreira, seguido de uma jam session aberta.",
+  "longDescriptionPt": "A Porta-Jazz organiza a sua habitual noite de jazz de sexta-feira, com um concerto ao vivo seguido de jam session. A sessão está aberta a músicos que queiram participar.\n\nNesta data, o primeiro concerto fica a cargo do pianista Martín Otero Ferreira, acompanhado por Gal Golob no contrabaixo e Pau Planas Dalet na bateria.\n\nO encontro acontece no Espaço Porta-Jazz, na Praça da República, a partir das 21:30. A doação sugerida à entrada é de 5 euros, ou 3 euros para membros associados.",
+  "image": {
+    "url": "https://i.imgur.com/uEhEDle.jpeg",
+    "credit": "Photo: Agenda-porto",
+    "sourceUrl": "https://www.agenda-porto.pt/evento/jam-session-martin-otero-ferreira/"
+  }
+}
