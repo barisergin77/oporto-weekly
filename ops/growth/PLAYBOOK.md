@@ -39,11 +39,18 @@ before doing anything. On your first run, read `HANDOFF.md` first.
 4. **Don't state unverified facts.** Event dates, prices, venue details: only
    from a source. Never "refresh" a guide by swapping years without checking
    the facts inside it.
-5. **One deploy per run at most.** Batch the run's changes into a single push.
-   (Vercel is on Pro now, but each deploy still rebuilds ~2,100 pages.)
+5. **One deploy per run at most, and it ships with the evening flush.** Batch the
+   run's changes into a single push and put `[defer]` in the commit message
+   (owner 2026-11-09: builds were ~65% of the Vercel bill). `[defer]` commits
+   skip their own build and go live with the daily 21:00 UTC deploy-flush.
+   Leave the tag off ONLY for an urgent fix (site broken, wrong fact live,
+   signup/newsletter path) or when the owner asked for it to go live now.
 6. **Verify before you finish:** `npx tsc --noEmit`, `npm run build`, check
-   the changed pages render (curl the built HTML or a browser), push, wait
-   until `https://oportoweekly.com/api/version` returns your commit SHA, then
+   the changed pages render (curl the built HTML or a browser), push. For a
+   `[defer]` push, the live check moves to the NEXT run: first thing, confirm
+   `https://oportoweekly.com/api/version` is at or past the previous run's SHA
+   and health is ok. For an untagged (urgent) push, wait until /api/version
+   returns your commit SHA, then
    `POST /api/cron/health` (Bearer `$CRON_SECRET`) must report `ok: true`.
    `.env.local` values are quoted — strip the quotes if you read them in shell,
    or you'll get a misleading 401.
@@ -97,7 +104,8 @@ Don't attribute a weekly wobble to the change made yesterday.
 
 - Repo: `barisergin77/oporto-weekly`, branch `main`. Every push to main
   deploys except commits touching only bookkeeping, `data/events/*.json`
-  (deferred to `deploy-flush`) or `ops/` — see `scripts/vercel-ignore-build.sh`.
+  (deferred to `deploy-flush`) or `ops/`, and commits tagged `[defer]` (their
+  files ship with the 21:00 UTC flush) — see `scripts/vercel-ignore-build.sh`.
 - Changing an env var needs `.deploy-trigger` bumped + pushed; `vercel
   redeploy` gets skipped by the ignore step.
 - Changing `<head>` markup (titles, descriptions, canonical, hreflang,
