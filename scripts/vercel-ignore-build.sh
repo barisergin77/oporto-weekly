@@ -60,6 +60,21 @@ if [ -z "$changed" ]; then
   exit 1
 fi
 
+# BATCHED CODE CHANGES (owner 2026-11-09, to stay inside Vercel's included $20):
+# commits whose message contains "[defer]" are not urgent; their files are
+# published by the daily deploy-flush (21:00 UTC). Only the files touched by
+# commits WITHOUT the tag count below. Urgent or owner-requested changes simply
+# omit the tag and build at once. Fail-safe: if the log can't be read, BUILD.
+if ! log="$(git log --format='@@%s' --name-only "${prev}..HEAD" 2>/dev/null)"; then
+  echo "build: could not read ${prev}..HEAD log"
+  exit 1
+fi
+changed="$(printf '%s\n' "$log" | awk '/^@@/{d=index($0,"[defer]")>0; next} NF && !d' | sort -u)"
+if [ -z "$changed" ]; then
+  echo "skip: every commit since ${prev:0:7} is tagged [defer] (deploy-flush publishes it)"
+  exit 0
+fi
+
 while IFS= read -r f; do
   skippable=0
   for s in "${SKIPPABLE[@]}"; do
