@@ -92,7 +92,7 @@ export function stripEmailFooter(html: string): string {
 // Replaces the newsletter header (title + tagline) with the hero banner image,
 // keeping the date line visible below it.
 export function replaceHeaderWithBanner(html: string): string {
-  const bannerImg = `<img src="/hero-banner.png" alt="Oporto Weekly — Your Curated Guide to Porto" ` +
+  const bannerImg = `<img src="/hero-banner.png" alt="Oporto Weekly: your weekly guide to Porto" ` +
     `style="width:100%;max-width:640px;display:block;margin:0 auto;" />`;
 
   // Extract a date string from anywhere in the header area
