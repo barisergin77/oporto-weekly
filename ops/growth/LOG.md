@@ -7,6 +7,57 @@ impressions / pos 9.3 over 28 days (prev 28: 191 / 10,293 / 16.9);
 subscribers 56 active (34 EN, 22 PT), ~1.4 net/week; signups by page: none
 recorded yet (tracking started today).
 
+## 2026-11-09 — Welcome email refresh (#8); #42 closed
+- Run 09:30 UTC Mon, outside the freeze. Guide re-check (2b): guidesDue()
+  is empty (oldest check made-in-porto 10-31, 9 days), so no guide changes.
+- Metrics (`metrics/2026-11-09.json`): 550 clicks / 24,085 impr / pos 10.54
+  over 28d (yesterday 506 / 22,503 / 10.57; prev 28d 336 / 13,362 / 9.90).
+  Last 7d **306 clicks vs 85**, impressions 11,335 vs 4,781, CTR 2.7% vs
+  1.8%, position 9.5 vs 12.4. GA4 7d 127 users / 157 sessions / 413 PV
+  (prev 62 / 81 / 168), best week again; 99 organic, **25 AI assistant**
+  (16 yesterday), 22 direct, 8 organic social; `sign_up` 5. Subscribers 69
+  (11-05). Signups attributed 28d: 22 (11 event, 5 porto-events, 2 blog, 2
+  archive, 2 home); 3 since yesterday's run (/porto-events/free EN, Mistérios
+  da Rosa PT event page, made-in-porto guide EN). Instagram 24 (+4 in a week).
+- Results due: none today. Low-CTR list: Siza Talks and Bate Papo com Theo
+  are in the 11-07 #39 set (too early); the rest are past events or rank 30+.
+- January 2027 hub (#40): only 2 January events so far (needs 5); the scan
+  will reach January in the next weeks. Check stays 11-20.
+- Why: #8. Every new subscriber (9 last week) gets the welcome email first.
+  It still had the old dark theme, said "First issue lands this Thursday"
+  even to people joining after Thursday's send, called us "the best weekly
+  guide", and gave readers nothing to open or reply to.
+- Change (767f876): `lib/welcome-email.ts`, used by `app/api/subscribe`.
+  Cream/white layout from lib/design.ts in email-safe tables; "Your first
+  edition arrives on Thursday 12 November" (that Thursday before 11:00 UTC,
+  else the next one); links to /porto-events/this-weekend + /archive (PT:
+  /pt/eventos/este-fim-de-semana + /pt/arquivo); a "hit reply and say hi"
+  box (replies go to hello@oportoweekly.com, the From address), which tells
+  inbox providers the mail is wanted. EN + PT, humanizer rules, 0 em dashes.
+  Pure module: no file reads, so the subscribe path can't fail on it.
+  #42 leftover: swept lib/ for em dashes in reader strings; only the archive
+  banner alt text had one (fixed, but `replaceHeaderWithBanner` is unused).
+  Upcoming event records: 7 of 334 contain a dash, all in official names. #42
+  closed.
+- Verified: tsc; date logic checked on 7 cases (Mon, Thu before/after 11:00,
+  Wed night, Fri, year rollover); rendered EN + PT HTML read through (caught
+  and fixed double quotes from the font stack breaking style attributes);
+  build OK. Live: /api/version = 767f876, health ok (9 checks), POST
+  /api/subscribe with an invalid email → 400 (route loads). No test email
+  sent (rule 3).
+- Expect: some replies to hello@ from new subscribers, better inbox
+  placement for Thursday's edition over time; more first-session clicks to
+  the site. Small, hard to measure with ~9 signups a week.
+- Measure on: 2026-12-07 (owner: count replies at hello@; Resend opens for
+  tag type=welcome if visible).
+- Result:
+- Next run (Tue 11-10): #29/#30 Fever + Gomry measurement; guide re-check
+  only if guidesDue() has any (none until 11-30). Wed: duplicate pass
+  before the flush.
+- Needs owner: (1) Optional: send yourself a test signup to see the new
+  welcome email (I didn't email anyone). (2) Still open: `picks path=` for
+  the 11-05 run needs Actions or Vercel log access.
+
 ## 2026-11-08 — Site-wide copy: em dashes and AI words out (#42); blog title fixed
 - Run 09:30 UTC Sun, outside the freeze. Not Mon/Tue, so no guide re-check.
 - Metrics (`metrics/2026-11-08.json`): 506 clicks / 22,503 impr / pos 10.57
