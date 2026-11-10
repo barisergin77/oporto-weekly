@@ -45,6 +45,22 @@ export const metadata: Metadata = {
   },
 };
 
+// One source for the visible FAQ and its FAQPage JSON-LD (Google requires them to match).
+const EVENTS_FAQ: { q: string; a: string }[] = [
+  {
+    q: 'What kinds of events happen in Porto every week?',
+    a: "Something is on all year: live music and fado in small venues, contemporary art in the Bonfim gallery district, surf competitions in Matosinhos, tastings in the Port wine lodges of Vila Nova de Gaia and street festivals in the historic centre. Every Thursday, Oporto Weekly picks the best of it for one email.",
+  },
+  {
+    q: 'Is Oporto Weekly free to subscribe?',
+    a: "Yes, completely free. Enter your email above and you'll get the Porto events guide every Thursday morning. No spam, unsubscribe anytime.",
+  },
+  {
+    q: 'Can I read past Porto events guides?',
+    a: 'Yes. Every edition is archived and available to read at oportoweekly.com/archive. Every individual event also has its own page you can share or bookmark.',
+  },
+];
+
 export default function PortoEventsPage() {
   const newsletters = listNewsletters();
   const latest = newsletters[0] ?? null;
@@ -92,32 +108,11 @@ export default function PortoEventsPage() {
       },
       {
         '@type': 'FAQPage',
-        mainEntity: [
-          {
-            '@type': 'Question',
-            name: 'What events are happening in Porto this week?',
-            acceptedAnswer: {
-              '@type': 'Answer',
-              text: 'Most weeks Porto has concerts at Casa da Música, art at Serralves and in the Bonfim gallery district, food markets at Mercado do Bolhão, wine tastings in Vila Nova de Gaia and nightlife in Ribeira. Every Thursday Oporto Weekly picks the best of it for one newsletter. Scroll above for the live list of upcoming events.',
-            },
-          },
-          {
-            '@type': 'Question',
-            name: 'How do I find out about events in Porto every week?',
-            acceptedAnswer: {
-              '@type': 'Answer',
-              text: 'Subscribe to Oporto Weekly, a free newsletter delivered every Thursday morning with the best events in Porto, Portugal. You can also check this page any time.',
-            },
-          },
-          {
-            '@type': 'Question',
-            name: 'Is Oporto Weekly free?',
-            acceptedAnswer: {
-              '@type': 'Answer',
-              text: 'Yes, completely free. Subscribe with your email to receive the Porto events guide every Thursday morning.',
-            },
-          },
-        ],
+        mainEntity: EVENTS_FAQ.map(({ q, a }) => ({
+          '@type': 'Question',
+          name: q,
+          acceptedAnswer: { '@type': 'Answer', text: a },
+        })),
       },
       {
         '@type': 'BreadcrumbList',
@@ -465,20 +460,7 @@ export default function PortoEventsPage() {
               About Porto Events
             </h2>
           </div>
-          {[
-            {
-              q: 'What kinds of events happen in Porto every week?',
-              a: "Something is on all year: live music and fado in small venues, contemporary art in the Bonfim gallery district, surf competitions in Matosinhos, tastings in the Port wine lodges of Vila Nova de Gaia and street festivals in the historic centre. Every Thursday, Oporto Weekly picks the best of it for one email.",
-            },
-            {
-              q: 'Is Oporto Weekly free to subscribe?',
-              a: "Yes, completely free. Enter your email above and you'll get the Porto events guide every Thursday morning. No spam, unsubscribe anytime.",
-            },
-            {
-              q: 'Can I read past Porto events guides?',
-              a: 'Yes. Every edition is archived and available to read at oportoweekly.com/archive. Every individual event also has its own page you can share or bookmark.',
-            },
-          ].map(({ q, a }) => (
+          {EVENTS_FAQ.map(({ q, a }) => (
             <div
               key={q}
               style={{ marginBottom: 28, borderBottom: `1px solid ${colors.divider}`, paddingBottom: 28 }}
