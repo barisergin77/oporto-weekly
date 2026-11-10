@@ -1,5 +1,5 @@
 {
-  "syncedAt": "2026-11-09T04:30:08Z",
+  "syncedAt": "2026-11-10T04:30:07Z",
   "catalogId": "15532",
   "items": [
     {
@@ -71,13 +71,13 @@
         "2026-11-13T17:30",
         "2026-11-13T18:00"
       ],
-      "sessionCount": 406,
+      "sessionCount": 424,
       "price": 15.0,
       "currency": "EUR",
       "image": "https://applications-media.feverup.com/image/upload/f_auto,w_550,h_550/fever2/plan/photo/3a270bf3-10e2-4c65-9829-5de940593244.jpeg",
       "tier": 1,
       "commissionable": true,
-      "subCategory": "Other Experiences, Family, Ocubo: Immersive experiences with videomapping, Immersive Experiences & Exhibits, On A Budget, Parent's Day, Mother's Day, Plans For Two",
+      "subCategory": "Plans For Two, Family, Other Experiences, Mother's Day, Immersive Experiences & Exhibits, Parent's Day, On A Budget, Ocubo: Immersive experiences with videomapping",
       "lat": 41.14366,
       "lng": -8.62135
     },
@@ -95,7 +95,7 @@
       "image": "https://applications-media.feverup.com/image/upload/f_auto,w_550,h_550/fever2/plan/photo/985dd8d0-3700-11f0-83f7-9eec01d2c217.jpg",
       "tier": 2,
       "commissionable": true,
-      "subCategory": "Candlelight Concerts, Top 5, Candlelight Christmas Concerts, NSW Parents, Gift Cards, On A Budget, For a specific experience, Parent's Day, Festive Season, Father's Day, Mother's Day",
+      "subCategory": "Mother's Day, Candlelight Christmas Concerts, NSW Parents, Parent's Day, On A Budget, Gift Cards, Top 5, Festive Season, Candlelight Concerts, Father's Day, For a specific experience",
       "lat": 41.146812,
       "lng": -8.611118
     },
@@ -125,7 +125,6 @@
       "venue": "Douro Marina",
       "city": "Porto",
       "sessions": [
-        "2026-11-10T09:00",
         "2026-11-11T09:00",
         "2026-11-12T09:00",
         "2026-11-13T09:00",
@@ -184,7 +183,8 @@
         "2027-01-05T09:00",
         "2027-01-06T09:00",
         "2027-01-07T09:00",
-        "2027-01-08T09:00"
+        "2027-01-08T09:00",
+        "2027-01-09T09:00"
       ],
       "sessionCount": 120,
       "price": 45.0,
@@ -192,7 +192,7 @@
       "image": "https://applications-media.feverup.com/image/upload/f_auto,w_550,h_550/fever2/plan/photo/26ae25ae-e6ad-11ee-9fdc-b677f87f9978",
       "tier": 1,
       "commissionable": true,
-      "subCategory": "Other Experiences, Cruises & Boat Tours, Outdoor Activities, Tourism",
+      "subCategory": "Cruises & Boat Tours, Tourism, Other Experiences, Outdoor Activities",
       "lat": 41.141844,
       "lng": -8.6494
     },
@@ -204,8 +204,6 @@
       "venue": "BBDouro Group",
       "city": "Porto",
       "sessions": [
-        "2026-11-09T10:30",
-        "2026-11-09T14:30",
         "2026-11-10T10:30",
         "2026-11-10T14:30",
         "2026-11-11T10:30",
@@ -263,9 +261,11 @@
         "2026-12-07T10:30",
         "2026-12-07T14:30",
         "2026-12-08T10:30",
-        "2026-12-08T14:30"
+        "2026-12-08T14:30",
+        "2026-12-09T10:30",
+        "2026-12-09T14:30"
       ],
-      "sessionCount": 106,
+      "sessionCount": 104,
       "price": 85.0,
       "currency": "EUR",
       "image": "https://applications-media.feverup.com/image/upload/f_auto,w_550,h_550/fever2/plan/photo/0a069e86-00be-11ec-9fb5-be43af194db2.jpg",
@@ -283,7 +283,6 @@
       "venue": "Miradouro da Serra do Pilar",
       "city": "Porto",
       "sessions": [
-        "2026-11-09T01:00",
         "2026-11-10T01:00",
         "2026-11-11T01:00",
         "2026-11-12T01:00",
@@ -330,13 +329,13 @@
         "2026-12-30T01:00",
         "2026-12-31T01:00"
       ],
-      "sessionCount": 46,
+      "sessionCount": 45,
       "price": 39.9,
       "currency": "EUR",
       "image": "https://applications-media.feverup.com/image/upload/f_auto,w_550,h_550/fever2/plan/photo/2d77eb04-5456-11f1-93ed-bec0da6d5f18.jpeg",
       "tier": 1,
       "commissionable": true,
-      "subCategory": "Activities, Games, Outdoor Activities, Other Experiences",
+      "subCategory": "Games, Outdoor Activities, Activities, Other Experiences",
       "lat": 41.138324,
       "lng": -8.6086
     },
@@ -363,7 +362,7 @@
       "image": "https://applications-media.feverup.com/image/upload/f_auto,w_550,h_550/fever2/plan/photo/0c6f98c6-5456-11f1-8cac-866f48cd4795.jpeg",
       "tier": 4,
       "commissionable": false,
-      "subCategory": "Activities, Other Experiences, Games, Outdoor Activities",
+      "subCategory": "Games, Outdoor Activities, Other Experiences, Activities",
       "lat": 41.148362,
       "lng": -8.6190738
     },
@@ -381,7 +380,7 @@
       "image": "https://applications-media.feverup.com/image/upload/f_auto,w_550,h_550/fever2/plan/photo/c21668d6-a63d-11ee-b9f3-da6cbe396a1f.jpg",
       "tier": 1,
       "commissionable": true,
-      "subCategory": "Cruises & Boat Tours, Other Experiences, Tourism, Outdoor Activities",
+      "subCategory": "Other Experiences, Cruises & Boat Tours, Outdoor Activities, Tourism",
       "lat": 41.141721,
       "lng": -8.649479
     },
@@ -408,7 +407,7 @@
       "image": "https://applications-media.feverup.com/image/upload/f_auto,w_550,h_550/fever2/plan/photo/1a9d6294-5455-11f1-a83a-760748664c27.jpeg",
       "tier": 1,
       "commissionable": true,
-      "subCategory": "Other Experiences, Activities, Games, Outdoor Activities",
+      "subCategory": "Activities, Games, Outdoor Activities, Other Experiences",
       "lat": 41.14978,
       "lng": -8.6131
     },
@@ -429,7 +428,7 @@
       "image": "https://applications-media.feverup.com/image/upload/f_auto,w_550,h_550/fever2/plan/photo/6ef77730-1701-11ec-8622-62c0b3e132f1.jpg",
       "tier": 2,
       "commissionable": true,
-      "subCategory": "NSW Parents, Candlelight Concerts, Concerts & Music Festivals, Concerts, Classical Concerts, Music Events, Fever Originals",
+      "subCategory": "NSW Parents, Candlelight Concerts, Music Events, Fever Originals, Concerts & Music Festivals, Concerts, Classical Concerts",
       "lat": 41.1423988,
       "lng": -8.57446
     },
@@ -441,7 +440,6 @@
       "venue": "Tomaz do Douro",
       "city": "Porto",
       "sessions": [
-        "2026-11-09T10:30",
         "2026-11-10T10:30",
         "2026-11-11T10:30",
         "2026-11-12T10:30",
@@ -500,7 +498,7 @@
         "2027-01-04T10:30",
         "2027-01-05T10:30"
       ],
-      "sessionCount": 58,
+      "sessionCount": 57,
       "price": 20.0,
       "currency": "EUR",
       "image": null,
@@ -518,7 +516,6 @@
       "venue": "Pavilhão da Água",
       "city": "Porto",
       "sessions": [
-        "2026-11-09T13:30",
         "2026-11-10T13:30",
         "2026-11-11T13:30",
         "2026-11-12T13:30",
@@ -577,9 +574,10 @@
         "2027-01-16T13:30",
         "2027-01-18T13:30",
         "2027-01-19T13:30",
-        "2027-01-20T13:30"
+        "2027-01-20T13:30",
+        "2027-01-21T13:30"
       ],
-      "sessionCount": 70,
+      "sessionCount": 69,
       "price": 8.0,
       "currency": "EUR",
       "image": null,
@@ -676,12 +674,6 @@
       "venue": "Igreja dos Clérigos",
       "city": "Porto",
       "sessions": [
-        "2026-11-09T17:30",
-        "2026-11-09T18:15",
-        "2026-11-09T19:00",
-        "2026-11-09T19:45",
-        "2026-11-09T20:30",
-        "2026-11-09T21:15",
         "2026-11-10T17:30",
         "2026-11-10T18:15",
         "2026-11-10T19:00",
@@ -735,7 +727,13 @@
         "2026-11-18T21:15",
         "2026-11-19T17:30",
         "2026-11-19T18:15",
-        "2026-11-19T19:00"
+        "2026-11-19T19:00",
+        "2026-11-20T17:30",
+        "2026-11-20T18:15",
+        "2026-11-20T19:00",
+        "2026-11-20T19:45",
+        "2026-11-20T20:30",
+        "2026-11-20T21:15"
       ],
       "sessionCount": 603,
       "price": 12.0,
@@ -743,7 +741,7 @@
       "image": "https://applications-media.feverup.com/image/upload/f_auto,w_550,h_550/fever2/plan/photo/6700144e-bf01-11ec-a574-822d2a2049c1.jpg",
       "tier": 1,
       "commissionable": true,
-      "subCategory": "Other Experiences, On A Budget, Ocubo: Immersive experiences with videomapping",
+      "subCategory": "Other Experiences, Ocubo: Immersive experiences with videomapping, On A Budget",
       "lat": 41.14653,
       "lng": -8.61244
     },
@@ -755,7 +753,6 @@
       "venue": "MMIPO – Museu da Misericórdia do Porto",
       "city": "Porto",
       "sessions": [
-        "2026-11-09T10:00",
         "2026-11-10T10:00",
         "2026-11-11T10:00",
         "2026-11-12T10:00",
@@ -814,9 +811,10 @@
         "2027-01-04T10:00",
         "2027-01-05T10:00",
         "2027-01-06T10:00",
-        "2027-01-07T10:00"
+        "2027-01-07T10:00",
+        "2027-01-08T10:00"
       ],
-      "sessionCount": 88,
+      "sessionCount": 87,
       "price": 10.0,
       "currency": "EUR",
       "image": null,
@@ -834,7 +832,6 @@
       "venue": "Caves Cálem",
       "city": "Porto",
       "sessions": [
-        "2026-11-09T17:45",
         "2026-11-10T17:45",
         "2026-11-11T17:45",
         "2026-11-12T17:45",
@@ -886,7 +883,7 @@
         "2026-12-30T17:45",
         "2026-12-31T17:45"
       ],
-      "sessionCount": 51,
+      "sessionCount": 50,
       "price": 28.0,
       "currency": "EUR",
       "image": null,
@@ -904,7 +901,6 @@
       "venue": "FC Porto Museum",
       "city": "Porto",
       "sessions": [
-        "2026-11-09T14:30",
         "2026-11-10T10:00",
         "2026-11-11T10:00",
         "2026-11-12T10:00",
@@ -962,7 +958,7 @@
         "2027-01-04T00:00",
         "2027-01-05T10:00"
       ],
-      "sessionCount": 57,
+      "sessionCount": 56,
       "price": 17.0,
       "currency": "EUR",
       "image": null,
@@ -980,8 +976,6 @@
       "venue": "Museu da Farmácia Porto",
       "city": "Porto",
       "sessions": [
-        "2026-11-09T11:00",
-        "2026-11-09T15:00",
         "2026-11-10T11:00",
         "2026-11-10T15:00",
         "2026-11-11T11:00",
@@ -1039,15 +1033,17 @@
         "2026-12-11T11:00",
         "2026-12-11T15:00",
         "2026-12-12T11:00",
-        "2026-12-12T15:00"
+        "2026-12-12T15:00",
+        "2026-12-14T11:00",
+        "2026-12-14T15:00"
       ],
-      "sessionCount": 90,
+      "sessionCount": 88,
       "price": 5.0,
       "currency": "EUR",
       "image": "https://applications-media.feverup.com/image/upload/f_auto,w_550,h_550/fever2/plan/photo/148711b4-c6e4-11ec-934d-92e43911f87c.jpg",
       "tier": 1,
       "commissionable": true,
-      "subCategory": "Tourism, Museums & Art Galleries, Culture, Top Attractions, On A Budget, Museums and exhibitions, Other Experiences",
+      "subCategory": "Tourism, On A Budget, Culture, Top Attractions, Museums & Art Galleries, Museums and exhibitions, Other Experiences",
       "lat": 41.175238,
       "lng": -8.645685
     },
@@ -1059,8 +1055,6 @@
       "venue": "Casa da Guitarra",
       "city": "Porto",
       "sessions": [
-        "2026-11-09T18:00",
-        "2026-11-09T19:30",
         "2026-11-10T18:00",
         "2026-11-10T19:30",
         "2026-11-11T18:00",
@@ -1118,15 +1112,17 @@
         "2026-12-23T18:00",
         "2026-12-26T18:00",
         "2026-12-26T19:30",
-        "2026-12-26T21:15"
+        "2026-12-26T21:15",
+        "2026-12-27T18:00",
+        "2026-12-27T19:30"
       ],
-      "sessionCount": 72,
+      "sessionCount": 70,
       "price": 20.0,
       "currency": "EUR",
       "image": "https://applications-media.feverup.com/image/upload/f_auto,w_550,h_550/fever2/plan/photo/756f5c3e-ad3f-11f1-9167-c27561b78d59.jpeg",
       "tier": 1,
       "commissionable": true,
-      "subCategory": "Other Experiences, Concerts, On A Budget, Music Events",
+      "subCategory": "Music Events, Concerts, On A Budget, Other Experiences",
       "lat": 41.142697,
       "lng": -8.610307
     },
@@ -1147,7 +1143,7 @@
       "image": "https://applications-media.feverup.com/image/upload/f_auto,w_550,h_550/fever2/plan/photo/951da558-0f94-11f0-8078-762b521a76e7.jpg",
       "tier": 2,
       "commissionable": true,
-      "subCategory": "NSW Parents, Music Events, Concerts & Music Festivals, Plans For Two, Candlelight Concerts, Fever Originals, Concerts",
+      "subCategory": "Concerts, Fever Originals, Music Events, Candlelight Concerts, Plans For Two, NSW Parents, Concerts & Music Festivals",
       "lat": 41.1357114,
       "lng": -8.6184595
     },
@@ -1159,7 +1155,6 @@
       "venue": "Fonte dos Leões",
       "city": "Porto",
       "sessions": [
-        "2026-11-09T22:00",
         "2026-11-10T22:00",
         "2026-11-11T22:00",
         "2026-11-12T22:00",
@@ -1213,13 +1208,13 @@
         "2026-12-30T22:00",
         "2026-12-31T22:00"
       ],
-      "sessionCount": 53,
+      "sessionCount": 52,
       "price": 18.0,
       "currency": "EUR",
       "image": "https://applications-media.feverup.com/image/upload/f_auto,w_550,h_550/fever2/plan/photo/2a3c3ee2-3721-11f1-b45f-b2f7561a3c4b.jpeg",
       "tier": 1,
       "commissionable": true,
-      "subCategory": "Pub Crawls, Nightlife & Party, Other Experiences",
+      "subCategory": "Other Experiences, Pub Crawls, Nightlife & Party",
       "lat": 41.1471396,
       "lng": -8.6156178
     },
@@ -1239,7 +1234,7 @@
       "image": "https://applications-media.feverup.com/image/upload/f_auto,w_550,h_550/fever2/plan/photo/9cfd2bf4-2128-11f0-afc3-de998c2bf0ff.jpg",
       "tier": 2,
       "commissionable": true,
-      "subCategory": "Valentine's Day, Fever Originals, NSW Parents, Concerts, Music Events, Concerts & Music Festivals, Candlelight Concerts",
+      "subCategory": "NSW Parents, Candlelight Concerts, Concerts, Valentine's Day, Concerts & Music Festivals, Music Events, Fever Originals",
       "lat": 41.1423988,
       "lng": -8.57446
     },
@@ -1257,7 +1252,7 @@
       "image": "https://applications-media.feverup.com/image/upload/f_auto,w_550,h_550/fever2/plan/photo/ad43f9b4-ab67-11f1-828d-2a476482495b.jpg",
       "tier": 2,
       "commissionable": true,
-      "subCategory": "Parent's Day, Mother's Day, Father's Day, For every occasion, Festive Season, Gift Cards, Top 5",
+      "subCategory": "Festive Season, Mother's Day, Top 5, Gift Cards, Father's Day, For every occasion, Parent's Day",
       "lat": 41.146812,
       "lng": -8.611118
     },
@@ -1288,7 +1283,7 @@
       "image": "https://applications-media.feverup.com/image/upload/f_auto,w_550,h_550/fever2/plan/photo/734f879c-d8f9-11ef-b80c-9eae8a30a2cc",
       "tier": 1,
       "commissionable": true,
-      "subCategory": "Valentine's Day, Burlesque & Cabaret, Live Shows, Food & Drink, Restaurant & Show, Theater, Comedy & Shows, Other Experiences",
+      "subCategory": "Live Shows, Theater, Comedy & Shows, Valentine's Day, Food & Drink, Other Experiences, Burlesque & Cabaret, Restaurant & Show",
       "lat": 41.1676526,
       "lng": -8.6190143
     },
@@ -1313,15 +1308,16 @@
         "2027-02-10T09:00",
         "2027-02-17T09:00",
         "2027-02-24T09:00",
-        "2027-03-03T09:00"
+        "2027-03-03T09:00",
+        "2027-03-10T09:00"
       ],
-      "sessionCount": 14,
+      "sessionCount": 15,
       "price": 28.0,
       "currency": "EUR",
       "image": "https://applications-media.feverup.com/image/upload/f_auto,w_550,h_550/fever2/plan/photo/797a40a6-2c3d-11f1-ad46-1edc00e8a009.jpeg",
       "tier": 1,
       "commissionable": true,
-      "subCategory": "Tourism, Tasting Experiences, Other Experiences, City Tours, Food & Drink",
+      "subCategory": "Tasting Experiences, Tourism, Other Experiences, City Tours, Food & Drink",
       "lat": 41.17873,
       "lng": -8.6840387
     },
@@ -1346,7 +1342,7 @@
       "image": "https://applications-media.feverup.com/image/upload/f_auto,w_550,h_550/fever2/plan/photo/f009601a-c1bc-11ed-a9d2-4a1c2f9c9793.jpg",
       "tier": 1,
       "commissionable": true,
-      "subCategory": "Other Experiences, Music Events, Theater, Concerts, Outdoor Activities, Live Shows, Family, Theater, Comedy & Shows, Theatre",
+      "subCategory": "Live Shows, Music Events, Outdoor Activities, Theater, Theatre, Theater, Comedy & Shows, Other Experiences, Concerts, Family",
       "lat": 41.1232614,
       "lng": -8.6037161
     },
@@ -1358,7 +1354,6 @@
       "venue": "Minigolf Porto",
       "city": "Porto",
       "sessions": [
-        "2026-11-09T12:00",
         "2026-11-10T12:00",
         "2026-11-11T12:00",
         "2026-11-12T12:00",
@@ -1417,7 +1412,8 @@
         "2027-01-04T12:00",
         "2027-01-05T12:00",
         "2027-01-06T12:00",
-        "2027-01-07T12:00"
+        "2027-01-07T12:00",
+        "2027-01-08T12:00"
       ],
       "sessionCount": 121,
       "price": 17.0,
@@ -1425,7 +1421,7 @@
       "image": "https://applications-media.feverup.com/image/upload/f_auto,w_550,h_550/fever2/plan/photo/3db3f4d0-e826-11ed-ac9e-727f60c4148a.jpg",
       "tier": 1,
       "commissionable": true,
-      "subCategory": "Activities, Family, Other Experiences, Games",
+      "subCategory": "Other Experiences, Activities, Games, Family",
       "lat": 41.1542973,
       "lng": -8.6095084
     },
@@ -1437,7 +1433,6 @@
       "venue": "Zoo Santo Inácio",
       "city": "Porto",
       "sessions": [
-        "2026-11-09T00:00",
         "2026-11-10T00:00",
         "2026-11-11T00:00",
         "2026-11-12T00:00",
@@ -1496,9 +1491,10 @@
         "2027-01-04T10:00",
         "2027-01-05T10:00",
         "2027-01-06T10:00",
-        "2027-01-07T10:00"
+        "2027-01-07T10:00",
+        "2027-01-08T10:00"
       ],
-      "sessionCount": 86,
+      "sessionCount": 85,
       "price": 18.9,
       "currency": "EUR",
       "image": null,
@@ -1528,7 +1524,7 @@
       "image": "https://applications-media.feverup.com/image/upload/f_auto,w_550,h_550/fever2/plan/photo/53777c04-1157-11f0-bc63-0ee885ccc32f.jpg",
       "tier": 2,
       "commissionable": true,
-      "subCategory": "NSW Parents, Music Events, Fever Originals, Concerts, Candlelight Concerts",
+      "subCategory": "Fever Originals, Concerts, Candlelight Concerts, NSW Parents, Music Events",
       "lat": 41.1413772,
       "lng": -8.6156725
     },
@@ -1550,7 +1546,7 @@
       "image": "https://applications-media.feverup.com/image/upload/f_auto,w_550,h_550/fever2/plan/photo/5c755a1c-0b29-11f0-827c-a2cfe8261701.jpg",
       "tier": 2,
       "commissionable": true,
-      "subCategory": "Concerts & Music Festivals, Candlelight Concerts, Music Events, NSW Parents, Fever Originals, Concerts",
+      "subCategory": "NSW Parents, Concerts & Music Festivals, Fever Originals, Concerts, Candlelight Concerts, Music Events",
       "lat": 41.1357114,
       "lng": -8.6184595
     },
@@ -1562,22 +1558,6 @@
       "venue": "Sagardi Porto",
       "city": "Porto",
       "sessions": [
-        "2026-11-09T13:30",
-        "2026-11-09T14:00",
-        "2026-11-09T14:30",
-        "2026-11-09T15:00",
-        "2026-11-09T15:30",
-        "2026-11-09T16:00",
-        "2026-11-09T16:30",
-        "2026-11-09T17:00",
-        "2026-11-09T20:00",
-        "2026-11-09T20:30",
-        "2026-11-09T21:00",
-        "2026-11-09T21:30",
-        "2026-11-09T22:00",
-        "2026-11-09T22:30",
-        "2026-11-09T23:00",
-        "2026-11-09T23:30",
         "2026-11-10T13:30",
         "2026-11-10T14:00",
         "2026-11-10T14:30",
@@ -1621,15 +1601,31 @@
         "2026-11-12T20:00",
         "2026-11-12T20:30",
         "2026-11-12T21:00",
-        "2026-11-12T21:30"
+        "2026-11-12T21:30",
+        "2026-11-12T22:00",
+        "2026-11-12T22:30",
+        "2026-11-12T23:00",
+        "2026-11-12T23:30",
+        "2026-11-13T13:30",
+        "2026-11-13T14:00",
+        "2026-11-13T14:30",
+        "2026-11-13T15:00",
+        "2026-11-13T15:30",
+        "2026-11-13T16:00",
+        "2026-11-13T16:30",
+        "2026-11-13T17:00",
+        "2026-11-15T20:00",
+        "2026-11-15T20:30",
+        "2026-11-15T21:00",
+        "2026-11-15T21:30"
       ],
-      "sessionCount": 960,
+      "sessionCount": 944,
       "price": 66.0,
       "currency": "EUR",
       "image": "https://applications-media.feverup.com/image/upload/f_auto,w_550,h_550/fever2/plan/photo/b4d7dc0e-0baf-11ef-80b3-f27ed606341e",
       "tier": 1,
       "commissionable": true,
-      "subCategory": "Restaurants, Food & Drink, Other Experiences",
+      "subCategory": "Food & Drink, Restaurants, Other Experiences",
       "lat": 41.1416431,
       "lng": -8.6134489
     },
@@ -1641,27 +1637,6 @@
       "venue": "Sagardi Porto",
       "city": "Porto",
       "sessions": [
-        "2026-11-09T13:30",
-        "2026-11-09T14:00",
-        "2026-11-09T14:30",
-        "2026-11-09T15:00",
-        "2026-11-09T15:30",
-        "2026-11-09T16:00",
-        "2026-11-09T16:30",
-        "2026-11-09T17:00",
-        "2026-11-09T17:30",
-        "2026-11-09T18:00",
-        "2026-11-09T18:30",
-        "2026-11-09T19:00",
-        "2026-11-09T19:30",
-        "2026-11-09T20:00",
-        "2026-11-09T20:30",
-        "2026-11-09T21:00",
-        "2026-11-09T21:30",
-        "2026-11-09T22:00",
-        "2026-11-09T22:30",
-        "2026-11-09T23:00",
-        "2026-11-09T23:30",
         "2026-11-10T13:30",
         "2026-11-10T14:00",
         "2026-11-10T14:30",
@@ -1700,15 +1675,36 @@
         "2026-11-11T20:30",
         "2026-11-11T21:00",
         "2026-11-11T21:30",
-        "2026-11-11T22:00"
+        "2026-11-11T22:00",
+        "2026-11-11T22:30",
+        "2026-11-11T23:00",
+        "2026-11-11T23:30",
+        "2026-11-12T13:30",
+        "2026-11-12T14:00",
+        "2026-11-12T14:30",
+        "2026-11-12T15:00",
+        "2026-11-12T15:30",
+        "2026-11-12T16:00",
+        "2026-11-12T16:30",
+        "2026-11-12T17:00",
+        "2026-11-12T17:30",
+        "2026-11-12T18:00",
+        "2026-11-12T18:30",
+        "2026-11-12T19:00",
+        "2026-11-12T19:30",
+        "2026-11-12T20:00",
+        "2026-11-12T20:30",
+        "2026-11-12T21:00",
+        "2026-11-12T21:30",
+        "2026-11-12T22:00"
       ],
-      "sessionCount": 1113,
+      "sessionCount": 1092,
       "price": 66.0,
       "currency": "EUR",
       "image": "https://applications-media.feverup.com/image/upload/f_auto,w_550,h_550/fever2/plan/photo/35909628-0bb1-11ef-ab2a-ba5ea30e96d4",
       "tier": 1,
       "commissionable": true,
-      "subCategory": "Other Experiences, Restaurants, Food & Drink",
+      "subCategory": "Food & Drink, Other Experiences, Restaurants",
       "lat": 41.1416431,
       "lng": -8.6134489
     },
@@ -1744,7 +1740,7 @@
       "image": "https://applications-media.feverup.com/image/upload/f_auto,w_550,h_550/fever2/plan/photo/c3e66106-dc0b-11f0-81a3-328ae8b2f453.jpeg",
       "tier": 1,
       "commissionable": true,
-      "subCategory": "Plans For Two, Concerts & Music Festivals, Music Events, On A Budget, Family, Concerts, Other Experiences",
+      "subCategory": "On A Budget, Concerts, Plans For Two, Family, Other Experiences, Music Events, Concerts & Music Festivals",
       "lat": 41.144222,
       "lng": -8.616725
     },
@@ -1776,7 +1772,7 @@
       "image": "https://applications-media.feverup.com/image/upload/f_auto,w_550,h_550/fever2/plan/photo/e3ab1288-b588-11f0-8019-2e1843feb8e9.png",
       "tier": 1,
       "commissionable": true,
-      "subCategory": "Restaurant & Show, Live Shows, Burlesque & Cabaret, Food & Drink, Theater, Comedy & Shows, Christmas and Holiday Events, Other Experiences, Festive Season",
+      "subCategory": "Food & Drink, Burlesque & Cabaret, Festive Season, Theater, Comedy & Shows, Restaurant & Show, Live Shows, Christmas and Holiday Events, Other Experiences",
       "lat": 41.1676526,
       "lng": -8.6190143
     },
@@ -1796,7 +1792,7 @@
       "image": "https://applications-media.feverup.com/image/upload/f_auto,w_550,h_550/fever2/plan/photo/9d7279c0-f14f-11f0-af70-a2df396b7a04.jpg",
       "tier": 2,
       "commissionable": true,
-      "subCategory": "NSW Parents, Fever Originals, Music Events, Valentine's Day, Candlelight Valentine's Day, Candlelight Concerts, Concerts",
+      "subCategory": "Valentine's Day, Candlelight Concerts, NSW Parents, Fever Originals, Music Events, Candlelight Valentine's Day, Concerts",
       "lat": 41.1413772,
       "lng": -8.6156725
     },
@@ -1816,7 +1812,7 @@
       "image": "https://applications-media.feverup.com/image/upload/f_auto,w_550,h_550/fever2/plan/photo/502b9f86-b5a2-11f0-ad1f-7ee68b6b5d80.png",
       "tier": 1,
       "commissionable": true,
-      "subCategory": "Concerts & Music Festivals, Festive Season, New Year's Eve, Family, New Year, Plans For Two, Restaurant & Show, Other Experiences, Food & Drink",
+      "subCategory": "Other Experiences, New Year, Festive Season, Restaurant & Show, Family, Concerts & Music Festivals, Food & Drink, New Year's Eve, Plans For Two",
       "lat": 38.7386373,
       "lng": -9.1285128
     },
@@ -1839,7 +1835,7 @@
       "image": "https://applications-media.feverup.com/image/upload/f_auto,w_550,h_550/fever2/plan/photo/645d99be-6c04-11f1-91d5-3a2114d5bcb3.jpg",
       "tier": 2,
       "commissionable": true,
-      "subCategory": "Ballet of Lights, Fever Originals, Ballet, Theater, Comedy & Shows, Other Experiences, Dance Shows, Live Shows, Valentine's Day, Dance Performances",
+      "subCategory": "Dance Shows, Ballet, Other Experiences, Theater, Comedy & Shows, Dance Performances, Fever Originals, Valentine's Day, Live Shows, Ballet of Lights",
       "lat": 41.1774505,
       "lng": -8.6139461
     },
@@ -1859,7 +1855,7 @@
       "image": "https://applications-media.feverup.com/image/upload/f_auto,w_550,h_550/fever2/plan/photo/b418747f-33df-414c-ade7-5003dfb99ae8.jpeg",
       "tier": 1,
       "commissionable": true,
-      "subCategory": "Food & Drink, Other Experiences, Festive Season, Concerts & Music Festivals, New Year's Eve, Restaurant & Show, Plans For Two, Family, New Year",
+      "subCategory": "Concerts & Music Festivals, Festive Season, Restaurant & Show, New Year's Eve, New Year, Other Experiences, Family, Plans For Two, Food & Drink",
       "lat": 41.1676526,
       "lng": -8.6190143
     },
@@ -1889,7 +1885,6 @@
       "venue": "O Grande Museu das Casinhas de Bonecas",
       "city": "Porto",
       "sessions": [
-        "2026-11-09T10:00",
         "2026-11-10T10:00",
         "2026-11-11T10:00",
         "2026-11-12T10:00",
@@ -1948,15 +1943,16 @@
         "2027-01-14T10:00",
         "2027-01-15T10:00",
         "2027-01-16T10:00",
-        "2027-01-18T10:00"
+        "2027-01-18T10:00",
+        "2027-01-19T10:00"
       ],
-      "sessionCount": 71,
+      "sessionCount": 70,
       "price": 5.0,
       "currency": "EUR",
       "image": "https://applications-media.feverup.com/image/upload/f_auto,w_550,h_550/fever2/plan/photo/d376e04c-fe5c-11ef-8164-3249e97ef453",
       "tier": 1,
       "commissionable": true,
-      "subCategory": "Culture, Outdoor Activities, On A Budget, Family, Other Experiences, Museums & Art Galleries",
+      "subCategory": "Culture, Family, Other Experiences, Museums & Art Galleries, Outdoor Activities, On A Budget",
       "lat": 41.1523163,
       "lng": -8.6107933
     },
@@ -1974,7 +1970,7 @@
       "image": "https://applications-media.feverup.com/image/upload/f_auto,w_550,h_550/fever2/plan/photo/b6eada0e-30d0-11f0-bd1d-b292d22261f4.jpg",
       "tier": 2,
       "commissionable": true,
-      "subCategory": "Mother's Day, For every occasion, Gift Cards",
+      "subCategory": "Mother's Day, Gift Cards, For every occasion",
       "lat": 41.146812,
       "lng": -8.611118
     },
@@ -2064,7 +2060,7 @@
       "image": "https://applications-media.feverup.com/image/upload/f_auto,w_550,h_550/fever2/plan/photo/64d00fa0-30d0-11f0-82fc-1a9dc21730ca.png",
       "tier": 2,
       "commissionable": true,
-      "subCategory": "Gift Cards, For every occasion",
+      "subCategory": "For every occasion, Gift Cards",
       "lat": 41.146812,
       "lng": -8.611118
     },
@@ -2082,7 +2078,7 @@
       "image": "https://applications-media.feverup.com/image/upload/f_auto,w_550,h_550/fever2/plan/photo/9e8cad02-30d0-11f0-80a6-cea4dcd668c8.png",
       "tier": 2,
       "commissionable": true,
-      "subCategory": "Gift Cards, Valentine's Day, For every occasion",
+      "subCategory": "For every occasion, Valentine's Day, Gift Cards",
       "lat": 41.146812,
       "lng": -8.611118
     },
@@ -2103,7 +2099,7 @@
       "image": "https://applications-media.feverup.com/image/upload/f_auto,w_550,h_550/fever2/plan/photo/1cd38944-3f93-11f0-9f27-f6015fffcc12.jpg",
       "tier": 2,
       "commissionable": true,
-      "subCategory": "Concerts, Candlelight Christmas Concerts, NSW Parents, Christmas and Holiday Events, Music Events, Fever Originals, Candlelight Concerts",
+      "subCategory": "Candlelight Christmas Concerts, NSW Parents, Fever Originals, Candlelight Concerts, Christmas and Holiday Events, Music Events, Concerts",
       "lat": 41.1413772,
       "lng": -8.6156725
     },
@@ -2121,7 +2117,7 @@
       "image": "https://applications-media.feverup.com/image/upload/f_auto,w_550,h_550/fever2/plan/photo/2a790168-aaab-11f0-a850-9aa44795fb4e.jpg",
       "tier": 2,
       "commissionable": true,
-      "subCategory": "Gift Cards, Ballet, For a specific experience, Live Shows, Dance Performances",
+      "subCategory": "Ballet, For a specific experience, Dance Performances, Gift Cards, Live Shows",
       "lat": 41.146812,
       "lng": -8.611118
     },
@@ -2159,7 +2155,7 @@
       "image": "https://applications-media.feverup.com/image/upload/f_auto,w_550,h_550/fever2/plan/photo/ea8121e8-1f78-11f0-9fc3-b6302f1836c4.jpg",
       "tier": 2,
       "commissionable": true,
-      "subCategory": "Music Events, Candlelight Concerts, Concerts, Fever Originals, NSW Parents",
+      "subCategory": "Concerts, Music Events, NSW Parents, Fever Originals, Candlelight Concerts",
       "lat": 41.1357114,
       "lng": -8.6184595
     },
@@ -2177,7 +2173,7 @@
       "image": "https://applications-media.feverup.com/image/upload/f_auto,w_550,h_550/fever2/plan/photo/f9f10ff8-d751-11f0-9c92-d672e94dd362.jpg",
       "tier": 4,
       "commissionable": false,
-      "subCategory": "Festivals, Concerts, Concerts & Music Festivals, Music Events, Other Experiences",
+      "subCategory": "Concerts, Concerts & Music Festivals, Music Events, Festivals, Other Experiences",
       "lat": 41.147346,
       "lng": -8.624965
     },
@@ -2197,7 +2193,7 @@
       "image": "https://applications-media.feverup.com/image/upload/f_auto,w_550,h_550/fever2/plan/photo/9c542a96-df27-11f0-a9b5-b6297f4c546b.png",
       "tier": 1,
       "commissionable": true,
-      "subCategory": "Games, Other Experiences, Outdoor Activities, Activities, On A Budget",
+      "subCategory": "On A Budget, Outdoor Activities, Games, Activities, Other Experiences",
       "lat": 41.1455957,
       "lng": -8.6105377
     },
@@ -2220,7 +2216,7 @@
       "image": "https://applications-media.feverup.com/image/upload/f_auto,w_550,h_550/fever2/plan/photo/52c3280e-f06c-11f0-80b3-5e0ac0ba6ec4.png",
       "tier": 1,
       "commissionable": true,
-      "subCategory": "Games, Other Experiences, Outdoor Activities, Activities, On A Budget",
+      "subCategory": "Games, Other Experiences, Activities, On A Budget, Outdoor Activities",
       "lat": 41.148397,
       "lng": -8.64131
     },
@@ -2243,7 +2239,7 @@
       "image": "https://applications-media.feverup.com/image/upload/f_auto,w_550,h_550/fever2/plan/photo/87038b4c-f137-11f0-b4c9-e2001937ca93.png",
       "tier": 1,
       "commissionable": true,
-      "subCategory": "Games, Outdoor Activities, On A Budget, Other Experiences, Activities",
+      "subCategory": "Outdoor Activities, Games, On A Budget, Other Experiences, Activities",
       "lat": 41.148458,
       "lng": -8.6254
     },
@@ -2255,7 +2251,6 @@
       "venue": "Sé do Porto",
       "city": "Porto",
       "sessions": [
-        "2026-11-09T09:00",
         "2026-11-10T09:00",
         "2026-11-11T09:00",
         "2026-11-12T09:00",
@@ -2314,9 +2309,10 @@
         "2027-01-06T09:00",
         "2027-01-07T09:00",
         "2027-01-08T09:00",
-        "2027-01-09T09:00"
+        "2027-01-09T09:00",
+        "2027-01-10T09:00"
       ],
-      "sessionCount": 83,
+      "sessionCount": 82,
       "price": 4.0,
       "currency": "EUR",
       "image": null,
@@ -2334,26 +2330,6 @@
       "venue": "Torre dos Clérigos",
       "city": "Porto",
       "sessions": [
-        "2026-11-09T09:00",
-        "2026-11-09T09:30",
-        "2026-11-09T10:00",
-        "2026-11-09T10:30",
-        "2026-11-09T11:00",
-        "2026-11-09T11:30",
-        "2026-11-09T12:00",
-        "2026-11-09T12:30",
-        "2026-11-09T13:00",
-        "2026-11-09T13:30",
-        "2026-11-09T14:00",
-        "2026-11-09T14:30",
-        "2026-11-09T15:00",
-        "2026-11-09T15:30",
-        "2026-11-09T16:00",
-        "2026-11-09T16:30",
-        "2026-11-09T17:00",
-        "2026-11-09T17:30",
-        "2026-11-09T18:00",
-        "2026-11-09T18:30",
         "2026-11-10T09:00",
         "2026-11-10T09:30",
         "2026-11-10T10:00",
@@ -2393,9 +2369,29 @@
         "2026-11-11T17:00",
         "2026-11-11T17:30",
         "2026-11-11T18:00",
-        "2026-11-11T18:30"
+        "2026-11-11T18:30",
+        "2026-11-12T09:00",
+        "2026-11-12T09:30",
+        "2026-11-12T10:00",
+        "2026-11-12T10:30",
+        "2026-11-12T11:00",
+        "2026-11-12T11:30",
+        "2026-11-12T12:00",
+        "2026-11-12T12:30",
+        "2026-11-12T13:00",
+        "2026-11-12T13:30",
+        "2026-11-12T14:00",
+        "2026-11-12T14:30",
+        "2026-11-12T15:00",
+        "2026-11-12T15:30",
+        "2026-11-12T16:00",
+        "2026-11-12T16:30",
+        "2026-11-12T17:00",
+        "2026-11-12T17:30",
+        "2026-11-12T18:00",
+        "2026-11-12T18:30"
       ],
-      "sessionCount": 1034,
+      "sessionCount": 1014,
       "price": 10.0,
       "currency": "EUR",
       "image": null,
@@ -2413,7 +2409,6 @@
       "venue": "Serralves Foundation",
       "city": "Porto",
       "sessions": [
-        "2026-11-09T10:00",
         "2026-11-10T10:00",
         "2026-11-11T10:00",
         "2026-11-12T10:00",
@@ -2472,9 +2467,10 @@
         "2027-01-06T10:00",
         "2027-01-07T10:00",
         "2027-01-08T10:00",
-        "2027-01-09T10:00"
+        "2027-01-09T10:00",
+        "2027-01-10T10:00"
       ],
-      "sessionCount": 87,
+      "sessionCount": 86,
       "price": 15.0,
       "currency": "EUR",
       "image": null,
@@ -2498,7 +2494,7 @@
       "image": "https://applications-media.feverup.com/image/upload/f_auto,w_550,h_550/fever2/plan/photo/a0ee52cc-f1f9-11f0-9f02-a242fa3de11c.jpg",
       "tier": 2,
       "commissionable": true,
-      "subCategory": "Gift Cards, For every occasion",
+      "subCategory": "For every occasion, Gift Cards",
       "lat": 41.146812,
       "lng": -8.611118
     },
@@ -2521,7 +2517,7 @@
       "image": "https://applications-media.feverup.com/image/upload/f_auto,w_550,h_550/fever2/plan/photo/c9ce3a3a-0276-11f1-9e65-42428ac8aeac.png",
       "tier": 1,
       "commissionable": true,
-      "subCategory": "On A Budget, Other Experiences, Games, Activities, Outdoor Activities",
+      "subCategory": "Other Experiences, Activities, Outdoor Activities, On A Budget, Games",
       "lat": 41.1481688,
       "lng": -8.6150843
     },
@@ -2541,7 +2537,7 @@
       "image": "https://applications-media.feverup.com/image/upload/f_auto,w_550,h_550/fever2/plan/photo/421c439a-5846-11f1-9970-5a3f5840140d.jpeg",
       "tier": 4,
       "commissionable": false,
-      "subCategory": "Concerts, Concerts & Music Festivals, Other Experiences, Music Events, Festivals",
+      "subCategory": "Concerts & Music Festivals, Festivals, Music Events, Concerts, Other Experiences",
       "lat": 41.1476886,
       "lng": -8.5898392
     },
@@ -2564,7 +2560,7 @@
       "image": "https://applications-media.feverup.com/image/upload/f_auto,w_550,h_550/fever2/plan/photo/300baeec-28ea-11f1-bae1-66c5ec06e5a2.png",
       "tier": 1,
       "commissionable": true,
-      "subCategory": "Activities, On A Budget, Games",
+      "subCategory": "On A Budget, Games, Activities",
       "lat": 41.1459615,
       "lng": -8.5952757
     },
@@ -2576,16 +2572,17 @@
       "venue": "Hot Five Jazz&Blues Club",
       "city": "Porto",
       "sessions": [
+        "2026-11-14T20:00",
         "2027-01-16T18:00",
         "2027-01-16T20:00"
       ],
-      "sessionCount": 2,
+      "sessionCount": 3,
       "price": 19.35,
       "currency": "EUR",
       "image": "https://applications-media.feverup.com/image/upload/f_auto,w_550,h_550/fever2/plan/photo/4484564c-16db-11f1-817e-ca751fea31db.jpg",
       "tier": 2,
       "commissionable": true,
-      "subCategory": "Music Events, Fever Originals, Concerts, The Jazz Room",
+      "subCategory": "Concerts, The Jazz Room, Fever Originals, Music Events",
       "lat": 41.1573775,
       "lng": -8.6368434
     },
@@ -2608,7 +2605,7 @@
       "image": "https://applications-media.feverup.com/image/upload/f_auto,w_550,h_550/fever2/plan/photo/1826d2ca-4abe-11f1-b8ec-2e6e86a02115.png",
       "tier": 4,
       "commissionable": false,
-      "subCategory": "Outdoor Activities, Activities, Other Experiences, On A Budget, Games",
+      "subCategory": "On A Budget, Outdoor Activities, Games, Other Experiences, Activities",
       "lat": 41.1423295,
       "lng": -8.6117639
     },
@@ -2628,7 +2625,7 @@
       "image": "https://applications-media.feverup.com/image/upload/f_auto,w_550,h_550/fever2/plan/photo/1f961092-70c6-11f1-8ba4-ba7c755a3c89.jpg",
       "tier": 4,
       "commissionable": false,
-      "subCategory": "Festivals, Music Events, Family, Plans For Two, Concerts, Concerts & Music Festivals, Other Experiences",
+      "subCategory": "Other Experiences, Concerts & Music Festivals, Festivals, Plans For Two, Music Events, Family, Concerts",
       "lat": 41.141946,
       "lng": -8.615099
     },
@@ -2648,7 +2645,7 @@
       "image": "https://applications-media.feverup.com/image/upload/f_auto,w_550,h_550/fever2/plan/photo/baed35e6-70c3-11f1-94a6-b6842a6e9fb5.jpg",
       "tier": 4,
       "commissionable": false,
-      "subCategory": "Plans For Two, Festivals, Family, Music Events, Concerts, Concerts & Music Festivals, Other Experiences",
+      "subCategory": "Festivals, Family, Plans For Two, Concerts & Music Festivals, Concerts, Other Experiences, Music Events",
       "lat": 41.146703,
       "lng": -8.605738
     },
@@ -2687,7 +2684,7 @@
       "image": "https://applications-media.feverup.com/image/upload/f_auto,w_550,h_550/fever2/plan/photo/48b94802-1917-11f0-a8b2-de92939c34e1.jpg",
       "tier": 2,
       "commissionable": true,
-      "subCategory": "Candlelight Concerts, Concerts, Music Events, NSW Parents, Fever Originals",
+      "subCategory": "Fever Originals, Candlelight Concerts, NSW Parents, Concerts, Music Events",
       "lat": 41.1357114,
       "lng": -8.6184595
     },
@@ -2705,7 +2702,7 @@
       "image": "https://applications-media.feverup.com/image/upload/f_auto,w_550,h_550/fever2/plan/photo/221316a6-b02e-11f1-8423-6e5241be2474.jpeg",
       "tier": 4,
       "commissionable": false,
-      "subCategory": "Festivals, Music Events, Concerts & Music Festivals, Concerts, Other Experiences",
+      "subCategory": "Concerts & Music Festivals, Other Experiences, Music Events, Festivals, Concerts",
       "lat": 41.147251,
       "lng": -8.6054
     },
@@ -2721,12 +2718,12 @@
         "2027-01-09T19:30"
       ],
       "sessionCount": 2,
-      "price": 18.5,
+      "price": 19.0,
       "currency": "EUR",
       "image": "https://applications-media.feverup.com/image/upload/f_auto,w_550,h_550/fever2/plan/photo/675fe2d2-1a9f-11f0-8be7-b25552496a35.jpg",
       "tier": 2,
       "commissionable": true,
-      "subCategory": "Candlelight Concerts, Fever Originals, Concerts, Music Events, NSW Parents",
+      "subCategory": "Music Events, Candlelight Concerts, Concerts, NSW Parents, Fever Originals",
       "lat": 41.1413772,
       "lng": -8.6156725
     },
@@ -2747,7 +2744,7 @@
       "image": "https://applications-media.feverup.com/image/upload/f_auto,w_550,h_550/fever2/plan/photo/94e2e4c8-1271-11f1-9fde-5a92634d281f.jpg",
       "tier": 2,
       "commissionable": true,
-      "subCategory": "Theater, The Jury Experience, Fever Originals, Live Shows",
+      "subCategory": "Live Shows, The Jury Experience, Theater, Fever Originals",
       "lat": 41.1774505,
       "lng": -8.6139461
     },
@@ -2838,7 +2835,6 @@
       "venue": "Igreja da Santíssima Trindade",
       "city": "Porto",
       "sessions": [
-        "2026-11-09T10:00",
         "2026-11-10T10:00",
         "2026-11-11T10:00",
         "2026-11-12T10:00",
@@ -2897,9 +2893,10 @@
         "2027-01-04T10:00",
         "2027-01-05T10:00",
         "2027-01-06T10:00",
-        "2027-01-07T10:00"
+        "2027-01-07T10:00",
+        "2027-01-08T10:00"
       ],
-      "sessionCount": 88,
+      "sessionCount": 87,
       "price": 9.0,
       "currency": "EUR",
       "image": null,
@@ -2917,7 +2914,6 @@
       "venue": "Viagens do Dia do Vale do Douro a partir do Porto",
       "city": "Porto",
       "sessions": [
-        "2026-11-09T09:00",
         "2026-11-10T09:00",
         "2026-11-10T11:00",
         "2026-11-11T08:30",
@@ -2976,9 +2972,10 @@
         "2026-12-08T09:00",
         "2026-12-08T11:00",
         "2026-12-09T08:30",
-        "2026-12-09T09:00"
+        "2026-12-09T09:00",
+        "2026-12-09T11:00"
       ],
-      "sessionCount": 227,
+      "sessionCount": 226,
       "price": 70.0,
       "currency": "EUR",
       "image": null,
@@ -3041,10 +3038,6 @@
       "venue": "Magic Tourism",
       "city": "Porto",
       "sessions": [
-        "2026-11-09T10:00",
-        "2026-11-09T11:00",
-        "2026-11-09T14:00",
-        "2026-11-09T15:00",
         "2026-11-10T10:00",
         "2026-11-10T11:00",
         "2026-11-10T14:00",
@@ -3100,9 +3093,13 @@
         "2026-11-25T10:00",
         "2026-11-25T11:00",
         "2026-11-25T14:00",
-        "2026-11-25T15:00"
+        "2026-11-25T15:00",
+        "2026-11-26T10:00",
+        "2026-11-26T11:00",
+        "2026-11-26T14:00",
+        "2026-11-26T15:00"
       ],
-      "sessionCount": 288,
+      "sessionCount": 284,
       "price": 38.0,
       "currency": "EUR",
       "image": null,
@@ -3120,8 +3117,6 @@
       "venue": "Fado na Baixa",
       "city": "Porto",
       "sessions": [
-        "2026-11-09T18:00",
-        "2026-11-09T19:30",
         "2026-11-10T18:00",
         "2026-11-10T19:30",
         "2026-11-11T18:00",
@@ -3179,9 +3174,11 @@
         "2026-12-07T18:00",
         "2026-12-07T19:30",
         "2026-12-08T18:00",
-        "2026-12-08T19:30"
+        "2026-12-08T19:30",
+        "2026-12-09T18:00",
+        "2026-12-09T19:30"
       ],
-      "sessionCount": 176,
+      "sessionCount": 174,
       "price": 16.0,
       "currency": "EUR",
       "image": null,
@@ -3199,8 +3196,6 @@
       "venue": "Fado by Casa da Guitarra",
       "city": "Porto",
       "sessions": [
-        "2026-11-09T18:00",
-        "2026-11-09T19:30",
         "2026-11-10T18:00",
         "2026-11-10T19:30",
         "2026-11-11T18:00",
@@ -3258,9 +3253,11 @@
         "2026-12-23T18:00",
         "2026-12-26T18:00",
         "2026-12-26T19:30",
-        "2026-12-27T18:00"
+        "2026-12-27T18:00",
+        "2026-12-27T19:30",
+        "2026-12-27T21:15"
       ],
-      "sessionCount": 112,
+      "sessionCount": 110,
       "price": 20.0,
       "currency": "EUR",
       "image": null,
@@ -3278,8 +3275,6 @@
       "venue": "Ideal Clube de Fado OPorto",
       "city": "Porto",
       "sessions": [
-        "2026-11-09T19:30",
-        "2026-11-09T21:15",
         "2026-11-10T19:30",
         "2026-11-10T21:15",
         "2026-11-11T19:30",
@@ -3337,9 +3332,11 @@
         "2026-12-06T18:00",
         "2026-12-06T19:30",
         "2026-12-06T21:15",
-        "2026-12-09T19:30"
+        "2026-12-09T19:30",
+        "2026-12-10T19:30",
+        "2026-12-11T19:30"
       ],
-      "sessionCount": 198,
+      "sessionCount": 196,
       "price": 21.0,
       "currency": "EUR",
       "image": null,
@@ -3442,7 +3439,7 @@
       "image": "https://applications-media.feverup.com/image/upload/f_auto,w_550,h_550/fever2/plan/photo/b36d4e3e-c31e-11f1-ad3b-3e0f61d6e016.jpg",
       "tier": 4,
       "commissionable": false,
-      "subCategory": "Family, Concerts & Music Festivals, Festivals, Concerts, Plans For Two, Other Experiences, Music Events",
+      "subCategory": "Festivals, Concerts & Music Festivals, Family, Other Experiences, Music Events, Concerts, Plans For Two",
       "lat": 41.145899,
       "lng": -8.6084
     },
@@ -3464,7 +3461,7 @@
       "image": "https://applications-media.feverup.com/image/upload/f_auto,w_550,h_550/fever2/plan/photo/8b565918-8999-11f1-b13f-b2304ca12aee.jpg",
       "tier": 1,
       "commissionable": true,
-      "subCategory": "Nightlife and Clubs, Other Experiences, Tasting Experiences, Food & Drink Fests, Plans For Two, Food & Drink",
+      "subCategory": "Food & Drink, Plans For Two, Tasting Experiences, Food & Drink Fests, Nightlife and Clubs, Other Experiences",
       "lat": 41.14366,
       "lng": -8.62135
     },
@@ -3485,7 +3482,7 @@
       "image": "https://applications-media.feverup.com/image/upload/f_auto,w_550,h_550/fever2/plan/photo/fe5444ee-3f93-11f0-a5a4-6ee326aa2bcb.jpg",
       "tier": 2,
       "commissionable": true,
-      "subCategory": "Christmas and Holiday Events, NSW Parents, Candlelight Concerts, Music Events, Fever Originals, Concerts",
+      "subCategory": "Candlelight Concerts, Christmas and Holiday Events, Music Events, Concerts, Fever Originals, NSW Parents",
       "lat": 41.1357114,
       "lng": -8.6184595
     },
@@ -3497,7 +3494,6 @@
       "venue": "Alameda Shop & Spot",
       "city": "Porto",
       "sessions": [
-        "2026-11-09T00:00",
         "2026-11-10T00:00",
         "2026-11-11T00:00",
         "2026-11-12T00:00",
@@ -3556,7 +3552,8 @@
         "2027-01-04T00:00",
         "2027-01-05T00:00",
         "2027-01-06T00:00",
-        "2027-01-07T00:00"
+        "2027-01-07T00:00",
+        "2027-01-08T00:00"
       ],
       "sessionCount": 121,
       "price": 18.5,
@@ -3564,7 +3561,7 @@
       "image": "https://applications-media.feverup.com/image/upload/f_auto,w_550,h_550/fever2/plan/photo/94a13ce4-7465-11f0-a102-12bfe14efd66.jpg",
       "tier": 1,
       "commissionable": true,
-      "subCategory": "Activities, Games, Other Experiences, Immersive Experiences & Exhibits",
+      "subCategory": "Activities, Immersive Experiences & Exhibits, Other Experiences, Games",
       "lat": 41.1640658,
       "lng": -8.5834341
     },
@@ -3611,7 +3608,7 @@
       "image": "https://applications-media.feverup.com/image/upload/f_auto,w_550,h_550/fever2/plan/photo/5bf4b7e8-661c-4e60-893d-fd6f7dc4ea1f.jpg",
       "tier": 2,
       "commissionable": true,
-      "subCategory": "Food & Drink, Drinks & Happy Hour, Fever Originals",
+      "subCategory": "Fever Originals, Food & Drink, Drinks & Happy Hour",
       "lat": 41.1573775,
       "lng": -8.6368434
     },
@@ -3623,7 +3620,6 @@
       "venue": "Praça de Carlos Alberto",
       "city": "Porto",
       "sessions": [
-        "2026-11-09T09:00",
         "2026-11-10T09:00",
         "2026-11-11T09:00",
         "2026-11-12T09:00",
@@ -3677,13 +3673,13 @@
         "2026-12-30T09:00",
         "2026-12-31T09:00"
       ],
-      "sessionCount": 53,
+      "sessionCount": 52,
       "price": 4.99,
       "currency": "EUR",
       "image": "https://applications-media.feverup.com/image/upload/f_auto,w_550,h_550/fever2/plan/photo/35a714aa-aa2b-11f1-bb53-361fbef7c63b.jpeg",
       "tier": 4,
       "commissionable": false,
-      "subCategory": "Tourism, On A Budget, City Tours",
+      "subCategory": "Tourism, City Tours, On A Budget",
       "lat": 41.148646,
       "lng": -8.6158
     },
@@ -3695,16 +3691,17 @@
       "venue": "Hot Five Jazz&Blues Club",
       "city": "Porto",
       "sessions": [
+        "2026-12-19T20:00",
         "2027-02-13T18:00",
         "2027-02-13T20:00"
       ],
-      "sessionCount": 2,
+      "sessionCount": 3,
       "price": 21.0,
       "currency": "EUR",
       "image": "https://applications-media.feverup.com/image/upload/f_auto,w_550,h_550/fever2/plan/photo/0082839e-1648-11f1-88b7-be2bf00d5b25.jpg",
       "tier": 2,
       "commissionable": true,
-      "subCategory": "Concerts, Music Events, Fever Originals, The Jazz Room",
+      "subCategory": "Concerts, Fever Originals, The Jazz Room, Music Events",
       "lat": 41.1573775,
       "lng": -8.6368434
     },
@@ -3724,7 +3721,7 @@
       "image": "https://applications-media.feverup.com/image/upload/f_auto,w_550,h_550/fever2/plan/photo/cd2833d4-b743-11f1-a7a7-0e7b18b4856a.jpeg",
       "tier": 4,
       "commissionable": false,
-      "subCategory": "Nightlife & Party, Pub Crawls",
+      "subCategory": "Pub Crawls, Nightlife & Party",
       "lat": 41.1471396,
       "lng": -8.6156178
     },
@@ -3797,7 +3794,7 @@
         "2026-11-12T13:45",
         "2026-11-12T14:00"
       ],
-      "sessionCount": 389,
+      "sessionCount": 1519,
       "price": 30.0,
       "currency": "EUR",
       "image": null,
@@ -3815,8 +3812,6 @@
       "venue": "Passeios a pé pelo Porto",
       "city": "Porto",
       "sessions": [
-        "2026-11-09T10:00",
-        "2026-11-09T15:00",
         "2026-11-10T10:00",
         "2026-11-10T15:00",
         "2026-11-11T10:00",
@@ -3874,9 +3869,11 @@
         "2026-12-07T10:00",
         "2026-12-07T15:00",
         "2026-12-08T10:00",
-        "2026-12-08T15:00"
+        "2026-12-08T15:00",
+        "2026-12-09T10:00",
+        "2026-12-09T15:00"
       ],
-      "sessionCount": 92,
+      "sessionCount": 90,
       "price": 65.0,
       "currency": "EUR",
       "image": null,
@@ -3904,7 +3901,7 @@
       "image": "https://applications-media.feverup.com/image/upload/f_auto,w_550,h_550/fever2/plan/photo/15b8c670-bdae-11f1-b6b3-0e01250c4394.jpg",
       "tier": 2,
       "commissionable": true,
-      "subCategory": "Candlelight Concerts, NSW Parents, Concerts, Music Events, Fever Originals",
+      "subCategory": "Concerts, Fever Originals, NSW Parents, Music Events, Candlelight Concerts",
       "lat": 41.1357114,
       "lng": -8.6184595
     },
@@ -3924,7 +3921,7 @@
       "image": "https://applications-media.feverup.com/image/upload/f_auto,w_550,h_550/fever2/plan/photo/ad60b410-1945-11f0-bf40-961efeb2b763.jpg",
       "tier": 2,
       "commissionable": true,
-      "subCategory": "Candlelight Concerts, Concerts, Music Events, NSW Parents, Fever Originals",
+      "subCategory": "Fever Originals, Concerts, Music Events, Candlelight Concerts, NSW Parents",
       "lat": 41.1423988,
       "lng": -8.57446
     },
@@ -3944,7 +3941,7 @@
       "image": "https://applications-media.feverup.com/image/upload/f_auto,w_550,h_550/fever2/plan/photo/1d496bee-0f93-11f0-9d2c-762b521a76e7.jpg",
       "tier": 2,
       "commissionable": true,
-      "subCategory": "Fever Originals, Music Events, Concerts, NSW Parents, Candlelight Concerts",
+      "subCategory": "Candlelight Concerts, NSW Parents, Fever Originals, Concerts, Music Events",
       "lat": 41.1357114,
       "lng": -8.6184595
     },
@@ -3964,7 +3961,7 @@
       "image": "https://applications-media.feverup.com/image/upload/f_auto,w_550,h_550/fever2/plan/photo/0fd66db5-c41e-469d-953f-d32fe6c9a9a8.jpeg",
       "tier": 4,
       "commissionable": false,
-      "subCategory": "Food & Drink, Tasting Experiences, Courses, Talks & Conventions",
+      "subCategory": "Tasting Experiences, Courses, Talks & Conventions, Food & Drink",
       "lat": 41.1436978,
       "lng": -8.6139618
     },
@@ -3976,15 +3973,6 @@
       "venue": "3D Fun Art Museum Porto",
       "city": "Porto",
       "sessions": [
-        "2026-11-09T10:00",
-        "2026-11-09T11:00",
-        "2026-11-09T12:00",
-        "2026-11-09T13:00",
-        "2026-11-09T14:00",
-        "2026-11-09T15:00",
-        "2026-11-09T16:00",
-        "2026-11-09T17:00",
-        "2026-11-09T18:00",
         "2026-11-10T10:00",
         "2026-11-10T11:00",
         "2026-11-10T12:00",
@@ -4035,9 +4023,18 @@
         "2026-11-15T12:00",
         "2026-11-15T13:00",
         "2026-11-15T14:00",
-        "2026-11-15T15:00"
+        "2026-11-15T15:00",
+        "2026-11-15T16:00",
+        "2026-11-15T17:00",
+        "2026-11-15T18:00",
+        "2026-11-16T10:00",
+        "2026-11-16T11:00",
+        "2026-11-16T12:00",
+        "2026-11-16T13:00",
+        "2026-11-16T14:00",
+        "2026-11-16T15:00"
       ],
-      "sessionCount": 396,
+      "sessionCount": 387,
       "price": 13.0,
       "currency": "EUR",
       "image": null,
@@ -4055,7 +4052,6 @@
       "venue": "Tours hop-on hop-off no Porto",
       "city": "Porto",
       "sessions": [
-        "2026-11-09T00:00",
         "2026-11-10T00:00",
         "2026-11-11T00:00",
         "2026-11-12T00:00",
@@ -4105,12 +4101,12 @@
         "2026-12-27T00:00",
         "2026-12-28T00:00"
       ],
-      "sessionCount": 49,
+      "sessionCount": 48,
       "price": 46.0,
       "currency": "EUR",
       "image": null,
-      "tier": 4,
-      "commissionable": false,
+      "tier": 1,
+      "commissionable": true,
       "subCategory": "",
       "lat": 41.1409695,
       "lng": -8.6145561
@@ -4123,7 +4119,6 @@
       "venue": "Tours hop-on hop-off no Porto",
       "city": "Porto",
       "sessions": [
-        "2026-11-09T00:00",
         "2026-11-10T00:00",
         "2026-11-11T00:00",
         "2026-11-12T00:00",
@@ -4173,7 +4168,7 @@
         "2026-12-27T00:00",
         "2026-12-28T00:00"
       ],
-      "sessionCount": 49,
+      "sessionCount": 48,
       "price": 30.0,
       "currency": "EUR",
       "image": null,
@@ -4191,7 +4186,6 @@
       "venue": "Tours hop-on hop-off no Porto",
       "city": "Porto",
       "sessions": [
-        "2026-11-09T00:00",
         "2026-11-10T00:00",
         "2026-11-11T00:00",
         "2026-11-12T00:00",
@@ -4241,7 +4235,7 @@
         "2026-12-27T00:00",
         "2026-12-28T00:00"
       ],
-      "sessionCount": 49,
+      "sessionCount": 48,
       "price": 38.0,
       "currency": "EUR",
       "image": null,
@@ -4259,7 +4253,6 @@
       "venue": "Tours hop-on hop-off no Porto",
       "city": "Porto",
       "sessions": [
-        "2026-11-09T00:00",
         "2026-11-10T00:00",
         "2026-11-11T00:00",
         "2026-11-12T00:00",
@@ -4310,7 +4303,7 @@
         "2026-12-28T00:00",
         "2026-12-29T00:00"
       ],
-      "sessionCount": 50,
+      "sessionCount": 49,
       "price": 36.0,
       "currency": "EUR",
       "image": null,
@@ -4389,15 +4382,35 @@
         "2026-11-21T15:00",
         "2026-11-21T15:30"
       ],
-      "sessionCount": 513,
+      "sessionCount": 553,
       "price": 12.0,
       "currency": "EUR",
       "image": "https://applications-media.feverup.com/image/upload/f_auto,w_550,h_550/fever2/plan/photo/29769b4b-f75c-4459-ab6b-2eb5d821ccc7.jpeg",
       "tier": 1,
       "commissionable": true,
-      "subCategory": "Ocubo: Immersive experiences with videomapping, On A Budget, Immersive Experiences & Exhibits",
+      "subCategory": "On A Budget, Immersive Experiences & Exhibits, Ocubo: Immersive experiences with videomapping",
       "lat": 41.14366,
       "lng": -8.62135
+    },
+    {
+      "id": "837714",
+      "name": "🔥 Magic Mike Universe Porto – 7th Anniversary Celebration",
+      "url": "https://fever.pxf.io/c/8040588/1928078/16345?prodsku=837714&u=https%3A%2F%2Ffeverup.com%2Fm%2F837714&intsrc=APIG_15532",
+      "feverUrl": "https://feverup.com/m/837714",
+      "venue": "Magic Moments Restaurante & Dance Club Porto",
+      "city": "Porto",
+      "sessions": [
+        "2026-11-21T20:00"
+      ],
+      "sessionCount": 1,
+      "price": 60.0,
+      "currency": "EUR",
+      "image": "https://applications-media.feverup.com/image/upload/f_auto,w_550,h_550/fever2/plan/photo/0bd70245-5ee8-4f67-bf3c-b3a2966a4787.png",
+      "tier": 4,
+      "commissionable": false,
+      "subCategory": "",
+      "lat": 41.1676526,
+      "lng": -8.6190143
     }
   ]
 }
