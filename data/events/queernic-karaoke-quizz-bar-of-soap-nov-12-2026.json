@@ -1,0 +1,25 @@
+{
+  "slug": "queernic-karaoke-quizz-bar-of-soap-nov-12-2026",
+  "name": "Queernic Karaoke & Quizz",
+  "date": "2026-11-12T20:00",
+  "venue": "Bar of Soap",
+  "venueSlug": "bar-of-soap",
+  "price": "4€",
+  "priceFrom": 4,
+  "currency": "EUR",
+  "category": "nightlife",
+  "description": "Queernic Karaoke & Quizz is a karaoke and quiz evening held at Bar of Soap in Porto.",
+  "longDescription": "Queernic Karaoke & Quizz takes place at Bar of Soap, located at Rua do Bolhão 132 in Porto. The session starts at 20:00 on 12 November 2026.\n\nAdmission is 4€ and the event is restricted to ages 18 and over.",
+  "sourceEdition": "forward-scan",
+  "externalLink": "https://www.agenda-porto.pt/evento/queernic-karaoke-andamp-quizz/",
+  "pickCandidate": false,
+  "addedAt": "2026-11-10T06:00:35.513Z",
+  "lastSeenAt": "2026-11-10T06:00:35.513Z",
+  "descriptionPt": "O Queernic Karaoke & Quizz é uma noite de karaoke e quiz no Bar of Soap, no Porto.",
+  "longDescriptionPt": "O Queernic Karaoke & Quizz acontece no Bar of Soap, na Rua do Bolhão, 132, no Porto. A sessão começa às 20h00 no dia 12 de novembro de 2026.\n\nA entrada custa 4€ e o evento é reservado a maiores de 18 anos.",
+  "image": {
+    "url": "https://i.imgur.com/DQAWi3B.jpeg",
+    "credit": "Photo: Agenda-porto",
+    "sourceUrl": "https://www.agenda-porto.pt/evento/queernic-karaoke-andamp-quizz/"
+  }
+}
