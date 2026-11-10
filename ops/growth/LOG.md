@@ -7,6 +7,71 @@ impressions / pos 9.3 over 28 days (prev 28: 191 / 10,293 / 16.9);
 subscribers 56 active (34 EN, 22 PT), ~1.4 net/week; signups by page: none
 recorded yet (tracking started today).
 
+## 2026-11-10 — Seasonal shortcut chips: Christmas hub + next month (#40); Fever/Gomry measured
+- Run 09:30 UTC Tue, outside the freeze. Guide re-check (2b): guidesDue()
+  is empty (oldest check made-in-porto 10-31; first due 11-30), no changes.
+- Live check: /api/version 59e7586 (includes 767f876), health ok.
+- Metrics (`metrics/2026-11-10.json`): 571 clicks / 24,063 impr / pos 10.63
+  over 28d (yesterday 550 / 24,085; prev 28d 329 / 14,699). Last 7d **317
+  clicks vs 100**, impressions 12,400 vs 5,208, CTR 2.6% vs 1.9%, position
+  9.4 vs 12.2. GA4 7d 124 users / 151 sessions / 360 PV (prev 72 / 93 /
+  259); 98 organic, 27 AI assistant, 16 direct, 8 organic social;
+  `sign_up` 6. Subscribers 69 (11-05). Signups attributed 28d: 22. Instagram
+  24 (+3 in a week).
+- Results due (#29 Fever, #30 Gomry, measure 11-10):
+  - Fever: GA4 outbound `click` to fever.pxf.io = **11** since 10-27
+    (consented visitors only), tied first with agenda-porto.pt; pages are
+    the Candlelight event pages (Coldplay/Imagine Dragons 21 Nov + 31 Oct,
+    ABBA, Hans Zimmer, Christmas Classics). Impact actions/earnings: not
+    read (the Impact API call needs approval in the unattended run) → owner
+    checks the Impact dashboard. Verdict: **working on clicks**, revenue unknown.
+  - Gomry: 0 outbound clicks to gomry.com; FC Porto vs Estoril page got 1
+    click (to fcporto.pt). Verdict: **no result yet**.
+  - Finding: the custom events `affiliate_ticket_click` and
+    `gomry_organizer_click` have **never reached GA4** (0 since 10-27). They
+    are dataLayer pushes like `sign_up`, which only arrived after the owner
+    added a GA4 event tag in GTM (#7). Same fix needed → Needs owner.
+- Venue pages (#32 measurement): 396 pages, 42 clicks / 3,484 impr in 28d
+  (1.2%), top ones at pos 9–10 (Move Club PT 0/217, Casa da Música PT 0/172,
+  EN 0/116). The Alchemist no longer in the list. #36 (venue snippets,
+  measure 11-30) already targets this; no noindex change before that result.
+- Duplicates: find-duplicates 0 strong, 44 review pairs (mostly past
+  re-extractions). Full pass stays Wednesday.
+- Why: #40. December searches ("porto events december 2026", "christmas
+  porto", "natal porto") build from mid-November; October's month query was
+  the #2 query last month. The Christmas hub (12 events today) and the
+  December hub were only linked from the month hubs.
+- Change (f61db5a, `[defer]`, live with tonight's 21:00 flush):
+  `app/components/ShortcutChips.tsx` adds two seasonal chips to the chip
+  row on home (EN/PT), /porto-events, day/landing hubs and every event page
+  (EN/PT, ~2,000 pages): "Christmas"/"Natal" → /porto-events/christmas,
+  /pt/eventos/natal from 1 Nov to 6 Jan while the hub is indexable (≥3
+  events; computed once per day per build); and next month's hub
+  ("December"/"Dezembro") from the 15th when that hub exists. LandingHub
+  marks the Christmas chip as current on the Christmas hub. No `<head>`
+  change, so no sitemap bump.
+- Verified: tsc; build OK (5,883 pages); built HTML: Outworld event page has
+  the Christmas chip, /pt has Natal, /porto-events/christmas marks it
+  aria-current; December chip absent as expected (day 10 < 15). Live check
+  moves to the next run ([defer]).
+- Expect: Christmas hub EN+PT impressions/clicks up through December; the
+  December hub gets crawled and ranks before demand peaks.
+- Measure on: 2026-12-08 (GSC impr/clicks /porto-events/christmas,
+  /pt/eventos/natal, /porto-events/december-2026, /pt/eventos/dezembro-2026;
+  queries with christmas/natal/december/dezembro).
+- Result:
+- Next run (Wed 11-11): confirm /api/version past today's SHA + health;
+  duplicate pass before the 21:00 flush; anything shipped Wednesday must be
+  live by the flush.
+- Needs owner: (1) GTM: add a GA4 event tag for the custom events
+  `affiliate_ticket_click` (param `provider`) and `gomry_organizer_click`,
+  like the `sign_up` tag, and publish. Until then affiliate clicks are only
+  visible as generic outbound clicks. (2) Fever: check the Impact dashboard
+  for clicks/actions/earnings since 10-27; Gomry: check the dashboard for
+  sales/referrals. (3) Still open: `picks path=` for the 11-05 run.
+- Note: PLAYBOOK §2 allows up to two items per run; today's run prompt says
+  ONE, so I followed the prompt.
+
 ## 2026-11-09 — Welcome email refresh (#8); #42 closed
 - Run 09:30 UTC Mon, outside the freeze. Guide re-check (2b): guidesDue()
   is empty (oldest check made-in-porto 10-31, 9 days), so no guide changes.
