@@ -660,7 +660,11 @@
       "venue": "Casa Comum",
       "note": "18:00. Two documentaries in the CIDAAD IV cycle, Perspetivas Roma e Sinti no Cinema",
       "source": "agenda-porto-newsletter-2026-11",
-      "addedAt": "2026-11-10T05:00:39Z"
+      "addedAt": "2026-11-10T05:00:39Z",
+      "status": "pending",
+      "attempts": 1,
+      "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
+      "lastTriedAt": "2026-11-10T08:32:04.063Z"
     },
     {
       "name": "Música e Amazónia",
@@ -677,7 +681,11 @@
       "venue": "Vários locais",
       "note": "2nd edition, motto 'Todas as vozes podem mudar o mundo'. About ten opera shows for all ages at Coliseu Porto Ageas, Palácio do Bolhão, Clube Fenianos Portuenses and more. Free community events, classes, workshops and an escape room",
       "source": "agenda-porto-newsletter-2026-11",
-      "addedAt": "2026-11-10T05:00:39Z"
+      "addedAt": "2026-11-10T05:00:39Z",
+      "status": "pending",
+      "attempts": 1,
+      "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
+      "lastTriedAt": "2026-11-10T08:32:04.063Z"
     },
     {
       "name": "Bicircular",
@@ -702,7 +710,11 @@
       "venue": "Fontainhas (Escola Básica do Sol, Abrigo dos Pequeninos, Passeio das Fontainhas)",
       "note": "4th edition of BALUARTE, Porto's urban art exhibition. Three days of works by Portuguese artists, plus workshops and meetups",
       "source": "agenda-porto-newsletter-2026-11",
-      "addedAt": "2026-11-10T05:00:39Z"
+      "addedAt": "2026-11-10T05:00:39Z",
+      "status": "pending",
+      "attempts": 1,
+      "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
+      "lastTriedAt": "2026-11-10T08:32:04.063Z"
     },
     {
       "name": "Andrea Arnold Retrospective: Milk + Red Road",
@@ -710,7 +722,11 @@
       "venue": "Batalha Centro de Cinema",
       "note": "Wed 3.15pm; second screening; Milk (UK, 1998, 10') + Red Road (UK/Denmark, 2006, 113'); ticketed",
       "source": "batalha-newsletter-2026-11",
-      "addedAt": "2026-11-10T05:00:58Z"
+      "addedAt": "2026-11-10T05:00:58Z",
+      "status": "pending",
+      "attempts": 1,
+      "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
+      "lastTriedAt": "2026-11-10T08:32:04.063Z"
     },
     {
       "name": "Seleção Nacional — Telúricas: Bread",
@@ -718,7 +734,11 @@
       "venue": "Batalha Centro de Cinema",
       "note": "Wed 7.15pm; Portuguese documentary shorts incl. Pão by Manoel de Oliveira (1963), Pano Cru, Festa, Trabalho e Pão em Grijó de Parada; EN subs; ticketed",
       "source": "batalha-newsletter-2026-11",
-      "addedAt": "2026-11-10T05:00:58Z"
+      "addedAt": "2026-11-10T05:00:58Z",
+      "status": "pending",
+      "attempts": 1,
+      "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
+      "lastTriedAt": "2026-11-10T08:32:04.063Z"
     },
     {
       "name": "Câmara Sónica: Excepção Fatal, David Ole",
@@ -726,7 +746,11 @@
       "venue": "Batalha Centro de Cinema",
       "note": "Wed 9.30pm; free entry",
       "source": "batalha-newsletter-2026-11",
-      "addedAt": "2026-11-10T05:00:58Z"
+      "addedAt": "2026-11-10T05:00:58Z",
+      "status": "pending",
+      "attempts": 1,
+      "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
+      "lastTriedAt": "2026-11-10T08:32:04.063Z"
     },
     {
       "name": "Afterlife: The Family and the Zombie + An Asian Ghost Story + Oh Be a Fine Girl Kiss Me",
@@ -734,7 +758,11 @@
       "venue": "Batalha Centro de Cinema",
       "note": "Thu 7.15pm; three films by Karrabing Film Collective, Bo Wang and Alice dos Reis; PT/EN subs; ticketed",
       "source": "batalha-newsletter-2026-11",
-      "addedAt": "2026-11-10T05:00:58Z"
+      "addedAt": "2026-11-10T05:00:58Z",
+      "status": "pending",
+      "attempts": 1,
+      "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
+      "lastTriedAt": "2026-11-10T08:32:04.063Z"
     },
     {
       "name": "Satoshi Kon Retrospective: Millennium Actress",
@@ -742,7 +770,11 @@
       "venue": "Batalha Centro de Cinema",
       "note": "Fri 7.15pm; second screening; Japanese animation, 2001, 86'; PT/EN subs; ticketed",
       "source": "batalha-newsletter-2026-11",
-      "addedAt": "2026-11-10T05:00:58Z"
+      "addedAt": "2026-11-10T05:00:58Z",
+      "status": "pending",
+      "attempts": 1,
+      "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
+      "lastTriedAt": "2026-11-10T08:32:04.063Z"
     },
     {
       "name": "Neighbouring Cinema – Guided Tour",
