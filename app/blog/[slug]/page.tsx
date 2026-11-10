@@ -1,4 +1,4 @@
-import { listBlogPosts, getBlogPost, getBlogPostHtml, hasBlogPT, splitForInlineCta } from '@/lib/blog';
+import { listBlogPosts, getBlogPost, getBlogPostHtml, hasBlogPT, splitForInlineCta, guideFaq, guideUpdatedAt } from '@/lib/blog';
 import { colors, typography } from '@/lib/design';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -10,6 +10,7 @@ import { SubscribeCTA } from '../../components/SubscribeCTA';
 import { PortoFactsBox } from '../../components/PortoFactsBox';
 import { GuideUpcoming } from '../../components/GuideUpcoming';
 import { BookItBox } from '../../components/BookItBox';
+import { FaqSection } from '../../components/FaqSection';
 
 export function generateStaticParams() {
   return listBlogPosts().map((post) => ({ slug: post.slug }));
@@ -34,6 +35,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
       url: `https://oportoweekly.com/blog/${post.slug}`,
       type: 'article',
       publishedTime: post.publishedAt,
+      modifiedTime: guideUpdatedAt(post),
       authors: [post.author],
       images: post.heroImage ? [{ url: `https://oportoweekly.com${post.heroImage}`, width: 1200, height: 675 }] : [],
     },
@@ -55,9 +57,14 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
   const split = splitForInlineCta(html);
   const bodyStyle = { fontSize: 17, lineHeight: 1.8, color: colors.text };
 
-  const publishedDate = new Date(post.publishedAt).toLocaleDateString('en-GB', {
-    day: 'numeric', month: 'long', year: 'numeric',
+  const fmtDate = (iso: string) => new Date(iso).toLocaleDateString('en-GB', {
+    day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC',
   });
+  const publishedDate = fmtDate(post.publishedAt);
+  // Last fact-check date from the monthly guide re-check ledger.
+  const updatedAt = guideUpdatedAt(post);
+  const showUpdated = updatedAt !== post.publishedAt.slice(0, 10);
+  const faq = guideFaq(post.slug, 'en');
 
   // JSON-LD structured data
   const jsonLd = {
@@ -67,6 +74,7 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
     description: post.excerpt,
     image: post.heroImage ? `https://oportoweekly.com${post.heroImage}` : undefined,
     datePublished: post.publishedAt,
+    dateModified: updatedAt,
     author: {
       '@type': 'Person',
       name: post.author,
@@ -161,7 +169,13 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
         }}>
           By <strong style={{ color: colors.heading }}>{post.author}</strong>
           <span style={{ color: colors.textMuted, margin: '0 8px' }}>·</span>
-          {publishedDate}
+          <time dateTime={post.publishedAt}>{publishedDate}</time>
+          {showUpdated && (
+            <>
+              <span style={{ color: colors.textMuted, margin: '0 8px' }}>·</span>
+              Last updated <time dateTime={updatedAt}>{fmtDate(updatedAt)}</time>
+            </>
+          )}
         </div>
 
         {/* Article body, with a subscribe box before the second section (#35) */}
@@ -177,6 +191,8 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
 
         {/* GetYourGuide "Book it" links matched to the guide's topic (owner 2026-10-27) */}
         <BookItBox slug={post.slug} title={post.title} lang="en" />
+
+        <FaqSection items={faq} title="Questions about this guide" lang="en" />
 
         {/* Author signature */}
         <div style={{

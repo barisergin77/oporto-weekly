@@ -18,6 +18,8 @@ import { SubscribeCTA } from '@/app/components/SubscribeCTA';
 import { RelatedGuideCard } from '@/app/components/RelatedGuide';
 import { listBlogPosts } from '@/lib/blog';
 import { relatedGuidesForVenue } from '@/lib/related-guides';
+import { venueFaq } from '@/lib/venue-faq';
+import { FaqSection } from '@/app/components/FaqSection';
 
 export function generateStaticParams() {
   const seen = new Set<string>();
@@ -60,6 +62,7 @@ export default function VenuePagePT({ params }: { params: { slug: string } }) {
   const upcoming = events.filter((e) => (e.endDate ?? e.date) >= today).sort((a, b) => a.date.localeCompare(b.date));
   const past = events.filter((e) => (e.endDate ?? e.date) < today).sort((a, b) => b.date.localeCompare(a.date));
   const [guide] = relatedGuidesForVenue(name, events, listBlogPosts());
+  const faq = venueFaq(name, params.slug, upcoming, past, 'pt', today);
 
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -110,6 +113,7 @@ export default function VenuePagePT({ params }: { params: { slug: string } }) {
             <ul style={listStyle}>{past.map((e) => <EventRow key={e.slug} event={e} muted />)}</ul>
           </section>
         )}
+        <FaqSection items={faq} title={`Sobre ${name}`} lang="pt" />
       </div>
 
       <Footer lang="pt" />

@@ -1,5 +1,7 @@
 import fs from 'fs';
 import path from 'path';
+import { guideLastChecked } from './guide-checks';
+import guideFaqs from '../data/guide-faqs.json';
 
 export interface BlogPost {
   slug: string;
@@ -80,4 +82,23 @@ export function generateBlogSlug(title: string): string {
     .replace(/-+/g, '-')
     .trim()
     .slice(0, 60);
+}
+
+/** Hand-written FAQ for a guide (data/guide-faqs.json), [] when it has none. */
+export function guideFaq(slug: string, lang: 'en' | 'pt'): { q: string; a: string }[] {
+  const entry = (guideFaqs as Record<string, unknown>)[slug] as
+    | { en?: { q: string; a: string }[]; pt?: { q: string; a: string }[] }
+    | undefined;
+  return entry?.[lang] ?? [];
+}
+
+/**
+ * Last-updated date for a guide: the day its facts were last checked
+ * (data/guide-checks.json, the monthly re-check ledger, which covers EN + PT),
+ * falling back to publishedAt. YYYY-MM-DD.
+ */
+export function guideUpdatedAt(post: BlogPost): string {
+  const published = post.publishedAt.slice(0, 10);
+  const checked = guideLastChecked(post.slug);
+  return checked && checked > published ? checked : published;
 }

@@ -1,4 +1,4 @@
-import { listBlogPostsPT, getBlogPost, getBlogPostHtmlPT, hasBlogPT, blogDisplay, splitForInlineCta } from '@/lib/blog';
+import { listBlogPostsPT, getBlogPost, getBlogPostHtmlPT, hasBlogPT, blogDisplay, splitForInlineCta, guideFaq, guideUpdatedAt } from '@/lib/blog';
 import { colors, typography } from '@/lib/design';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -10,6 +10,7 @@ import { SubscribeCTA } from '../../../components/SubscribeCTA';
 import { PortoFactsBox } from '../../../components/PortoFactsBox';
 import { GuideUpcoming } from '../../../components/GuideUpcoming';
 import { BookItBox } from '../../../components/BookItBox';
+import { FaqSection } from '../../../components/FaqSection';
 
 export function generateStaticParams() {
   return listBlogPostsPT().map((post) => ({ slug: post.slug }));
@@ -29,7 +30,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
     alternates: { canonical: url, languages: { en: enUrl, 'pt-PT': url, 'x-default': enUrl } },
     openGraph: {
       title: disp.title, description: disp.excerpt, url, type: 'article', locale: 'pt_PT',
-      publishedTime: post.publishedAt, authors: [post.author],
+      publishedTime: post.publishedAt, modifiedTime: guideUpdatedAt(post), authors: [post.author],
       images: post.heroImage ? [{ url: `https://oportoweekly.com${post.heroImage}`, width: 1200, height: 675 }] : [],
     },
   };
@@ -46,8 +47,15 @@ export default function BlogPostPagePT({ params }: { params: { slug: string } })
   const bodyStyle = { fontSize: 17, lineHeight: 1.8, color: colors.text };
 
   const disp = blogDisplay(post, 'pt');
-  const d = new Date(post.publishedAt);
-  const publishedDate = `${d.getUTCDate()} de ${PT_MONTHS[d.getUTCMonth()]} de ${d.getUTCFullYear()}`;
+  const fmtDate = (iso: string) => {
+    const d = new Date(iso);
+    return `${d.getUTCDate()} de ${PT_MONTHS[d.getUTCMonth()]} de ${d.getUTCFullYear()}`;
+  };
+  const publishedDate = fmtDate(post.publishedAt);
+  // Last fact-check date from the monthly guide re-check ledger (EN + PT).
+  const updatedAt = guideUpdatedAt(post);
+  const showUpdated = updatedAt !== post.publishedAt.slice(0, 10);
+  const faq = guideFaq(post.slug, 'pt');
 
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -57,6 +65,7 @@ export default function BlogPostPagePT({ params }: { params: { slug: string } })
     description: disp.excerpt,
     image: post.heroImage ? `https://oportoweekly.com${post.heroImage}` : undefined,
     datePublished: post.publishedAt,
+    dateModified: updatedAt,
     author: { '@type': 'Person', name: post.author },
     publisher: { '@type': 'Organization', name: 'Oporto Weekly', url: 'https://oportoweekly.com' },
     mainEntityOfPage: `https://oportoweekly.com/pt/blog/${post.slug}`,
@@ -101,7 +110,13 @@ export default function BlogPostPagePT({ params }: { params: { slug: string } })
         <div style={{ fontSize: 14, color: colors.textSoft, marginBottom: 36, paddingBottom: 24, borderBottom: `1px solid ${colors.divider}` }}>
           Por <strong style={{ color: colors.heading }}>{post.author}</strong>
           <span style={{ color: colors.textMuted, margin: '0 8px' }}>·</span>
-          {publishedDate}
+          <time dateTime={post.publishedAt}>{publishedDate}</time>
+          {showUpdated && (
+            <>
+              <span style={{ color: colors.textMuted, margin: '0 8px' }}>·</span>
+              Atualizado a <time dateTime={updatedAt}>{fmtDate(updatedAt)}</time>
+            </>
+          )}
         </div>
 
         {/* Subscribe box before the second section (#35) */}
@@ -116,6 +131,8 @@ export default function BlogPostPagePT({ params }: { params: { slug: string } })
         )}
 
         <BookItBox slug={post.slug} title={post.title} lang="pt" />
+
+        <FaqSection items={faq} title="Perguntas sobre este guia" lang="pt" />
 
         <GuideUpcoming lang="pt" />
 

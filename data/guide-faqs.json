@@ -1,0 +1,155 @@
+{
+  "_comment": "Optional FAQ per guide, shown at the end of /blog/<slug> (en) and /pt/blog/<slug> (pt) and emitted as FAQPage JSON-LD. Every answer must restate a fact already in that guide's body (public/blog/<slug>.html and -pt.html). When the monthly re-check changes a fact, update it here too.",
+  "porto-shopping-guide-your-map-to-vintage-artisan-finds": {
+    "en": [
+      {
+        "q": "When is the Feira da Vandoma flea market?",
+        "a": "Every Saturday from 8:00 to 13:00 on Avenida 25 de Abril in Campanhã. Get there close to 8:00 for the best selection, bring cash and expect to haggle."
+      },
+      {
+        "q": "Where and when is Mercado Porto Belo?",
+        "a": "On Praça de Carlos Alberto, on Saturdays. Opening hours change with the season, so check Agenda Porto before you go."
+      },
+      {
+        "q": "Where can I buy vintage clothes in Porto?",
+        "a": "Start with Mão Esquerda Vintage (Rua da Alegria 5), Mon Père Vintage (Largo de Alberto Pimentel 38) and Wild at Heart (Rua do Almada 473). For bargains, O'Kilo at Rua de Santa Catarina 601 sells clothes by weight."
+      },
+      {
+        "q": "Where can I buy azulejo tiles to take home?",
+        "a": "Prometeu Artesanato sells patterned tiles and can personalise them, at Rua de Mouzinho da Silveira 136 and Rua de São João 19, among other shops. If you want to paint your own, Domus Arte runs two-hour beginner workshops and you take the tile home."
+      }
+    ],
+    "pt": [
+      {
+        "q": "Quando é a Feira da Vandoma?",
+        "a": "Todos os sábados, das 8:00 às 13:00, na Avenida 25 de Abril, em Campanhã. Cheguem perto das 8:00 para apanhar a melhor escolha, levem dinheiro e regateiem."
+      },
+      {
+        "q": "Onde e quando é o Mercado Porto Belo?",
+        "a": "Na Praça de Carlos Alberto, aos sábados. O horário muda com a estação, por isso confirmem na Agenda Porto antes de ir."
+      },
+      {
+        "q": "Onde comprar roupa vintage no Porto?",
+        "a": "Comecem pela Mão Esquerda Vintage (Rua da Alegria 5), pela Mon Père Vintage (Largo de Alberto Pimentel 38) e pela Wild at Heart (Rua do Almada 473). Para pechinchas, na O'Kilo, na Rua de Santa Catarina 601, paga-se a roupa ao peso."
+      },
+      {
+        "q": "Onde comprar azulejos para levar para casa?",
+        "a": "A Prometeu Artesanato vende azulejos de padrão, que podem ser personalizados, na Rua de Mouzinho da Silveira 136 e na Rua de São João 19, entre outras lojas. Para pintarem o vosso, a Domus Arte tem oficinas de duas horas para principiantes e o azulejo vai convosco para casa."
+      }
+    ]
+  },
+  "porto-on-a-budget-free-sights-cheap-eats-guide": {
+    "en": [
+      {
+        "q": "What can I see for free in Porto?",
+        "a": "The Ribeira, the upper deck of the Dom Luís I Bridge, the tiled main hall of São Bento station, the terrace in front of the Sé and the Jardins do Palácio de Cristal are all free. So are the photography exhibitions at the Centro Português de Fotografia."
+      },
+      {
+        "q": "How much is a metro or bus ticket in Porto?",
+        "a": "With an Andante Azul card, a single Z2 trip (most of central Porto) is €1.40 and lasts an hour from first validation, changes included. The paper card costs €0.60. Andante 24 gives 24 hours of unlimited Z2 travel for €5.35. These are the fares from 1 January 2026."
+      },
+      {
+        "q": "Is Serralves free on the first Sunday of the month?",
+        "a": "Only for residents of Portugal with a Portuguese ID or residence card. Children under 12 always get in free. Everyone else pays €15 for the park only or €24 for all spaces."
+      },
+      {
+        "q": "Where can I eat cheaply in Porto?",
+        "a": "At lunchtime, look for a prato do dia (dish of the day) outside a local tasca. For a quick bite, Conga (Rua do Bonjardim 318) does bifanas, Casa Guedes (Praça dos Poveiros 130) does roast pork sandwiches and Cervejaria Gazela (Travessa do Cimo de Vila 4) does cachorrinhos."
+      }
+    ],
+    "pt": [
+      {
+        "q": "O que se pode ver de graça no Porto?",
+        "a": "A Ribeira, o tabuleiro superior da Ponte Luís I, o átrio de azulejos da Estação de São Bento, o terreiro em frente à Sé e os Jardins do Palácio de Cristal são gratuitos. As exposições do Centro Português de Fotografia também."
+      },
+      {
+        "q": "Quanto custa um bilhete de metro ou autocarro no Porto?",
+        "a": "Com o cartão Andante Azul, uma viagem simples Z2 (quase todo o centro do Porto) custa 1,40 € e dura uma hora desde a primeira validação, com transbordos incluídos. O cartão em papel custa 0,60 €. O Andante 24 dá 24 horas de viagens ilimitadas em Z2 por 5,35 €. São as tarifas em vigor desde 1 de janeiro de 2026."
+      },
+      {
+        "q": "Serralves é gratuito no primeiro domingo do mês?",
+        "a": "Só para residentes em Portugal, com Cartão de Cidadão ou cartão de residente. Menores de 12 anos entram sempre de graça. Os restantes pagam 15 € só pelo parque ou 24 € por todos os espaços."
+      },
+      {
+        "q": "Onde comer barato no Porto?",
+        "a": "Ao almoço, procurem o prato do dia escrito à porta de uma tasca. Para algo rápido, o Conga (Rua do Bonjardim 318) tem bifanas, a Casa Guedes (Praça dos Poveiros 130) tem sandes de pernil e a Cervejaria Gazela (Travessa do Cimo de Vila 4) tem cachorrinhos."
+      }
+    ]
+  },
+  "porto-nightlife-2025-2026-fado-bars-unforgettable-evenings": {
+    "en": [
+      {
+        "q": "Where can I hear fado in Porto?",
+        "a": "Ideal Clube de Fado holds traditional fado concerts every day, about an hour long, for €21 (€16 for ages 6 to 17 and students) with a glass of Port. Casa da Guitarra has a 60-minute fado show every day. For dinner with fado, Casa da Mariquinhas has been a fado house since 1968. Most places are small, so book."
+      },
+      {
+        "q": "What time do people go out in Porto?",
+        "a": "Late. Bars are fairly quiet before 23:00, the streets around Galerias de Paris fill up around midnight and clubs get going after 1:00."
+      },
+      {
+        "q": "Where are the main bar streets in Porto?",
+        "a": "Galerias de Paris and Cândido dos Reis are the busiest. On Friday and Saturday nights people drink in the street between dozens of bars. The Ribeira is calmer, with terraces and wine bars on the river."
+      },
+      {
+        "q": "Do Porto clubs have a dress code?",
+        "a": "Dress codes are relaxed almost everywhere. Clubs fill up after 1:00."
+      }
+    ],
+    "pt": [
+      {
+        "q": "Onde ouvir fado no Porto?",
+        "a": "O Ideal Clube de Fado tem concertos de fado tradicional todos os dias, com cerca de uma hora, por 21 € (16 € dos 6 aos 17 anos e para estudantes) com um copo de Vinho do Porto. A Casa da Guitarra faz um espetáculo de fado de 60 minutos todos os dias. Para jantar com fado, a Casa da Mariquinhas é casa de fado desde 1968. A maioria das casas é pequena, por isso reservem."
+      },
+      {
+        "q": "A que horas se sai à noite no Porto?",
+        "a": "Tarde. Os bares estão bastante calmos antes das 23h00, as ruas à volta das Galerias de Paris enchem por volta da meia-noite e as discotecas só arrancam depois da 1h00."
+      },
+      {
+        "q": "Quais são as principais ruas de bares do Porto?",
+        "a": "As Galerias de Paris e a Cândido dos Reis são as mais movimentadas. À sexta e ao sábado à noite bebe-se na rua, entre dezenas de bares. A Ribeira é mais calma, com esplanadas e bares de vinho junto ao rio."
+      },
+      {
+        "q": "As discotecas do Porto têm dress code?",
+        "a": "Em quase todas o dress code é descontraído. As discotecas enchem depois da 1h00."
+      }
+    ]
+  },
+  "portos-best-coffee-pastis-de-nata-the-2026-guide": {
+    "en": [
+      {
+        "q": "Where can I get a good pastel de nata in Porto?",
+        "a": "Manteigaria bakes in the shop and serves its tarts warm; it has four shops in Porto, including one by Bolhão market at Rua de Alexandre Braga 24. Castro, at Rua de Mouzinho da Silveira 61, makes only natas. Fábrica da Nata, on Rua de Santa Catarina and opposite São Bento station, has room to sit down."
+      },
+      {
+        "q": "How do you order coffee in Porto?",
+        "a": "Um café or um cimbalino is an espresso (cimbalino is the Porto word). Um pingo is an espresso with a drop of milk, uma meia de leite is half coffee and half hot milk in a cup, and um galão is espresso topped up with hot milk in a tall glass."
+      },
+      {
+        "q": "Where can I find specialty coffee in Porto?",
+        "a": "Combi Coffee Roasters (Rua do Morgado de Mateus 29), SO Coffee Roasters (Rua de Sá de Noronha 119 and Rua da Restauração 455) and C'alma Coffee Room (Rua de Sampaio Bruno 12, 2nd floor). Across the river in Vila Nova de Gaia, 7G Roaster roasts its own beans at Rua de França 10."
+      },
+      {
+        "q": "When is the Majestic Café open?",
+        "a": "Monday to Saturday, 9:00 to 23:00, and closed on Sunday. It is at Rua de Santa Catarina 112 and opened in December 1921."
+      }
+    ],
+    "pt": [
+      {
+        "q": "Onde comer um bom pastel de nata no Porto?",
+        "a": "A Manteigaria faz os pastéis na loja e serve-os quentes; tem quatro lojas no Porto, uma delas junto ao Mercado do Bolhão, na Rua de Alexandre Braga 24. A Castro, na Rua de Mouzinho da Silveira 61, só faz pastéis de nata. A Fábrica da Nata, na Rua de Santa Catarina e em frente à estação de São Bento, tem lugar para se sentarem."
+      },
+      {
+        "q": "Como se pede café no Porto?",
+        "a": "Um café ou um cimbalino é um expresso (cimbalino é a palavra do Porto). Um pingo é um expresso com um pingo de leite, uma meia de leite é metade café e metade leite quente numa chávena, e um galão é expresso com leite quente num copo alto."
+      },
+      {
+        "q": "Onde beber café de especialidade no Porto?",
+        "a": "Na Combi Coffee Roasters (Rua do Morgado de Mateus 29), na SO Coffee Roasters (Rua de Sá de Noronha 119 e Rua da Restauração 455) e no C'alma Coffee Room (Rua de Sampaio Bruno 12, 2.º piso). Do outro lado do rio, em Vila Nova de Gaia, o 7G Roaster torra o próprio café na Rua de França 10."
+      },
+      {
+        "q": "Qual é o horário do Majestic Café?",
+        "a": "De segunda a sábado, das 9h00 às 23h00; encerrado ao domingo. Fica na Rua de Santa Catarina 112 e abriu em dezembro de 1921."
+      }
+    ]
+  }
+}
