@@ -234,7 +234,7 @@ export function LandingHub({ kind, lang }: { kind: LandingKind; lang: Lang }) {
           </div>
         )}
         <div style={{ marginTop: 16 }}>
-          <ShortcutChips lang={lang} current={kind === 'kids' ? 'kids' : kind === 'free' ? 'free' : undefined} />
+          <ShortcutChips lang={lang} current={kind === 'kids' ? 'kids' : kind === 'free' ? 'free' : kind === 'christmas' ? 'christmas' : undefined} />
         </div>
         {intro && <p style={{ fontSize: 16, color: colors.textSoft, lineHeight: 1.6, margin: '20px 0 28px' }}>{intro}</p>}
 
