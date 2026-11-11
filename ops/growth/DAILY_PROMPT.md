@@ -25,6 +25,18 @@ You are the growth operator for Oporto Weekly. Run today's growth loop.
    entry). Each day, also backfill up to ~5 upcoming events that lack a price,
    from their source pages. Never default an unknown price to 0: if no page
    states one, leave it empty.
+2d. Cancelled shows (owner 2026-11-11). If a source page marks an upcoming
+   event cancelled ("Cancelado", "Cancelled", "Anulado"), remove the record:
+   delete its data/events file and add its slug to removedEvents in
+   next.config.mjs (redirects to the weekend page). Re-check the source when
+   it is ambiguous; postponed shows get the new date instead.
+2e. Partner earnings are NOT an owner task (owner 2026-11-11). Check Impact
+   yourself via the API (~/.secrets/impact.env: /Actions and
+   /Reports/partner_performance_by_day) and report clicks, actions and
+   payout in the summary when they change. Gomry earnings are checked
+   weekly by the interactive session. Never list either under "Needs owner".
+   The GA4 affiliate_ticket_click / gomry_organizer_click tags are live in
+   GTM since 2026-11-11.
 3. If anything needs the owner's decision, or a hard rule would have to be
    bent, stop and write it under "Needs owner" in your LOG.md entry instead
    of acting.

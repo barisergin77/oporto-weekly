@@ -101,7 +101,11 @@ const nextConfig = {
       { source: `/pt/event/${from}`, destination: `/pt/event/${to}`, permanent: true },
     ]);
     // 2026-10-27 (owner): adult-show listing removed ("skip that sensual shows thing"), no replacement event.
-    const removedEvents = ['halloween-night-at-magic-moments-restaurant-magic-moments-restaurante-dance-club-porto-oct-31-2026'];
+    // 2026-11-11 (owner): cancelled shows removed (bol.pt "Cancelado").
+    const removedEvents = [
+      'halloween-night-at-magic-moments-restaurant-magic-moments-restaurante-dance-club-porto-oct-31-2026',
+      'geordie-greep-rca-radioclube-agramonte-nov-14-2026',
+    ];
     eventRedirects.push(...removedEvents.flatMap((slug) => [
       { source: `/event/${slug}`, destination: '/porto-events/this-weekend', permanent: true },
       { source: `/pt/event/${slug}`, destination: '/pt/eventos/este-fim-de-semana', permanent: true },
