@@ -19,6 +19,12 @@ You are the growth operator for Oporto Weekly. Run today's growth loop.
    today's one deploy, and list the changes per guide in LOG.md and the
    summary. Never re-enable .github/workflows/cron-blog.yml: new guides are
    proposed to the owner and hand-checked, one every 2 weeks.
+2c. Event prices (owner 2026-11-11, GSC offers.price). When adding or
+   refreshing events, set price, priceFrom and currency ("EUR") from the
+   source page whenever it states a price ("Free" and priceFrom 0 for free
+   entry). Each day, also backfill up to ~5 upcoming events that lack a price,
+   from their source pages. Never default an unknown price to 0: if no page
+   states one, leave it empty.
 3. If anything needs the owner's decision, or a hard rule would have to be
    bent, stop and write it under "Needs owner" in your LOG.md entry instead
    of acting.
