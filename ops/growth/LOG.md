@@ -7,6 +7,62 @@ impressions / pos 9.3 over 28 days (prev 28: 191 / 10,293 / 16.9);
 subscribers 56 active (34 EN, 22 PT), ~1.4 net/week; signups by page: none
 recorded yet (tracking started today).
 
+## 2026-11-11 — Siza Talks duplicate merged before Thursday's edition (#17); price backfill
+- Run 09:30 UTC Wed, outside the freeze. Not Mon/Tue, so no guide re-check.
+- Live check: /api/version f2b49f7 (past yesterday's f61db5a), health ok.
+- Metrics (`metrics/2026-11-11.json`): 611 clicks / 25,079 impr / pos 10.67
+  over 28d (yesterday 571 / 24,063; prev 28d 329 / 14,958). Last 7d **348
+  clicks vs 109**, impressions 13,326 vs 5,522, CTR 2.6% vs 2.0%, position
+  9.4 vs 11.9. GA4 7d 129 users / 157 sessions / 369 PV (prev 76 / 102 /
+  267); 97 organic, 27 AI assistant, 18 direct, 13 organic social;
+  `sign_up` 5. Subscribers 69 (11-05). Signups attributed 28d: 22, none new
+  since 11-09. Instagram 24 (21 a week ago).
+- Results due: none today (#6 forward block is 11-12, #33 is 11-13).
+- Duplicate pass (Wednesday): find-duplicates 0 strong, 44 review pairs. The
+  upcoming review pairs are all separate shows (Voulez-Vous weekly nights,
+  Maguy Marin FOCO pieces, GMP openings vs solo shows, Imperial Heritage
+  Ballet two titles, MANIFESTUM nights). But the low-CTR list led to one it
+  missed.
+- Why: "siza talks 2026" 92 impr / 1.1% CTR at pos 2.9. Two records for the
+  same Serralves event (12–14 Nov, in tomorrow's edition week): the scan
+  wrote the serralves.pt page on 11-01 (venue "Serralves") and again on
+  11-07 from a lead, with the room as venue ("Auditório do Museu de
+  Serralves"), so the same-page rule (same canonical venue) didn't fire.
+  GSC 10-01→11-10: the 11-01 page has 117 impr / 1 click for "siza talks
+  2026" (pos 3.6) + 47 for "siza talks"; the 11-07 copy 13 impr.
+- Change (`[defer]`, data + redirect only): kept
+  `siza-talks-international-conversations-serralves-nov-12-2026`, gave it
+  the fuller copy (day-by-day speakers, re-checked against serralves.pt:
+  opening 19:00, Kjetil Thorsen 19:30; 13 + 14 Nov from 16:00; €5 a day,
+  50% off Friends/students/65+), namePt, category art, the image. Removed
+  the 11-07 copy, 301 EN+PT in next.config.mjs, forward-leads eventSlug
+  pointed at the kept record. `auditorio-do-museu-de-serralves` and
+  `auditorio-de-serralves` added as Serralves aliases in
+  data/venue-aliases.json (no scan code change), so the scan lookup now
+  matches the room-name copy to the kept record (checked with
+  findExistingEventByIdentity).
+- Price backfill (2c): the 08:46 session already priced 18 today; 9
+  upcoming events still had no price. Checked 6 Agenda Porto pages + the
+  Gomry catalog: only the Acaso board-game club states one ("Donativo" →
+  price "Donation", no priceFrom). Psy Frequency, AQ3 + Puto, Tincal lab,
+  Dentro da Pele, Natal na Árvore and FC Porto vs Estrela Amadora state no
+  price → left empty.
+- Verified: tsc; build OK (5,939 pages); built EN + PT kept pages show the
+  merged copy; the removed slug isn't built and its 301 is in the routes
+  manifest. Live check moves to the next run ([defer], flush 21:00).
+- Expect: one page instead of two for "siza talks" searches through Sat;
+  the edition can't list it twice. Small, short-lived; the alias stops the
+  same room-name repeat at Serralves.
+- Measure on: 2026-11-13 (Thursday edition lists Siza Talks at most once;
+  find-duplicates shows no new Serralves auditorium copy).
+- Result:
+- Next run (Thu 11-12): freeze 05:00–11:00 UTC, observe and log only until
+  the 10:00 backstop confirms all sends. Then confirm /api/version past
+  today's SHA + health.
+- Needs owner: still open from 11-10: (1) GTM GA4 event tag for
+  `affiliate_ticket_click` + `gomry_organizer_click`; (2) Impact and Gomry
+  dashboards; (3) `picks path=` for the 11-05 run.
+
 ## 2026-11-10 — Seasonal shortcut chips: Christmas hub + next month (#40); Fever/Gomry measured
 - Run 09:30 UTC Tue, outside the freeze. Guide re-check (2b): guidesDue()
   is empty (oldest check made-in-porto 10-31; first due 11-30), no changes.
