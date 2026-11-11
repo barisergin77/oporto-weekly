@@ -638,7 +638,11 @@
       "venue": "Quarteirão de Miguel Bombarda",
       "note": "16:00–20:00. Galleries in the Bombarda quarter open new contemporary art shows together. Workshops for kids and adults (Arisca, Joana Valente, Madame Zine, Vasco Mota), Paranhos Collection DJ set, Costah live act",
       "source": "agenda-porto-newsletter-2026-11",
-      "addedAt": "2026-11-10T05:00:39Z"
+      "addedAt": "2026-11-10T05:00:39Z",
+      "status": "pending",
+      "attempts": 1,
+      "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
+      "lastTriedAt": "2026-11-11T14:54:31.689Z"
     },
     {
       "name": "Narrow Path to Happiness, de Katalin Oláh + I am Nicu, de Alina Serban",
@@ -683,9 +687,9 @@
       "source": "agenda-porto-newsletter-2026-11",
       "addedAt": "2026-11-10T05:00:39Z",
       "status": "pending",
-      "attempts": 1,
+      "attempts": 2,
       "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
-      "lastTriedAt": "2026-11-11T08:31:37.139Z"
+      "lastTriedAt": "2026-11-11T14:54:31.689Z"
     },
     {
       "name": "BALUARTE",
@@ -769,7 +773,11 @@
       "venue": "Batalha Centro de Cinema",
       "note": "Sat 11.30am; guided tour; ticketed",
       "source": "batalha-newsletter-2026-11",
-      "addedAt": "2026-11-10T05:00:58Z"
+      "addedAt": "2026-11-10T05:00:58Z",
+      "status": "pending",
+      "attempts": 1,
+      "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
+      "lastTriedAt": "2026-11-11T14:54:31.689Z"
     },
     {
       "name": "Families – Afterlife: Marona's Fantastic Tale, Anca Damian",
@@ -777,7 +785,11 @@
       "venue": "Batalha Centro de Cinema",
       "note": "Sat 3.15pm; family screening; animated feature (Romania/France/Belgium, 2019, 92'); ticketed",
       "source": "batalha-newsletter-2026-11",
-      "addedAt": "2026-11-10T05:00:58Z"
+      "addedAt": "2026-11-10T05:00:58Z",
+      "status": "pending",
+      "attempts": 1,
+      "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
+      "lastTriedAt": "2026-11-11T14:54:31.689Z"
     },
     {
       "name": "Book Launch: Pioneiras do Cinema Português",
@@ -787,9 +799,9 @@
       "source": "batalha-newsletter-2026-11",
       "addedAt": "2026-11-10T05:00:58Z",
       "status": "pending",
-      "attempts": 1,
+      "attempts": 2,
       "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
-      "lastTriedAt": "2026-11-11T08:31:37.139Z"
+      "lastTriedAt": "2026-11-11T14:54:31.689Z"
     },
     {
       "name": "Archive Treasures: The Seduction of Mimi, Lina Wertmüller",
@@ -799,9 +811,9 @@
       "source": "batalha-newsletter-2026-11",
       "addedAt": "2026-11-10T05:00:58Z",
       "status": "pending",
-      "attempts": 1,
+      "attempts": 2,
       "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
-      "lastTriedAt": "2026-11-11T08:31:37.139Z"
+      "lastTriedAt": "2026-11-11T14:54:31.689Z"
     },
     {
       "name": "Cineclube Matinees: The Storm Within, Jean Cocteau",
@@ -809,7 +821,11 @@
       "venue": "Batalha Centro de Cinema",
       "note": "Sun 11.15am; France, 1948, 105'; ticketed",
       "source": "batalha-newsletter-2026-11",
-      "addedAt": "2026-11-10T05:00:58Z"
+      "addedAt": "2026-11-10T05:00:58Z",
+      "status": "pending",
+      "attempts": 1,
+      "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
+      "lastTriedAt": "2026-11-11T14:54:31.689Z"
     },
     {
       "name": "Afterlife: After Life, Hirokazu Koreeda",
@@ -817,7 +833,11 @@
       "venue": "Batalha Centro de Cinema",
       "note": "Sun 5.15pm; Japan, 1998, 119'; ticketed",
       "source": "batalha-newsletter-2026-11",
-      "addedAt": "2026-11-10T05:00:58Z"
+      "addedAt": "2026-11-10T05:00:58Z",
+      "status": "pending",
+      "attempts": 1,
+      "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
+      "lastTriedAt": "2026-11-11T14:54:31.689Z"
     }
   ]
 }
