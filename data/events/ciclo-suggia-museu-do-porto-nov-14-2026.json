@@ -1,0 +1,26 @@
+{
+  "slug": "ciclo-suggia-museu-do-porto-nov-14-2026",
+  "name": "CICLO SUGGIA",
+  "date": "2026-11-14T18:00",
+  "endDate": "2026-12-06",
+  "venue": "Museu do Porto",
+  "venueSlug": "museu-do-porto",
+  "price": "4€",
+  "priceFrom": 4,
+  "currency": "EUR",
+  "category": "music",
+  "description": "Ciclo Suggia is a cello concert series dedicated to the legacy of Porto cellist Guilhermina Suggia, held at Museu do Porto.",
+  "longDescription": "Ciclo Suggia is a series of cello recitals celebrating the legacy of Porto musician Guilhermina Suggia. The performances are played on the Montagnana cello that belonged to Suggia, which is kept by Museu do Porto. Artistic direction is led by Vanessa Pires and Filipe Quaresma.\n\nThe programme features cellists Emilija Rozenšteina on 14 November at 18:00, Tiago Anjinho on 21 November at 18:00, Teresa Valente Pereira on 28 November at 18:00, and Senja Rummukainen on 6 December at 16:00. Each recital is preceded by a screening of an episode from a four-part documentary about Suggia produced by Artway.\n\nGeneral admission tickets cost 4€, with discounts available for municipal library card holders, Cartão Porto, students, and museum staff.",
+  "sourceEdition": "forward-scan",
+  "externalLink": "https://www.bol.pt/Comprar/Bilhetes/188944-ciclo_suggia-museu_do_porto/",
+  "pickCandidate": false,
+  "addedAt": "2026-11-11T06:00:58.608Z",
+  "lastSeenAt": "2026-11-11T06:00:58.608Z",
+  "descriptionPt": "O Ciclo Suggia é um ciclo de concertos de violoncelo dedicado ao legado da violoncelista portuense Guilhermina Suggia, no Museu do Porto.",
+  "longDescriptionPt": "O Ciclo Suggia é uma série de recitais de violoncelo que celebra o legado da música portuense Guilhermina Suggia. As apresentações são tocadas no violoncelo Montagnana que pertenceu a Suggia, guardado pelo Museu do Porto. A direção artística é de Vanessa Pires e Filipe Quaresma.\n\nO programa conta com os violoncelistas Emilija Rozenšteina a 14 de novembro às 18:00, Tiago Anjinho a 21 de novembro às 18:00, Teresa Valente Pereira a 28 de novembro às 18:00 e Senja Rummukainen a 6 de dezembro às 16:00. Antes de cada recital é exibido um episódio da série documental em quatro partes sobre Suggia, produzida pela Artway.\n\nOs bilhetes normais custam 4€, com descontos para utilizadores das bibliotecas municipais, portadores do Cartão Porto, estudantes e funcionários dos museus.",
+  "image": {
+    "url": "https://i.imgur.com/GpvM1RE.jpeg",
+    "credit": "Photo: BOL",
+    "sourceUrl": "https://www.bol.pt/Comprar/Bilhetes/188944-ciclo_suggia-museu_do_porto/"
+  }
+}
