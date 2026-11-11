@@ -150,6 +150,10 @@ test('a record\'s namePt is compared with a PT source name', () => {
   assert.equal(findExistingEventByIdentity('Cortejo do Traje de Papel', 'Avenida dos Aliados', { date: '2026-11-08' }, [rec])?.slug, 'x');
   assert.equal(findDuplicate({ name: 'Cortejo do Traje de Papel', venue: 'Av. dos Aliados', date: '2026-11-08' }, [rec])?.slug, 'x');
 });
+test('a record\'s nameEn is compared with an EN source name (Lee Ufan, 2026-11-11)', () => {
+  const rec = { slug: 'lu', name: 'Lee Ufan: FRAGMENTOS DO INFINITO', nameEn: 'Lee Ufan: Fragments of Infinity', venue: 'Serralves', venueSlug: 'serralves', date: '2026-10-16', endDate: '2027-03-31', category: 'art', description: '', sourceEdition: 'forward-scan', addedAt: '2026-11-01T00:00:00Z' } as EventRecord;
+  assert.equal(findExistingEventByIdentity('Lee Ufan: Fragments of Infinity', 'Casa e Parque de Serralves', { date: '2026-10-16', endDate: '2027-03-31' }, [rec])?.slug, 'lu');
+});
 test('PT folding does not merge different works at the same venue and date', () => {
   assert.ok(!isSameEvent(
     ev('Organ Symphony', 'Casa da Música', '2026-11-21'),

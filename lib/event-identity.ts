@@ -91,18 +91,30 @@ export interface EventLike extends Dated {
   longDescription?: string | null;
   /** PT title (records: only when it differs from `name`). Compared too. */
   namePt?: string | null;
+  /** EN title when `name` is the PT original. Compared too. */
+  nameEn?: string | null;
   venue: string;
   venueSlug?: string;
 }
 
-/** Every distinct title an event goes by (name, namePt). */
-export const nameVariants = (e: Pick<EventLike, 'name' | 'namePt'>): string[] =>
-  e.namePt?.trim() && e.namePt.trim() !== e.name ? [e.name, e.namePt.trim()] : [e.name];
+/**
+ * Every distinct title an event goes by (name, namePt, nameEn).
+ * 2026-11-11: "Lee Ufan: FRAGMENTOS DO INFINITO" (nameEn "Fragments of
+ * Infinity") and an EN-titled record of the same show weren't matched.
+ */
+export const nameVariants = (e: Pick<EventLike, 'name' | 'namePt' | 'nameEn'>): string[] => {
+  const out = [e.name];
+  for (const v of [e.namePt, e.nameEn]) {
+    const t = v?.trim();
+    if (t && !out.includes(t)) out.push(t);
+  }
+  return out;
+};
 
 const MATCH_RANK: Record<Exclude<NameMatch, null>, number> = { equal: 3, similar: 2, contained: 1 };
 
 /** Best name match over all name variants of `a` and `b`. */
-export function compareEventNames(a: Pick<EventLike, 'name' | 'namePt'>, b: Pick<EventLike, 'name' | 'namePt'>, va?: string, vb?: string): NameMatch {
+export function compareEventNames(a: Pick<EventLike, 'name' | 'namePt' | 'nameEn'>, b: Pick<EventLike, 'name' | 'namePt' | 'nameEn'>, va?: string, vb?: string): NameMatch {
   let best: NameMatch = null;
   for (const na of nameVariants(a)) {
     for (const nb of nameVariants(b)) {

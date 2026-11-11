@@ -93,6 +93,8 @@ const nextConfig = {
       ['1-aniversario-fujifilm-inauguracao-da-exposicao-life-as-you-see-it-passeio-fotografico-com-duarte-silva-fujifilm-house-of-photography-nov-7-2026', '1-aniversario-fujifilm-fujifilm-house-of-photography-nov-7-2026'],
       // 2026-11-11: the scan wrote the same serralves.pt page again on 11-07 under the room name ("Auditório do Museu").
       ['siza-talks-conversas-internacionais-auditorio-do-museu-de-serralves-nov-12-2026', 'siza-talks-international-conversations-serralves-nov-12-2026'],
+      // 2026-11-11: PT/EN titles of one show (nameEn now compared; venue alias added).
+      ['lee-ufan-fragments-of-infinity-casa-e-parque-de-serralves-oct-16-2026', 'lee-ufan-fragmentos-do-infinito-serralves-oct-16-2026'],
     ];
     const eventRedirects = dedupes.flatMap(([from, to]) => [
       { source: `/event/${from}`, destination: `/event/${to}`, permanent: true },
