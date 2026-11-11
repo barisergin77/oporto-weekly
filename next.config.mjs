@@ -91,6 +91,8 @@ const nextConfig = {
       ['queer-porto-12-mouse-various-venues-nov-3-2026', 'queer-porto-batalha-centro-de-cinema-nov-3-2026'],
       // 2026-11-06: the 11-05 edition re-created the forward-scan record from the same Agenda Porto page.
       ['1-aniversario-fujifilm-inauguracao-da-exposicao-life-as-you-see-it-passeio-fotografico-com-duarte-silva-fujifilm-house-of-photography-nov-7-2026', '1-aniversario-fujifilm-fujifilm-house-of-photography-nov-7-2026'],
+      // 2026-11-11: the scan wrote the same serralves.pt page again on 11-07 under the room name ("Auditório do Museu").
+      ['siza-talks-conversas-internacionais-auditorio-do-museu-de-serralves-nov-12-2026', 'siza-talks-international-conversations-serralves-nov-12-2026'],
     ];
     const eventRedirects = dedupes.flatMap(([from, to]) => [
       { source: `/event/${from}`, destination: `/event/${to}`, permanent: true },

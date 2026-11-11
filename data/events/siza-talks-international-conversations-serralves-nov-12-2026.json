@@ -1,6 +1,7 @@
 {
   "slug": "siza-talks-international-conversations-serralves-nov-12-2026",
   "name": "SIZA TALKS: International Conversations",
+  "namePt": "SIZA TALKS: Conversas Internacionais",
   "date": "2026-11-12T19:00",
   "endDate": "2026-11-14",
   "venue": "Serralves",
@@ -8,15 +9,20 @@
   "price": "€5",
   "priceFrom": 5,
   "currency": "EUR",
-  "category": "other",
-  "description": "The SIZA TALKS in 2026 focus on 'International Conversations,' exploring architecture as a meeting point for different geographies, cultures, and construction methods. The event features architects discussing how projects transform through contact with other realities and how this experience renews perspectives on local places.",
-  "longDescription": "The SIZA TALKS 2026, titled 'International Conversations,' invite reflection on architecture as a space where geographies, cultures, and building practices converge. The global scope of Álvaro Siza's work serves as a starting point to understand how projects evolve when encountering diverse realities, and how this experience refreshes the view of more familiar places.\n\nThis edition continues previous cycles, fostering dialogue on contemporary architectural issues that find a sensitive expression in Siza's work, marked by his curiosity about the world. The program includes architects such as Nuno Melo Sousa, Mariana Simas, Campo Baeza, Elias and Yousef Anastas, Anouk Legendre, Tony Fretton, and Carlos Facio.\n\nThe event runs from November 12 to 14, 2026, at the Museum Auditorium. Daily access costs €5, with a 50% discount for Serralves Friends, students, and those over 65. The Siza Talks are organized by the Serralves Foundation in collaboration with the Aga Khan Award for Architecture.",
+  "category": "art",
+  "description": "Serralves hosts three days of international architecture talks, with architects from Norway, Portugal, Brazil, Spain, the US, Palestine, France, the UK and Mexico.",
+  "longDescription": "The 2026 edition of Siza Talks takes the theme International Conversations and looks at architecture as a meeting point between places, cultures and ways of building. Organised by Fundação de Serralves with the Aga Khan Award for Architecture, the cycle starts from the worldwide reach of Álvaro Siza's work to ask how a project changes when it meets another country.\n\nAll sessions are in the museum auditorium. The opening is on 12 November at 19:00, followed at 19:30 by Kjetil Thorsen of Snøhetta. On 13 November, from 16:00, the speakers are Nuno Melo Sousa, Mariana Simas of Studio MK27, Alberto Campo Baeza and Elizabeth Diller of Diller Scofidio + Renfro. On 14 November, from 16:00, it is Elias and Yousef Anastas, Anouk Legendre of XTU Architectes, Tony Fretton and Carlos Facio of Colectivo c733.\n\nA day ticket costs €5, with 50% off for Serralves Friends, students and over-65s.",
   "sourceEdition": "forward-scan",
   "externalLink": "https://www.serralves.pt/atividades-serralves/1211-siza-talks/",
   "pickCandidate": true,
   "addedAt": "2026-11-01T00:37:49.689Z",
-  "lastSeenAt": "2026-11-01T00:37:49.689Z",
-  "descriptionPt": "As SIZA TALKS de 2026 focam-se nas 'Conversas Internacionais', explorando a arquitetura como um ponto de encontro para diferentes geografias, culturas e métodos de construção. O evento apresenta arquitetos a discutir como os projetos se transformam através do contacto com outras realidades e como esta experiência renova as perspetivas sobre os lugares locais.",
-  "longDescriptionPt": "As SIZA TALKS 2026, intituladas 'Conversas Internacionais', convidam à reflexão sobre a arquitetura como um espaço onde geografias, culturas e práticas construtivas convergem. O alcance global do trabalho de Álvaro Siza serve de ponto de partida para entender como os projetos evoluem ao encontrar realidades diversas, e como esta experiência refresca a visão de lugares mais familiares.\n\nEsta edição continua ciclos anteriores, promovendo o diálogo sobre questões arquitetónicas contemporâneas que encontram uma expressão sensível na obra de Siza, marcada pela sua curiosidade sobre o mundo. O programa inclui arquitetos como Nuno Melo Sousa, Mariana Simas, Campo Baeza, Elias e Yousef Anastas, Anouk Legendre, Tony Fretton e Carlos Facio.\n\nO evento decorre de 12 a 14 de novembro de 2026, no Auditório do Museu. O acesso diário custa 5€, com 50% de desconto para Amigos de Serralves, estudantes e maiores de 65 anos. As Siza Talks são organizadas pela Fundação de Serralves em colaboração com o Aga Khan Award for Architecture.",
+  "lastSeenAt": "2026-11-07T13:45:03.957Z",
+  "descriptionPt": "Serralves recebe três dias de conversas internacionais sobre arquitetura, com arquitetos da Noruega, Portugal, Brasil, Espanha, Estados Unidos, Palestina, França, Reino Unido e México.",
+  "longDescriptionPt": "A edição de 2026 das Siza Talks tem como tema Conversas Internacionais e olha para a arquitetura como lugar de encontro entre geografias, culturas e modos de construir. Organizado pela Fundação de Serralves com o Prémio Aga Khan de Arquitetura, o ciclo parte da dimensão mundial da obra de Álvaro Siza para perguntar como um projeto se transforma no contacto com outro país.\n\nTodas as sessões são no Auditório do Museu. A abertura é a 12 de novembro às 19:00, seguida às 19:30 por Kjetil Thorsen, da Snøhetta. A 13 de novembro, a partir das 16:00, falam Nuno Melo Sousa, Mariana Simas do Studio MK27, Alberto Campo Baeza e Elizabeth Diller da Diller Scofidio + Renfro. A 14 de novembro, a partir das 16:00, é a vez de Elias e Yousef Anastas, Anouk Legendre da XTU Architectes, Tony Fretton e Carlos Facio do Colectivo c733.\n\nO acesso diário custa 5€, com 50% de desconto para Amigos de Serralves, estudantes e maiores de 65 anos.",
+  "image": {
+    "url": "https://i.imgur.com/v9fcnWk.jpeg",
+    "credit": "Photo: Serralves",
+    "sourceUrl": "https://www.serralves.pt/atividades-serralves/1211-siza-talks/"
+  },
   "nameEn": null
 }
