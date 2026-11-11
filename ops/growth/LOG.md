@@ -30,7 +30,7 @@ recorded yet (tracking started today).
   Serralves"), so the same-page rule (same canonical venue) didn't fire.
   GSC 10-01→11-10: the 11-01 page has 117 impr / 1 click for "siza talks
   2026" (pos 3.6) + 47 for "siza talks"; the 11-07 copy 13 impr.
-- Change (`[defer]`, data + redirect only): kept
+- Change (8ba3c50, `[defer]`, data + redirect only): kept
   `siza-talks-international-conversations-serralves-nov-12-2026`, gave it
   the fuller copy (day-by-day speakers, re-checked against serralves.pt:
   opening 19:00, Kjetil Thorsen 19:30; 13 + 14 Nov from 16:00; €5 a day,
