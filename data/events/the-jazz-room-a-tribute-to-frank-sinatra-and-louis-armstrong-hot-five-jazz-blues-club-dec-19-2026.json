@@ -16,5 +16,10 @@
   "pickCandidate": false,
   "addedAt": "2026-11-10T04:30:41.271Z",
   "lastSeenAt": "2026-11-10T04:30:41.271Z",
-  "nameEn": null
+  "nameEn": null,
+  "image": {
+    "url": "https://i.imgur.com/n1FMedS.jpeg",
+    "credit": "Photo: FEVER",
+    "sourceUrl": "https://feverup.com/m/754509"
+  }
 }
