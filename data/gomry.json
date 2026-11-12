@@ -1,5 +1,5 @@
 {
-  "syncedAt": "2026-11-11T04:30:18Z",
+  "syncedAt": "2026-11-12T04:30:16Z",
   "source": "https://www.gomry.com/api/v1/catalog/events",
   "items": [
     {
@@ -13,7 +13,7 @@
       "priceFrom": null,
       "currency": "USD",
       "isFree": false,
-      "availability": "unknown",
+      "availability": "sold_out",
       "organization": "Gomry Retail",
       "categories": [
         "sports",
@@ -48,10 +48,10 @@
       "end": "2026-12-27T14:00:00.000Z",
       "venue": "Estadio do Dragao",
       "city": "Porto",
-      "priceFrom": 99.82,
+      "priceFrom": null,
       "currency": "USD",
       "isFree": false,
-      "availability": "on_sale",
+      "availability": "sold_out",
       "organization": "Gomry Retail",
       "categories": [
         "sports",
@@ -70,7 +70,7 @@
       "priceFrom": null,
       "currency": "USD",
       "isFree": false,
-      "availability": "unknown",
+      "availability": "sold_out",
       "organization": "Gomry Retail",
       "categories": [
         "sports",
@@ -89,7 +89,7 @@
       "priceFrom": null,
       "currency": "USD",
       "isFree": false,
-      "availability": "unknown",
+      "availability": "sold_out",
       "organization": "Gomry Retail",
       "categories": [
         "sports",
@@ -105,7 +105,7 @@
       "end": "2027-02-21T21:00:00.000Z",
       "venue": "Estadio do Dragao",
       "city": "Porto",
-      "priceFrom": 206.41,
+      "priceFrom": null,
       "currency": "USD",
       "isFree": false,
       "availability": "unknown",
@@ -127,7 +127,7 @@
       "priceFrom": null,
       "currency": "USD",
       "isFree": false,
-      "availability": "unknown",
+      "availability": "sold_out",
       "organization": "Gomry Retail",
       "categories": [
         "sports",
@@ -181,10 +181,10 @@
       "end": "2027-04-18T20:00:00.000Z",
       "venue": "Estadio do Dragao",
       "city": "Porto",
-      "priceFrom": 321.7,
+      "priceFrom": null,
       "currency": "USD",
       "isFree": false,
-      "availability": "on_sale",
+      "availability": "sold_out",
       "organization": "Gomry Retail",
       "categories": [
         "sports",
@@ -203,7 +203,7 @@
       "priceFrom": null,
       "currency": "USD",
       "isFree": false,
-      "availability": "unknown",
+      "availability": "sold_out",
       "organization": "Gomry Retail",
       "categories": [
         "sports",
