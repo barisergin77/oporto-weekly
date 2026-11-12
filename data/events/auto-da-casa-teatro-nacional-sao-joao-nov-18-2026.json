@@ -1,0 +1,25 @@
+{
+  "slug": "auto-da-casa-teatro-nacional-sao-joao-nov-18-2026",
+  "name": "Auto da Casa, de Tiago Bartolomeu Costa e Joana Cunha Ferreira",
+  "date": "2026-11-18T21:30",
+  "venue": "Teatro Nacional São João",
+  "venueSlug": "teatro-nacional-sao-joao",
+  "price": "5€",
+  "priceFrom": 5,
+  "currency": "EUR",
+  "category": "art",
+  "description": "A film screening revisiting 180 years of history connecting Teatro Nacional D. Maria II, Portugal, and the ways it is represented.",
+  "longDescription": "Auto da Casa, directed by Tiago Bartolomeu Costa and Joana Cunha Ferreira, screens as part of the Porto/Post/Doc: Film & Media Festival. The film revisits 180 years of the relationship between Lisbon's Teatro Nacional D. Maria II, the country's history, and the different ways of portraying it.\n\nThe screening takes place at Teatro Nacional de São João in Praça da Batalha on 18 November 2026 at 21:30. Tickets are 5 euros, with discounts available for Cartão Porto holders, and the session is rated for ages 12 and over.",
+  "sourceEdition": "forward-scan",
+  "externalLink": "https://www.agenda-porto.pt/evento/ppd-auto-da-casa/",
+  "pickCandidate": true,
+  "addedAt": "2026-11-12T06:01:13.577Z",
+  "lastSeenAt": "2026-11-12T06:01:13.577Z",
+  "descriptionPt": "Exibição de um filme que revisita 180 anos de história a ligar o Teatro Nacional D. Maria II, Portugal e as formas de o representar.",
+  "longDescriptionPt": "Auto da Casa, realizado por Tiago Bartolomeu Costa e Joana Cunha Ferreira, é exibido no âmbito do Porto/Post/Doc: Film & Media Festival. O filme revisita 180 anos da relação entre o Teatro Nacional D. Maria II, de Lisboa, a história do país e as diferentes formas de a retratar.\n\nA sessão acontece no Teatro Nacional de São João, na Praça da Batalha, a 18 de novembro de 2026, às 21h30. Os bilhetes custam 5 euros, com desconto para titulares do Cartão Porto, e a sessão destina-se a maiores de 12 anos.",
+  "image": {
+    "url": "https://i.imgur.com/cjCE5FS.jpeg",
+    "credit": "Photo: Agenda-porto",
+    "sourceUrl": "https://www.agenda-porto.pt/evento/ppd-auto-da-casa/"
+  }
+}
