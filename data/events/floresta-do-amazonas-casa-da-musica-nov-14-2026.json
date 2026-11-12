@@ -10,7 +10,7 @@
   "category": "music",
   "description": "This event features the Orquestra Sinfónica do Porto Casa da Música performing Heitor Villa-Lobos's Floresta do Amazonas, a grand suite based on pre-Columbian Amazonian legends. Visual artist Bianca Dacosta will interact with the music, and soprano Camila Mandillo will perform songs from the score.",
   "longDescription": "The Orquestra Sinfónica do Porto Casa da Música will present Heitor Villa-Lobos's Floresta do Amazonas, a major suite inspired by pre-Columbian Amazonian legends. The concert, part of the Festival Floresta Amazónica, will take place on November 14, 2026, at 18:00 in Sala Suggia at Casa da Música in Porto.\n\nVisual artist Bianca Dacosta will engage with Villa-Lobos's masterpiece, incorporating themes of nature, territory, and Brazilian culture. Portuguese soprano Camila Mandillo will lend her voice to the score's songs, including the renowned “Melodia Sentimental.” Michael Wendeberg will conduct the orchestra.\n\nTickets for the event range from €36.00 to €40.00. Discounts are available for various groups, including friends of Casa da Música, young people, seniors, university students, and music teachers/students. The event is recommended for ages 6 and above.",
-  "sourceEdition": "forward-scan",
+  "sourceEdition": "november-12-18-2026",
   "externalLink": "https://casadamusica.com/event/amazonia/?selected_session=44136",
   "pickCandidate": true,
   "addedAt": "2026-10-28T13:48:49.474Z",
@@ -22,5 +22,6 @@
     "credit": "Photo: Casa da Música",
     "sourceUrl": "https://casadamusica.com/event/amazonia/?selected_session=44136"
   },
-  "nameEn": "Forest of the Amazon"
+  "nameEn": "Forest of the Amazon",
+  "editorPickRank": 1
 }

@@ -10,7 +10,7 @@
   "category": "other",
   "description": "Les Ballets Trockadero de Monte Carlo features an all-male cast performing both delicate ballerinas and lead roles from classical ballet. The company combines technical virtuosity with humor, reinventing classic ballets and presenting original, daring pieces.",
   "longDescription": "Les Ballets Trockadero de Monte Carlo, known as Les Trocks, is an all-male ballet company that performs both the delicate ballerina roles and the grand protagonists of classical ballet. They offer a blend of technical skill and humor, captivating audiences worldwide for nearly 50 years.\n\nThe company reinterprets iconic ballets like Swan Lake, Paquita, and The Dying Swan, alongside bold original works. They maintain artistic rigor while playing with tradition, with dancers performing en pointe. The show takes place on November 17, 2026, at 21:00, in the Sala Principal of Coliseu Porto Ageas.\n\nTicket prices range from €35 to €40, with options including Cadeiras de Orquestra, 1ª Plateia, 2ª Plateia, and Tribuna. Boxes for six people are also available at €210 for Camarote de 1ª and €180 for Frisa. For information on accessibility tickets, contact the Coliseu Porto Ageas box office.",
-  "sourceEdition": "forward-scan",
+  "sourceEdition": "november-12-18-2026",
   "externalLink": "https://www.coliseu.pt/evento/20261117-les-ballets-trockadero-de-monte-carlo",
   "pickCandidate": true,
   "addedAt": "2026-11-01T00:29:13.006Z",
@@ -21,5 +21,6 @@
     "url": "https://i.imgur.com/XdVGvqG.jpeg",
     "credit": "AI illustration · Oporto Weekly"
   },
-  "nameEn": null
+  "nameEn": null,
+  "editorPickRank": 2
 }

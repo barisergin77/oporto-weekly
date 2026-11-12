@@ -10,7 +10,7 @@
   "category": "food",
   "description": "Parque Biológico de Gaia marks Dia de São Martinho with a recreation of a traditional magusto on 14 November.",
   "longDescription": "Parque Biológico de Gaia hosts a recreation of a traditional magusto to mark Dia de São Martinho. The activity takes place on 14 November 2026, running from 16:00 to 18:00.\n\nParticipation requires registration by 9 November. Entry requires paying a specific activity fee of 1 euro on top of the regular admission ticket to the park. If a participant cancels, the fee is non-refundable. If the park cancels due to adverse weather, tickets are refunded as vouchers.",
-  "sourceEdition": "forward-scan",
+  "sourceEdition": "november-12-18-2026",
   "externalLink": "https://www.cm-gaia.pt/pt/eventos/recriacao-do-magusto-tradicional/",
   "pickCandidate": true,
   "addedAt": "2026-11-08T14:03:24.110Z",
@@ -22,5 +22,6 @@
     "credit": "Photo: Cm-gaia",
     "sourceUrl": "https://www.cm-gaia.pt/pt/eventos/recriacao-do-magusto-tradicional/"
   },
-  "nameEn": "Traditional Chestnut Roast Festival Re-enactment"
+  "nameEn": "Traditional Chestnut Roast Festival Re-enactment",
+  "editorPickRank": 5
 }

@@ -8,7 +8,7 @@
   "category": "art",
   "description": "Cinema Trindade screens three Charlie Chaplin short films accompanied by live music from Jorge da Rocha.",
   "longDescription": "INATEL presents a cine-concert session at Cinema Trindade as part of Salão Piolho. The event marks the 130th anniversary of the first film screening in Porto, which originally took place at what is now Teatro Sá da Bandeira.\n\nThe programme features three Charlie Chaplin short films: The Immigrant, The Cure, and Easy Street. Musician Jorge da Rocha accompanies the films live.\n\nThe screening takes place on 12 November at 21:45 at Cinema Trindade, located at Rua do Almada 412. Admission is free.",
-  "sourceEdition": "forward-scan",
+  "sourceEdition": "november-12-18-2026",
   "externalLink": "https://www.agenda-porto.pt/evento/salao-piolho-2026-1211/",
   "pickCandidate": true,
   "addedAt": "2026-11-07T06:00:50.883Z",
@@ -20,5 +20,6 @@
     "credit": "Photo: Agenda-porto",
     "sourceUrl": "https://www.agenda-porto.pt/evento/salao-piolho-2026-1211/"
   },
-  "nameEn": null
+  "nameEn": null,
+  "editorPickRank": 4
 }
