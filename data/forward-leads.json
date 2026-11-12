@@ -838,6 +838,64 @@
       "attempts": 1,
       "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
       "lastTriedAt": "2026-11-11T14:54:31.689Z"
+    },
+    {
+      "name": "Inauguração da exposição novobanco Revelação 2026. Laura Palma: Where the Flowers Bloom",
+      "date": "2026-11-17",
+      "venue": "Serralves",
+      "note": "22:00, Galeria Contemporânea do Museu de Serralves, free entry; opening of photography exhibition by this year's novobanco Revelação winner, curated by Ricardo Nicolau",
+      "source": "serralves-newsletter-2026-11",
+      "addedAt": "2026-11-12T05:00:19Z"
+    },
+    {
+      "name": "Dzudza – Idio Chichava",
+      "date": "2026-11-13",
+      "endDate": "2026-11-14",
+      "venue": "Teatro Rivoli",
+      "note": "19:30 both nights; national premiere of the Mozambican choreographer's dance piece inspired by Maputo's Xiquelene market; 6+",
+      "source": "teatro-municipal-do-porto-newsletter-2026-11",
+      "addedAt": "2026-11-12T05:00:36Z"
+    },
+    {
+      "name": "#Não somos cactos# – Teatro de Marionetas do Porto & Joana Magalhães",
+      "date": "2026-11-14",
+      "venue": "Teatro Campo Alegre",
+      "note": "16:00; schools & families puppet theatre about water, almost without words; 12+; Portuguese Sign Language interpretation",
+      "source": "teatro-municipal-do-porto-newsletter-2026-11",
+      "addedAt": "2026-11-12T05:00:36Z"
+    },
+    {
+      "name": "Novos Talentos: Gil Brito + Gabriel Beck",
+      "date": "2026-11-14",
+      "venue": "Teatro Rivoli",
+      "note": "15:30 and 17:00; Novos Talentos series; ticketed",
+      "source": "teatro-municipal-do-porto-newsletter-2026-11",
+      "addedAt": "2026-11-12T05:00:36Z"
+    },
+    {
+      "name": "Aquecimento Paralelo com Idio Chichava",
+      "date": "2026-11-14",
+      "venue": "Teatro Rivoli",
+      "note": "17:00; public warm-up session with the choreographer, part of Dzudza",
+      "source": "teatro-municipal-do-porto-newsletter-2026-11",
+      "addedAt": "2026-11-12T05:00:36Z"
+    },
+    {
+      "name": "Dja Dja – Marina Herlop",
+      "date": "2026-11-15",
+      "venue": "Teatro Campo Alegre",
+      "note": "19:30; reimagined music performance of Marina Herlop's Dja Dja, structured around the Hero's Journey; 6+; ticketed",
+      "source": "teatro-municipal-do-porto-newsletter-2026-11",
+      "addedAt": "2026-11-12T05:00:36Z"
+    },
+    {
+      "name": "You Can See Everything – Nathan Fielder & Lance Oppenheim",
+      "date": "2026-11-16",
+      "endDate": "2026-11-18",
+      "venue": "Teatro Campo Alegre",
+      "note": "Medeia Filmes cinema screenings, 16–18 Nov; ticketed",
+      "source": "teatro-municipal-do-porto-newsletter-2026-11",
+      "addedAt": "2026-11-12T05:00:36Z"
     }
   ]
 }
