@@ -381,19 +381,6 @@
       "resolvedAt": "2026-10-31T08:32:37.308Z"
     },
     {
-      "name": "Linda Martini – SON Estrella Galicia",
-      "date": "2026-11-11",
-      "venue": "Coliseu Porto Ageas",
-      "note": "21:00; concert",
-      "source": "coliseu-newsletter-2026-10",
-      "addedAt": "2026-11-01T05:00:47Z",
-      "status": "done",
-      "eventSlug": "linda-martini-son-estrella-galicia-coliseu-porto-ageas-nov-11-2026",
-      "reason": "already listed",
-      "lastTriedAt": "2026-11-01T08:32:02.940Z",
-      "resolvedAt": "2026-11-01T08:32:02.940Z"
-    },
-    {
       "name": "Em Casa D'Amália – O concerto ao vivo nos Coliseus",
       "date": "2026-11-12",
       "endDate": "2026-11-13",
@@ -605,20 +592,6 @@
       "resolvedAt": "2026-11-03T14:52:06.038Z"
     },
     {
-      "name": "Memórias do Cárcere – Sérgio Graciano",
-      "date": "2026-11-05",
-      "endDate": "2026-11-11",
-      "venue": "Teatro Campo Alegre",
-      "note": "Film screenings (Medeia Filmes) of Sérgio Graciano's film, 5–11 Nov; ticketed",
-      "source": "teatro-municipal-do-porto-newsletter-2026-11",
-      "addedAt": "2026-11-05T05:00:19Z",
-      "status": "done",
-      "eventSlug": "memorias-do-carcere-teatro-campo-alegre-nov-1-2026",
-      "reason": "already listed",
-      "lastTriedAt": "2026-11-05T06:07:13.515Z",
-      "resolvedAt": "2026-11-05T06:07:13.515Z"
-    },
-    {
       "name": "Siza Talks: Conversas Internacionais",
       "date": "2026-11-12",
       "endDate": "2026-11-14",
@@ -640,9 +613,9 @@
       "source": "agenda-porto-newsletter-2026-11",
       "addedAt": "2026-11-10T05:00:39Z",
       "status": "pending",
-      "attempts": 1,
+      "attempts": 2,
       "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
-      "lastTriedAt": "2026-11-11T14:54:31.689Z"
+      "lastTriedAt": "2026-11-12T06:06:47.700Z"
     },
     {
       "name": "Narrow Path to Happiness, de Katalin Oláh + I am Nicu, de Alina Serban",
@@ -686,10 +659,11 @@
       "note": "10:00–12:00. Free volunteer sessions that teach people to ride a bike, all ages and levels. Sign up through a form",
       "source": "agenda-porto-newsletter-2026-11",
       "addedAt": "2026-11-10T05:00:39Z",
-      "status": "pending",
-      "attempts": 2,
+      "status": "rejected",
+      "attempts": 3,
       "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
-      "lastTriedAt": "2026-11-11T14:54:31.689Z"
+      "lastTriedAt": "2026-11-12T06:06:47.700Z",
+      "resolvedAt": "2026-11-12T06:06:47.700Z"
     },
     {
       "name": "BALUARTE",
@@ -704,42 +678,6 @@
       "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
       "lastTriedAt": "2026-11-11T08:31:37.139Z",
       "resolvedAt": "2026-11-11T08:31:37.139Z"
-    },
-    {
-      "name": "Andrea Arnold Retrospective: Milk + Red Road",
-      "date": "2026-11-11",
-      "venue": "Batalha Centro de Cinema",
-      "note": "Wed 3.15pm; second screening; Milk (UK, 1998, 10') + Red Road (UK/Denmark, 2006, 113'); ticketed",
-      "source": "batalha-newsletter-2026-11",
-      "addedAt": "2026-11-10T05:00:58Z",
-      "status": "pending",
-      "attempts": 2,
-      "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
-      "lastTriedAt": "2026-11-10T15:25:10.773Z"
-    },
-    {
-      "name": "Seleção Nacional — Telúricas: Bread",
-      "date": "2026-11-11",
-      "venue": "Batalha Centro de Cinema",
-      "note": "Wed 7.15pm; Portuguese documentary shorts incl. Pão by Manoel de Oliveira (1963), Pano Cru, Festa, Trabalho e Pão em Grijó de Parada; EN subs; ticketed",
-      "source": "batalha-newsletter-2026-11",
-      "addedAt": "2026-11-10T05:00:58Z",
-      "status": "pending",
-      "attempts": 2,
-      "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
-      "lastTriedAt": "2026-11-10T15:25:10.773Z"
-    },
-    {
-      "name": "Câmara Sónica: Excepção Fatal, David Ole",
-      "date": "2026-11-11",
-      "venue": "Batalha Centro de Cinema",
-      "note": "Wed 9.30pm; free entry",
-      "source": "batalha-newsletter-2026-11",
-      "addedAt": "2026-11-10T05:00:58Z",
-      "status": "pending",
-      "attempts": 2,
-      "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
-      "lastTriedAt": "2026-11-10T15:25:10.773Z"
     },
     {
       "name": "Afterlife: The Family and the Zombie + An Asian Ghost Story + Oh Be a Fine Girl Kiss Me",
@@ -787,9 +725,9 @@
       "source": "batalha-newsletter-2026-11",
       "addedAt": "2026-11-10T05:00:58Z",
       "status": "pending",
-      "attempts": 1,
+      "attempts": 2,
       "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
-      "lastTriedAt": "2026-11-11T14:54:31.689Z"
+      "lastTriedAt": "2026-11-12T06:06:47.700Z"
     },
     {
       "name": "Book Launch: Pioneiras do Cinema Português",
@@ -798,10 +736,11 @@
       "note": "Sat 5pm; free entry; presented by Ricardo Vieira Lisboa with authors Ana Sofia Pereira, Luísa Sequeira and Paulo Cunha",
       "source": "batalha-newsletter-2026-11",
       "addedAt": "2026-11-10T05:00:58Z",
-      "status": "pending",
-      "attempts": 2,
+      "status": "rejected",
+      "attempts": 3,
       "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
-      "lastTriedAt": "2026-11-11T14:54:31.689Z"
+      "lastTriedAt": "2026-11-12T06:06:47.700Z",
+      "resolvedAt": "2026-11-12T06:06:47.700Z"
     },
     {
       "name": "Archive Treasures: The Seduction of Mimi, Lina Wertmüller",
@@ -810,10 +749,11 @@
       "note": "Sat 9.15pm; Italy, 1972, 112'; PT/EN subs; ticketed",
       "source": "batalha-newsletter-2026-11",
       "addedAt": "2026-11-10T05:00:58Z",
-      "status": "pending",
-      "attempts": 2,
+      "status": "rejected",
+      "attempts": 3,
       "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
-      "lastTriedAt": "2026-11-11T14:54:31.689Z"
+      "lastTriedAt": "2026-11-12T06:06:47.700Z",
+      "resolvedAt": "2026-11-12T06:06:47.700Z"
     },
     {
       "name": "Cineclube Matinees: The Storm Within, Jean Cocteau",
@@ -854,7 +794,12 @@
       "venue": "Teatro Rivoli",
       "note": "19:30 both nights; national premiere of the Mozambican choreographer's dance piece inspired by Maputo's Xiquelene market; 6+",
       "source": "teatro-municipal-do-porto-newsletter-2026-11",
-      "addedAt": "2026-11-12T05:00:36Z"
+      "addedAt": "2026-11-12T05:00:36Z",
+      "status": "done",
+      "eventSlug": "idio-chichava-rivoli-theatre-nov-13-2026",
+      "reason": "already listed",
+      "lastTriedAt": "2026-11-12T06:06:47.700Z",
+      "resolvedAt": "2026-11-12T06:06:47.700Z"
     },
     {
       "name": "#Não somos cactos# – Teatro de Marionetas do Porto & Joana Magalhães",
@@ -862,7 +807,12 @@
       "venue": "Teatro Campo Alegre",
       "note": "16:00; schools & families puppet theatre about water, almost without words; 12+; Portuguese Sign Language interpretation",
       "source": "teatro-municipal-do-porto-newsletter-2026-11",
-      "addedAt": "2026-11-12T05:00:36Z"
+      "addedAt": "2026-11-12T05:00:36Z",
+      "status": "done",
+      "eventSlug": "teatro-de-marionetas-do-porto-joana-magalhaes-teatro-campo-alegre-nov-14-2026",
+      "reason": "already listed",
+      "lastTriedAt": "2026-11-12T06:06:47.700Z",
+      "resolvedAt": "2026-11-12T06:06:47.700Z"
     },
     {
       "name": "Novos Talentos: Gil Brito + Gabriel Beck",
@@ -878,7 +828,11 @@
       "venue": "Teatro Rivoli",
       "note": "17:00; public warm-up session with the choreographer, part of Dzudza",
       "source": "teatro-municipal-do-porto-newsletter-2026-11",
-      "addedAt": "2026-11-12T05:00:36Z"
+      "addedAt": "2026-11-12T05:00:36Z",
+      "status": "pending",
+      "attempts": 1,
+      "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
+      "lastTriedAt": "2026-11-12T06:06:47.700Z"
     },
     {
       "name": "Dja Dja – Marina Herlop",
