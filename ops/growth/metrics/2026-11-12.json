@@ -1,0 +1,291 @@
+{
+  "takenAt": "2026-11-12T09:30:43.330Z",
+  "search": {
+    "last7": {
+      "clicks": 340,
+      "impressions": 13278,
+      "ctr": 0.025606266003916252,
+      "position": 9.472736857960536
+    },
+    "prev7": {
+      "clicks": 144,
+      "impressions": 6567,
+      "ctr": 0.0219278209227958,
+      "position": 11.16476320998934
+    },
+    "last28": {
+      "clicks": 638,
+      "impressions": 26280,
+      "ctr": 0.024277016742770167,
+      "position": 10.610121765601217
+    },
+    "prev28": {
+      "clicks": 326,
+      "impressions": 14853,
+      "ctr": 0.02194842792701811,
+      "position": 9.4205211068471
+    },
+    "topPages28": [
+      {
+        "page": "/blog/porto-shopping-guide-your-map-to-vintage-artisan-finds",
+        "clicks": 30,
+        "impressions": 1352,
+        "position": 9.1
+      },
+      {
+        "page": "/pt/event/gaia-hugo-sousa-aqui-entre-nos-auditorio-de-olival-nov-8-2026",
+        "clicks": 14,
+        "impressions": 185,
+        "position": 3.1
+      },
+      {
+        "page": "/pt/event/bate-papo-com-theo-coliseu-porto-ageas-nov-18-2026",
+        "clicks": 12,
+        "impressions": 705,
+        "position": 5.9
+      },
+      {
+        "page": "/blog/porto-nightlife-your-ultimate-after-dark-guide-for-2025",
+        "clicks": 11,
+        "impressions": 753,
+        "position": 12.9
+      },
+      {
+        "page": "/porto-events/this-weekend",
+        "clicks": 11,
+        "impressions": 63,
+        "position": 18.8
+      },
+      {
+        "page": "/event/baluarte-4-exposicao-de-arte-urbana-do-porto-varios-locais-nov-13-2026",
+        "clicks": 10,
+        "impressions": 39,
+        "position": 4.1
+      },
+      {
+        "page": "/pt/event/freaky-halloween-discoteca-via-rapida-oct-31-2026",
+        "clicks": 10,
+        "impressions": 142,
+        "position": 4
+      },
+      {
+        "page": "/blog/porto-on-a-budget-free-sights-cheap-eats-guide",
+        "clicks": 9,
+        "impressions": 449,
+        "position": 10.7
+      },
+      {
+        "page": "/event/outworld-super-bock-arena-nov-28-2026",
+        "clicks": 9,
+        "impressions": 437,
+        "position": 7.5
+      },
+      {
+        "page": "/archive/october-8-14-2026",
+        "clicks": 7,
+        "impressions": 104,
+        "position": 6.7
+      },
+      {
+        "page": "/pt/event/baluarte-4-exposicao-de-arte-urbana-do-porto-varios-locais-nov-13-2026",
+        "clicks": 7,
+        "impressions": 61,
+        "position": 4.2
+      },
+      {
+        "page": "/pt/event/the-chisel-pester-98-axe-woodstock-69-rock-bar-nov-6-2026",
+        "clicks": 7,
+        "impressions": 38,
+        "position": 3.6
+      },
+      {
+        "page": "/",
+        "clicks": 6,
+        "impressions": 89,
+        "position": 9.6
+      },
+      {
+        "page": "/event/throwback-porto-party-museu-do-carro-electrico-oct-17-2026",
+        "clicks": 6,
+        "impressions": 64,
+        "position": 4.9
+      },
+      {
+        "page": "/porto-events/november-2026",
+        "clicks": 6,
+        "impressions": 76,
+        "position": 4.4
+      }
+    ],
+    "lowCtr28": [
+      {
+        "query": "siza talks 2026",
+        "impressions": 117,
+        "ctr": 0.9,
+        "position": 3.2
+      },
+      {
+        "query": "what to eat in porto",
+        "impressions": 106,
+        "ctr": 0.9,
+        "position": 32.1
+      },
+      {
+        "query": "bate papo com theo",
+        "impressions": 85,
+        "ctr": 1.2,
+        "position": 7.9
+      },
+      {
+        "query": "marina herlop porto",
+        "impressions": 84,
+        "ctr": 1.2,
+        "position": 7.9
+      },
+      {
+        "query": "bate papo com theo porto",
+        "impressions": 73,
+        "ctr": 0,
+        "position": 5.9
+      },
+      {
+        "query": "best neighborhoods in porto for expats",
+        "impressions": 73,
+        "ctr": 0,
+        "position": 65.3
+      }
+    ]
+  },
+  "visitors": {
+    "last7": {
+      "users": 134,
+      "sessions": 167,
+      "pageViews": 369
+    },
+    "prev7": {
+      "users": 83,
+      "sessions": 109,
+      "pageViews": 276
+    },
+    "channels7": [
+      {
+        "channel": "Organic Search",
+        "sessions": 89
+      },
+      {
+        "channel": "AI Assistant",
+        "sessions": 27
+      },
+      {
+        "channel": "Organic Social",
+        "sessions": 26
+      },
+      {
+        "channel": "Direct",
+        "sessions": 22
+      },
+      {
+        "channel": "Unassigned",
+        "sessions": 5
+      },
+      {
+        "channel": "Referral",
+        "sessions": 1
+      }
+    ],
+    "signUpEvents7": 5
+  },
+  "subscribers": [
+    {
+      "week": "2026-10-15",
+      "active": 56,
+      "en": 34,
+      "pt": 22
+    },
+    {
+      "week": "2026-10-22",
+      "active": 55,
+      "en": 33,
+      "pt": 22
+    },
+    {
+      "week": "2026-10-29",
+      "active": 60,
+      "en": 38,
+      "pt": 22
+    },
+    {
+      "week": "2026-11-05",
+      "active": 69,
+      "en": 45,
+      "pt": 24
+    }
+  ],
+  "signups28": {
+    "total": 22,
+    "byPageType": {
+      "porto-events": 5,
+      "event": 11,
+      "archive": 2,
+      "blog": 2,
+      "home": 2
+    },
+    "recent": [
+      {
+        "at": "2026-11-04T00:12:26.531Z",
+        "lang": "en",
+        "source": "/porto-events/may-2026"
+      },
+      {
+        "at": "2026-11-04T08:49:40.304Z",
+        "lang": "en",
+        "source": "/event/sinfonia-orgao-casa-da-musica-nov-21-2026"
+      },
+      {
+        "at": "2026-11-04T15:25:27.216Z",
+        "lang": "en",
+        "source": "/event/desobedoc-sala-estudio-perpetuo-nov-6-2026"
+      },
+      {
+        "at": "2026-11-05T20:18:57.499Z",
+        "lang": "pt",
+        "source": "/pt/blog/porto-nightlife-2025-2026-fado-bars-unforgettable-evenings"
+      },
+      {
+        "at": "2026-11-06T07:25:58.919Z",
+        "lang": "pt",
+        "source": "/pt"
+      },
+      {
+        "at": "2026-11-06T20:46:20.057Z",
+        "lang": "en",
+        "source": "/"
+      },
+      {
+        "at": "2026-11-07T18:07:06.760Z",
+        "lang": "pt",
+        "source": "/pt/event/feira-da-mala-recinto-da-feira-da-senhora-da-hora-nov-8-2026"
+      },
+      {
+        "at": "2026-11-08T10:17:39.737Z",
+        "lang": "en",
+        "source": "/porto-events/free"
+      },
+      {
+        "at": "2026-11-08T18:10:44.516Z",
+        "lang": "pt",
+        "source": "/pt/event/os-misterios-da-rosa-reitoria-da-universidade-do-porto-nov-13-2026"
+      },
+      {
+        "at": "2026-11-09T07:49:06.966Z",
+        "lang": "en",
+        "source": "/blog/made-in-porto-shop-online"
+      }
+    ]
+  },
+  "instagram": {
+    "date": "2026-11-12",
+    "followers": 24,
+    "weekAgo": 21
+  }
+}

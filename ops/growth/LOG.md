@@ -7,6 +7,53 @@ impressions / pos 9.3 over 28 days (prev 28: 191 / 10,293 / 16.9);
 subscribers 56 active (34 EN, 22 PT), ~1.4 net/week; signups by page: none
 recorded yet (tracking started today).
 
+## 2026-11-12 — Freeze day: observe only; #6 measured; first Impact API read
+- Run 09:30 UTC Thu, inside the freeze (Thu 05:00 → 11:00, held until the
+  10:00 backstop confirms EN, PT and Instagram sent). No code, no data edits
+  (so no price backfill or cancellation pass today), no deploy. Not Mon/Tue,
+  so no guide re-check.
+- Live check: /api/version 22c42c7 (includes yesterday's 8ba3c50), health ok
+  (9/9, GitHub token 51 days left).
+- Pipeline: `/api/cron/status` has no `november-12-…` entry yet at 09:31
+  (11-05 research finished 10:01, all steps by 10:12). The backstop log is
+  outside the repo and not readable from this run; next run confirms the
+  send from /api/cron/status.
+- Metrics (`metrics/2026-11-12.json`): 638 clicks / 26,280 impr / pos 10.61
+  over 28d (yesterday 611 / 25,079; prev 28d 326 / 14,853). Last 7d **340
+  clicks vs 144**, impressions 13,278 vs 6,567, CTR 2.6% vs 2.2%, position
+  9.5 vs 11.2. GA4 7d 134 users / 167 sessions / 369 PV (prev 83 / 109 /
+  276); 89 organic, 27 AI assistant, **26 organic social** (13 yesterday), 22
+  direct; `sign_up` 5. Subscribers 69 (11-05; today's snapshot comes with
+  the send). Signups attributed 28d: 22, none new since 11-09. Instagram 24
+  (21 a week ago).
+- Low-CTR: "siza talks 2026" 117 / 0.9% (merged yesterday, live since the
+  21:00 flush). New: "bate papo com theo porto" 73 impr / 0% at pos 5.9 and
+  "bate papo com theo" 85 / 1.2% (one record,
+  `bate-papo-com-theo-coliseu-porto-ageas-nov-18-2026`, PT page 12 clicks /
+  705 impr); "marina herlop porto" 84 / 1.2% at pos 7.9 (one record). No
+  duplicates behind them; snippet candidates for a #10 pass after the freeze.
+- Result due, #6 forward block (measure 11-12): GA4 since 10-29 has **0
+  sessions with utm_campaign=forward** and 0 with a newsletter source at all
+  (consented visitors only; email readers often decline or block cookies).
+  signup-sources has no forward entry either. Subscribers went 60 → 69 in
+  the week after the first send, but nothing ties that to the block.
+  Verdict: **no measurable result**; the block costs nothing, keep it.
+  Re-measure 12-10 with Resend click data if the owner wants it.
+- Partner earnings (2e), first read via the Impact API (curl works in this
+  run): Fever 10-27 → 11-11 **40 clicks, 2 sales** (10-30 €93.44, payout
+  €5.61; 11-01 €77.70, payout €4.66), **€10.27 payout pending**, both
+  referred from oportoweekly.com. Last 7 days 15 clicks, 0 sales. The 11-01
+  action shows a locking date of 2028-12-03 (the other 2026-12-03), likely
+  an Impact data quirk; watch it when it should lock.
+- Change: none (freeze).
+- Next run (Fri 11-13): confirm today's edition sent (EN, PT, Instagram) in
+  /api/cron/status; Siza Talks listed once in the edition (#17, measure
+  11-13); #33 measure (no new generic-room venues); price backfill (2c) and
+  cancellation pass (2d); then pick one item, e.g. the Bate-Papo / Marina
+  Herlop snippets (#10).
+- Needs owner: nothing new. Still open: `picks path=` for the 11-05 and
+  11-12 runs (Vercel logs only).
+
 ## 2026-11-11 — Siza Talks duplicate merged before Thursday's edition (#17); price backfill
 - Run 09:30 UTC Wed, outside the freeze. Not Mon/Tue, so no guide re-check.
 - Live check: /api/version f2b49f7 (past yesterday's f61db5a), health ok.
