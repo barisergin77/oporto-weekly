@@ -31,8 +31,16 @@ test('food / wine / gastronomy -> foodie or wine guide', () => {
   assert.equal(guide({ name: 'Essência do Vinho', category: 'food' }), 'sip-savor-porto-your-2025-guide-to-port-wine-cellars');
   assert.equal(guide({ name: 'Chef dinner at Euskalduna', category: 'other' }), 'the-ultimate-food-guide-to-porto-5-dishes-you-must-try');
 });
-test('markets, crafts, Christmas -> shopping guides', () => {
-  assert.equal(guide({ name: 'Christmas Market at Batalha', category: 'other' }), 'made-in-porto-shop-online');
+test('Christmas / Natal -> Christmas guide, then the shopping guides', () => {
+  const x = 'christmas-shopping-in-porto-2026';
+  assert.equal(guide({ name: 'Christmas Market at Batalha', category: 'other' }), x);
+  assert.equal(guide({ name: 'Mercado de Natal do Porto', category: 'other' }), x);
+  assert.equal(guide({ name: 'Inauguração das Luzes', description: 'Iluminações natalícias na Avenida dos Aliados', category: 'other' }), x);
+  const three = relatedGuidesForEvent(ev({ name: 'Xmas gifts fair', category: 'other' }), posts, 3).map((p) => p.slug);
+  assert.deepEqual(three, [x, 'made-in-porto-shop-online', 'porto-shopping-guide-your-map-to-vintage-artisan-finds']);
+});
+test('markets, crafts, gifts -> shopping guides', () => {
+  assert.equal(guide({ name: 'Gifts and presents pop-up', category: 'other' }), 'made-in-porto-shop-online');
   assert.equal(guide({ name: 'Handmade crafts fair', category: 'art' }), 'made-in-porto-shop-online');
   assert.equal(guide({ name: 'Mercado Porto Belo', category: 'other' }), 'porto-shopping-guide-your-map-to-vintage-artisan-finds');
   const two = relatedGuidesForEvent(ev({ name: 'Vintage flea market' }), posts, 2).map((p) => p.slug);
@@ -41,6 +49,8 @@ test('markets, crafts, Christmas -> shopping guides', () => {
 test('word boundaries: no false hits', () => {
   assert.notEqual(guide({ name: 'Filmmakers talk', category: 'other' }), 'made-in-porto-shop-online');
   assert.notEqual(guide({ name: 'Natalia Lafourcade', category: 'music' }), 'made-in-porto-shop-online');
+  assert.notEqual(guide({ name: 'Natalia Lafourcade', category: 'music' }), 'christmas-shopping-in-porto-2026');
+  assert.notEqual(guide({ name: 'Natalidade talk', category: 'other' }), 'christmas-shopping-in-porto-2026');
   assert.notEqual(guide({ name: 'Adventure Club', category: 'music' }), 'made-in-porto-shop-online');
   assert.notEqual(guide({ name: 'Travel talk', category: 'other' }), 'porto-nightlife-2025-2026-fado-bars-unforgettable-evenings');
 });
@@ -71,7 +81,10 @@ test('venues: name, area, then what the venue hosts', () => {
 });
 test('hubs: season first, distinct guides, capped', () => {
   const dec = guidesForHub([{ category: 'music' }, { category: 'art' }], 11, posts).map((p) => p.slug);
-  assert.deepEqual(dec, ['made-in-porto-shop-online', 'porto-a-seasonal-guide-for-your-2025-2026-trip', 'the-ultimate-art-lovers-guide-to-porto-2025-2026']);
+  assert.deepEqual(dec, ['christmas-shopping-in-porto-2026', 'made-in-porto-shop-online', 'porto-a-seasonal-guide-for-your-2025-2026-trip']);
+  const nov = guidesForHub([], 10, posts).map((p) => p.slug);
+  assert.equal(nov[0], 'christmas-shopping-in-porto-2026');
+  assert.notEqual(guidesForHub([], 9, posts)[0].slug, 'christmas-shopping-in-porto-2026', 'October keeps the seasonal lead');
   const jun = guidesForHub([], 5, posts);
   assert.equal(jun.length, 3);
   assert.equal(new Set(jun.map((p) => p.slug)).size, 3);

@@ -28,6 +28,20 @@ const PROMPTS: Record<string, { hero: string; inline: string; alt: string; altPt
     alt: 'A tiled street in Porto with small shop windows',
     altPt: 'Uma rua de azulejos no Porto com pequenas montras',
   },
+  'christmas-shopping-in-porto-2026': {
+    hero:
+      'Photorealistic photo of a festive Christmas market at dusk in Porto, Portugal: small wooden chalets with ' +
+      'warm string lights and pine garlands in a historic square, old granite and azulejo-tiled facades behind, ' +
+      'strings of warm white Christmas lights hanging across the street above, a softly lit Christmas tree, ' +
+      'blue hour sky. People only as soft blurred silhouettes. No text, no words, no signage lettering, no logos, no brand names.',
+    inline:
+      'Photorealistic close-up of Christmas gifts on a rustic wooden table: small parcels wrapped in plain brown ' +
+      'paper and twine, a sprig of pine, a hand-painted blue and white tile, a small cork bowl and an unlabeled ' +
+      'bottle of port wine, with warm fairy lights and a blurred window view of Porto rooftops behind. Cosy evening light. ' +
+      'No text, no words, no labels, no logos, no branded products.',
+    alt: 'Gifts wrapped in brown paper with a Portuguese tile and fairy lights',
+    altPt: 'Presentes embrulhados em papel pardo com um azulejo português e luzes de Natal',
+  },
 };
 
 async function main() {

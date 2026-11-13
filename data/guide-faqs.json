@@ -151,5 +151,51 @@
         "a": "De segunda a sábado, das 9h00 às 23h00; encerrado ao domingo. Fica na Rua de Santa Catarina 112 e abriu em dezembro de 1921."
       }
     ]
+  },
+  "christmas-shopping-in-porto-2026": {
+    "en": [
+      {
+        "q": "When are Porto's Christmas lights switched on in 2026?",
+        "a": "On Saturday 28 November from 18:00 on the Avenida dos Aliados, when the city also lights the Christmas tree in Praça do General Humberto Delgado. There's a free concert; the line-up hasn't been announced yet."
+      },
+      {
+        "q": "Is there a Christmas market at the Cordoaria in 2026?",
+        "a": "Not announced yet. The 2026 dates for the Mercado de Natal do Porto at the Jardim da Cordoaria, the Mercado da Alegria in Praça da Batalha and the Mercado das Artes are still TBA. The Christmas market at Mercado Ferreira Borges is confirmed, from 14 November 2026 to 6 January 2027, with free entry."
+      },
+      {
+        "q": "When and where is the Christmas market in Gaia?",
+        "a": "Gaia's council plans its Christmas market from 28 November 2026 to 3 January 2027, with wooden chalets at the Centro Cívico square and Largo de Aljubarrota on the riverside. The organiser is still being chosen, so the hours can change."
+      },
+      {
+        "q": "Are Porto's shopping centres open on Christmas Eve and Christmas Day?",
+        "a": "NorteShopping publishes 10:00 to 18:00 on 24 December, closed on 25 December, 10:00 to 19:00 on 31 December and closed on 1 January. ViaCatarina and ArrábidaShopping haven't published Christmas hours yet, so check their websites."
+      },
+      {
+        "q": "Where can I buy tinned sardines as a gift near Porto?",
+        "a": "At the Conservas Pinhais factory shop, the home of NURI, at Avenida Menéres 700 in Matosinhos, near the Câmara de Matosinhos metro stop. It's closed on Sundays from November to April and on 1, 8 and 25 December; on 24 December only the shop opens, in the morning."
+      }
+    ],
+    "pt": [
+      {
+        "q": "Quando se acendem as luzes de Natal do Porto em 2026?",
+        "a": "No sábado, 28 de novembro, a partir das 18:00, na Avenida dos Aliados, quando a Câmara liga também a árvore de Natal na Praça do General Humberto Delgado. Há um concerto gratuito, com programa ainda por anunciar."
+      },
+      {
+        "q": "Há mercado de Natal na Cordoaria em 2026?",
+        "a": "Ainda não foi anunciado. As datas de 2026 do Mercado de Natal do Porto, no Jardim da Cordoaria, do Mercado da Alegria, na Praça da Batalha, e do Mercado das Artes estão por anunciar. Confirmado está o Mercado de Natal do Mercado Ferreira Borges, de 14 de novembro de 2026 a 6 de janeiro de 2027, com entrada gratuita."
+      },
+      {
+        "q": "Quando e onde é o mercado de Natal de Gaia?",
+        "a": "A Câmara de Gaia prevê o Mercado de Natal de 28 de novembro de 2026 a 3 de janeiro de 2027, com casinhas de madeira na Praça do Centro Cívico e no Largo de Aljubarrota, junto ao rio. O organizador ainda está a ser escolhido, por isso os horários podem mudar."
+      },
+      {
+        "q": "Os centros comerciais do Porto abrem na véspera e no dia de Natal?",
+        "a": "O NorteShopping publica das 10:00 às 18:00 a 24 de dezembro, encerrado a 25 de dezembro, das 10:00 às 19:00 a 31 de dezembro e encerrado a 1 de janeiro. O ViaCatarina e o ArrábidaShopping ainda não publicaram horários de Natal, por isso confirmem nos respetivos sites."
+      },
+      {
+        "q": "Onde comprar latas de sardinha para oferecer perto do Porto?",
+        "a": "Na loja da fábrica Conservas Pinhais, a casa da NURI, na Avenida Menéres 700, em Matosinhos, perto da estação de metro Câmara de Matosinhos. Fecha ao domingo de novembro a abril e a 1, 8 e 25 de dezembro; a 24 de dezembro só a loja abre, de manhã."
+      }
+    ]
   }
 }

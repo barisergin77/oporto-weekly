@@ -32,8 +32,8 @@
     "notes": "Andante fares change every 1 January (check andante.pt). Porto Card was off sale since July 2026 for restructuring; recheck visitporto.travel. Clérigos night ticket and Lello voucher price also move."
   },
   "porto-shopping-guide-your-map-to-vintage-artisan-finds": {
-    "lastChecked": "2026-11-01",
-    "notes": "Most likely to go stale: Porto Belo and Mercado da Alegria days/hours (Agenda Porto), Chiclete Shop's address, Humana's Porto shops (Passos Manuel reopened 2 Nov 2026), doBARRO workshop prices, Urban Market venue. Owner-checked text kept; only dashes, a few AI-tell words and the generic wrap-up paragraph were changed."
+    "lastChecked": "2026-11-13",
+    "notes": "Most likely to go stale: Porto Belo and Mercado da Alegria days/hours (Agenda Porto), Chiclete Shop's address, Humana's Porto shops (Passos Manuel reopened 2 Nov 2026), doBARRO workshop prices, Urban Market venue. Owner-checked text kept; only dashes, a few AI-tell words and the generic wrap-up paragraph were changed. 2026-11-13: A Vida Portuguesa no longer listed with a Porto shop (store list shows Lisbon only), Time Out Market claim removed; Bolhão weekday hours corrected to 08:00-19:00 (mercadobolhao.pt)."
   },
   "portos-best-beaches-your-2025-2026-surf-swim-guide": {
     "lastChecked": "2026-11-01",
@@ -62,5 +62,9 @@
   "the-ultimate-food-guide-to-porto-5-dishes-you-must-try": {
     "lastChecked": "2026-11-01",
     "notes": "Most hours come from Google Maps listings (Café Santiago, Gazela, Bolhão and Bom Sucesso from their own sites). Small tascas (Escondidinho do Barredo, O Buraco, O Ernesto) are the most likely to change hours or close; Michelin stars change each spring."
+  },
+  "christmas-shopping-in-porto-2026": {
+    "lastChecked": "2026-11-13",
+    "notes": "Recheck weekly until mid-December: Cordoaria, Batalha (Mercado da Alegria), Mercado das Artes, Bolhão fair and Bom Sucesso were still TBA on 11-13; Gaia hours come from the council's organiser call (closes 11-14) and may change; Aliados concert line-up, Boavista ice rink / Praça da Fantasia / Largo Amor de Perdição dates TBA; ViaCatarina and ArrábidaShopping Christmas hours not yet published. Retire or rewrite for 2027 after 6 Jan. Praça D. João I rink dropped (council accepted the protest camp's no-rink option, ECO/Lusa 10-11 Nov); recheck whether the Boavista rink is confirmed on agoraporto/agenda-porto."
   }
 }

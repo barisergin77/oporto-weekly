@@ -35,12 +35,14 @@ export const GUIDE_TOPICS: Record<string, RegExp> = {
   hiddengems: /hidden-gems|secret/,
   budget: /budget|free-activit/,
   fado: /fado/,
+  christmas: /christmas-shopping/,
 };
 
 export const FALLBACK_TOPIC = 'seasonal';
 
 /** First matching rules first; keys are de-duplicated. Matched on the event's name + description. */
 const TEXT_RULES: Array<[RegExp, string[]]> = [
+  [/christmas|xmas|(^|-)(natal|natalici\w*|advent)(-|$)|pai-natal/, ['christmas']],
   [/christmas|xmas|(^|-)(natal|advent|gifts?|presentes)(-|$)/, ['madeinporto', 'markets']],
   [/bolhao/, ['food', 'markets']],
   [/(^|-)(crafts?|artesan\w*|artisans?|makers|handmade|design-(market|fair)|shop(s|ping)?|lojas?|made-in-portugal)(-|$)/, ['madeinporto', 'markets']],
@@ -168,8 +170,8 @@ export function guidesForHub(
   posts: BlogPost[],
   limit = 3
 ): BlogPost[] {
-  // Nov/Dec: Christmas shopping. Otherwise the seasonal guide leads.
-  const keys = monthIndex >= 10 ? ['madeinporto', 'seasonal'] : ['seasonal'];
+  // Nov/Dec: the Christmas guide, then Christmas shopping. Otherwise the seasonal guide leads.
+  const keys = monthIndex >= 10 ? ['christmas', 'madeinporto', 'seasonal'] : ['seasonal'];
   for (const c of topCategories(events).slice(0, 2)) for (const k of CATEGORY_TOPICS[c]) if (!keys.includes(k)) keys.push(k);
   return resolve(keys, posts, limit);
 }
