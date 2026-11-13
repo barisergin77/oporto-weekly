@@ -21,6 +21,7 @@ import fs from 'fs';
 import path from 'path';
 import { HUMANIZER_RULES, humanizeHtml } from '../lib/humanizer';
 import { localizeFromTheBlog } from '../lib/edition-compose';
+import { stripNameEnSubtitles } from '../lib/name-en-subtitles';
 import { listBlogPosts } from '../lib/blog';
 import { FLASH, PRO } from '../lib/gemini-models';
 
@@ -95,7 +96,7 @@ async function main() {
     process.exit(1);
   }
 
-  const enHtml = fs.readFileSync(enPath, 'utf-8');
+  const enHtml = stripNameEnSubtitles(fs.readFileSync(enPath, 'utf-8')); // EN-only subtitles stay out of PT
   console.log(`📥 EN source: ${enPath} (${enHtml.length} bytes)`);
 
   // Quick audit so we know what's improving
