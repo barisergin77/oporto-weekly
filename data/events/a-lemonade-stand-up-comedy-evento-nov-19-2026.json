@@ -1,0 +1,23 @@
+{
+  "slug": "a-lemonade-stand-up-comedy-evento-nov-19-2026",
+  "name": "A Lemonade Stand-up Comedy",
+  "date": "2026-11-19T21:00",
+  "venue": "Evento Cafe",
+  "venueSlug": "evento",
+  "price": "Free",
+  "category": "other",
+  "description": "A Lemonade Stand-up Comedy is an English-language stand-up comedy night in Porto taking place at Evento Cafe.",
+  "longDescription": "A Lemonade Stand-up Comedy is an English-language comedy night hosted at Evento Cafe, located on Rua da Boavista in Porto. The show features a set of English jokes in a new venue setting.\n\nThe performance runs from 21:00 to 22:30 on 19 November 2026. Entry is free, and the event is intended for audiences aged 12 and over.",
+  "sourceEdition": "forward-scan",
+  "externalLink": "https://www.agenda-porto.pt/evento/a-lemonade-stand-up-comedy-1911/",
+  "pickCandidate": true,
+  "addedAt": "2026-11-13T06:01:37.550Z",
+  "lastSeenAt": "2026-11-13T06:01:37.550Z",
+  "descriptionPt": "A Lemonade Stand-up Comedy é uma noite de comédia em inglês no Porto, que decorre no Evento Cafe.",
+  "longDescriptionPt": "A Lemonade Stand-up Comedy é uma noite de comédia em inglês que acontece no Evento Cafe, na Rua da Boavista, no Porto. O espetáculo junta uma série de piadas em inglês num novo espaço.\n\nA atuação decorre entre as 21:00 e as 22:30 no dia 19 de novembro de 2026. A entrada é livre e o evento destina-se a maiores de 12 anos.",
+  "image": {
+    "url": "https://i.imgur.com/GpIrnKV.jpeg",
+    "credit": "Photo: Agenda-porto",
+    "sourceUrl": "https://www.agenda-porto.pt/evento/a-lemonade-stand-up-comedy-1911/"
+  }
+}

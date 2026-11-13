@@ -1,0 +1,25 @@
+{
+  "slug": "benvinda-espaco-compasso-nov-14-2026",
+  "name": "Benvinda",
+  "date": "2026-11-14T19:00",
+  "venue": "Espaço Compasso",
+  "venueSlug": "espaco-compasso",
+  "price": "10€–13€",
+  "priceFrom": 10,
+  "currency": "EUR",
+  "category": "music",
+  "description": "Singer-songwriter Benvinda presents a ceremonial concert at Espaço Compasso with percussion and flutes.",
+  "longDescription": "Singer-songwriter Benvinda presents a ceremonial concert focused on themes of vulnerability, love, and healing. She will perform original songs composed during different stages of her life.\n\nThe performance features Sérgio Henriques on percussion and Paulo Pereira on flutes.\n\nThe concert takes place at Espaço Compasso on Rua da Torrinha in Porto. Tickets cost 13 euros, with an advance price of 10 euros.",
+  "sourceEdition": "forward-scan",
+  "externalLink": "https://www.agenda-porto.pt/evento/benvinda/",
+  "pickCandidate": true,
+  "addedAt": "2026-11-13T06:01:06.512Z",
+  "lastSeenAt": "2026-11-13T06:01:06.512Z",
+  "descriptionPt": "A cantautora Benvinda apresenta um concerto cerimonial no Espaço Compasso, acompanhada por percussão e flautas.",
+  "longDescriptionPt": "A cantautora Benvinda apresenta um concerto cerimonial focado em temas como a vulnerabilidade, o amor e a cura. Vai interpretar canções originais compostas durante diferentes fases da sua vida.\n\nA atuação conta com Sérgio Henriques na percussão e Paulo Pereira nas flautas.\n\nO concerto acontece no Espaço Compasso, na Rua da Torrinha, no Porto. Os bilhetes custam 13 euros, com um valor de 10 euros em pré-venda.",
+  "image": {
+    "url": "https://i.imgur.com/OgD0L58.jpeg",
+    "credit": "Photo: Agenda-porto",
+    "sourceUrl": "https://www.agenda-porto.pt/evento/benvinda/"
+  }
+}
