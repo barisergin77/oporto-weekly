@@ -36,32 +36,6 @@
       "resolvedAt": "2026-10-26T09:31:57.768Z"
     },
     {
-      "name": "Manoel Cordeiro convida Euterpe + Curcumbia",
-      "date": "2026-11-12T21:00",
-      "venue": "Casa da Música",
-      "url": "https://casadamusica.com/event/cordeiro-convida-euterpe-curcumbia/?selected_session=59063",
-      "note": "Sala 2; Floresta Amazónica.",
-      "source": "casa-da-musica-newsletter-2026-11",
-      "addedAt": "2026-10-25T12:00:00Z",
-      "status": "done",
-      "eventSlug": "cordeiro-convida-euterpe-curcumbia-casa-da-musica-nov-12-2026",
-      "lastTriedAt": "2026-10-26T09:31:57.768Z",
-      "resolvedAt": "2026-10-26T09:31:57.768Z"
-    },
-    {
-      "name": "Will Love + DJ Waldo Squash",
-      "date": "2026-11-12T23:30",
-      "venue": "Casa da Música",
-      "url": "https://casadamusica.com/event/will-love-dj-waldo-squash-b2b-djs-gang-do-electro/?selected_session=59171",
-      "note": "Café Casa da Música; free; Floresta Amazónica.",
-      "source": "casa-da-musica-newsletter-2026-11",
-      "addedAt": "2026-10-25T12:00:00Z",
-      "status": "done",
-      "eventSlug": "will-love-dj-waldo-squash-b2b-djs-gang-do-electro-cafe-casa-da-musica-nov-12-2026",
-      "lastTriedAt": "2026-10-26T09:31:57.768Z",
-      "resolvedAt": "2026-10-26T09:31:57.768Z"
-    },
-    {
       "name": "Clubbing Amazónico",
       "date": "2026-11-13T21:00",
       "venue": "Casa da Música",
@@ -612,10 +586,11 @@
       "note": "16:00–20:00. Galleries in the Bombarda quarter open new contemporary art shows together. Workshops for kids and adults (Arisca, Joana Valente, Madame Zine, Vasco Mota), Paranhos Collection DJ set, Costah live act",
       "source": "agenda-porto-newsletter-2026-11",
       "addedAt": "2026-11-10T05:00:39Z",
-      "status": "pending",
-      "attempts": 2,
+      "status": "rejected",
+      "attempts": 3,
       "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
-      "lastTriedAt": "2026-11-12T06:06:47.700Z"
+      "lastTriedAt": "2026-11-13T08:31:53.374Z",
+      "resolvedAt": "2026-11-13T08:31:53.374Z"
     },
     {
       "name": "Narrow Path to Happiness, de Katalin Oláh + I am Nicu, de Alina Serban",
@@ -680,19 +655,6 @@
       "resolvedAt": "2026-11-11T08:31:37.139Z"
     },
     {
-      "name": "Afterlife: The Family and the Zombie + An Asian Ghost Story + Oh Be a Fine Girl Kiss Me",
-      "date": "2026-11-12",
-      "venue": "Batalha Centro de Cinema",
-      "note": "Thu 7.15pm; three films by Karrabing Film Collective, Bo Wang and Alice dos Reis; PT/EN subs; ticketed",
-      "source": "batalha-newsletter-2026-11",
-      "addedAt": "2026-11-10T05:00:58Z",
-      "status": "rejected",
-      "attempts": 3,
-      "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
-      "lastTriedAt": "2026-11-11T08:31:37.139Z",
-      "resolvedAt": "2026-11-11T08:31:37.139Z"
-    },
-    {
       "name": "Satoshi Kon Retrospective: Millennium Actress",
       "date": "2026-11-13",
       "venue": "Batalha Centro de Cinema",
@@ -713,9 +675,9 @@
       "source": "batalha-newsletter-2026-11",
       "addedAt": "2026-11-10T05:00:58Z",
       "status": "pending",
-      "attempts": 1,
+      "attempts": 2,
       "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
-      "lastTriedAt": "2026-11-11T14:54:31.689Z"
+      "lastTriedAt": "2026-11-13T08:31:53.374Z"
     },
     {
       "name": "Families – Afterlife: Marona's Fantastic Tale, Anca Damian",
@@ -724,10 +686,11 @@
       "note": "Sat 3.15pm; family screening; animated feature (Romania/France/Belgium, 2019, 92'); ticketed",
       "source": "batalha-newsletter-2026-11",
       "addedAt": "2026-11-10T05:00:58Z",
-      "status": "pending",
-      "attempts": 2,
+      "status": "rejected",
+      "attempts": 3,
       "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
-      "lastTriedAt": "2026-11-12T06:06:47.700Z"
+      "lastTriedAt": "2026-11-13T08:31:53.374Z",
+      "resolvedAt": "2026-11-13T08:31:53.374Z"
     },
     {
       "name": "Book Launch: Pioneiras do Cinema Português",
@@ -763,9 +726,9 @@
       "source": "batalha-newsletter-2026-11",
       "addedAt": "2026-11-10T05:00:58Z",
       "status": "pending",
-      "attempts": 1,
+      "attempts": 2,
       "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
-      "lastTriedAt": "2026-11-11T14:54:31.689Z"
+      "lastTriedAt": "2026-11-13T08:31:53.374Z"
     },
     {
       "name": "Afterlife: After Life, Hirokazu Koreeda",
@@ -775,9 +738,9 @@
       "source": "batalha-newsletter-2026-11",
       "addedAt": "2026-11-10T05:00:58Z",
       "status": "pending",
-      "attempts": 1,
+      "attempts": 2,
       "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
-      "lastTriedAt": "2026-11-11T14:54:31.689Z"
+      "lastTriedAt": "2026-11-13T08:31:53.374Z"
     },
     {
       "name": "Inauguração da exposição novobanco Revelação 2026. Laura Palma: Where the Flowers Bloom",
@@ -820,7 +783,12 @@
       "venue": "Teatro Rivoli",
       "note": "15:30 and 17:00; Novos Talentos series; ticketed",
       "source": "teatro-municipal-do-porto-newsletter-2026-11",
-      "addedAt": "2026-11-12T05:00:36Z"
+      "addedAt": "2026-11-12T05:00:36Z",
+      "status": "done",
+      "eventSlug": "novos-talentos-gil-brito-rivoli-theatre-nov-14-2026",
+      "reason": "already listed",
+      "lastTriedAt": "2026-11-13T08:31:53.374Z",
+      "resolvedAt": "2026-11-13T08:31:53.374Z"
     },
     {
       "name": "Aquecimento Paralelo com Idio Chichava",
@@ -830,9 +798,9 @@
       "source": "teatro-municipal-do-porto-newsletter-2026-11",
       "addedAt": "2026-11-12T05:00:36Z",
       "status": "pending",
-      "attempts": 1,
+      "attempts": 2,
       "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
-      "lastTriedAt": "2026-11-12T06:06:47.700Z"
+      "lastTriedAt": "2026-11-13T08:31:53.374Z"
     },
     {
       "name": "Dja Dja – Marina Herlop",
@@ -840,7 +808,12 @@
       "venue": "Teatro Campo Alegre",
       "note": "19:30; reimagined music performance of Marina Herlop's Dja Dja, structured around the Hero's Journey; 6+; ticketed",
       "source": "teatro-municipal-do-porto-newsletter-2026-11",
-      "addedAt": "2026-11-12T05:00:36Z"
+      "addedAt": "2026-11-12T05:00:36Z",
+      "status": "done",
+      "eventSlug": "marina-herlop-teatro-campo-alegre-nov-15-2026",
+      "reason": "already listed",
+      "lastTriedAt": "2026-11-13T08:31:53.374Z",
+      "resolvedAt": "2026-11-13T08:31:53.374Z"
     },
     {
       "name": "You Can See Everything – Nathan Fielder & Lance Oppenheim",
