@@ -1,5 +1,5 @@
 {
-  "syncedAt": "2026-11-12T04:30:16Z",
+  "syncedAt": "2026-11-13T04:30:12Z",
   "source": "https://www.gomry.com/api/v1/catalog/events",
   "items": [
     {
@@ -13,7 +13,7 @@
       "priceFrom": null,
       "currency": "USD",
       "isFree": false,
-      "availability": "sold_out",
+      "availability": "unknown",
       "organization": "Gomry Retail",
       "categories": [
         "sports",
@@ -51,7 +51,7 @@
       "priceFrom": null,
       "currency": "USD",
       "isFree": false,
-      "availability": "sold_out",
+      "availability": "unknown",
       "organization": "Gomry Retail",
       "categories": [
         "sports",
@@ -70,7 +70,7 @@
       "priceFrom": null,
       "currency": "USD",
       "isFree": false,
-      "availability": "sold_out",
+      "availability": "unknown",
       "organization": "Gomry Retail",
       "categories": [
         "sports",
@@ -89,7 +89,7 @@
       "priceFrom": null,
       "currency": "USD",
       "isFree": false,
-      "availability": "sold_out",
+      "availability": "unknown",
       "organization": "Gomry Retail",
       "categories": [
         "sports",
@@ -127,7 +127,7 @@
       "priceFrom": null,
       "currency": "USD",
       "isFree": false,
-      "availability": "sold_out",
+      "availability": "unknown",
       "organization": "Gomry Retail",
       "categories": [
         "sports",
