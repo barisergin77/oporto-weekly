@@ -95,6 +95,9 @@ const nextConfig = {
       ['siza-talks-conversas-internacionais-auditorio-do-museu-de-serralves-nov-12-2026', 'siza-talks-international-conversations-serralves-nov-12-2026'],
       // 2026-11-11: PT/EN titles of one show (nameEn now compared; venue alias added).
       ['lee-ufan-fragments-of-infinity-casa-e-parque-de-serralves-oct-16-2026', 'lee-ufan-fragmentos-do-infinito-serralves-oct-16-2026'],
+      // 2026-11-13: the scan wrote two Agenda Porto URL variants of one event (with and without the numeric id / "-inauguracao").
+      ['conferencia-julio-dinis-e-a-febre-das-almas-sensiveis-biblioteca-municipal-almeida-garrett-nov-13-2026', 'julio-dinis-e-a-febre-das-almas-sensiveis-biblioteca-municipal-almeida-garrett-nov-13-2026'],
+      ['sentimento-monocromatico-a-partir-de-dentro-gallery-hostel-porto-nov-14-2026', 'sentimento-monocromatico-gallery-hostel-porto-nov-14-2026'],
     ];
     const eventRedirects = dedupes.flatMap(([from, to]) => [
       { source: `/event/${from}`, destination: `/event/${to}`, permanent: true },
