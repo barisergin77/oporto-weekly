@@ -321,4 +321,31 @@ test('archive lookup matches a scanned record by source URL (Fujifilm, 2026-11-0
   assert.equal(findExistingEventByIdentity('Fujifilm House of Photography 1st Anniversary', 'Fujifilm House of Photography', { ...fromEdition, date: '2026-11-14T14:30' }, [scanned]), null);
 });
 
+
+// ------------------------------------------------- agenda-porto URL variants (#43, 2026-11-13)
+test('agenda-porto: numeric-id and -inauguracao addresses are the same page', () => {
+  assert.equal(normalizeEventUrl('https://www.agenda-porto.pt/evento/conferencia-julio-dinis-e-a-febre-das-almas-sensiveis-1794422953079/'),
+    normalizeEventUrl('https://www.agenda-porto.pt/evento/conferencia-julio-dinis-e-a-febre-das-almas-sensiveis/'));
+  assert.equal(normalizeEventUrl('https://www.agenda-porto.pt/evento/sentimento-monocromatico-inauguracao/'),
+    normalizeEventUrl('https://www.agenda-porto.pt/evento/sentimento-monocromatico-1794216467669/'));
+  // a short number that is part of the title is kept
+  assert.notEqual(normalizeEventUrl('https://www.agenda-porto.pt/evento/festival-2026/'), normalizeEventUrl('https://www.agenda-porto.pt/evento/festival/'));
+});
+test('agenda-porto twins from 11-13 are one event (end date read differently)', () => {
+  const j1 = { name: 'Conferência — Júlio Dinis e A Febre das Almas Sensíveis', venue: 'Biblioteca Municipal Almeida Garrett', date: '2026-11-13T18:00', externalLink: 'https://www.agenda-porto.pt/evento/conferencia-julio-dinis-e-a-febre-das-almas-sensiveis-1794422953079/' };
+  const j2 = { name: 'Júlio Dinis e a Febre das Almas Sensíveis', venue: 'Biblioteca Municipal Almeida Garrett', date: '2026-11-13T18:00', externalLink: 'https://www.agenda-porto.pt/evento/conferencia-julio-dinis-e-a-febre-das-almas-sensiveis/' };
+  assert.ok(sameSourcePageReason(j1, j2));
+  const s1 = { name: 'Sentimento Monocromático – A partir de dentro, de Gustavo Sanches de Castro', venue: 'Gallery Hostel Porto', date: '2026-11-14T17:00', endDate: '2027-01-14', externalLink: 'https://www.agenda-porto.pt/evento/sentimento-monocromatico-inauguracao/' };
+  const s2 = { name: 'Sentimento Monocromático, de Gustavo Sanches de Castro', venue: 'Gallery Hostel Porto', date: '2026-11-14T17:00', endDate: '2027-01-22', externalLink: 'https://www.agenda-porto.pt/evento/sentimento-monocromatico-1794216467669/' };
+  assert.ok(sameSourcePageReason(s1, s2));
+});
+test('agenda-porto: same page on another start day is still separate', () => {
+  const a = { name: 'Visita guiada', venue: 'Casa do Infante', date: '2026-11-14T11:00', externalLink: 'https://www.agenda-porto.pt/evento/visita-guiada/' };
+  assert.equal(sameSourcePageReason(a, { ...a, date: '2026-11-21T11:00' }), null);
+});
+test('other sites keep the strict same-dates rule', () => {
+  const a = { name: 'Expo', venue: 'Galeria X', date: '2026-11-14', endDate: '2027-01-14', externalLink: 'https://galeriax.pt/expo' };
+  assert.equal(sameSourcePageReason(a, { ...a, endDate: '2027-01-22' }), null);
+});
+
 console.log(`ok — ${passed} dedupe tests passed`);

@@ -182,11 +182,19 @@ export function normalizeEventUrl(url: string | null | undefined): string | null
   if (segs.length === 0) return null;
   const last = segs[segs.length - 1];
   if (/^(agenda|programa|programacao|programação|programme|program|eventos?|events?|calendar|calendario|whats-on|concertos|concerts|espetaculos|bilheteira|tickets?|pt|en)$/.test(last)) return null;
+  // agenda-porto.pt serves one event at several addresses: the plain slug, the
+  // slug plus a numeric id ("-1794422953079") and an "-inauguracao" variant for an
+  // exhibition's opening. Collapse them so the same-page rule sees one page
+  // (backlog #43, 2026-11-13: the forward scan wrote two such twins in one run).
+  let p2 = path;
+  if (/(^|\.)agenda-porto\.pt$/.test(u.hostname.toLowerCase()) && segs[0] === 'evento' && segs.length === 2) {
+    p2 = '/evento/' + last.replace(/-\d{10,}$/, '').replace(/-inauguracao$/, '');
+  }
   const params = new URLSearchParams(u.search);
   Array.from(params.keys()).forEach((k) => { if (/^(utm_|fbclid|gclid|mc_|ref$)/.test(k)) params.delete(k); });
   params.sort();
   const q = params.toString();
-  return u.hostname.toLowerCase().replace(/^www\./, '') + path + (q ? `?${q}` : '');
+  return u.hostname.toLowerCase().replace(/^www\./, '') + p2 + (q ? `?${q}` : '');
 }
 
 export function sameSourcePageReason(a: EventLike & { externalLink?: string | null }, b: EventLike & { externalLink?: string | null }): string | null {
@@ -197,7 +205,10 @@ export function sameSourcePageReason(a: EventLike & { externalLink?: string | nu
   if (ua !== ub) return sameSiteOtherLanguageReason(a, b);
   // Exact same dates: a festival page also hosts its single nights
   // (Primavera Sound: the festival and "The xx + Big Thief" share one URL).
-  if (!sameDays(a, b)) return null;
+  // agenda-porto.pt event pages hold one event each, but the end date is often
+  // read from different spots (hidden metadata vs the visible "até 22 Jan"), so
+  // there the same start day + venue is enough (#43: Sentimento Monocromático).
+  if (!sameDays(a, b) && !(siteOf(a.externalLink) === 'agenda-porto.pt' && day(a.date) === day(b.date))) return null;
   const va = venueKey(a);
   return va === venueKey(b) ? `same source page (${ua}), same venue (${va})` : null;
 }

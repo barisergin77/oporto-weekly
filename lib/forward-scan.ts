@@ -1084,6 +1084,18 @@ export async function runForwardScan(
         rejected.push({ name: lead ? `lead: ${name}` : name, reason: r.reason });
         if (lead) leadOutcomes.push({ key: leadKey(lead), kind: 'failed', reason: r.reason });
       } else {
+        // Last guard on the FINAL records (#43, 2026-11-13): the earlier passes
+        // compare discovery/page facts, so two addresses of one page could still
+        // both get here. Check each record against the corpus and this run's
+        // earlier records by identity, same source page, and similar name + dates.
+        const twin = findExistingEventByIdentity(r.name, r.venue, { date: r.date, endDate: r.endDate, url: r.externalLink }, [...existing, ...accepted]) ??
+          accepted.find((k) => sameSourcePageReason(k, r) !== null || (similarNames(k.name, r.name) && overlaps(k, r)));
+        if (twin) {
+          duplicates++;
+          rejected.push({ name: lead ? `lead: ${name}` : name, reason: `same event as ${twin.slug} (final check)` });
+          if (lead) leadOutcomes.push({ key: leadKey(lead), kind: 'done', slug: twin.slug, reason: 'same event as an existing record' });
+          return;
+        }
         accepted.push(r);
         if (lead) leadOutcomes.push({ key: leadKey(lead), kind: 'done', slug: r.slug });
       }
