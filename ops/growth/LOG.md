@@ -7,6 +7,80 @@ impressions / pos 9.3 over 28 days (prev 28: 191 / 10,293 / 16.9);
 subscribers 56 active (34 EN, 22 PT), ~1.4 net/week; signups by page: none
 recorded yet (tracking started today).
 
+## 2026-11-13 — Two scan duplicates merged; snippet pass (#10); Buffer disconnected
+- Run 09:37 UTC Fri, outside the freeze. Not Mon/Tue, so no guide re-check.
+- Live check: /api/version 9105ef8 (last night's flush, includes 8ba3c50).
+  **Health ok: false**, 8/9: "Buffer API key: Instagram channel @oportoweekly
+  is disconnected in Buffer". Yesterday's ledger has every step done
+  (research 10:01, EN email 10:06, PT email 10:10, instagram 10:11), so the
+  11-12 edition went out. Whether the Instagram post actually published, or
+  the channel dropped after it, can't be read from here. The next post is
+  Thu 11-19 → Needs owner.
+- Metrics (`metrics/2026-11-13.json`): 652 clicks / 27,323 impr / pos 10.60
+  over 28d (yesterday 638 / 26,280; prev 28d 328 / 14,676). Last 7d 318
+  clicks vs 182, impressions 12,784 vs 7,776, CTR 2.5% vs 2.3%, position 9.6
+  vs 10.6. GA4 7d 140 users / 177 sessions / 349 PV (prev 93 / 117 / 310);
+  84 organic, **33 organic social** (26 yesterday), 27 AI assistant, 26
+  direct; `sign_up` 4. **Subscribers 76** (48 EN, 28 PT) on 11-12, +7 in a
+  week (69 → 76). Signups attributed 28d: 23 (+1, /pt on 11-12). Instagram 24.
+- Results due:
+  - #17 Siza Talks (measure 11-13): the 11-12 edition (EN + PT) doesn't
+    list Siza Talks at all, so it can't be listed twice. find-duplicates shows
+    no new Serralves auditorium copy. **Worked** (for the duplicate).
+  - #33 generic sub-venues (measure 11-13): records added since 10-30 with
+    room-style venues are only named rooms (Sala Suggia → casa-da-musica,
+    Auditório CCOP is its own venue). No new `/venue/library`-type page.
+    **Worked.**
+- Duplicates: find-duplicates showed **2 STRONG** pairs, both written by the
+  scan in the same run, 2 s apart, from two Agenda Porto URL variants of one
+  event (with and without the numeric id suffix / "-inauguracao"):
+  - Júlio Dinis talk, Biblioteca Almeida Garrett, tonight 18:00: kept
+    `julio-dinis-e-a-febre-…-nov-13-2026` (names the speaker, Isabel Rio
+    Novo; checked on agenda-porto.pt: 13 Nov 18:00–19:30, free; the source
+    spells it "Dinisinas", left as is). Removed `conferencia-julio-dinis-…`.
+  - Sentimento Monocromático, Gallery Hostel Porto, 14 Nov: kept
+    `sentimento-monocromatico-gallery-hostel-porto-nov-14-2026` (end 22 Jan;
+    the exhibition page shows "22 Jan" as visible text, while the opening page's
+    14 Jan only exists in hidden metadata). Removed `…-a-partir-de-dentro-…`.
+  - 301 EN + PT for both in next.config.mjs. Pattern → backlog #43
+    (scan code, needs owner).
+- Price backfill (2c): 10 upcoming events without a price. 5 were checked
+  on 11-11 (no price stated). Checked the other 5: Smells Like Queer Spirit
+  and Josefina x Raydio (agenda-porto, only "18+"), Attention Deficit
+  (Galeria Catapulta, no price), Pequenas Bibliotecas Temporárias (TMP page
+  points to a ticket link, no price on the page), Galeria Digital do Porto
+  (no price). All left empty, none defaulted to 0.
+- Cancellations (2d): none of the 7 source pages opened today says
+  Cancelado/Anulado/Adiado.
+- Partner earnings (2e, Impact API): Fever 10-27 → 11-13 **41 clicks, 3
+  sales**. New: 11-12 sale €31.50, payout €1.89 (Lisbon). Total €202.64 in
+  sales, **€12.16 payout pending**. Two actions still show a 2028-12-03
+  locking date (quirk noted 11-12).
+- Why (#10 low-CTR pass): "bate papo com theo" (88 + 77 impr, ~0.6% CTR, pos
+  6–8) and "marina herlop porto" (91 / 1.1%, pos 8). Live snippets already
+  lead with weekday, time, venue and price (#39, live 11-07). Most of the
+  28-day window predates that, and #39 measures 12-05, so I did not rewrite
+  them. Only real defect: the Marina Herlop title read "Marina Herlop /Dja
+  Dja". Searchers here are probably after the ticket/official page
+  (coliseu.pt, bol.pt), which we can't outrank on intent.
+- Change (`[defer]`, data + redirects only): 2 duplicate records removed + 301s;
+  Marina Herlop name → "Marina Herlop: Dja Dja" (Sunday's show).
+- Verified: tsc OK; build (see below); kept pages built, removed slugs not
+  built, 301s in the routes manifest. Live check moves to the next run.
+- Expect: one page per event for this weekend; tidier title for one show.
+  Small. The real fix is #43.
+- Measure on: 2026-11-16 (find-duplicates 0 STRONG for the 11-13 → 11-16
+  scan runs).
+- Result:
+- Next run (Sat 11-14): confirm /api/version past today's SHA + health
+  (Buffer check will still fail until the owner reconnects).
+- Needs owner: (1) **Buffer: reconnect the @oportoweekly Instagram channel**
+  (Buffer → Channels → Reconnect) before Thu 11-19 10:00 UTC, or next week's
+  Instagram post fails. Please also check whether yesterday's post published.
+  (2) #43: OK to change the forward scan so two Agenda Porto URLs that
+  differ only by a numeric id or "-inauguracao" count as the same page
+  (in-run twins)? Today it wrote both copies 2 s apart.
+
 ## 2026-11-12 — Freeze day: observe only; #6 measured; first Impact API read
 - Run 09:30 UTC Thu, inside the freeze (Thu 05:00 → 11:00, held until the
   10:00 backstop confirms EN, PT and Instagram sent). No code, no data edits
