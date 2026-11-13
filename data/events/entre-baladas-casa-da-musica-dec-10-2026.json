@@ -1,0 +1,25 @@
+{
+  "slug": "entre-baladas-casa-da-musica-dec-10-2026",
+  "name": "Entre Baladas",
+  "date": "2026-12-10T21:30",
+  "venue": "Casa da Música",
+  "venueSlug": "casa-da-musica",
+  "price": "€ 15",
+  "priceFrom": 15,
+  "currency": "EUR",
+  "category": "music",
+  "description": "João Farinha and Paulo Figueiredo perform Entre Baladas, a voice and piano concert drawing on Coimbra fado through contemporary arrangements.",
+  "longDescription": "Entre Baladas brings singer João Farinha and pianist Paulo Figueiredo together for a voice and piano concert. Starting from Coimbra fado, the duo presents a musical program of classic and original songs that explores contemporary sound textures while keeping ties to tradition.\n\nThe performance takes place in Sala 2 at Casa da Música on Thursday, 10 December 2026, starting at 21:30. Doors open 30 minutes before showtime. Tickets cost 15 euros, with a 25 percent discount available for Casa da Música cardholders, and the event is open to attendees aged 6 and over.",
+  "sourceEdition": "forward-scan",
+  "externalLink": "https://casadamusica.com/event/entre-baladas/",
+  "pickCandidate": true,
+  "addedAt": "2026-11-13T15:05:33.434Z",
+  "lastSeenAt": "2026-11-13T15:05:33.434Z",
+  "descriptionPt": "João Farinha e Paulo Figueiredo apresentam Entre Baladas, um concerto de voz e piano que parte do fado de Coimbra através de arranjos contemporâneos.",
+  "longDescriptionPt": "Entre Baladas junta o cantor João Farinha e o pianista Paulo Figueiredo num concerto de voz e piano. A partir do fado de Coimbra, a dupla apresenta um programa com temas clássicos e originais, explorando texturas sonoras contemporâneas sem perder a ligação à tradição.\n\nO espetáculo acontece na Sala 2 da Casa da Música na quinta-feira, 10 de dezembro de 2026, às 21:30. As portas abrem 30 minutos antes do início. Os bilhetes custam 15 euros, com 25% de desconto para quem tem cartão Casa da Música. A entrada é permitida a maiores de 6 anos.",
+  "image": {
+    "url": "https://i.imgur.com/rzR62dF.jpeg",
+    "credit": "Photo: Casa da Música",
+    "sourceUrl": "https://casadamusica.com/event/entre-baladas/"
+  }
+}

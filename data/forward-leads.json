@@ -611,7 +611,12 @@
       "venue": "Casa da Música",
       "note": "17:00. Talk in the Festival Floresta Amazónica with José Roberto Aguilar, Puwe (Puyanawa people), Sama and João Boto, moderated by Axel Britto. May be the same event as existing lead 'Pensar a Floresta que Cria' (same day and time)",
       "source": "agenda-porto-newsletter-2026-11",
-      "addedAt": "2026-11-10T05:00:39Z"
+      "addedAt": "2026-11-10T05:00:39Z",
+      "status": "done",
+      "eventSlug": "musica-e-amazonia-casa-da-musica-nov-15-2026",
+      "reason": "already listed",
+      "lastTriedAt": "2026-11-13T15:05:36.512Z",
+      "resolvedAt": "2026-11-13T15:05:36.512Z"
     },
     {
       "name": "FIATO — Festival Internacional de Artes e Ópera do Porto",
@@ -674,10 +679,11 @@
       "note": "Sat 11.30am; guided tour; ticketed",
       "source": "batalha-newsletter-2026-11",
       "addedAt": "2026-11-10T05:00:58Z",
-      "status": "pending",
-      "attempts": 2,
-      "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
-      "lastTriedAt": "2026-11-13T08:31:53.374Z"
+      "status": "rejected",
+      "attempts": 3,
+      "reason": "page not fetchable: https://www.batalhacentrodecinema.pt/en/programmes/cinema-ao-redor-visitas-guiadas-1663319708970/ → fetch error (fetch failed: UND_ERR_CONNECT_TIMEOUT)",
+      "lastTriedAt": "2026-11-13T15:05:36.512Z",
+      "resolvedAt": "2026-11-13T15:05:36.512Z"
     },
     {
       "name": "Families – Afterlife: Marona's Fantastic Tale, Anca Damian",
@@ -725,10 +731,11 @@
       "note": "Sun 11.15am; France, 1948, 105'; ticketed",
       "source": "batalha-newsletter-2026-11",
       "addedAt": "2026-11-10T05:00:58Z",
-      "status": "pending",
-      "attempts": 2,
+      "status": "rejected",
+      "attempts": 3,
       "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
-      "lastTriedAt": "2026-11-13T08:31:53.374Z"
+      "lastTriedAt": "2026-11-13T15:05:36.512Z",
+      "resolvedAt": "2026-11-13T15:05:36.512Z"
     },
     {
       "name": "Afterlife: After Life, Hirokazu Koreeda",
@@ -737,10 +744,11 @@
       "note": "Sun 5.15pm; Japan, 1998, 119'; ticketed",
       "source": "batalha-newsletter-2026-11",
       "addedAt": "2026-11-10T05:00:58Z",
-      "status": "pending",
-      "attempts": 2,
-      "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
-      "lastTriedAt": "2026-11-13T08:31:53.374Z"
+      "status": "rejected",
+      "attempts": 3,
+      "reason": "page not fetchable: https://www.batalhacentrodecinema.pt/en/filme/after-life/ → fetch error (fetch failed: UND_ERR_CONNECT_TIMEOUT)",
+      "lastTriedAt": "2026-11-13T15:05:36.512Z",
+      "resolvedAt": "2026-11-13T15:05:36.512Z"
     },
     {
       "name": "Inauguração da exposição novobanco Revelação 2026. Laura Palma: Where the Flowers Bloom",
@@ -748,7 +756,11 @@
       "venue": "Serralves",
       "note": "22:00, Galeria Contemporânea do Museu de Serralves, free entry; opening of photography exhibition by this year's novobanco Revelação winner, curated by Ricardo Nicolau",
       "source": "serralves-newsletter-2026-11",
-      "addedAt": "2026-11-12T05:00:19Z"
+      "addedAt": "2026-11-12T05:00:19Z",
+      "status": "pending",
+      "attempts": 1,
+      "reason": "page not fetchable: https://www.serralves.pt/en/ciclo-serralves/1811-laura-palma-where-the-flowers-bloom/ → fetch error (fetch failed: UND_ERR_CONNECT_TIMEOUT)",
+      "lastTriedAt": "2026-11-13T15:05:36.512Z"
     },
     {
       "name": "Dzudza – Idio Chichava",
@@ -797,10 +809,12 @@
       "note": "17:00; public warm-up session with the choreographer, part of Dzudza",
       "source": "teatro-municipal-do-porto-newsletter-2026-11",
       "addedAt": "2026-11-12T05:00:36Z",
-      "status": "pending",
+      "status": "done",
       "attempts": 2,
-      "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
-      "lastTriedAt": "2026-11-13T08:31:53.374Z"
+      "reason": "already listed",
+      "lastTriedAt": "2026-11-13T15:05:36.512Z",
+      "eventSlug": "idio-chichava-rivoli-theatre-nov-13-2026",
+      "resolvedAt": "2026-11-13T15:05:36.512Z"
     },
     {
       "name": "Dja Dja – Marina Herlop",
@@ -822,7 +836,12 @@
       "venue": "Teatro Campo Alegre",
       "note": "Medeia Filmes cinema screenings, 16–18 Nov; ticketed",
       "source": "teatro-municipal-do-porto-newsletter-2026-11",
-      "addedAt": "2026-11-12T05:00:36Z"
+      "addedAt": "2026-11-12T05:00:36Z",
+      "status": "done",
+      "eventSlug": "you-can-see-everything-teatro-campo-alegre-nov-12-2026",
+      "reason": "already listed",
+      "lastTriedAt": "2026-11-13T15:05:36.512Z",
+      "resolvedAt": "2026-11-13T15:05:36.512Z"
     }
   ]
 }
