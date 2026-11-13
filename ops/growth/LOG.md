@@ -63,10 +63,12 @@ recorded yet (tracking started today).
   them. Only real defect: the Marina Herlop title read "Marina Herlop /Dja
   Dja". Searchers here are probably after the ticket/official page
   (coliseu.pt, bol.pt), which we can't outrank on intent.
-- Change (`[defer]`, data + redirects only): 2 duplicate records removed + 301s;
-  Marina Herlop name → "Marina Herlop: Dja Dja" (Sunday's show).
-- Verified: tsc OK; build (see below); kept pages built, removed slugs not
-  built, 301s in the routes manifest. Live check moves to the next run.
+- Change (276bc89, `[defer]`, data + redirects only): 2 duplicate records
+  removed + 301s; Marina Herlop name → "Marina Herlop: Dja Dja" (Sunday's show).
+- Verified: tsc OK; build OK; kept pages built (EN + PT), removed slugs not
+  built, 301s in the routes manifest, built title "Marina Herlop: Dja Dja ·
+  Sun 15 Nov 2026, Teatro Campo Alegre". Live with the 21:00 flush; live
+  check moves to the next run.
 - Expect: one page per event for this weekend; tidier title for one show.
   Small. The real fix is #43.
 - Measure on: 2026-11-16 (find-duplicates 0 STRONG for the 11-13 → 11-16
