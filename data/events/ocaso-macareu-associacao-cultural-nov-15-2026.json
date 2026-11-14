@@ -1,0 +1,25 @@
+{
+  "slug": "ocaso-macareu-associacao-cultural-nov-15-2026",
+  "name": "Ocaso",
+  "date": "2026-11-15T17:00",
+  "venue": "Macaréu — Associação Cultural",
+  "venueSlug": "macareu-associacao-cultural",
+  "price": "5€",
+  "priceFrom": 5,
+  "currency": "EUR",
+  "category": "music",
+  "description": "Ocaso presents a concert featuring songs from their debut release, Projecto Ocaso, combined with visual and spoken elements.",
+  "longDescription": "Ocaso presents a live performance combining songs from their debut release, Projecto Ocaso, with contemporary visual and oral archival material. Created by Francisco Figueiredo, Francisco Santos, and João Campos, the project uses music as a research tool exploring modern memory.\n\nThis show marks the final concert in the presentation tour for the group's first record. It takes place at Macaréu (Associação Cultural) on Rua João das Regras on 15 November 2026, starting at 17:00. Tickets are 5€.",
+  "sourceEdition": "forward-scan",
+  "externalLink": "https://www.agenda-porto.pt/evento/ocaso-1791785818623/",
+  "pickCandidate": true,
+  "addedAt": "2026-11-14T06:00:32.135Z",
+  "lastSeenAt": "2026-11-14T06:00:32.135Z",
+  "descriptionPt": "Ocaso apresenta um concerto com temas do seu registo de estreia, Projecto Ocaso, cruzados com elementos visuais e spoken word.",
+  "longDescriptionPt": "Ocaso apresenta um espetáculo ao vivo que junta temas do seu trabalho de estreia, Projecto Ocaso, a material de arquivo contemporâneo, visual e oral. Criado por Francisco Figueiredo, Francisco Santos e João Campos, o projeto usa a música como ferramenta de investigação para explorar a memória moderna.\n\nEste espetáculo fecha a digressão de apresentação do primeiro disco do grupo. Acontece na Macaréu (Associação Cultural), na Rua João das Regras, a 15 de novembro de 2026, às 17h00. A entrada custa 5€.",
+  "image": {
+    "url": "https://i.imgur.com/Q9oDApy.jpeg",
+    "credit": "Photo: Agenda-porto",
+    "sourceUrl": "https://www.agenda-porto.pt/evento/ocaso-1791785818623/"
+  }
+}

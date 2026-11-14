@@ -1,0 +1,25 @@
+{
+  "slug": "eu-batalha-centro-de-cinema-nov-20-2026",
+  "name": "Eu, Capitão, de Matteo Garrone",
+  "date": "2026-11-20T17:00",
+  "venue": "Batalha Centro de Cinema",
+  "venueSlug": "batalha-centro-de-cinema",
+  "price": "5€",
+  "priceFrom": 5,
+  "currency": "EUR",
+  "category": "art",
+  "description": "Porto/Post/Doc screens Matteo Garrone's film following two young men from Dakar on their journey toward Europe.",
+  "longDescription": "Batalha Centro de Cinema hosts a screening of Matteo Garrone's film Eu, Capitão, presented as part of the Porto/Post/Doc festival programme within the No País dos Outros section. The story follows Seydou and Moussa as they leave Dakar in search of a future in Europe, navigating the Sahara desert, detention in Libya and the Mediterranean crossing.\n\nThe session takes place on 20 November at 17:00 at Praça da Batalha, 47. Tickets cost 5 euros, with discounts available for Cartão Porto holders, and the film is rated 12+.",
+  "sourceEdition": "forward-scan",
+  "externalLink": "https://www.agenda-porto.pt/evento/ppd-eu-capitao/",
+  "pickCandidate": true,
+  "addedAt": "2026-11-14T06:01:46.170Z",
+  "lastSeenAt": "2026-11-14T06:01:46.170Z",
+  "descriptionPt": "O Porto/Post/Doc exibe o filme de Matteo Garrone que acompanha dois jovens de Dacar na sua viagem rumo à Europa.",
+  "longDescriptionPt": "O Batalha Centro de Cinema recebe a exibição de \"Eu, Capitão\", filme de Matteo Garrone integrado na programação do festival Porto/Post/Doc, dentro da secção No País dos Outros. A história acompanha Seydou e Moussa, que partem de Dacar à procura de um futuro na Europa, enfrentando o deserto do Sara, a detenção na Líbia e a travessia do Mediterrâneo.\n\nA sessão acontece a 20 de novembro, às 17h00, na Praça da Batalha, 47. Os bilhetes custam 5 euros, com desconto para portadores do Cartão Porto, e a classificação etária é M/12.",
+  "image": {
+    "url": "https://i.imgur.com/PI0aS6B.jpeg",
+    "credit": "Photo: Agenda-porto",
+    "sourceUrl": "https://www.agenda-porto.pt/evento/ppd-eu-capitao/"
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "slug": "banana-split-associacao-de-moradores-da-bouca-nov-18-2026",
+  "name": "Banana Split",
+  "date": "2026-11-18T21:30",
+  "endDate": "2026-11-29",
+  "venue": "Associação de Moradores da Bouça",
+  "venueSlug": "associacao-de-moradores-da-bouca",
+  "price": "10€",
+  "priceFrom": 10,
+  "currency": "EUR",
+  "category": "art",
+  "description": "Banana Split is a theatre production by Companhia Musgo addressing housing struggles and shared living.",
+  "longDescription": "Banana Split is a play staged by Companhia Musgo. The piece centres on the challenges around housing and living conditions, following characters forced by circumstance to share living space while navigating conflicting life plans and needs.\n\nThe show runs from 18 November to 29 November 2026, Wednesday to Sunday at 21:30. Performances take place at Associação de Moradores da Bouça on Rua dos Burgães, 345.\n\nTickets cost 10€, with a reduced price of 7,50€ for children and students. The production is recommended for audiences aged 12 and over.",
+  "sourceEdition": "forward-scan",
+  "externalLink": "https://www.agenda-porto.pt/evento/banana-split/",
+  "pickCandidate": false,
+  "addedAt": "2026-11-14T06:01:12.152Z",
+  "lastSeenAt": "2026-11-14T06:01:12.152Z",
+  "descriptionPt": "Banana Split é uma peça da Companhia Musgo sobre os problemas da habitação e a partilha de casa.",
+  "longDescriptionPt": "Banana Split é uma peça de teatro levada à cena pela Companhia Musgo. O espetáculo foca-se nas dificuldades em torno da habitação e das condições de vida, acompanhando personagens que, empurradas pelas circunstâncias, têm de partilhar o mesmo espaço enquanto lidam com necessidades e planos de vida opostos.\n\nA peça está em cena de 18 a 29 de novembro de 2026, de quarta-feira a domingo, às 21h30. As récitas decorrem na Associação de Moradores da Bouça, na Rua dos Burgães, 345.\n\nOs bilhetes custam 10€, com desconto para crianças e estudantes a 7,50€. A classificação etária é para maiores de 12 anos.",
+  "image": {
+    "url": "https://i.imgur.com/TsLNNxp.jpeg",
+    "credit": "Photo: Agenda-porto",
+    "sourceUrl": "https://www.agenda-porto.pt/evento/banana-split/"
+  }
+}

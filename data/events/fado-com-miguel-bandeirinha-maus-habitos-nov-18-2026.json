@@ -1,0 +1,25 @@
+{
+  "slug": "fado-com-miguel-bandeirinha-maus-habitos-nov-18-2026",
+  "name": "Fado com Miguel Bandeirinha",
+  "date": "2026-11-18T21:00",
+  "venue": "Maus Hábitos",
+  "venueSlug": "maus-habitos",
+  "price": "10€",
+  "priceFrom": 10,
+  "currency": "EUR",
+  "category": "music",
+  "description": "Miguel Bandeirinha performs a fado concert at Maus Hábitos in Porto.",
+  "longDescription": "Miguel Bandeirinha presents a fado concert in Porto as part of a regular monthly evening series.\n\nThe performance takes place at Maus Hábitos on 18 November 2026, starting at 21:00. The venue is located at Rua de Passos Manuel, 178, on the 4th floor. Tickets cost 10€.",
+  "sourceEdition": "forward-scan",
+  "externalLink": "https://www.agenda-porto.pt/evento/261118-fado/",
+  "pickCandidate": true,
+  "addedAt": "2026-11-14T06:01:09.620Z",
+  "lastSeenAt": "2026-11-14T06:01:09.620Z",
+  "descriptionPt": "Miguel Bandeirinha dá um concerto de fado no Maus Hábitos, no Porto.",
+  "longDescriptionPt": "Miguel Bandeirinha apresenta um concerto de fado no Porto, integrado num ciclo mensal regular.\n\nA atuação acontece no Maus Hábitos a 18 de novembro de 2026, a partir das 21:00. O espaço fica na Rua de Passos Manuel, 178, no 4.º andar. Os bilhetes custam 10€.",
+  "image": {
+    "url": "https://i.imgur.com/GlFL6O7.jpeg",
+    "credit": "Photo: Agenda-porto",
+    "sourceUrl": "https://www.agenda-porto.pt/evento/261118-fado/"
+  }
+}

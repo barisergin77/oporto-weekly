@@ -1,0 +1,25 @@
+{
+  "slug": "a-invencao-da-natureza-casa-da-musica-nov-15-2026",
+  "name": "A Invenção da Natureza",
+  "date": "2026-11-15T10:00",
+  "venue": "Casa da Música",
+  "venueSlug": "casa-da-musica",
+  "price": "0,50€–13,50€",
+  "priceFrom": 0.5,
+  "currency": "EUR",
+  "category": "family",
+  "description": "Inspired by Andrea Wulf's book, this family show explores the travels and ideas of naturalist Alexander von Humboldt through sound, visual, and sensory elements at Casa da Música.",
+  "longDescription": "Inspired by Andrea Wulf's book of the same title, this educational family show follows the travels and discoveries of German naturalist Alexander von Humboldt. The performance introduces young audiences to his concept of the Earth as a living organism, focusing on the preservation of nature and respect for the natural world through sound, visual, and sensory experiences.\n\nThe event takes place at Casa da Música on 15 November 2026, with sessions scheduled for 10:00, 11:30, and 16:00. It is suitable for children from three months old. Tickets cost 0.50 EUR for children up to six years of age and 13.50 EUR for attendees over six.",
+  "sourceEdition": "forward-scan",
+  "externalLink": "https://www.agenda-porto.pt/evento/cdm-a-invencao-da-natureza/",
+  "pickCandidate": true,
+  "addedAt": "2026-11-14T06:00:29.891Z",
+  "lastSeenAt": "2026-11-14T06:00:29.891Z",
+  "descriptionPt": "Inspirado no livro de Andrea Wulf, este espetáculo para famílias explora as viagens e ideias do naturalista Alexander von Humboldt através de som, imagem e estímulos sensoriais na Casa da Música.",
+  "longDescriptionPt": "Inspirado no livro homónimo de Andrea Wulf, este espetáculo pedagógico para famílias acompanha as viagens e descobertas do naturalista alemão Alexander von Humboldt. A apresentação dá a conhecer ao público mais jovem a sua ideia da Terra como um organismo vivo, focando-se na preservação da natureza e no respeito pelo mundo natural através de elementos sonoros, visuais e sensoriais.\n\nO evento decorre na Casa da Música a 15 de novembro de 2026, com sessões às 10:00, 11:30 e 16:00. É adequado para crianças a partir dos três meses. Os bilhetes custam 0,50 EUR para crianças até aos seis anos e 13,50 EUR para participantes com mais de seis anos.",
+  "image": {
+    "url": "https://i.imgur.com/NY9MlDe.jpeg",
+    "credit": "Photo: Agenda-porto",
+    "sourceUrl": "https://www.agenda-porto.pt/evento/cdm-a-invencao-da-natureza/"
+  }
+}
