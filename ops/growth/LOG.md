@@ -54,9 +54,12 @@ recorded yet (tracking started today).
   local page check can't run. I did not publish them (review items are the
   owner's "add" call). The 16 Jan date enters the normal 60-day window
   around 11-17, so the hub should open by itself this week.
-- Change (`[defer]`, data + redirect + alias only): Bar of Soap merge, 2
-  prices.
-- Verified: see below.
+- Change (642ea8c, `[defer]`, data + redirect + alias only): Bar of Soap
+  merge, 2 prices.
+- Verified: tsc OK; build OK; kept Battle page built with venue Bar of Soap
+  and €7–€8; removed slug not built, its 301 + the `bar-of-soap-porto` venue
+  301 in the routes manifest; Porta Jazz page shows Free (JSON-LD price 0),
+  Phil Kay €11.65. Live with the 21:00 flush; live check next run.
 - Expect: one page for tonight's show instead of two (small, short-lived);
   the alias stops the same split at Bar of Soap.
 - Measure on: 2026-11-20 (January 2027 hub live EN + PT; no new Bar of Soap
