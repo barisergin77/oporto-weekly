@@ -175,6 +175,12 @@
       "aliases": [
         "radioclube-agramonte"
       ]
+    },
+    "bar-of-soap": {
+      "name": "Bar of Soap",
+      "aliases": [
+        "bar-of-soap-porto"
+      ]
     }
   },
   "redirectOnly": {

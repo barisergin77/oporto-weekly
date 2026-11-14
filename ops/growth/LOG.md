@@ -7,6 +7,70 @@ impressions / pos 9.3 over 28 days (prev 28: 191 / 10,293 / 16.9);
 subscribers 56 active (34 EN, 22 PT), ~1.4 net/week; signups by page: none
 recorded yet (tracking started today).
 
+## 2026-11-14 — Tonight's drag-night duplicate merged (#17); 2 prices; January hub check (#40)
+- Run 09:30 UTC Sat, outside the freeze. Not Mon/Tue, so no guide re-check.
+- Live check: /api/version 2904db0 (last night's flush, includes 276bc89).
+  **Health ok: true, 9/9, Buffer "@oportoweekly connected"** (yesterday's
+  owner item is resolved).
+- Metrics (`metrics/2026-11-14.json`): 636 clicks / 26,962 impr / pos 10.56
+  over 28d (yesterday 652 / 27,323; prev 28d 343 / 14,693). Last 7d 264
+  clicks vs 223, impressions 10,978 vs 8,895, CTR 2.4% vs 2.5%, position 9.6
+  vs 10.0. GA4 7d 147 users / 180 sessions / 343 PV (prev 106 / 134 / 351);
+  88 organic, 33 organic social, 29 AI assistant, 24 direct; `sign_up` 4.
+  Subscribers 76 (11-12). Signups attributed 28d: 25 (+2: /pt/eventos/
+  novembro-2026 on 11-13, /porto-events/this-weekend today). **Instagram 27**
+  (22 a week ago).
+- Results due: none (#43 twins measure 11-16; find-duplicates shows 0 STRONG
+  today, so no agenda-porto twins from the 11-14 scan so far).
+- Duplicate (not flagged by find-duplicates): "The Battle Drag Show"
+  (Agenda Porto, venue "Bar of Soap", scan 11-13) and "The Battle - Kylie
+  Minogue Vs. Jessie Ware Vs. Robyn" (Shotgun, "Bar of Soap - Porto", scan
+  11-01), both tonight 22:00, Rua do Bolhão 132. The venue spelling gave two
+  venue slugs, so the identity rules never compared them. Kept the 11-01
+  Shotgun record (older URL, names the acts), moved it to venue `bar-of-soap`,
+  rewrote the copy (dropped "electrifying", "vibes"), took the Agenda Porto
+  image, price "€7–€8" (Shotgun €7 / early bird €6 as read 11-01, Shotgun
+  returned 429 today; Agenda Porto €8 today). Removed the Agenda Porto copy,
+  301 EN + PT, `bar-of-soap-porto` added as an alias of `bar-of-soap` in
+  data/venue-aliases.json. Checked all venue slugs for the same "-porto"
+  split: only one other (`downtown` / `downtown-porto`, past, vague venue),
+  left alone.
+- Price backfill (2c): 10 upcoming events without a price; 5 checked 11-13
+  and 3 on 11-11, so checked the 2 new ones: Porta Jazz apresenta Ricardo
+  Coelho + Gil Silva (Maus Hábitos 17 Nov: maushabitos.com "Entrada Livre"
+  → Free, priceFrom 0) and Phil Kay (Maria Pistolas 21 Nov: Eventbrite
+  JSON-LD lowPrice 11.65 EUR, same date + venue → "From €11.65").
+- Cancellations (2d): none of the 6 source pages opened today says
+  Cancelado/Anulado/Adiado (the "Cancelado" overlay on maushabitos.com
+  belongs to a past June card on the same page).
+- Partner earnings (2e, Impact API): unchanged since 11-13. Fever 10-27 →
+  11-14 **41 clicks, 3 sales, €202.64 in sales, €12.16 payout pending**.
+- #40 January hub: `/porto-events/january-2027` still 404s. January has 4
+  events and the hub needs 5 (MIN_EVENTS_FOR_PAGE). Cause: the source sweep
+  looks 60 days ahead (window ends 13 Jan today). A dry run with `--days 80
+  --sources coliseu,superbockarena` found 11 more Jan events (Lisbon Film
+  Orchestra 16 Jan, Linda Martini 20 Jan, Resistência 23 Jan, Ricardo
+  Ribeiro 29 Jan, Tiago Nacarato 30 Jan…), all in review here because the
+  local page check can't run. I did not publish them (review items are the
+  owner's "add" call). The 16 Jan date enters the normal 60-day window
+  around 11-17, so the hub should open by itself this week.
+- Change (`[defer]`, data + redirect + alias only): Bar of Soap merge, 2
+  prices.
+- Verified: see below.
+- Expect: one page for tonight's show instead of two (small, short-lived);
+  the alias stops the same split at Bar of Soap.
+- Measure on: 2026-11-20 (January 2027 hub live EN + PT; no new Bar of Soap
+  split).
+- Result:
+- Not removed, for the owner: two talks at The Knoty (W)Hole from Agenda
+  Porto, "Fetiche no Casal" (14 Nov) and "BDSM 101" (15 Nov). They are
+  educational talks, not shows, and the adult-content rule covers partner
+  catalogs. Say if they should go.
+- Needs owner: (1) optional: widen the sweep window from 60 to ~80 days
+  (server job ~/oporto-sweep/run.sh, `--days`) so next month's hub opens
+  ~6 weeks ahead, as #40 intended. (2) Keep or remove the two Knotyhole
+  talks above.
+
 ## 2026-11-13 — Two scan duplicates merged; snippet pass (#10); Buffer disconnected
 - Run 09:37 UTC Fri, outside the freeze. Not Mon/Tue, so no guide re-check.
 - Live check: /api/version 9105ef8 (last night's flush, includes 8ba3c50).
