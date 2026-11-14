@@ -36,19 +36,6 @@
       "resolvedAt": "2026-10-26T09:31:57.768Z"
     },
     {
-      "name": "Clubbing Amazónico",
-      "date": "2026-11-13T21:00",
-      "venue": "Casa da Música",
-      "url": "https://casadamusica.com/event/clubbing-amazonico/?selected_session=59185",
-      "note": "Various spaces — Puwewere Puyanawa, MIND, Gang do Eletro; Floresta Amazónica.",
-      "source": "casa-da-musica-newsletter-2026-11",
-      "addedAt": "2026-10-25T12:00:00Z",
-      "status": "done",
-      "eventSlug": "clubbing-amazonico-casa-da-musica-nov-13-2026",
-      "lastTriedAt": "2026-10-28T13:48:53.240Z",
-      "resolvedAt": "2026-10-28T13:48:53.240Z"
-    },
-    {
       "name": "Floresta do Amazonas – Orquestra Sinfónica",
       "date": "2026-11-14T18:00",
       "venue": "Casa da Música",
@@ -355,20 +342,6 @@
       "resolvedAt": "2026-10-31T08:32:37.308Z"
     },
     {
-      "name": "Em Casa D'Amália – O concerto ao vivo nos Coliseus",
-      "date": "2026-11-12",
-      "endDate": "2026-11-13",
-      "venue": "Coliseu Porto Ageas",
-      "note": "21:30 both nights; live concert",
-      "source": "coliseu-newsletter-2026-10",
-      "addedAt": "2026-11-01T05:00:47Z",
-      "status": "rejected",
-      "attempts": 3,
-      "reason": "not an organiser/venue/ticketing page (https://www.dn.pt/cultura/lee-ufan-expe-em-serralves-e-cria-pintura-mural-numa-das-paredes-da-casa)",
-      "lastTriedAt": "2026-11-02T08:31:57.526Z",
-      "resolvedAt": "2026-11-02T08:31:57.526Z"
-    },
-    {
       "name": "Amor de Perdição – Fiato",
       "date": "2026-11-15",
       "venue": "Coliseu Porto Ageas",
@@ -539,19 +512,6 @@
       "resolvedAt": "2026-11-05T06:07:13.515Z"
     },
     {
-      "name": "Elephant, de Gus Van Sant – Mental Health, Stigma and Resilience Project",
-      "date": "2026-11-13",
-      "venue": "Batalha Centro de Cinema",
-      "note": "Special screening of Gus Van Sant's Elephant, part of a film programme on mental illness and stigma",
-      "source": "batalha-newsletter-2026-11",
-      "addedAt": "2026-11-02T05:00:27Z",
-      "status": "rejected",
-      "attempts": 3,
-      "reason": "date quote not on page",
-      "lastTriedAt": "2026-11-03T08:32:38.400Z",
-      "resolvedAt": "2026-11-03T08:32:38.400Z"
-    },
-    {
       "name": "Porto/Post/Doc – No País Dos Outros",
       "date": "2026-11-19",
       "endDate": "2026-11-28",
@@ -591,19 +551,6 @@
       "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
       "lastTriedAt": "2026-11-13T08:31:53.374Z",
       "resolvedAt": "2026-11-13T08:31:53.374Z"
-    },
-    {
-      "name": "Narrow Path to Happiness, de Katalin Oláh + I am Nicu, de Alina Serban",
-      "date": "2026-11-13",
-      "venue": "Casa Comum",
-      "note": "18:00. Two documentaries in the CIDAAD IV cycle, Perspetivas Roma e Sinti no Cinema",
-      "source": "agenda-porto-newsletter-2026-11",
-      "addedAt": "2026-11-10T05:00:39Z",
-      "status": "rejected",
-      "attempts": 3,
-      "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
-      "lastTriedAt": "2026-11-11T08:31:37.139Z",
-      "resolvedAt": "2026-11-11T08:31:37.139Z"
     },
     {
       "name": "Música e Amazónia",
@@ -653,19 +600,6 @@
       "note": "4th edition of BALUARTE, Porto's urban art exhibition. Three days of works by Portuguese artists, plus workshops and meetups",
       "source": "agenda-porto-newsletter-2026-11",
       "addedAt": "2026-11-10T05:00:39Z",
-      "status": "rejected",
-      "attempts": 3,
-      "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
-      "lastTriedAt": "2026-11-11T08:31:37.139Z",
-      "resolvedAt": "2026-11-11T08:31:37.139Z"
-    },
-    {
-      "name": "Satoshi Kon Retrospective: Millennium Actress",
-      "date": "2026-11-13",
-      "venue": "Batalha Centro de Cinema",
-      "note": "Fri 7.15pm; second screening; Japanese animation, 2001, 86'; PT/EN subs; ticketed",
-      "source": "batalha-newsletter-2026-11",
-      "addedAt": "2026-11-10T05:00:58Z",
       "status": "rejected",
       "attempts": 3,
       "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
@@ -758,9 +692,9 @@
       "source": "serralves-newsletter-2026-11",
       "addedAt": "2026-11-12T05:00:19Z",
       "status": "pending",
-      "attempts": 1,
-      "reason": "page not fetchable: https://www.serralves.pt/en/ciclo-serralves/1811-laura-palma-where-the-flowers-bloom/ → fetch error (fetch failed: UND_ERR_CONNECT_TIMEOUT)",
-      "lastTriedAt": "2026-11-13T15:05:36.512Z"
+      "attempts": 2,
+      "reason": "not an organiser/venue/ticketing page (https://iporto.amp.pt/en/eventos/laura-palma-where-the-flowers-bloom/)",
+      "lastTriedAt": "2026-11-14T08:31:59.915Z"
     },
     {
       "name": "Dzudza – Idio Chichava",
