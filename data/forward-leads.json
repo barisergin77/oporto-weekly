@@ -691,10 +691,11 @@
       "note": "22:00, Galeria Contemporânea do Museu de Serralves, free entry; opening of photography exhibition by this year's novobanco Revelação winner, curated by Ricardo Nicolau",
       "source": "serralves-newsletter-2026-11",
       "addedAt": "2026-11-12T05:00:19Z",
-      "status": "pending",
-      "attempts": 2,
+      "status": "rejected",
+      "attempts": 3,
       "reason": "not an organiser/venue/ticketing page (https://iporto.amp.pt/en/eventos/laura-palma-where-the-flowers-bloom/)",
-      "lastTriedAt": "2026-11-14T08:31:59.915Z"
+      "lastTriedAt": "2026-11-14T13:56:37.008Z",
+      "resolvedAt": "2026-11-14T13:56:37.008Z"
     },
     {
       "name": "Dzudza – Idio Chichava",
