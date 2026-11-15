@@ -29,6 +29,7 @@ import { type EventRecord, canonicalVenueSlugFor, findExistingEventByIdentity, l
 import { normalizeEventUrl, datesOverlap, nameTokens, nameVariants } from '../lib/event-identity';
 import { type Candidate, type Page, type ScanUsage, findDuplicate, inFreezeWindow, pageFromHtml, recordFromFacts, verifyCandidate } from '../lib/forward-scan';
 import { acquireEventImage, translateEventFields } from '../lib/events-pipeline';
+import { searchUsage } from '../lib/web-search';
 import { humanizeText } from '../lib/humanizer';
 import { type CheckResult, extractPageFields, reconcile } from '../lib/sweep-double-check';
 import {
@@ -710,7 +711,7 @@ async function run() {
     const x = st(s);
     console.log(`${s.padEnd(15)} ${String(x.found).padStart(5)} ${String(x.inWindow).padStart(6)} ${String(x.filtered).padStart(5)} ${String(x.dup).padStart(5)} ${String(x.published).padStart(5)} ${String(x.corrected).padStart(5)} ${String(x.held).padStart(5)} ${String(x.review).padStart(7)} ${String(x.failed).padStart(5)} ${String(x.dropped).padStart(5)}  ${x.error ?? ''}`);
   }
-  console.log(`auto ${auto.length} (checked ${autoNow.length}), review ${review.length} (${newReview.length} new), published ${published.length}; gemini ${usage.geminiCalls} calls, http ${httpRequests}, firecrawl ${firecrawlCredits}`);
+  console.log(`auto ${auto.length} (checked ${autoNow.length}), review ${review.length} (${newReview.length} new), published ${published.length}; gemini ${usage.geminiCalls} calls (${usage.searchQueries ?? 0} google searches), firecrawl searches ${searchUsage.firecrawlSearches}, http ${httpRequests}, firecrawl ${firecrawlCredits}`);
   console.log('\nDIGEST:\n' + digest.join('\n---\n'));
 }
 

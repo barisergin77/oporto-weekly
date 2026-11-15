@@ -24,6 +24,7 @@ import {
 import { isSameEvent } from './event-identity';
 import { HUMANIZER_RULES, humanizeText } from './humanizer';
 import { FLASH } from './gemini-models';
+import { webSearch, webSearchAvailable } from './web-search';
 
 const UA =
   'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 ' +
@@ -311,6 +312,11 @@ Use "high" only if a source explicitly states the ${year} date. If you cannot fi
 // ---------------------------------------------------------------------------
 
 async function findEventUrlViaGemini(ev: EventRecord): Promise<string | null> {
+  // Firecrawl first where its key is set (server sweep): plain search, take the first real event page.
+  if (webSearchAvailable()) {
+    const urls = (await webSearch(`"${ev.name}" ${ev.venue} Porto`, 5)) ?? [];
+    return urls.find((u) => isRealEventUrl(u)) ?? null;
+  }
   if (!process.env.GEMINI_API_KEY) return null;
 
   const query = `Find the official event page for "${ev.name}" at ${ev.venue} in Porto on ${ev.date}. Return ONLY the single best URL — a ticketing page, venue event page, or official press release — and nothing else. No explanation, no markdown, just the raw URL. If you can't find an authoritative page, return the word NONE.`;

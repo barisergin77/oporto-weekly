@@ -63,6 +63,7 @@ import { lookup } from 'node:dns/promises';
 import { sameSourcePageReason } from './event-identity';
 import { kebab, isGenericRoomName, hostVenueName } from './venues';
 import { FLASH, geminiEndpoint } from './gemini-models';
+import { webSearch, webSearchAvailable } from './web-search';
 
 const UA =
   'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 ' +
@@ -86,6 +87,8 @@ export interface ScanUsage {
   promptTokens: number;
   outputTokens: number;
   imageGenerations: number;
+  /** Google searches Gemini ran (groundingMetadata.webSearchQueries): each one is billed past the free 5,000/month. */
+  searchQueries?: number;
 }
 
 /** Where candidate URLs came from (#22a): is the grounding search returning, resolving and matching pages? */
@@ -220,6 +223,7 @@ async function gemini(
   usage.outputTokens += (data?.usageMetadata?.candidatesTokenCount ?? 0) + (data?.usageMetadata?.thoughtsTokenCount ?? 0);
   // Pages the search actually returned (redirect URIs; see resolveSources).
   const gm = data?.candidates?.[0]?.groundingMetadata;
+  if (opts.search) usage.searchQueries = (usage.searchQueries ?? 0) + (gm?.webSearchQueries?.length ?? 0);
   const g = opts.grounding;
   if (g) {
     g.calls++;
@@ -510,6 +514,20 @@ ${lines}
 
 For each event write one plain sentence naming it, its date and venue, and the page you found for it (or that you found none). The pages themselves are taken from your search results.`;
   const raw: string[] = [];
+  // Firecrawl first where its key is set (server sweep): one plain search per event, no Gemini grounding.
+  if (webSearchAvailable()) {
+    for (const c of cands) {
+      const q = `"${c.name}" ${c.venue} Porto${c.hintHost ? ` site:${c.hintHost}` : ''}`;
+      raw.push(...((await webSearch(q, 5)) ?? []));
+    }
+    const sources = Array.from(new Set(raw.filter(isFetchable)));
+    let rescued = 0;
+    for (const c of cands) {
+      const urls = urlsFor({ name: c.name, url: '' }, sources);
+      if (urls.length) { c.urls = urls; rescued++; }
+    }
+    return rescued;
+  }
   try {
     await gemini(usage, prompt, { search: true, timeoutMs: 45_000, sources: raw, grounding });
   } catch (err) {
