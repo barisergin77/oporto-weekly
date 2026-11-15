@@ -12,7 +12,15 @@ export function webSearchAvailable(): boolean {
   return !!process.env.FIRECRAWL_API_KEY;
 }
 
+export interface WebResult { url: string; title: string; description: string }
+
 export async function webSearch(query: string, limit = 5, timeoutMs = 30_000): Promise<string[] | null> {
+  const r = await webSearchResults(query, limit, timeoutMs);
+  return r === null ? null : r.map((x) => x.url);
+}
+
+/** Same search, with each result's title and snippet (for discovery). */
+export async function webSearchResults(query: string, limit = 10, timeoutMs = 30_000): Promise<WebResult[] | null> {
   const key = process.env.FIRECRAWL_API_KEY;
   if (!key) return null;
   searchUsage.firecrawlSearches++;
@@ -27,8 +35,8 @@ export async function webSearch(query: string, limit = 5, timeoutMs = 30_000): P
     const data = await res.json();
     const web = data?.data?.web ?? data?.data ?? [];
     return (Array.isArray(web) ? web : [])
-      .map((r: { url?: string }) => r?.url)
-      .filter((u: unknown): u is string => typeof u === 'string' && /^https?:\/\//.test(u));
+      .filter((r: { url?: unknown }) => typeof r?.url === 'string' && /^https?:\/\//.test(r.url as string))
+      .map((r: { url: string; title?: string; description?: string }) => ({ url: r.url, title: r.title ?? '', description: r.description ?? '' }));
   } catch {
     return [];
   }

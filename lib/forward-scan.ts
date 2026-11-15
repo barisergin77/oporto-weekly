@@ -63,7 +63,7 @@ import { lookup } from 'node:dns/promises';
 import { sameSourcePageReason } from './event-identity';
 import { kebab, isGenericRoomName, hostVenueName } from './venues';
 import { FLASH, geminiEndpoint } from './gemini-models';
-import { webSearch, webSearchAvailable } from './web-search';
+import { webSearch, webSearchAvailable, webSearchResults, type WebResult } from './web-search';
 
 const UA =
   'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 ' +
@@ -451,9 +451,14 @@ Skip sales pitches and product presentations (roadshows, product launches, MLM o
 For each event write one plain sentence, one per line, stating its name, venue, start date (and end date if it runs several days), what kind of event it is, and the address of its official page exactly as it appeared in your search results (never a guessed or constructed address). If you find none, write NONE.`;
     try {
       const raw: string[] = [];
-      const found = await gemini(usage, prompt, { search: true, timeoutMs, sources: raw, grounding: stats.grounding });
+      // 2026-11-15 (owner): Firecrawl search when its key is set. Gemini grounding ran ~35 billed
+      // Google searches per call; Firecrawl is ~2 credits per query inside the existing plan.
+      const viaFirecrawl = webSearchAvailable() && process.env.SCAN_SEARCH !== 'gemini';
+      const found = viaFirecrawl
+        ? await firecrawlDiscover(usage, prompt, { focus, from, to, scope }, raw, timeoutMs)
+        : await gemini(usage, prompt, { search: true, timeoutMs, sources: raw, grounding: stats.grounding });
       const list = /^\s*NONE\s*$/i.test(found) ? [] : await structure(usage, found);
-      const sources = await resolveSources(raw);
+      const sources = viaFirecrawl ? Array.from(new Set(raw.filter(isFetchable))) : await resolveSources(raw);
       stats.returned += raw.length;
       stats.resolved += sources.length;
       const valid = list.filter((c) => c && typeof c.name === 'string' && typeof c.venue === 'string');
@@ -484,6 +489,35 @@ For each event write one plain sentence, one per line, stating its name, venue, 
     c.date <= window.to &&
     (c.date >= window.from || (/^\d{4}-\d{2}-\d{2}$/.test(c.endDate ?? '') && c.endDate! >= window.from))
   );
+}
+
+/**
+ * Firecrawl version of the grounded discovery search: a few plain web searches (queries written by
+ * Gemini without search), then Gemini picks the events out of the results. Only result URLs count as
+ * sources, as with grounding chunks. Returns the same plain sentences the grounded prompt produces.
+ */
+async function firecrawlDiscover(
+  usage: ScanUsage, prompt: string, s: { focus: string; from: string; to: string; scope: SearchScope }, raw: string[], timeoutMs: number
+): Promise<string> {
+  const qPrompt = `Write 4 short web search queries (Portuguese and English mixed, like a person would type) to find individual event pages for public events in Porto, Portugal between ${s.from} and ${s.to}.
+Focus: ${s.focus}.
+Prefer ticketing and venue sites (bol.pt, ticketline.pt, blueticket.pt, casadamusica.com, coliseu.pt, serralves.pt, feverup.com, agenda.porto.pt). Include the month and year in each query.
+Reply with a JSON array of 4 strings.`;
+  const queries = (parseJson<string[]>(await gemini(usage, qPrompt, { json: true, timeoutMs: 30_000 }), '[') ?? [])
+    .filter((q) => typeof q === 'string' && q.trim()).slice(0, 4);
+  if (queries.length === 0) return 'NONE';
+  const results: WebResult[] = [];
+  for (const list of await Promise.all(queries.map((q) => webSearchResults(q, 10)))) results.push(...(list ?? []));
+  const seen = new Set<string>();
+  const uniq = results.filter((r) => (seen.has(r.url) ? false : (seen.add(r.url), true)));
+  raw.push(...uniq.map((r) => r.url));
+  if (uniq.length === 0) return 'NONE';
+  const listing = uniq.map((r, i) => `[${i + 1}] ${r.url}\n${r.title}\n${r.description}`).join('\n\n').slice(0, 20_000);
+  return gemini(usage, `${prompt}
+
+Do not search: use ONLY these web search results. Copy page addresses exactly as listed; dates must be stated in the title or snippet (skip an event if its date is not shown).
+
+${listing}`, { timeoutMs });
 }
 
 /** Turns the search's sentences into candidates. No search: it may only copy what the text says. */
