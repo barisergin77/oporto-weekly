@@ -36,19 +36,6 @@
       "resolvedAt": "2026-10-26T09:31:57.768Z"
     },
     {
-      "name": "Floresta do Amazonas – Orquestra Sinfónica",
-      "date": "2026-11-14T18:00",
-      "venue": "Casa da Música",
-      "url": "https://casadamusica.com/event/amazonia/?selected_session=44136",
-      "note": "Sala Suggia; Villa-Lobos with visuals by Bianca Dacosta; Floresta Amazónica.",
-      "source": "casa-da-musica-newsletter-2026-11",
-      "addedAt": "2026-10-25T12:00:00Z",
-      "status": "done",
-      "eventSlug": "floresta-do-amazonas-casa-da-musica-nov-14-2026",
-      "lastTriedAt": "2026-10-28T13:48:53.240Z",
-      "resolvedAt": "2026-10-28T13:48:53.240Z"
-    },
-    {
       "name": "Pensar a Floresta que Cria",
       "date": "2026-11-15T17:00",
       "venue": "Casa da Música",
@@ -315,19 +302,6 @@
       "resolvedAt": "2026-10-31T08:32:37.308Z"
     },
     {
-      "name": "Ressonâncias – Prelúdio, conversa com Bianca Dacosta e Rodrigo Alzuguir",
-      "date": "2026-11-14",
-      "venue": "Casa da Música",
-      "note": "16:00, Foyer Nascente, free entry; talk on Villa-Lobos and Bianca Dacosta's visuals before Floresta do Amazonas, moderated by François Bou (Festival Floresta Amazónica)",
-      "source": "casa-da-musica-newsletter-2026-10",
-      "addedAt": "2026-10-30T05:00:23Z",
-      "status": "rejected",
-      "attempts": 3,
-      "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
-      "lastTriedAt": "2026-10-31T08:32:37.308Z",
-      "resolvedAt": "2026-10-31T08:32:37.308Z"
-    },
-    {
       "name": "Miguel Gomes: Retrospetiva Integral e Carta Branca",
       "date": "2026-11-01",
       "endDate": "2027-05-16",
@@ -526,33 +500,6 @@
       "resolvedAt": "2026-11-03T14:52:06.038Z"
     },
     {
-      "name": "Siza Talks: Conversas Internacionais",
-      "date": "2026-11-12",
-      "endDate": "2026-11-14",
-      "venue": "Serralves",
-      "note": "Architecture talks cycle with the Aga Khan Award for Architecture. 12 Nov: opening 19:00, Kjetil Thorsen (Snøhetta) 19:30. 13 Nov from 16:00: Nuno Melo Sousa, Mariana Simas, Alberto Campo Baeza, Elizabeth Diller. 14 Nov from 16:00: Elias & Yousef Anastas, Anouk Legendre, Tony Fretton, Carlos Facio. Price not stated",
-      "source": "serralves-newsletter-2026-11",
-      "addedAt": "2026-11-07T05:00:24Z",
-      "status": "done",
-      "attempts": 1,
-      "lastTriedAt": "2026-11-07T13:45:07.948Z",
-      "eventSlug": "siza-talks-international-conversations-serralves-nov-12-2026",
-      "resolvedAt": "2026-11-07T13:45:07.948Z"
-    },
-    {
-      "name": "Inaugurações Simultâneas",
-      "date": "2026-11-14",
-      "venue": "Quarteirão de Miguel Bombarda",
-      "note": "16:00–20:00. Galleries in the Bombarda quarter open new contemporary art shows together. Workshops for kids and adults (Arisca, Joana Valente, Madame Zine, Vasco Mota), Paranhos Collection DJ set, Costah live act",
-      "source": "agenda-porto-newsletter-2026-11",
-      "addedAt": "2026-11-10T05:00:39Z",
-      "status": "rejected",
-      "attempts": 3,
-      "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
-      "lastTriedAt": "2026-11-13T08:31:53.374Z",
-      "resolvedAt": "2026-11-13T08:31:53.374Z"
-    },
-    {
       "name": "Música e Amazónia",
       "date": "2026-11-15",
       "venue": "Casa da Música",
@@ -580,19 +527,6 @@
       "resolvedAt": "2026-11-11T08:31:37.139Z"
     },
     {
-      "name": "Bicircular",
-      "date": "2026-11-14",
-      "venue": "Saída norte da estação de metro Polo Universitário",
-      "note": "10:00–12:00. Free volunteer sessions that teach people to ride a bike, all ages and levels. Sign up through a form",
-      "source": "agenda-porto-newsletter-2026-11",
-      "addedAt": "2026-11-10T05:00:39Z",
-      "status": "rejected",
-      "attempts": 3,
-      "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
-      "lastTriedAt": "2026-11-12T06:06:47.700Z",
-      "resolvedAt": "2026-11-12T06:06:47.700Z"
-    },
-    {
       "name": "BALUARTE",
       "date": "2026-11-13",
       "endDate": "2026-11-15",
@@ -605,58 +539,6 @@
       "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
       "lastTriedAt": "2026-11-11T08:31:37.139Z",
       "resolvedAt": "2026-11-11T08:31:37.139Z"
-    },
-    {
-      "name": "Neighbouring Cinema – Guided Tour",
-      "date": "2026-11-14",
-      "venue": "Batalha Centro de Cinema",
-      "note": "Sat 11.30am; guided tour; ticketed",
-      "source": "batalha-newsletter-2026-11",
-      "addedAt": "2026-11-10T05:00:58Z",
-      "status": "rejected",
-      "attempts": 3,
-      "reason": "page not fetchable: https://www.batalhacentrodecinema.pt/en/programmes/cinema-ao-redor-visitas-guiadas-1663319708970/ → fetch error (fetch failed: UND_ERR_CONNECT_TIMEOUT)",
-      "lastTriedAt": "2026-11-13T15:05:36.512Z",
-      "resolvedAt": "2026-11-13T15:05:36.512Z"
-    },
-    {
-      "name": "Families – Afterlife: Marona's Fantastic Tale, Anca Damian",
-      "date": "2026-11-14",
-      "venue": "Batalha Centro de Cinema",
-      "note": "Sat 3.15pm; family screening; animated feature (Romania/France/Belgium, 2019, 92'); ticketed",
-      "source": "batalha-newsletter-2026-11",
-      "addedAt": "2026-11-10T05:00:58Z",
-      "status": "rejected",
-      "attempts": 3,
-      "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
-      "lastTriedAt": "2026-11-13T08:31:53.374Z",
-      "resolvedAt": "2026-11-13T08:31:53.374Z"
-    },
-    {
-      "name": "Book Launch: Pioneiras do Cinema Português",
-      "date": "2026-11-14",
-      "venue": "Batalha Centro de Cinema",
-      "note": "Sat 5pm; free entry; presented by Ricardo Vieira Lisboa with authors Ana Sofia Pereira, Luísa Sequeira and Paulo Cunha",
-      "source": "batalha-newsletter-2026-11",
-      "addedAt": "2026-11-10T05:00:58Z",
-      "status": "rejected",
-      "attempts": 3,
-      "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
-      "lastTriedAt": "2026-11-12T06:06:47.700Z",
-      "resolvedAt": "2026-11-12T06:06:47.700Z"
-    },
-    {
-      "name": "Archive Treasures: The Seduction of Mimi, Lina Wertmüller",
-      "date": "2026-11-14",
-      "venue": "Batalha Centro de Cinema",
-      "note": "Sat 9.15pm; Italy, 1972, 112'; PT/EN subs; ticketed",
-      "source": "batalha-newsletter-2026-11",
-      "addedAt": "2026-11-10T05:00:58Z",
-      "status": "rejected",
-      "attempts": 3,
-      "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
-      "lastTriedAt": "2026-11-12T06:06:47.700Z",
-      "resolvedAt": "2026-11-12T06:06:47.700Z"
     },
     {
       "name": "Cineclube Matinees: The Storm Within, Jean Cocteau",
@@ -696,60 +578,6 @@
       "reason": "not an organiser/venue/ticketing page (https://iporto.amp.pt/en/eventos/laura-palma-where-the-flowers-bloom/)",
       "lastTriedAt": "2026-11-14T13:56:37.008Z",
       "resolvedAt": "2026-11-14T13:56:37.008Z"
-    },
-    {
-      "name": "Dzudza – Idio Chichava",
-      "date": "2026-11-13",
-      "endDate": "2026-11-14",
-      "venue": "Teatro Rivoli",
-      "note": "19:30 both nights; national premiere of the Mozambican choreographer's dance piece inspired by Maputo's Xiquelene market; 6+",
-      "source": "teatro-municipal-do-porto-newsletter-2026-11",
-      "addedAt": "2026-11-12T05:00:36Z",
-      "status": "done",
-      "eventSlug": "idio-chichava-rivoli-theatre-nov-13-2026",
-      "reason": "already listed",
-      "lastTriedAt": "2026-11-12T06:06:47.700Z",
-      "resolvedAt": "2026-11-12T06:06:47.700Z"
-    },
-    {
-      "name": "#Não somos cactos# – Teatro de Marionetas do Porto & Joana Magalhães",
-      "date": "2026-11-14",
-      "venue": "Teatro Campo Alegre",
-      "note": "16:00; schools & families puppet theatre about water, almost without words; 12+; Portuguese Sign Language interpretation",
-      "source": "teatro-municipal-do-porto-newsletter-2026-11",
-      "addedAt": "2026-11-12T05:00:36Z",
-      "status": "done",
-      "eventSlug": "teatro-de-marionetas-do-porto-joana-magalhaes-teatro-campo-alegre-nov-14-2026",
-      "reason": "already listed",
-      "lastTriedAt": "2026-11-12T06:06:47.700Z",
-      "resolvedAt": "2026-11-12T06:06:47.700Z"
-    },
-    {
-      "name": "Novos Talentos: Gil Brito + Gabriel Beck",
-      "date": "2026-11-14",
-      "venue": "Teatro Rivoli",
-      "note": "15:30 and 17:00; Novos Talentos series; ticketed",
-      "source": "teatro-municipal-do-porto-newsletter-2026-11",
-      "addedAt": "2026-11-12T05:00:36Z",
-      "status": "done",
-      "eventSlug": "novos-talentos-gil-brito-rivoli-theatre-nov-14-2026",
-      "reason": "already listed",
-      "lastTriedAt": "2026-11-13T08:31:53.374Z",
-      "resolvedAt": "2026-11-13T08:31:53.374Z"
-    },
-    {
-      "name": "Aquecimento Paralelo com Idio Chichava",
-      "date": "2026-11-14",
-      "venue": "Teatro Rivoli",
-      "note": "17:00; public warm-up session with the choreographer, part of Dzudza",
-      "source": "teatro-municipal-do-porto-newsletter-2026-11",
-      "addedAt": "2026-11-12T05:00:36Z",
-      "status": "done",
-      "attempts": 2,
-      "reason": "already listed",
-      "lastTriedAt": "2026-11-13T15:05:36.512Z",
-      "eventSlug": "idio-chichava-rivoli-theatre-nov-13-2026",
-      "resolvedAt": "2026-11-13T15:05:36.512Z"
     },
     {
       "name": "Dja Dja – Marina Herlop",
