@@ -7,6 +7,61 @@ impressions / pos 9.3 over 28 days (prev 28: 191 / 10,293 / 16.9);
 subscribers 56 active (34 EN, 22 PT), ~1.4 net/week; signups by page: none
 recorded yet (tracking started today).
 
+## 2026-11-15 — Two Porto/Post/Doc duplicates merged before the festival (#17)
+- Run 09:30 UTC Sun, outside the freeze. Not Mon/Tue, so no guide re-check.
+- Live check: /api/version 6034cfb (includes yesterday's 642ea8c), **health
+  ok: true**, no failing checks.
+- Metrics (`metrics/2026-11-15.json`): 712 clicks / 29,689 impr / pos 10.41
+  over 28d (yesterday 636 / 26,962; prev 28d 339 / 14,711). Last 7d 293
+  clicks vs 266, impressions 12,330 vs 9,830, CTR 2.4% vs 2.7%, position 9.6
+  vs 9.7. GA4 7d 162 users / 193 sessions / 317 PV (prev 111 / 142 / 385);
+  95 organic, 37 organic social, 35 AI assistant, 22 direct; `sign_up` 5.
+  Subscribers 76 (11-12). Signups attributed 28d: 27 (+2 yesterday: /pt/event/
+  the-twilight-sad-hard-club, /blog/christmas-shopping-in-porto-2026, the
+  second guide signup since the inline box, #35). Instagram 27 (24 a week ago).
+- Results due: none. #43 (measure 11-16): find-duplicates shows 0 STRONG
+  again today, so no agenda-porto twins from the 11-14 or 11-15 scans.
+- Duplicates (REVIEW list, not STRONG): Porto/Post/Doc opens 19 Nov at
+  Batalha, and two films were listed twice, once from Agenda Porto (sweep)
+  and once from BOL (scan 11-13, name "Porto/Post/Doc 2026 - <film>"):
+  - A Cidade e os Mapas, 19 Nov: kept `a-cidade-e-os-mapas-…-nov-19-2026`
+    (names the directors, readable slug). agenda-porto.pt today: 19 Nov
+    21:15–22:31, €5, Cartão Porto discount, 12+. The BOL copy said 21:30
+    (read 11-13); BOL blocks our fetch now ("Access denied") and the
+    festival's daily programme loads by script, so I kept Agenda Porto's
+    time. Removed `porto-batalha-centro-de-cinema-nov-19-2026`.
+  - Cochena: kept `cochena-…-nov-20-2026` (20 Nov 21:30 + 25 Nov 16:30, both
+    on agenda-porto.pt today); the BOL copy `porto-batalha-centro-de-cinema-
+    nov-25-2026` was only the 25 Nov screening. Removed.
+  - 301 EN + PT for both in next.config.mjs. The other two BOL records
+    (Os Continuadores da Revolução 23 Nov, Cartas de Guerra 24 Nov) have no
+    Agenda Porto twin, kept. Their slugs start with "porto-" because the
+    name is cut at "/" → backlog #44.
+- Price backfill (2c): 8 upcoming events without a price. Checked the 5 not
+  checked before: The Freddie Freeloader Project + Nuno Sá (agenda-porto,
+  only times + 18+), Joalharia e Identidade (Tincal lab, visiting hours
+  only), O Natal na Árvore (Cooperativa Árvore, hours only), FC Porto vs
+  Estrela Amadora and vs C.D. Nacional (Gomry catalog priceFrom null; the
+  Estrela match shows sold out). All left empty, none set to 0. The other 3
+  were checked 11-11/11-13 (no price stated).
+- Cancellations (2d): none of the 6 source pages opened today says
+  Cancelado/Anulado/Adiado.
+- Partner earnings (2e, Impact API): Fever 10-27 → 11-15 **45 clicks** (41
+  on 11-14; daily report now shows 2 on 11-14 and 1 today), **3 sales,
+  €202.64 in sales, €12.16 payout pending**, no new action.
+- Change (`[defer]`, data + redirects only): 2 duplicate records removed,
+  2 301s.
+- Verified: tsc OK; build OK; both kept pages built EN + PT, the 2 removed
+  slugs not built, their 301s in the routes manifest. Live with the 21:00
+  flush; live check next run.
+- Expect: one page per film for the festival's opening week (the 19 Nov
+  opening is a pick candidate for Thursday's edition, which would otherwise
+  see it twice).
+- Measure on: 2026-11-19 (edition lists each Porto/Post/Doc film once).
+- Result:
+- Needs owner: (1) #44 scan fix (below). Still open from 11-14: sweep window
+  60 → ~80 days, and keep/remove the two Knotyhole talks.
+
 ## 2026-11-14 — Tonight's drag-night duplicate merged (#17); 2 prices; January hub check (#40)
 - Run 09:30 UTC Sat, outside the freeze. Not Mon/Tue, so no guide re-check.
 - Live check: /api/version 2904db0 (last night's flush, includes 276bc89).

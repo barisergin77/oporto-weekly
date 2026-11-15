@@ -100,6 +100,9 @@ const nextConfig = {
       ['sentimento-monocromatico-a-partir-de-dentro-gallery-hostel-porto-nov-14-2026', 'sentimento-monocromatico-gallery-hostel-porto-nov-14-2026'],
       // 2026-11-14: same drag night from Agenda Porto (venue "Bar of Soap") and Shotgun ("Bar of Soap - Porto"); alias added.
       ['the-battle-drag-show-bar-of-soap-nov-14-2026', 'the-battle-kylie-minogue-vs-jessie-ware-vs-robyn-bar-of-soap-porto-nov-14-2026'],
+      // 2026-11-15: Porto/Post/Doc films from BOL ("Porto/Post/Doc 2026 - <film>", slug cut at "/") already listed from Agenda Porto.
+      ['porto-batalha-centro-de-cinema-nov-19-2026', 'a-cidade-e-os-mapas-batalha-centro-de-cinema-nov-19-2026'],
+      ['porto-batalha-centro-de-cinema-nov-25-2026', 'cochena-batalha-centro-de-cinema-nov-20-2026'],
     ];
     const eventRedirects = dedupes.flatMap(([from, to]) => [
       { source: `/event/${from}`, destination: `/event/${to}`, permanent: true },
