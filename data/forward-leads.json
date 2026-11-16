@@ -36,32 +36,6 @@
       "resolvedAt": "2026-10-26T09:31:57.768Z"
     },
     {
-      "name": "Pensar a Floresta que Cria",
-      "date": "2026-11-15T17:00",
-      "venue": "Casa da Música",
-      "url": "https://casadamusica.com/event/conferencia-musica-e-amazonia/?selected_session=59214",
-      "note": "Talk, Blue Lounge; free; Floresta Amazónica.",
-      "source": "casa-da-musica-newsletter-2026-11",
-      "addedAt": "2026-10-25T12:00:00Z",
-      "status": "done",
-      "eventSlug": "pensar-a-floresta-que-cria-blue-lounge-nov-15-2026",
-      "lastTriedAt": "2026-10-28T13:48:53.240Z",
-      "resolvedAt": "2026-10-28T13:48:53.240Z"
-    },
-    {
-      "name": "Zaynara + Fafá de Belém",
-      "date": "2026-11-15T20:30",
-      "venue": "Casa da Música",
-      "url": "https://casadamusica.com/event/zaynara-fafa-de-belem/?selected_session=59196",
-      "note": "Sala Suggia; Floresta Amazónica.",
-      "source": "casa-da-musica-newsletter-2026-11",
-      "addedAt": "2026-10-25T12:00:00Z",
-      "status": "done",
-      "eventSlug": "zaynara-fafa-de-belem-casa-da-musica-nov-15-2026",
-      "lastTriedAt": "2026-10-30T08:32:23.806Z",
-      "resolvedAt": "2026-10-30T08:32:23.806Z"
-    },
-    {
       "name": "O Último Canto dos Pássaros",
       "date": "2026-11-28T15:00",
       "venue": "Casa da Música",
@@ -316,19 +290,6 @@
       "resolvedAt": "2026-10-31T08:32:37.308Z"
     },
     {
-      "name": "Amor de Perdição – Fiato",
-      "date": "2026-11-15",
-      "venue": "Coliseu Porto Ageas",
-      "note": "17:00; opera based on Camilo Castelo Branco",
-      "source": "coliseu-newsletter-2026-10",
-      "addedAt": "2026-11-01T05:00:47Z",
-      "status": "rejected",
-      "attempts": 3,
-      "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
-      "lastTriedAt": "2026-11-02T16:49:37.561Z",
-      "resolvedAt": "2026-11-02T16:49:37.561Z"
-    },
-    {
       "name": "Les Ballets Trockadero de Monte Carlo",
       "date": "2026-11-17",
       "venue": "Coliseu Porto Ageas",
@@ -500,19 +461,6 @@
       "resolvedAt": "2026-11-03T14:52:06.038Z"
     },
     {
-      "name": "Música e Amazónia",
-      "date": "2026-11-15",
-      "venue": "Casa da Música",
-      "note": "17:00. Talk in the Festival Floresta Amazónica with José Roberto Aguilar, Puwe (Puyanawa people), Sama and João Boto, moderated by Axel Britto. May be the same event as existing lead 'Pensar a Floresta que Cria' (same day and time)",
-      "source": "agenda-porto-newsletter-2026-11",
-      "addedAt": "2026-11-10T05:00:39Z",
-      "status": "done",
-      "eventSlug": "musica-e-amazonia-casa-da-musica-nov-15-2026",
-      "reason": "already listed",
-      "lastTriedAt": "2026-11-13T15:05:36.512Z",
-      "resolvedAt": "2026-11-13T15:05:36.512Z"
-    },
-    {
       "name": "FIATO — Festival Internacional de Artes e Ópera do Porto",
       "date": "2026-11-13",
       "endDate": "2026-11-21",
@@ -527,46 +475,6 @@
       "resolvedAt": "2026-11-11T08:31:37.139Z"
     },
     {
-      "name": "BALUARTE",
-      "date": "2026-11-13",
-      "endDate": "2026-11-15",
-      "venue": "Fontainhas (Escola Básica do Sol, Abrigo dos Pequeninos, Passeio das Fontainhas)",
-      "note": "4th edition of BALUARTE, Porto's urban art exhibition. Three days of works by Portuguese artists, plus workshops and meetups",
-      "source": "agenda-porto-newsletter-2026-11",
-      "addedAt": "2026-11-10T05:00:39Z",
-      "status": "rejected",
-      "attempts": 3,
-      "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
-      "lastTriedAt": "2026-11-11T08:31:37.139Z",
-      "resolvedAt": "2026-11-11T08:31:37.139Z"
-    },
-    {
-      "name": "Cineclube Matinees: The Storm Within, Jean Cocteau",
-      "date": "2026-11-15",
-      "venue": "Batalha Centro de Cinema",
-      "note": "Sun 11.15am; France, 1948, 105'; ticketed",
-      "source": "batalha-newsletter-2026-11",
-      "addedAt": "2026-11-10T05:00:58Z",
-      "status": "rejected",
-      "attempts": 3,
-      "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
-      "lastTriedAt": "2026-11-13T15:05:36.512Z",
-      "resolvedAt": "2026-11-13T15:05:36.512Z"
-    },
-    {
-      "name": "Afterlife: After Life, Hirokazu Koreeda",
-      "date": "2026-11-15",
-      "venue": "Batalha Centro de Cinema",
-      "note": "Sun 5.15pm; Japan, 1998, 119'; ticketed",
-      "source": "batalha-newsletter-2026-11",
-      "addedAt": "2026-11-10T05:00:58Z",
-      "status": "rejected",
-      "attempts": 3,
-      "reason": "page not fetchable: https://www.batalhacentrodecinema.pt/en/filme/after-life/ → fetch error (fetch failed: UND_ERR_CONNECT_TIMEOUT)",
-      "lastTriedAt": "2026-11-13T15:05:36.512Z",
-      "resolvedAt": "2026-11-13T15:05:36.512Z"
-    },
-    {
       "name": "Inauguração da exposição novobanco Revelação 2026. Laura Palma: Where the Flowers Bloom",
       "date": "2026-11-17",
       "venue": "Serralves",
@@ -578,19 +486,6 @@
       "reason": "not an organiser/venue/ticketing page (https://iporto.amp.pt/en/eventos/laura-palma-where-the-flowers-bloom/)",
       "lastTriedAt": "2026-11-14T13:56:37.008Z",
       "resolvedAt": "2026-11-14T13:56:37.008Z"
-    },
-    {
-      "name": "Dja Dja – Marina Herlop",
-      "date": "2026-11-15",
-      "venue": "Teatro Campo Alegre",
-      "note": "19:30; reimagined music performance of Marina Herlop's Dja Dja, structured around the Hero's Journey; 6+; ticketed",
-      "source": "teatro-municipal-do-porto-newsletter-2026-11",
-      "addedAt": "2026-11-12T05:00:36Z",
-      "status": "done",
-      "eventSlug": "marina-herlop-teatro-campo-alegre-nov-15-2026",
-      "reason": "already listed",
-      "lastTriedAt": "2026-11-13T08:31:53.374Z",
-      "resolvedAt": "2026-11-13T08:31:53.374Z"
     },
     {
       "name": "You Can See Everything – Nathan Fielder & Lance Oppenheim",
