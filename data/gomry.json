@@ -1,5 +1,5 @@
 {
-  "syncedAt": "2026-11-15T04:30:15Z",
+  "syncedAt": "2026-11-16T04:30:16Z",
   "source": "https://www.gomry.com/api/v1/catalog/events",
   "items": [
     {
@@ -13,7 +13,7 @@
       "priceFrom": null,
       "currency": "USD",
       "isFree": false,
-      "availability": "unknown",
+      "availability": "sold_out",
       "organization": "Gomry Retail",
       "categories": [
         "sports",
@@ -32,7 +32,7 @@
       "priceFrom": null,
       "currency": "USD",
       "isFree": false,
-      "availability": "sold_out",
+      "availability": "unknown",
       "organization": "Gomry Retail",
       "categories": [
         "sports",
@@ -70,7 +70,7 @@
       "priceFrom": null,
       "currency": "USD",
       "isFree": false,
-      "availability": "sold_out",
+      "availability": "unknown",
       "organization": "Gomry Retail",
       "categories": [
         "sports",
@@ -108,7 +108,7 @@
       "priceFrom": null,
       "currency": "USD",
       "isFree": false,
-      "availability": "sold_out",
+      "availability": "unknown",
       "organization": "Gomry Retail",
       "categories": [
         "sports",
@@ -127,7 +127,7 @@
       "priceFrom": null,
       "currency": "USD",
       "isFree": false,
-      "availability": "sold_out",
+      "availability": "unknown",
       "organization": "Gomry Retail",
       "categories": [
         "sports",
@@ -146,7 +146,7 @@
       "priceFrom": null,
       "currency": "USD",
       "isFree": false,
-      "availability": "sold_out",
+      "availability": "unknown",
       "organization": "Gomry Retail",
       "categories": [
         "sports",
@@ -184,7 +184,7 @@
       "priceFrom": null,
       "currency": "USD",
       "isFree": false,
-      "availability": "sold_out",
+      "availability": "unknown",
       "organization": "Gomry Retail",
       "categories": [
         "sports",
@@ -203,7 +203,7 @@
       "priceFrom": null,
       "currency": "USD",
       "isFree": false,
-      "availability": "sold_out",
+      "availability": "unknown",
       "organization": "Gomry Retail",
       "categories": [
         "sports",
