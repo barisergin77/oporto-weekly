@@ -111,6 +111,74 @@ export const nameVariants = (e: Pick<EventLike, 'name' | 'namePt' | 'nameEn'>): 
   return out;
 };
 
+/**
+ * nameVariants plus each one without a "<festival> <year> - " prefix (#44).
+ * Kept out of nameVariants: the bare title ("Maguy Marin" from "Talks 2026 –
+ * Maguy Marin") would otherwise equal-match other shows by the same artist
+ * through the general rules, which ignore start times.
+ */
+export const nameVariantsWithTitles = (e: Pick<EventLike, 'name' | 'namePt' | 'nameEn'>): string[] => {
+  const out = nameVariants(e);
+  for (const n of out.slice()) {
+    const t = stripFestivalPrefix(n);
+    if (t && !out.includes(t)) out.push(t);
+  }
+  return out;
+};
+
+/**
+ * Backlog #44 (owner OK 2026-11-16): bol.pt names festival screenings
+ * "<festival> <year> - <film>" ("Porto/Post/Doc 2026 - A Cidade e os Mapas"),
+ * Agenda Porto names the same screening "<film>, de <director>". The title
+ * without the "<festival> <year> - " prefix, or null when there is none.
+ * Needs the year, so "Moonspell - Invicta Halloween" is left alone.
+ */
+const FESTIVAL_PREFIX = /^(.{3,60}?)\s+(?:19|20)\d{2}\s*[–—-]\s+(\S.*)$/;
+export function stripFestivalPrefix(name: string): string | null {
+  const m = FESTIVAL_PREFIX.exec(name.trim());
+  return m && /[a-z]/i.test(kebab(m[2])) ? m[2].trim() : null;
+}
+
+/** A word that names this event: 4+ letters, not a stop word, number or venue word. */
+const hasDistinctiveWord = (k: string, venue: string) => {
+  const vw = new Set(venue.split('-'));
+  return k.split('-').some((t) => t.length >= 4 && !STOP.has(t) && !/^\d+$/.test(t) && !vw.has(t));
+};
+const containsWords = (big: string, small: string) => `-${big}-`.includes(`-${small}-`);
+const minutes = (hhmm: string) => Number(hhmm.slice(0, 2)) * 60 + Number(hhmm.slice(3, 5));
+
+/**
+ * #44: a festival-prefixed screening and the same film listed elsewhere at
+ * the same venue: "Porto/Post/Doc 2026 - Cochena" (one screening 11-25 16:30)
+ * is "Cochena, de Diogo Allen" (11-20 → 11-25). The title left after the
+ * prefix is contained, as whole words, in the other name (or the other name in
+ * it), and the dates overlap with no slack. Start times are not compared: the
+ * two sites gave 21:15 and 21:30 for the same screening. The caller checks
+ * the venue.
+ */
+function festivalTitleReason(a: EventLike, b: EventLike, venue: string): string | null {
+  if (!datesOverlap(a, b, 0)) return null;
+  // Two one-off sessions that both state a time: at most 30 min apart, so a
+  // talk at 18:00 and the show at 21:30 by the same artist stay two events.
+  const ta = startTime(a);
+  const tb = startTime(b);
+  if (ta && tb && !isMultiDay(a) && !isMultiDay(b) && Math.abs(minutes(ta) - minutes(tb)) > 30) return null;
+  for (const [x, y] of [[a, b], [b, a]] as const) {
+    for (const nx of nameVariants(x)) {
+      const t = stripFestivalPrefix(nx);
+      if (!t) continue;
+      const kt = kebab(t);
+      for (const ny of nameVariantsWithTitles(y)) {
+        const ky = kebab(ny);
+        if ((hasDistinctiveWord(kt, venue) && containsWords(ky, kt)) || (hasDistinctiveWord(ky, venue) && containsWords(kt, ky))) {
+          return `festival title "${t}" ~ "${ny}", same venue (${venue})`;
+        }
+      }
+    }
+  }
+  return null;
+}
+
 const MATCH_RANK: Record<Exclude<NameMatch, null>, number> = { equal: 3, similar: 2, contained: 1 };
 
 /** Best name match over all name variants of `a` and `b`. */
@@ -159,8 +227,7 @@ export function sameEventReason(a: EventLike, b: EventLike): string | null {
       : null;
   }
   const m = compareEventNames(a, b, va, vb);
-  if (!m) return null;
-  if (m === 'contained' && !(isMultiDay(a) && isMultiDay(b))) return null;
+  if (!m || (m === 'contained' && !(isMultiDay(a) && isMultiDay(b)))) return festivalTitleReason(a, b, va);
   return `${m} name, same venue (${va})`;
 }
 

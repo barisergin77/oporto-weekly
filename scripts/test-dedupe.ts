@@ -7,9 +7,11 @@
 
 import assert from 'node:assert/strict';
 import { canonicalVenueSlugFor, venueSlugRedirects, isGenericRoomName, hostVenueName } from '../lib/venues';
-import { aggregatorCopyReason, isSameEvent, normalizeEventUrl, rareTokens, sameSourcePageReason, sameStartRareWordReason } from '../lib/event-identity';
+import { aggregatorCopyReason, isSameEvent, normalizeEventUrl, rareTokens, sameEventReason, sameSourcePageReason, sameStartRareWordReason, stripFestivalPrefix } from '../lib/event-identity';
 import { composeEventSlug, findExistingEventByIdentity, listEvents, type EventRecord } from '../lib/events';
 import { findDuplicate } from '../lib/forward-scan';
+import { leadKey } from '../lib/forward-leads';
+import { existingMatch } from './source-sweep';
 
 let passed = 0;
 function test(name: string, fn: () => void) {
@@ -346,6 +348,74 @@ test('agenda-porto: same page on another start day is still separate', () => {
 test('other sites keep the strict same-dates rule', () => {
   const a = { name: 'Expo', venue: 'Galeria X', date: '2026-11-14', endDate: '2027-01-14', externalLink: 'https://galeriax.pt/expo' };
   assert.equal(sameSourcePageReason(a, { ...a, endDate: '2027-01-22' }), null);
+});
+
+// ------------------------------------------------- festival-prefixed names (#44, 2026-11-16)
+test('#44a: slug uses the whole name, not the part before the first "/"', () => {
+  assert.equal(composeEventSlug('Porto/Post/Doc 2026 - Cochena', 'Batalha Centro de Cinema', '2026-11-25T16:30'),
+    'porto-post-doc-2026-cochena-batalha-centro-de-cinema-nov-25-2026');
+  assert.notEqual(composeEventSlug('Porto/Post/Doc 2026 - Cartas de Guerra', 'Batalha Centro de Cinema', '2026-11-24T19:15'),
+    composeEventSlug('Porto/Post/Doc 2026 - Os Continuadores da Revolução', 'Batalha Centro de Cinema', '2026-11-24T19:15'));
+  assert.equal(composeEventSlug('Eu, Capitão, de Matteo Garrone', 'Batalha Centro de Cinema', '2026-11-20T17:00'),
+    'eu-capitao-de-matteo-garrone-batalha-centro-de-cinema-nov-20-2026');
+  // names without "," or "/" keep the same slug as before
+  assert.equal(composeEventSlug('Skryabin', 'Hard Club', '2026-11-05T19:00'), 'skryabin-hard-club-nov-5-2026');
+});
+test('#44a: two films of one festival are not an exact-name match', () => {
+  const rec = { slug: 'porto-batalha-centro-de-cinema-nov-24-2026', name: 'Porto/Post/Doc 2026 - Cartas de Guerra', venue: 'Batalha Centro de Cinema', date: '2026-11-24T19:15', category: 'other', description: '', sourceEdition: 'x', addedAt: '2026-11-13T00:00:00Z' } as EventRecord;
+  assert.equal(findExistingEventByIdentity('Porto/Post/Doc 2026 - Os Continuadores da Revolução', 'Batalha Centro de Cinema', undefined, [rec]), null);
+  assert.equal(findExistingEventByIdentity('Porto/Post/Doc 2026 - Os Continuadores da Revolução', 'Batalha Centro de Cinema', { date: '2026-11-24', time: '21:30' }, [rec]), null);
+  assert.equal(findExistingEventByIdentity('Porto/Post/Doc 2026 - Cartas de Guerra', 'Batalha Centro de Cinema', undefined, [rec])?.slug, rec.slug);
+  assert.notEqual(leadKey({ name: 'Porto/Post/Doc 2026 - Cartas de Guerra', venue: 'Batalha', date: '2026-11-24' }),
+    leadKey({ name: 'Porto/Post/Doc 2026 - Os Continuadores da Revolução', venue: 'Batalha', date: '2026-11-24' }));
+});
+test('#44b: stripFestivalPrefix needs "<festival> <year> - "', () => {
+  assert.equal(stripFestivalPrefix('Porto/Post/Doc 2026 - A Cidade e os Mapas'), 'A Cidade e os Mapas');
+  assert.equal(stripFestivalPrefix('Porto/Post/Doc 2026 – Cochena'), 'Cochena');
+  assert.equal(stripFestivalPrefix('Moonspell - Invicta Halloween'), null);
+  assert.equal(stripFestivalPrefix('A Cidade e os Mapas, de Alexandra Guimarães e Gonçalo L. Almeida'), null);
+  assert.equal(stripFestivalPrefix('Festival 2026 - 2027'), null);
+  assert.equal(stripFestivalPrefix('Lançamento de Livro | 2026 | ABC da Guerra'), null);
+});
+test('#44b: the 11-13 BOL screenings are the Agenda Porto records (live pairs merged 11-15)', () => {
+  const v = 'Batalha Centro de Cinema';
+  // same day, 21:30 (BOL) vs 21:15 (Agenda Porto)
+  const bolMapas = { name: 'Porto/Post/Doc 2026 - A Cidade e os Mapas', venue: v, date: '2026-11-19T21:30', externalLink: 'https://www.bol.pt/Comprar/Bilhetes/187870-porto_post_doc_2026_a_cidade_e_os_mapas-batalha_centro_de_cinema/' };
+  const apMapas = { slug: 'a-cidade-e-os-mapas-batalha-centro-de-cinema-nov-19-2026', name: 'A Cidade e os Mapas, de Alexandra Guimarães e Gonçalo L. Almeida', venue: v, date: '2026-11-19T21:15', externalLink: 'https://www.agenda-porto.pt/evento/ppd-a-cidade-e-os-mapas/', category: 'other', description: '', sourceEdition: 'x', addedAt: '2026-11-10T00:00:00Z' } as EventRecord;
+  assert.ok(sameEventReason(bolMapas, apMapas));
+  // one screening inside a run; a one-word film title
+  const bolCochena = { name: 'Porto/Post/Doc 2026 - Cochena', venue: v, date: '2026-11-25T16:30', externalLink: 'https://batalhacentrocinema.bol.pt/Comprar/Bilhetes/187856-porto_post_doc_2026_cochena-batalha_centro_de_cinema/' };
+  const apCochena = { slug: 'cochena-batalha-centro-de-cinema-nov-20-2026', name: 'Cochena, de Diogo Allen', venue: v, date: '2026-11-20T21:30', endDate: '2026-11-25', externalLink: 'https://www.agenda-porto.pt/evento/ppd-cochena/', category: 'other', description: '', sourceEdition: 'x', addedAt: '2026-11-10T00:00:00Z' } as EventRecord;
+  assert.ok(sameEventReason(bolCochena, apCochena));
+  assert.ok(sameEventReason(apCochena, bolCochena));
+  // the pipeline lookup the scan uses
+  assert.equal(findExistingEventByIdentity(bolMapas.name, v, { date: bolMapas.date, url: bolMapas.externalLink }, [apMapas, apCochena])?.slug, apMapas.slug);
+  assert.equal(findExistingEventByIdentity(bolCochena.name, v, { date: bolCochena.date, url: bolCochena.externalLink }, [apMapas, apCochena])?.slug, apCochena.slug);
+});
+test('#44b: festival title rule stays narrow', () => {
+  const v = 'Batalha Centro de Cinema';
+  const ap = { name: 'Cochena, de Diogo Allen', venue: v, date: '2026-11-20T21:30', endDate: '2026-11-25' };
+  // after the run ends / at another venue / another film
+  assert.equal(sameEventReason({ name: 'Porto/Post/Doc 2026 - Cochena', venue: v, date: '2026-11-26T16:30' }, ap), null);
+  assert.equal(sameEventReason({ name: 'Porto/Post/Doc 2026 - Cochena', venue: 'Cinema Trindade', date: '2026-11-25T16:30' }, ap), null);
+  assert.equal(sameEventReason({ name: 'Porto/Post/Doc 2026 - Eu, Capitão', venue: v, date: '2026-11-25T16:30' }, ap), null);
+  // two films of the festival on the same night
+  assert.equal(sameEventReason({ name: 'Porto/Post/Doc 2026 - Cartas de Guerra', venue: v, date: '2026-11-24T19:15' },
+    { name: 'Porto/Post/Doc 2026 - Os Continuadores da Revolução', venue: v, date: '2026-11-24T21:30' }), null);
+  // a talk in a festival series and the artist's show later that day
+  assert.equal(sameEventReason({ name: 'Repertoire(s): Talks 2026 – Maguy Marin', venue: 'Rivoli', date: '2026-11-20T18:00' },
+    { name: 'Maguy Marin: May B', venue: 'Rivoli', date: '2026-11-20T21:30' }), null);
+  assert.ok(sameEventReason({ name: 'Porto/Post/Doc 2026 - Cartas de Guerra', venue: v, date: '2026-11-24T19:15' },
+    { name: 'Cartas de Guerra, de Ivo M. Ferreira', venue: v, date: '2026-11-24T19:30' }));
+  // no prefix, no new rule: a one-word title inside another name stays apart
+  assert.equal(sameEventReason({ name: 'Cochena', venue: v, date: '2026-11-25T16:30' }, ap), null);
+});
+
+test('#44b: source sweep "one title inside the other" rule sees the title behind the prefix', () => {
+  const rec = { slug: 'cartas', name: 'Cartas de Guerra, de Ivo M. Ferreira', venue: 'Batalha Centro de Cinema', date: '2026-11-24T21:30', category: 'other', description: '', sourceEdition: 'x', addedAt: '2026-11-10T00:00:00Z' } as EventRecord;
+  const cand = { source: 'bol' as const, sourceId: '187894', name: 'Porto/Post/Doc 2026 - Cartas de Guerra', date: '2026-11-24T19:15', venue: 'Batalha Centro de Cinema', url: 'https://www.bol.pt/Comprar/Bilhetes/187894-x/', tags: [] };
+  assert.equal(existingMatch(cand, [rec])?.slug, 'cartas');
+  assert.equal(existingMatch({ ...cand, name: 'Porto/Post/Doc 2026 - Os Continuadores da Revolução' }, [rec]), undefined);
 });
 
 console.log(`ok — ${passed} dedupe tests passed`);

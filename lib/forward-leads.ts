@@ -36,6 +36,7 @@
  * these outcomes by lead key, so leads added meanwhile are never lost.
  */
 
+import { kebab } from './venues';
 import { venueToSlug } from './events';
 
 export const LEADS_PATH = 'data/forward-leads.json';
@@ -79,7 +80,8 @@ const ISO_DAY = /^\d{4}-\d{2}-\d{2}(?:T\d{2}:\d{2}(?::\d{2})?)?$/;
 
 /** Stable identity of a lead across file edits: start day + name + venue. */
 export function leadKey(l: Pick<ForwardLead, 'name' | 'date' | 'venue'>): string {
-  return `${l.date.slice(0, 10)}|${venueToSlug(l.name)}|${venueToSlug(l.venue)}`;
+  // Whole name (#44): cut at the first "/", two Porto/Post/Doc films on one day were one key.
+  return `${l.date.slice(0, 10)}|${kebab(l.name)}|${venueToSlug(l.venue)}`;
 }
 
 /** A lead the scan can act on: has a name, venue and ISO date(s). */

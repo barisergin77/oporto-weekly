@@ -12,7 +12,7 @@
 
 import fs from 'fs';
 import path from 'path';
-import { canonicalVenueSlug, canonicalVenueSlugFor, venueToSlug } from './venues';
+import { canonicalVenueSlug, canonicalVenueSlugFor, kebab } from './venues';
 import { aggregatorCopyReason, isSameEvent, sameSourcePageReason, sameStartRareWordReason, rareTokens, pickCanonical } from './event-identity';
 import { classifyEvent, isKidsEvent, type EventSubcategory } from './event-categories';
 import { isFreePrice, lowestPrice } from './event-filters';
@@ -201,7 +201,10 @@ export function isRealEventUrl(url: string | undefined | null): url is string {
  * Uses abbreviated month to keep it short but chronologically sortable.
  */
 export function composeEventSlug(name: string, venue: string, isoDate: string): string {
-  const nameSlug = venueToSlug(name); // same kebab rules
+  // Whole name (#44): venueToSlug cuts at the first "," or "/", so every
+  // "Porto/Post/Doc 2026 - <film>" became `porto-batalha-centro-de-cinema-…`.
+  // New records only; existing slugs are never recomputed from the name.
+  const nameSlug = kebab(name);
   const venueSlug = canonicalVenueSlugFor(venue);
   const d = new Date(isoDate);
   const month = d.toLocaleDateString('en-US', { month: 'short' }).toLowerCase(); // apr
@@ -238,10 +241,12 @@ export function findExistingEventByIdentity(
   dates?: { date: string; time?: string | null; endDate?: string | null; url?: string | null },
   events: EventRecord[] = listEvents()
 ): EventRecord | null {
-  const targetName = venueToSlug(name);
+  // Whole name (#44): with venueToSlug every "Porto/Post/Doc 2026 - <film>"
+  // at Batalha was the name "porto", one exact match for all of them.
+  const targetName = kebab(name);
   const targetVenue = canonicalVenueSlugFor(venue);
   const exact = events.filter(
-    (e) => venueToSlug(e.name) === targetName && canonicalVenueSlugFor(e.venue) === targetVenue
+    (e) => kebab(e.name) === targetName && canonicalVenueSlugFor(e.venue) === targetVenue
   );
   if (exact.length) return pickCanonical(exact);
   if (!dates?.date) return null;

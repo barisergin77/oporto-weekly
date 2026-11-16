@@ -26,7 +26,7 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { type EventRecord, canonicalVenueSlugFor, findExistingEventByIdentity, listEvents } from '../lib/events';
-import { normalizeEventUrl, datesOverlap, nameTokens, nameVariants } from '../lib/event-identity';
+import { normalizeEventUrl, datesOverlap, nameTokens, nameVariantsWithTitles } from '../lib/event-identity';
 import { type Candidate, type Page, type ScanUsage, findDuplicate, inFreezeWindow, pageFromHtml, recordFromFacts, verifyCandidate } from '../lib/forward-scan';
 import { acquireEventImage, translateEventFields } from '../lib/events-pipeline';
 import { searchUsage } from '../lib/web-search';
@@ -414,15 +414,19 @@ function existingMatch(c: SweepCandidate, existing: EventRecord[]): EventRecord 
   if (byUrl) return byUrl;
   // One title inside the other at the same venue on the same days: "Moonspell"
   // (Agenda Porto) is our "Moonspell: Invicta Halloween" (identity needs 2 shared words).
+  // Both sides also as the title without a "<festival> <year> - " prefix
+  // (#44: "Porto/Post/Doc 2026 - Cochena" vs "Cochena, de Diogo Allen").
   const slug = canonicalVenueSlugFor(c.venue);
-  const tc = nameTokens(c.name, slug);
+  const tcs = nameVariantsWithTitles(c).map((n) => nameTokens(n, slug));
   return existing.find((e) => {
     if ((e.venueSlug ?? canonicalVenueSlugFor(e.venue)) !== slug || !datesOverlap(e, probe)) return false;
-    return nameVariants(e).some((n) => {
+    return nameVariantsWithTitles(e).some((n) => {
       const te = nameTokens(n, slug);
-      const [small, big] = tc.size <= te.size ? [tc, te] : [te, tc];
-      const shared = Array.from(small).filter((t) => big.has(t));
-      return small.size > 0 && shared.length === small.size && shared.join('').length >= 5;
+      return tcs.some((tc) => {
+        const [small, big] = tc.size <= te.size ? [tc, te] : [te, tc];
+        const shared = Array.from(small).filter((t) => big.has(t));
+        return small.size > 0 && shared.length === small.size && shared.join('').length >= 5;
+      });
     });
   });
 }
@@ -752,4 +756,4 @@ if (require.main === module) {
   p.catch((err) => { console.error(err); process.exit(1); });
 }
 
-export { parseAgendaCards, parseShotgun, parseSerralves, parseCdm };
+export { parseAgendaCards, parseShotgun, parseSerralves, parseCdm, existingMatch };
