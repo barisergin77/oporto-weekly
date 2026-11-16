@@ -7,6 +7,73 @@ impressions / pos 9.3 over 28 days (prev 28: 191 / 10,293 / 16.9);
 subscribers 56 active (34 EN, 22 PT), ~1.4 net/week; signups by page: none
 recorded yet (tracking started today).
 
+## 2026-11-16 — Luzes Selvagens page shows the whole 2026 run; Christmas lights title names Porto
+- Run 09:30 UTC Mon, outside the freeze. Guide re-check (2b): guidesDue()
+  is empty (oldest check 10-31, 16 days), so no guide work today.
+- Live check: /api/version 19eec78 (last night's flush, includes 4481d17).
+  **Health ok: true, 9/9.**
+- Metrics (`metrics/2026-11-16.json`): 767 clicks / 31,542 impr / pos 10.28
+  over 28d (yesterday 712 / 29,689; prev 28d 328 / 14,599). Last 7d 296
+  clicks vs 306, impressions 12,334 vs 11,335, CTR 2.4% vs 2.7%, pos 9.5.
+  GA4 7d 159 users / 189 sessions / 294 PV (prev 127 / 157 / 413); 89
+  organic, 37 organic social, 33 AI assistant, 26 direct; `sign_up` 4.
+  Subscribers 76 (11-12). Signups attributed 28d: 27 (none new). Instagram 27.
+- Results due:
+  - #43 agenda-porto twins (measure 11-16): find-duplicates **0 STRONG**
+    after the 11-13 → 11-16 scans (49 REVIEW, all old). **Worked.**
+  - Overdue 10-17/10-18 entries (measure 11-14), GSC 09-19→10-16 vs
+    10-18→11-13 (results written into each entry):
+    month hubs EN 9 pages 25 clicks / 481 impr / 5.2% CTR, pos 7.3 (did not
+    exist before) → **worked**; PT month hubs 8 pages 11 / 170 / 6.5%, pos
+    5.6, PT "agenda/eventos … porto" queries 2 → 25 impr, pos 15.5 → 5.8 →
+    **worked, small**; archive snippets EN CTR 6.6% → 4.2% (181 → 265 impr),
+    PT 9.6% → 7.7% on 136 → 26 impr → **no gain**; venue CTR 1.7% → 0.9%
+    on 2,182 → 4,300 impr, pos 9.4 → 13.4 (253 → 439 pages, diluted; #36
+    measures 11-30) → **no gain**.
+  - New finding: **/blog pages 112 clicks / 4,913 impr / pos 14.1 → 66 /
+    6,713 / pos 20.6** in the same windows. The 11-01 consolidation (37 → 15
+    guides, 301s) falls inside the second window, so part of it may be
+    redirect churn → backlog #45, measure again 11-29 with a clean window.
+- Why (today's change): low-CTR list has "inauguração luzes natal porto
+  2026" 85 impr / 1.2% at pos 7.1 → the PT Christmas lights page (~180
+  impr over its "luzes natal porto 2026" variants, 2 clicks). Its title is
+  "Inauguração das Luzes e da Árvore de Natal · sáb 28 nov 2026", with no
+  "Porto", while every query says "porto". Second: "luzes selvagens 2026",
+  "luzes santo inacio 2026", "wild lights" send ~170 impr and **0 clicks**
+  to the Luzes Selvagens page, which showed only the 17-18 Oct weekend, so
+  it reads as past although the event runs until 30 Dec.
+- Change (`[defer]`, data only):
+  - Luzes Selvagens (same slug): dates 16 Oct → 30 Dec 2026, weekends,
+    public holidays and school holidays, 16:30-20:30, from €10.50 (child) /
+    €15.50 (adult), priceFrom 10.5 EUR, link to the zoo's page. Source:
+    zoosantoinacio.com/luzes-selvagens (16 Oct-30 Dec, hours, prices);
+    the "Día de los Muertos" weekend text dropped. Two unlabelled price
+    columns on the zoo page, so the copy says "start at", not "online".
+  - Christmas lights: namePt "Luzes de Natal do Porto 2026: inauguração"
+    (PT only: nameEn is just a listing subtitle, the EN title uses `name`,
+    and EN queries are ~2 impr); priceFrom 0 + EUR
+    (already "Free"). agenda-porto.pt today: 28 Nov from 18:00, Aliados,
+    tree in Praça General Humberto Delgado, Gratuito, concert line-up "to be
+    announced". Slug and `name` unchanged.
+- Price backfill (2c): 9 upcoming without a price; 8 checked 11-11 → 11-15.
+  New: Ópera para Bebés (Fenianos, 21 Nov): agenda-porto lists times only,
+  left empty.
+- Cancellations (2d): none of the 3 source pages opened today says
+  Cancelado/Anulado/Adiado.
+- Partner earnings (2e, Impact API): Fever 10-27 → 11-16 **49 clicks** (+4:
+  5 on 11-15), still **3 sales, €202.64 in sales, €12.16 payout pending**.
+- Verified: tsc OK; build OK (6,442 pages). Built titles: EN "Luzes
+  Selvagens (Wild Lights) · 16 Oct – 30 Dec 2026", PT "Luzes Selvagens ·
+  16 out – 30 dez 2026, Santo Inácio Zoo", JSON-LD price 10.5; PT "Luzes de
+  Natal do Porto 2026: inauguração · sáb 28 nov", description unchanged
+  (Sábado, 18:00, Aliados, Gratuito). Live with the 21:00 flush; live check
+  next run. No sitemap bump; next run sends both URLs (EN + PT Luzes
+  Selvagens, PT lights) to the Indexing API after the flush.
+- Expect: Luzes Selvagens page gets clicks again (target ≥3% CTR on its
+  ~40 impr/week); PT Christmas lights CTR from ~1% to 3%+ before 28 Nov.
+- Measure on: 2026-11-30 (GSC both pages, 11-17 → 11-27).
+- Result:
+
 ## 2026-11-15 — Two Porto/Post/Doc duplicates merged before the festival (#17)
 - Run 09:30 UTC Sun, outside the freeze. Not Mon/Tue, so no guide re-check.
 - Live check: /api/version 6034cfb (includes yesterday's 642ea8c), **health
@@ -200,7 +267,8 @@ recorded yet (tracking started today).
   Small. The real fix is #43.
 - Measure on: 2026-11-16 (find-duplicates 0 STRONG for the 11-13 → 11-16
   scan runs).
-- Result:
+- Result (11-16): **worked.** 0 STRONG on 11-14, 11-15 and 11-16; no
+  agenda-porto twin since the #43 fix.
 - Next run (Sat 11-14): confirm /api/version past today's SHA + health
   (Buffer check will still fail until the owner reconnects).
 - Needs owner: (1) **Buffer: reconnect the @oportoweekly Instagram channel**
@@ -1534,6 +1602,10 @@ recorded yet (tracking started today).
   sessions landing on /blog/*: 1.00 (24 sessions / 24 PV, 10-04→10-17) →
   1.45 (20 / 29, 10-18→10-31). Sitewide also rose 1.55 → 2.10, so not all of
   it is this change. Search part still due 11-14.
+- Result (search, measured 2026-11-16, GSC 09-19→10-16 vs 10-18→11-13):
+  month hubs got 36 clicks / 651 impr (EN + PT) where there were none.
+  Guides themselves fell, 112 → 66 clicks, pos 14.1 → 20.6, mixed with the
+  11-01 consolidation → backlog #45.
 
 ## 2026-10-17 — Edition pages: single <head>; archive + venue snippets
 - Why: homepage + ~70 archive pages embedded the stored email as a second
@@ -1547,7 +1619,11 @@ recorded yet (tracking started today).
   homepages; one <title> per page live; health OK.
 - Expect: archive CTR up on "porto events <month> 2026"; venue CTR up.
 - Measure on: 2026-11-14
-- Result:
+- Result (measured 2026-11-16, GSC 09-19→10-16 vs 10-18→11-13): **no
+  gain.** Archive EN 12 clicks / 181 impr (6.6%) → 11 / 265 (4.2%); PT 13 /
+  136 (9.6%) → 2 / 26 (7.7%); month queries now go to the month hubs
+  instead. Venue 38 / 2,182 (1.7%, pos 9.4) → 40 / 4,300 (0.9%, pos 13.4)
+  on 253 → 439 pages. The single-<head> fix stands on its own.
 
 ## 2026-10-17 — PT month hubs, month links, PT price labels
 - Why: PT generic queries ("eventos porto", "agenda porto") rank ~50–60.
@@ -1558,7 +1634,10 @@ recorded yet (tracking started today).
   build 31s for 2,109 pages after caching the month snapshot.
 - Expect: PT impressions for month/agenda queries within 2–4 weeks.
 - Measure on: 2026-11-14
-- Result:
+- Result (measured 2026-11-16, GSC 10-18→11-13): **worked, small.** 8 PT
+  month hubs 11 clicks / 170 impr, 6.5% CTR, pos 5.6 ("eventos porto
+  outubro 2026" pos 2.6). PT "agenda/eventos … porto" queries 2 → 25 impr,
+  pos 15.5 → 5.8. All PT pages 74 / 3,380 → 343 / 14,358.
 
 ## 2026-10-17 — Month hubs + search-phrased homepage titles
 - Why: recurring "events in porto <month> 2026" searches land on a weekly
@@ -1573,7 +1652,10 @@ recorded yet (tracking started today).
 - Expect: month queries move from pos 7–9 to month hubs at top 5; /pt
   impressions for "agenda" queries rise within 2–4 weeks.
 - Measure on: 2026-11-14
-- Result:
+- Result (measured 2026-11-16, GSC 10-18→11-13): **worked.** 9 EN month
+  hubs 25 clicks / 481 impr, 5.2% CTR, pos 7.3 ("porto events november
+  2026" → november hub pos 5). EN homepage 6 / 164 (3.7%) → 6 / 74 (8.1%),
+  month searches moved to the hubs. PT side: see the PT hubs entry.
 
 ## 2026-10-17 — Event snippets, year-neutral guide titles, llms.txt
 - Why: "iberanime porto 2026" 2,099 impressions / 5 clicks (0.2%) at pos

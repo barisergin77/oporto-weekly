@@ -1,21 +1,24 @@
 {
   "slug": "luzes-selvagens-wild-lights-santo-inacio-zoo-oct-17-2026",
   "name": "Luzes Selvagens (Wild Lights)",
-  "date": "2026-10-17",
-  "endDate": "2026-10-18",
+  "date": "2026-10-16",
+  "endDate": "2026-12-30",
   "venue": "Santo Inácio Zoo",
   "venueSlug": "santo-inacio-zoo",
-  "price": "Tickets required",
+  "price": "From €10.50",
+  "priceFrom": 10.5,
+  "currency": "EUR",
   "category": "family",
-  "description": "Take a nighttime tour of the zoo, transformed by illuminated animal figures. This weekend features a \"Día de los Muertos\" theme.",
+  "description": "The zoo's night-time light trail is back, with hundreds of lit animal figures along the paths. Open on weekends, public holidays and school holidays until 30 December.",
   "sourceEdition": "october-15-21-2026",
   "addedAt": "2026-10-15T13:02:35.756Z",
-  "longDescription": "Luzes Selvagens (Wild Lights) is a special evening event at Santo Inácio Zoo, presenting the zoo grounds after dark. The initiative transforms the animal park into an illuminated landscape, featuring large-scale figures of various animals. This particular weekend, from October 17th to October 18th, 2026, the event incorporates a \"Día de los Muertos\" theme, adding a specific cultural focus to the nocturnal display.\n\nVisitors can expect a family-oriented atmosphere as they explore the zoo's pathways, guided by the glow of the light installations. The event is designed for all ages, offering a distinct perspective on the zoo environment. The Santo Inácio Zoo, located south of the Douro River, provides an expansive outdoor setting for the illuminated displays.\n\nTickets are required for entry to Luzes Selvagens. The Santo Inácio Zoo is accessible by car, with parking available, and can also be reached via public transport routes from Porto city centre. The event is suitable for families with children.",
+  "longDescription": "Luzes Selvagens is Santo Inácio Zoo's evening light trail in Vila Nova de Gaia. After dark, the paths are lined with large illuminated figures of animals.\n\nThe 2026 edition runs from 16 October to 30 December, on weekends, public holidays and school holidays (the zoo's calendar lists the exact days). Entry is from 16:30 and the trail closes at 20:30.\n\nTickets start at €15.50 for adults (13 to 64), €10.50 for children (3 to 12), €13.50 for seniors (65+) and €49.50 for a family of 2 adults and 2 children. In severe bad weather the zoo suggests coming another day; tickets are valid until 30 December.",
   "image": {
     "url": "https://i.imgur.com/DrfB5LM.jpeg",
     "credit": "AI illustration · Oporto Weekly"
   },
-  "descriptionPt": "Faça um passeio noturno pelo jardim zoológico, transformado por figuras de animais iluminadas. Este fim de semana apresenta um tema \"Día de los Muertos\".",
+  "externalLink": "https://www.zoosantoinacio.com/luzes-selvagens/",
+  "descriptionPt": "O percurso de luzes noturno do zoo regressa, com centenas de figuras de animais iluminadas ao longo dos caminhos. Aberto aos fins de semana, feriados e férias escolares até 30 de dezembro.",
   "namePt": "Luzes Selvagens",
-  "longDescriptionPt": "Luzes Selvagens é um evento noturno especial no Zoo Santo Inácio, apresentando os recintos do zoo após o anoitecer. A iniciativa transforma o parque animal numa paisagem iluminada, com figuras de grande escala de vários animais.\n\nNeste fim de semana em particular, de 17 a 18 de outubro de 2026, o evento incorpora um tema \"Día de los Muertos\", adicionando um foco cultural específico à exibição noturna.\n\nOs visitantes podem esperar uma atmosfera familiar enquanto exploram os caminhos do zoo, guiados pelo brilho das instalações de luz. O evento é projetado para todas as idades, oferecendo uma perspetiva distinta sobre o ambiente do zoo. O Zoo Santo Inácio, localizado a sul do Rio Douro, oferece um amplo cenário ao ar livre para as exibições iluminadas.\n\nOs bilhetes são necessários para a entrada em Luzes Selvagens. O Zoo Santo Inácio é acessível de carro, com estacionamento disponível, e também pode ser alcançado através de rotas de transportes públicos a partir do centro da cidade do Porto. O evento é adequado para famílias com crianças."
+  "longDescriptionPt": "Luzes Selvagens é o percurso de luzes noturno do Zoo Santo Inácio, em Vila Nova de Gaia. Ao anoitecer, os caminhos enchem-se de grandes figuras iluminadas de animais.\n\nA edição de 2026 decorre de 16 de outubro a 30 de dezembro, aos fins de semana, feriados e férias escolares (o calendário do zoo indica os dias exatos). A entrada é a partir das 16:30 e o percurso fecha às 20:30.\n\nBilhetes a partir de 15,50 € para adultos (13 aos 64), 10,50 € para crianças (3 aos 12), 13,50 € para seniores (65+) e 49,50 € para uma família de 2 adultos e 2 crianças. Com mau tempo severo, o zoo aconselha adiar a visita; os bilhetes são válidos até 30 de dezembro."
 }
