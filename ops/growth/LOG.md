@@ -61,6 +61,11 @@ recorded yet (tracking started today).
 - Result:
 - Needs owner: (1) #44 scan fix (below). Still open from 11-14: sweep window
   60 → ~80 days, and keep/remove the two Knotyhole talks.
+- 11-16 owner: widen → done (~/oporto-sweep/run.sh `--days 80`); #44 OK'd
+  (in progress). Knotyhole: owner left it to Claude → KEEP (both already
+  past; removing adds 301s for nothing). Going forward: skip sex/fetish-themed
+  events (talks, workshops, parties) from the scan and sweep, same as the
+  partner-catalog adult rule. Apply when next touching the audienceFit check.
 
 ## 2026-11-14 — Tonight's drag-night duplicate merged (#17); 2 prices; January hub check (#40)
 - Run 09:30 UTC Sat, outside the freeze. Not Mon/Tue, so no guide re-check.
