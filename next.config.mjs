@@ -103,6 +103,8 @@ const nextConfig = {
       // 2026-11-15: Porto/Post/Doc films from BOL ("Porto/Post/Doc 2026 - <film>", slug cut at "/") already listed from Agenda Porto.
       ['porto-batalha-centro-de-cinema-nov-19-2026', 'a-cidade-e-os-mapas-batalha-centro-de-cinema-nov-19-2026'],
       ['porto-batalha-centro-de-cinema-nov-25-2026', 'cochena-batalha-centro-de-cinema-nov-20-2026'],
+      // 2026-11-17: same Shotgun page ("Nova Data - Adiel - Jan 22"); the 7 Nov record moved to the new date.
+      ['nova-data-adiel-jan-22-switch-jan-22-2027', 'adiel-switch-switch-nov-7-2026'],
     ];
     const eventRedirects = dedupes.flatMap(([from, to]) => [
       { source: `/event/${from}`, destination: `/event/${to}`, permanent: true },

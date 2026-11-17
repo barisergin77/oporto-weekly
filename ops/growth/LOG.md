@@ -7,6 +7,75 @@ impressions / pos 9.3 over 28 days (prev 28: 191 / 10,293 / 16.9);
 subscribers 56 active (34 EN, 22 PT), ~1.4 net/week; signups by page: none
 recorded yet (tracking started today).
 
+## 2026-11-17 — Adiel moved to its new date (2d); #46 sweep; forward scan search effect measured
+- Run 09:30 UTC Tue, outside the freeze. Guide re-check (2b): guidesDue()
+  is empty (oldest check 10-31, due 11-30), so no guide work today.
+- Live check: /api/version 0bfdc89 (last night's flush, includes af9229a).
+  **Health ok: true**, no failing checks.
+- Metrics (`metrics/2026-11-17.json`): 838 clicks / 33,576 impr / pos 10.15
+  over 28d (yesterday 767 / 31,542; prev 28d 324 / 14,449). Last 7d 347
+  clicks vs 317, impressions 12,830 vs 12,400, CTR 2.7% vs 2.6%, pos 9.4.
+  GA4 7d 165 users / 193 sessions / 262 PV (prev 124 / 151 / 360); 92
+  organic, 38 organic social, 33 AI assistant, 26 direct; `sign_up` 4.
+  Subscribers 76 (11-12). Signups attributed 28d: 28 (+1: / on 11-16).
+  Instagram 27 (24 a week ago).
+- Result due, #20 forward scan search effect (measure 11-17), GSC
+  10-18 → 11-14, /event pages by record origin (`sourceEdition`):
+  forward-scan + sweep records 836 pages, **15,550 impr / 459 clicks
+  (2.95%)**; edition records 451 pages, 5,233 / 146 (2.79%); removed slugs
+  877 / 35. So the scan/sweep records carry 72% of event-page impressions
+  and clicks. **7,452 impressions and 167 clicks came more than 7 days
+  before the event date** (edition records: 420 / 14). **Worked, well.**
+  (Scan and sweep write the same tag, so they can't be split.) Filled in
+  the 10-20 entry.
+- Low-CTR list: "jack and jack porto" (138 impr, 1.4%) is a past event (13
+  Nov), nothing to fix. "bate papo com theo" (tomorrow) already has a
+  facts-first snippet (#39, measures 12-05).
+- #46 (seasonal runs stored as one weekend): checked the past /event pages
+  that still draw 30+ impressions in 28d against their sources. Baluarte 4
+  (13-15 Nov only, agenda-porto), Cinderela o Musical (8 Nov only, two
+  sessions), Frozen on ice (15 Nov only, Super Bock Arena "já decorreu"):
+  all stored correctly. The 25 upcoming seasonal records (markets, lights,
+  Christmas shows) all carry their full runs. Gap instead: the city's 2026
+  Christmas programme (Cordoaria/Batalha markets, Amor de Perdição rink) is
+  not announced yet; nothing verifiable to add. Re-check ~11-24.
+- Why (today's change): this morning's source sweep added "Nova Data - Adiel
+  - Jan 22" (Switch, 22 Jan 2027 23:00) from https://shotgun.live/en/events/
+  adiel-switch, the same page as our live record `adiel-switch-switch-nov-
+  7-2026` (7 Nov). Shotgun keeps one URL per event and the page title now
+  says "Nova Data" (new date), so the 7 Nov show was moved, and owner rule
+  2d says a postponed show gets the new date instead of a second record.
+  Shotgun returned 429 to both my fetches (one retry, then stopped, rule 7)
+  and no other site lists the date yet, so the facts are the sweep's read of
+  the page this morning.
+- Change (`[defer]`, data + redirect only):
+  - `adiel-switch-switch-nov-7-2026` (slug kept): date 2027-01-22T23:00,
+    EN + PT copy says the ticket page lists the new date and that it was
+    first listed for 7 November; price €10–€15 unchanged; lastSeenAt today.
+  - Removed `nova-data-adiel-jan-22-switch-jan-22-2027` (never live, it was
+    waiting for tonight's flush), 301 EN + PT to the kept slug.
+- Price backfill (2c): 11 upcoming without a price. New today: Quebra-Gelo
+  (Quebra-Dados, tonight): agenda-porto "Gratuito para associados, 2€ para
+  não associados" → €2, priceFrom 2 EUR (copy already mentions members).
+  Sessões de Escuta: Jeff Buckley (Lola Hi-Fi, tonight): no price stated,
+  left empty. FC Porto vs Estrela Amadora / vs Nacional: today's Gomry sync
+  still has priceFrom null, left empty. The rest were checked 11-11 → 11-16.
+- Cancellations (2d): no Cancelado/Anulado/Adiado on the 4 pages read
+  (Quebra-Gelo, Lola, Cinderela, Baluarte). The Coliseu page for Bate Papo
+  com Theo is script-rendered (#26b), no status visible.
+- Partner earnings (2e, Impact API): unchanged. Fever 10-27 → 11-17 **49
+  clicks, 3 sales, €202.64 in sales, €12.16 payout pending** (first one
+  locks 12-03).
+- Verified: tsc OK; build (see below).
+- Expect: one Adiel page, with the right date, instead of a past page plus
+  a copy with "Nova Data" in its title.
+- Measure on: 2026-11-24 (sweep/scan haven't recreated a second Adiel
+  record; Shotgun page readable again → confirm 22 Jan).
+- Result:
+- Needs owner: OK to change the scan/sweep so a re-read of the same source
+  page with a "Nova data / Adiado / Postponed" marker updates the existing
+  record's date instead of adding a second one (backlog #47)?
+
 ## 2026-11-16 — Luzes Selvagens page shows the whole 2026 run; Christmas lights title names Porto
 - Run 09:30 UTC Mon, outside the freeze. Guide re-check (2b): guidesDue()
   is empty (oldest check 10-31, 16 days), so no guide work today.
@@ -1501,6 +1570,10 @@ recorded yet (tracking started today).
   duplicates keep reaching the edition week (10-27, 10-28, 11-02, and 2
   more on 11-03, see that entry). Gemini usage: not measurable from here
   (no runtime-log access). Search effect still due 11-17.
+- Result (search, 11-17, GSC 10-18 → 11-14): **worked, well.** Scan +
+  sweep records: 836 pages, 15,550 impr / 459 clicks (72% of event-page
+  impressions and clicks); 7,452 impr / 167 clicks arrived more than 7 days
+  before the event (edition records: 420 / 14).
 
 ## 2026-10-19 — "Today" + "This weekend" pages (owner priority, backlog #19)
 - Metrics (`metrics/2026-10-19.json`): 328 clicks / 14,599 impr / pos 9.44
