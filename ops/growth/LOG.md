@@ -66,7 +66,11 @@ recorded yet (tracking started today).
 - Partner earnings (2e, Impact API): unchanged. Fever 10-27 → 11-17 **49
   clicks, 3 sales, €202.64 in sales, €12.16 payout pending** (first one
   locks 12-03).
-- Verified: tsc OK; build (see below).
+- Verified: tsc OK; build OK. Built Adiel page: title "Adiel - Switch · Fri
+  22 Jan 2027 · Tickets & Info", JSON-LD startDate 2027-01-22T23:00; removed
+  slug not built, its 301 in the routes manifest; Quebra-Gelo shows €2
+  (JSON-LD price 2). Pushed 9ed81db `[defer]`, live with the 21:00 flush;
+  live check next run.
 - Expect: one Adiel page, with the right date, instead of a past page plus
   a copy with "Nova Data" in its title.
 - Measure on: 2026-11-24 (sweep/scan haven't recreated a second Adiel
