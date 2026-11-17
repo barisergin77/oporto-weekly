@@ -11,6 +11,7 @@ import { notifySearchEngines } from '@/lib/search-engines';
 import { checkCronAuth } from '@/lib/cron-auth';
 import { HUMANIZER_RULES, humanizeHtml } from '@/lib/humanizer';
 import { localizeFromTheBlog } from '@/lib/edition-compose';
+import { stripNameEnSubtitles } from '@/lib/name-en-subtitles';
 import { ensureInstagramFooter } from '@/lib/social';
 import type { BlogPost } from '@/lib/blog';
 import blogIndex from '@/data/blog-posts.json';
@@ -146,7 +147,8 @@ export async function GET(req: NextRequest) {
       }
       console.log(`[cron/newsletter-pt] Loaded EN newsletter: ${slug} (${enHtml.length} bytes)`);
 
-      ptHtml = await translateNewsletter(enHtml);
+      // The EN-only English subtitles under PT titles must not reach the PT edition.
+      ptHtml = await translateNewsletter(stripNameEnSubtitles(enHtml));
       console.log(`[cron/newsletter-pt] Translated to PT (${ptHtml.length} bytes)`);
       assertValidNewsletterHtml(ptHtml, { lang: 'pt' });
 

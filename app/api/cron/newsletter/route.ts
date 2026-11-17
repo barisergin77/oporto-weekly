@@ -71,6 +71,19 @@ async function buildEdition(rawHtml: string, slug: string, corpus?: EventRecordT
       `wrapped ${linkedCount} title link(s) · rewrote ${injected.moreInfoRewritten} MORE INFO href(s)`
     );
 
+    // English subtitle under PT titles (owner 2026-11-12): deterministic, from
+    // nameEn (glossed by ~/oporto-name-en before the freeze). EN only; the PT
+    // route strips these before translating. Never blocks the edition.
+    try {
+      const { insertNameEnSubtitles } = await import('@/lib/name-en-subtitles');
+      const { listEvents } = await import('@/lib/events');
+      const subs = insertNameEnSubtitles(html, events, corpus ?? listEvents());
+      html = subs.html;
+      console.log(`[cron/newsletter] added ${subs.added} English subtitle(s)`);
+    } catch (subErr) {
+      console.error('[cron/newsletter] English subtitles failed (non-fatal):', subErr);
+    }
+
   } catch (extractErr) {
     // Non-fatal: fall back to unlinked HTML so the newsletter still ships.
     console.error('[cron/newsletter] Event extraction/linking failed (non-fatal):', extractErr);

@@ -73,7 +73,8 @@ export interface EventRecord {
    * line under the title on EN pages only (owner 2026-11-07). The title itself
    * stays Portuguese (posters, tickets, search). null = checked, nothing to
    * translate (already English, or a band/artist/proper name). Filled by the
-   * server job ~/oporto-name-en (scripts/name-en.ts).
+   * server job ~/oporto-name-en (daily 06:40 + Wed 17:00 UTC, before the
+   * Thursday edition, which shows it as an italic subtitle under PT titles).
    */
   nameEn?: string | null;
   descriptionPt?: string;
