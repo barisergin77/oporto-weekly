@@ -1,0 +1,26 @@
+{
+  "slug": "duas-casas-sala-estudio-ig-jan-30-2027",
+  "name": "DUAS CASAS",
+  "date": "2027-01-30T16:00",
+  "endDate": "2027-01-31",
+  "venue": "Sala Estúdio IG",
+  "venueSlug": "sala-estudio-ig",
+  "price": "€9",
+  "priceFrom": 9,
+  "currency": "EUR",
+  "category": "family",
+  "description": "DUAS CASAS is a puppet theatre production presented by Imaginar do Gigante at Sala Estúdio IG in Vila Nova de Gaia.",
+  "longDescription": "DUAS CASAS is a 40-minute puppet theatre performance presented by Imaginar do Gigante. The show takes place at Sala Estúdio IG, located on Rua Barão do Corvo in Vila Nova de Gaia.\n\nThe production runs from 30 January to 31 January 2027, with the session scheduled for 16:00. Doors open 30 minutes before the start.\n\nTickets are priced at €9. The performance is aimed at audiences older than 3 years, and paid admission applies to anyone aged 3 and above.",
+  "sourceEdition": "forward-scan",
+  "externalLink": "https://www.bol.pt/Comprar/Bilhetes/186280-duas_casas-sala_estudio_ig/",
+  "pickCandidate": true,
+  "addedAt": "2026-11-17T06:02:18.017Z",
+  "lastSeenAt": "2026-11-17T06:02:18.017Z",
+  "descriptionPt": "DUAS CASAS é um espetáculo de teatro de marionetas apresentado pelo Imaginar do Gigante na Sala Estúdio IG, em Vila Nova de Gaia.",
+  "longDescriptionPt": "DUAS CASAS é um espetáculo de teatro de marionetas com 40 minutos de duração, apresentado pelo Imaginar do Gigante. Acontece na Sala Estúdio IG, na Rua Barão do Corvo, em Vila Nova de Gaia.\n\nA produção decorre de 30 a 31 de janeiro de 2027, com início marcado para as 16h00. As portas abrem 30 minutos antes do espetáculo começar.\n\nOs bilhetes custam 9 €. O espetáculo destina-se a maiores de 3 anos, sendo a entrada paga para qualquer pessoa a partir dessa idade.",
+  "image": {
+    "url": "https://i.imgur.com/3ElliAi.jpeg",
+    "credit": "Photo: BOL",
+    "sourceUrl": "https://www.bol.pt/Comprar/Bilhetes/186280-duas_casas-sala_estudio_ig/"
+  }
+}

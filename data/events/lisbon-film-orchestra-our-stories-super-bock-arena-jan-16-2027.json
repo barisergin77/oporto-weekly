@@ -1,0 +1,25 @@
+{
+  "slug": "lisbon-film-orchestra-our-stories-super-bock-arena-jan-16-2027",
+  "name": "Lisbon Film Orchestra – Our Stories",
+  "date": "2027-01-16T21:30",
+  "venue": "Super Bock Arena",
+  "venueSlug": "super-bock-arena",
+  "price": "28€ – 60€",
+  "priceFrom": 28,
+  "currency": "EUR",
+  "category": "music",
+  "description": "The Lisbon Film Orchestra performs film and television soundtracks under the direction of conductor Nuno de Sá at Super Bock Arena in Porto.",
+  "longDescription": "The Lisbon Film Orchestra presents its show \"Our Stories\" at Super Bock Arena - Pavilhão Rosa Mota on 16 January 2027 at 21:30. The concert opens the orchestra's 20th anniversary season and marks its return to Porto after several years.\n\nConductor Nuno de Sá leads more than 120 performers on stage, including musicians, singers, choir members, and dancers. Together, they perform well-known music from film and television productions.\n\nTickets cost between 28€ and 60€.",
+  "sourceEdition": "forward-scan",
+  "externalLink": "https://www.superbockarena.pt/evento/lisbon-film-orchestra-our-stories/",
+  "pickCandidate": true,
+  "addedAt": "2026-11-17T06:01:33.862Z",
+  "lastSeenAt": "2026-11-17T06:01:33.862Z",
+  "descriptionPt": "A Lisbon Film Orchestra toca bandas sonoras de cinema e televisão sob a direção do maestro Nuno de Sá, na Super Bock Arena, no Porto.",
+  "longDescriptionPt": "A Lisbon Film Orchestra apresenta o espetáculo \"Our Stories\" na Super Bock Arena - Pavilhão Rosa Mota a 16 de janeiro de 2027, às 21:30. O concerto abre a temporada do 20.º aniversário da orquestra e assinala o seu regresso ao Porto após vários anos.\n\nO maestro Nuno de Sá dirige mais de 120 elementos em palco, entre músicos, cantores, elementos do coro e bailarinos. Em conjunto, interpretam temas conhecidos de produções de cinema e televisão.\n\nOs bilhetes custam entre 28€ e 60€.",
+  "image": {
+    "url": "https://i.imgur.com/q6FvuRQ.jpeg",
+    "credit": "Photo: Superbockarena",
+    "sourceUrl": "https://www.superbockarena.pt/evento/lisbon-film-orchestra-our-stories/"
+  }
+}

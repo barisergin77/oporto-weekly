@@ -1,0 +1,26 @@
+{
+  "slug": "optimista-ceptico-super-bock-arena-jan-29-2027",
+  "name": "Optimista Céptico",
+  "date": "2027-01-29T21:30",
+  "endDate": "2027-01-30",
+  "venue": "Super Bock Arena",
+  "venueSlug": "super-bock-arena",
+  "price": "15€ – 25€",
+  "priceFrom": 15,
+  "currency": "EUR",
+  "category": "other",
+  "description": "Optimista Céptico is the fourth solo stand-up comedy show by Diogo, exploring hopeful yet skeptical outlooks on the future.",
+  "longDescription": "Optimista Céptico is the fourth solo stand-up comedy show by Diogo. The routine centers on balancing optimism and skepticism about what lies ahead, from raising children and pets amid unexpected challenges to the lingering possibility of everything going wrong.\n\nThe performance takes place at Super Bock Arena - Pavilhão Rosa Mota in Porto on 29 January 2027 at 21:30. Tickets range from 15€ to 25€.",
+  "sourceEdition": "forward-scan",
+  "externalLink": "https://www.superbockarena.pt/evento/optimista-ceptico-2/",
+  "pickCandidate": true,
+  "addedAt": "2026-11-17T06:02:14.256Z",
+  "lastSeenAt": "2026-11-17T06:02:14.256Z",
+  "descriptionPt": "Optimista Céptico é o quarto solo de stand-up comedy de Diogo, explorando perspetivas esperançosas mas céticas sobre o futuro.",
+  "longDescriptionPt": "Optimista Céptico é o quarto solo de stand-up comedy de Diogo. O espetáculo foca-se no equilíbrio entre o otimismo e o ceticismo em relação ao futuro, desde educar filhos e ter animais de estimação no meio de desafios inesperados até à hipótese constante de tudo correr mal.\n\nA atuação decorre no Super Bock Arena - Pavilhão Rosa Mota, no Porto, a 29 de janeiro de 2027, às 21:30. Os bilhetes custam entre 15€ e 25€.",
+  "image": {
+    "url": "https://i.imgur.com/FLUnwKJ.jpeg",
+    "credit": "Photo: Superbockarena",
+    "sourceUrl": "https://www.superbockarena.pt/evento/optimista-ceptico-2/"
+  }
+}

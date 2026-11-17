@@ -1,0 +1,25 @@
+{
+  "slug": "slift-porto-m-ou-co-feb-3-2027",
+  "name": "SLIFT - PORTO",
+  "date": "2027-02-03T20:00",
+  "venue": "M.Ou.Co",
+  "venueSlug": "m-ou-co",
+  "price": "25€",
+  "priceFrom": 25,
+  "currency": "EUR",
+  "category": "music",
+  "description": "French band SLIFT performs in concert at Mouco in Porto.",
+  "longDescription": "French rock outfit SLIFT comes to Porto for a concert at Mouco on 3 February 2027. The performance starts at 20:00, with a scheduled duration of 180 minutes, including an interval.\n\nThe event is open to attendees aged 16 and over. General admission tickets cost 25€, promoted by Garboyl Lives.",
+  "sourceEdition": "forward-scan",
+  "externalLink": "https://www.bol.pt/Comprar/Bilhetes/177302-slift_porto-mouco/",
+  "pickCandidate": true,
+  "addedAt": "2026-11-17T06:02:30.639Z",
+  "lastSeenAt": "2026-11-17T06:02:30.639Z",
+  "descriptionPt": "A banda francesa SLIFT dá um concerto no Mouco, no Porto.",
+  "longDescriptionPt": "A banda de rock francesa SLIFT vem ao Porto para um concerto no Mouco a 3 de fevereiro de 2027. O espetáculo começa às 20h00 e tem uma duração prevista de 180 minutos, com intervalo incluído.\n\nO evento destina-se a maiores de 16 anos. Os bilhetes gerais custam 25€, numa organização da Garboyl Lives.",
+  "image": {
+    "url": "https://i.imgur.com/lN7edOz.jpeg",
+    "credit": "Photo: BOL",
+    "sourceUrl": "https://www.bol.pt/Comprar/Bilhetes/177302-slift_porto-mouco/"
+  }
+}
