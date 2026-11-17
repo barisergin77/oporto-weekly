@@ -500,6 +500,88 @@
       "reason": "already listed",
       "lastTriedAt": "2026-11-13T15:05:36.512Z",
       "resolvedAt": "2026-11-13T15:05:36.512Z"
+    },
+    {
+      "name": "David Fonseca",
+      "date": "2026-11-21",
+      "venue": "Super Bock Arena",
+      "note": "21:30. Concert presenting Radiante Estrela Decadente, his tenth solo album. Guests Marisa Liz and Cláudia Pascoal.",
+      "source": "agenda-porto-newsletter-2026-11",
+      "addedAt": "2026-11-17T05:00:31Z"
+    },
+    {
+      "name": "Bosque da Noite, Rasgar um céu sem sol e Conto Gótico",
+      "date": "2026-11-21",
+      "venue": "Galeria Municipal do Porto",
+      "note": "17:00 opening of three new exhibitions: Leonor Parda (video, sculpture, sound), Basel Abbas & Ruanne Abou-Rahme (immersive multimedia installations), and Isabel Carvalho's first retrospective.",
+      "source": "agenda-porto-newsletter-2026-11",
+      "addedAt": "2026-11-17T05:00:31Z"
+    },
+    {
+      "name": "Porto/Post/Doc: Film & Media Festival",
+      "date": "2026-11-19",
+      "endDate": "2026-11-28",
+      "venue": "Batalha Centro de Cinema, Passos Manuel e Planetário do Porto",
+      "note": "13th edition: films, concerts, talks and immersive experiences. Opening film is A Cidade e os Mapas.",
+      "source": "agenda-porto-newsletter-2026-11",
+      "addedAt": "2026-11-17T05:00:31Z"
+    },
+    {
+      "name": "Leituras no Mosteiro",
+      "date": "2026-11-17",
+      "venue": "Mosteiro de São Bento da Vitória",
+      "note": "19:00. Read-aloud session of contemporary Portuguese drama with choreographer and author Lígia Soares. This season's theme is repertoire.",
+      "source": "agenda-porto-newsletter-2026-11",
+      "addedAt": "2026-11-17T05:00:31Z"
+    },
+    {
+      "name": "Trilogia Cadela Força – Capítulo II: The Brotherhood, de Carolina Bianchi Y Cara de Cavalo",
+      "date": "2026-11-20",
+      "endDate": "2026-11-21",
+      "venue": "Teatro Rivoli",
+      "note": "Theatre, 20 Nov 21:00 and 21 Nov 17:00. Carolina Bianchi on pacts of masculinity, brotherhood and sexual violence.",
+      "source": "agenda-porto-newsletter-2026-11",
+      "addedAt": "2026-11-17T05:00:31Z"
+    },
+    {
+      "name": "Dance Lab Contemporâneo",
+      "date": "2026-11-21",
+      "venue": "Centro de Desporto da Universidade do Porto",
+      "note": "10:00. 4th UPFit Dance Lab: hands-on contemporary dance session led by Marta Aguilar where participants co-create a choreography.",
+      "source": "agenda-porto-newsletter-2026-11",
+      "addedAt": "2026-11-17T05:00:31Z"
+    },
+    {
+      "name": "Pequenos Construtores, Grandes Navegações #2",
+      "date": "2026-11-21",
+      "venue": "Casa do Infante",
+      "note": "11:00. Family workshop led by Gonçalo Fonseca: build small boats from popsicle and coffee sticks, inspired by the city's maritime history.",
+      "source": "agenda-porto-newsletter-2026-11",
+      "addedAt": "2026-11-17T05:00:31Z"
+    },
+    {
+      "name": "O Rasto da Maresia",
+      "date": "2026-11-20",
+      "venue": "Foz do Douro (vários locais)",
+      "note": "14:30. Literary walk through Foz (Jardim do Passeio Alegre, Cantareira, Pérgola) with on-site readings, led by Bibliotecas do Porto staff.",
+      "source": "agenda-porto-newsletter-2026-11",
+      "addedAt": "2026-11-17T05:00:31Z"
+    },
+    {
+      "name": "Andrea Arnold Retrospective: Milk + Red Road",
+      "date": "2026-11-18",
+      "venue": "Batalha Centro de Cinema",
+      "note": "3.15pm. Second screening in the Andrea Arnold retrospective: the short Milk (UK, 1998, 10') followed by Red Road (UK/Denmark, 2006, 113'). Ticketed.",
+      "source": "batalha-newsletter-2026-11",
+      "addedAt": "2026-11-17T05:00:44Z"
+    },
+    {
+      "name": "Seleção Nacional — Telúricas: Bread",
+      "date": "2026-11-18",
+      "venue": "Batalha Centro de Cinema",
+      "note": "7.15pm, English subtitles. A programme of Portuguese documentaries about bread: Pano Cru, Festa, Trabalho e Pão em Grijó de Parada, Domesticar Há Milénios and Manoel de Oliveira's Bread (1963), plus the music video Aigo. Ticketed.",
+      "source": "batalha-newsletter-2026-11",
+      "addedAt": "2026-11-17T05:00:44Z"
     }
   ]
 }
