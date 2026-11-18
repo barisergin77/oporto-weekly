@@ -26,7 +26,7 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { type EventRecord, canonicalVenueSlugFor, findExistingEventByIdentity, listEvents } from '../lib/events';
-import { normalizeEventUrl, datesOverlap, nameTokens, nameVariantsWithTitles } from '../lib/event-identity';
+import { normalizeEventUrl, datesOverlap, nameTokens, nameVariantsWithTitles, rescheduledReason } from '../lib/event-identity';
 import { type Candidate, type Page, type ScanUsage, findDuplicate, inFreezeWindow, pageFromHtml, recordFromFacts, verifyCandidate } from '../lib/forward-scan';
 import { acquireEventImage, translateEventFields } from '../lib/events-pipeline';
 import { searchUsage } from '../lib/web-search';
@@ -532,6 +532,35 @@ async function enrich(rec: EventRecord): Promise<EventRecord | { reason: string 
   return out;
 }
 
+/**
+ * #47 (owner OK 2026-11-17): a show moved to a new date keeps its record and
+ * slug (URL rankings). Takes the date, price and the copy (written from the
+ * page for the new date, so it doesn't repeat the old one) from the freshly
+ * checked record; keeps names, slug, image, links and partner ids from the old.
+ */
+export function mergeRescheduled(old: EventRecord, fresh: EventRecord, now: Date = new Date()): EventRecord {
+  const out: EventRecord = {
+    ...old,
+    date: fresh.date,
+    endDate: fresh.endDate,
+    price: fresh.price ?? old.price,
+    priceFrom: fresh.price ? fresh.priceFrom : old.priceFrom,
+    currency: fresh.price ? fresh.currency : old.currency,
+    description: fresh.description,
+    longDescription: fresh.longDescription,
+    descriptionPt: fresh.descriptionPt ?? old.descriptionPt,
+    longDescriptionPt: fresh.longDescriptionPt ?? old.longDescriptionPt,
+    lastSeenAt: now.toISOString(),
+  };
+  if (!out.endDate) delete out.endDate;
+  if (out.priceFrom == null) { delete out.priceFrom; delete out.currency; }
+  return out;
+}
+
+function overwriteRecord(rec: EventRecord): void {
+  fs.writeFileSync(path.join(EVENTS_DIR, `${rec.slug}.json`), JSON.stringify(rec, null, 2) + '\n');
+}
+
 function writeRecord(rec: EventRecord): boolean {
   const p = path.join(EVENTS_DIR, `${rec.slug}.json`);
   if (fs.existsSync(p)) return false;
@@ -631,6 +660,7 @@ async function run() {
   const published: Array<{ slug: string; name: string; date: string; venue: string; source: SweepSource; url: string }> = [];
   const accepted: EventRecord[] = [];
   const corrected: Array<{ name: string; slug: string; corrections: string[] }> = [];
+  const rescheduled: Array<{ slug: string; name: string; from: string; to: string; url: string }> = [];
   const minLongWords = 40;
   const noCheck = flag('--no-check'); // collection test: skip the page check, list what would be checked
   await pool(autoNow, 4, async (k) => {
@@ -657,6 +687,21 @@ async function run() {
       return;
     }
     const rec = dc.record;
+    // #47: a retitled page of a show we list ("Nova Data - …") → move that record, no second one.
+    const moved = existing.find((e) => rescheduledReason({ ...rec, externalLink: rec.externalLink ?? c.url }, e, c.name) !== null);
+    if (moved) {
+      const from = moved.date;
+      if (write) {
+        const full = await enrich(rec);
+        if ('reason' in full) { st(c.source).failed++; log.push(`not moved ${moved.slug}: ${full.reason}`); return; }
+        const merged = mergeRescheduled(moved, full);
+        overwriteRecord(merged);
+        existing[existing.indexOf(moved)] = merged;
+      }
+      rescheduled.push({ slug: moved.slug, name: moved.name, from, to: rec.date, url: rec.externalLink ?? c.url });
+      log.push(`rescheduled ${moved.slug}: ${from} → ${rec.date}`);
+      return;
+    }
     if (dc.status === 'corrected') { st(c.source).corrected++; corrected.push({ name: rec.name, slug: rec.slug, corrections: dc.corrections }); }
     accepted.push(rec);
     if (!write) { st(c.source).published++; published.push({ slug: rec.slug, name: rec.name, date: rec.date, venue: rec.venue, source: c.source, url: rec.externalLink ?? c.url }); return; }
@@ -682,6 +727,7 @@ async function run() {
     if (zeroState[s] >= 2) notes.push(`⚠️ ${s} returned nothing ${zeroState[s]} runs in a row${st(s).error ? ` (${st(s).error!.slice(0, 120)})` : ''}: site change?`);
     else if (st(s).error) notes.push(`⚠️ ${s} failed today: ${st(s).error!.slice(0, 120)}`);
   }
+  for (const m of rescheduled) notes.push(`🗓️ new date: ${m.name} ${m.from.slice(0, 10)} → ${m.to.slice(0, 10)} (${m.slug}, page and copy updated${write ? '' : ', dry run'})`);
   const heldCount = wanted.reduce((n, s) => n + st(s).held, 0);
   const digest = formatDigest(
     bySource,
@@ -693,7 +739,7 @@ async function run() {
 
   const summary = {
     ranAt: now.toISOString(), today, window, write, sources: wanted, stats, usage, httpRequests, firecrawlCredits,
-    published, corrected, review: shown.map((r, i) => ({ n: i + 1, ...r })), reviewAll: review.map((r) => ({ key: r.key, name: r.name, date: r.date, venue: r.venue, url: r.url, reason: r.reason })),
+    published, corrected, rescheduled, review: shown.map((r, i) => ({ n: i + 1, ...r })), reviewAll: review.map((r) => ({ key: r.key, name: r.name, date: r.date, venue: r.venue, url: r.url, reason: r.reason })),
     dupMatches: dupMatches.map(({ c, slug }) => ({ source: c.source, name: c.name, date: c.date, venue: c.venue, slug })),
     filteredOut: filteredOut.map(({ c, why }) => ({ source: c.source, name: c.name, date: c.date, venue: c.venue, why })),
     log, digest,

@@ -280,6 +280,44 @@ export function sameSourcePageReason(a: EventLike & { externalLink?: string | nu
   return va === venueKey(b) ? `same source page (${ua}), same venue (${va})` : null;
 }
 
+/**
+ * Backlog #47 (owner OK 2026-11-17): ticket sites keep one page per show and
+ * retitle it when the show moves ("Nova Data - Adiel - Jan 22" on the
+ * shotgun.live page of our 7 Nov "Adiel - Switch"). The name without the
+ * reschedule marker, or null when the name carries none. The marker must lead
+ * (followed by a separator or a space) or close the name in brackets or after
+ * a dash, so a title that merely contains "postponed" is left alone.
+ */
+const RESCHEDULE_WORDS = '(?:nova\\s+data\\s+confirmada|nova\\s+data|novas\\s+datas|new\\s+dates?|adiado|adiada|reagendado|reagendada|postponed|rescheduled)';
+const RESCHEDULE_LEAD = new RegExp(`^\\s*[\\[(]?\\s*${RESCHEDULE_WORDS}\\s*[\\])]?\\s*(?:[-–—:|]\\s*|\\s+)(\\S.*)$`, 'i');
+const RESCHEDULE_TAIL = new RegExp(`^(.*\\S)\\s*(?:[-–—|]\\s*|[\\[(]\\s*)${RESCHEDULE_WORDS}\\s*[\\])]?\\s*$`, 'i');
+export function stripRescheduleMarker(name: string): string | null {
+  const m = RESCHEDULE_LEAD.exec(name) ?? RESCHEDULE_TAIL.exec(name);
+  return m && /[a-z]/i.test(m[1]) ? m[1].trim() : null;
+}
+
+/**
+ * #47: `probe` is the same show as `e`, moved to another date: the probe's
+ * name (or `alsoName`, e.g. the listing title when the page reads differently)
+ * carries a reschedule marker, both point at the same source page, the venue
+ * is the same, both are one-day records, and the dates no longer overlap (if
+ * they did, the ordinary duplicate rules already match). Listing/ticketing
+ * hosts count here: a Shotgun or BOL event URL is one show.
+ */
+export function rescheduledReason(
+  probe: EventLike & { externalLink?: string | null },
+  e: EventLike & { externalLink?: string | null },
+  alsoName?: string,
+): string | null {
+  if (stripRescheduleMarker(probe.name) === null && (!alsoName || stripRescheduleMarker(alsoName) === null)) return null;
+  const u = normalizeEventUrl(probe.externalLink);
+  if (!u || u !== normalizeEventUrl(e.externalLink)) return null;
+  const v = venueKey(probe);
+  if (v !== venueKey(e) || isVagueForIdentity(v)) return null;
+  if (isMultiDay(probe) || isMultiDay(e) || datesOverlap(probe, e, 0)) return null;
+  return `rescheduled: same source page (${u}), same venue (${v}), ${day(e.date)} → ${day(probe.date)}`;
+}
+
 const endDay = (e: Dated) => day(e.endDate || e.date);
 const sameDays = (a: Dated, b: Dated) => day(a.date) === day(b.date) && endDay(a) === endDay(b);
 const startTime = (e: Dated) => (/T(\d{2}:\d{2})/.exec(e.date)?.[1] ?? null);

@@ -7,6 +7,70 @@ impressions / pos 9.3 over 28 days (prev 28: 191 / 10,293 / 16.9);
 subscribers 56 active (34 EN, 22 PT), ~1.4 net/week; signups by page: none
 recorded yet (tracking started today).
 
+## 2026-11-18 — Source sweep moves a rescheduled show instead of adding a copy (#47)
+- Run 09:30 UTC Wed, outside the freeze (normal day; push is in the repo
+  now, site part goes live with the 21:00 flush). Not Mon/Tue: no guide
+  re-check.
+- Live check: /api/version aaa521e (last night's flush, includes 9ed81db).
+  **Health ok: true**, no failing checks.
+- Metrics (`metrics/2026-11-18.json`): 878 clicks / 35,355 impr / pos 10.05
+  over 28d (yesterday 838 / 33,576; prev 28d 318 / 14,304). Last 7d 347
+  clicks vs 348, impressions 13,193 vs 13,326, CTR 2.6% vs 2.6%, pos 9.1 vs
+  9.4: flat week. GA4 7d 155 users / 180 sessions / 252 PV (prev 129 / 157 /
+  369); 89 organic, 33 organic social, 32 AI assistant, 22 direct; `sign_up`
+  4. Subscribers 76 (11-12, next count tomorrow). Signups attributed 28d: 28
+  (none new). Instagram 27 (24 a week ago).
+- Results due: none today (next: 11-23 coffee guide merge, 11-24 Adiel).
+  Low-CTR list unchanged in kind: Christmas lights PT (fixed 11-16, measures
+  11-30), Marina Herlop + Bate Papo com Theo (#39, 12-05), Jack and Jack is
+  past.
+- Why: backlog #47, owner OK'd 11-17. The sweep re-read the Shotgun page of
+  our 7 Nov Adiel show after it moved and wrote "Nova Data - Adiel - Jan 22"
+  as a second record, because the dates no longer overlapped.
+- Change (code; scan untouched, sweep only):
+  - `lib/event-identity.ts`: `stripRescheduleMarker` (leading "Nova data /
+    Novas datas / Nova data confirmada / New date / Adiado / Reagendado /
+    Postponed / Rescheduled" followed by a separator or space, or the same
+    word at the end after a dash or in brackets; "The Postponed Wedding" is
+    left alone) and `rescheduledReason`: marker in the page name or the
+    listing title + same normalised source URL (listing hosts count, a
+    Shotgun/BOL event URL is one show; agenda/homepages never) + same
+    canonical venue (not vague) + both one-day + dates not overlapping.
+  - `scripts/source-sweep.ts`: after the page check AND the second check
+    pass, a candidate matching an existing record that way updates that
+    record (`mergeRescheduled`: keeps slug, names, image, links, addedAt,
+    partner ids; takes date, price if the page states one, EN copy and the PT
+    translation written for the new date; lastSeenAt now) and no new record
+    is written. The digest gets a "🗓️ new date: <name> old → new" line, the
+    summary JSON a `rescheduled` list. Everything else in the sweep is as
+    before.
+  - 5 new tests in test-dedupe (markers, the Adiel pair, no-marker / other
+    page / other venue / runs / listing page negatives, merge fields, and
+    no pair among all live records matches).
+- Price backfill (2c): 11 upcoming without a price. New today, all
+  agenda-porto, none states a price, left empty: Rike + Márcio Reis and The
+  Freddie Freeloader Project (Era uma vez em Paris, 21 / 20 Nov), Attention
+  Deficit (Galeria Catapulta, to 26 Nov), Joalharia e Identidade (Tincal
+  Lab; the only € on the page is the max price of the pieces, €150). FC
+  Porto x2 and Ópera para Bebés were checked before.
+- Cancellations (2d): none of the 4 readable pages says Cancelado / Anulado
+  / Adiado. **"As 5 Faces do Perdão"** (Rossandro Klinjey, OCC, 21 Nov),
+  added by this morning's sweep, now 404s on agenda-porto (PT and EN) and no
+  other site lists it. A 404 is not a cancellation notice, so the record
+  stays; re-check tomorrow and remove only if a source says it's cancelled
+  (or the page stays gone and nothing else confirms it, then ask).
+- Partner earnings (2e, Impact API): Fever 10-27 → 11-18 **51 clicks** (+2),
+  still **3 sales, €202.64 in sales, €12.16 payout pending**.
+- Verified: tsc OK; test:dedupe 54 passed (find-duplicates --check
+  unchanged); build OK (6,657 pages), Adiel page still renders "22 Jan
+  2027". Pushed `[defer]`; the sweep server pulls it at 06:00 tomorrow
+  (before the 07:30 freeze block), site part live with tonight's flush.
+- Expect: no second record when a show we list is retitled "Nova data" on
+  its own ticket page; the existing page shows the new date.
+- Measure on: 2026-12-02 (sweep summaries: any `rescheduled` entries and
+  their records; find-duplicates shows no "Nova data" pair).
+- Result:
+
 ## 2026-11-17 — Adiel moved to its new date (2d); #46 sweep; forward scan search effect measured
 - Run 09:30 UTC Tue, outside the freeze. Guide re-check (2b): guidesDue()
   is empty (oldest check 10-31, due 11-30), so no guide work today.

@@ -7,11 +7,11 @@
 
 import assert from 'node:assert/strict';
 import { canonicalVenueSlugFor, venueSlugRedirects, isGenericRoomName, hostVenueName } from '../lib/venues';
-import { aggregatorCopyReason, isSameEvent, normalizeEventUrl, rareTokens, sameEventReason, sameSourcePageReason, sameStartRareWordReason, stripFestivalPrefix } from '../lib/event-identity';
+import { aggregatorCopyReason, isSameEvent, normalizeEventUrl, rareTokens, sameEventReason, sameSourcePageReason, sameStartRareWordReason, stripFestivalPrefix, stripRescheduleMarker, rescheduledReason } from '../lib/event-identity';
 import { composeEventSlug, findExistingEventByIdentity, listEvents, type EventRecord } from '../lib/events';
 import { findDuplicate } from '../lib/forward-scan';
 import { leadKey } from '../lib/forward-leads';
-import { existingMatch } from './source-sweep';
+import { existingMatch, mergeRescheduled } from './source-sweep';
 
 let passed = 0;
 function test(name: string, fn: () => void) {
@@ -416,6 +416,70 @@ test('#44b: source sweep "one title inside the other" rule sees the title behind
   const cand = { source: 'bol' as const, sourceId: '187894', name: 'Porto/Post/Doc 2026 - Cartas de Guerra', date: '2026-11-24T19:15', venue: 'Batalha Centro de Cinema', url: 'https://www.bol.pt/Comprar/Bilhetes/187894-x/', tags: [] };
   assert.equal(existingMatch(cand, [rec])?.slug, 'cartas');
   assert.equal(existingMatch({ ...cand, name: 'Porto/Post/Doc 2026 - Os Continuadores da Revolução' }, [rec]), undefined);
+});
+
+test('#47: stripRescheduleMarker reads leading and trailing markers only', () => {
+  assert.equal(stripRescheduleMarker('Nova Data - Adiel - Jan 22'), 'Adiel - Jan 22');
+  assert.equal(stripRescheduleMarker('NOVA DATA: Adiel'), 'Adiel');
+  assert.equal(stripRescheduleMarker('Nova data confirmada - Moonspell'), 'Moonspell');
+  assert.equal(stripRescheduleMarker('[ADIADO] Moonspell'), 'Moonspell');
+  assert.equal(stripRescheduleMarker('Postponed: The xx'), 'The xx');
+  assert.equal(stripRescheduleMarker('Moonspell (Nova Data)'), 'Moonspell');
+  assert.equal(stripRescheduleMarker('Moonspell - Rescheduled'), 'Moonspell');
+  assert.equal(stripRescheduleMarker('Adiel - Switch'), null);
+  assert.equal(stripRescheduleMarker('The Postponed Wedding'), null);
+  assert.equal(stripRescheduleMarker('Nova Data'), null);
+  assert.equal(stripRescheduleMarker('Novadata Showcase'), null);
+});
+
+const adielOld = { slug: 'adiel-switch-switch-nov-7-2026', name: 'Adiel - Switch', venue: 'Switch', venueSlug: 'switch', date: '2026-11-07T23:00', price: '€10.00–€15.00', priceFrom: 10, currency: 'EUR', category: 'nightlife', description: 'old 7 Nov copy', longDescription: 'old long', descriptionPt: 'pt antigo', longDescriptionPt: 'pt longo antigo', sourceEdition: 'forward-scan', externalLink: 'https://shotgun.live/en/events/adiel-switch', addedAt: '2026-11-01T00:28:31.484Z', lastSeenAt: '2026-11-10T00:00:00Z', image: { url: 'https://i.imgur.com/asGJlel.jpeg', credit: 'x' } } as EventRecord;
+const adielNew = { name: 'Nova Data - Adiel - Jan 22', venue: 'Switch', date: '2027-01-22T23:00', externalLink: 'https://shotgun.live/en/events/adiel-switch' };
+
+test('#47: the retitled Shotgun page of a moved show is that show (Adiel, 2026-11-17)', () => {
+  assert.match(rescheduledReason(adielNew, adielOld) ?? '', /rescheduled/);
+  // marker only in the listing title, page reads the plain name
+  assert.match(rescheduledReason({ ...adielNew, name: 'Adiel' }, adielOld, 'Nova Data - Adiel - Jan 22') ?? '', /rescheduled/);
+  // the ordinary rules do not see it (dates far apart), which is why #47 exists
+  assert.equal(existingMatch({ source: 'shotgun' as const, sourceId: 'adiel-switch', name: adielNew.name, date: adielNew.date, venue: 'Switch', url: adielNew.externalLink, tags: [] }, [adielOld]), undefined);
+});
+
+test('#47: no marker, other page, other venue, runs or same dates are not a reschedule', () => {
+  assert.equal(rescheduledReason({ ...adielNew, name: 'Adiel - Jan 22' }, adielOld), null);
+  assert.equal(rescheduledReason({ ...adielNew, externalLink: 'https://shotgun.live/en/events/adiel-maus-habitos' }, adielOld), null);
+  assert.equal(rescheduledReason({ ...adielNew, externalLink: undefined }, adielOld), null);
+  assert.equal(rescheduledReason({ ...adielNew, venue: 'Maus Hábitos' }, adielOld), null);
+  assert.equal(rescheduledReason({ ...adielNew, date: '2026-11-07T23:00' }, adielOld), null);
+  assert.equal(rescheduledReason({ ...adielNew, endDate: '2027-01-24' }, adielOld), null);
+  // agenda/listing pages never identify a show
+  const listing = { ...adielOld, externalLink: 'https://www.bol.pt/agenda' };
+  assert.equal(rescheduledReason({ ...adielNew, externalLink: 'https://www.bol.pt/agenda' }, listing), null);
+});
+
+test('#47: mergeRescheduled keeps slug, names, image and links; takes date, price and copy', () => {
+  const fresh = { ...adielOld, slug: 'nova-data-adiel-jan-22-switch-jan-22-2027', name: 'Nova Data - Adiel - Jan 22', date: '2027-01-22T23:00', price: '€12', priceFrom: 12, currency: 'EUR', description: 'new 22 Jan copy', longDescription: 'new long', descriptionPt: 'pt novo', longDescriptionPt: 'pt longo novo', namePt: 'Nova Data - Adiel', image: { url: 'https://other', credit: 'y' }, addedAt: '2026-11-18T06:00:00Z' } as EventRecord;
+  const m = mergeRescheduled(adielOld, fresh, new Date('2026-11-18T06:01:00Z'));
+  assert.equal(m.slug, adielOld.slug);
+  assert.equal(m.name, 'Adiel - Switch');
+  assert.equal(m.namePt, undefined);
+  assert.equal(m.image?.url, adielOld.image?.url);
+  assert.equal(m.addedAt, adielOld.addedAt);
+  assert.equal(m.date, '2027-01-22T23:00');
+  assert.equal(m.priceFrom, 12);
+  assert.equal(m.description, 'new 22 Jan copy');
+  assert.equal(m.descriptionPt, 'pt novo');
+  assert.equal(m.lastSeenAt, '2026-11-18T06:01:00.000Z');
+  assert.equal('endDate' in m, false);
+  // page without a price keeps the old one
+  const noPrice = mergeRescheduled(adielOld, { ...fresh, price: undefined, priceFrom: undefined, currency: undefined });
+  assert.equal(noPrice.price, adielOld.price);
+  assert.equal(noPrice.priceFrom, 10);
+});
+
+test('#47: no live record pair is a reschedule (nothing merged by accident)', () => {
+  const live = listEvents();
+  const hits: string[] = [];
+  for (const a of live) for (const b of live) if (a !== b && rescheduledReason(a, b) !== null) hits.push(`${a.slug} ~ ${b.slug}`);
+  assert.deepEqual(hits, []);
 });
 
 console.log(`ok — ${passed} dedupe tests passed`);
