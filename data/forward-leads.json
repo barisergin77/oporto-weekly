@@ -290,19 +290,6 @@
       "resolvedAt": "2026-10-31T08:32:37.308Z"
     },
     {
-      "name": "Les Ballets Trockadero de Monte Carlo",
-      "date": "2026-11-17",
-      "venue": "Coliseu Porto Ageas",
-      "note": "21:00; dance",
-      "source": "coliseu-newsletter-2026-10",
-      "addedAt": "2026-11-01T05:00:47Z",
-      "status": "done",
-      "eventSlug": "les-ballets-trockadero-de-monte-carlo-coliseu-porto-ageas-nov-17-2026",
-      "reason": "already listed",
-      "lastTriedAt": "2026-11-01T08:32:02.940Z",
-      "resolvedAt": "2026-11-01T08:32:02.940Z"
-    },
-    {
       "name": "Bate Papo com Theodoro",
       "date": "2026-11-18",
       "venue": "Coliseu Porto Ageas",
@@ -475,19 +462,6 @@
       "resolvedAt": "2026-11-11T08:31:37.139Z"
     },
     {
-      "name": "Inauguração da exposição novobanco Revelação 2026. Laura Palma: Where the Flowers Bloom",
-      "date": "2026-11-17",
-      "venue": "Serralves",
-      "note": "22:00, Galeria Contemporânea do Museu de Serralves, free entry; opening of photography exhibition by this year's novobanco Revelação winner, curated by Ricardo Nicolau",
-      "source": "serralves-newsletter-2026-11",
-      "addedAt": "2026-11-12T05:00:19Z",
-      "status": "rejected",
-      "attempts": 3,
-      "reason": "not an organiser/venue/ticketing page (https://iporto.amp.pt/en/eventos/laura-palma-where-the-flowers-bloom/)",
-      "lastTriedAt": "2026-11-14T13:56:37.008Z",
-      "resolvedAt": "2026-11-14T13:56:37.008Z"
-    },
-    {
       "name": "You Can See Everything – Nathan Fielder & Lance Oppenheim",
       "date": "2026-11-16",
       "endDate": "2026-11-18",
@@ -522,9 +496,9 @@
       "source": "agenda-porto-newsletter-2026-11",
       "addedAt": "2026-11-17T05:00:31Z",
       "status": "pending",
-      "attempts": 1,
+      "attempts": 2,
       "reason": "not an organiser/venue/ticketing page (https://www.agenda-porto.pt/evento/bosque-da-noite-rasgar-um-ceu-sem-sol-e-conto-gotico/)",
-      "lastTriedAt": "2026-11-17T16:40:30.951Z"
+      "lastTriedAt": "2026-11-18T16:10:04.449Z"
     },
     {
       "name": "Porto/Post/Doc: Film & Media Festival",
@@ -535,17 +509,9 @@
       "source": "agenda-porto-newsletter-2026-11",
       "addedAt": "2026-11-17T05:00:31Z",
       "status": "pending",
-      "attempts": 1,
-      "reason": "page does not confirm the event (https://www.agenda-porto.pt/ciclo/portopostdoc-film-andamp-media-festival-1762174264544/)",
-      "lastTriedAt": "2026-11-17T16:40:30.951Z"
-    },
-    {
-      "name": "Leituras no Mosteiro",
-      "date": "2026-11-17",
-      "venue": "Mosteiro de São Bento da Vitória",
-      "note": "19:00. Read-aloud session of contemporary Portuguese drama with choreographer and author Lígia Soares. This season's theme is repertoire.",
-      "source": "agenda-porto-newsletter-2026-11",
-      "addedAt": "2026-11-17T05:00:31Z"
+      "attempts": 2,
+      "reason": "not an organiser/venue/ticketing page (https://www.agenda-porto.pt/ciclo/portopostdoc-film-andamp-media-festival-1762174264544/)",
+      "lastTriedAt": "2026-11-18T16:10:04.449Z"
     },
     {
       "name": "Trilogia Cadela Força – Capítulo II: The Brotherhood, de Carolina Bianchi Y Cara de Cavalo",
@@ -569,9 +535,9 @@
       "source": "agenda-porto-newsletter-2026-11",
       "addedAt": "2026-11-17T05:00:31Z",
       "status": "pending",
-      "attempts": 1,
+      "attempts": 2,
       "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
-      "lastTriedAt": "2026-11-17T16:40:30.951Z"
+      "lastTriedAt": "2026-11-18T16:10:04.449Z"
     },
     {
       "name": "Pequenos Construtores, Grandes Navegações #2",
@@ -579,7 +545,11 @@
       "venue": "Casa do Infante",
       "note": "11:00. Family workshop led by Gonçalo Fonseca: build small boats from popsicle and coffee sticks, inspired by the city's maritime history.",
       "source": "agenda-porto-newsletter-2026-11",
-      "addedAt": "2026-11-17T05:00:31Z"
+      "addedAt": "2026-11-17T05:00:31Z",
+      "status": "done",
+      "eventSlug": "oficina-para-familias-pequenos-construtores-grandes-navegacoes-2-casa-do-infante-nov-21-2026",
+      "lastTriedAt": "2026-11-18T16:10:04.449Z",
+      "resolvedAt": "2026-11-18T16:10:04.449Z"
     },
     {
       "name": "O Rasto da Maresia",
@@ -589,9 +559,9 @@
       "source": "agenda-porto-newsletter-2026-11",
       "addedAt": "2026-11-17T05:00:31Z",
       "status": "pending",
-      "attempts": 1,
+      "attempts": 2,
       "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
-      "lastTriedAt": "2026-11-17T16:40:30.951Z"
+      "lastTriedAt": "2026-11-18T16:10:04.449Z"
     },
     {
       "name": "Andrea Arnold Retrospective: Milk + Red Road",

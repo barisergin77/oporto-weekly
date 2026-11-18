@@ -1,0 +1,26 @@
+{
+  "slug": "visitas-guiadas-tnsj-2026-teatro-nacional-sao-joao-nov-20-2026",
+  "name": "Visitas Guiadas TNSJ | 2026",
+  "date": "2026-11-20T12:30",
+  "endDate": "2026-12-31",
+  "venue": "Teatro Nacional São João",
+  "venueSlug": "teatro-nacional-sao-joao",
+  "price": "10,00€",
+  "priceFrom": 10,
+  "currency": "EUR",
+  "category": "art",
+  "description": "Guided tours of Teatro Nacional São João take visitors through the building designed by Marques da Silva, from social areas and the audience hall to the technical backstage.",
+  "longDescription": "Teatro Nacional São João runs guided visits through its historical building in Praça da Batalha. The 60-minute tour explores the architecture and history of the venue designed by Marques da Silva, taking visitors from the public rooms and the main stalls through to the backstage and technical areas.\n\nSessions include audioguides in English, French, and Spanish, as well as a videoguide in Portuguese Sign Language. Tickets cost 10,00€.",
+  "sourceEdition": "forward-scan",
+  "externalLink": "https://www.bol.pt/Comprar/Bilhetes/166994-visitas_guiadas_tnsj_2026-teatro_nacional_sao_joao/",
+  "pickCandidate": false,
+  "addedAt": "2026-11-18T16:09:44.838Z",
+  "lastSeenAt": "2026-11-18T16:09:44.838Z",
+  "descriptionPt": "As visitas guiadas ao Teatro Nacional São João percorrem o edifício desenhado por Marques da Silva, das zonas sociais e da sala de espetáculos até aos bastidores técnicos.",
+  "longDescriptionPt": "O Teatro Nacional São João organiza visitas guiadas pelo seu edifício histórico na Praça da Batalha. O percurso de 60 minutos explora a arquitetura e a história do espaço projetado por Marques da Silva, levando o público pelas salas nobres e pela plateia até às áreas técnicas e aos bastidores.\n\nAs sessões incluem audioguias em inglês, francês e espanhol, além de um videoguias em Língua Gestual Portuguesa. Os bilhetes custam 10,00€.",
+  "image": {
+    "url": "https://i.imgur.com/osbBYHV.jpeg",
+    "credit": "Photo: BOL",
+    "sourceUrl": "https://www.bol.pt/Comprar/Bilhetes/166994-visitas_guiadas_tnsj_2026-teatro_nacional_sao_joao/"
+  }
+}
