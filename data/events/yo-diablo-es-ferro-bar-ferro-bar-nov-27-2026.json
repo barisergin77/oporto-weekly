@@ -1,0 +1,25 @@
+{
+  "slug": "yo-diablo-es-ferro-bar-ferro-bar-nov-27-2026",
+  "name": "YO DIABLO (Es) - Ferro Bar",
+  "date": "2026-11-27T22:00",
+  "venue": "Ferro Bar",
+  "venueSlug": "ferro-bar",
+  "price": "€7",
+  "priceFrom": 7,
+  "currency": "EUR",
+  "category": "music",
+  "description": "Spanish act YO DIABLO performs live at Ferro Bar in Porto on 27 November 2026.",
+  "longDescription": "Spanish project YO DIABLO plays a headline show at Ferro Bar on 27 November 2026. The performance begins at 22:00 and runs for approximately 60 minutes without an interval.\n\nThe venue is located at Rua da Madeira, 84, close to São Bento in central Porto. General admission tickets cost 7 euros, and the event is rated for attendees aged 12 and over.",
+  "sourceEdition": "forward-scan",
+  "externalLink": "https://www.bol.pt/Comprar/Bilhetes/189310-yo_diablo_es_ferro_bar-ferro_bar/",
+  "pickCandidate": true,
+  "addedAt": "2026-11-18T06:01:14.061Z",
+  "lastSeenAt": "2026-11-18T06:01:14.061Z",
+  "descriptionPt": "O projeto espanhol YO DIABLO atua ao vivo no Ferro Bar, no Porto, a 27 de novembro de 2026.",
+  "longDescriptionPt": "O projeto espanhol YO DIABLO atua em nome próprio no Ferro Bar a 27 de novembro de 2026. O concerto começa às 22:00 e dura cerca de 60 minutos, sem intervalo.\n\nO espaço fica na Rua da Madeira, 84, perto de São Bento, na baixa do Porto. Os bilhetes gerais custam 7 euros e a classificação etária é para maiores de 12 anos.",
+  "image": {
+    "url": "https://i.imgur.com/nXOO4cf.jpeg",
+    "credit": "Photo: BOL",
+    "sourceUrl": "https://www.bol.pt/Comprar/Bilhetes/189310-yo_diablo_es_ferro_bar-ferro_bar/"
+  }
+}
