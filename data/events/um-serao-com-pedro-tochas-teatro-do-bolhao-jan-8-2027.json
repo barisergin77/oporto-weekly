@@ -1,0 +1,26 @@
+{
+  "slug": "um-serao-com-pedro-tochas-teatro-do-bolhao-jan-8-2027",
+  "name": "Um Serão com Pedro Tochas",
+  "date": "2027-01-08T21:00",
+  "endDate": "2027-01-09",
+  "venue": "Teatro do Bolhão",
+  "venueSlug": "teatro-do-bolhao",
+  "price": "16€",
+  "priceFrom": 16,
+  "currency": "EUR",
+  "category": "other",
+  "description": "Pedro Tochas performs a solo show combining storytelling, juggling, physical theatre, street theatre, and stand-up comedy at Teatro do Bolhão.",
+  "longDescription": "Pedro Tochas presents a solo performance combining storytelling, juggling, physical theatre, street theatre, and stand-up comedy. The 60-minute performance runs without an interval.\n\nThe show takes place in the auditorium at Teatro do Bolhão on Rua Formosa in Porto on 8 and 9 January 2027, starting at 21:00. Tickets cost 16 euros, and the event is intended for audiences aged 12 and older.",
+  "sourceEdition": "forward-scan",
+  "externalLink": "https://www.bol.pt/Comprar/Bilhetes/189395-um_serao_com_pedro_tochas-teatro_do_bolhao/",
+  "pickCandidate": true,
+  "addedAt": "2026-11-19T06:02:01.957Z",
+  "lastSeenAt": "2026-11-19T06:02:01.957Z",
+  "descriptionPt": "Pedro Tochas apresenta um espetáculo a solo que junta narração de histórias, malabarismo, teatro físico, teatro de rua e comédia de stand-up no Teatro do Bolhão.",
+  "longDescriptionPt": "Pedro Tochas apresenta um espetáculo a solo que combina narração de histórias, malabarismo, teatro físico, teatro de rua e comédia de stand-up. A atuação dura 60 minutos e não tem intervalo.\n\nO espetáculo sobe ao palco do auditório do Teatro do Bolhão, na Rua Formosa, no Porto, a 8 e 9 de janeiro de 2027, às 21:00. Os bilhetes custam 16 euros e a classificação etária é para maiores de 12 anos.",
+  "image": {
+    "url": "https://i.imgur.com/lbEgXmh.jpeg",
+    "credit": "Photo: BOL",
+    "sourceUrl": "https://www.bol.pt/Comprar/Bilhetes/189395-um_serao_com_pedro_tochas-teatro_do_bolhao/"
+  }
+}
