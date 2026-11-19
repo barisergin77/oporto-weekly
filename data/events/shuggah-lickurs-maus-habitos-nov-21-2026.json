@@ -1,0 +1,25 @@
+{
+  "slug": "shuggah-lickurs-maus-habitos-nov-21-2026",
+  "name": "Shuggah Lickurs",
+  "date": "2026-11-21T23:59",
+  "venue": "Maus Hábitos",
+  "venueSlug": "maus-habitos",
+  "price": "8€",
+  "priceFrom": 8,
+  "currency": "EUR",
+  "category": "nightlife",
+  "description": "Shuggah Lickurs play a DJ set and party at Maus Hábitos in Porto.",
+  "longDescription": "Shuggah Lickurs perform a DJ set at Maus Hábitos on 21 November 2026.\n\nThe party takes place at Rua de Passos Manuel, 178, 4th floor. The event starts at 23:59 and entry is 8€.",
+  "sourceEdition": "forward-scan",
+  "externalLink": "https://www.agenda-porto.pt/evento/261121-shuggah-lickurs/",
+  "pickCandidate": true,
+  "addedAt": "2026-11-19T06:02:52.544Z",
+  "lastSeenAt": "2026-11-19T06:02:52.544Z",
+  "descriptionPt": "Shuggah Lickurs trazem um DJ set e festa ao Maus Hábitos, no Porto.",
+  "longDescriptionPt": "Shuggah Lickurs apresentam um DJ set no Maus Hábitos a 21 de novembro de 2026.\n\nA festa acontece na Rua de Passos Manuel, 178, 4.º andar. Começa às 23:59 e a entrada custa 8€.",
+  "image": {
+    "url": "https://i.imgur.com/3Q0gWUM.jpeg",
+    "credit": "Photo: Agenda-porto",
+    "sourceUrl": "https://www.agenda-porto.pt/evento/261121-shuggah-lickurs/"
+  }
+}
