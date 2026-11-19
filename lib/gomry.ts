@@ -28,15 +28,16 @@ import { compareNames, isVagueVenue, nameTokens } from './event-identity';
 import { canonicalVenueSlug, canonicalVenueSlugFor } from './venues';
 
 /**
- * Paused 2026-10-27 (prices in USD); back on 2026-11-03 (owner): Gomry's pages now
- * show EUR to visitors in Portugal, but the catalog API still returns USD, so we
- * link without quoting Gomry prices (scripts/gomry-events.ts priceText) until it does.
+ * Paused 2026-10-27 (prices in USD); back on 2026-11-03 (owner). Since 2026-11-19 the catalog
+ * API returns EUR for Portuguese events (Faris), so priceText() quotes a price whenever
+ * Gomry provides a "from" price.
  */
 export const GOMRY_ENABLED = true;
 
 export const GOMRY_REF = 'Pi2YQafpuFtB';
-/** Organizer referral landing (Gomry home with our ref). */
-export const GOMRY_ORGANIZER_URL = `https://www.gomry.com/?ref=${GOMRY_REF}`;
+/** Organizer referral: Gomry's create-event page with our ORGANIZER ref (20% of platform fees on
+ *  sign-ups; owner 2026-10-30). Reader ticket links keep GOMRY_REF. */
+export const GOMRY_ORGANIZER_URL = 'https://gomry.com/events/create?ref=oportoweekly-8afb';
 
 export const ORGANIZER_CTA = {
   en: 'Organising this event? Sell tickets online with Gomry: lower fees than the big platforms →',

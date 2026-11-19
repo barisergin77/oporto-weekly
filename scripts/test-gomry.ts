@@ -41,7 +41,7 @@ test('tracked URL carries our ref, drops utm and is idempotent', () => {
   const t = gomryTracked('https://www.gomry.com/event/Porto-vs-Estoril-Praia-384lrsJDvWQG1KOtUqXt?utm_medium=web&utm_campaign=catalogApi');
   assert.equal(t, `https://www.gomry.com/event/Porto-vs-Estoril-Praia-384lrsJDvWQG1KOtUqXt?ref=${GOMRY_REF}`);
   assert.equal(gomryTracked(t), t);
-  assert.equal(GOMRY_ORGANIZER_URL, `https://www.gomry.com/?ref=${GOMRY_REF}`);
+  assert.equal(GOMRY_ORGANIZER_URL, 'https://gomry.com/events/create?ref=oportoweekly-8afb');
 });
 test('event id from gomry.com/event URLs only', () => {
   assert.equal(gomryEventId('https://www.gomry.com/event/Porto-vs-Estoril-Praia-384lrsJDvWQG1KOtUqXt?x=1'), '384lrsJDvWQG1KOtUqXt');
