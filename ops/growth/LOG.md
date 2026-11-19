@@ -7,6 +7,50 @@ impressions / pos 9.3 over 28 days (prev 28: 191 / 10,293 / 16.9);
 subscribers 56 active (34 EN, 22 PT), ~1.4 net/week; signups by page: none
 recorded yet (tracking started today).
 
+## 2026-11-19 — Freeze day: observe only
+- Run 09:30 UTC Thu, inside the freeze (Thu 05:00 → 11:00, held until the
+  10:00 backstop confirms EN, PT and Instagram sent). No code, no data edits,
+  no deploy. Not Mon/Tue, so no guide re-check. No price backfill today (data
+  edits wait for tomorrow).
+- Live check: /api/version 2524c3d (02:15 flush), includes yesterday's
+  1c2b469 (#47). **Health ok: true** (9/9, GitHub token 44 days left).
+  Noted: 195c931 (Gomry organizer referral link, `[defer]`, 07:15 UTC) was
+  pushed by another session inside the freeze; it only goes live with
+  tonight's 21:00 flush, after the freeze.
+- Pipeline: `/api/cron/status` has no `november-19-…` entry yet at 09:31
+  (11-12 research finished 10:01, all steps by 10:11). Next run confirms
+  today's send there.
+- Metrics (`metrics/2026-11-19.json`): 915 clicks / 36,884 impr / pos 9.97
+  over 28d (yesterday 878 / 35,355; prev 28d 322 / 14,369). Last 7d 360
+  clicks vs 340, impressions 13,562 vs 13,278, CTR 2.65% vs 2.56%, pos 9.1
+  vs 9.5. GA4 7d 157 users / 177 sessions / 266 PV (prev 134 / 167 / 369);
+  95 organic, 31 AI assistant, 28 organic social, 20 direct; `sign_up` 6.
+  Subscribers 76 (11-12; today's count comes with the send). Signups
+  attributed 28d: **32** (5 new on 11-18 after yesterday's run: three
+  from /, two from /porto-events/november-2026; one older signup left the
+  28-day window). Best signup day so far. Instagram 28
+  (24 a week ago).
+- Low-CTR list: "marina herlop porto" 151 / 0.7%, "bate papo com theo" (past
+  since 11-18), Christmas lights PT (fixed 11-16, measures 11-30): all
+  already handled or waiting on #39 (12-05). Nothing new.
+- Results due: none today (next: 11-23 coffee guide merge, 11-24 Adiel).
+- Partner earnings (2e, Impact API): Fever 10-27 → 11-19 **53 clicks**
+  (+2), still **3 sales, €202.64 in sales, €12.16 payout pending**. The third
+  sale (11-12, €31.50, payout €1.89) also shows a 2028-12-03 locking date,
+  like the 11-01 one.
+- Cancellations (2d), read-only: "As 5 Faces do Perdão" (OCC, Sat 21 Nov,
+  source agenda-porto `alma-talks-com-rossandro-klinjey`) still 404s, second
+  day. One web search finds no Porto listing at all (only a January talk of
+  the same name in Fortaleza). No source says cancelled, so the record stays
+  for now; it may be in today's edition.
+- Change: none (freeze).
+- Next run (Fri 11-20): confirm today's send (EN, PT, Instagram) in
+  /api/cron/status; re-check the OCC talk; price backfill (2c); January
+  2027 hub (#40, check 11-20); then pick from the backlog.
+- Needs owner: "As 5 Faces do Perdão" (21 Nov): its only source page has
+  been gone two days and nothing else lists it. OK to remove the record
+  (301 to the weekend page) in tomorrow's run if it is still gone?
+
 ## 2026-11-18 — Source sweep moves a rescheduled show instead of adding a copy (#47)
 - Run 09:30 UTC Wed, outside the freeze (normal day; push is in the repo
   now, site part goes live with the 21:00 flush). Not Mon/Tue: no guide
