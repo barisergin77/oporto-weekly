@@ -128,19 +128,6 @@
       "resolvedAt": "2026-10-26T09:31:57.768Z"
     },
     {
-      "name": "Svaneborg Kardyb + Vega Trails",
-      "date": "2026-11-18T21:00",
-      "venue": "Casa da Música",
-      "url": "https://casadamusica.com/event/svaneborg-kardyb-vega-trails/?selected_session=50695",
-      "note": "Sala 2; Misty Fest.",
-      "source": "casa-da-musica-newsletter-2026-11",
-      "addedAt": "2026-10-25T12:00:00Z",
-      "status": "done",
-      "eventSlug": "svaneborg-kardyb-vega-trails-casa-da-musica-nov-18-2026",
-      "lastTriedAt": "2026-10-30T08:32:23.806Z",
-      "resolvedAt": "2026-10-30T08:32:23.806Z"
-    },
-    {
       "name": "Niklas Paschburg",
       "date": "2026-11-20T21:30",
       "venue": "Casa da Música",
@@ -288,19 +275,6 @@
       "reason": "already listed",
       "lastTriedAt": "2026-10-31T08:32:37.308Z",
       "resolvedAt": "2026-10-31T08:32:37.308Z"
-    },
-    {
-      "name": "Bate Papo com Theodoro",
-      "date": "2026-11-18",
-      "venue": "Coliseu Porto Ageas",
-      "note": "21:30; talk show",
-      "source": "coliseu-newsletter-2026-10",
-      "addedAt": "2026-11-01T05:00:47Z",
-      "status": "rejected",
-      "attempts": 3,
-      "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
-      "lastTriedAt": "2026-11-03T08:32:38.400Z",
-      "resolvedAt": "2026-11-03T08:32:38.400Z"
     },
     {
       "name": "RUBEL – Beleza. Rubel & Violão",
@@ -462,20 +436,6 @@
       "resolvedAt": "2026-11-11T08:31:37.139Z"
     },
     {
-      "name": "You Can See Everything – Nathan Fielder & Lance Oppenheim",
-      "date": "2026-11-16",
-      "endDate": "2026-11-18",
-      "venue": "Teatro Campo Alegre",
-      "note": "Medeia Filmes cinema screenings, 16–18 Nov; ticketed",
-      "source": "teatro-municipal-do-porto-newsletter-2026-11",
-      "addedAt": "2026-11-12T05:00:36Z",
-      "status": "done",
-      "eventSlug": "you-can-see-everything-teatro-campo-alegre-nov-12-2026",
-      "reason": "already listed",
-      "lastTriedAt": "2026-11-13T15:05:36.512Z",
-      "resolvedAt": "2026-11-13T15:05:36.512Z"
-    },
-    {
       "name": "David Fonseca",
       "date": "2026-11-21",
       "venue": "Super Bock Arena",
@@ -495,10 +455,11 @@
       "note": "17:00 opening of three new exhibitions: Leonor Parda (video, sculpture, sound), Basel Abbas & Ruanne Abou-Rahme (immersive multimedia installations), and Isabel Carvalho's first retrospective.",
       "source": "agenda-porto-newsletter-2026-11",
       "addedAt": "2026-11-17T05:00:31Z",
-      "status": "pending",
-      "attempts": 2,
+      "status": "rejected",
+      "attempts": 3,
       "reason": "not an organiser/venue/ticketing page (https://www.agenda-porto.pt/evento/bosque-da-noite-rasgar-um-ceu-sem-sol-e-conto-gotico/)",
-      "lastTriedAt": "2026-11-18T16:10:04.449Z"
+      "lastTriedAt": "2026-11-19T06:06:50.415Z",
+      "resolvedAt": "2026-11-19T06:06:50.415Z"
     },
     {
       "name": "Porto/Post/Doc: Film & Media Festival",
@@ -508,10 +469,11 @@
       "note": "13th edition: films, concerts, talks and immersive experiences. Opening film is A Cidade e os Mapas.",
       "source": "agenda-porto-newsletter-2026-11",
       "addedAt": "2026-11-17T05:00:31Z",
-      "status": "pending",
-      "attempts": 2,
+      "status": "rejected",
+      "attempts": 3,
       "reason": "not an organiser/venue/ticketing page (https://www.agenda-porto.pt/ciclo/portopostdoc-film-andamp-media-festival-1762174264544/)",
-      "lastTriedAt": "2026-11-18T16:10:04.449Z"
+      "lastTriedAt": "2026-11-19T06:06:50.415Z",
+      "resolvedAt": "2026-11-19T06:06:50.415Z"
     },
     {
       "name": "Trilogia Cadela Força – Capítulo II: The Brotherhood, de Carolina Bianchi Y Cara de Cavalo",
@@ -534,10 +496,11 @@
       "note": "10:00. 4th UPFit Dance Lab: hands-on contemporary dance session led by Marta Aguilar where participants co-create a choreography.",
       "source": "agenda-porto-newsletter-2026-11",
       "addedAt": "2026-11-17T05:00:31Z",
-      "status": "pending",
-      "attempts": 2,
+      "status": "rejected",
+      "attempts": 3,
       "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
-      "lastTriedAt": "2026-11-18T16:10:04.449Z"
+      "lastTriedAt": "2026-11-19T06:06:50.415Z",
+      "resolvedAt": "2026-11-19T06:06:50.415Z"
     },
     {
       "name": "Pequenos Construtores, Grandes Navegações #2",
@@ -558,34 +521,11 @@
       "note": "14:30. Literary walk through Foz (Jardim do Passeio Alegre, Cantareira, Pérgola) with on-site readings, led by Bibliotecas do Porto staff.",
       "source": "agenda-porto-newsletter-2026-11",
       "addedAt": "2026-11-17T05:00:31Z",
-      "status": "pending",
-      "attempts": 2,
+      "status": "rejected",
+      "attempts": 3,
       "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
-      "lastTriedAt": "2026-11-18T16:10:04.449Z"
-    },
-    {
-      "name": "Andrea Arnold Retrospective: Milk + Red Road",
-      "date": "2026-11-18",
-      "venue": "Batalha Centro de Cinema",
-      "note": "3.15pm. Second screening in the Andrea Arnold retrospective: the short Milk (UK, 1998, 10') followed by Red Road (UK/Denmark, 2006, 113'). Ticketed.",
-      "source": "batalha-newsletter-2026-11",
-      "addedAt": "2026-11-17T05:00:44Z",
-      "status": "pending",
-      "attempts": 1,
-      "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
-      "lastTriedAt": "2026-11-17T16:40:30.951Z"
-    },
-    {
-      "name": "Seleção Nacional — Telúricas: Bread",
-      "date": "2026-11-18",
-      "venue": "Batalha Centro de Cinema",
-      "note": "7.15pm, English subtitles. A programme of Portuguese documentaries about bread: Pano Cru, Festa, Trabalho e Pão em Grijó de Parada, Domesticar Há Milénios and Manoel de Oliveira's Bread (1963), plus the music video Aigo. Ticketed.",
-      "source": "batalha-newsletter-2026-11",
-      "addedAt": "2026-11-17T05:00:44Z",
-      "status": "pending",
-      "attempts": 1,
-      "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
-      "lastTriedAt": "2026-11-17T16:40:30.951Z"
+      "lastTriedAt": "2026-11-19T06:06:50.415Z",
+      "resolvedAt": "2026-11-19T06:06:50.415Z"
     },
     {
       "name": "Mercado de Natal de Serralves",
@@ -594,7 +534,11 @@
       "venue": "Serralves",
       "note": "Parque de Serralves; free entry; Christmas market with 55 exhibitors (design, decor, gifts, gourmet) plus free workshops, shows and a concert for all ages; full programme TBA",
       "source": "serralves-newsletter-2026-11",
-      "addedAt": "2026-11-19T05:00:19Z"
+      "addedAt": "2026-11-19T05:00:19Z",
+      "status": "pending",
+      "attempts": 1,
+      "reason": "date 2025-12-06 outside window",
+      "lastTriedAt": "2026-11-19T06:06:50.415Z"
     },
     {
       "name": "boca-rota",
@@ -602,7 +546,12 @@
       "venue": "Teatro Campo Alegre",
       "note": "19:30; Sofia Bodas de Carvalho and José Costa set poetry to guitar, double bass and percussion; ages 12+; ticketed",
       "source": "teatro-municipal-do-porto-newsletter-2026-11",
-      "addedAt": "2026-11-19T05:00:37Z"
+      "addedAt": "2026-11-19T05:00:37Z",
+      "status": "done",
+      "eventSlug": "boca-rota-teatro-campo-alegre-nov-19-2026",
+      "reason": "already listed",
+      "lastTriedAt": "2026-11-19T06:06:50.415Z",
+      "resolvedAt": "2026-11-19T06:06:50.415Z"
     },
     {
       "name": "Os Christophers, de Steven Soderbergh",
@@ -611,7 +560,11 @@
       "venue": "Teatro Campo Alegre",
       "note": "Film screenings (Medeia Filmes) of Steven Soderbergh's Os Christophers, 19–25 Nov; ticketed",
       "source": "teatro-municipal-do-porto-newsletter-2026-11",
-      "addedAt": "2026-11-19T05:00:37Z"
+      "addedAt": "2026-11-19T05:00:37Z",
+      "status": "pending",
+      "attempts": 1,
+      "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
+      "lastTriedAt": "2026-11-19T06:06:50.415Z"
     }
   ]
 }

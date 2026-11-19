@@ -1,0 +1,25 @@
+{
+  "slug": "melodias-celebres-casa-da-musica-dec-12-2026",
+  "name": "Melodias Célebres",
+  "date": "2026-12-12T18:00",
+  "venue": "Casa da Música",
+  "venueSlug": "casa-da-musica",
+  "price": "€ 22,00",
+  "priceFrom": 22,
+  "currency": "EUR",
+  "category": "music",
+  "description": "Coro Casa da Música and Coro Infantil Casa da Música perform choral transcriptions of famous piano works and Christmas pieces in Sala Suggia.",
+  "longDescription": "Coro Casa da Música and Coro Infantil Casa da Música present a concert focused on the art of transcription, under musical direction by Krista Audere and Raquel Couto. The programme features instrumental pieces reimagined for choir, including Heitor Villa-Lobos arrangements of famous piano works alongside adaptations of compositions by Gustav Mahler, Franz Liszt, and Robert Schumann.\n\nThe concert also bridges past and present with seasonal repertoire for the Christmas period, including works by Francis Poulenc, Javier Busto, Bernat Vivancos, and Michael Praetorius.\n\nThe performance takes place in Sala Suggia on Saturday, 12 December 2026 at 18:00. General admission tickets cost €22, with discounts available for youth, seniors, students, and other eligible categories.",
+  "sourceEdition": "forward-scan",
+  "externalLink": "https://casadamusica.com/event/melodias-celebres/",
+  "pickCandidate": true,
+  "addedAt": "2026-11-19T06:06:46.761Z",
+  "lastSeenAt": "2026-11-19T06:06:46.761Z",
+  "descriptionPt": "O Coro Casa da Música e o Coro Infantil Casa da Música interpretam transcrições corais de obras célebres para piano e peças natalícias na Sala Suggia.",
+  "longDescriptionPt": "O Coro Casa da Música e o Coro Infantil Casa da Música apresentam um concerto dedicado à arte da transcrição, sob a direção musical de Krista Audere e Raquel Couto. O programa reúne peças instrumentais adaptadas para coro, incluindo arranjos de Heitor Villa-Lobos para obras célebres de piano, a par de adaptações de composições de Gustav Mahler, Franz Liszt e Robert Schumann.\n\nO concerto cruza também o passado e o presente com repertório da época natalícia, incluindo peças de Francis Poulenc, Javier Busto, Bernat Vivancos e Michael Praetorius.\n\nO espetáculo realiza-se na Sala Suggia no sábado, 12 de dezembro de 2026, às 18:00. Os bilhetes gerais custam 22 €, com descontos disponíveis para jovens, seniores, estudantes e outros beneficiários abrangidos.",
+  "image": {
+    "url": "https://i.imgur.com/rvbiDzs.jpeg",
+    "credit": "Photo: Casa da Música",
+    "sourceUrl": "https://casadamusica.com/event/melodias-celebres/"
+  }
+}

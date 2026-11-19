@@ -1,0 +1,26 @@
+{
+  "slug": "tempo-de-natal-casa-da-musica-dec-12-2026",
+  "name": "Tempo de Natal",
+  "date": "2026-12-12T18:00",
+  "endDate": "2026-12-22",
+  "venue": "Casa da Música",
+  "venueSlug": "casa-da-musica",
+  "price": "€22,00",
+  "priceFrom": 22,
+  "currency": "EUR",
+  "category": "music",
+  "description": "Tempo de Natal is a Christmas music cycle at Casa da Música featuring concerts by resident choirs and orchestras.",
+  "longDescription": "Tempo de Natal runs from 12 to 22 December at Casa da Música in Porto. The festival programme includes performances by Coro Casa da Música, Coro Infantil Casa da Música, Orquestra Barroca Casa da Música, and Orquestra Sinfónica do Porto Casa da Música.\n\nThe series opens on 12 December at 18:00 with Melodias Célebres, presenting choral arrangements of well-known piano works by Heitor Villa-Lobos. Later dates feature Tchaikovsky's The Nutcracker with live sand illustrations projected on screen, alongside performances of Johann Sebastian Bach's 1725 Christmas cantata in Sala Suggia. Tickets for individual concerts start from €22.",
+  "sourceEdition": "forward-scan",
+  "externalLink": "https://casadamusica.com/tempo-de-natal-2026/",
+  "pickCandidate": false,
+  "addedAt": "2026-11-19T06:06:46.763Z",
+  "lastSeenAt": "2026-11-19T06:06:46.763Z",
+  "descriptionPt": "Tempo de Natal é um ciclo de música natalícia na Casa da Música com concertos dos coros e orquestras residentes.",
+  "longDescriptionPt": "O Tempo de Natal decorre de 12 a 22 de dezembro na Casa da Música, no Porto. O programa inclui atuações do Coro Casa da Música, do Coro Infantil Casa da Música, da Orquestra Barroca Casa da Música e da Orquestra Sinfónica do Porto Casa da Música.\n\nO ciclo abre a 12 de dezembro, às 18:00, com Melodias Célebres, que apresenta arranjos corais de obras conhecidas para piano de Heitor Villa-Lobos. Mais à frente, o cartaz conta com O Quebra-Nozes de Tchaikovsky acompanhado por ilustrações em areia projetadas ao vivo na tela, além da cantata de Natal de 1725 de Johann Sebastian Bach na Sala Suggia. Os bilhetes para os concertos individuais começam nos 22 €.",
+  "image": {
+    "url": "https://i.imgur.com/j3vRYXQ.jpeg",
+    "credit": "Photo: Casa da Música",
+    "sourceUrl": "https://casadamusica.com/tempo-de-natal-2026/"
+  }
+}
