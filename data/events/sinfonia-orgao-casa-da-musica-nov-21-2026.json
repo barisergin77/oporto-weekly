@@ -11,7 +11,7 @@
   "category": "music",
   "description": "This event features the Orquestra Sinfónica do Porto Casa da Música performing Camille Saint-Saëns' Symphony No. 3 “Organ”, along with works by Ernest Chausson and Franz Liszt. Stefan Blunier conducts, with Jonathan Ayerst on organ.",
   "longDescription": "The Orquestra Sinfónica do Porto Casa da Música presents a program featuring Camille Saint-Saëns' Symphony No. 3 “Organ”, a work that gives the organ a central role within the orchestra. The concert also includes Ernest Chausson's Soir de fête and Franz Liszt's Les Préludes.\n\nStefan Blunier will be the musical director for the performance, and Jonathan Ayerst will play the organ. The event is scheduled for Saturday, November 21, 2026, at 6:00 PM.\n\nThe concert will take place in Sala Suggia at Casa da Música in Porto. Ticket prices range from €26.00 to €30.00, with various discounts available for different groups such as youth, seniors, and students. The recommended age for attendees is over 6 years old.",
-  "sourceEdition": "forward-scan",
+  "sourceEdition": "november-19-25-2026",
   "externalLink": "https://casadamusica.com/event/sinfonia-orgao/?selected_session=44140",
   "pickCandidate": true,
   "addedAt": "2026-10-30T08:32:07.950Z",
@@ -23,5 +23,6 @@
     "credit": "Photo: Casa da Música",
     "sourceUrl": "https://casadamusica.com/event/sinfonia-orgao/?selected_session=44140"
   },
-  "nameEn": null
+  "nameEn": null,
+  "editorPickRank": 3
 }

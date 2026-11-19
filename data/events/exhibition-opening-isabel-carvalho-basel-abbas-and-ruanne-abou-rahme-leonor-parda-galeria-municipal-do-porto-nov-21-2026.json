@@ -8,7 +8,7 @@
   "category": "art",
   "description": "Galeria Municipal do Porto presents the opening of three new exhibitions for its final round in 2026, featuring works by Leonor Parda, Basel Abbas and Ruanne Abou-Rahme, and Isabel Carvalho.",
   "longDescription": "Galeria Municipal do Porto hosts the opening of three new exhibitions on November 21, 2026, from 17:00 to 20:00. Admission is free.\n\nThe exhibitions include \"Nightwood,\" the institutional debut of Leonor Parda, showcasing new works in video, sculpture, and sound. Basel Abbas and Ruanne Abou-Rahme present their Portuguese debut, \"To rupture a sky with no sun,\" with immersive multimedia installations. Isabel Carvalho offers her first retrospective exhibition, \"Gothic Tale,\" bringing together works from her twenty-five-year practice.\n\nThese exhibitions mark the final round of shows for 2026 at the Galeria Municipal do Porto. The venue is located at Rua de D. Manuel II – Jardins do Palácio de Cristal, 4050–329 Porto.",
-  "sourceEdition": "forward-scan",
+  "sourceEdition": "november-19-25-2026",
   "externalLink": "https://galeriamunicipaldoporto.pt/en/event/exhibition-opening-2/",
   "pickCandidate": true,
   "addedAt": "2026-11-02T08:31:55.090Z",
@@ -21,5 +21,6 @@
     "credit": "Photo: Galeriamunicipaldoporto",
     "sourceUrl": "https://galeriamunicipaldoporto.pt/en/event/exhibition-opening-2/"
   },
-  "nameEn": null
+  "nameEn": null,
+  "editorPickRank": 4
 }

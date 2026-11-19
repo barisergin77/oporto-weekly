@@ -10,7 +10,7 @@
   "category": "art",
   "description": "Opening screening of Porto/Post/Doc featuring the debut feature by Alexandra Guimarães and Gonçalo L. Almeida about two different perspectives on Porto.",
   "longDescription": "This opening screening of Porto/Post/Doc presents the debut feature film by Alexandra Guimarães and Gonçalo L. Almeida. The film follows Mazharul \"Akash\" Hoque, a Bangladeshi courier navigating Porto via a delivery platform digital map, and Pedro Figueiredo, an architect and guide who uses old maps to examine urban history outside tourist routes. Though they never cross paths, their journeys reflect a city evolving between labor, tourism, and migration as it readies for São João.\n\nThe feature was made with support from the Working Class Heroes grant, a partnership between Porto/Post/Doc and Filmaporto – Porto Film Commission, supported by Fundação \"la Caixa\" via CaixaForum+.\n\nThe screening takes place at Batalha Centro de Cinema on Praça da Batalha. Tickets cost 5 euros, with discounts available for Cartão Porto holders, and the rating is 12+.",
-  "sourceEdition": "forward-scan",
+  "sourceEdition": "november-19-25-2026",
   "externalLink": "https://www.agenda-porto.pt/evento/ppd-a-cidade-e-os-mapas/",
   "pickCandidate": true,
   "addedAt": "2026-11-13T06:01:36.387Z",
@@ -22,5 +22,6 @@
     "credit": "Photo: Agenda-porto",
     "sourceUrl": "https://www.agenda-porto.pt/evento/ppd-a-cidade-e-os-mapas/"
   },
-  "nameEn": "The City and the Maps, by Alexandra Guimarães and Gonçalo L. Almeida"
+  "nameEn": "The City and the Maps, by Alexandra Guimarães and Gonçalo L. Almeida",
+  "editorPickRank": 1
 }
