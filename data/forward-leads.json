@@ -586,6 +586,32 @@
       "attempts": 1,
       "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
       "lastTriedAt": "2026-11-17T16:40:30.951Z"
+    },
+    {
+      "name": "Mercado de Natal de Serralves",
+      "date": "2026-12-05",
+      "endDate": "2026-12-08",
+      "venue": "Serralves",
+      "note": "Parque de Serralves; free entry; Christmas market with 55 exhibitors (design, decor, gifts, gourmet) plus free workshops, shows and a concert for all ages; full programme TBA",
+      "source": "serralves-newsletter-2026-11",
+      "addedAt": "2026-11-19T05:00:19Z"
+    },
+    {
+      "name": "boca-rota",
+      "date": "2026-11-19",
+      "venue": "Teatro Campo Alegre",
+      "note": "19:30; Sofia Bodas de Carvalho and José Costa set poetry to guitar, double bass and percussion; ages 12+; ticketed",
+      "source": "teatro-municipal-do-porto-newsletter-2026-11",
+      "addedAt": "2026-11-19T05:00:37Z"
+    },
+    {
+      "name": "Os Christophers, de Steven Soderbergh",
+      "date": "2026-11-19",
+      "endDate": "2026-11-25",
+      "venue": "Teatro Campo Alegre",
+      "note": "Film screenings (Medeia Filmes) of Steven Soderbergh's Os Christophers, 19–25 Nov; ticketed",
+      "source": "teatro-municipal-do-porto-newsletter-2026-11",
+      "addedAt": "2026-11-19T05:00:37Z"
     }
   ]
 }
