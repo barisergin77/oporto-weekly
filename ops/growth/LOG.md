@@ -51,7 +51,7 @@ recorded yet (tracking started today).
 - Verified: tsc OK; build OK (7,046 pages). Built titles: EN
   "Klangkuenstler: Outworld · Sat 28 Nov 2026, Super Bock Arena", PT "…
   · sáb 28 nov 2026, Super Bock Arena"; descriptions lead with day, 22:00,
-  venue, €53, then the artist and "Porto". Pushed `[defer]`, live with the
+  venue, €53, then the artist and "Porto". Pushed dec2e6e `[defer]`, live with the
   21:00 flush; next run: live check + send EN and PT Outworld URLs to the
   Indexing API.
 - Expect: "outworld porto" CTR from 2% to 4%+ before the show.
