@@ -1,0 +1,26 @@
+{
+  "slug": "dao-de-alain-gomis-batalha-centro-de-cinema-nov-22-2026",
+  "name": "Dao, de Alain Gomis",
+  "date": "2026-11-22T20:45",
+  "endDate": "2026-11-24",
+  "venue": "Batalha Centro de Cinema",
+  "venueSlug": "batalha-centro-de-cinema",
+  "price": "5€",
+  "priceFrom": 5,
+  "currency": "EUR",
+  "category": "art",
+  "description": "Alain Gomis presents Dao, a film exploring grief, memory, and celebration across generations, screening as part of Porto/Post/Doc.",
+  "longDescription": "Dao, directed by Alain Gomis, screens at Batalha Centro de Cinema as part of the Porto/Post/Doc Film & Media Festival. Set in the suburbs of Paris, the film follows Gloria as she prepares for her daughter's wedding while recalling a ceremony in Guinea-Bissau that consecrated her late father as an ancestor.\n\nThe feature brings together fiction, real experience, and community casting, exploring the connection between mourning and celebration. Sessions are scheduled for 22 November at 20:45 and 24 November at 16:00, with tickets priced at 5€.",
+  "sourceEdition": "forward-scan",
+  "externalLink": "https://www.agenda-porto.pt/evento/ppd-dao/",
+  "pickCandidate": true,
+  "addedAt": "2026-11-20T06:01:47.160Z",
+  "lastSeenAt": "2026-11-20T06:01:47.160Z",
+  "descriptionPt": "Alain Gomis apresenta Dao, filme que explora o luto, a memória e a celebração entre gerações, integrado no Porto/Post/Doc.",
+  "longDescriptionPt": "Dao, realizado por Alain Gomis, é exibido no Batalha Centro de Cinema no âmbito do festival Porto/Post/Doc Film & Media Festival. Rodado nos subúrbios de Paris, o filme acompanha Gloria enquanto prepara o casamento da filha e recorda uma cerimónia na Guiné-Bissau que consagrou o falecido pai como antepassado.\n\nA longa-metragem junta ficção, vivências reais e atores da comunidade, explorando a ligação entre o luto e a celebração. As sessões estão marcadas para 22 de novembro às 20h45 e 24 de novembro às 16h00, com bilhetes a 5€.",
+  "image": {
+    "url": "https://i.imgur.com/dRpgPlM.png",
+    "credit": "Photo: Agenda-porto",
+    "sourceUrl": "https://www.agenda-porto.pt/evento/ppd-dao/"
+  }
+}

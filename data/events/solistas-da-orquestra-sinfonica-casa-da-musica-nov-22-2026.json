@@ -1,0 +1,25 @@
+{
+  "slug": "solistas-da-orquestra-sinfonica-casa-da-musica-nov-22-2026",
+  "name": "Solistas da Orquestra Sinfónica",
+  "date": "2026-11-22T11:00",
+  "venue": "Casa da Música",
+  "venueSlug": "casa-da-musica",
+  "price": "14€",
+  "priceFrom": 14,
+  "currency": "EUR",
+  "category": "music",
+  "description": "Soloists from the Symphony Orchestra present an oboe-centred recital featuring works by Mozart and Benjamin Britten at Casa da Música.",
+  "longDescription": "Part of the Café com Nata concert series, this recital puts the oboe in the spotlight at Casa da Música. Soloist Roberto Henriques performs a score by Mozart originally written for Friedrich Ramm, alongside a challenging piece by Benjamin Britten based on a sixteenth-century fantasy form.\n\nThe concert takes place on 22 November 2026 at 11:00 at Casa da Música on Avenida da Boavista. Tickets cost 14€, and the event is open to audiences aged six and older.",
+  "sourceEdition": "forward-scan",
+  "externalLink": "https://www.agenda-porto.pt/evento/cdm-solistas-da-orquestra-sinfonica/",
+  "pickCandidate": true,
+  "addedAt": "2026-11-20T06:01:15.325Z",
+  "lastSeenAt": "2026-11-20T06:01:15.325Z",
+  "descriptionPt": "Solistas da Orquestra Sinfónica apresentam um recital centrado no oboé, com obras de Mozart e Benjamin Britten, na Casa da Música.",
+  "longDescriptionPt": "Integrado no ciclo Café com Nata, este recital coloca o oboé em destaque na Casa da Música. O solista Roberto Henriques interpreta uma partitura de Mozart, escrita originalmente para Friedrich Ramm, a par de uma peça exigente de Benjamin Britten baseada numa fantasia do século XVI.\n\nO concerto realiza-se a 22 de novembro de 2026, às 11:00, na Casa da Música, na Avenida da Boavista. Os bilhetes custam 14€ e o espetáculo destina-se a maiores de seis anos.",
+  "image": {
+    "url": "https://i.imgur.com/hnLgXwZ.jpeg",
+    "credit": "Photo: Agenda-porto",
+    "sourceUrl": "https://www.agenda-porto.pt/evento/cdm-solistas-da-orquestra-sinfonica/"
+  }
+}

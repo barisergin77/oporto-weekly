@@ -1,0 +1,25 @@
+{
+  "slug": "excitaloprando-bar-of-soap-nov-21-2026",
+  "name": "Excitaloprando",
+  "date": "2026-11-21T22:00",
+  "venue": "Bar of Soap",
+  "venueSlug": "bar-of-soap",
+  "price": "8€",
+  "priceFrom": 8,
+  "currency": "EUR",
+  "category": "nightlife",
+  "description": "Excitaloprando is a performance night celebrating the winner of Miss Drag Lisboa 2026 at Bar of Soap.",
+  "longDescription": "Excitaloprando takes place at Bar of Soap on 21 November 2026, starting at 22:00. The event is a performance night dedicated to celebrating the winner of Miss Drag Lisboa 2026.\n\nThe venue is located at Rua do Bolhão, 132. Entry costs 8€, and attendance is restricted to ages 18 and older.",
+  "sourceEdition": "forward-scan",
+  "externalLink": "https://www.agenda-porto.pt/evento/excitaloprando/",
+  "pickCandidate": true,
+  "addedAt": "2026-11-20T06:01:08.778Z",
+  "lastSeenAt": "2026-11-20T06:01:08.778Z",
+  "descriptionPt": "Excitaloprando é uma noite de performances a celebrar quem venceu o Miss Drag Lisboa 2026, no Bar of Soap.",
+  "longDescriptionPt": "O Excitaloprando acontece no Bar of Soap a 21 de novembro de 2026, a partir das 22:00. O evento junta várias atuações para festejar a vitória no Miss Drag Lisboa 2026.\n\nO espaço fica na Rua do Bolhão, 132. A entrada custa 8€ e o acesso é reservado a maiores de 18 anos.",
+  "image": {
+    "url": "https://i.imgur.com/k9BJaHg.jpeg",
+    "credit": "Photo: Agenda-porto",
+    "sourceUrl": "https://www.agenda-porto.pt/evento/excitaloprando/"
+  }
+}
