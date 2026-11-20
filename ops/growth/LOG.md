@@ -7,6 +7,59 @@ impressions / pos 9.3 over 28 days (prev 28: 191 / 10,293 / 16.9);
 subscribers 56 active (34 EN, 22 PT), ~1.4 net/week; signups by page: none
 recorded yet (tracking started today).
 
+## 2026-11-20 — Outworld page names the artist (#10); 11-19 send confirmed; 86 subscribers
+- Run 09:30 UTC Fri, outside the freeze. Not Mon/Tue, so no guide re-check.
+- Live check: /api/version 09678fa (last night's flush). **Health ok: true**
+  (9/9, GitHub token 43 days left). Yesterday's edition `november-19-25-2026`
+  complete in /api/cron/status: research 10:00, EN web/email, PT web/email,
+  Instagram all done by 10:13 UTC.
+- Metrics (`metrics/2026-11-20.json`): 962 clicks / 38,718 impr / pos 9.85
+  over 28d (prev 28d 316 / 14,402). Last 7d **388 clicks vs 318**,
+  impressions 14,444 vs 12,784, CTR 2.69% vs 2.49%, pos 8.9 vs 9.6. GA4 7d
+  159 users / 175 sessions / 279 PV (prev 140 / 177 / 349); 100 organic, 32
+  AI assistant, 21 organic social, 19 direct; `sign_up` 6. **Subscribers 86
+  (11-19), +10 on the week** (56 EN, 30 PT), the biggest weekly gain so far.
+  Signups attributed 28d: 33 (+1: /porto-events on 11-19). Instagram 28 (24
+  a week ago).
+- Results due: none today (next: 11-23 coffee guide merge, 11-24 Adiel).
+- #40: /porto-events/january-2027 is live (200); 21 January events in data.
+- Why (today's change): low-CTR list has a new top entry, "outworld porto"
+  204 impr / 2% at pos 7.8, all going to the Outworld page (803 impr / 18
+  clicks in 28d), and the show is 8 days away. The title was "Outworld · Sat
+  28 Nov, Super Bock Arena · Tickets & Info": no artist, and the description
+  repeated the venue. People searching an event name need to see it is the
+  Klangkuenstler night.
+- Change (`[defer]`, data only): `outworld-super-bock-arena-nov-28-2026`
+  (slug kept): name + namePt "Klangkuenstler: Outworld"; EN/PT short copy
+  now says all-night-long set, presented by NEOPOP, doors 21:00, M/18.
+  Checked today on superbockarena.pt/evento/outworld: €53, 22:00, doors
+  21:00, M/18, 390 min; the ticket link (xceed) is titled "outworld
+  klangkuenstler all night long". Long copy unchanged (already matched).
+- Price backfill (2c): 13 upcoming without a price. Checked 5: Fluffkin x
+  Holloh Zandria (21 Nov), Forum Serpentina (22 Nov), O Natal na Árvore
+  (agenda-porto, min/max price fields empty), Pequenas Bibliotecas
+  Temporárias (TMP), Galeria Digital do Porto: none states a price, left
+  empty.
+- Cancellations (2d): none of the 6 pages read says Cancelado / Anulado /
+  Adiado. **"As 5 Faces do Perdão"** (OCC, tomorrow 16:00): agenda-porto
+  page still 404s (third day), one web search finds no Porto listing. No
+  owner answer seen; no source says cancelled, so the record stays (rule 2d
+  needs a cancellation notice). It drops off as past after tomorrow.
+- Partner earnings (2e, Impact API): Fever 10-27 → 11-20 **59 clicks** (+6,
+  5 of them today), still **3 sales, €202.64 in sales, €12.16 payout
+  pending** (first locks 12-03).
+- Verified: tsc OK; build OK (7,046 pages). Built titles: EN
+  "Klangkuenstler: Outworld · Sat 28 Nov 2026, Super Bock Arena", PT "…
+  · sáb 28 nov 2026, Super Bock Arena"; descriptions lead with day, 22:00,
+  venue, €53, then the artist and "Porto". Pushed `[defer]`, live with the
+  21:00 flush; next run: live check + send EN and PT Outworld URLs to the
+  Indexing API.
+- Expect: "outworld porto" CTR from 2% to 4%+ before the show.
+- Measure on: 2026-12-04 (GSC, Outworld EN+PT page, 11-21 → 11-28).
+- Result:
+- Needs owner: none new. The OCC talk question from 11-19 lapses tomorrow
+  (event date passes).
+
 ## 2026-11-19 — Freeze day: observe only
 - Run 09:30 UTC Thu, inside the freeze (Thu 05:00 → 11:00, held until the
   10:00 backstop confirms EN, PT and Instagram sent). No code, no data edits,
