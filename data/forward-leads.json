@@ -237,19 +237,6 @@
       "resolvedAt": "2026-10-31T13:17:41.871Z"
     },
     {
-      "name": "Bruno Pernadas interpreta Steamboat Bill Jr., de Buster Keaton",
-      "date": "2026-11-19T21:30",
-      "venue": "Casa da Música",
-      "url": "https://casadamusica.com/event/bruno-pernadas-interpreta-steamboat-bill-jr-de-buster-keaton/?selected_session=58777",
-      "note": "Sala Suggia; Grande Ecrã live cine-concert.",
-      "source": "casa-da-musica-newsletter-2026-11",
-      "addedAt": "2026-10-25T12:00:00Z",
-      "status": "done",
-      "eventSlug": "bruno-pernadas-interpreta-steamboat-bill-jr-casa-da-musica-nov-19-2026",
-      "lastTriedAt": "2026-10-30T08:32:23.806Z",
-      "resolvedAt": "2026-10-30T08:32:23.806Z"
-    },
-    {
       "name": "Do Lixo Se Faz Música",
       "date": "2026-11-28T10:30",
       "venue": "Casa da Música",
@@ -275,19 +262,6 @@
       "reason": "already listed",
       "lastTriedAt": "2026-10-31T08:32:37.308Z",
       "resolvedAt": "2026-10-31T08:32:37.308Z"
-    },
-    {
-      "name": "RUBEL – Beleza. Rubel & Violão",
-      "date": "2026-11-19",
-      "venue": "Coliseu Porto Ageas",
-      "note": "21:30; concert",
-      "source": "coliseu-newsletter-2026-10",
-      "addedAt": "2026-11-01T05:00:47Z",
-      "status": "done",
-      "eventSlug": "rubel-beleza-rubel-violao-coliseu-porto-ageas-nov-19-2026",
-      "reason": "already listed",
-      "lastTriedAt": "2026-11-01T14:01:20.564Z",
-      "resolvedAt": "2026-11-01T14:01:20.564Z"
     },
     {
       "name": "As três da manhã – Ao vivo",
@@ -536,22 +510,9 @@
       "source": "serralves-newsletter-2026-11",
       "addedAt": "2026-11-19T05:00:19Z",
       "status": "pending",
-      "attempts": 1,
+      "attempts": 2,
       "reason": "date 2025-12-06 outside window",
-      "lastTriedAt": "2026-11-19T06:06:50.415Z"
-    },
-    {
-      "name": "boca-rota",
-      "date": "2026-11-19",
-      "venue": "Teatro Campo Alegre",
-      "note": "19:30; Sofia Bodas de Carvalho and José Costa set poetry to guitar, double bass and percussion; ages 12+; ticketed",
-      "source": "teatro-municipal-do-porto-newsletter-2026-11",
-      "addedAt": "2026-11-19T05:00:37Z",
-      "status": "done",
-      "eventSlug": "boca-rota-teatro-campo-alegre-nov-19-2026",
-      "reason": "already listed",
-      "lastTriedAt": "2026-11-19T06:06:50.415Z",
-      "resolvedAt": "2026-11-19T06:06:50.415Z"
+      "lastTriedAt": "2026-11-20T15:55:06.404Z"
     },
     {
       "name": "Os Christophers, de Steven Soderbergh",
@@ -562,9 +523,9 @@
       "source": "teatro-municipal-do-porto-newsletter-2026-11",
       "addedAt": "2026-11-19T05:00:37Z",
       "status": "pending",
-      "attempts": 1,
-      "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
-      "lastTriedAt": "2026-11-19T06:06:50.415Z"
+      "attempts": 2,
+      "reason": "page does not confirm the event (https://cinecartaz.publico.pt/filme/christophers-416109)",
+      "lastTriedAt": "2026-11-20T15:55:06.404Z"
     }
   ]
 }
