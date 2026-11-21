@@ -49,6 +49,7 @@ export default function Image({ params }: { params: { slug: string } }) {
     );
   }
 
+  const title = cardTitle(ev.name, ev.nameEn);
   const dateStr = formatDateForCard(ev.date, ev.endDate);
   const categoryLabel = subcategoryLabel(ev, 'en');
   const categoryEmoji = subcategoryEmoji(ev);
@@ -146,7 +147,7 @@ export default function Image({ params }: { params: { slug: string } }) {
             style={{
               display: 'flex',
               color: '#ffffff',
-              fontSize: titleSize(ev.name),
+              fontSize: titleSize(title),
               fontWeight: 700,
               lineHeight: 1.08,
               letterSpacing: -1,
@@ -155,7 +156,7 @@ export default function Image({ params }: { params: { slug: string } }) {
               maxWidth: 1040,
             }}
           >
-            {ev.name}
+            {title}
           </div>
 
           {/* Gold divider */}
@@ -210,6 +211,26 @@ export default function Image({ params }: { params: { slug: string } }) {
 // ---------------------------------------------------------------------------
 // Helpers
 // ---------------------------------------------------------------------------
+
+/**
+ * Scripts that need contextual shaping (Hebrew, Arabic, Syriac, Thaana, NKo,
+ * Indic, Thai). Satori can't shape them: 2026-11-21 an Arabic event name
+ * ("السّيرة الهلاليّة [A Epopeia de Banī Hilāl]") failed the whole build with
+ * "lookupType: 5 - substFormat: 3 is not yet supported".
+ */
+const SHAPED_SCRIPT = /[֐-ࣿऀ-෿฀-๿יִ-﷿ﹰ-﻿]/;
+
+/** The card's title: the Latin name when the stored name uses a shaped script. */
+function cardTitle(name: string, nameEn?: string | null): string {
+  if (!SHAPED_SCRIPT.test(name)) return name;
+  if (nameEn && !SHAPED_SCRIPT.test(nameEn)) return nameEn;
+  const latin = name
+    .replace(new RegExp(SHAPED_SCRIPT.source, 'g'), '')
+    .replace(/[[\]()]/g, '')
+    .replace(/\s+/g, ' ')
+    .trim();
+  return latin || 'Oporto Weekly';
+}
 
 /** Scale the title font size so long names don't overflow the card. */
 function titleSize(name: string): number {
