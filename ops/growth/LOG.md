@@ -2034,3 +2034,4 @@ Owner flagged Porto Expats' "Porto Weekly Guide" (Substack, Fridays, Mon–Sun).
 - Measure on: 2026-12-05 (GSC queries above + signup-sources for both paths).
 - Next run: confirm live after the 21:00 flush, then notifyGoogleIndexingAPI for the 2 URLs (not sent yet, pages not live).
 - Result:
+- 2026-11-21 add-on (owner, for an English-speaking Matosinhos WhatsApp group): `#matosinhos` section EN + PT. 2026 Mercado de Natal 27 Nov–23 Dec, Parque Basílio Teles, free, hours, ~80 artisans, Andarte (Leça da Palmeira 17 Nov, Porto Secreto 10 Nov); tree/lights 2026 date not announced by CM Matosinhos (2025 season started 28 Nov, labelled as reference); ArchiMarket no dates (e-konomista). PT title now names Matosinhos; 2 FAQ entries each. No Matosinhos Christmas events in our data yet. Commit see git log [defer].
