@@ -4,6 +4,7 @@ import { eventDisplay, subcategoryOf, type EventRecord } from '@/lib/events';
 import { SUBCATEGORY_LABEL, SUBCATEGORY_LABEL_PT } from '@/lib/event-categories';
 import { DAY_HUB_PATHS, dayHubRange, listingsPending } from '@/lib/event-days';
 import { LANDING_PATHS, MIN_INDEXABLE, christmasSeason, landingEvents, type LandingKind } from '@/lib/event-landings';
+import { CHRISTMAS_LIGHTS_PATHS, lightsInSeason } from '@/lib/christmas-lights';
 import { filterOptions, toFilterItem } from '@/lib/event-listing';
 import { colors, typography } from '@/lib/design';
 import { Header } from '@/app/components/Header';
@@ -237,6 +238,13 @@ export function LandingHub({ kind, lang }: { kind: LandingKind; lang: Lang }) {
           <ShortcutChips lang={lang} current={kind === 'kids' ? 'kids' : kind === 'free' ? 'free' : kind === 'christmas' ? 'christmas' : undefined} />
         </div>
         {intro && <p style={{ fontSize: 16, color: colors.textSoft, lineHeight: 1.6, margin: '20px 0 28px' }}>{intro}</p>}
+        {kind === 'christmas' && lightsInSeason() && (
+          <div style={{ background: colors.card, border: `1px solid ${colors.divider}`, borderLeft: `4px solid ${colors.accent}`, padding: '14px 20px', margin: '0 0 28px', fontSize: 15, lineHeight: 1.6 }}>
+            {pt
+              ? <>As luzes de Natal acendem-se no sábado, 28 de novembro, às 18h, nos Aliados. <Link href={CHRISTMAS_LIGHTS_PATHS.pt} style={link}>Inauguração, árvore e concertos</Link></>
+              : <>Porto&apos;s Christmas lights go on Saturday 28 November at 18:00 on Aliados. <Link href={CHRISTMAS_LIGHTS_PATHS.en} style={link}>Switch-on, tree and concerts</Link></>}
+          </div>
+        )}
 
         {all.length === 0 && (
           <div style={{ background: colors.card, border: `1px solid ${colors.divider}`, borderLeft: `4px solid ${colors.accent}`, padding: '16px 20px', margin: '20px 0 28px', fontSize: 15, lineHeight: 1.6 }}>

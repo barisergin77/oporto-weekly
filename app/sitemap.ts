@@ -6,6 +6,7 @@ import { listEvents, hasVenuePage } from '@/lib/events';
 import { listEventMonths, ptSlug } from '@/lib/event-months';
 import { DAY_HUB_PATHS } from '@/lib/event-days';
 import { LANDING_PATHS, landingIndexable, type LandingKind } from '@/lib/event-landings';
+import { CHRISTMAS_LIGHTS_PATHS, lightsInSeason } from '@/lib/christmas-lights';
 
 // A page's lastmod is max(content date, last time its markup changed). Content
 // here is often frozen (a sent edition, a past event) while the <head> is not,
@@ -129,6 +130,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
       { url: `https://oportoweekly.com${LANDING_PATHS[k].en}`, lastModified: new Date(), changeFrequency: 'daily' as const, priority: 0.85 },
       { url: `https://oportoweekly.com${LANDING_PATHS[k].pt}`, lastModified: new Date(), changeFrequency: 'daily' as const, priority: 0.8 },
     ]),
+    // Porto Christmas lights (G1, lib/christmas-lights.ts) while the season's facts are current.
+    ...(lightsInSeason() ? [
+      { url: `https://oportoweekly.com${CHRISTMAS_LIGHTS_PATHS.en}`, lastModified: new Date(), changeFrequency: 'weekly' as const, priority: 0.85 },
+      { url: `https://oportoweekly.com${CHRISTMAS_LIGHTS_PATHS.pt}`, lastModified: new Date(), changeFrequency: 'weekly' as const, priority: 0.85 },
+    ] : []),
     { url: 'https://oportoweekly.com/pt', lastModified: new Date(), changeFrequency: 'weekly', priority: 0.9 },
     { url: 'https://oportoweekly.com/pt/blog', lastModified: new Date(), changeFrequency: 'weekly', priority: 0.8 },
     // Porto Zoom, the daily game: a new puzzle every day (owner 2026-10-31).
