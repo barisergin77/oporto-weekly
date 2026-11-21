@@ -2025,3 +2025,12 @@ Owner flagged Porto Expats' "Porto Weekly Guide" (Substack, Fridays, Mon–Sun).
 - JSON-LD (PR #20, 826233b): unknown prices no longer emitted as 0 EUR (30 of 387 upcoming events); price only from priceFrom, free label or € text. Watch GSC for the non-critical "Missing field 'price'" warning.
 - Watchdog (PR #21, 1c3ad24): removed paused blog-post/blog-instagram (false alarm 11-03 18:34). Dispatch returned 403: PAT Claude-Server lacks Actions write, so watchdog rescue can't dispatch any workflow (incl. Thu newsletter). Asked owner to add Actions: Read and write; then probe with a bad-ref dispatch (expect 422).
 - 18:50 owner added Actions: Read and write to Claude-Server PAT; probe now 422 (authorized). Watchdog rescue restored.
+
+## 2026-11-21 — G1 Porto Christmas lights page (first "solid growth item", owner rule 11-21)
+- Why: GSC 28d: "inauguração luzes natal porto 2026" 217 impr, "luzes natal porto 2026" 131, "luzes de natal porto 2026" 82, and no page that answers them.
+- Change: `/porto-events/christmas-lights` + `/pt/eventos/luzes-de-natal` (lib/christmas-lights.ts, app/porto-events/ChristmasLights.tsx): switch-on Sat 28 Nov 2026 18:00 Avenida dos Aliados + tree at Praça do General Humberto Delgado, performers, Aliados concert dates (1, 5, 6, 8, 12, 13, 19 Dec), Praça da Fantasia (Boavista, 28 Nov–10 Jan), Largo do Amor de Perdição, São Silvestre 20 Dec, Bach oratorio 25 Dec–6 Jan; programme to 10 Jan (lights-off date not published, said so). FAQPage + ItemList + Breadcrumb JSON-LD, hreflang both ways, SubscribeCTA, festive event list (19 events), link box from the Christmas hub both languages, sitemap while in season (noindex after 2027-01-10). Sources: porto.pt 6 Nov, CM Porto release via cidadedoporto.sapo.pt 19 Nov, Observador/Lusa 6 Nov. Commit 2a41ff0 [defer].
+- Verified: tsc ok, build exit 0, both pages render (titles, hreflang, canonical, FAQ JSON-LD, 19 listed events), hub pages link to them.
+- Expect: page 1 for the switch-on queries in PT; ~100+ clicks before 28 Nov; signups from the page.
+- Measure on: 2026-12-05 (GSC queries above + signup-sources for both paths).
+- Next run: confirm live after the 21:00 flush, then notifyGoogleIndexingAPI for the 2 URLs (not sent yet, pages not live).
+- Result:

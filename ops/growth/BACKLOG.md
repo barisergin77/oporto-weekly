@@ -57,7 +57,7 @@ Ranked by expected impact ÷ effort. Status: `todo`, `doing`, `done`,
 
 ## Growth items (owner rule 2026-11-21: one per run, fixes don't count)
 Ranked. Each: target metric + measure-on.
-- G1 Porto Christmas lights page EN `/porto-events/christmas-lights` + PT twin (GSC 11-21: "inauguração luzes natal porto 2026" 217 impr, "luzes natal porto 2026" 131, "luzes de natal porto 2026" 82; no matching page). Official facts only (porto.pt). Target: clicks on those queries + signups from the page. Status: doing 2026-11-21.
+- G1 Porto Christmas lights page EN `/porto-events/christmas-lights` + PT twin (GSC 11-21: "inauguração luzes natal porto 2026" 217 impr, "luzes natal porto 2026" 131, "luzes de natal porto 2026" 82; no matching page). Official facts only (porto.pt). Target: clicks on those queries + signups from the page. Status: done 2026-11-21 (2a41ff0 [defer], live after 21:00 flush; measure 2026-12-05). Indexing API ping pending next run.
 - G2 Category hubs: concerts / exhibitions / theatre / nightlife in Porto (this week + month), EN + PT, ItemList JSON-LD. Target: new-query impressions/clicks 28d.
 - G3 Event-page signup conversion: "weekend picks every Thursday" block after details + add-to-calendar (.ics) with newsletter offer. Target: signups per 1k event-page views (signup-sources.json).
 - G4 New Year's Eve Porto page (fireworks, Aliados, parties), ship by ~Dec 1. Target: NYE query clicks.
