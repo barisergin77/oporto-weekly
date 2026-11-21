@@ -1,0 +1,26 @@
+{
+  "slug": "tour-de-verao-de-mischa-richter-passos-manuel-nov-23-2026",
+  "name": "Tour de Verão, de Mischa Richter",
+  "date": "2026-11-23T21:30",
+  "endDate": "2026-11-27",
+  "venue": "Passos Manuel",
+  "venueSlug": "passos-manuel",
+  "price": "5€",
+  "priceFrom": 5,
+  "currency": "EUR",
+  "category": "art",
+  "description": "Part of Porto/Post/Doc, this film follows Jerry and Annie in a campervan along Dead & Company's final tour across the United States.",
+  "longDescription": "Screened as part of the Porto/Post/Doc Film & Media Festival, this film follows Jerry and Annie in a campervan during the final Dead & Company tour across the United States. Traveling between concerts and dancing alongside fellow Deadheads, their journey turns into a shared story of community and belonging.\n\nThe film runs at Passos Manuel on 23 November at 21:30 and on 27 November at 19:30. Tickets are 5 euros, with discounts available for Cartão Porto holders, and the rating is 12+.",
+  "sourceEdition": "forward-scan",
+  "externalLink": "https://www.agenda-porto.pt/evento/ppd-tour-de-verao/",
+  "pickCandidate": true,
+  "addedAt": "2026-11-21T06:01:02.129Z",
+  "lastSeenAt": "2026-11-21T06:01:02.129Z",
+  "descriptionPt": "Integrado no Porto/Post/Doc, este filme acompanha Jerry e Annie numa autocaravana ao longo da última digressão dos Dead & Company pelos Estados Unidos.",
+  "longDescriptionPt": "Exibido no âmbito do Porto/Post/Doc Film & Media Festival, este filme acompanha Jerry e Annie numa autocaravana durante a última digressão dos Dead & Company pelos Estados Unidos. A viajar entre concertos e a dançar com outros Deadheads, o percurso dos dois transforma-se numa história partilhada de comunidade e pertença.\n\nO filme passa no Passos Manuel a 23 de novembro, às 21h30, e a 27 de novembro, às 19h30. Os bilhetes custam 5 euros, com desconto para quem tem Cartão Porto, e a classificação etária é para maiores de 12 anos.",
+  "image": {
+    "url": "https://i.imgur.com/C6svMaI.jpeg",
+    "credit": "Photo: Agenda-porto",
+    "sourceUrl": "https://www.agenda-porto.pt/evento/ppd-tour-de-verao/"
+  }
+}

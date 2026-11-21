@@ -1,0 +1,25 @@
+{
+  "slug": "todos-bons-compatriotas-de-vojtech-jasny-batalha-centro-de-cinema-nov-24-2026",
+  "name": "Todos Bons Compatriotas, de Vojtěch Jasný",
+  "date": "2026-11-24T19:30",
+  "venue": "Batalha Centro de Cinema",
+  "venueSlug": "batalha-centro-de-cinema",
+  "price": "5€",
+  "priceFrom": 5,
+  "currency": "EUR",
+  "category": "art",
+  "description": "Batalha Centro de Cinema screens Vojtěch Jasný's film chronicling the impact of communist collectivisation on a Moravian village, presented as part of Porto/Post/Doc.",
+  "longDescription": "Batalha Centro de Cinema screens Todos Bons Compatriotas, directed by Vojtěch Jasný, as part of the Porto/Post/Doc festival programme. Set after World War II, the film follows the inhabitants of a Moravian village whose bonds of music, work, and solidarity are strained by communist collectivisation, political pressure, and fear.\n\nFeaturing colour cinematography by Jaroslav Kučera, the film was banned shortly after its premiere. The screening takes place on 24 November 2026 at 19:30. Tickets are 5 euros, with discounts available for Cartão Porto holders, and the session is rated 12+.",
+  "sourceEdition": "forward-scan",
+  "externalLink": "https://www.agenda-porto.pt/evento/ppd-todos-bons-compatriotas/",
+  "pickCandidate": true,
+  "addedAt": "2026-11-21T06:01:18.565Z",
+  "lastSeenAt": "2026-11-21T06:01:18.565Z",
+  "descriptionPt": "O Batalha Centro de Cinema exibe o filme de Vojtěch Jasný sobre o impacto da coletivização comunista numa aldeia da Morávia, integrado no Porto/Post/Doc.",
+  "longDescriptionPt": "O Batalha Centro de Cinema exibe Todos Bons Compatriotas, realizado por Vojtěch Jasný, no âmbito da programação do festival Porto/Post/Doc. Passado após a Segunda Guerra Mundial, o filme acompanha os habitantes de uma aldeia da Morávia cujos laços de música, trabalho e solidariedade são postos à prova pela coletivização comunista, pela pressão política e pelo medo.\n\nCom fotografia a cores de Jaroslav Kučera, a obra acabou proibida pouco depois da estreia. A sessão acontece a 24 de novembro de 2026, às 19:30. Os bilhetes custam 5 euros, com desconto para titulares do Cartão Porto, e a classificação etária é M/12.",
+  "image": {
+    "url": "https://i.imgur.com/6igkgaE.jpeg",
+    "credit": "Photo: Agenda-porto",
+    "sourceUrl": "https://www.agenda-porto.pt/evento/ppd-todos-bons-compatriotas/"
+  }
+}

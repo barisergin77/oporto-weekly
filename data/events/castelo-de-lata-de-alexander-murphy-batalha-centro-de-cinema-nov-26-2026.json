@@ -1,0 +1,26 @@
+{
+  "slug": "castelo-de-lata-de-alexander-murphy-batalha-centro-de-cinema-nov-26-2026",
+  "name": "Castelo de Lata, de Alexander Murphy",
+  "date": "2026-11-26T21:15",
+  "endDate": "2026-11-27",
+  "venue": "Batalha Centro de Cinema",
+  "venueSlug": "batalha-centro-de-cinema",
+  "price": "5€",
+  "priceFrom": 5,
+  "currency": "EUR",
+  "category": "art",
+  "description": "Alexander Murphy's film Castelo de Lata screens at Batalha Centro de Cinema as part of the Porto/Post/Doc international competition.",
+  "longDescription": "Castelo de Lata, directed by Alexander Murphy, screens at Batalha Centro de Cinema in Porto as part of Porto/Post/Doc: Film & Media Festival. The film follows Pa, Lisa, and their ten children living in a caravan surrounded by fields near a quiet rural road, exploring the routines and traditions holding the O'Reilly family together under the threat of eviction.\n\nScreenings take place on 26 November at 21:15 and 27 November at 19:15. Tickets cost 5€, with discounts available for Cartão Porto holders, and the rating is 12+.",
+  "sourceEdition": "forward-scan",
+  "externalLink": "https://www.agenda-porto.pt/evento/ppd-castelo-de-lata-de-alexander-murphy/",
+  "pickCandidate": true,
+  "addedAt": "2026-11-21T06:02:25.472Z",
+  "lastSeenAt": "2026-11-21T06:02:25.472Z",
+  "descriptionPt": "O filme Castelo de Lata, de Alexander Murphy, é exibido no Batalha Centro de Cinema no âmbito da competição internacional do Porto/Post/Doc.",
+  "longDescriptionPt": "Castelo de Lata, realizado por Alexander Murphy, passa no Batalha Centro de Cinema, no Porto, integrado no Porto/Post/Doc: Film & Media Festival. O filme acompanha Pa, Lisa e os seus dez filhos, que vivem numa caravana rodeada de campos junto a uma estrada rural tranquila, explorando as rotinas e tradições que mantêm a família O'Reilly unida sob a ameaça de despejo.\n\nAs sessões acontecem a 26 de novembro às 21:15 e a 27 de novembro às 19:15. Os bilhetes custam 5€, com descontos para portadores do Cartão Porto, e a classificação etária é M/12.",
+  "image": {
+    "url": "https://i.imgur.com/NpNwpuS.jpeg",
+    "credit": "Photo: Agenda-porto",
+    "sourceUrl": "https://www.agenda-porto.pt/evento/ppd-castelo-de-lata-de-alexander-murphy/"
+  }
+}
