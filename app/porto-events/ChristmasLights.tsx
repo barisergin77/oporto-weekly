@@ -2,7 +2,7 @@ import Link from 'next/link';
 import type { Metadata } from 'next';
 import { eventDisplay } from '@/lib/events';
 import { LANDING_PATHS, christmasSeason, landingEvents } from '@/lib/event-landings';
-import { CHRISTMAS_LIGHTS_PATHS, ALIADOS_SHOWS, SOURCES, lightsInSeason } from '@/lib/christmas-lights';
+import { CHRISTMAS_LIGHTS_PATHS, ALIADOS_SHOWS, SOURCES, MATOSINHOS_ANCHOR, lightsInSeason } from '@/lib/christmas-lights';
 import { filterOptions, toFilterItem } from '@/lib/event-listing';
 import { colors, typography } from '@/lib/design';
 import { Header } from '@/app/components/Header';
@@ -25,13 +25,13 @@ const COPY = {
     title: 'Porto Christmas Lights 2026: Switch-On Date, Tree and Concerts',
     h1: 'Porto Christmas Lights 2026',
     crumb: 'Christmas lights',
-    desc: "Porto switches on its Christmas lights on Saturday 28 November 2026 at 18:00 on Avenida dos Aliados, with the tree lighting and a show. Concert dates and what's on until 10 January.",
+    desc: "Porto switches on its Christmas lights on Saturday 28 November 2026 at 18:00 on Avenida dos Aliados, with the tree lighting and a show. Concerts, what's on until 10 January, and Matosinhos.",
   },
   pt: {
-    title: 'Luzes de Natal Porto 2026: inauguração, árvore e concertos',
+    title: 'Luzes de Natal Porto e Matosinhos 2026: inauguração e árvore',
     h1: 'Luzes de Natal no Porto 2026',
     crumb: 'Luzes de Natal',
-    desc: 'A inauguração das luzes de Natal do Porto é no sábado, 28 de novembro de 2026, às 18h, na Avenida dos Aliados, com a árvore e um espetáculo. Concertos e programação até 10 de janeiro.',
+    desc: 'A inauguração das luzes de Natal do Porto é no sábado, 28 de novembro de 2026, às 18h, na Avenida dos Aliados, com a árvore e um espetáculo. Concertos, programação até 10 de janeiro e o Mercado de Natal de Matosinhos.',
   },
 } as const;
 
@@ -40,11 +40,15 @@ const FAQ = {
     { q: 'When are the Christmas lights switched on in Porto in 2026?', a: 'On Saturday 28 November 2026 at 18:00, on Avenida dos Aliados. The Christmas tree in Praça do General Humberto Delgado is lit at the same time.' },
     { q: 'Who performs at the Porto Christmas lights switch-on?', a: 'Áurea, Ricardo Ribeiro and soprano Marina Pacheco, with the Orquestra Portuguesa de Guitarras e Bandolins and conductor Hélder Magalhães. The show mixes music, dance, light and fireworks.' },
     { q: "How long does Porto's Christmas programme run?", a: "From 28 November 2026 to 10 January 2027. The city hasn't published the date the street lights go off." },
+    { q: 'When is the Matosinhos Christmas market in 2026?', a: 'From 27 November to 23 December 2026 in Parque Basílio Teles, opposite Matosinhos City Hall. Entry is free.' },
+    { q: 'When is the Christmas tree lit in Matosinhos in 2026?', a: "Matosinhos City Council hasn't announced the 2026 date yet (checked 21 November). In 2025 its Christmas season started on Friday 28 November." },
   ],
   pt: [
     { q: 'Quando é a inauguração das luzes de Natal no Porto em 2026?', a: 'No sábado, 28 de novembro de 2026, às 18h, na Avenida dos Aliados. A Árvore de Natal na Praça do General Humberto Delgado acende-se no mesmo momento.' },
     { q: 'Quem atua na inauguração das luzes de Natal do Porto?', a: 'Áurea, Ricardo Ribeiro e a soprano Marina Pacheco, com a Orquestra Portuguesa de Guitarras e Bandolins e o maestro Hélder Magalhães. O espetáculo junta música, dança, luz e pirotecnia.' },
     { q: 'Até quando dura a programação de Natal no Porto?', a: 'De 28 de novembro de 2026 a 10 de janeiro de 2027. A Câmara ainda não divulgou a data em que as iluminações se desligam.' },
+    { q: 'Quando é o Mercado de Natal de Matosinhos 2026?', a: 'De 27 de novembro a 23 de dezembro de 2026, no Parque Basílio Teles, em frente à Câmara Municipal de Matosinhos. A entrada é livre.' },
+    { q: 'Quando se acende a árvore de Natal em Matosinhos em 2026?', a: 'A Câmara de Matosinhos ainda não anunciou a data de 2026 (verificado a 21 de novembro). Em 2025, o Natal em Matosinhos arrancou na sexta-feira, 28 de novembro.' },
   ],
 };
 
@@ -188,6 +192,31 @@ export function ChristmasLights({ lang }: { lang: Lang }) {
             </>
           )}
         </ul>
+
+        <h2 id={MATOSINHOS_ANCHOR} style={{ ...h2, scrollMarginTop: 80 }}>{pt ? 'Natal em Matosinhos' : 'Christmas in Matosinhos 2026'}</h2>
+        {pt ? (
+          <>
+            <p style={p}>
+              <strong>Árvore e luzes de Natal:</strong> a Câmara de Matosinhos ainda não anunciou a data do acendimento de 2026 (verificado a 21 de novembro). Atualizamos esta secção assim que for publicada. Para referência, em 2025 o Natal em Matosinhos arrancou na sexta-feira, 28 de novembro.
+            </p>
+            <ul style={{ paddingLeft: 20, fontSize: 16, lineHeight: 1.65, margin: '0 0 8px' }}>
+              <li><strong>Mercado de Natal de Matosinhos</strong> (20.ª edição): de 27 de novembro a 23 de dezembro, no Parque Basílio Teles, em frente à Câmara Municipal. Entrada livre. Cerca de 80 artesãos de todo o país, com queijos, doces, enchidos, joalharia, roupa e brinquedos. Aberto de domingo a quinta, das 12h às 20h; sextas, sábados e vésperas de feriado, das 12h às 23h. Organização da associação Andarte, com o apoio da Câmara.</li>
+              <li><strong>ArchiMarket</strong>, o mercado de design da Casa da Arquitectura, também é apontado para esta época, mas ainda sem datas.</li>
+            </ul>
+          </>
+        ) : (
+          <>
+            <div style={box}>
+              <strong>Matosinhos Christmas market: 27 November to 23 December 2026, Parque Basílio Teles</strong> (opposite Matosinhos City Hall). Free entry. Open Sunday to Thursday 12:00 to 20:00; Friday, Saturday and the eve of public holidays 12:00 to 23:00.
+            </div>
+            <ul style={{ paddingLeft: 20, fontSize: 16, lineHeight: 1.65, margin: '12px 0 8px' }}>
+              <li><strong>What&apos;s there:</strong> the 20th edition of the Mercado de Natal, with about 80 artisans from around Portugal selling cheese, sweets, cured meats, jewellery, clothes and toys. Run by the Andarte association with council support.</li>
+              <li><strong>Tree and lights:</strong> Matosinhos City Council hasn&apos;t announced the 2026 switch-on date yet (checked 21 November). We&apos;ll add it here as soon as it&apos;s out. For reference, the 2025 season started on Friday 28 November.</li>
+              <li><strong>ArchiMarket</strong>, the design market at Casa da Arquitectura, is also expected this season, with no dates announced yet.</li>
+              <li><strong>Porto&apos;s big switch-on</strong> is close by: Saturday 28 November, 18:00, Avenida dos Aliados (see the top of this page).</li>
+            </ul>
+          </>
+        )}
 
         <h2 style={h2}>{pt ? `Eventos de Natal no Porto ${year}` : `Christmas events in Porto ${year}`}</h2>
         <p style={p}>

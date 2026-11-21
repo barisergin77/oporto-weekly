@@ -33,7 +33,26 @@ export const SOURCES = [
     label: 'Observador / Lusa: Programação de Natal arranca dia 28 e custa 765 mil euros (6 Nov 2026)',
     url: 'https://observador.pt/2026/11/06/natal-no-porto-arranca-a-28-de-novembro-com-765-mil-euros-em-iluminacoes/',
   },
+  {
+    label: 'Leça da Palmeira: Mercado de Natal de Matosinhos 2026 (17 Nov 2026)',
+    url: 'https://www.leca-palmeira.com/fama-natal-feira-de-artesanato-de-matosinhos-ate-23-de-dezembro/',
+  },
+  {
+    label: 'Porto Secreto: O Mercado de Natal de Matosinhos regressa ao Parque Basílio Teles a 27 de novembro (10 Nov 2026)',
+    url: 'https://portosecreto.co/programa-mercado-de-natal-matosinhos-2026/',
+  },
+  {
+    label: 'e-konomista: Mercados de Natal no Norte, as novidades de 2026 (19 Nov 2026)',
+    url: 'https://www.e-konomista.pt/mercados-de-natal-no-norte-de-portugal/',
+  },
+  {
+    label: 'CM Matosinhos: Natal em Matosinhos chega na sexta-feira (2025 season, for reference)',
+    url: 'https://www.cm-matosinhos.pt/noticia/natal-em-matosinhos-chega-na-sexta-feira-42',
+  },
 ] as const;
+
+/** Anchor for the Matosinhos section (owner shares /pt/eventos/luzes-de-natal#matosinhos). */
+export const MATOSINHOS_ANCHOR = 'matosinhos';
 
 /** Open-air concerts on Avenida dos Aliados (CM Porto, 19 Nov 2026). */
 export const ALIADOS_SHOWS: { date: string; time: string; en: string; pt: string }[] = [
