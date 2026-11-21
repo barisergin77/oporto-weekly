@@ -128,20 +128,6 @@
       "resolvedAt": "2026-10-26T09:31:57.768Z"
     },
     {
-      "name": "Niklas Paschburg",
-      "date": "2026-11-20T21:30",
-      "venue": "Casa da Música",
-      "url": "https://casadamusica.com/event/niklas-paschburg/?selected_session=49435",
-      "note": "Sala 2; Misty Fest.",
-      "source": "casa-da-musica-newsletter-2026-11",
-      "addedAt": "2026-10-25T12:00:00Z",
-      "status": "done",
-      "eventSlug": "misty-fest-2026-casa-da-musica-nov-10-2026",
-      "reason": "already listed",
-      "lastTriedAt": "2026-10-30T08:32:23.806Z",
-      "resolvedAt": "2026-10-30T08:32:23.806Z"
-    },
-    {
       "name": "Vincent Peirani",
       "date": "2026-11-22T21:00",
       "venue": "Casa da Música",
@@ -262,19 +248,6 @@
       "reason": "already listed",
       "lastTriedAt": "2026-10-31T08:32:37.308Z",
       "resolvedAt": "2026-10-31T08:32:37.308Z"
-    },
-    {
-      "name": "As três da manhã – Ao vivo",
-      "date": "2026-11-20",
-      "venue": "Coliseu Porto Ageas",
-      "note": "21:30; comedy",
-      "source": "coliseu-newsletter-2026-10",
-      "addedAt": "2026-11-01T05:00:47Z",
-      "status": "done",
-      "eventSlug": "as-tres-da-manha-ao-vivo-coliseu-porto-ageas-nov-20-2026",
-      "reason": "already listed",
-      "lastTriedAt": "2026-11-01T14:01:20.564Z",
-      "resolvedAt": "2026-11-01T14:01:20.564Z"
     },
     {
       "name": "Vizinhos ao Vivo nos Coliseus",
@@ -489,19 +462,6 @@
       "resolvedAt": "2026-11-18T16:10:04.449Z"
     },
     {
-      "name": "O Rasto da Maresia",
-      "date": "2026-11-20",
-      "venue": "Foz do Douro (vários locais)",
-      "note": "14:30. Literary walk through Foz (Jardim do Passeio Alegre, Cantareira, Pérgola) with on-site readings, led by Bibliotecas do Porto staff.",
-      "source": "agenda-porto-newsletter-2026-11",
-      "addedAt": "2026-11-17T05:00:31Z",
-      "status": "rejected",
-      "attempts": 3,
-      "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
-      "lastTriedAt": "2026-11-19T06:06:50.415Z",
-      "resolvedAt": "2026-11-19T06:06:50.415Z"
-    },
-    {
       "name": "Mercado de Natal de Serralves",
       "date": "2026-12-05",
       "endDate": "2026-12-08",
@@ -509,10 +469,11 @@
       "note": "Parque de Serralves; free entry; Christmas market with 55 exhibitors (design, decor, gifts, gourmet) plus free workshops, shows and a concert for all ages; full programme TBA",
       "source": "serralves-newsletter-2026-11",
       "addedAt": "2026-11-19T05:00:19Z",
-      "status": "pending",
+      "status": "done",
       "attempts": 2,
-      "reason": "date 2025-12-06 outside window",
-      "lastTriedAt": "2026-11-20T15:55:06.404Z"
+      "lastTriedAt": "2026-11-21T15:04:59.484Z",
+      "eventSlug": "mercado-de-natal-de-serralves-serralves-dec-5-2026",
+      "resolvedAt": "2026-11-21T15:04:59.484Z"
     },
     {
       "name": "Os Christophers, de Steven Soderbergh",
@@ -522,10 +483,11 @@
       "note": "Film screenings (Medeia Filmes) of Steven Soderbergh's Os Christophers, 19–25 Nov; ticketed",
       "source": "teatro-municipal-do-porto-newsletter-2026-11",
       "addedAt": "2026-11-19T05:00:37Z",
-      "status": "pending",
-      "attempts": 2,
+      "status": "rejected",
+      "attempts": 3,
       "reason": "page does not confirm the event (https://cinecartaz.publico.pt/filme/christophers-416109)",
-      "lastTriedAt": "2026-11-20T15:55:06.404Z"
+      "lastTriedAt": "2026-11-21T15:04:59.484Z",
+      "resolvedAt": "2026-11-21T15:04:59.484Z"
     }
   ]
 }
