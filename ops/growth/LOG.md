@@ -7,6 +7,76 @@ impressions / pos 9.3 over 28 days (prev 28: 191 / 10,293 / 16.9);
 subscribers 56 active (34 EN, 22 PT), ~1.4 net/week; signups by page: none
 recorded yet (tracking started today).
 
+## 2026-11-21 — Build-breaking Arabic OG card fixed before tonight's flush (#48); Al Di Meola snippet (#10); 1 price
+- Run 09:30 UTC Sat, outside the freeze. Not Mon/Tue, so no guide re-check.
+- Live check: /api/version a5249a9 (last night's flush, includes dec2e6e).
+  **Health ok: true**, no failing checks. Outworld page live as
+  "Klangkuenstler: Outworld · Sat 28 Nov 2026, Super Bock Arena"; EN + PT
+  URLs sent to the Indexing API (200 both).
+- Metrics (`metrics/2026-11-21.json`): 996 clicks / 40,838 impr / pos 9.71
+  over 28d (prev 28d 322 / 14,433). Last 7d **403 clicks vs 293**,
+  impressions 15,566 vs 12,329, CTR 2.59% vs 2.38%, pos 8.7 vs 9.6. GA4 7d
+  149 users / 163 sessions / 252 PV (prev 147 / 180 / 343); 93 organic, 29
+  AI assistant, 21 organic social, 18 direct; `sign_up` 6. Subscribers 86
+  (11-19). Signups attributed 28d: 35 (+2: a PT event page on 11-20, the
+  Vandoma market page this morning). Instagram 28 (27 a week ago).
+- Results due: none today (next: 11-23 coffee guide merge, 11-24 Adiel).
+- Low-CTR list: Christmas lights PT queries (now ~430 impr across 3
+  variants) were fixed 11-16 and measure 11-30; agenda-porto still says the
+  concert line-up "será anunciado brevemente", so nothing new to add. Outworld
+  fixed yesterday. Bate Papo / Jack and Jack / Debatível are past. New: "al
+  di meola porto" 42 impr / 0 clicks at pos 8.
+- Why (today's change): the Al Di Meola record (Casa da Música, Misty Fest)
+  stores 26 → 29 Nov as one range, so the snippet read "26–29 November
+  2026 at Casa da Música" like a four-day run, then generic copy ("a
+  talented and influential jazz guitarist"). The show is in 5 days.
+- Change (`[defer]`, data only): `al-di-meola-casa-da-musica-nov-26-2026`
+  (slug kept): EN/PT short copy now leads with "Two concerts, Thursday 26
+  and Sunday 29 November at 21:00, part of Misty Fest", ages 6+. Checked on
+  casadamusica.com/event/al-di-meola today: sessions 26.11 qui 21:00 and
+  29.11 dom 21:00, Sala Suggia, €30-€70 (rows A-D €70 … row Z €30, box
+  €35), "Maiores de 6 anos". The related-event cards show "Esgotado" on both
+  dates, but the event header doesn't and a web search found no sold-out
+  notice (and some tourism listings give other dates), so the copy does not
+  say sold out.
+- Found while verifying (#48): the build **failed** prerendering
+  `/event/a-epopeia-de-bani-hilal-teatro-campo-alegre-nov-28-2026/opengraph-image`
+  ("lookupType: 5 - substFormat: 3 is not yet supported", in @vercel/og's
+  Arabic ligature code). This morning's forward scan (06:02) wrote the TMP
+  record with name "السّيرة الهلاليّة [A Epopeia de Banī Hilāl]"; #38's
+  non-Latin filter only rejects names with no Latin letters at all. Not live
+  yet, but tonight's 21:00 flush would have failed and held every deferred
+  change. Fix (site code, scan untouched): `app/event/[slug]/opengraph-image.tsx`
+  draws the card title with `cardTitle()`: when the name uses a script that
+  needs shaping (Hebrew, Arabic, Syriac, Thaana, NKo, Indic, Thai) it uses
+  `nameEn` ("The Epic of Banī Hilāl"), else the name with that script and
+  brackets removed. Page title, copy and record unchanged. Archive and site
+  cards don't render event names.
+- Price backfill (2c): 14 upcoming without a price. New: Porta Jazz: Teresa
+  Costa + Marco Coelho (Maus Hábitos, 24 Nov): maushabitos.com event page
+  says "Entrada Livre" → Free, priceFrom 0 EUR. Revolution Under
+  Construction (Térmita book launch, today): agenda-porto states no price,
+  left empty. The rest were checked 11-11 → 11-20.
+- Cancellations (2d): none of the 4 pages read says Cancelado / Anulado /
+  Adiado. "As 5 Faces do Perdão" (OCC, today 16:00): agenda-porto still 404,
+  fourth day; no cancellation notice, so it stays and drops off as past
+  tonight. That owner question lapses.
+- Partner earnings (2e, Impact API): Fever 10-27 → 11-21 **62 clicks** (+3;
+  8 on 11-20), still **3 sales, €202.64 in sales, €12.16 payout pending**
+  (first locks 12-03).
+- Verified: tsc OK; first build failed at the Bani Hilal OG card (above);
+  after the fix, build OK (7,250 pages), the card prerenders (PNG, 336 KB).
+  Built Al Di Meola EN description: "26–29 November 2026 at Casa da Música,
+  Sala Suggia. Tickets €30–€70. Two concerts by the jazz guitarist, Thursday
+  26 and Sunday 29 November at 21:00…", PT likewise; Porta Jazz JSON-LD
+  price 0. Pushed 984a9bc `[defer]`, live with the 21:00 flush; next run: live check
+  + Al Di Meola EN/PT to the Indexing API.
+- Expect: "al di meola porto" gets clicks before the 26th (from 0 to 2+ on
+  ~10 impr/day).
+- Measure on: 2026-12-05 (GSC Al Di Meola EN+PT page, 11-22 → 11-29).
+- Result:
+- Needs owner: none.
+
 ## 2026-11-20 — Outworld page names the artist (#10); 11-19 send confirmed; 86 subscribers
 - Run 09:30 UTC Fri, outside the freeze. Not Mon/Tue, so no guide re-check.
 - Live check: /api/version 09678fa (last night's flush). **Health ok: true**
