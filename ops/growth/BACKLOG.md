@@ -61,4 +61,4 @@ Ranked. Each: target metric + measure-on.
 - G2 Category hubs: concerts / exhibitions / theatre / nightlife in Porto (this week + month), EN + PT, ItemList JSON-LD. Target: new-query impressions/clicks 28d.
 - G3 Event-page signup conversion: "weekend picks every Thursday" block after details + add-to-calendar (.ics) with newsletter offer. Target: signups per 1k event-page views (signup-sources.json).
 - G4 New Year's Eve Porto page (fireworks, Aliados, parties), ship by ~Dec 1. Target: NYE query clicks.
-- G5 REVENUE (needs owner OK on price/terms): "Feature your event" page for organisers (labelled Sponsored placement in newsletter + hubs, payment link) + media kit page with real numbers. Not affiliate.
+- G5 SHELVED by owner 2026-11-21 until traffic + brand awareness are good (do not build or raise). REVENUE: "Feature your event" page for organisers (labelled Sponsored placement in newsletter + hubs, payment link) + media kit page with real numbers. Not affiliate.
