@@ -76,16 +76,25 @@ before doing anything. On your first run, read `HANDOFF.md` first.
    Compare with the previous snapshot in `ops/growth/metrics/`.
 4. Check results of past changes whose "measure on" date has arrived (see
    LOG.md). Record the outcome in the log: worked / no change / worse.
-5. Pick up to TWO items (three if needed; owner 2026-10-30), still shipped as
-   one batched deploy: the highest expected impact ÷ effort in BACKLOG.md that
+5. **Owner rule 2026-11-21: every run (except the Thursday freeze) ships ONE
+   SOLID GROWTH ITEM**: a new page, feature or channel researched first and aimed
+   at more search traffic, more subscribers or (with owner OK) revenue, with a
+   target metric and a measure-on date. Fixes, dedupes, title tweaks and other
+   clean-up are housekeeping: still do them when needed, but they NEVER count as
+   the day's item. Research before picking: GSC queries with impressions but no
+   matching page, competitor/SERP check (web search) for what ranks, seasonal
+   demand 2–6 weeks ahead. Keep the `Growth items` section of BACKLOG.md ranked.
+   Then pick up to TWO more items (three if needed; owner 2026-10-30), all
+   shipped as one batched deploy: the highest expected impact ÷ effort in BACKLOG.md that
    are not blocked. Prefer items the latest metrics point at (e.g. a query with
    many impressions and low CTR). If metrics reveal something better, add it
    to the backlog first and pick it on merit.
 6. Implement them, following existing code style. Verify (rule 6). Ship.
 7. Write the LOG.md entry (template below), update BACKLOG.md (status, new
    ideas), commit `ops/` (these commits never trigger a deploy), push.
-8. Finish with a short summary for the owner: what changed, what was
-   measured, anything that needs their decision. Keep it to a few lines.
+8. Finish with a short summary for the owner that LEADS with
+   "Growth item: what / why (data) / expected effect / measure on", then
+   housekeeping, numbers, anything that needs their decision. Keep it short.
 
 ## 3. Measurement
 
