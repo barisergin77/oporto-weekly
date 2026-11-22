@@ -60,7 +60,7 @@ import { acquireEventImage, translateEventFields } from './events-pipeline';
 import { HUMANIZER_RULES, humanizeText } from './humanizer';
 import { type ForwardLead, type LeadOutcome, LEADS_PER_RUN, leadKey, selectLeads } from './forward-leads';
 import { lookup } from 'node:dns/promises';
-import { sameSourcePageReason } from './event-identity';
+import { latinEventName, sameSourcePageReason } from './event-identity';
 import { kebab, isGenericRoomName, hostVenueName } from './venues';
 import { FLASH, geminiEndpoint } from './gemini-models';
 import { webSearch, webSearchAvailable, webSearchResults, type WebResult } from './web-search';
@@ -888,9 +888,10 @@ const spanDays = (from: string, to?: string | null) => (Date.parse(day(to || fro
 export function recordFromFacts(facts: PageFacts, url: string, now: Date = new Date()): EventRecord {
   const date = facts.time && /^\d{2}:\d{2}$/.test(facts.time) ? `${facts.date}T${facts.time}` : facts.date;
   const priceFrom = typeof facts.priceFrom === 'number' && facts.priceFrom > 0 ? facts.priceFrom : undefined;
+  const name = latinEventName(facts.name); // backlog #48: Latin title for mixed-script names
   return {
-    slug: composeEventSlug(facts.name, facts.venue, facts.date),
-    name: facts.name.trim(),
+    slug: composeEventSlug(name, facts.venue, facts.date),
+    name,
     date,
     endDate: facts.endDate && facts.endDate !== facts.date ? facts.endDate : undefined,
     venue: facts.venue.trim(),

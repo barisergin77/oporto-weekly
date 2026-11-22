@@ -510,3 +510,34 @@ export function isSameEvent(a: EventLike, b: EventLike): boolean {
 export function pickCanonical<T extends Pick<EventRecord, 'addedAt'>>(records: T[]): T {
   return records.slice().sort((x, y) => x.addedAt.localeCompare(y.addedAt))[0];
 }
+
+// ---------------------------------------------------------------------------
+// Names in shaped scripts (backlog #48, owner OK 2026-11-22)
+// ---------------------------------------------------------------------------
+
+/** Hebrew, Arabic, Syriac, Thaana, N'Ko, Indic, Sinhala, Thai + Arabic/Hebrew presentation forms. */
+export const SHAPED_SCRIPT = /[֐-ࣿऀ-෿฀-๿יִ-﷿ﹰ-﻿]/;
+const HAS_LATIN_WORD = /[A-Za-z\u00C0-\u024F\u1E00-\u1EFF]{2}/;
+
+/**
+ * The name to store for an event. When a name mixes a shaped script with a Latin
+ * title (e.g. "السّيرة الهلاليّة [A Epopeia de Banī Hilāl]"), keep the Latin title:
+ * that's what searchers type, and @vercel/og can't render the shaped script.
+ * A bracketed Latin title wins; otherwise the Latin text left after removing the
+ * shaped-script runs. Names with no Latin part are returned unchanged.
+ */
+export function latinEventName(name: string): string {
+  const n = name.trim();
+  if (!SHAPED_SCRIPT.test(n)) return n;
+  const bracketed = (n.match(/[[(][^\])]*[\])]/g) ?? [])
+    .map((s) => s.slice(1, -1).trim())
+    .find((s) => !SHAPED_SCRIPT.test(s) && HAS_LATIN_WORD.test(s));
+  if (bracketed) return bracketed;
+  const rest = n
+    .replace(new RegExp(`(?:${SHAPED_SCRIPT.source}|[\\u064B-\\u065F\\u0670\\u060C\\u061B\\u061F])+`, 'g'), ' ')
+    .replace(/[[\]()]/g, ' ')
+    .replace(/\s+/g, ' ')
+    .replace(/^[\s\-–—|:/·,]+|[\s\-–—|:/·,]+$/g, '')
+    .trim();
+  return HAS_LATIN_WORD.test(rest) ? rest : n;
+}
