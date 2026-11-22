@@ -31,7 +31,8 @@
     "compose-dry-run": "tsx --env-file=.env.local scripts/compose-edition-dry-run.ts",
     "test:tags": "tsx scripts/test-tag-fallback.ts",
     "test:name-en": "tsx scripts/test-name-en-subtitles.ts",
-    "test:latin-name": "tsx scripts/test-latin-name.ts"
+    "test:latin-name": "tsx scripts/test-latin-name.ts",
+    "test:edition-picks": "tsx scripts/test-edition-picks.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^1.3.0",

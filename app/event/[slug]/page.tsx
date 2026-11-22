@@ -19,7 +19,7 @@ import { Header } from '@/app/components/Header';
 import { Footer } from '@/app/components/Footer';
 import { monthHubFor } from '@/lib/event-months';
 import { eventSeo } from '@/lib/event-seo';
-import { SubscribeCTA } from '@/app/components/SubscribeCTA';
+import { WeeklyPicksSignup } from '@/app/components/WeeklyPicksSignup';
 import { ShortcutChips } from '@/app/components/ShortcutChips';
 import { AFFILIATE_NOTE, SPONSORED_REL } from '@/lib/fever';
 import { organizerCtaEligible } from '@/lib/gomry';
@@ -239,6 +239,10 @@ export default function EventPage({ params }: { params: { slug: string } }) {
         )}
         {showOrganizerCta && <OrganizerCta lang="en" slug={ev.slug} />}
 
+        {/* Subscribe, with this week's real picks (G3, 2026-11-22): right after
+            the ticket button, where the visitor has just decided about one event. */}
+        <WeeklyPicksSignup lang="en" currentSlug={ev.slug} />
+
         {/* Source edition */}
         {sourceEdition && (
           <div
@@ -274,7 +278,6 @@ export default function EventPage({ params }: { params: { slug: string } }) {
           </p>
         )}
         <div style={{ margin: '0 0 24px' }}><ShortcutChips lang="en" /></div>
-        <SubscribeCTA lang="en" context="event" />
 
         {/* Related events at the same venue */}
         {relatedAtVenue.length > 0 && (

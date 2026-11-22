@@ -20,7 +20,7 @@ import { Header } from '@/app/components/Header';
 import { Footer } from '@/app/components/Footer';
 import { monthHubFor, ptLabel, ptSlug } from '@/lib/event-months';
 import { eventSeo, priceText } from '@/lib/event-seo';
-import { SubscribeCTA } from '@/app/components/SubscribeCTA';
+import { WeeklyPicksSignup } from '@/app/components/WeeklyPicksSignup';
 import { ShortcutChips } from '@/app/components/ShortcutChips';
 import { AFFILIATE_NOTE, SPONSORED_REL } from '@/lib/fever';
 import { organizerCtaEligible } from '@/lib/gomry';
@@ -151,6 +151,9 @@ export default function EventPagePT({ params }: { params: { slug: string } }) {
         )}
         {showOrganizerCta && <OrganizerCta lang="pt" slug={ev.slug} />}
 
+        {/* Subscrever, com as escolhas reais da semana (G3, 2026-11-22). */}
+        <WeeklyPicksSignup lang="pt" currentSlug={ev.slug} />
+
         {sourceEdition && (
           <div style={{ background: colors.bgSoft, borderLeft: `3px solid ${colors.accent}`, padding: '14px 18px', margin: '0 0 40px', fontSize: 14, color: colors.textSoft }}>
             Destaque na edição{' '}
@@ -171,7 +174,6 @@ export default function EventPagePT({ params }: { params: { slug: string } }) {
           </p>
         )}
         <div style={{ margin: '0 0 24px' }}><ShortcutChips lang="pt" /></div>
-        <SubscribeCTA lang="pt" context="event" />
 
         {relatedAtVenue.length > 0 && (
           <section style={{ marginTop: 48 }}>
