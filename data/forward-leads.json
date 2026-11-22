@@ -49,19 +49,6 @@
       "resolvedAt": "2026-10-31T08:32:37.308Z"
     },
     {
-      "name": "Saint-Saëns Organ Symphony – Orquestra Sinfónica",
-      "date": "2026-11-21T18:00",
-      "venue": "Casa da Música",
-      "url": "https://casadamusica.com/event/sinfonia-orgao/?selected_session=44140",
-      "note": "Sala Suggia; page title 'Sinfonia Órgão'.",
-      "source": "casa-da-musica-newsletter-2026-11",
-      "addedAt": "2026-10-25T12:00:00Z",
-      "status": "done",
-      "eventSlug": "sinfonia-orgao-casa-da-musica-nov-21-2026",
-      "lastTriedAt": "2026-10-30T08:32:23.806Z",
-      "resolvedAt": "2026-10-30T08:32:23.806Z"
-    },
-    {
       "name": "Jazz in the Space Age de George Russell – Mário Laginha & Miguel Meirinhos + Orquestra Jazz de Matosinhos",
       "date": "2026-11-22T21:30",
       "venue": "Casa da Música",
@@ -250,19 +237,6 @@
       "resolvedAt": "2026-10-31T08:32:37.308Z"
     },
     {
-      "name": "Vizinhos ao Vivo nos Coliseus",
-      "date": "2026-11-21",
-      "venue": "Coliseu Porto Ageas",
-      "note": "21:30; concert",
-      "source": "coliseu-newsletter-2026-10",
-      "addedAt": "2026-11-01T05:00:47Z",
-      "status": "done",
-      "eventSlug": "vizinhos-ao-vivo-nos-coliseus-coliseu-porto-ageas-nov-21-2026",
-      "reason": "already listed",
-      "lastTriedAt": "2026-11-01T14:01:20.564Z",
-      "resolvedAt": "2026-11-01T14:01:20.564Z"
-    },
-    {
       "name": "The Music of Morricone, Zimmer & Williams",
       "date": "2026-11-22",
       "venue": "Coliseu Porto Ageas",
@@ -369,46 +343,6 @@
       "resolvedAt": "2026-11-03T14:52:06.038Z"
     },
     {
-      "name": "FIATO — Festival Internacional de Artes e Ópera do Porto",
-      "date": "2026-11-13",
-      "endDate": "2026-11-21",
-      "venue": "Vários locais",
-      "note": "2nd edition, motto 'Todas as vozes podem mudar o mundo'. About ten opera shows for all ages at Coliseu Porto Ageas, Palácio do Bolhão, Clube Fenianos Portuenses and more. Free community events, classes, workshops and an escape room",
-      "source": "agenda-porto-newsletter-2026-11",
-      "addedAt": "2026-11-10T05:00:39Z",
-      "status": "rejected",
-      "attempts": 3,
-      "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
-      "lastTriedAt": "2026-11-11T08:31:37.139Z",
-      "resolvedAt": "2026-11-11T08:31:37.139Z"
-    },
-    {
-      "name": "David Fonseca",
-      "date": "2026-11-21",
-      "venue": "Super Bock Arena",
-      "note": "21:30. Concert presenting Radiante Estrela Decadente, his tenth solo album. Guests Marisa Liz and Cláudia Pascoal.",
-      "source": "agenda-porto-newsletter-2026-11",
-      "addedAt": "2026-11-17T05:00:31Z",
-      "status": "done",
-      "eventSlug": "david-fonseca-super-bock-arena-nov-21-2026",
-      "reason": "already listed",
-      "lastTriedAt": "2026-11-17T16:40:30.951Z",
-      "resolvedAt": "2026-11-17T16:40:30.951Z"
-    },
-    {
-      "name": "Bosque da Noite, Rasgar um céu sem sol e Conto Gótico",
-      "date": "2026-11-21",
-      "venue": "Galeria Municipal do Porto",
-      "note": "17:00 opening of three new exhibitions: Leonor Parda (video, sculpture, sound), Basel Abbas & Ruanne Abou-Rahme (immersive multimedia installations), and Isabel Carvalho's first retrospective.",
-      "source": "agenda-porto-newsletter-2026-11",
-      "addedAt": "2026-11-17T05:00:31Z",
-      "status": "rejected",
-      "attempts": 3,
-      "reason": "not an organiser/venue/ticketing page (https://www.agenda-porto.pt/evento/bosque-da-noite-rasgar-um-ceu-sem-sol-e-conto-gotico/)",
-      "lastTriedAt": "2026-11-19T06:06:50.415Z",
-      "resolvedAt": "2026-11-19T06:06:50.415Z"
-    },
-    {
       "name": "Porto/Post/Doc: Film & Media Festival",
       "date": "2026-11-19",
       "endDate": "2026-11-28",
@@ -421,45 +355,6 @@
       "reason": "not an organiser/venue/ticketing page (https://www.agenda-porto.pt/ciclo/portopostdoc-film-andamp-media-festival-1762174264544/)",
       "lastTriedAt": "2026-11-19T06:06:50.415Z",
       "resolvedAt": "2026-11-19T06:06:50.415Z"
-    },
-    {
-      "name": "Trilogia Cadela Força – Capítulo II: The Brotherhood, de Carolina Bianchi Y Cara de Cavalo",
-      "date": "2026-11-20",
-      "endDate": "2026-11-21",
-      "venue": "Teatro Rivoli",
-      "note": "Theatre, 20 Nov 21:00 and 21 Nov 17:00. Carolina Bianchi on pacts of masculinity, brotherhood and sexual violence.",
-      "source": "agenda-porto-newsletter-2026-11",
-      "addedAt": "2026-11-17T05:00:31Z",
-      "status": "done",
-      "eventSlug": "carolina-bianchi-y-cara-de-cavalo-the-brotherhood-rivoli-theatre-nov-20-2026",
-      "reason": "already listed",
-      "lastTriedAt": "2026-11-17T16:40:30.951Z",
-      "resolvedAt": "2026-11-17T16:40:30.951Z"
-    },
-    {
-      "name": "Dance Lab Contemporâneo",
-      "date": "2026-11-21",
-      "venue": "Centro de Desporto da Universidade do Porto",
-      "note": "10:00. 4th UPFit Dance Lab: hands-on contemporary dance session led by Marta Aguilar where participants co-create a choreography.",
-      "source": "agenda-porto-newsletter-2026-11",
-      "addedAt": "2026-11-17T05:00:31Z",
-      "status": "rejected",
-      "attempts": 3,
-      "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
-      "lastTriedAt": "2026-11-19T06:06:50.415Z",
-      "resolvedAt": "2026-11-19T06:06:50.415Z"
-    },
-    {
-      "name": "Pequenos Construtores, Grandes Navegações #2",
-      "date": "2026-11-21",
-      "venue": "Casa do Infante",
-      "note": "11:00. Family workshop led by Gonçalo Fonseca: build small boats from popsicle and coffee sticks, inspired by the city's maritime history.",
-      "source": "agenda-porto-newsletter-2026-11",
-      "addedAt": "2026-11-17T05:00:31Z",
-      "status": "done",
-      "eventSlug": "oficina-para-familias-pequenos-construtores-grandes-navegacoes-2-casa-do-infante-nov-21-2026",
-      "lastTriedAt": "2026-11-18T16:10:04.449Z",
-      "resolvedAt": "2026-11-18T16:10:04.449Z"
     },
     {
       "name": "Mercado de Natal de Serralves",
