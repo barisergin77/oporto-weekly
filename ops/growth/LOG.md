@@ -7,6 +7,57 @@ impressions / pos 9.3 over 28 days (prev 28: 191 / 10,293 / 16.9);
 subscribers 56 active (34 EN, 22 PT), ~1.4 net/week; signups by page: none
 recorded yet (tracking started today).
 
+## 2026-11-22 — G3: event pages show this week's real picks in the signup box
+- Run 09:30 UTC Sun, outside the freeze. Not Mon/Tue, so no guide re-check.
+- Live check: /api/version 9b24481 (last night's flush, includes 984a9bc and
+  the G1 commits). **Health ok: true** (9/9, GitHub token 41 days left). G1
+  pages live (200). Indexing API 200 for G1 EN + PT and Al Di Meola EN + PT.
+- Metrics (`metrics/2026-11-22.json`): 1,036 clicks / 42,825 impr / pos 9.55
+  over 28d (prev 28d 314 / 14,464). Last 7d **397 clicks vs 293**, impr
+  16,230 vs 12,330, CTR 2.45% vs 2.38%, pos 8.5 vs 9.6. GA4 7d 152 users /
+  171 sessions / 274 PV (prev 162 / 193 / 317); 100 organic, 27 direct, 22 AI
+  assistant, 18 organic social; `sign_up` 5. Subscribers 86 (11-19).
+  Signups attributed 28d: 37 (event 14, home 9, porto-events 8, blog 3,
+  archive 2, eventos 1). Instagram 28 (27 a week ago).
+- Results due: none today (next: 11-23 coffee guide merge, 11-24 Adiel).
+- Research for the growth item: GSC NYE queries in the last 365d: 1
+  impression; CM Porto hasn't announced 2026/27 (last year's programme was
+  published mid-December), and data has 2 NYE events, so G4 waits. Christmas
+  market queries already land on the hand-checked shopping guide (pos 5–11),
+  so a markets page would compete with it. Category queries (concerts,
+  theatre, nightlife) are 536 impr in 28d, nearly all event names. Event
+  pages carry most of the traffic: 690 search clicks on upcoming events and
+  75 on past ones in 28d, and 14 of 37 signups. Add-to-calendar already
+  existed. The signup box sat below the ticket button, organiser box,
+  "Featured in", guide card, month link and chips, with generic copy.
+- Growth item (G3): `WeeklyPicksSignup` (app/components, lib/edition-picks.ts)
+  right after the ticket button on every EN + PT event page: "Our picks for
+  this week in Porto", the latest edition's Editor's Picks (linked, with day,
+  e.g. "Organ Symphony · Sat 21 Nov"), the form, and "Read the full edition".
+  On a pick's own page: "⭐ This event is one of this week's picks." Falls
+  back to the old SubscribeCTA when no edition ≤10 days old has ≥3 picks. The
+  bottom box is gone, so each page has one form. Read-only over data/events +
+  newsletters JSON, send path untouched. `npm run test:edition-picks` (4).
+  Commit c3598ab `[defer]`, live with tonight's 21:00 flush.
+- Verified: tsc OK, test OK, build exit 0. Built HTML: Al Di Meola EN shows
+  the box with the 19–25 Nov picks and no "Never miss what's on" box; PT
+  Sinfonia Órgão shows "Escolhas da semana", "Da edição de 19-25 de novembro
+  de 2026…", "Este evento é uma das escolhas da semana", "Ler a edição
+  completa".
+- Expect: event-page signups up from 14 per 28d to 20+ at similar traffic.
+- Measure on: 2026-12-20 (signup-sources byPageType event 11-23 → 12-20 vs
+  10-26 → 11-22, normalised by GA4 /event + /pt/event page views).
+- Price backfill (2c): 14 upcoming without a price; checked 5 not seen
+  lately (Panza + Havok + Bonus_Bass 26 Nov, AQ3 + The Wallpapers 27 Nov, Qual
+  é a Graça? 28 Nov, Concertos Promenade 29 Nov ticketline series page, Fórum
+  Serpentina 13 Dec): none states a price, left empty.
+- Cancellations (2d): none of those 5 pages says Cancelado / Anulado / Adiado.
+- Partner earnings (2e, Impact API): Fever 10-27 → 11-22 **64 clicks** (+2),
+  **4 sales** (new: 21 Nov, €55.04), **€257.68 in sales, €15.46 payout
+  pending** (first locks 12-03).
+- Result:
+- Needs owner: none.
+
 ## 2026-11-21 — Build-breaking Arabic OG card fixed before tonight's flush (#48); Al Di Meola snippet (#10); 1 price
 - Run 09:30 UTC Sat, outside the freeze. Not Mon/Tue, so no guide re-check.
 - Live check: /api/version a5249a9 (last night's flush, includes dec2e6e).
