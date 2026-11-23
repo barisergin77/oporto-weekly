@@ -7,6 +7,61 @@ impressions / pos 9.3 over 28 days (prev 28: 191 / 10,293 / 16.9);
 subscribers 56 active (34 EN, 22 PT), ~1.4 net/week; signups by page: none
 recorded yet (tracking started today).
 
+## 2026-11-23 — G8: Christmas concerts in Porto page (EN + PT); 4 records corrected
+- Run 09:30 UTC Mon, outside the freeze.
+- Guide re-check (2b): none due. Oldest check is 10-31 (23 days), limit 30.
+- Live check: /api/version 29acf8a, includes yesterday's c3598ab (G3).
+  **Health ok: true** (9/9, GitHub token 40 days left).
+- Metrics (`metrics/2026-11-23.json`): 1,081 clicks / 45,156 impr / pos 9.38
+  over 28d (prev 28d 313 / 14,356). Last 7d **394 clicks vs 296**, impr
+  16,706 vs 12,334, CTR 2.36% vs 2.40%, pos 8.3 vs 9.5. GA4 7d 160 users / 190
+  sessions / 309 PV (prev 159 / 189 / 294); 102 organic, 44 direct, 19 AI
+  assistant, 18 organic social; `sign_up` 8. Subscribers 86 (11-19). Signups
+  attributed 28d: 37 (event 13, home 10, porto-events 9, blog 3, archive 1,
+  eventos 1). Instagram 29 (27 a week ago).
+- Result due (#24 coffee guide merge): **no gain, slightly worse on small
+  numbers.** All 4 coffee URLs, 10-01 → 10-25 vs 10-27 → 11-20: 6 clicks / 229
+  impr → 1 / 163. Kept guide pos 9.3 → 10.9. The old EN URL still shows in GSC
+  (27 impr). Re-read with #45 on 11-29, since the 11-01 consolidation overlaps.
+- Research: GSC has Christmas demand but little concert-specific volume yet
+  ("concerto de natal 2026" 4 impr, "concertos porto dezembro 2026" 3), so this
+  is a bet on the December peak. Time Out Porto and Fever both have a Christmas
+  concerts page; we had none. A web search found no single dated 2026 list.
+- Growth item (G8): `/porto-events/christmas-concerts` +
+  `/pt/eventos/concertos-de-natal`: 20 dated rows (8 Aliados, 9 ticketed, 3
+  church) with times, venues and prices, Bach oratorio section, FAQ + JSON-LD,
+  sources, signup form. Past rows drop off; noindex after 6 Jan. In the
+  sitemap, linked from the Christmas hub and the lights page. Commit 9d46dcd
+  `[defer]`, live with tonight's 21:00 flush.
+- Not claimed on purpose: the city's release doesn't say the Aliados or church
+  concerts are free, so the page shows no price for them and the FAQ says so.
+  Schubertíada's BOL page shows "Esgotado" twice without naming a zone, so we
+  don't call it sold out; the page tells readers to check availability.
+- Records corrected from source pages (housekeeping): Candlelight Bolsa €19.50
+  → €25.50 and ages 6+ → 8+ (Zona D sold out); Candlelight Hilton €17.50 → €18
+  regular price (a limited 20% offer currently makes it €14.40); Tempo de Natal
+  €22 → €22–€40 + real Melodias Célebres programme; O Quebra-Nozes gains its
+  second session, Sat 19 Dec 18:00 (endDate 12-19).
+- Verified: tsc OK, build exit 0 (7,399 pages). Built EN + PT pages have the
+  right titles, rows and prices; the Christmas hub links to the new page. Live
+  check next run, then send EN + PT to the Indexing API.
+- Expect: page 1 for "concertos de natal porto" variants; 300+ impr and 10+
+  clicks by 12-21.
+- Measure on: 2026-12-21 (GSC both URLs + queries containing concerto/concert
+  + natal/christmas; signups from both paths).
+- Price backfill (2c): 12 upcoming without a price. Checked 5 (FC Porto vs
+  Estrela Amadora, FC Porto vs Nacional, Attention Deficit, Joalharia e
+  Identidade, O Natal na Árvore): none states a ticket price, left empty. Both
+  Gomry match pages say nothing is on sale right now.
+- Cancellations (2d): none on the 15 source pages read today.
+- Partner earnings (2e, Impact API): Fever 10-27 → 11-23 **64 clicks, 4 sales,
+  €257.68 in sales, €15.46 payout pending**, unchanged since 11-22. Impact
+  shows the locking date of 3 of the 4 sales as **2028-12-03** (only the 10-30
+  sale says 2026-12-03), so the earlier "first locks 12-03" holds for €5.61
+  only. Probably a date typo on Fever's side; re-read after 12-03.
+- Result:
+- Needs owner: none.
+
 ## 2026-11-22 — G3: event pages show this week's real picks in the signup box
 - Run 09:30 UTC Sun, outside the freeze. Not Mon/Tue, so no guide re-check.
 - Live check: /api/version 9b24481 (last night's flush, includes 984a9bc and
@@ -1571,7 +1626,9 @@ recorded yet (tracking started today).
 - Expect: the-2026 picks up a-2026's impressions; "coffee shops porto" /
   "pastel de nata porto" clicks up a little. Small (2 clicks moved).
 - Measure on: 2026-11-23 (GSC clicks on the-2026-guide vs 15 / 929 baseline).
-- Result:
+- Result (11-23): no gain, slightly worse on small numbers. All 4 URLs, 10-01 →
+  10-25 vs 10-27 → 11-20: 6 clicks / 229 impr → 1 / 163; kept guide pos 9.3 →
+  10.9. Re-read with #45 on 11-29.
 - Next run: #26 is forward-scan work and needs owner input first (see below).
   Otherwise #10 (low-CTR pass: "mike stern casa da musica" 66 impr at pos 6.3,
   0 clicks) or #12 (draft Porto Expats post Tue 10-27 for Wed 10-28).

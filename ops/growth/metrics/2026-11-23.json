@@ -1,0 +1,346 @@
+{
+  "takenAt": "2026-11-23T09:30:22.731Z",
+  "search": {
+    "last7": {
+      "clicks": 394,
+      "impressions": 16706,
+      "ctr": 0.023584340955345385,
+      "position": 8.324494193702861
+    },
+    "prev7": {
+      "clicks": 296,
+      "impressions": 12334,
+      "ctr": 0.02399870277282309,
+      "position": 9.54637587157451
+    },
+    "last28": {
+      "clicks": 1081,
+      "impressions": 45156,
+      "ctr": 0.023939232881566127,
+      "position": 9.382429798919302
+    },
+    "prev28": {
+      "clicks": 313,
+      "impressions": 14356,
+      "ctr": 0.021802730565617164,
+      "position": 10.292560601838952
+    },
+    "topPages28": [
+      {
+        "page": "/porto-events/this-weekend",
+        "clicks": 32,
+        "impressions": 306,
+        "position": 9
+      },
+      {
+        "page": "/porto-events/december-2026",
+        "clicks": 28,
+        "impressions": 483,
+        "position": 4.8
+      },
+      {
+        "page": "/pt/event/mercado-de-natal-do-mercado-ferreira-borges-hard-club-nov-14-2026",
+        "clicks": 21,
+        "impressions": 297,
+        "position": 5.6
+      },
+      {
+        "page": "/event/outworld-super-bock-arena-nov-28-2026",
+        "clicks": 20,
+        "impressions": 943,
+        "position": 7.5
+      },
+      {
+        "page": "/blog/porto-shopping-guide-your-map-to-vintage-artisan-finds",
+        "clicks": 19,
+        "impressions": 1209,
+        "position": 9.3
+      },
+      {
+        "page": "/event/baluarte-4-exposicao-de-arte-urbana-do-porto-varios-locais-nov-13-2026",
+        "clicks": 19,
+        "impressions": 224,
+        "position": 6.1
+      },
+      {
+        "page": "/pt/event/chegada-do-natal-marcolino-nov-14-2026",
+        "clicks": 19,
+        "impressions": 210,
+        "position": 5.1
+      },
+      {
+        "page": "/pt/event/inauguracao-das-luzes-e-da-arvore-de-natal-avenida-dos-aliados-nov-28-2026",
+        "clicks": 15,
+        "impressions": 967,
+        "position": 7.5
+      },
+      {
+        "page": "/event/siza-talks-conversas-internacionais-auditorio-do-museu-de-serralves-nov-12-2026",
+        "clicks": 14,
+        "impressions": 288,
+        "position": 5.2
+      },
+      {
+        "page": "/pt/event/gaia-hugo-sousa-aqui-entre-nos-auditorio-de-olival-nov-8-2026",
+        "clicks": 14,
+        "impressions": 192,
+        "position": 3.2
+      },
+      {
+        "page": "/pt/event/bate-papo-com-theo-coliseu-porto-ageas-nov-18-2026",
+        "clicks": 12,
+        "impressions": 872,
+        "position": 5.7
+      },
+      {
+        "page": "/pt/event/girlhood-porto-maus-habitos-nov-15-2026",
+        "clicks": 11,
+        "impressions": 107,
+        "position": 4.3
+      },
+      {
+        "page": "/pt/event/todos-contam-teatro-campo-alegre-nov-19-2026",
+        "clicks": 11,
+        "impressions": 138,
+        "position": 5.6
+      },
+      {
+        "page": "/pt/event/freaky-halloween-discoteca-via-rapida-oct-31-2026",
+        "clicks": 10,
+        "impressions": 146,
+        "position": 4
+      },
+      {
+        "page": "/",
+        "clicks": 8,
+        "impressions": 60,
+        "position": 5.7
+      }
+    ],
+    "lowCtr28": [
+      {
+        "query": "inauguração luzes natal porto 2026",
+        "impressions": 266,
+        "ctr": 1.5,
+        "position": 8.1
+      },
+      {
+        "query": "outworld porto",
+        "impressions": 227,
+        "ctr": 1.8,
+        "position": 7.7
+      },
+      {
+        "query": "bate papo com theo porto",
+        "impressions": 168,
+        "ctr": 0,
+        "position": 7.1
+      },
+      {
+        "query": "marina herlop porto",
+        "impressions": 155,
+        "ctr": 0.6,
+        "position": 8.8
+      },
+      {
+        "query": "jack and jack porto",
+        "impressions": 145,
+        "ctr": 1.4,
+        "position": 7.3
+      },
+      {
+        "query": "luzes natal porto 2026",
+        "impressions": 137,
+        "ctr": 1.5,
+        "position": 8.8
+      },
+      {
+        "query": "bate papo com theo",
+        "impressions": 124,
+        "ctr": 0.8,
+        "position": 7.7
+      },
+      {
+        "query": "debativel porto",
+        "impressions": 109,
+        "ctr": 1.8,
+        "position": 5.4
+      },
+      {
+        "query": "luzes de natal porto 2026",
+        "impressions": 90,
+        "ctr": 1.1,
+        "position": 8.7
+      },
+      {
+        "query": "vintage shops porto",
+        "impressions": 87,
+        "ctr": 1.1,
+        "position": 10.7
+      },
+      {
+        "query": "quando menos se espera sa da bandeira",
+        "impressions": 72,
+        "ctr": 1.4,
+        "position": 8
+      },
+      {
+        "query": "best neighborhoods in porto for expats",
+        "impressions": 62,
+        "ctr": 0,
+        "position": 66.5
+      },
+      {
+        "query": "barons hall",
+        "impressions": 60,
+        "ctr": 0,
+        "position": 10.4
+      },
+      {
+        "query": "quando menos se espera porto",
+        "impressions": 55,
+        "ctr": 1.8,
+        "position": 7.2
+      },
+      {
+        "query": "best cheap eats porto",
+        "impressions": 54,
+        "ctr": 1.9,
+        "position": 10.5
+      }
+    ]
+  },
+  "visitors": {
+    "last7": {
+      "users": 160,
+      "sessions": 190,
+      "pageViews": 309
+    },
+    "prev7": {
+      "users": 159,
+      "sessions": 189,
+      "pageViews": 294
+    },
+    "channels7": [
+      {
+        "channel": "Organic Search",
+        "sessions": 102
+      },
+      {
+        "channel": "Direct",
+        "sessions": 44
+      },
+      {
+        "channel": "AI Assistant",
+        "sessions": 19
+      },
+      {
+        "channel": "Organic Social",
+        "sessions": 18
+      },
+      {
+        "channel": "Referral",
+        "sessions": 4
+      },
+      {
+        "channel": "Unassigned",
+        "sessions": 3
+      }
+    ],
+    "signUpEvents7": 8
+  },
+  "subscribers": [
+    {
+      "week": "2026-10-29",
+      "active": 60,
+      "en": 38,
+      "pt": 22
+    },
+    {
+      "week": "2026-11-05",
+      "active": 69,
+      "en": 45,
+      "pt": 24
+    },
+    {
+      "week": "2026-11-12",
+      "active": 76,
+      "en": 48,
+      "pt": 28
+    },
+    {
+      "week": "2026-11-19",
+      "active": 86,
+      "en": 56,
+      "pt": 30
+    }
+  ],
+  "signups28": {
+    "total": 37,
+    "byPageType": {
+      "event": 13,
+      "archive": 1,
+      "porto-events": 9,
+      "blog": 3,
+      "home": 10,
+      "eventos": 1
+    },
+    "recent": [
+      {
+        "at": "2026-11-18T14:58:30.048Z",
+        "lang": "en",
+        "source": "/porto-events/november-2026"
+      },
+      {
+        "at": "2026-11-18T15:05:21.060Z",
+        "lang": "en",
+        "source": "/"
+      },
+      {
+        "at": "2026-11-19T15:38:04.475Z",
+        "lang": "en",
+        "source": "/porto-events"
+      },
+      {
+        "at": "2026-11-20T13:04:07.920Z",
+        "lang": "pt",
+        "source": "/pt/event/croatian-amor-frederik-valentin-rca-radioclube-agramonte-nov-15-2026"
+      },
+      {
+        "at": "2026-11-21T06:36:01.746Z",
+        "lang": "en",
+        "source": "/event/feira-da-vandoma-praca-vandoma-nov-7-2026"
+      },
+      {
+        "at": "2026-11-21T13:45:29.752Z",
+        "lang": "pt",
+        "source": "/pt/event/candlelight-the-best-of-hans-zimmer-hilton-porto-gaia-dec-6-2026"
+      },
+      {
+        "at": "2026-11-21T17:44:40.408Z",
+        "lang": "en",
+        "source": "/"
+      },
+      {
+        "at": "2026-11-22T07:16:18.602Z",
+        "lang": "en",
+        "source": "/"
+      },
+      {
+        "at": "2026-11-22T11:40:11.962Z",
+        "lang": "en",
+        "source": "/porto-events/november-2026"
+      },
+      {
+        "at": "2026-11-22T12:21:27.193Z",
+        "lang": "en",
+        "source": "/"
+      }
+    ]
+  },
+  "instagram": {
+    "date": "2026-11-23",
+    "followers": 29,
+    "weekAgo": 27
+  }
+}
