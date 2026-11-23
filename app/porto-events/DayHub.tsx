@@ -9,9 +9,9 @@ import { Header } from '@/app/components/Header';
 import { Footer } from '@/app/components/Footer';
 import { SubscribeCTA } from '@/app/components/SubscribeCTA';
 import { ShortcutChips } from '@/app/components/ShortcutChips';
-import { GuidesStrip } from '@/app/components/RelatedGuide';
-import { listBlogPosts } from '@/lib/blog';
-import { guidesForHub } from '@/lib/related-guides';
+import { GuidesStrip, InlineGuideCard } from '@/app/components/RelatedGuide';
+import { listBlogPosts, listBlogPostsPT } from '@/lib/blog';
+import { guideForList, guidesForHub } from '@/lib/related-guides';
 import { EventFilters } from '@/app/components/EventFilters';
 
 /**
@@ -77,7 +77,10 @@ export function DayHub({ kind, lang }: { kind: DayHubKind; lang: Lang }) {
   const range = dayHubRange(kind);
   const { main, longRuns } = eventsInRange(range);
   const when = rangeLabel(range.from, range.to, lang);
-  const guides = guidesForHub([...main, ...longRuns], Number(range.from.slice(5, 7)) - 1, listBlogPosts());
+  const monthIndex = Number(range.from.slice(5, 7)) - 1;
+  // One guide inline after the 6th event (PT: only guides with a PT version); the strip shows the next three.
+  const listGuide = guideForList({ events: [...main, ...longRuns], monthIndex }, pt ? listBlogPostsPT() : listBlogPosts());
+  const guides = guidesForHub([...main, ...longRuns], monthIndex, listBlogPosts(), 4).filter((g) => g.slug !== listGuide?.slug).slice(0, 3);
   const h1 = heading(kind, lang);
   const items = [...main, ...longRuns].map((e) => toFilterItem(e, lang));
 
@@ -178,6 +181,7 @@ export function DayHub({ kind, lang }: { kind: DayHubKind; lang: Lang }) {
             },
           ]}
           afterFirst={<div style={{ marginTop: 32 }}><SubscribeCTA lang={lang} context="event" /></div>}
+          inline={<InlineGuideCard guide={listGuide} lang={lang} />}
         />
 
         <GuidesStrip guides={guides} lang={lang} source="hub" />

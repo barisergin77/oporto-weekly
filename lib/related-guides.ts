@@ -176,6 +176,30 @@ export function guidesForHub(
   return resolve(keys, posts, limit);
 }
 
+/** Topic keys for the event lists that are about one thing (lib/event-landings.ts kinds and the Christmas pages). */
+const LIST_TOPICS: Record<string, string[]> = {
+  kids: ['family'],
+  christmas: ['christmas', 'madeinporto', 'seasonal'],
+  free: ['budget'],
+  'weekend-free': ['budget'],
+};
+
+/**
+ * The one guide shown inline in an event list (after the 6th event, owner
+ * 2026-11-23): the list's own topic when it has one (kids -> family guide,
+ * Christmas -> Christmas shopping), otherwise the hub logic (season, then the
+ * list's biggest categories). PT callers pass listBlogPostsPT() so a PT page
+ * only ever links a guide that exists in Portuguese.
+ */
+export function guideForList(
+  list: { kind?: string; events?: Array<Pick<EventRecord, 'category'>>; monthIndex?: number },
+  posts: BlogPost[]
+): BlogPost | undefined {
+  const keys = list.kind ? LIST_TOPICS[list.kind] : undefined;
+  if (keys) return resolve(keys, posts, 1)[0];
+  return guidesForHub(list.events ?? [], list.monthIndex ?? new Date().getUTCMonth(), posts, 1)[0];
+}
+
 /** Newest guide per topic, newest first: the home page "Guides" section. */
 export function featuredGuides(posts: BlogPost[], limit = 4): BlogPost[] {
   const seen = new Set<string>();

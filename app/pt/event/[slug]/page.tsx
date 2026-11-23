@@ -149,6 +149,8 @@ export default function EventPagePT({ params }: { params: { slug: string } }) {
             )}
           </div>
         )}
+        {/* Guia relacionado (lib/related-guides.ts): logo a seguir ao botão de bilhetes, onde termina o conteúdo do evento (owner 2026-11-23). */}
+        <RelatedGuideCard guide={guide} lang="pt" source="event" />
         {showOrganizerCta && <OrganizerCta lang="pt" slug={ev.slug} />}
 
         {/* Subscrever, com as escolhas reais da semana (G3, 2026-11-22). */}
@@ -163,8 +165,6 @@ export default function EventPagePT({ params }: { params: { slug: string } }) {
             da Oporto Weekly.
           </div>
         )}
-
-        <RelatedGuideCard guide={guide} lang="pt" source="event" />
 
         {monthHub && (
           <p style={{ margin: '0 0 24px', fontSize: 14 }}>

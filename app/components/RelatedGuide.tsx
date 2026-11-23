@@ -9,10 +9,12 @@ import { TrackedLink } from './TrackedLink';
  * the events hubs and the home page. Which guide is lib/related-guides.ts.
  * PT pages link /pt/blog/ only when the guide has a PT version. Clicks go to
  * GA4 as `related_guide_click` with the guide slug and the source page type.
+ * InlineGuideCard sits inside event lists, after the 6th event (source 'list',
+ * owner 2026-11-23).
  */
 
 type Lang = 'en' | 'pt';
-export type GuideSource = 'event' | 'venue' | 'hub' | 'home';
+export type GuideSource = 'event' | 'venue' | 'hub' | 'home' | 'list';
 
 function guideLink(p: BlogPost, lang: Lang) {
   const pt = lang === 'pt' && hasBlogPT(p.slug);
@@ -64,6 +66,51 @@ export function RelatedGuideCard({ guide, lang, source }: { guide?: BlogPost; la
         </div>
       </TrackedLink>
     </aside>
+  );
+}
+
+/**
+ * A compact guide row inside an event list (EventFilters `inline`), after the
+ * 6th event. Full width of the list, so a card grid gets one full row and the
+ * rows list one row: it reads as a note from the editors, not as an ad.
+ */
+export function InlineGuideCard({ guide, lang, source = 'list' }: { guide?: BlogPost; lang: Lang; source?: GuideSource }) {
+  if (!guide) return null;
+  const { href, title, excerpt } = guideLink(guide, lang);
+  return (
+    <TrackedLink
+      href={href}
+      data-guide-inline={guide.slug}
+      gaEvent="related_guide_click"
+      gaParams={{ guide_slug: guide.slug, source, lang }}
+      style={{
+        display: 'flex', gap: 14, alignItems: 'center', textDecoration: 'none', color: 'inherit',
+        background: colors.bgSoft, border: `1px solid ${colors.divider}`, borderLeft: `3px solid ${colors.accent}`,
+        borderRadius: 4, padding: 12, minWidth: 0,
+      }}
+    >
+      {guide.heroImage && (
+        <img
+          src={guide.heroImage}
+          alt=""
+          loading="lazy"
+          style={{ width: 84, height: 84, flex: '0 0 84px', objectFit: 'cover', display: 'block', borderRadius: 2 }}
+        />
+      )}
+      <div style={{ flex: 1, minWidth: 0 }}>
+        <div style={{ ...eyebrow, marginBottom: 4 }}>{lang === 'en' ? 'From our guides' : 'Dos nossos guias'}</div>
+        <div style={{ fontFamily: typography.serif, fontSize: 17, lineHeight: 1.3, color: colors.heading }}>{title}</div>
+        <p style={{
+          fontSize: 13, lineHeight: 1.5, color: colors.textSoft, margin: '4px 0 6px',
+          display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden',
+        }}>
+          {excerpt}
+        </p>
+        <span style={{ fontSize: 13, fontWeight: 600, color: colors.heading, borderBottom: `1.5px solid ${colors.accent}` }}>
+          {lang === 'en' ? 'Read the guide' : 'Ler o guia'} →
+        </span>
+      </div>
+    </TrackedLink>
   );
 }
 

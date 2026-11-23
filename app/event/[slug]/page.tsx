@@ -237,6 +237,8 @@ export default function EventPage({ params }: { params: { slug: string } }) {
           )}
           </div>
         )}
+        {/* Related blog guide (lib/related-guides.ts): right after the ticket button, where the event's own content ends (owner 2026-11-23). */}
+        <RelatedGuideCard guide={guide} lang="en" source="event" />
         {showOrganizerCta && <OrganizerCta lang="en" slug={ev.slug} />}
 
         {/* Subscribe, with this week's real picks (G3, 2026-11-22): right after
@@ -265,9 +267,6 @@ export default function EventPage({ params }: { params: { slug: string } }) {
             , the weekly Oporto Weekly edition.
           </div>
         )}
-
-        {/* Related blog guide (lib/related-guides.ts): the next read after the event. */}
-        <RelatedGuideCard guide={guide} lang="en" source="event" />
 
         {/* Subscribe — the visitor has just found one event; offer the weekly list. */}
         {monthHub && (

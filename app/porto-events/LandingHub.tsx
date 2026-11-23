@@ -13,6 +13,9 @@ import { Footer } from '@/app/components/Footer';
 import { SubscribeCTA } from '@/app/components/SubscribeCTA';
 import { ShortcutChips } from '@/app/components/ShortcutChips';
 import { EventFilters } from '@/app/components/EventFilters';
+import { InlineGuideCard } from '@/app/components/RelatedGuide';
+import { listBlogPosts, listBlogPostsPT } from '@/lib/blog';
+import { guideForList } from '@/lib/related-guides';
 
 /**
  * Landing pages for high-intent filter combos (lib/event-landings.ts):
@@ -153,6 +156,8 @@ export function LandingHub({ kind, lang }: { kind: LandingKind; lang: Lang }) {
   const url = `${SITE}${pt ? p.pt : p.en}`;
   const eventsHub = pt ? '/pt' : '/porto-events';
   const weekend = kind === 'weekend-free';
+  // The list's topic picks the inline guide (kids -> family, Christmas -> Christmas shopping, free -> budget).
+  const listGuide = guideForList({ kind }, pt ? listBlogPostsPT() : listBlogPosts());
   const pending = weekend && main.length === 0 && listingsPending(dayHubRange('weekend').from);
 
   // On the kids page "5 family" says nothing; name what else is on.
@@ -274,6 +279,7 @@ export function LandingHub({ kind, lang }: { kind: LandingKind; lang: Lang }) {
               { key: 'long', title: longTitle, note: longNote, items: items.slice(main.length) },
             ]}
             afterFirst={<div style={{ marginTop: 32 }}><SubscribeCTA lang={lang} context="event" /></div>}
+            inline={<InlineGuideCard guide={listGuide} lang={lang} />}
           />
         )}
         {all.length === 0 && <SubscribeCTA lang={lang} context="event" />}

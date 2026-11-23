@@ -11,6 +11,9 @@ import { Footer } from '@/app/components/Footer';
 import { SubscribeCTA } from '@/app/components/SubscribeCTA';
 import { ShortcutChips } from '@/app/components/ShortcutChips';
 import { EventFilters } from '@/app/components/EventFilters';
+import { InlineGuideCard } from '@/app/components/RelatedGuide';
+import { listBlogPosts, listBlogPostsPT } from '@/lib/blog';
+import { guideForList } from '@/lib/related-guides';
 
 /**
  * /porto-events/christmas-lights and /pt/eventos/luzes-de-natal (growth item
@@ -86,6 +89,7 @@ export function ChristmasLights({ lang }: { lang: Lang }) {
   const hub = LANDING_PATHS.christmas[lang];
   const { main, longRuns } = landingEvents('christmas');
   const all = [...main, ...longRuns];
+  const listGuide = guideForList({ kind: 'christmas' }, pt ? listBlogPostsPT() : listBlogPosts());
   const items = all.map((e) => toFilterItem(e, lang));
   const year = christmasSeason().year;
 
@@ -242,6 +246,7 @@ export function ChristmasLights({ lang }: { lang: Lang }) {
               { key: 'long', title: pt ? 'Também a decorrer' : 'Also on', note: pt ? 'Exposições e eventos mais longos.' : 'Exhibitions and longer runs.', items: items.slice(main.length) },
             ]}
             afterFirst={<div style={{ marginTop: 32 }}><SubscribeCTA lang={lang} context="event" /></div>}
+            inline={<InlineGuideCard guide={listGuide} lang={lang} />}
           />
         ) : (
           <SubscribeCTA lang={lang} context="event" />
