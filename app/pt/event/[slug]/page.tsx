@@ -132,6 +132,10 @@ export default function EventPagePT({ params }: { params: { slug: string } }) {
 
         <EventDescription event={ev} />
 
+        {/* Guia relacionado (lib/related-guides.ts), logo a seguir à descrição para
+            ser visto perto do topo (owner 2026-11-23). */}
+        <RelatedGuideCard guide={guide} lang="pt" source="event" />
+
         {tickets && (
           <div style={{ margin: '0 0 40px' }}>
             <TrackedLink
@@ -163,8 +167,6 @@ export default function EventPagePT({ params }: { params: { slug: string } }) {
             da Oporto Weekly.
           </div>
         )}
-
-        <RelatedGuideCard guide={guide} lang="pt" source="event" />
 
         {monthHub && (
           <p style={{ margin: '0 0 24px', fontSize: 14 }}>

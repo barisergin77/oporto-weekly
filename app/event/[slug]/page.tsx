@@ -201,6 +201,10 @@ export default function EventPage({ params }: { params: { slug: string } }) {
             generated yet (backfill cron runs separately). */}
         <EventDescription event={ev} />
 
+        {/* Related blog guide (lib/related-guides.ts), right after the description so
+            it is seen near the top, not below the signup box (owner 2026-11-23). */}
+        <RelatedGuideCard guide={guide} lang="en" source="event" />
+
         {/* Short-description callout when we have both — displayed above the
             long form as a 1-line summary for scanners who don't want to read
             the full prose. */}
@@ -265,9 +269,6 @@ export default function EventPage({ params }: { params: { slug: string } }) {
             , the weekly Oporto Weekly edition.
           </div>
         )}
-
-        {/* Related blog guide (lib/related-guides.ts): the next read after the event. */}
-        <RelatedGuideCard guide={guide} lang="en" source="event" />
 
         {/* Subscribe — the visitor has just found one event; offer the weekly list. */}
         {monthHub && (

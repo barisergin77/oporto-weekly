@@ -15,9 +15,9 @@ import { SubscribeForm } from '../SubscribeForm';
 import { Header } from '../components/Header';
 import { Footer } from '../components/Footer';
 import { ShortcutChips } from '../components/ShortcutChips';
-import { GuidesStrip } from '../components/RelatedGuide';
+import { GuidesStrip, InlineGuideCard } from '../components/RelatedGuide';
 import { listBlogPosts } from '@/lib/blog';
-import { guidesForHub } from '@/lib/related-guides';
+import { guideForList, guidesForHub } from '@/lib/related-guides';
 
 export const metadata: Metadata = {
   title: 'Porto Events This Week: Upcoming Things To Do in Porto',
@@ -73,7 +73,10 @@ export default function PortoEventsPage() {
 
   const displayEvents = upcoming.length > 0 ? upcoming : recentPast;
   const isShowingPast = upcoming.length === 0;
-  const guides = guidesForHub(displayEvents, new Date().getUTCMonth(), listBlogPosts());
+  const monthIndex = new Date().getUTCMonth();
+  // One guide inline after the 6th event; the strip below shows the next three.
+  const listGuide = guideForList({ events: displayEvents, monthIndex }, listBlogPosts());
+  const guides = guidesForHub(displayEvents, monthIndex, listBlogPosts(), 4).filter((g) => g.slug !== listGuide?.slug).slice(0, 3);
   const items = displayEvents.map((e) => toFilterItem(e, 'en'));
 
   // ItemList JSON-LD helps Google show this page as a structured event list.
@@ -301,6 +304,7 @@ export default function PortoEventsPage() {
                 variant="cards"
                 options={filterOptions(items, 'en')}
                 groups={[{ key: 'all', items }]}
+                inline={<InlineGuideCard guide={listGuide} lang="en" />}
               />
             </>
           ) : (

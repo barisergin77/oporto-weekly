@@ -10,7 +10,7 @@ import assert from 'node:assert/strict';
 import { listBlogPosts } from '../lib/blog';
 import { listEvents, type EventRecord } from '../lib/events';
 import {
-  GUIDE_TOPICS, guideForTopic, relatedGuidesForEvent, relatedGuidesForVenue, guidesForHub, featuredGuides,
+  GUIDE_TOPICS, guideForTopic, relatedGuidesForEvent, relatedGuidesForVenue, guidesForHub, featuredGuides, guideForList,
 } from '../lib/related-guides';
 import { GUIDE_CHECKS, guidesDue } from '../lib/guide-checks';
 
@@ -88,6 +88,15 @@ test('hubs: season first, distinct guides, capped', () => {
   const jun = guidesForHub([], 5, posts);
   assert.equal(jun.length, 3);
   assert.equal(new Set(jun.map((p) => p.slug)).size, 3);
+});
+test('lists: the list topic picks the inline guide, else the hub logic', () => {
+  assert.equal(guideForList({ kind: 'kids' }, posts)?.slug, 'family-fun-porto-kid-friendly-activities-2025-2026');
+  assert.equal(guideForList({ kind: 'christmas' }, posts)?.slug, 'christmas-shopping-in-porto-2026');
+  assert.equal(guideForList({ kind: 'free' }, posts)?.slug, 'porto-on-a-budget-free-sights-cheap-eats-guide');
+  assert.equal(guideForList({ kind: 'weekend-free' }, posts)?.slug, 'porto-on-a-budget-free-sights-cheap-eats-guide');
+  assert.equal(guideForList({ events: [], monthIndex: 11 }, posts)?.slug, 'christmas-shopping-in-porto-2026');
+  assert.equal(guideForList({ events: [], monthIndex: 5 }, posts)?.slug, guidesForHub([], 5, posts)[0].slug);
+  assert.equal(guideForList({ kind: 'kids' }, []), undefined, 'no guides, no card');
 });
 test('home: newest guide per topic', () => {
   const f = featuredGuides(posts, 4);

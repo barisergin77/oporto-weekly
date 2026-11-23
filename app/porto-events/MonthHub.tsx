@@ -8,9 +8,9 @@ import { colors, typography } from '@/lib/design';
 import { Header } from '@/app/components/Header';
 import { Footer } from '@/app/components/Footer';
 import { SubscribeCTA } from '@/app/components/SubscribeCTA';
-import { GuidesStrip } from '@/app/components/RelatedGuide';
-import { listBlogPosts } from '@/lib/blog';
-import { guidesForHub } from '@/lib/related-guides';
+import { GuidesStrip, InlineGuideCard } from '@/app/components/RelatedGuide';
+import { listBlogPosts, listBlogPostsPT } from '@/lib/blog';
+import { guideForList, guidesForHub } from '@/lib/related-guides';
 import { EventFilters } from '@/app/components/EventFilters';
 import { LANDING_PATHS, landingIndexable } from '@/lib/event-landings';
 
@@ -51,9 +51,11 @@ export function monthHubMetadata(m: Month, lang: Lang): Metadata {
 
 export function MonthHub({ m, lang }: { m: Month; lang: Lang }) {
   const { starting, ongoing } = eventsInMonth(m);
-  const guides = guidesForHub([...starting, ...ongoing], m.month, listBlogPosts());
   const l = label(m, lang);
   const pt = lang === 'pt';
+  // One guide inline after the 6th event (PT: only guides with a PT version); the strip shows the next three.
+  const listGuide = guideForList({ events: [...starting, ...ongoing], monthIndex: m.month }, pt ? listBlogPostsPT() : listBlogPosts());
+  const guides = guidesForHub([...starting, ...ongoing], m.month, listBlogPosts(), 4).filter((g) => g.slug !== listGuide?.slug).slice(0, 3);
 
   const byDay = new Map<string, EventRecord[]>();
   for (const e of starting) {
@@ -160,6 +162,7 @@ export function MonthHub({ m, lang }: { m: Month; lang: Lang }) {
             lang={lang}
             options={filterOptions(groups.flatMap((g) => g.items), lang)}
             groups={groups}
+            inline={<InlineGuideCard guide={listGuide} lang={lang} />}
           />
         </div>
 

@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useState, type ReactNode } from 'react';
+import { Fragment, useEffect, useMemo, useState, type ReactNode } from 'react';
 import Link from 'next/link';
 import { colors, typography } from '@/lib/design';
 import { SaveButton } from './SaveButton';
@@ -20,6 +20,8 @@ import {
  */
 
 type Lang = 'en' | 'pt';
+/** The inline block (guide card) follows this many events (owner 2026-11-23). */
+const INLINE_AFTER = 6;
 type Control = 'when' | 'price' | 'kids' | 'cat' | 'area';
 
 export interface FilterGroup {
@@ -108,6 +110,7 @@ export function EventFilters({
   variant = 'rows',
   hide = [],
   afterFirst,
+  inline,
 }: {
   lang: Lang;
   groups: FilterGroup[];
@@ -117,6 +120,8 @@ export function EventFilters({
   hide?: Control[];
   /** Rendered after the first group (the day hubs' subscribe box). */
   afterFirst?: ReactNode;
+  /** One full-width block inside the list after the INLINE_AFTER-th shown event, or after the last if fewer (the guide card). */
+  inline?: ReactNode;
 }) {
   const t = T[lang];
   const [f, setF] = useState<Filters>({});
@@ -144,6 +149,9 @@ export function EventFilters({
     [groups, f, now],
   );
   const shownCount = shown.reduce((n, g) => n + g.items.length, 0);
+  // Global position (across groups) of the event the inline block follows.
+  const inlineAt = inline && shownCount > 0 ? Math.min(INLINE_AFTER, shownCount) - 1 : -1;
+  let seen = 0;
   const active = activeCount(f) > 0;
   const has = (c: Control) => !hide.includes(c);
 
@@ -227,7 +235,11 @@ export function EventFilters({
         </div>
       )}
 
-      {shown.map((g, gi) => (
+      {shown.map((g, gi) => {
+        const start = seen;
+        seen += g.items.length;
+        const isInline = (k: number) => start + k === inlineAt;
+        return (
         <div key={g.key}>
           {g.items.length > 0 && (
             <section>
@@ -235,18 +247,29 @@ export function EventFilters({
               {g.note && <p style={{ fontSize: 14, color: colors.textSoft, margin: '0 0 4px' }}>{g.note}</p>}
               {variant === 'cards' ? (
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 20 }}>
-                  {g.items.map((i) => <Card key={i.slug} i={i} soon={t.photoSoon} lang={lang} />)}
+                  {g.items.map((i, k) => (
+                    <Fragment key={i.slug}>
+                      <Card i={i} soon={t.photoSoon} lang={lang} />
+                      {isInline(k) && <div style={{ gridColumn: '1 / -1', minWidth: 0 }}>{inline}</div>}
+                    </Fragment>
+                  ))}
                 </div>
               ) : (
                 <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-                  {g.items.map((i) => <Row key={i.slug} i={i} lang={lang} />)}
+                  {g.items.map((i, k) => (
+                    <Fragment key={i.slug}>
+                      <Row i={i} lang={lang} />
+                      {isInline(k) && <li style={{ padding: '14px 0', borderBottom: `1px solid ${colors.divider}` }}>{inline}</li>}
+                    </Fragment>
+                  ))}
                 </ul>
               )}
             </section>
           )}
           {gi === 0 && afterFirst}
         </div>
-      ))}
+        );
+      })}
     </div>
   );
 }
