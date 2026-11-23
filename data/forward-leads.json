@@ -49,19 +49,6 @@
       "resolvedAt": "2026-10-31T08:32:37.308Z"
     },
     {
-      "name": "Jazz in the Space Age de George Russell – Mário Laginha & Miguel Meirinhos + Orquestra Jazz de Matosinhos",
-      "date": "2026-11-22T21:30",
-      "venue": "Casa da Música",
-      "url": "https://casadamusica.com/event/jazz-in-the-space-age-de-george-russel/?selected_session=55741",
-      "note": "Sala Suggia; piano month.",
-      "source": "casa-da-musica-newsletter-2026-11",
-      "addedAt": "2026-10-25T12:00:00Z",
-      "status": "done",
-      "eventSlug": "jazz-in-the-space-age-de-george-russell-mario-laginha-miguel-meirinhos-orquestra-jazz-de-matosinhos-casa-da-musica-nov-22-2026",
-      "lastTriedAt": "2026-10-30T13:48:49.794Z",
-      "resolvedAt": "2026-10-30T13:48:49.794Z"
-    },
-    {
       "name": "Pizarro interpreta Britten",
       "date": "2026-11-27T21:00",
       "venue": "Casa da Música",
@@ -113,20 +100,6 @@
       "eventSlug": "misty-fest-2026-casa-da-musica-nov-10-2026",
       "lastTriedAt": "2026-10-26T09:31:57.768Z",
       "resolvedAt": "2026-10-26T09:31:57.768Z"
-    },
-    {
-      "name": "Vincent Peirani",
-      "date": "2026-11-22T21:00",
-      "venue": "Casa da Música",
-      "url": "https://casadamusica.com/event/vincent-peirani/?selected_session=49412",
-      "note": "Sala 2; Misty Fest.",
-      "source": "casa-da-musica-newsletter-2026-11",
-      "addedAt": "2026-10-25T12:00:00Z",
-      "status": "done",
-      "eventSlug": "misty-fest-2026-casa-da-musica-nov-10-2026",
-      "reason": "already listed",
-      "lastTriedAt": "2026-10-30T13:48:49.794Z",
-      "resolvedAt": "2026-10-30T13:48:49.794Z"
     },
     {
       "name": "Rodrigo Leão",
@@ -235,32 +208,6 @@
       "reason": "already listed",
       "lastTriedAt": "2026-10-31T08:32:37.308Z",
       "resolvedAt": "2026-10-31T08:32:37.308Z"
-    },
-    {
-      "name": "The Music of Morricone, Zimmer & Williams",
-      "date": "2026-11-22",
-      "venue": "Coliseu Porto Ageas",
-      "note": "16:30; film music concert",
-      "source": "coliseu-newsletter-2026-10",
-      "addedAt": "2026-11-01T05:00:47Z",
-      "status": "done",
-      "eventSlug": "the-music-of-morricone-coliseu-porto-ageas-nov-22-2026",
-      "reason": "already listed",
-      "lastTriedAt": "2026-11-01T14:01:20.564Z",
-      "resolvedAt": "2026-11-01T14:01:20.564Z"
-    },
-    {
-      "name": "DJ Symphonic & Royal Film Concert Orchestra",
-      "date": "2026-11-22",
-      "venue": "Coliseu Porto Ageas",
-      "note": "21:00; concert",
-      "source": "coliseu-newsletter-2026-10",
-      "addedAt": "2026-11-01T05:00:47Z",
-      "status": "done",
-      "eventSlug": "dj-symphonic-royal-film-concert-orchestra-coliseu-porto-ageas-nov-22-2026",
-      "reason": "already listed",
-      "lastTriedAt": "2026-11-01T14:01:20.564Z",
-      "resolvedAt": "2026-11-01T14:01:20.564Z"
     },
     {
       "name": "Quem decide o que ouvimos? – Mantras Coliseu",
