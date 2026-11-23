@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import { eventDisplay } from '@/lib/events';
 import { LANDING_PATHS, christmasSeason, landingEvents } from '@/lib/event-landings';
 import { CHRISTMAS_LIGHTS_PATHS, ALIADOS_SHOWS, SOURCES, MATOSINHOS_ANCHOR, lightsInSeason } from '@/lib/christmas-lights';
+import { CHRISTMAS_CONCERTS_PATHS, concertsInSeason } from '@/lib/christmas-concerts';
 import { filterOptions, toFilterItem } from '@/lib/event-listing';
 import { colors, typography } from '@/lib/design';
 import { Header } from '@/app/components/Header';
@@ -171,6 +172,13 @@ export function ChristmasLights({ lang }: { lang: Lang }) {
             </li>
           ))}
         </ul>
+        {concertsInSeason() && (
+          <p style={{ ...p, marginTop: 14 }}>
+            <Link href={CHRISTMAS_CONCERTS_PATHS[lang]} style={link}>
+              {pt ? 'Todos os concertos de Natal no Porto, por data' : 'All Christmas concerts in Porto, by date'} →
+            </Link>
+          </p>
+        )}
 
         <h2 style={h2}>{pt ? 'Natal pela cidade' : 'Christmas around the city'}</h2>
         <ul style={{ paddingLeft: 20, fontSize: 16, lineHeight: 1.65, margin: '0 0 8px' }}>

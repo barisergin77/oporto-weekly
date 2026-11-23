@@ -7,6 +7,7 @@ import { listEventMonths, ptSlug } from '@/lib/event-months';
 import { DAY_HUB_PATHS } from '@/lib/event-days';
 import { LANDING_PATHS, landingIndexable, type LandingKind } from '@/lib/event-landings';
 import { CHRISTMAS_LIGHTS_PATHS, lightsInSeason } from '@/lib/christmas-lights';
+import { CHRISTMAS_CONCERTS_PATHS, concertsInSeason } from '@/lib/christmas-concerts';
 
 // A page's lastmod is max(content date, last time its markup changed). Content
 // here is often frozen (a sent edition, a past event) while the <head> is not,
@@ -134,6 +135,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...(lightsInSeason() ? [
       { url: `https://oportoweekly.com${CHRISTMAS_LIGHTS_PATHS.en}`, lastModified: new Date(), changeFrequency: 'weekly' as const, priority: 0.85 },
       { url: `https://oportoweekly.com${CHRISTMAS_LIGHTS_PATHS.pt}`, lastModified: new Date(), changeFrequency: 'weekly' as const, priority: 0.85 },
+    ] : []),
+    // Christmas concerts by date (G8, lib/christmas-concerts.ts), in season only.
+    ...(concertsInSeason() ? [
+      { url: `https://oportoweekly.com${CHRISTMAS_CONCERTS_PATHS.en}`, lastModified: new Date(), changeFrequency: 'weekly' as const, priority: 0.85 },
+      { url: `https://oportoweekly.com${CHRISTMAS_CONCERTS_PATHS.pt}`, lastModified: new Date(), changeFrequency: 'weekly' as const, priority: 0.85 },
     ] : []),
     { url: 'https://oportoweekly.com/pt', lastModified: new Date(), changeFrequency: 'weekly', priority: 0.9 },
     { url: 'https://oportoweekly.com/pt/blog', lastModified: new Date(), changeFrequency: 'weekly', priority: 0.8 },
