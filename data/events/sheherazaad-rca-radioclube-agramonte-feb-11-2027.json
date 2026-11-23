@@ -1,0 +1,25 @@
+{
+  "slug": "sheherazaad-rca-radioclube-agramonte-feb-11-2027",
+  "name": "SHEHERAZAAD",
+  "date": "2027-02-11T22:00",
+  "venue": "RCA - Radioclube Agramonte",
+  "venueSlug": "rca-radioclube-agramonte",
+  "price": "12€",
+  "priceFrom": 12,
+  "currency": "EUR",
+  "category": "music",
+  "description": "Sheherazaad performs a 60-minute concert at Radioclube Agramonte in Porto.",
+  "longDescription": "Sheherazaad performs live at Radioclube Agramonte in Porto on 11 February 2027. The concert begins at 22:00 in Estúdio Zero and has a scheduled duration of 60 minutes.\n\nTickets are 12 euros. The venue is located at Rua João Martins Branco 180, and the event has an age rating of over 16 years.",
+  "sourceEdition": "forward-scan",
+  "externalLink": "https://www.bol.pt/Comprar/Bilhetes/184044-sheherazaad-radioclube_agramonte/",
+  "pickCandidate": true,
+  "addedAt": "2026-11-23T06:01:09.421Z",
+  "lastSeenAt": "2026-11-23T06:01:09.421Z",
+  "descriptionPt": "Sheherazaad dá um concerto de 60 minutos no Radioclube Agramonte, no Porto.",
+  "longDescriptionPt": "Sheherazaad atua ao vivo no Radioclube Agramonte, no Porto, a 11 de fevereiro de 2027. O concerto começa às 22:00 no Estúdio Zero e tem uma duração prevista de 60 minutos.\n\nOs bilhetes custam 12 euros. O espaço fica na Rua João Martins Branco 180, e o evento destina-se a maiores de 16 anos.",
+  "image": {
+    "url": "https://i.imgur.com/bfYMWgD.jpeg",
+    "credit": "Photo: BOL",
+    "sourceUrl": "https://www.bol.pt/Comprar/Bilhetes/184044-sheherazaad-radioclube_agramonte/"
+  }
+}
