@@ -1,0 +1,25 @@
+{
+  "slug": "manel-cruz-auditorio-ccop-dec-21-2026",
+  "name": "Manel Cruz",
+  "date": "2026-12-21T21:30",
+  "venue": "Auditório CCOP",
+  "venueSlug": "auditorio-ccop",
+  "price": "€20",
+  "priceFrom": 20,
+  "currency": "EUR",
+  "category": "music",
+  "description": "Portuguese musician Manel Cruz performs a raw, intimate solo concert at Auditório CCOP in Porto.",
+  "longDescription": "Portuguese musician Manel Cruz plays a live concert at Auditório CCOP in Porto. Known for his work with Ornatos Violeta, Foge Foge Bandido, Pluto, and Supernada, Cruz brings a stripped-back set designed to present his songs in their rawest and most intimate form.\n\nThe performance takes place on 21 December 2026 at 21:30 and runs for 75 minutes without an interval. General admission tickets cost 20 euros, and the event is rated for attendees aged 12 and over.",
+  "sourceEdition": "forward-scan",
+  "externalLink": "https://www.bol.pt/Comprar/Bilhetes/189259-manel_cruz-auditorio_ccop/",
+  "pickCandidate": true,
+  "addedAt": "2026-11-24T06:01:38.895Z",
+  "lastSeenAt": "2026-11-24T06:01:38.895Z",
+  "descriptionPt": "O músico português Manel Cruz dá um concerto a solo, cru e intimista, no Auditório CCOP, no Porto.",
+  "longDescriptionPt": "O músico português Manel Cruz apresenta-se ao vivo no Auditório CCOP, no Porto. Conhecido pelo seu trabalho com Ornatos Violeta, Foge Foge Bandido, Pluto e Supernada, traz um alinhamento despido de artifícios para mostrar as suas canções no formato mais cru e íntimo possível.\n\nO concerto acontece a 21 de dezembro de 2026, às 21:30, e tem a duração de 75 minutos sem intervalo. Os bilhetes gerais custam 20 euros e a classificação etária é para maiores de 12 anos.",
+  "image": {
+    "url": "https://i.imgur.com/54U0dl8.jpeg",
+    "credit": "Photo: BOL",
+    "sourceUrl": "https://www.bol.pt/Comprar/Bilhetes/189259-manel_cruz-auditorio_ccop/"
+  }
+}

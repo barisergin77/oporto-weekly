@@ -1,0 +1,26 @@
+{
+  "slug": "lamour-du-risque-amor-ao-risco-rivoli-theatre-dec-3-2026",
+  "name": "L'amour du risque [Amor ao risco]",
+  "date": "2026-12-03T10:30",
+  "endDate": "2026-12-05",
+  "venue": "Rivoli Theatre",
+  "venueSlug": "rivoli-theatre",
+  "price": "2,5€",
+  "priceFrom": 2.5,
+  "currency": "EUR",
+  "category": "family",
+  "description": "Compagnie Bakélite presents a ballet for robotic vacuum cleaners where an automated dinner service turns disorderly.",
+  "longDescription": "L'amour du risque [Amor ao risco] is a performance staged by Compagnie Bakélite. Set during a candlelit dinner with romantic music, a man waits to be served by automated vacuum cleaners guided by limited artificial intelligence. The robots move through the space in an increasingly disorderly dance.\n\nThe piece runs at TMP Rivoli, located at Praça de D. João I. School sessions take place on 3 December at 10:30 and 14:30, and on 4 December at 10:30. The general public session is scheduled for 5 December at 16:00. Tickets cost 2,5€, and the show is suitable for audiences aged 6 and over.",
+  "sourceEdition": "forward-scan",
+  "externalLink": "https://www.agenda-porto.pt/evento/tmp-land39amour-du-risque/",
+  "pickCandidate": true,
+  "addedAt": "2026-11-24T06:00:56.470Z",
+  "lastSeenAt": "2026-11-24T06:00:56.470Z",
+  "descriptionPt": "A Compagnie Bakélite apresenta um bailado para aspiradores robot onde um serviço de jantar automatizado descamba no caos.",
+  "longDescriptionPt": "L'amour du risque [Amor ao risco] é um espetáculo levado a cena pela Compagnie Bakélite. Num ambiente de jantar à luz das velas e com música romântica de fundo, um homem espera ser servido por aspiradores robot guiados por inteligência artificial limitada. Pelo espaço fora, as máquinas movem-se numa dança cada vez mais caótica.\n\nA peça sobe ao palco do TMP Rivoli, na Praça de D. João I. As sessões escolares acontecem a 3 de dezembro, às 10:30 e às 14:30, e a 4 de dezembro, às 10:30. A apresentação para o público em geral está marcada para 5 de dezembro, às 16:00. Os bilhetes custam 2,5€ e a classificação etária é para maiores de 6 anos.",
+  "image": {
+    "url": "https://i.imgur.com/aa8QsYn.jpeg",
+    "credit": "Photo: Agenda-porto",
+    "sourceUrl": "https://www.agenda-porto.pt/evento/tmp-land39amour-du-risque/"
+  }
+}
