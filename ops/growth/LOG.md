@@ -7,6 +7,71 @@ impressions / pos 9.3 over 28 days (prev 28: 191 / 10,293 / 16.9);
 subscribers 56 active (34 EN, 22 PT), ~1.4 net/week; signups by page: none
 recorded yet (tracking started today).
 
+## 2026-11-24 — G9: verified venue profiles (address, map, official page) on 15 searched venues
+- Run 09:30 UTC Tue, outside the freeze.
+- Guide re-check (2b): `guidesDue('2026-11-24')` is empty (oldest check 10-31,
+  due 11-30), so no guide work today.
+- Live check: /api/version c1432c8 (last night's flush, includes 9d46dcd G8
+  and 95823e0). **Health ok: true**, no failing checks. G8 EN + PT live
+  (200); both sent to the Indexing API (200).
+- Metrics (`metrics/2026-11-24.json`): 1,134 clicks / 47,438 impr / pos 9.27
+  over 28d (prev 28d 307 / 14,436). Last 7d **370 clicks vs 347**, impr
+  17,000 vs 12,830, CTR 2.18% vs 2.70%, pos 8.2 vs 9.4. GA4 7d 161 users /
+  200 sessions / 319 PV (prev 165 / 193 / 262); 110 organic, 49 direct, 17
+  organic social, 16 AI assistant; `sign_up` 7. Subscribers 86 (11-19).
+  Signups attributed 28d: 38 (event 13, home 10, porto-events 9, blog 3,
+  eventos 2, archive 1). Instagram 29 (27 a week ago). December hub is now
+  the #1 page (31 clicks, pos 4.9).
+- Result due (Adiel, 11-17 entry): **worked.** One record
+  (`adiel-switch-switch-nov-7-2026`, 22 Jan), no "Nova Data" copy recreated
+  by a week of sweeps/scans. Shotgun still returns 429 to fetches, so 22 Jan
+  is not re-confirmed from the page.
+- Research: GSC 28d, queries whose top page isn't an event: venue-name
+  searches land on /venue pages at pos ~7–11 with almost no clicks: "move
+  club (porto)" ~270 impr, "madame travessa" 103, "lola hifi" 90, "barons
+  hall" 83, "temporada social club" 54, "woodstock 69 porto" 58, "lust porto"
+  38, "sala estúdio perpétuo" 52, termita, tilsitt, essência do livro,
+  hotelier, passos manuel, bar of soap, teatro campo alegre, mercado
+  ferreira borges: ~1,100 impr / ~3 clicks. These searchers want the place
+  (where it is, what it is), and our pages only listed events with a
+  "Porto, PT" address.
+- Growth item (G9): `data/venue-profiles.json` + `lib/venue-profiles.ts` +
+  `app/components/VenueInfo.tsx`: on EN + PT venue pages, a box under the H1
+  with type, street address (Google Maps link) and the official page; Place
+  JSON-LD gets streetAddress/postalCode/locality, `hasMap` and `sameAs`; FAQ
+  gains "Where is X? / Onde fica X?" first. Venues without a profile are
+  unchanged. Sitemap lastmod for profiled venues bumped to the check date.
+  Titles/descriptions untouched (keeps #36's 11-30 read cleaner).
+- Sources: every address from the venue's own site (Barons Hall, Lust,
+  Térmita, Tilsitt, Hotelier, Teatro Campo Alegre via TMP) or the official
+  listings agenda-porto.pt / visitporto.travel (the rest); postal codes only
+  where that source prints one. Spot-checked Madame Travessa, Lust and Passos
+  Manuel myself (match). Left out: **Move Club** (only Songkick gives an
+  address). Notes: The Barons Hall is in **Vila Nova de Gaia** (locality set
+  so); Térmita is a bookshop; passosmanuel.net and salaestudio.pt are dead,
+  so those link the Instagram page Agenda Porto lists.
+- Verified: tsc OK, build exit 0. Built HTML: /venue/lust-porto has the box,
+  "Where is Lust Porto?" FAQ, JSON-LD streetAddress + hasMap + sameAs;
+  /pt/venue/the-barons-hall shows Morada, Página oficial, "Verificado em
+  novembro de 2026", addressLocality Vila Nova de Gaia; /venue/move-club
+  unchanged. Commit b31e623 `[defer]`, live with tonight's 21:00 flush. Next
+  run: live check, then the Indexing API for a handful of these URLs.
+- Expect: venue-name queries above from ~0.3% to 2%+ CTR (20+ clicks / 28d),
+  some rank gain from the address markup.
+- Measure on: 2026-12-22 (GSC the 15 /venue + /pt/venue pages and their
+  name queries, 11-25 → 12-19 vs 10-28 → 11-21).
+- Price backfill (2c): 13 upcoming without a price. Checked the 3 not read
+  lately (Personagem Secundária CCOP 5 Dec, new today; Pequenas bibliotecas
+  temporárias TMP; Galeria Digital do Porto): none states a price, left empty.
+- Cancellations (2d): none of those pages says Cancelado / Anulado / Adiado.
+- #46 re-check: no event record yet for Praça da Fantasia (Boavista, 28
+  Nov–10 Jan) or the Matosinhos Mercado de Natal (27 Nov–23 Dec); both are
+  on the G1 page from sources. Adding them as records → next run.
+- Partner earnings (2e, Impact API): Fever 10-27 → 11-24 **66 clicks** (+2
+  on 11-23), still **4 sales, €257.68 in sales, €15.46 payout pending**.
+- Result:
+- Needs owner: none.
+
 ## 2026-11-23 — G8: Christmas concerts in Porto page (EN + PT); 4 records corrected
 - Run 09:30 UTC Mon, outside the freeze.
 - Guide re-check (2b): none due. Oldest check is 10-31 (23 days), limit 30.
