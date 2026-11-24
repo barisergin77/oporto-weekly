@@ -330,6 +330,80 @@
       "reason": "page does not confirm the event (https://cinecartaz.publico.pt/filme/christophers-416109)",
       "lastTriedAt": "2026-11-21T15:04:59.484Z",
       "resolvedAt": "2026-11-21T15:04:59.484Z"
+    },
+    {
+      "name": "Anri Sala: Fallen Vision",
+      "date": "2026-11-27",
+      "venue": "Serralves",
+      "note": "Exhibition opening, 22:00, Museu de Serralves, free entry. At 22:30 the vocal ensemble EXAUDI, directed by Jack Sheen, performs Surface, Otherwise (After STA XLII) live. Anri Sala's first major exhibition in Portugal, curated by Inês Grosso.",
+      "source": "serralves-newsletter-2026-11",
+      "addedAt": "2026-11-24T05:00:19Z"
+    },
+    {
+      "name": "GANSO",
+      "date": "2026-11-27",
+      "venue": "Hard Club",
+      "note": "21:30; Lisbon band's 10th-anniversary tour (Pá Pá Pá, Não Tarda, Vice Versa); guests Rapaz Ego and Femme Falafel",
+      "source": "agenda-porto-newsletter-2026-11",
+      "addedAt": "2026-11-24T05:00:43Z"
+    },
+    {
+      "name": "Identidade(s), de Manuel Casimiro",
+      "date": "2026-11-24",
+      "endDate": "2027-03-01",
+      "venue": "Instituto Pernambuco-Porto",
+      "note": "Painting exhibition reworking symbols from the Portuguese and Brazilian flags; opening 24 Nov 18:00; Mon-Fri 10:00-13:00 + 14:00-17:00",
+      "source": "agenda-porto-newsletter-2026-11",
+      "addedAt": "2026-11-24T05:00:43Z"
+    },
+    {
+      "name": "Barronhos: Quem Teve Medo do Poder Popular?, de Luís Filipe Rocha",
+      "date": "2026-11-26",
+      "venue": "Liga Portuguesa de Profilaxia Social",
+      "note": "16:30; screening of 1976 documentary on grassroots organising during the PREC",
+      "source": "agenda-porto-newsletter-2026-11",
+      "addedAt": "2026-11-24T05:00:43Z"
+    },
+    {
+      "name": "Januário Godinho – Arquitecto Moderno, de Domingos Tavares",
+      "date": "2026-11-24",
+      "venue": "Casa Comum - Reitoria da Universidade do Porto",
+      "note": "18:30; talk/presentation of the first monograph on Porto architect Januário Godinho (1910-1990)",
+      "source": "agenda-porto-newsletter-2026-11",
+      "addedAt": "2026-11-24T05:00:43Z"
+    },
+    {
+      "name": "O Diabo em Mim, do Visões Úteis",
+      "date": "2026-11-27",
+      "endDate": "2026-11-29",
+      "venue": "Palácio do Bolhão",
+      "note": "Theatre by Carlos Costa on tarot and esotericism; 27 Nov 19:00, 28 Nov 21:00, 29 Nov 16:00",
+      "source": "agenda-porto-newsletter-2026-11",
+      "addedAt": "2026-11-24T05:00:43Z"
+    },
+    {
+      "name": "Danças Tradicionais Moçambicanas",
+      "date": "2026-11-28",
+      "venue": "Espaço Agra",
+      "note": "11:00; Mozambican traditional dance workshop with José Jalane and Dinís Abudo; all ages and levels",
+      "source": "agenda-porto-newsletter-2026-11",
+      "addedAt": "2026-11-24T05:00:43Z"
+    },
+    {
+      "name": "Pássaros & Cogumelos, de Joana Gama",
+      "date": "2026-11-28",
+      "venue": "Biblioteca Municipal Almeida Garrett",
+      "note": "11:00; family performance about trees, birds and mushrooms",
+      "source": "agenda-porto-newsletter-2026-11",
+      "addedAt": "2026-11-24T05:00:43Z"
+    },
+    {
+      "name": "Inauguração das Luzes e da Árvore de Natal",
+      "date": "2026-11-28",
+      "venue": "Avenida dos Aliados",
+      "note": "18:00; outdoor Christmas lights and tree lighting with music, dance and fireworks; Áurea, Ricardo Ribeiro, soprano Marina Pacheco, Orquestra Portuguesa de Guitarras e Bandolins",
+      "source": "agenda-porto-newsletter-2026-11",
+      "addedAt": "2026-11-24T05:00:43Z"
     }
   ]
 }
