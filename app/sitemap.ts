@@ -8,6 +8,7 @@ import { DAY_HUB_PATHS } from '@/lib/event-days';
 import { LANDING_PATHS, landingIndexable, type LandingKind } from '@/lib/event-landings';
 import { CHRISTMAS_LIGHTS_PATHS, lightsInSeason } from '@/lib/christmas-lights';
 import { CHRISTMAS_CONCERTS_PATHS, concertsInSeason } from '@/lib/christmas-concerts';
+import { venueProfile } from '@/lib/venue-profiles';
 
 // A page's lastmod is max(content date, last time its markup changed). Content
 // here is often frozen (a sent edition, a past event) while the <head> is not,
@@ -96,7 +97,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const venueUrls = venueSlugs.flatMap((slug) => {
     const venueEvents = events.filter((e) => e.venueSlug === slug);
     const lastAdded = venueEvents.map((e) => e.addedAt).sort().pop();
-    const lastModified = notBefore(lastAdded ?? new Date(), VENUE_NEXT_EVENTS);
+    // Venues with a verified profile (G9) got an address box + Place address JSON-LD.
+    const profile = venueProfile(slug);
+    const lastModified = notBefore(notBefore(lastAdded ?? new Date(), VENUE_NEXT_EVENTS), profile ? new Date(`${profile.checkedAt}T12:00:00Z`) : VENUE_NEXT_EVENTS);
     return [
       { url: `https://oportoweekly.com/venue/${slug}`, lastModified, changeFrequency: 'weekly' as const, priority: 0.85 },
       { url: `https://oportoweekly.com/pt/venue/${slug}`, lastModified, changeFrequency: 'weekly' as const, priority: 0.75 },

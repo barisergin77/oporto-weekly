@@ -1,0 +1,145 @@
+{
+  "_comment": "Verified venue basics for /venue/<slug> (lib/venue-profiles.ts, G9). Keyed by canonical venue slug. Only facts read on the venue's own site or an official listing (agenda-porto.pt, visitporto.travel) given in source, checked on checkedAt. postalCode only when that source prints it. website = the venue's own working site, else the Instagram page the official listing links. Never add an address from a guess, an event description or a third-party listing. Move Club left out 2026-11-24: only a third-party (Songkick) address found.",
+  "venues": {
+    "madame-travessa": {
+      "type": { "en": "Bar with DJ nights", "pt": "Bar com DJ" },
+      "address": "Travessa de Cedofeita 20, Porto",
+      "streetAddress": "Travessa de Cedofeita 20",
+      "locality": "Porto",
+      "website": "https://www.instagram.com/madame.travessa/",
+      "source": "https://www.agenda-porto.pt/en/local/madame-travessa",
+      "checkedAt": "2026-11-24"
+    },
+    "lola-hi-fi": {
+      "type": { "en": "Vinyl listening bar", "pt": "Bar de vinil" },
+      "address": "Rua de José Falcão 152, Porto",
+      "streetAddress": "Rua de José Falcão 152",
+      "locality": "Porto",
+      "website": "https://www.instagram.com/lola_hifi/",
+      "source": "https://www.agenda-porto.pt/en/local/lola-hi-fi",
+      "checkedAt": "2026-11-24"
+    },
+    "the-barons-hall": {
+      "type": { "en": "Event hall", "pt": "Sala de eventos" },
+      "address": "Quinta dos Barões, Av. D. João II, 4430-415 Vila Nova de Gaia",
+      "streetAddress": "Quinta dos Barões, Av. D. João II",
+      "postalCode": "4430-415",
+      "locality": "Vila Nova de Gaia",
+      "website": "https://barons-hall.com/en/",
+      "source": "https://barons-hall.com/en/",
+      "checkedAt": "2026-11-24"
+    },
+    "temporada-social-club": {
+      "type": { "en": "Coworking and arts space", "pt": "Cowork e espaço cultural" },
+      "address": "Rua da Torrinha 151, Porto",
+      "streetAddress": "Rua da Torrinha 151",
+      "locality": "Porto",
+      "website": "https://instagram.com/temporada.pt",
+      "source": "https://www.agenda-porto.pt/en/local/temporada-social-club",
+      "checkedAt": "2026-11-24"
+    },
+    "woodstock-69-rock-bar": {
+      "type": { "en": "Rock bar with live music", "pt": "Bar de rock com música ao vivo" },
+      "address": "Rua de São Roque da Lameira 1212, Porto",
+      "streetAddress": "Rua de São Roque da Lameira 1212",
+      "locality": "Porto",
+      "website": "https://www.instagram.com/woodstock69rockbar/",
+      "source": "https://www.agenda-porto.pt/en/local/woodstock-69-rock-bar",
+      "checkedAt": "2026-11-24"
+    },
+    "lust-porto": {
+      "type": { "en": "Club", "pt": "Discoteca" },
+      "address": "Rua do Conde de Vizela 89, 4050-639 Porto",
+      "streetAddress": "Rua do Conde de Vizela 89",
+      "postalCode": "4050-639",
+      "locality": "Porto",
+      "website": "https://lustporto.com/",
+      "source": "https://lustporto.com/",
+      "checkedAt": "2026-11-24"
+    },
+    "termita": {
+      "type": { "en": "Bookshop with talks and launches", "pt": "Livraria com conversas e lançamentos" },
+      "address": "Largo de Mompilher 5, 4050-392 Porto",
+      "streetAddress": "Largo de Mompilher 5",
+      "postalCode": "4050-392",
+      "locality": "Porto",
+      "website": "https://termita.pt/",
+      "source": "https://termita.pt/acerca/",
+      "checkedAt": "2026-11-24"
+    },
+    "sala-estudio-perpetuo": {
+      "type": { "en": "Cinema and arts venue", "pt": "Cinema e espaço cultural" },
+      "address": "Rua de Costa Cabral 128, Porto",
+      "streetAddress": "Rua de Costa Cabral 128",
+      "locality": "Porto",
+      "website": "https://www.instagram.com/salaestudio_perpetuo/",
+      "source": "https://www.agenda-porto.pt/en/local/sala-estudio-perpetuo",
+      "checkedAt": "2026-11-24"
+    },
+    "tilsitt-gallery": {
+      "type": { "en": "Art gallery", "pt": "Galeria de arte" },
+      "address": "Rua de Miguel Bombarda 171, 4050-381 Porto",
+      "streetAddress": "Rua de Miguel Bombarda 171",
+      "postalCode": "4050-381",
+      "locality": "Porto",
+      "website": "https://tilsittgallery.com/",
+      "source": "https://tilsittgallery.com/",
+      "checkedAt": "2026-11-24"
+    },
+    "livraria-essencia-do-livro": {
+      "type": { "en": "Bookshop", "pt": "Livraria" },
+      "address": "Rua da Alegria 390, Porto",
+      "streetAddress": "Rua da Alegria 390",
+      "locality": "Porto",
+      "website": "https://essenciadolivro.pt/",
+      "source": "https://www.agenda-porto.pt/en/local/livraria-essencia-do-livro",
+      "checkedAt": "2026-11-24"
+    },
+    "hotelier": {
+      "type": { "en": "Cultural space and concert venue", "pt": "Espaço cultural e sala de concertos" },
+      "address": "Rua Anselmo Braamcamp 324, Bonfim, Porto",
+      "streetAddress": "Rua Anselmo Braamcamp 324",
+      "locality": "Porto",
+      "website": "https://www.hotelier.com.pt/",
+      "source": "https://www.hotelier.com.pt/",
+      "checkedAt": "2026-11-24"
+    },
+    "passos-manuel": {
+      "type": { "en": "Bar, club and concert room", "pt": "Bar, clube e sala de concertos" },
+      "address": "Rua de Passos Manuel 137, Porto",
+      "streetAddress": "Rua de Passos Manuel 137",
+      "locality": "Porto",
+      "website": "https://www.instagram.com/passosmanuel_/",
+      "source": "https://www.agenda-porto.pt/en/local/passos-manuel",
+      "checkedAt": "2026-11-24"
+    },
+    "bar-of-soap": {
+      "type": { "en": "Queer bar", "pt": "Bar queer" },
+      "address": "Rua do Bolhão 132, Porto",
+      "streetAddress": "Rua do Bolhão 132",
+      "locality": "Porto",
+      "website": "https://www.instagram.com/barofsoapporto/",
+      "source": "https://www.agenda-porto.pt/en/local/bar-of-soap",
+      "checkedAt": "2026-11-24"
+    },
+    "teatro-campo-alegre": {
+      "type": { "en": "Theatre (Teatro Municipal do Porto)", "pt": "Teatro (Teatro Municipal do Porto)" },
+      "address": "Rua das Estrelas, 4150-762 Porto",
+      "streetAddress": "Rua das Estrelas",
+      "postalCode": "4150-762",
+      "locality": "Porto",
+      "website": "https://www.teatromunicipaldoporto.pt/",
+      "source": "https://www.teatromunicipaldoporto.pt/",
+      "checkedAt": "2026-11-24"
+    },
+    "mercado-ferreira-borges": {
+      "type": { "en": "Historic market hall, home of Hard Club", "pt": "Mercado histórico, casa do Hard Club" },
+      "address": "Rua da Bolsa 19, 4050-253 Porto",
+      "streetAddress": "Rua da Bolsa 19",
+      "postalCode": "4050-253",
+      "locality": "Porto",
+      "source": "https://visitporto.travel/en-GB/poi/5cd04b4ef979e00001fe4824",
+      "checkedAt": "2026-11-24"
+    }
+  }
+}

@@ -20,6 +20,8 @@ import { listBlogPosts } from '@/lib/blog';
 import { relatedGuidesForVenue } from '@/lib/related-guides';
 import { venueFaq } from '@/lib/venue-faq';
 import { FaqSection } from '@/app/components/FaqSection';
+import { VenueInfo } from '@/app/components/VenueInfo';
+import { venueProfile, venueAddressJsonLd, venuePlaceExtras, venueAddressFaq } from '@/lib/venue-profiles';
 
 export function generateStaticParams() {
   const seen = new Set<string>();
@@ -62,13 +64,16 @@ export default function VenuePagePT({ params }: { params: { slug: string } }) {
   const upcoming = events.filter((e) => (e.endDate ?? e.date) >= today).sort((a, b) => a.date.localeCompare(b.date));
   const past = events.filter((e) => (e.endDate ?? e.date) < today).sort((a, b) => b.date.localeCompare(a.date));
   const [guide] = relatedGuidesForVenue(name, events, listBlogPosts());
-  const faq = venueFaq(name, params.slug, upcoming, past, 'pt', today);
+  const profile = venueProfile(params.slug);
+  const addressQ = venueAddressFaq(name, profile, 'pt');
+  const faq = [...(addressQ ? [addressQ] : []), ...venueFaq(name, params.slug, upcoming, past, 'pt', today)];
 
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Place',
     name,
-    address: { '@type': 'PostalAddress', addressLocality: 'Porto', addressCountry: 'PT' },
+    address: venueAddressJsonLd(profile),
+    ...venuePlaceExtras(name, profile),
     event: upcoming.slice(0, 20).map((e) => {
       const full = toEventJsonLd(e, 'https://oportoweekly.com', 'pt') as Record<string, unknown>;
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -96,6 +101,7 @@ export default function VenuePagePT({ params }: { params: { slug: string } }) {
         <p style={{ fontSize: 15, color: colors.textSoft, margin: '0 0 40px' }}>
           {events.length} evento{events.length === 1 ? '' : 's'} no Porto · {upcoming.length} próximo{upcoming.length === 1 ? '' : 's'}
         </p>
+        <VenueInfo name={name} profile={profile} lang="pt" />
 
         {upcoming.length > 0 && (
           <section style={{ marginBottom: 48 }}>

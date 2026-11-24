@@ -19,6 +19,8 @@ import { listBlogPosts } from '@/lib/blog';
 import { relatedGuidesForVenue } from '@/lib/related-guides';
 import { venueFaq } from '@/lib/venue-faq';
 import { FaqSection } from '@/app/components/FaqSection';
+import { VenueInfo } from '@/app/components/VenueInfo';
+import { venueProfile, venueAddressJsonLd, venuePlaceExtras, venueAddressFaq } from '@/lib/venue-profiles';
 
 /**
  * `/venue/<slug>` — aggregates every event we've indexed at a given venue.
@@ -95,7 +97,9 @@ export default function VenuePage({ params }: { params: { slug: string } }) {
     .filter((e) => (e.endDate ?? e.date) < today)
     .sort((a, b) => b.date.localeCompare(a.date));
   const [guide] = relatedGuidesForVenue(name, events, listBlogPosts());
-  const faq = venueFaq(name, params.slug, upcoming, past, 'en', today);
+  const profile = venueProfile(params.slug);
+  const addressQ = venueAddressFaq(name, profile, 'en');
+  const faq = [...(addressQ ? [addressQ] : []), ...venueFaq(name, params.slug, upcoming, past, 'en', today)];
 
   // schema.org Place for rich snippets on the venue page.
   // Nested events use toEventJsonLd() so they pass GSC validation — Google
@@ -108,11 +112,8 @@ export default function VenuePage({ params }: { params: { slug: string } }) {
     '@context': 'https://schema.org',
     '@type': 'Place',
     name,
-    address: {
-      '@type': 'PostalAddress',
-      addressLocality: 'Porto',
-      addressCountry: 'PT',
-    },
+    address: venueAddressJsonLd(profile),
+    ...venuePlaceExtras(name, profile),
     event: upcoming.slice(0, 20).map((e) => {
       const full = toEventJsonLd(e) as Record<string, unknown>;
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -178,6 +179,7 @@ export default function VenuePage({ params }: { params: { slug: string } }) {
           {events.length} event{events.length === 1 ? '' : 's'} indexed in Porto ·{' '}
           {upcoming.length} upcoming
         </p>
+        <VenueInfo name={name} profile={profile} lang="en" />
 
         {upcoming.length > 0 && (
           <section style={{ marginBottom: 48 }}>
