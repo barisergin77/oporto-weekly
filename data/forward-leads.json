@@ -337,7 +337,11 @@
       "venue": "Serralves",
       "note": "Exhibition opening, 22:00, Museu de Serralves, free entry. At 22:30 the vocal ensemble EXAUDI, directed by Jack Sheen, performs Surface, Otherwise (After STA XLII) live. Anri Sala's first major exhibition in Portugal, curated by Inês Grosso.",
       "source": "serralves-newsletter-2026-11",
-      "addedAt": "2026-11-24T05:00:19Z"
+      "addedAt": "2026-11-24T05:00:19Z",
+      "status": "pending",
+      "attempts": 1,
+      "reason": "not an organiser/venue/ticketing page (https://www.kurimanzutto.com/news/exhibition-anri-sala-fallen-vision)",
+      "lastTriedAt": "2026-11-24T18:37:28.799Z"
     },
     {
       "name": "GANSO",
@@ -345,7 +349,11 @@
       "venue": "Hard Club",
       "note": "21:30; Lisbon band's 10th-anniversary tour (Pá Pá Pá, Não Tarda, Vice Versa); guests Rapaz Ego and Femme Falafel",
       "source": "agenda-porto-newsletter-2026-11",
-      "addedAt": "2026-11-24T05:00:43Z"
+      "addedAt": "2026-11-24T05:00:43Z",
+      "status": "pending",
+      "attempts": 1,
+      "reason": "thin copy (24 words)",
+      "lastTriedAt": "2026-11-24T18:37:28.799Z"
     },
     {
       "name": "Identidade(s), de Manuel Casimiro",
@@ -354,7 +362,11 @@
       "venue": "Instituto Pernambuco-Porto",
       "note": "Painting exhibition reworking symbols from the Portuguese and Brazilian flags; opening 24 Nov 18:00; Mon-Fri 10:00-13:00 + 14:00-17:00",
       "source": "agenda-porto-newsletter-2026-11",
-      "addedAt": "2026-11-24T05:00:43Z"
+      "addedAt": "2026-11-24T05:00:43Z",
+      "status": "pending",
+      "attempts": 1,
+      "reason": "not an organiser/venue/ticketing page (https://selectandwin.com/agendacultural/e/identidades-de-manuel-casimiro/)",
+      "lastTriedAt": "2026-11-24T18:37:28.799Z"
     },
     {
       "name": "Barronhos: Quem Teve Medo do Poder Popular?, de Luís Filipe Rocha",
@@ -362,7 +374,11 @@
       "venue": "Liga Portuguesa de Profilaxia Social",
       "note": "16:30; screening of 1976 documentary on grassroots organising during the PREC",
       "source": "agenda-porto-newsletter-2026-11",
-      "addedAt": "2026-11-24T05:00:43Z"
+      "addedAt": "2026-11-24T05:00:43Z",
+      "status": "pending",
+      "attempts": 1,
+      "reason": "not an organiser/venue/ticketing page (https://7log.selectandwin.com/agendacultural/e/barronhos-quem-teve-medo-do-poder-popular-de-luis-filipe-rocha/)",
+      "lastTriedAt": "2026-11-24T18:37:28.799Z"
     },
     {
       "name": "Januário Godinho – Arquitecto Moderno, de Domingos Tavares",
@@ -379,7 +395,11 @@
       "venue": "Palácio do Bolhão",
       "note": "Theatre by Carlos Costa on tarot and esotericism; 27 Nov 19:00, 28 Nov 21:00, 29 Nov 16:00",
       "source": "agenda-porto-newsletter-2026-11",
-      "addedAt": "2026-11-24T05:00:43Z"
+      "addedAt": "2026-11-24T05:00:43Z",
+      "status": "pending",
+      "attempts": 1,
+      "reason": "page not fetchable: https://charmedgiraffe.com/en/porto/events/o-diabo-em-mim-do-visoes-uteis-eed23c60 → HTTP 403 | https://charmedgiraffe.com/es/porto/events/o-diabo-em-mim-do-visoes-uteis-eed23c60 → HTTP 403 | https://oazis.app/evenements/o-diabo-em-mim → HTTP 403",
+      "lastTriedAt": "2026-11-24T18:37:28.799Z"
     },
     {
       "name": "Danças Tradicionais Moçambicanas",
@@ -387,7 +407,11 @@
       "venue": "Espaço Agra",
       "note": "11:00; Mozambican traditional dance workshop with José Jalane and Dinís Abudo; all ages and levels",
       "source": "agenda-porto-newsletter-2026-11",
-      "addedAt": "2026-11-24T05:00:43Z"
+      "addedAt": "2026-11-24T05:00:43Z",
+      "status": "pending",
+      "attempts": 1,
+      "reason": "page not fetchable: https://www.viralagenda.com/pt/events/1878157/dancas-tradicionais-mocambicanas → HTTP 403",
+      "lastTriedAt": "2026-11-24T18:37:28.799Z"
     },
     {
       "name": "Pássaros & Cogumelos, de Joana Gama",
@@ -395,7 +419,11 @@
       "venue": "Biblioteca Municipal Almeida Garrett",
       "note": "11:00; family performance about trees, birds and mushrooms",
       "source": "agenda-porto-newsletter-2026-11",
-      "addedAt": "2026-11-24T05:00:43Z"
+      "addedAt": "2026-11-24T05:00:43Z",
+      "status": "pending",
+      "attempts": 1,
+      "reason": "not an organiser/venue/ticketing page (https://agendaculturalporto.org/eventos/passaros-cogumelos-de-joana-gama-transforma-arvores-sons-e-imaginacao-num-espetaculo-poetico-para-familias/)",
+      "lastTriedAt": "2026-11-24T18:37:28.799Z"
     },
     {
       "name": "Inauguração das Luzes e da Árvore de Natal",
@@ -403,7 +431,12 @@
       "venue": "Avenida dos Aliados",
       "note": "18:00; outdoor Christmas lights and tree lighting with music, dance and fireworks; Áurea, Ricardo Ribeiro, soprano Marina Pacheco, Orquestra Portuguesa de Guitarras e Bandolins",
       "source": "agenda-porto-newsletter-2026-11",
-      "addedAt": "2026-11-24T05:00:43Z"
+      "addedAt": "2026-11-24T05:00:43Z",
+      "status": "done",
+      "eventSlug": "inauguracao-das-luzes-e-da-arvore-de-natal-avenida-dos-aliados-nov-28-2026",
+      "reason": "already listed",
+      "lastTriedAt": "2026-11-24T18:37:28.799Z",
+      "resolvedAt": "2026-11-24T18:37:28.799Z"
     }
   ]
 }

@@ -1,0 +1,25 @@
+{
+  "slug": "coro-infantil-casa-da-musica-casa-da-musica-dec-20-2026",
+  "name": "Coro Infantil Casa da Música",
+  "date": "2026-12-20T11:00",
+  "venue": "Casa da Música",
+  "venueSlug": "casa-da-musica",
+  "price": "€14",
+  "priceFrom": 14,
+  "currency": "EUR",
+  "category": "music",
+  "description": "Coro Infantil Casa da Música performs a Christmas carols concert in Sala 2, conducted by Raquel Couto with Dalila Teixeira on piano.",
+  "longDescription": "This Sunday morning concert is part of the Café com Nata series at Casa da Música. The performance features the Coro Infantil Casa da Música singing Christmas carols (Cânticos de Natal) under the musical direction of Raquel Couto, accompanied by Dalila Teixeira on piano.\n\nTicket holders are offered coffee and a pastel de nata before the show, with service beginning at 10:30 at the Bar Suspenso. The concert takes place in Sala 2 and starts at 11:00. Admission is 14 euros, with discounts available for youth, seniors, students, and other eligible groups. The event is open to attendees aged 6 and over.",
+  "sourceEdition": "forward-scan",
+  "externalLink": "https://casadamusica.com/event/coro-infantil-casa-da-musica-3/",
+  "pickCandidate": true,
+  "addedAt": "2026-11-24T18:37:25.293Z",
+  "lastSeenAt": "2026-11-24T18:37:25.293Z",
+  "descriptionPt": "O Coro Infantil Casa da Música apresenta um concerto de cânticos de Natal na Sala 2, sob a direção de Raquel Couto e com Dalila Teixeira ao piano.",
+  "longDescriptionPt": "Este concerto de domingo de manhã integra o ciclo Café com Nata da Casa da Música. A apresentação traz o Coro Infantil Casa da Música a cantar Cânticos de Natal sob a direção musical de Raquel Couto, com acompanhamento de Dalila Teixeira ao piano.\n\nQuem tem bilhete tem direito a café e pastel de nata antes do espetáculo, servidos a partir das 10h30 no Bar Suspenso. O concerto decorre na Sala 2 e começa às 11h00. A entrada custa 14 euros, havendo descontos para jovens, seniores, estudantes e outros grupos com direito a redução. O evento destina-se a maiores de 6 anos.",
+  "image": {
+    "url": "https://i.imgur.com/2JF8HjZ.jpeg",
+    "credit": "Photo: Casa da Música",
+    "sourceUrl": "https://casadamusica.com/event/coro-infantil-casa-da-musica-3/"
+  }
+}
