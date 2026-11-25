@@ -7,6 +7,58 @@ impressions / pos 9.3 over 28 days (prev 28: 191 / 10,293 / 16.9);
 subscribers 56 active (34 EN, 22 PT), ~1.4 net/week; signups by page: none
 recorded yet (tracking started today).
 
+## 2026-11-25 — G10: December long weekends page (1 + 8 Dec holidays), EN + PT
+- Run 09:30 UTC Wed, outside the freeze (deferred push, live with the 21:00 flush).
+  Not Mon/Tue, so no guide re-check.
+- Live check: /api/version b9c716f (last night's flush, includes b31e623 G9).
+  **Health ok: true**, no failing checks. /venue/lust-porto live with the box and
+  "Where is Lust Porto?". Indexing API 200 for EN + PT of madame-travessa,
+  lola-hi-fi, the-barons-hall, lust-porto (8 URLs).
+- Metrics (`metrics/2026-11-25.json`): 1,181 clicks / 49,471 impr / pos 9.13
+  over 28d (prev 28d 305 / 14,578). Last 7d **377 clicks vs 347**, impr 17,430
+  vs 13,193, CTR 2.16% vs 2.63%, pos 8.0 vs 9.1. GA4 7d 162 users / 203
+  sessions / 335 PV (prev 155 / 180 / 252); 111 organic, 51 direct, 17 organic
+  social, 16 AI assistant; `sign_up` 7. Subscribers 86 (11-19). Signups 28d: 38.
+  Instagram 29 (27 a week ago).
+- Result due (#14 llms.txt PT + month hubs, 10-28): **worked, loosely.** GA4 AI
+  Assistant sessions were 4–6/week before; the last four snapshots show 29, 22,
+  19, 16/week. Can't separate llms.txt from general AI-search growth.
+- Research: GSC 28d has generic "today"/"weekend" queries ranking 25–65 and no
+  holiday queries (the site had no traffic last December). In 2026, 1 Dec and
+  8 Dec are both Tuesday national holidays (Código do Trabalho art. 234), so two
+  four-day weekends; national press runs "o que fazer no feriado" pieces every
+  year (idealista, noticiasaominuto). We have 60 records for 28 Nov–1 Dec and 31
+  for 5–8 Dec. Christmas Day "what's open" page considered and parked: 2026
+  hours and transport schedules aren't published yet (re-check ~12-10).
+- Growth item (G10): `/porto-events/december-long-weekends` +
+  `/pt/eventos/feriados-de-dezembro` (lib/december-holidays.ts,
+  app/porto-events/DecemberHolidays.tsx): per weekend, events by day (Sat → the
+  holiday Tue) with time, venue, "until" and price; up to 8 long runs + link to
+  the December hub; FAQ (holiday facts only; Monday is not a holiday; no
+  opening-hours claims), ItemList + FAQPage + Breadcrumb JSON-LD; hourly ISR so
+  past days drop off; noindex + out of the sitemap after 8 Dec. Linked from the
+  Nov + Dec month hubs (under the intro) and from this-weekend / este fim de
+  semana when the weekend touches a holiday. Commit 2372664 `[defer]`.
+- Verified: tsc OK; build exit 0 (7,629 pages). Built EN title "December Long
+  Weekends in Porto 2026: What's On 28 Nov–1 Dec and 5–8 Dec", PT "Feriados de
+  dezembro no Porto 2026: o que fazer…", both weekends render with day headings,
+  Serralves Christmas market under 5–8 Dec, no noindex; links present on
+  december-2026, pt novembro-2026 and this-weekend. Next run: live check + both
+  URLs to the Indexing API.
+- Expect: 200+ impr / 5+ clicks on feriado / long-weekend / "dezembro" queries
+  and a few signups from both paths.
+- Measure on: 2026-12-09 (GSC both URLs 11-26 → 12-08; signup-sources paths).
+- Price backfill (2c): 14 upcoming without a price. Checked 5 on agenda-porto
+  (Kodak: Ascensão e Queda 28 Nov, Panza + Havok 26 Nov, AQ3 + The Wallpapers
+  27 Nov, Qual é a Graça? 28 Nov, Fórum Serpentina 13 Dec): none states a price,
+  left empty.
+- Cancellations (2d): none of those 5 pages says Cancelado / Anulado / Adiado.
+- Partner earnings (2e, Impact API): unchanged, Fever 10-27 → 11-25 **66 clicks,
+  4 sales, €257.68 in sales, €15.46 payout pending**.
+- #46 (Praça da Fantasia, Matosinhos market as records): still open, next run.
+- Result:
+- Needs owner: none.
+
 ## 2026-11-24 — G9: verified venue profiles (address, map, official page) on 15 searched venues
 - Run 09:30 UTC Tue, outside the freeze.
 - Guide re-check (2b): `guidesDue('2026-11-24')` is empty (oldest check 10-31,
