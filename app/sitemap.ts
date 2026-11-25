@@ -8,6 +8,7 @@ import { DAY_HUB_PATHS } from '@/lib/event-days';
 import { LANDING_PATHS, landingIndexable, type LandingKind } from '@/lib/event-landings';
 import { CHRISTMAS_LIGHTS_PATHS, lightsInSeason } from '@/lib/christmas-lights';
 import { CHRISTMAS_CONCERTS_PATHS, concertsInSeason } from '@/lib/christmas-concerts';
+import { DECEMBER_HOLIDAYS_PATHS, holidaysInSeason } from '@/lib/december-holidays';
 import { venueProfile } from '@/lib/venue-profiles';
 
 // A page's lastmod is max(content date, last time its markup changed). Content
@@ -143,6 +144,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...(concertsInSeason() ? [
       { url: `https://oportoweekly.com${CHRISTMAS_CONCERTS_PATHS.en}`, lastModified: new Date(), changeFrequency: 'weekly' as const, priority: 0.85 },
       { url: `https://oportoweekly.com${CHRISTMAS_CONCERTS_PATHS.pt}`, lastModified: new Date(), changeFrequency: 'weekly' as const, priority: 0.85 },
+    ] : []),
+    // December long weekends (G10, lib/december-holidays.ts) until 8 Dec.
+    ...(holidaysInSeason() ? [
+      { url: `https://oportoweekly.com${DECEMBER_HOLIDAYS_PATHS.en}`, lastModified: new Date(), changeFrequency: 'daily' as const, priority: 0.85 },
+      { url: `https://oportoweekly.com${DECEMBER_HOLIDAYS_PATHS.pt}`, lastModified: new Date(), changeFrequency: 'daily' as const, priority: 0.85 },
     ] : []),
     { url: 'https://oportoweekly.com/pt', lastModified: new Date(), changeFrequency: 'weekly', priority: 0.9 },
     { url: 'https://oportoweekly.com/pt/blog', lastModified: new Date(), changeFrequency: 'weekly', priority: 0.8 },

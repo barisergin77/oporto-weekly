@@ -13,6 +13,7 @@ import { GuidesStrip, InlineGuideCard } from '@/app/components/RelatedGuide';
 import { listBlogPosts, listBlogPostsPT } from '@/lib/blog';
 import { guideForList, guidesForHub } from '@/lib/related-guides';
 import { EventFilters } from '@/app/components/EventFilters';
+import { DECEMBER_HOLIDAYS_PATHS, upcomingLongWeekends } from '@/lib/december-holidays';
 
 /**
  * "Today" / "This weekend", shared by /porto-events/{today,this-weekend} (EN)
@@ -82,6 +83,8 @@ export function DayHub({ kind, lang }: { kind: DayHubKind; lang: Lang }) {
   const listGuide = guideForList({ events: [...main, ...longRuns], monthIndex }, pt ? listBlogPostsPT() : listBlogPosts());
   const guides = guidesForHub([...main, ...longRuns], monthIndex, listBlogPosts(), 4).filter((g) => g.slug !== listGuide?.slug).slice(0, 3);
   const h1 = heading(kind, lang);
+  // G10: a weekend that runs into a December holiday links to the long-weekend page.
+  const longWeekend = upcomingLongWeekends().find((w) => range.from <= w.to && range.to >= w.from);
   const items = [...main, ...longRuns].map((e) => toFilterItem(e, lang));
 
   const month = monthOfIso(range.from);
@@ -153,6 +156,13 @@ export function DayHub({ kind, lang }: { kind: DayHubKind; lang: Lang }) {
         </div>
         <ShortcutChips lang={lang} current={kind} />
         {intro && <p style={{ fontSize: 16, color: colors.textSoft, lineHeight: 1.6, margin: '20px 0 28px' }}>{intro}</p>}
+        {longWeekend && (
+          <p style={{ fontSize: 15, margin: '0 0 28px' }}>
+            <Link href={DECEMBER_HOLIDAYS_PATHS[lang]} style={{ color: colors.heading, fontWeight: 600 }}>
+              {pt ? `Fim de semana prolongado até terça, ${Number(longWeekend.to.slice(8))} de dezembro (feriado): o programa dia a dia` : `Long weekend to Tuesday ${Number(longWeekend.to.slice(8))} December (holiday): day by day`} →
+            </Link>
+          </p>
+        )}
 
         {main.length === 0 && (
           <div style={{ background: colors.card, border: `1px solid ${colors.divider}`, borderLeft: `4px solid ${colors.accent}`, padding: '16px 20px', margin: '20px 0 28px', fontSize: 15, lineHeight: 1.6 }}>

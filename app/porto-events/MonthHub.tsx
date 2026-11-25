@@ -13,6 +13,7 @@ import { listBlogPosts, listBlogPostsPT } from '@/lib/blog';
 import { guideForList, guidesForHub } from '@/lib/related-guides';
 import { EventFilters } from '@/app/components/EventFilters';
 import { LANDING_PATHS, landingIndexable } from '@/lib/event-landings';
+import { DECEMBER_HOLIDAYS_PATHS, HOLIDAYS_YEAR, holidaysInSeason } from '@/lib/december-holidays';
 
 /**
  * Month hub, shared by /porto-events/<month> (EN) and /pt/eventos/<mes> (PT).
@@ -101,6 +102,8 @@ export function MonthHub({ m, lang }: { m: Month; lang: Lang }) {
   const eventsHub = pt ? '/pt' : '/porto-events';
   // Nov, Dec and Jan hubs point to the Christmas page (#40) while it has enough events to be indexed.
   const showXmas = [10, 11, 0].includes(m.month) && landingIndexable('christmas');
+  // Nov + Dec hubs point to the December long weekends page (G10) until 8 Dec.
+  const showHolidays = m.year === HOLIDAYS_YEAR && [10, 11].includes(m.month) && holidaysInSeason();
   const jsonLd = {
     '@context': 'https://schema.org',
     '@graph': [
@@ -153,6 +156,13 @@ export function MonthHub({ m, lang }: { m: Month; lang: Lang }) {
           {pt ? `Eventos no Porto em ${l}` : `Porto Events in ${l}`}
         </h1>
         <p style={{ fontSize: 16, color: colors.textSoft, lineHeight: 1.6, margin: '0 0 28px' }}>{intro}</p>
+        {showHolidays && (
+          <p style={{ fontSize: 15, margin: '-12px 0 28px' }}>
+            <Link href={DECEMBER_HOLIDAYS_PATHS[lang]} style={{ color: colors.heading, fontWeight: 600 }}>
+              {pt ? `Feriados de 1 e 8 de dezembro: o que fazer nos fins de semana prolongados` : `1 and 8 December holidays: what's on over both long weekends`} →
+            </Link>
+          </p>
+        )}
 
         <SubscribeCTA lang={lang} context="event" />
 
