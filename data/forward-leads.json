@@ -102,21 +102,6 @@
       "resolvedAt": "2026-10-26T09:31:57.768Z"
     },
     {
-      "name": "Rodrigo Leão",
-      "date": "2026-11-23T21:00",
-      "endDate": "2026-11-24",
-      "venue": "Casa da Música",
-      "url": "https://casadamusica.com/event/rodrigo-leao-3/?selected_session=51205",
-      "note": "Sala Suggia; Misty Fest; sessions 23 Nov 21:00, 24 Nov 18:30 and 21:00.",
-      "source": "casa-da-musica-newsletter-2026-11",
-      "addedAt": "2026-10-25T12:00:00Z",
-      "status": "done",
-      "eventSlug": "misty-fest-2026-casa-da-musica-nov-10-2026",
-      "reason": "already listed",
-      "lastTriedAt": "2026-10-30T13:48:49.794Z",
-      "resolvedAt": "2026-10-30T13:48:49.794Z"
-    },
-    {
       "name": "Christian Löffler & Ensemble",
       "date": "2026-11-25T21:00",
       "venue": "Casa da Música",
@@ -339,9 +324,9 @@
       "source": "serralves-newsletter-2026-11",
       "addedAt": "2026-11-24T05:00:19Z",
       "status": "pending",
-      "attempts": 1,
+      "attempts": 2,
       "reason": "not an organiser/venue/ticketing page (https://www.kurimanzutto.com/news/exhibition-anri-sala-fallen-vision)",
-      "lastTriedAt": "2026-11-24T18:37:28.799Z"
+      "lastTriedAt": "2026-11-25T17:47:27.805Z"
     },
     {
       "name": "GANSO",
@@ -351,9 +336,9 @@
       "source": "agenda-porto-newsletter-2026-11",
       "addedAt": "2026-11-24T05:00:43Z",
       "status": "pending",
-      "attempts": 1,
-      "reason": "thin copy (24 words)",
-      "lastTriedAt": "2026-11-24T18:37:28.799Z"
+      "attempts": 2,
+      "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
+      "lastTriedAt": "2026-11-25T17:47:27.805Z"
     },
     {
       "name": "Identidade(s), de Manuel Casimiro",
@@ -364,9 +349,9 @@
       "source": "agenda-porto-newsletter-2026-11",
       "addedAt": "2026-11-24T05:00:43Z",
       "status": "pending",
-      "attempts": 1,
+      "attempts": 2,
       "reason": "not an organiser/venue/ticketing page (https://selectandwin.com/agendacultural/e/identidades-de-manuel-casimiro/)",
-      "lastTriedAt": "2026-11-24T18:37:28.799Z"
+      "lastTriedAt": "2026-11-25T17:47:27.805Z"
     },
     {
       "name": "Barronhos: Quem Teve Medo do Poder Popular?, de Luís Filipe Rocha",
@@ -376,17 +361,9 @@
       "source": "agenda-porto-newsletter-2026-11",
       "addedAt": "2026-11-24T05:00:43Z",
       "status": "pending",
-      "attempts": 1,
+      "attempts": 2,
       "reason": "not an organiser/venue/ticketing page (https://7log.selectandwin.com/agendacultural/e/barronhos-quem-teve-medo-do-poder-popular-de-luis-filipe-rocha/)",
-      "lastTriedAt": "2026-11-24T18:37:28.799Z"
-    },
-    {
-      "name": "Januário Godinho – Arquitecto Moderno, de Domingos Tavares",
-      "date": "2026-11-24",
-      "venue": "Casa Comum - Reitoria da Universidade do Porto",
-      "note": "18:30; talk/presentation of the first monograph on Porto architect Januário Godinho (1910-1990)",
-      "source": "agenda-porto-newsletter-2026-11",
-      "addedAt": "2026-11-24T05:00:43Z"
+      "lastTriedAt": "2026-11-25T17:47:27.805Z"
     },
     {
       "name": "O Diabo em Mim, do Visões Úteis",
@@ -397,9 +374,9 @@
       "source": "agenda-porto-newsletter-2026-11",
       "addedAt": "2026-11-24T05:00:43Z",
       "status": "pending",
-      "attempts": 1,
+      "attempts": 2,
       "reason": "page not fetchable: https://charmedgiraffe.com/en/porto/events/o-diabo-em-mim-do-visoes-uteis-eed23c60 → HTTP 403 | https://charmedgiraffe.com/es/porto/events/o-diabo-em-mim-do-visoes-uteis-eed23c60 → HTTP 403 | https://oazis.app/evenements/o-diabo-em-mim → HTTP 403",
-      "lastTriedAt": "2026-11-24T18:37:28.799Z"
+      "lastTriedAt": "2026-11-25T17:47:27.805Z"
     },
     {
       "name": "Danças Tradicionais Moçambicanas",
@@ -409,9 +386,9 @@
       "source": "agenda-porto-newsletter-2026-11",
       "addedAt": "2026-11-24T05:00:43Z",
       "status": "pending",
-      "attempts": 1,
+      "attempts": 2,
       "reason": "page not fetchable: https://www.viralagenda.com/pt/events/1878157/dancas-tradicionais-mocambicanas → HTTP 403",
-      "lastTriedAt": "2026-11-24T18:37:28.799Z"
+      "lastTriedAt": "2026-11-25T17:47:27.805Z"
     },
     {
       "name": "Pássaros & Cogumelos, de Joana Gama",
@@ -421,9 +398,9 @@
       "source": "agenda-porto-newsletter-2026-11",
       "addedAt": "2026-11-24T05:00:43Z",
       "status": "pending",
-      "attempts": 1,
+      "attempts": 2,
       "reason": "not an organiser/venue/ticketing page (https://agendaculturalporto.org/eventos/passaros-cogumelos-de-joana-gama-transforma-arvores-sons-e-imaginacao-num-espetaculo-poetico-para-familias/)",
-      "lastTriedAt": "2026-11-24T18:37:28.799Z"
+      "lastTriedAt": "2026-11-25T17:47:27.805Z"
     },
     {
       "name": "Inauguração das Luzes e da Árvore de Natal",
@@ -445,7 +422,11 @@
       "venue": "Coliseu Porto Ageas",
       "note": "Christmas circus, 85th edition; story by Rui Zink, music by Artur Guimarães; acrobatics, trapeze, Palhaço Lukinha; €10–20, kids up to 12 half price; family",
       "source": "coliseu-newsletter-2026-11",
-      "addedAt": "2026-11-25T05:00:24Z"
+      "addedAt": "2026-11-25T05:00:24Z",
+      "status": "pending",
+      "attempts": 1,
+      "reason": "page does not confirm the event (https://agendaculturalporto.org/o-que-fazer-no-porto-em-agosto-2/)",
+      "lastTriedAt": "2026-11-25T17:47:27.805Z"
     }
   ]
 }
