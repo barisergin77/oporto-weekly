@@ -437,6 +437,15 @@
       "reason": "already listed",
       "lastTriedAt": "2026-11-24T18:37:28.799Z",
       "resolvedAt": "2026-11-24T18:37:28.799Z"
+    },
+    {
+      "name": "Circo Coliseu Porto Ageas – O Pinóquio faz o pino",
+      "date": "2026-12-06",
+      "endDate": "2027-01-03",
+      "venue": "Coliseu Porto Ageas",
+      "note": "Christmas circus, 85th edition; story by Rui Zink, music by Artur Guimarães; acrobatics, trapeze, Palhaço Lukinha; €10–20, kids up to 12 half price; family",
+      "source": "coliseu-newsletter-2026-11",
+      "addedAt": "2026-11-25T05:00:24Z"
     }
   ]
 }
