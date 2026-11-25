@@ -22,8 +22,7 @@ export const maxDuration = 300;
 import { NextRequest, NextResponse } from 'next/server';
 import { generateSlug, formatWeekRange, thursdayWeekStart, waitForArchiveLive } from '@/lib/archive';
 import { getFileContent } from '@/lib/github';
-import { getActiveSubscribers } from '@/lib/audiences';
-import { sendBatch } from '@/lib/resend-client';
+import { deliverNewsletter } from '@/lib/newsletter-delivery';
 import { withForwardBlock } from '@/lib/forward-block';
 import { withGameBlock } from '@/lib/game-block';
 import { checkCronAuth } from '@/lib/cron-auth';
@@ -97,17 +96,21 @@ export async function GET(req: NextRequest) {
       // 4. Send.
       const weekDate = weekStart.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
       const subject = `Oporto Weekly: ${weekDate}`;
-      const enSubscribers = await getActiveSubscribers('en');
-      const enEmails = enSubscribers.map(s => s.email);
       const emailHtml = withForwardBlock(withGameBlock(html, 'en'), 'en', `https://oportoweekly.com/archive/${slug}`);
-      const sentEN = await sendBatch(enEmails, subject, emailHtml, [
-        { name: 'type', value: 'newsletter' },
-        { name: 'lang', value: 'en' },
-        { name: 'edition', value: slug },
-      ]);
-      console.log(`[cron/newsletter-send] Sent EN to ${sentEN} subscribers`);
+      // Broadcast first (doesn't use the 100/day transactional quota),
+      // batch fallback if the broadcast can't be created/sent.
+      const result = await deliverNewsletter({
+        lang: 'en', slug, subject, html: emailHtml,
+        tags: [
+          { name: 'type', value: 'newsletter' },
+          { name: 'lang', value: 'en' },
+          { name: 'edition', value: slug },
+        ],
+      });
+      const sentEN = result.count;
+      console.log(`[cron/newsletter-send] Sent EN to ${sentEN} subscribers via ${result.via}${result.fallbackReason ? ` (fallback: ${result.fallbackReason})` : ''}`);
 
-      return NextResponse.json({ success: true, slug, sent: { en: sentEN } });
+      return NextResponse.json({ success: true, slug, sent: { en: sentEN }, via: result.via, broadcastId: result.broadcastId, fallbackReason: result.fallbackReason });
     } catch (workErr) {
       // Failure before/during send. Distinguish two cases:
       //   - PartialSendError: some chunks already delivered. KEEP the
@@ -117,7 +120,10 @@ export async function GET(req: NextRequest) {
       //   - Anything else: nothing was delivered. Safe to unmark so the
       //     watchdog retries a clean run.
       const { PartialSendError } = await import('@/lib/resend-client');
-      if (workErr instanceof PartialSendError) {
+      const { BroadcastInFlightError } = await import('@/lib/newsletter-delivery');
+      if (workErr instanceof BroadcastInFlightError) {
+        console.error(`[cron/newsletter-send] BROADCAST IN FLIGHT (${workErr.broadcastId}) — keeping claim:`, workErr);
+      } else if (workErr instanceof PartialSendError) {
         console.error(`[cron/newsletter-send] PARTIAL SEND (${workErr.sentCount}/${workErr.totalCount}) — keeping claim:`, workErr);
       } else {
         console.error('[cron/newsletter-send] failed after claim, unmarking:', workErr);

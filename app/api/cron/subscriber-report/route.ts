@@ -24,6 +24,7 @@ import { thursdayWeekStart } from '@/lib/archive';
 import { getInstagramStats } from '@/lib/instagram';
 import { getSearchTraffic, type SearchTraffic } from '@/lib/search-engines';
 import { getGa4Traffic } from '@/lib/analytics';
+import { getRecentIssueStats, renderIssueStatsHtml, type IssueStats } from '@/lib/newsletter-stats';
 
 const EDITOR_EMAIL = 'barisergin@gmail.com';
 const HISTORY_PATH = 'data/subscriber-history.json';
@@ -91,19 +92,21 @@ export async function GET(req: NextRequest) {
     // not cost us the subscriber snapshot (the only irreplaceable part —
     // it's the week's only record of the count).
     const w = trafficWindows(now);
-    const [igRes, curRes, prevRes, gaRes, gaPrevRes] = await Promise.allSettled([
+    const [igRes, curRes, prevRes, gaRes, gaPrevRes, issuesRes] = await Promise.allSettled([
       getInstagramStats(),
       getSearchTraffic(w.curStart, w.curEnd),
       getSearchTraffic(w.prevStart, w.prevEnd),
       getGa4Traffic(w.gaStart, w.gaEnd),
       getGa4Traffic(w.gaPrevStart, w.gaPrevEnd),
+      getRecentIssueStats(9),
     ]);
+    const issues: IssueStats[] = issuesRes.status === 'fulfilled' ? issuesRes.value : [];
     const ig = igRes.status === 'fulfilled' ? igRes.value : null;
     const curTraffic = curRes.status === 'fulfilled' ? curRes.value : null;
     const prevTraffic = prevRes.status === 'fulfilled' ? prevRes.value : null;
     const ga = gaRes.status === 'fulfilled' ? gaRes.value : null;
     const gaPrev = gaPrevRes.status === 'fulfilled' ? gaPrevRes.value : null;
-    const problems = [igRes, curRes, prevRes, gaRes, gaPrevRes]
+    const problems = [igRes, curRes, prevRes, gaRes, gaPrevRes, issuesRes]
       .filter((r): r is PromiseRejectedResult => r.status === 'rejected')
       .map((r) => (r.reason instanceof Error ? r.reason.message : String(r.reason)));
     problems.forEach((m) => console.error('[cron/subscriber-report] extra metric failed:', m));
@@ -176,6 +179,8 @@ export async function GET(req: NextRequest) {
       <td style="text-align:right;"></td>
     </tr>
   </table>
+  ${renderIssueStatsHtml(issues, prev ? { en: Math.max(0, newUnsubEn), pt: Math.max(0, newUnsubPt) } : null)}
+
   ${ig ? `
   <h2 style="font-family:Georgia,serif;font-size:17px;margin:28px 0 8px;">📸 Instagram</h2>
   <table style="font-size:14px;border-collapse:collapse;width:100%;">
@@ -264,6 +269,7 @@ export async function GET(req: NextRequest) {
       traffic: { current: curTraffic, previous: prevTraffic },
       ga4: { current: ga, previous: gaPrev },
       problems,
+      issues,
       preview,
       firstReport: !prev,
     });

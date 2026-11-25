@@ -4,7 +4,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { generateSlug, formatWeekRange, formatWeekRangePT, thursdayWeekStart, assertValidNewsletterHtml, waitForArchiveLive } from '@/lib/archive';
 import { archiveViaGitHub, getFileContent } from '@/lib/github';
 import { getActiveSubscribers } from '@/lib/audiences';
-import { sendBatch } from '@/lib/resend-client';
+import { deliverNewsletter } from '@/lib/newsletter-delivery';
 import { withForwardBlock } from '@/lib/forward-block';
 import { withGameBlock } from '@/lib/game-block';
 import { notifySearchEngines } from '@/lib/search-engines';
@@ -199,22 +199,29 @@ export async function GET(req: NextRequest) {
 
     // 6. Send.
     const ptSubscribers = await getActiveSubscribers('pt');
-    const ptEmails = ptSubscribers.map(s => s.email);
     let sentPT = 0;
-    if (ptEmails.length > 0) {
+    if (ptSubscribers.length > 0) {
       try {
-        sentPT = await sendBatch(ptEmails, ptSubject, withForwardBlock(withGameBlock(ptHtml, 'pt'), 'pt', `https://oportoweekly.com/pt/arquivo/${ptSlug}`), [
-          { name: 'type', value: 'newsletter' },
-          { name: 'lang', value: 'pt' },
-          { name: 'edition', value: ptSlug },
-        ]);
-        console.log(`[cron/newsletter-pt] Sent PT to ${sentPT} subscribers`);
+        const result = await deliverNewsletter({
+          lang: 'pt', slug, subject: ptSubject,
+          html: withForwardBlock(withGameBlock(ptHtml, 'pt'), 'pt', `https://oportoweekly.com/pt/arquivo/${ptSlug}`),
+          tags: [
+            { name: 'type', value: 'newsletter' },
+            { name: 'lang', value: 'pt' },
+            { name: 'edition', value: ptSlug },
+          ],
+        });
+        sentPT = result.count;
+        console.log(`[cron/newsletter-pt] Sent PT to ${sentPT} subscribers via ${result.via}${result.fallbackReason ? ` (fallback: ${result.fallbackReason})` : ''}`);
       } catch (sendErr) {
         // Keep the claim on partial send (retry would double-send delivered
         // chunks); release it otherwise so the watchdog can retry cleanly.
         const { PartialSendError } = await import('@/lib/resend-client');
+        const { BroadcastInFlightError } = await import('@/lib/newsletter-delivery');
         const { unmarkStep } = await import('@/lib/run-ledger');
-        if (sendErr instanceof PartialSendError) {
+        if (sendErr instanceof BroadcastInFlightError) {
+          console.error(`[cron/newsletter-pt] BROADCAST IN FLIGHT (${sendErr.broadcastId}) — keeping claim:`, sendErr);
+        } else if (sendErr instanceof PartialSendError) {
           console.error(`[cron/newsletter-pt] PARTIAL SEND (${sendErr.sentCount}/${sendErr.totalCount}) — keeping claim:`, sendErr);
         } else {
           console.error('[cron/newsletter-pt] send failed, unmarking pt-email:', sendErr);
