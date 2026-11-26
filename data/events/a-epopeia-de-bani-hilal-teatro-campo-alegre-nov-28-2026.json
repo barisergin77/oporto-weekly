@@ -11,7 +11,7 @@
   "category": "art",
   "description": "Khashabi Theatre presents a stage adaptation of the classic Arabic epic Al-Sirah Al-Hilaliyyah, directed by Bashar Murkus and Khulood Basel.",
   "longDescription": "Teatro Khashabi presents this production directed by Bashar Murkus and Khulood Basel, staging the classic Arabic saga Al-Sirah Al-Hilaliyyah. The show chronicles the migration of the Bani Hilal tribe from the Arabian Peninsula to Tunisia and the story of Abu Zaid al-Hilali.\n\nThe production combines Palestinian folklore and traditional Arabic performance techniques. Seven performers bring the story to life using live music, dance, song, shadow puppetry, and marionettes.\n\nPerformances take place at TMP Campo Alegre on 28 November at 19:00 and 29 November at 17:00. Tickets cost 9 EUR, with discounts available for Cartao Porto holders.",
-  "sourceEdition": "forward-scan",
+  "sourceEdition": "november-26-december-2-2026",
   "externalLink": "https://www.agenda-porto.pt/evento/tmp-a-epopeia-de-bani-hilal/",
   "pickCandidate": true,
   "addedAt": "2026-11-21T06:02:36.720Z",
@@ -23,5 +23,6 @@
     "credit": "Photo: Agenda-porto",
     "sourceUrl": "https://www.agenda-porto.pt/evento/tmp-a-epopeia-de-bani-hilal/"
   },
-  "nameEn": "The Epic of Banī Hilāl"
+  "nameEn": "The Epic of Banī Hilāl",
+  "editorPickRank": 5
 }

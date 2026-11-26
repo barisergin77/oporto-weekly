@@ -8,7 +8,7 @@
   "category": "family",
   "description": "Porto opens its Christmas season with the lighting of the holiday lights and the city Christmas tree on Avenida dos Aliados. The celebration includes a live concert.",
   "longDescription": "Porto launches its Christmas programme on 28 November on Avenida dos Aliados. The event begins at 18:00 with the official switching on of the holiday street illuminations.\n\nThe occasion also features the lighting of the Christmas tree in Praça do General Humberto Delgado and includes a live concert. Admission is free.",
-  "sourceEdition": "forward-scan",
+  "sourceEdition": "november-26-december-2-2026",
   "externalLink": "https://www.agenda-porto.pt/evento/inauguracao-luzes-natal-2026/",
   "pickCandidate": true,
   "addedAt": "2026-11-10T06:01:11.379Z",
@@ -23,5 +23,6 @@
   "nameEn": "Christmas Lights and Tree Switch-On",
   "namePt": "Luzes de Natal do Porto 2026: inauguração",
   "priceFrom": 0,
-  "currency": "EUR"
+  "currency": "EUR",
+  "editorPickRank": 1
 }
