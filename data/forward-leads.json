@@ -102,19 +102,6 @@
       "resolvedAt": "2026-10-26T09:31:57.768Z"
     },
     {
-      "name": "Christian Löffler & Ensemble",
-      "date": "2026-11-25T21:00",
-      "venue": "Casa da Música",
-      "url": "https://casadamusica.com/event/christian-loffler-until-we-meet-again-tour/?selected_session=49751",
-      "note": "Sala Suggia; Misty Fest; Until We Meet Again Tour.",
-      "source": "casa-da-musica-newsletter-2026-11",
-      "addedAt": "2026-10-25T12:00:00Z",
-      "status": "done",
-      "eventSlug": "christian-loffler-until-we-meet-again-tour-casa-da-musica-nov-25-2026",
-      "lastTriedAt": "2026-10-30T13:48:49.794Z",
-      "resolvedAt": "2026-10-30T13:48:49.794Z"
-    },
-    {
       "name": "Al Di Meola",
       "date": "2026-11-26T21:00",
       "venue": "Casa da Música",
@@ -193,19 +180,6 @@
       "reason": "already listed",
       "lastTriedAt": "2026-10-31T08:32:37.308Z",
       "resolvedAt": "2026-10-31T08:32:37.308Z"
-    },
-    {
-      "name": "Quem decide o que ouvimos? – Mantras Coliseu",
-      "date": "2026-11-25",
-      "venue": "Coliseu Porto Ageas",
-      "note": "18:30; Mantras Coliseu talk series",
-      "source": "coliseu-newsletter-2026-10",
-      "addedAt": "2026-11-01T05:00:47Z",
-      "status": "rejected",
-      "attempts": 3,
-      "reason": "page not fetchable: https://www.coliseu.pt/noticia/mantras-do-coliseu-ciclo-dedicado-ao-pensamento-com-novas-propostas-em-202 → only 19 chars of text | https://www.coliseu.pt/mantras → only 19 chars of text | https://coliseu.pt/evento/20210103-circo-de-natal-coliseu-porto-ageas → only 19 chars of text",
-      "lastTriedAt": "2026-11-04T15:04:18.884Z",
-      "resolvedAt": "2026-11-04T15:04:18.884Z"
     },
     {
       "name": "O Lago dos Cisnes – Imperial Heritage Ballet",
@@ -303,30 +277,17 @@
       "resolvedAt": "2026-11-21T15:04:59.484Z"
     },
     {
-      "name": "Os Christophers, de Steven Soderbergh",
-      "date": "2026-11-19",
-      "endDate": "2026-11-25",
-      "venue": "Teatro Campo Alegre",
-      "note": "Film screenings (Medeia Filmes) of Steven Soderbergh's Os Christophers, 19–25 Nov; ticketed",
-      "source": "teatro-municipal-do-porto-newsletter-2026-11",
-      "addedAt": "2026-11-19T05:00:37Z",
-      "status": "rejected",
-      "attempts": 3,
-      "reason": "page does not confirm the event (https://cinecartaz.publico.pt/filme/christophers-416109)",
-      "lastTriedAt": "2026-11-21T15:04:59.484Z",
-      "resolvedAt": "2026-11-21T15:04:59.484Z"
-    },
-    {
       "name": "Anri Sala: Fallen Vision",
       "date": "2026-11-27",
       "venue": "Serralves",
       "note": "Exhibition opening, 22:00, Museu de Serralves, free entry. At 22:30 the vocal ensemble EXAUDI, directed by Jack Sheen, performs Surface, Otherwise (After STA XLII) live. Anri Sala's first major exhibition in Portugal, curated by Inês Grosso.",
       "source": "serralves-newsletter-2026-11",
       "addedAt": "2026-11-24T05:00:19Z",
-      "status": "pending",
-      "attempts": 2,
+      "status": "rejected",
+      "attempts": 3,
       "reason": "not an organiser/venue/ticketing page (https://www.kurimanzutto.com/news/exhibition-anri-sala-fallen-vision)",
-      "lastTriedAt": "2026-11-25T17:47:27.805Z"
+      "lastTriedAt": "2026-11-26T06:06:26.661Z",
+      "resolvedAt": "2026-11-26T06:06:26.661Z"
     },
     {
       "name": "GANSO",
@@ -335,10 +296,11 @@
       "note": "21:30; Lisbon band's 10th-anniversary tour (Pá Pá Pá, Não Tarda, Vice Versa); guests Rapaz Ego and Femme Falafel",
       "source": "agenda-porto-newsletter-2026-11",
       "addedAt": "2026-11-24T05:00:43Z",
-      "status": "pending",
-      "attempts": 2,
+      "status": "rejected",
+      "attempts": 3,
       "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
-      "lastTriedAt": "2026-11-25T17:47:27.805Z"
+      "lastTriedAt": "2026-11-26T06:06:26.661Z",
+      "resolvedAt": "2026-11-26T06:06:26.661Z"
     },
     {
       "name": "Identidade(s), de Manuel Casimiro",
@@ -348,10 +310,11 @@
       "note": "Painting exhibition reworking symbols from the Portuguese and Brazilian flags; opening 24 Nov 18:00; Mon-Fri 10:00-13:00 + 14:00-17:00",
       "source": "agenda-porto-newsletter-2026-11",
       "addedAt": "2026-11-24T05:00:43Z",
-      "status": "pending",
-      "attempts": 2,
+      "status": "rejected",
+      "attempts": 3,
       "reason": "not an organiser/venue/ticketing page (https://selectandwin.com/agendacultural/e/identidades-de-manuel-casimiro/)",
-      "lastTriedAt": "2026-11-25T17:47:27.805Z"
+      "lastTriedAt": "2026-11-26T06:06:26.661Z",
+      "resolvedAt": "2026-11-26T06:06:26.661Z"
     },
     {
       "name": "Barronhos: Quem Teve Medo do Poder Popular?, de Luís Filipe Rocha",
@@ -360,10 +323,11 @@
       "note": "16:30; screening of 1976 documentary on grassroots organising during the PREC",
       "source": "agenda-porto-newsletter-2026-11",
       "addedAt": "2026-11-24T05:00:43Z",
-      "status": "pending",
-      "attempts": 2,
+      "status": "rejected",
+      "attempts": 3,
       "reason": "not an organiser/venue/ticketing page (https://7log.selectandwin.com/agendacultural/e/barronhos-quem-teve-medo-do-poder-popular-de-luis-filipe-rocha/)",
-      "lastTriedAt": "2026-11-25T17:47:27.805Z"
+      "lastTriedAt": "2026-11-26T06:06:26.661Z",
+      "resolvedAt": "2026-11-26T06:06:26.661Z"
     },
     {
       "name": "O Diabo em Mim, do Visões Úteis",
@@ -373,10 +337,11 @@
       "note": "Theatre by Carlos Costa on tarot and esotericism; 27 Nov 19:00, 28 Nov 21:00, 29 Nov 16:00",
       "source": "agenda-porto-newsletter-2026-11",
       "addedAt": "2026-11-24T05:00:43Z",
-      "status": "pending",
-      "attempts": 2,
+      "status": "rejected",
+      "attempts": 3,
       "reason": "page not fetchable: https://charmedgiraffe.com/en/porto/events/o-diabo-em-mim-do-visoes-uteis-eed23c60 → HTTP 403 | https://charmedgiraffe.com/es/porto/events/o-diabo-em-mim-do-visoes-uteis-eed23c60 → HTTP 403 | https://oazis.app/evenements/o-diabo-em-mim → HTTP 403",
-      "lastTriedAt": "2026-11-25T17:47:27.805Z"
+      "lastTriedAt": "2026-11-26T06:06:26.661Z",
+      "resolvedAt": "2026-11-26T06:06:26.661Z"
     },
     {
       "name": "Danças Tradicionais Moçambicanas",
@@ -444,7 +409,12 @@
       "venue": "Teatro Campo Alegre",
       "note": "Fri and Sat 19:30; premiere; two queer bodies rehearse forms of protection and resistance; 12+; ticketed",
       "source": "teatro-municipal-do-porto-newsletter-2026-11",
-      "addedAt": "2026-11-26T05:00:34Z"
+      "addedAt": "2026-11-26T05:00:34Z",
+      "status": "done",
+      "eventSlug": "julio-cerdeira-teatro-campo-alegre-nov-27-2026",
+      "reason": "already listed",
+      "lastTriedAt": "2026-11-26T06:06:26.661Z",
+      "resolvedAt": "2026-11-26T06:06:26.661Z"
     },
     {
       "name": "Mechita, de Sol Garcia – Palcos Instáveis",
@@ -453,7 +423,12 @@
       "venue": "Teatro Campo Alegre",
       "note": "Fri and Sat 21:00; five women use body and sound as living archives of memory and resistance; 12+; ticketed",
       "source": "teatro-municipal-do-porto-newsletter-2026-11",
-      "addedAt": "2026-11-26T05:00:34Z"
+      "addedAt": "2026-11-26T05:00:34Z",
+      "status": "done",
+      "eventSlug": "sol-garcia-teatro-campo-alegre-nov-27-2026",
+      "reason": "already listed",
+      "lastTriedAt": "2026-11-26T06:06:26.661Z",
+      "resolvedAt": "2026-11-26T06:06:26.661Z"
     },
     {
       "name": "Victor como toda a gente, de Pascal Bonitzer – Medeia Filmes",
@@ -462,7 +437,12 @@
       "venue": "Teatro Campo Alegre",
       "note": "Film screenings 26 Nov to 2 Dec (Medeia Filmes cinema at Campo Alegre); times not given; ticketed",
       "source": "teatro-municipal-do-porto-newsletter-2026-11",
-      "addedAt": "2026-11-26T05:00:34Z"
+      "addedAt": "2026-11-26T05:00:34Z",
+      "status": "done",
+      "eventSlug": "victor-como-toda-a-gente-teatro-campo-alegre-nov-26-2026",
+      "reason": "already listed",
+      "lastTriedAt": "2026-11-26T06:06:26.661Z",
+      "resolvedAt": "2026-11-26T06:06:26.661Z"
     }
   ]
 }

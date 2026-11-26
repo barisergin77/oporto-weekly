@@ -1,0 +1,26 @@
+{
+  "slug": "gnr-in-vivo-casa-da-musica-dec-15-2026",
+  "name": "GNR IN Vivo",
+  "date": "2026-12-15T21:30",
+  "endDate": "2026-12-16",
+  "venue": "Casa da Música",
+  "venueSlug": "casa-da-musica",
+  "price": "€42,00 - €50,00",
+  "priceFrom": 42,
+  "currency": "EUR",
+  "category": "music",
+  "description": "Portuguese rock band GNR performs songs celebrating their 1990 live album In Vivo at Casa da Música.",
+  "longDescription": "Portuguese rock band GNR presents two concerts at Casa da Música celebrating In Vivo, their double album originally released in 1990. Band members Toli César Machado, Rui Reininho, and Jorge Romão perform a repertoire of signature songs drawn from their historic live shows.\n\nThe performances take place in Sala Suggia on 15 and 16 December 2026, starting at 21:30. Doors open 30 minutes before the concert, and the event has an age rating of over six years.\n\nTicket prices range from 42 to 50 euros depending on the seating area, with a 25% discount available for Amigo cardholders. Casa da Música is located on Avenida da Boavista in Porto.",
+  "sourceEdition": "forward-scan",
+  "externalLink": "https://casadamusica.com/event/gnr-ao-vivo/",
+  "pickCandidate": true,
+  "addedAt": "2026-11-26T06:06:23.371Z",
+  "lastSeenAt": "2026-11-26T06:06:23.371Z",
+  "descriptionPt": "A banda de rock portuguesa GNR toca na Casa da Música para celebrar o seu álbum ao vivo de 1990, In Vivo.",
+  "longDescriptionPt": "A banda de rock portuguesa GNR apresenta dois concertos na Casa da Música a celebrar In Vivo, o álbum duplo lançado em 1990. Toli César Machado, Rui Reininho e Jorge Romão sobem ao palco para tocar temas emblemáticos dos seus concertos históricos.\n\nOs espetáculos acontecem na Sala Suggia a 15 e 16 de dezembro de 2026, às 21:30. As portas abrem 30 minutos antes do concerto. A classificação etária é para maiores de 6 anos.\n\nOs bilhetes custam entre 42 e 50 euros, consoante o lugar, com 25% de desconto para quem tem cartão Amigo. A Casa da Música fica na Avenida da Boavista, no Porto.",
+  "image": {
+    "url": "https://i.imgur.com/6diLJ83.jpeg",
+    "credit": "Photo: Casa da Música",
+    "sourceUrl": "https://casadamusica.com/event/gnr-ao-vivo/"
+  }
+}
