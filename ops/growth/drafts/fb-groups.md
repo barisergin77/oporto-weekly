@@ -20,3 +20,5 @@ Read via the owner's logged-in Chrome (read-only). The owner posts; Claude only 
 3. **Porto Internationals:** intro post first, then at most one share every 2–3 weeks.
 4. **Never put affiliate links** (fever.pxf.io or any tracked link) in Facebook-group posts or comments — only plain oportoweekly.com links (owner 2026-10-27, Fever affiliate; same for Gomry `?ref=` links and the organizer referral link).
 5. **Never:** cross-post the same text to several groups on the same day, link other FB/WhatsApp groups, or argue with mods. Stop in a group at the first mod objection.
+
+- 2026-11-25: owner posted the Wed weekend list in Porto Expats (draft from ~/oporto-expats, 7 picks, link /porto-events/this-weekend). Owner also shared the Matosinhos Christmas lights link (/porto-events/christmas-lights#matosinhos) in their WhatsApp group.

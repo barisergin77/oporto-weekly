@@ -7,6 +7,47 @@ impressions / pos 9.3 over 28 days (prev 28: 191 / 10,293 / 16.9);
 subscribers 56 active (34 EN, 22 PT), ~1.4 net/week; signups by page: none
 recorded yet (tracking started today).
 
+## 2026-11-26 — Freeze day: observe only
+- Run 09:30 UTC Thu, inside the freeze (Thu 05:00 → 11:00, held until the
+  10:00 backstop confirms EN, PT and Instagram sent). No code, no data edits,
+  no deploy, no Indexing API calls. Not Mon/Tue, so no guide re-check. No price
+  backfill or cancellation pass today (data edits wait for tomorrow).
+- Live check: /api/version c7b6096, past yesterday's 2372664 (G10). **Health
+  ok: true** (9/9, GitHub token 37 days left). G10 EN + PT live (200, index,
+  follow). Indexing API for both → next run.
+- **Send path changed last night:** c7b6096 "send via Resend Broadcasts (batch
+  fallback)" (app/api/cron/newsletter-send, newsletter-pt, lib/newsletter-
+  delivery.ts) was pushed by the interactive session Wed 23:01 UTC, after the
+  21:00 deploy-flush cutoff, untagged, so it deployed and today is its first
+  real send. Not mine to touch (send path + freeze). Kill switch per the commit:
+  NEWSLETTER_VIA_BROADCAST=false. Next run: confirm EN + PT went out once each
+  (no double send) via `/api/cron/status` and the per-issue stats.
+- Pipeline: `/api/cron/status` has no `november-26-…` entry yet at 09:31 (11-19
+  research finished 10:00, all steps by 10:13).
+- Metrics (`metrics/2026-11-26.json`): 1,230 clicks / 52,195 impr / pos 9.02
+  over 28d (prev 28d 305 / 14,773). Last 7d **386 clicks vs 360**, impr 18,788
+  vs 13,562, CTR 2.05% vs 2.65%, pos 7.9 vs 9.1. GA4 7d 163 users / 203
+  sessions / 362 PV (prev 157 / 177 / 266); 110 organic, 52 direct, 15 AI
+  assistant, 15 organic social; `sign_up` 6. Subscribers 86 (11-19; today's
+  count lands after the send). Signups 28d: 41 (event 13, home 11, porto-events
+  10, blog 3, archive 2, eventos 2). Instagram 29 (28 a week ago).
+- Search notes: G1 lights pages climbing, `/pt/eventos/luzes-de-natal` 16
+  clicks / 875 impr at pos 7.6; "inauguração luzes natal porto 2026" now 500
+  impr at 1% CTR (pos 8.4), and the Aliados lights event page has 1,365 impr /
+  16 clicks. Low CTR because the inauguration is Sat 28 Nov and Google shows
+  the city's own pages first; re-check after the weekend. December hub still #1
+  page (37 clicks, pos 4.9).
+- Results due: none (next: 11-28 #36-era page CTR item, 11-29 #35 blog inline
+  signup + #45 guide re-measure, 11-30 #36 venue snippets).
+- Partner earnings (2e, Impact API): Fever 10-27 → 11-26 **68 clicks** (+2
+  today), still **4 sales, €257.68 in sales, €15.46 payout pending**.
+- Also committed: owner's note in drafts/fb-groups.md (11-25 Porto Expats post
+  + WhatsApp share of the Matosinhos lights link).
+- Result: n/a (observe-only).
+- Needs owner: c7b6096 went live after the Wed 21:00 cutoff and changes the
+  send path on a send day. Please glance at today's EN + PT delivery (one
+  broadcast each); if anything looks off, NEWSLETTER_VIA_BROADCAST=false.
+
 ## 2026-11-25 — G10: December long weekends page (1 + 8 Dec holidays), EN + PT
 - Run 09:30 UTC Wed, outside the freeze (deferred push, live with the 21:00 flush).
   Not Mon/Tue, so no guide re-check.
