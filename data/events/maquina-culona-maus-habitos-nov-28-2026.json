@@ -1,0 +1,25 @@
+{
+  "slug": "maquina-culona-maus-habitos-nov-28-2026",
+  "name": "Máquina Culona",
+  "date": "2026-11-28T23:59",
+  "venue": "Maus Hábitos",
+  "venueSlug": "maus-habitos",
+  "price": "6€",
+  "priceFrom": 6,
+  "currency": "EUR",
+  "category": "nightlife",
+  "description": "Máquina Culona is a party dedicated to emerging Spanish urban music and avant-pop, hosted at Maus Hábitos in Porto.",
+  "longDescription": "Máquina Culona takes place at Maus Hábitos on 28 November 2026, starting at 23:59. The event is dedicated to the emerging Spanish urban music and avant-pop movement.\n\nThe venue is located at Rua de Passos Manuel, 178, on the 4th floor. Tickets cost 6€.",
+  "sourceEdition": "forward-scan",
+  "externalLink": "https://www.agenda-porto.pt/evento/261128-maquina-culona/",
+  "pickCandidate": true,
+  "addedAt": "2026-11-26T06:01:23.227Z",
+  "lastSeenAt": "2026-11-26T06:01:23.227Z",
+  "descriptionPt": "Máquina Culona é uma festa dedicada à música urbana espanhola emergente e à avant-pop, no Maus Hábitos, no Porto.",
+  "longDescriptionPt": "A festa Máquina Culona acontece no Maus Hábitos a 28 de novembro de 2026, com início às 23:59. A noite é dedicada à música urbana espanhola emergente e ao movimento avant-pop.\n\nO espaço fica na Rua de Passos Manuel, 178, no 4.º andar. Os bilhetes custam 6€.",
+  "image": {
+    "url": "https://i.imgur.com/HXw6ZpH.png",
+    "credit": "Photo: Agenda-porto",
+    "sourceUrl": "https://www.agenda-porto.pt/evento/261128-maquina-culona/"
+  }
+}

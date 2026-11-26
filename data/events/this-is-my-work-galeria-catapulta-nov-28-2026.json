@@ -1,0 +1,23 @@
+{
+  "slug": "this-is-my-work-galeria-catapulta-nov-28-2026",
+  "name": "This is my Work",
+  "date": "2026-11-28T16:00",
+  "endDate": "2026-12-10",
+  "venue": "Galeria CATAPULTA",
+  "venueSlug": "galeria-catapulta",
+  "category": "art",
+  "description": "This is my Work is an art exhibition by Meireles de Pinho featuring drawing and sculpture.",
+  "longDescription": "This is my Work is an exhibition by artist Meireles de Pinho, focusing on the intersection of memory, form, drawing, and sculpture. The artist explores how lines, color, and volume interact with personal and shared spaces.\n\nThe opening takes place on 28 November 2026 at 16:00 at Galeria CATAPULTA, located in Centro Comercial Bombarda (Shop 26) on Rua de Miguel Bombarda. The exhibition runs until 10 December 2026. The commercial centre is open Monday to Saturday from 11:00 to 19:00, with pets permitted.",
+  "sourceEdition": "forward-scan",
+  "externalLink": "https://www.agenda-porto.pt/evento/this-is-my-work-meireles-de-pinho/",
+  "pickCandidate": false,
+  "addedAt": "2026-11-26T06:00:44.018Z",
+  "lastSeenAt": "2026-11-26T06:00:44.018Z",
+  "descriptionPt": "This is my Work é uma exposição de arte de Meireles de Pinho com desenho e escultura.",
+  "longDescriptionPt": "This is my Work é uma exposição do artista Meireles de Pinho focada no cruzamento entre memória, forma, desenho e escultura. O artista explora o modo como a linha, a cor e o volume interagem com espaços pessoais e partilhados.\n\nA inauguração acontece a 28 de novembro de 2026, às 16:00, na Galeria CATAPULTA, situada no Centro Comercial Bombarda (Loja 26), na Rua de Miguel Bombarda. A exposição pode ser visitada até 10 de dezembro de 2026. O centro comercial está aberto de segunda-feira a sábado, entre as 11:00 e as 19:00, e a entrada de animais de estimação é permitida.",
+  "image": {
+    "url": "https://i.imgur.com/CxnxbUr.jpeg",
+    "credit": "Photo: Agenda-porto",
+    "sourceUrl": "https://www.agenda-porto.pt/evento/this-is-my-work-meireles-de-pinho/"
+  }
+}

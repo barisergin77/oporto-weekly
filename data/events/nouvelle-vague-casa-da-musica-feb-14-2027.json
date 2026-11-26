@@ -1,0 +1,25 @@
+{
+  "slug": "nouvelle-vague-casa-da-musica-feb-14-2027",
+  "name": "Nouvelle Vague",
+  "date": "2027-02-14T21:00",
+  "venue": "Casa da Música",
+  "venueSlug": "casa-da-musica",
+  "price": "€28–€30",
+  "priceFrom": 28,
+  "currency": "EUR",
+  "category": "music",
+  "description": "French collective Nouvelle Vague performs at Casa da Música, playing their career classics along with covers from their Depeche Mode tribute album.",
+  "longDescription": "French collective Nouvelle Vague comes to Sala Suggia at Casa da Música on 14 February 2027. The performance is part of a five-date tour in Portugal presenting their studio album, A Date with Depeche Mode, which features thirteen tracks reinterpreting the British band's music with bossa nova arrangements.\n\nDoors open at 20:00, and the show begins at 21:00 with a duration of 60 minutes and no interval. The concert is open to attendees aged 6 and over, with ticket prices ranging between €28 and €30.",
+  "sourceEdition": "forward-scan",
+  "externalLink": "https://www.bol.pt/Comprar/Bilhetes/182661-nouvelle_vague-casa_da_musica_li/",
+  "pickCandidate": true,
+  "addedAt": "2026-11-26T06:01:51.239Z",
+  "lastSeenAt": "2026-11-26T06:01:51.239Z",
+  "descriptionPt": "O coletivo francês Nouvelle Vague atua na Casa da Música, com os clássicos da sua carreira e versões do seu álbum de homenagem aos Depeche Mode.",
+  "longDescriptionPt": "O coletivo francês Nouvelle Vague sobe ao palco da Sala Suggia, na Casa da Música, a 14 de fevereiro de 2027. O concerto integra uma digressão de cinco datas em Portugal dedicada à apresentação do álbum de estúdio A Date with Depeche Mode, que reúne treze temas da banda britânica reinterpretados com arranjos de bossa nova.\n\nAs portas abrem às 20:00 e o espetáculo começa às 21:00, com a duração de 60 minutos e sem intervalo. O concerto destina-se a maiores de 6 anos, com bilhetes entre os 28 € e os 30 €.",
+  "image": {
+    "url": "https://i.imgur.com/sOGUTFr.jpeg",
+    "credit": "Photo: BOL",
+    "sourceUrl": "https://www.bol.pt/Comprar/Bilhetes/182661-nouvelle_vague-casa_da_musica_li/"
+  }
+}
