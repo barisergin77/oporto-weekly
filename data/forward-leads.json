@@ -427,6 +427,42 @@
       "attempts": 1,
       "reason": "page does not confirm the event (https://agendaculturalporto.org/o-que-fazer-no-porto-em-agosto-2/)",
       "lastTriedAt": "2026-11-25T17:47:27.805Z"
+    },
+    {
+      "name": "A Epopeia dos Bani Hilal (السّيرة الهلاليّة) – Bashar Murkus & Khulood Basel / Khashabi Theatre",
+      "date": "2026-11-28",
+      "endDate": "2026-11-29",
+      "venue": "Teatro Campo Alegre",
+      "note": "Sat 19:30, Sun 17:00; national premiere and the Palestinian company's first show in Portugal; theatre retelling of the Arab Bani Hilal epic; 16+; ticketed",
+      "source": "teatro-municipal-do-porto-newsletter-2026-11",
+      "addedAt": "2026-11-26T05:00:34Z"
+    },
+    {
+      "name": "MANUAL DE DEFESA, de Júlio Cerdeira – Palcos Instáveis",
+      "date": "2026-11-27",
+      "endDate": "2026-11-28",
+      "venue": "Teatro Campo Alegre",
+      "note": "Fri and Sat 19:30; premiere; two queer bodies rehearse forms of protection and resistance; 12+; ticketed",
+      "source": "teatro-municipal-do-porto-newsletter-2026-11",
+      "addedAt": "2026-11-26T05:00:34Z"
+    },
+    {
+      "name": "Mechita, de Sol Garcia – Palcos Instáveis",
+      "date": "2026-11-27",
+      "endDate": "2026-11-28",
+      "venue": "Teatro Campo Alegre",
+      "note": "Fri and Sat 21:00; five women use body and sound as living archives of memory and resistance; 12+; ticketed",
+      "source": "teatro-municipal-do-porto-newsletter-2026-11",
+      "addedAt": "2026-11-26T05:00:34Z"
+    },
+    {
+      "name": "Victor como toda a gente, de Pascal Bonitzer – Medeia Filmes",
+      "date": "2026-11-26",
+      "endDate": "2026-12-02",
+      "venue": "Teatro Campo Alegre",
+      "note": "Film screenings 26 Nov to 2 Dec (Medeia Filmes cinema at Campo Alegre); times not given; ticketed",
+      "source": "teatro-municipal-do-porto-newsletter-2026-11",
+      "addedAt": "2026-11-26T05:00:34Z"
     }
   ]
 }
