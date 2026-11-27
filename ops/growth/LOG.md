@@ -7,6 +7,67 @@ impressions / pos 9.3 over 28 days (prev 28: 191 / 10,293 / 16.9);
 subscribers 56 active (34 EN, 22 PT), ~1.4 net/week; signups by page: none
 recorded yet (tracking started today).
 
+## 2026-11-27 — G11: Christmas with kids in Porto page (EN + PT); 98 subscribers
+- Run 09:30 UTC Fri, outside the freeze. Not Mon/Tue, so no guide re-check.
+- Live check: /api/version 0be76fa (last night's flush). **Health ok: true**,
+  no failing checks. Indexing API 200 for G10 EN + PT (held over from the
+  freeze day).
+- Send check (c7b6096, Broadcasts): `/api/cron/status` and the run ledger show
+  november-26 complete with one completion each (research 10:01, en-email
+  10:06, pt-email 10:13, instagram 10:13), on the usual schedule. GA4 shows 9
+  Email sessions this week. No sign of a double send, but neither source counts
+  recipients, so "once each" rests on the ledger alone.
+- Metrics (`metrics/2026-11-27.json`): 1,293 clicks / 54,850 impr / pos 8.95
+  over 28d (prev 28d 312 / 15,057). Last 7d **405 clicks vs 388**, impr 19,846
+  vs 14,444, CTR 2.04% vs 2.69%, pos 8.0 vs 8.9. GA4 7d 176 users / 216
+  sessions / 384 PV (prev 159 / 175 / 279); 112 organic, 49 direct, 22 organic
+  social, 15 AI assistant, 9 email; `sign_up` 6. **Subscribers 98 on 11-26**
+  (64 EN, 34 PT), +12 in a week (best week so far). Signups 28d: 40 (event 12,
+  home 11, porto-events 11, blog 3, eventos 2, archive 1). Instagram 29.
+  `/pt/eventos/luzes-de-natal` now 30 clicks / 1,285 impr (#3 page).
+- Results due: none (next: 11-29 #35 + #45, 11-30 #36).
+- Research: GSC (last 14d, seasonal regex) is all Christmas: lights queries,
+  markets, Yeatman wine, gospel, plus "gaia vila natal" (pos 2), "frozen no
+  gelo porto", "agenda infantil porto" (pos 18 on /porto-events/kids). Generic
+  "this week / tonight" queries: almost none. The PT press runs "Natal com
+  crianças no Porto" lists every year (idealista, Time Out, Porto Secreto),
+  mostly still on 2025 dates. Our data has 38 verified family/kids records for
+  27 Nov–10 Jan. Checked and left out: Gaia Vila Natal, the city's ice rinks
+  apart from Praça da Fantasia, the WOW ice show and NYE (no 2026 source yet);
+  2027 concerts page (only 18 records, the sweep only looks 60 days ahead).
+- Growth item (G11): `/porto-events/christmas-with-kids` +
+  `/pt/eventos/natal-com-criancas` (lib/christmas-kids.ts,
+  app/porto-events/ChristmasKids.tsx). Selection: category family or a kids
+  word in the name (circo, pai natal, Grinch, Home Alone, Quebra-Nozes, Patrulha
+  Pata, infantil…), no nightlife, no non-festive weekly markets; descriptions
+  don't count (they let in Brahms, a handball match and a horror screening on
+  the first try). "On all season" (Casa do Pai Natal 29 Nov–23 Dec free, Coliseu
+  circus 11 Dec–3 Jan €10–€20, Luzes Selvagens, Um Sonho de Natal, Ferreira
+  Borges market…), then week by week; city programme box (Praça da Fantasia rink
+  28 Nov–10 Jan, Amor de Perdição sensory room + playground) from the porto.pt
+  release G1 already cites; FAQ answers built from live records. ItemList + FAQ
+  + Breadcrumb JSON-LD, hourly ISR, noindex + out of sitemap after 10 Jan or
+  under 5 events. Linked from the kids + Christmas hubs. Commit ad2eda5 `[defer]`.
+- Verified: tsc OK; build exit 0 (7,821 pages). Built EN title "Christmas with
+  Kids in Porto 2026: Santa, Circus, Shows and Family Events", robots index,
+  "38 things to do with kids… 12 of them free", weeks 23–29 Nov → 4–10 Jan, FAQ
+  (Santa, rink, circus, zoo); PT twin "Natal com crianças no Porto 2026…"; links
+  on /porto-events/kids and /pt/eventos/natal; both URLs in the sitemap.
+- Expect: 200+ impr / 5+ clicks on natal + crianças/kids/família queries, and
+  signups from both paths.
+- Measure on: 2026-12-22 (GSC both URLs 11-28 → 12-19; signup-sources paths).
+- Price backfill (2c): 14 upcoming without a price. Checked 5 (O Natal na
+  Árvore, This is my Work, Rike + Márcio Reis, Galeria Digital do Porto, Fórum
+  Serpentina): none states a price, left empty. Rike + Márcio Reis: 22:00
+  concert + 00:30 DJ set, 18+.
+- Cancellations (2d): none of those 5 pages says Cancelado / Anulado / Adiado.
+- Partner earnings (2e, Impact API): unchanged, Fever 10-27 → 11-27 **68
+  clicks, 4 sales, €257.68 in sales, €15.46 payout pending**.
+- #46 (Praça da Fantasia / Matosinhos market as records): still open; the
+  Praça da Fantasia facts are on G1 and now G11 from porto.pt.
+- Result:
+- Needs owner: none.
+
 ## 2026-11-26 — Freeze day: observe only
 - Run 09:30 UTC Thu, inside the freeze (Thu 05:00 → 11:00, held until the
   10:00 backstop confirms EN, PT and Instagram sent). No code, no data edits,
