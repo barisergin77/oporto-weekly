@@ -102,19 +102,6 @@
       "resolvedAt": "2026-10-26T09:31:57.768Z"
     },
     {
-      "name": "Al Di Meola",
-      "date": "2026-11-26T21:00",
-      "venue": "Casa da Música",
-      "url": "https://casadamusica.com/event/al-di-meola/?selected_session=51478",
-      "note": "Sala Suggia; Misty Fest; second show 29 Nov is sold out.",
-      "source": "casa-da-musica-newsletter-2026-11",
-      "addedAt": "2026-10-25T12:00:00Z",
-      "status": "done",
-      "eventSlug": "al-di-meola-casa-da-musica-nov-26-2026",
-      "lastTriedAt": "2026-10-30T13:48:49.794Z",
-      "resolvedAt": "2026-10-30T13:48:49.794Z"
-    },
-    {
       "name": "Youn Sun Nah",
       "date": "2026-11-28T22:00",
       "venue": "Casa da Música",
@@ -317,19 +304,6 @@
       "resolvedAt": "2026-11-26T06:06:26.661Z"
     },
     {
-      "name": "Barronhos: Quem Teve Medo do Poder Popular?, de Luís Filipe Rocha",
-      "date": "2026-11-26",
-      "venue": "Liga Portuguesa de Profilaxia Social",
-      "note": "16:30; screening of 1976 documentary on grassroots organising during the PREC",
-      "source": "agenda-porto-newsletter-2026-11",
-      "addedAt": "2026-11-24T05:00:43Z",
-      "status": "rejected",
-      "attempts": 3,
-      "reason": "not an organiser/venue/ticketing page (https://7log.selectandwin.com/agendacultural/e/barronhos-quem-teve-medo-do-poder-popular-de-luis-filipe-rocha/)",
-      "lastTriedAt": "2026-11-26T06:06:26.661Z",
-      "resolvedAt": "2026-11-26T06:06:26.661Z"
-    },
-    {
       "name": "O Diabo em Mim, do Visões Úteis",
       "date": "2026-11-27",
       "endDate": "2026-11-29",
@@ -350,10 +324,11 @@
       "note": "11:00; Mozambican traditional dance workshop with José Jalane and Dinís Abudo; all ages and levels",
       "source": "agenda-porto-newsletter-2026-11",
       "addedAt": "2026-11-24T05:00:43Z",
-      "status": "pending",
-      "attempts": 2,
+      "status": "rejected",
+      "attempts": 3,
       "reason": "page not fetchable: https://www.viralagenda.com/pt/events/1878157/dancas-tradicionais-mocambicanas → HTTP 403",
-      "lastTriedAt": "2026-11-25T17:47:27.805Z"
+      "lastTriedAt": "2026-11-27T17:11:06.483Z",
+      "resolvedAt": "2026-11-27T17:11:06.483Z"
     },
     {
       "name": "Pássaros & Cogumelos, de Joana Gama",
@@ -362,10 +337,11 @@
       "note": "11:00; family performance about trees, birds and mushrooms",
       "source": "agenda-porto-newsletter-2026-11",
       "addedAt": "2026-11-24T05:00:43Z",
-      "status": "pending",
-      "attempts": 2,
+      "status": "rejected",
+      "attempts": 3,
       "reason": "not an organiser/venue/ticketing page (https://agendaculturalporto.org/eventos/passaros-cogumelos-de-joana-gama-transforma-arvores-sons-e-imaginacao-num-espetaculo-poetico-para-familias/)",
-      "lastTriedAt": "2026-11-25T17:47:27.805Z"
+      "lastTriedAt": "2026-11-27T17:11:06.483Z",
+      "resolvedAt": "2026-11-27T17:11:06.483Z"
     },
     {
       "name": "Inauguração das Luzes e da Árvore de Natal",
@@ -389,9 +365,9 @@
       "source": "coliseu-newsletter-2026-11",
       "addedAt": "2026-11-25T05:00:24Z",
       "status": "pending",
-      "attempts": 1,
-      "reason": "page does not confirm the event (https://agendaculturalporto.org/o-que-fazer-no-porto-em-agosto-2/)",
-      "lastTriedAt": "2026-11-25T17:47:27.805Z"
+      "attempts": 2,
+      "reason": "no usable URL (none given, or a listing/blocked page; rescue search found nothing)",
+      "lastTriedAt": "2026-11-27T17:11:06.483Z"
     },
     {
       "name": "A Epopeia dos Bani Hilal (السّيرة الهلاليّة) – Bashar Murkus & Khulood Basel / Khashabi Theatre",
@@ -400,7 +376,12 @@
       "venue": "Teatro Campo Alegre",
       "note": "Sat 19:30, Sun 17:00; national premiere and the Palestinian company's first show in Portugal; theatre retelling of the Arab Bani Hilal epic; 16+; ticketed",
       "source": "teatro-municipal-do-porto-newsletter-2026-11",
-      "addedAt": "2026-11-26T05:00:34Z"
+      "addedAt": "2026-11-26T05:00:34Z",
+      "status": "done",
+      "eventSlug": "bashar-murkus-khulood-basel-teatro-campo-alegre-nov-28-2026",
+      "reason": "already listed",
+      "lastTriedAt": "2026-11-27T17:11:06.483Z",
+      "resolvedAt": "2026-11-27T17:11:06.483Z"
     },
     {
       "name": "MANUAL DE DEFESA, de Júlio Cerdeira – Palcos Instáveis",
