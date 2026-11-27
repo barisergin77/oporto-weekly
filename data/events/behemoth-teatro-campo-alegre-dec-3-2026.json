@@ -1,0 +1,26 @@
+{
+  "slug": "behemoth-teatro-campo-alegre-dec-3-2026",
+  "name": "Behemoth!",
+  "date": "2026-12-03T21:30",
+  "endDate": "2026-12-08",
+  "venue": "Teatro Campo Alegre",
+  "venueSlug": "teatro-campo-alegre",
+  "price": "€5.50",
+  "priceFrom": 5.5,
+  "currency": "EUR",
+  "category": "art",
+  "description": "TMP-Campo Alegre presents the national premiere of Tony Gilroy's film Behemoth!, starring Pedro Pascal and Olivia Wilde.",
+  "longDescription": "Teatro Municipal do Porto - Campo Alegre screens the film Behemoth! in its Cine Estúdio, running from 3 December to 8 December 2026. The national premiere session starts at 21:30 on 3 December.\n\nDirected by Tony Gilroy, the American production features Pedro Pascal alongside Olivia Wilde, Eva Victor, Will Arnett, Hank Azaria, and Matthew Lillard. The plot follows Alex, a former child prodigy and cellist who leaves an orchestra in Chicago to return to Los Angeles, working on film scores while dealing with family matters.\n\nThe film has a runtime of 124 minutes and an age rating of M/12. Standard tickets for the audience seating cost 5.50 euros.",
+  "sourceEdition": "forward-scan",
+  "externalLink": "https://www.bol.pt/Comprar/Bilhetes/189956-behemoth-tmp_campo_alegre/",
+  "pickCandidate": true,
+  "addedAt": "2026-11-27T06:01:30.903Z",
+  "lastSeenAt": "2026-11-27T06:01:30.903Z",
+  "descriptionPt": "O TMP-Campo Alegre apresenta a estreia nacional do filme Behemoth!, de Tony Gilroy, com Pedro Pascal e Olivia Wilde.",
+  "longDescriptionPt": "O Teatro Municipal do Porto - Campo Alegre exibe o filme Behemoth! no Cine Estúdio, de 3 a 8 de dezembro de 2026. A sessão de estreia nacional começa às 21h30 de 3 de dezembro.\n\nCom realização de Tony Gilroy, esta produção norte-americana junta Pedro Pascal a Olivia Wilde, Eva Victor, Will Arnett, Hank Azaria e Matthew Lillard. O enredo acompanha Alex, antigo menino-prodígio e violoncelista que deixa uma orquestra em Chicago para regressar a Los Angeles, onde compõe bandas sonoras para cinema enquanto lida com questões familiares.\n\nO filme tem uma duração de 124 minutos e classificação etária M/12. Os bilhetes normais para a plateia custam 5,50 euros.",
+  "image": {
+    "url": "https://i.imgur.com/9BKPyGI.jpeg",
+    "credit": "Photo: BOL",
+    "sourceUrl": "https://www.bol.pt/Comprar/Bilhetes/189956-behemoth-tmp_campo_alegre/"
+  }
+}

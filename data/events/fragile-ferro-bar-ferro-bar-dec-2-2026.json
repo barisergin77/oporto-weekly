@@ -1,0 +1,25 @@
+{
+  "slug": "fragile-ferro-bar-ferro-bar-dec-2-2026",
+  "name": "FRAGILE | FERRO BAR",
+  "date": "2026-12-02T22:00",
+  "venue": "Ferro Bar",
+  "venueSlug": "ferro-bar",
+  "price": "7€",
+  "priceFrom": 7,
+  "currency": "EUR",
+  "category": "music",
+  "description": "Fragile performs live in concert at Ferro Bar in Porto.",
+  "longDescription": "Fragile takes the stage at Ferro Bar on 2 December 2026. The concert is scheduled for 22:00 and runs for 60 minutes without an interval.\n\nTickets are priced at 7 euros for general admission. The event is rated for attendees over 16 years of age and takes place at Rua da Madeira, 84, in Porto.",
+  "sourceEdition": "forward-scan",
+  "externalLink": "https://www.bol.pt/Comprar/Bilhetes/190055-fragile_ferro_bar-ferro_bar/",
+  "pickCandidate": true,
+  "addedAt": "2026-11-27T06:01:29.307Z",
+  "lastSeenAt": "2026-11-27T06:01:29.307Z",
+  "descriptionPt": "Os Fragile atuam ao vivo no Ferro Bar, no Porto.",
+  "longDescriptionPt": "Os Fragile sobem ao palco do Ferro Bar a 2 de dezembro de 2026. O concerto começa às 22:00 e dura 60 minutos, sem intervalo.\n\nOs bilhetes custam 7 euros (entrada geral). O evento é para maiores de 16 anos e decorre na Rua da Madeira, 84, no Porto.",
+  "image": {
+    "url": "https://i.imgur.com/24yzpg2.png",
+    "credit": "Photo: BOL",
+    "sourceUrl": "https://www.bol.pt/Comprar/Bilhetes/190055-fragile_ferro_bar-ferro_bar/"
+  }
+}
