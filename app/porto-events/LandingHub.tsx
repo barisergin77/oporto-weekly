@@ -6,6 +6,7 @@ import { DAY_HUB_PATHS, dayHubRange, listingsPending } from '@/lib/event-days';
 import { LANDING_PATHS, MIN_INDEXABLE, christmasSeason, landingEvents, type LandingKind } from '@/lib/event-landings';
 import { CHRISTMAS_LIGHTS_PATHS, lightsInSeason } from '@/lib/christmas-lights';
 import { CHRISTMAS_CONCERTS_PATHS, concertsInSeason } from '@/lib/christmas-concerts';
+import { CHRISTMAS_KIDS_PATHS, christmasKidsIndexable } from '@/lib/christmas-kids';
 import { filterOptions, toFilterItem } from '@/lib/event-listing';
 import { colors, typography } from '@/lib/design';
 import { Header } from '@/app/components/Header';
@@ -250,6 +251,13 @@ export function LandingHub({ kind, lang }: { kind: LandingKind; lang: Lang }) {
               ? <>As luzes de Natal acendem-se no sábado, 28 de novembro, às 18h, nos Aliados. <Link href={CHRISTMAS_LIGHTS_PATHS.pt} style={link}>Inauguração, árvore e concertos</Link></>
               : <>Porto&apos;s Christmas lights go on Saturday 28 November at 18:00 on Aliados. <Link href={CHRISTMAS_LIGHTS_PATHS.en} style={link}>Switch-on, tree and concerts</Link></>}
           </div>
+        )}
+        {(kind === 'christmas' || kind === 'kids') && christmasKidsIndexable() && (
+          <p style={{ fontSize: 15, lineHeight: 1.6, margin: '0 0 28px' }}>
+            <Link href={CHRISTMAS_KIDS_PATHS[lang]} style={link}>
+              {pt ? 'Natal com crianças: Pai Natal, circo, pista de gelo e espetáculos' : 'Christmas with kids: Santa, circus, ice rink and shows'} →
+            </Link>
+          </p>
         )}
         {kind === 'christmas' && concertsInSeason() && (
           <p style={{ fontSize: 15, lineHeight: 1.6, margin: '0 0 28px' }}>
