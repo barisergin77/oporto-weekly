@@ -10,6 +10,7 @@ import { CHRISTMAS_LIGHTS_PATHS, lightsInSeason } from '@/lib/christmas-lights';
 import { CHRISTMAS_CONCERTS_PATHS, concertsInSeason } from '@/lib/christmas-concerts';
 import { DECEMBER_HOLIDAYS_PATHS, holidaysInSeason } from '@/lib/december-holidays';
 import { CHRISTMAS_KIDS_PATHS, christmasKidsIndexable } from '@/lib/christmas-kids';
+import { GAIA_VILA_NATAL_PATHS, gaiaInSeason } from '@/lib/gaia-vila-natal';
 import { venueProfile } from '@/lib/venue-profiles';
 
 // A page's lastmod is max(content date, last time its markup changed). Content
@@ -155,6 +156,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...(christmasKidsIndexable() ? [
       { url: `https://oportoweekly.com${CHRISTMAS_KIDS_PATHS.en}`, lastModified: new Date(), changeFrequency: 'daily' as const, priority: 0.85 },
       { url: `https://oportoweekly.com${CHRISTMAS_KIDS_PATHS.pt}`, lastModified: new Date(), changeFrequency: 'daily' as const, priority: 0.85 },
+    ] : []),
+    // Gaia Vila Natal (G12, lib/gaia-vila-natal.ts) until it closes on 3 Jan.
+    ...(gaiaInSeason() ? [
+      { url: `https://oportoweekly.com${GAIA_VILA_NATAL_PATHS.en}`, lastModified: new Date(), changeFrequency: 'daily' as const, priority: 0.85 },
+      { url: `https://oportoweekly.com${GAIA_VILA_NATAL_PATHS.pt}`, lastModified: new Date(), changeFrequency: 'daily' as const, priority: 0.85 },
     ] : []),
     { url: 'https://oportoweekly.com/pt', lastModified: new Date(), changeFrequency: 'weekly', priority: 0.9 },
     { url: 'https://oportoweekly.com/pt/blog', lastModified: new Date(), changeFrequency: 'weekly', priority: 0.8 },

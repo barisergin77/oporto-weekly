@@ -7,6 +7,7 @@ import { LANDING_PATHS, MIN_INDEXABLE, christmasSeason, landingEvents, type Land
 import { CHRISTMAS_LIGHTS_PATHS, lightsInSeason } from '@/lib/christmas-lights';
 import { CHRISTMAS_CONCERTS_PATHS, concertsInSeason } from '@/lib/christmas-concerts';
 import { CHRISTMAS_KIDS_PATHS, christmasKidsIndexable } from '@/lib/christmas-kids';
+import { GAIA_VILA_NATAL_PATHS, gaiaInSeason } from '@/lib/gaia-vila-natal';
 import { filterOptions, toFilterItem } from '@/lib/event-listing';
 import { colors, typography } from '@/lib/design';
 import { Header } from '@/app/components/Header';
@@ -256,6 +257,13 @@ export function LandingHub({ kind, lang }: { kind: LandingKind; lang: Lang }) {
           <p style={{ fontSize: 15, lineHeight: 1.6, margin: '0 0 28px' }}>
             <Link href={CHRISTMAS_KIDS_PATHS[lang]} style={link}>
               {pt ? 'Natal com crianças: Pai Natal, circo, pista de gelo e espetáculos' : 'Christmas with kids: Santa, circus, ice rink and shows'} →
+            </Link>
+          </p>
+        )}
+        {kind === 'christmas' && gaiaInSeason() && (
+          <p style={{ fontSize: 15, lineHeight: 1.6, margin: '0 0 28px' }}>
+            <Link href={GAIA_VILA_NATAL_PATHS[lang]} style={link}>
+              {pt ? 'Gaia Vila Natal (1 dez a 3 jan): horário, pista de gelo e programa' : 'Gaia Vila Natal (1 Dec to 3 Jan): hours, ice rink and programme'} →
             </Link>
           </p>
         )}
