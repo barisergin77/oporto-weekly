@@ -1,0 +1,350 @@
+{
+  "takenAt": "2026-11-28T09:30:49.211Z",
+  "search": {
+    "last7": {
+      "clicks": 430,
+      "impressions": 20680,
+      "ctr": 0.020793036750483558,
+      "position": 7.997485493230174
+    },
+    "prev7": {
+      "clicks": 403,
+      "impressions": 15566,
+      "ctr": 0.02588975973275087,
+      "position": 8.671591931131953
+    },
+    "last28": {
+      "clicks": 1349,
+      "impressions": 57470,
+      "ctr": 0.02347311640856099,
+      "position": 8.840194884287454
+    },
+    "prev28": {
+      "clicks": 318,
+      "impressions": 15400,
+      "ctr": 0.02064935064935065,
+      "position": 10.978506493506494
+    },
+    "topPages28": [
+      {
+        "page": "/porto-events/december-2026",
+        "clicks": 45,
+        "impressions": 871,
+        "position": 4.8
+      },
+      {
+        "page": "/pt/eventos/luzes-de-natal",
+        "clicks": 45,
+        "impressions": 1722,
+        "position": 7.7
+      },
+      {
+        "page": "/porto-events/this-weekend",
+        "clicks": 33,
+        "impressions": 353,
+        "position": 8
+      },
+      {
+        "page": "/pt/event/mercado-de-natal-do-mercado-ferreira-borges-hard-club-nov-14-2026",
+        "clicks": 28,
+        "impressions": 480,
+        "position": 5.7
+      },
+      {
+        "page": "/pt/event/inauguracao-das-luzes-e-da-arvore-de-natal-avenida-dos-aliados-nov-28-2026",
+        "clicks": 25,
+        "impressions": 1857,
+        "position": 7.7
+      },
+      {
+        "page": "/pt/event/chegada-do-natal-marcolino-nov-14-2026",
+        "clicks": 22,
+        "impressions": 260,
+        "position": 5.3
+      },
+      {
+        "page": "/event/outworld-super-bock-arena-nov-28-2026",
+        "clicks": 20,
+        "impressions": 1114,
+        "position": 7.4
+      },
+      {
+        "page": "/event/baluarte-4-exposicao-de-arte-urbana-do-porto-varios-locais-nov-13-2026",
+        "clicks": 19,
+        "impressions": 226,
+        "position": 6.1
+      },
+      {
+        "page": "/blog/porto-shopping-guide-your-map-to-vintage-artisan-finds",
+        "clicks": 17,
+        "impressions": 1110,
+        "position": 9.4
+      },
+      {
+        "page": "/pt/event/gaia-hugo-sousa-aqui-entre-nos-auditorio-de-olival-nov-8-2026",
+        "clicks": 15,
+        "impressions": 196,
+        "position": 3.2
+      },
+      {
+        "page": "/event/siza-talks-conversas-internacionais-auditorio-do-museu-de-serralves-nov-12-2026",
+        "clicks": 14,
+        "impressions": 294,
+        "position": 5.2
+      },
+      {
+        "page": "/porto-events/christmas-lights",
+        "clicks": 12,
+        "impressions": 203,
+        "position": 5.3
+      },
+      {
+        "page": "/pt/event/bate-papo-com-theo-coliseu-porto-ageas-nov-18-2026",
+        "clicks": 12,
+        "impressions": 876,
+        "position": 5.7
+      },
+      {
+        "page": "/event/chegada-do-natal-marcolino-nov-14-2026",
+        "clicks": 11,
+        "impressions": 115,
+        "position": 5.9
+      },
+      {
+        "page": "/pt/event/girlhood-porto-maus-habitos-nov-15-2026",
+        "clicks": 11,
+        "impressions": 107,
+        "position": 4.3
+      }
+    ],
+    "lowCtr28": [
+      {
+        "query": "inauguração luzes natal porto 2026",
+        "impressions": 626,
+        "ctr": 1,
+        "position": 8.6
+      },
+      {
+        "query": "luzes natal porto 2026",
+        "impressions": 296,
+        "ctr": 0.7,
+        "position": 9.1
+      },
+      {
+        "query": "outworld porto",
+        "impressions": 198,
+        "ctr": 1,
+        "position": 7.7
+      },
+      {
+        "query": "luzes de natal porto 2026",
+        "impressions": 176,
+        "ctr": 1.1,
+        "position": 8.5
+      },
+      {
+        "query": "bate papo com theo porto",
+        "impressions": 172,
+        "ctr": 0,
+        "position": 7.1
+      },
+      {
+        "query": "marina herlop porto",
+        "impressions": 156,
+        "ctr": 0.6,
+        "position": 8.8
+      },
+      {
+        "query": "al di meola casa da musica",
+        "impressions": 154,
+        "ctr": 1.9,
+        "position": 7.5
+      },
+      {
+        "query": "jack and jack porto",
+        "impressions": 145,
+        "ctr": 1.4,
+        "position": 7.3
+      },
+      {
+        "query": "inauguração luzes de natal porto 2026",
+        "impressions": 141,
+        "ctr": 1.4,
+        "position": 8.1
+      },
+      {
+        "query": "bate papo com theo",
+        "impressions": 127,
+        "ctr": 0.8,
+        "position": 7.8
+      },
+      {
+        "query": "debativel porto",
+        "impressions": 114,
+        "ctr": 1.8,
+        "position": 5.4
+      },
+      {
+        "query": "vintage shops porto",
+        "impressions": 98,
+        "ctr": 1,
+        "position": 11.1
+      },
+      {
+        "query": "al di meola porto",
+        "impressions": 92,
+        "ctr": 0,
+        "position": 8.6
+      },
+      {
+        "query": "quando menos se espera porto",
+        "impressions": 90,
+        "ctr": 1.1,
+        "position": 7.6
+      },
+      {
+        "query": "quando menos se espera sa da bandeira",
+        "impressions": 88,
+        "ctr": 1.1,
+        "position": 8
+      }
+    ]
+  },
+  "visitors": {
+    "last7": {
+      "users": 191,
+      "sessions": 232,
+      "pageViews": 409
+    },
+    "prev7": {
+      "users": 149,
+      "sessions": 163,
+      "pageViews": 252
+    },
+    "channels7": [
+      {
+        "channel": "Organic Search",
+        "sessions": 121
+      },
+      {
+        "channel": "Direct",
+        "sessions": 50
+      },
+      {
+        "channel": "Organic Social",
+        "sessions": 25
+      },
+      {
+        "channel": "AI Assistant",
+        "sessions": 16
+      },
+      {
+        "channel": "Email",
+        "sessions": 9
+      },
+      {
+        "channel": "Unassigned",
+        "sessions": 7
+      },
+      {
+        "channel": "Referral",
+        "sessions": 4
+      }
+    ],
+    "signUpEvents7": 6
+  },
+  "subscribers": [
+    {
+      "week": "2026-11-05",
+      "active": 69,
+      "en": 45,
+      "pt": 24
+    },
+    {
+      "week": "2026-11-12",
+      "active": 76,
+      "en": 48,
+      "pt": 28
+    },
+    {
+      "week": "2026-11-19",
+      "active": 86,
+      "en": 56,
+      "pt": 30
+    },
+    {
+      "week": "2026-11-26",
+      "active": 98,
+      "en": 64,
+      "pt": 34
+    }
+  ],
+  "signups28": {
+    "total": 42,
+    "byPageType": {
+      "porto-events": 11,
+      "event": 12,
+      "blog": 4,
+      "home": 12,
+      "eventos": 2,
+      "archive": 1
+    },
+    "recent": [
+      {
+        "at": "2026-11-22T11:40:11.962Z",
+        "lang": "en",
+        "source": "/porto-events/november-2026"
+      },
+      {
+        "at": "2026-11-22T12:21:27.193Z",
+        "lang": "en",
+        "source": "/"
+      },
+      {
+        "at": "2026-11-24T00:50:44.275Z",
+        "lang": "pt",
+        "source": "/pt/eventos/novembro-2026"
+      },
+      {
+        "at": "2026-11-25T09:41:35.163Z",
+        "lang": "pt",
+        "source": "/pt"
+      },
+      {
+        "at": "2026-11-25T14:52:09.548Z",
+        "lang": "en",
+        "source": "/event/hora-de-ponta-tema-pao-fonoteca-municipal-do-porto-nov-25-2026"
+      },
+      {
+        "at": "2026-11-25T22:36:30.705Z",
+        "lang": "en",
+        "source": "/archive/october-1-7-2026"
+      },
+      {
+        "at": "2026-11-26T09:18:43.331Z",
+        "lang": "en",
+        "source": "/porto-events/this-weekend"
+      },
+      {
+        "at": "2026-11-27T07:38:50.766Z",
+        "lang": "en",
+        "source": "/porto-events/january-2027"
+      },
+      {
+        "at": "2026-11-27T17:34:17.288Z",
+        "lang": "en",
+        "source": "/"
+      },
+      {
+        "at": "2026-11-27T18:59:06.731Z",
+        "lang": "pt",
+        "source": "/pt/blog/porto-nightlife-2025-2026-fado-bars-unforgettable-evenings"
+      }
+    ]
+  },
+  "instagram": {
+    "date": "2026-11-28",
+    "followers": 29,
+    "weekAgo": 28
+  }
+}

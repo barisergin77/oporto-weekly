@@ -7,6 +7,73 @@ impressions / pos 9.3 over 28 days (prev 28: 191 / 10,293 / 16.9);
 subscribers 56 active (34 EN, 22 PT), ~1.4 net/week; signups by page: none
 recorded yet (tracking started today).
 
+## 2026-11-28 — G12: Gaia Vila Natal 2026 page (EN + PT) + event record
+- Run 09:30 UTC Sat, outside the freeze. Not Mon/Tue, so no guide re-check.
+- Live check: /api/version 4678025 (includes ad2eda5 G11). **Health ok: true**
+  (9/9, GitHub token 35 days left). Indexing API 200 for G11 EN + PT.
+- Metrics (`metrics/2026-11-28.json`): 1,349 clicks / 57,470 impr / pos 8.84
+  over 28d (prev 28d 318 / 15,400). Last 7d **430 clicks vs 403**, impr 20,680
+  vs 15,566, CTR 2.08% vs 2.59%, pos 8.0 vs 8.7. GA4 7d 191 users / 232
+  sessions / 409 PV (prev 149 / 163 / 252); 121 organic, 50 direct, 25 organic
+  social, 16 AI assistant, 9 email; `sign_up` 6. Subscribers 98 (11-26).
+  Signups 28d: 42 (event 12, home 12, porto-events 11, blog 4, eventos 2,
+  archive 1). Instagram 29. `/pt/eventos/luzes-de-natal` now 45 clicks / 1,722
+  impr, tied with the December hub as the #1 page.
+- Result due (shopping guide refresh `porto-shopping-guide-your-map-to-vintage-
+  artisan-finds`, 10-31): **worse.** EN 42 clicks / 1,263 impr (3.3%, pos 8.6,
+  10-03→10-30) → 17 / 1,110 (1.5%, pos 9.4, 10-29→11-25). Impressions held,
+  CTR halved and position slipped a little. Same window as the 11-01
+  consolidation and the general guide slide (#45, measured tomorrow), so not
+  clearly caused by the fact fixes; "vintage shops porto" 98 impr at pos 11.1
+  goes to the other vintage guide. Re-read with #45.
+- Research: GSC 11-12→11-26, non-event queries. Matosinhos lights queries (~150
+  impr) already land on the G1 page at pos 2.6. "gaia vila natal" / "natal gaia
+  2026" rank pos 1–2 on the Christmas shopping guide, which only mentions it;
+  regional press (Time Out, aromariadeportugal) runs dedicated "Gaia Vila Natal
+  2026: datas, horário" pages, so there is search demand for the event itself.
+  CM Gaia published the full 2026 programme (PDF, file dated 27 Nov). Checked
+  and still waiting: NYE Porto 2026/27 (city hasn't announced; agenda sites say
+  "a anunciar"), so G4 stays parked to ~12-01.
+- Growth item (G12): `/porto-events/gaia-vila-natal` + `/pt/eventos/gaia-vila-
+  natal` (lib/gaia-vila-natal.ts, app/porto-events/GaiaVilaNatal.tsx): dates
+  (1 Dec 2026–3 Jan 2027), what's at Centro Cívico (Santa's House, ice rink,
+  carousel, rail train, 20 stalls) and Cais de Gaia (carousel, Christmas house,
+  15 stalls), opening hours incl. 24/25/31 Dec and 1 Jan, the videomapping "A
+  Luz que Acordou Gaia" (5–26 Dec, not 24/25) with its hours, and the dated
+  programme day by day (opening 1 Dec 18:00 lights + parade; story time, Santa,
+  circus, brass band; ProVocal 6 Dec, The Magic of Christmas 13 Dec, Golden
+  Strings 20 Dec, GoGospel 3 Jan 18:00 on the City Hall balcony; kids' shows 12,
+  19, 27 Dec). Past days drop off (hourly ISR). Says plainly that CM Gaia gives
+  no prices and doesn't say entry is free. Event + FAQ + Breadcrumb JSON-LD,
+  hreflang, SubscribeCTA, links to the lights, kids and Christmas pages; linked
+  from the Christmas hub (EN + PT); sitemap until 3 Jan, then noindex. Sources:
+  CM Gaia event page + programme PDF (both read 28 Nov). Event record
+  `gaia-vila-natal-vila-nova-de-gaia-dec-1-2026` (1 Dec–3 Jan, family, no
+  price), which also feeds G11 (it listed Gaia Vila Natal as "no 2026 dates yet").
+- Verified: tsc OK; build exit 0 (7,949 pages). Built EN title "Gaia Vila
+  Natal 2026: Dates, Hours, Ice Rink and Programme", PT "Gaia Vila Natal 2026:
+  datas, horário, pista de gelo e programa", both indexable, hours + programme
+  + sources render, no em dashes; linked from /porto-events/christmas,
+  /pt/eventos/natal and christmas-with-kids; both URLs in the sitemap. Pushed
+  `[defer]`, live after tonight's 21:00 flush. Next run: live check + Indexing
+  API for both URLs.
+- Expect: page 1 for "gaia vila natal (2026)", "gaia vila natal horário",
+  "pista de gelo gaia"; 300+ impr / 15+ clicks on Gaia Christmas queries by
+  12-22, plus signups from both paths.
+- Measure on: 2026-12-22 (GSC both URLs + gaia/natal queries 11-29 → 12-19;
+  signup-sources paths).
+- Price backfill (2c): 17 upcoming without a price. Checked 5: Concertos
+  Promenade 29 Nov (Ticketline session page "8,60€ a 15,00€" → price €8.60–€15,
+  priceFrom 8.6, EUR); Árvore Comunitária Bolhão 3 Dec, Estás Duende da Cabeça
+  (TSB, 1, 6 + 20 Dec), Laura Tozzi + Ineya & Chichorro Mau 30 Nov, Pedro
+  Tabuada convida Smile 2 Dec: no price stated, left empty.
+- Cancellations (2d): none of those 5 pages says Cancelado / Anulado / Adiado.
+- Partner earnings (2e, Impact API): Fever 10-27 → 11-28 **71 clicks** (+3 on
+  11-27), still **4 sales, €257.68 in sales, €15.46 payout pending**; the first
+  sale (€5.61) locks on 3 Dec.
+- Result:
+- Needs owner: none.
+
 ## 2026-11-27 — G11: Christmas with kids in Porto page (EN + PT); 98 subscribers
 - Run 09:30 UTC Fri, outside the freeze. Not Mon/Tue, so no guide re-check.
 - Live check: /api/version 0be76fa (last night's flush). **Health ok: true**,
@@ -1612,7 +1679,9 @@ recorded yet (tracking started today).
 - Expect: CTR on this page up from 3.7% (43/1,155), fewer bounces from people
   sent to a closed shop. Small, slow.
 - Measure on: 2026-11-28 (GSC page clicks/CTR, 28d vs the 28d to 10-30).
-- Result:
+- Result (2026-11-28): **worse, confounded.** EN 42 / 1,263 (3.3%, pos 8.6,
+  10-03→10-30) → 17 / 1,110 (1.5%, pos 9.4, 10-29→11-25). Overlaps the 11-01
+  consolidation and the guide slide (#45). See the 11-28 entry.
 - Next run (Sun 11-01): #4 continued: `shop-like-a-local-in-porto-your-2026-
   vintage-market-guide` (#3 page, has "2026" in its slug/title, so its facts
   matter most). Check whether #34 was merged; if not, remind the owner (must
