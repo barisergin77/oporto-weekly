@@ -1,0 +1,25 @@
+{
+  "slug": "boulez-e-zappa-casa-da-musica-dec-2-2026",
+  "name": "Boulez e Zappa",
+  "date": "2026-12-02T19:30",
+  "venue": "Casa da Música",
+  "venueSlug": "casa-da-musica",
+  "price": "22-26€",
+  "priceFrom": 22,
+  "currency": "EUR",
+  "category": "music",
+  "description": "Remix Ensemble Casa da Música performs works by Pierre Boulez and Frank Zappa, conducted by Susanne Blumenthal with singer Christina Bock.",
+  "longDescription": "Remix Ensemble Casa da Música performs a concert pairing works by 20th-century composers Pierre Boulez and Frank Zappa. The programme includes Boulez's Le marteau sans maître, featuring voice and ensemble, alongside Zappa's The Perfect Stranger.\n\nThe performance is conducted by Susanne Blumenthal, with vocals by Christina Bock. The concert takes place at Casa da Música on Avenida da Boavista on 2 December 2026 at 19:30. Tickets range from 22€ to 26€, and the event is rated for audiences aged 6 and older.",
+  "sourceEdition": "forward-scan",
+  "externalLink": "https://www.agenda-porto.pt/evento/cdm-boulez-e-zappa/",
+  "pickCandidate": true,
+  "addedAt": "2026-11-28T06:01:30.596Z",
+  "lastSeenAt": "2026-11-28T06:01:30.596Z",
+  "descriptionPt": "O Remix Ensemble Casa da Música apresenta obras de Pierre Boulez e Frank Zappa, sob a direção de Susanne Blumenthal e com a cantora Christina Bock.",
+  "longDescriptionPt": "O Remix Ensemble Casa da Música apresenta um concerto que junta obras de dois compositores do século XX, Pierre Boulez e Frank Zappa. O programa inclui Le marteau sans maître de Boulez, para voz e ensemble, a par de The Perfect Stranger de Zappa.\n\nA direção musical é de Susanne Blumenthal, com a voz a cargo de Christina Bock. O concerto tem lugar na Casa da Música, na Avenida da Boavista, a 2 de dezembro de 2026, às 19:30. Os bilhetes custam entre 22€ e 26€, e o espetáculo é para maiores de 6 anos.",
+  "image": {
+    "url": "https://i.imgur.com/zh8lcGV.jpeg",
+    "credit": "Photo: Agenda-porto",
+    "sourceUrl": "https://www.agenda-porto.pt/evento/cdm-boulez-e-zappa/"
+  }
+}

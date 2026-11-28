@@ -1,0 +1,23 @@
+{
+  "slug": "coro-de-sao-tarcisio-igreja-de-sao-pedro-de-azevedo-dec-1-2026",
+  "name": "Coro de São Tarcísio",
+  "date": "2026-12-01T18:00",
+  "venue": "Igreja de São Pedro de Azevedo",
+  "venueSlug": "igreja-de-sao-pedro-de-azevedo",
+  "price": "Free",
+  "category": "music",
+  "description": "Coro de São Tarcísio performs a concert of Christmas classics and sacred music at Igreja de São Pedro de Azevedo.",
+  "longDescription": "Coro de São Tarcísio performs a holiday concert at Igreja de São Pedro de Azevedo in Porto on 1 December at 18:00. The group, formed in 1957 at Igreja da Lapa, focuses primarily on sacred music alongside symphonic choral repertoire.\n\nThe performance features traditional Christmas carols, including \"Adeste fideles\", \"Noite Feliz\", and \"Hark the herald angels sing\". Admission to the concert is free as part of the Porto Christmas programme.",
+  "sourceEdition": "forward-scan",
+  "externalLink": "https://www.agenda-porto.pt/evento/0112-coro-de-sao-tarcisio/",
+  "pickCandidate": true,
+  "addedAt": "2026-11-28T06:01:05.447Z",
+  "lastSeenAt": "2026-11-28T06:01:05.447Z",
+  "descriptionPt": "O Coro de São Tarcísio apresenta um concerto de clássicos de Natal e música sacra na Igreja de São Pedro de Azevedo.",
+  "longDescriptionPt": "O Coro de São Tarcísio dá um concerto de Natal na Igreja de São Pedro de Azevedo, no Porto, a 1 de dezembro, às 18:00. O grupo, criado em 1957 na Igreja da Lapa, dedica-se sobretudo à música sacra e ao repertório coral sinfónico.\n\nA atuação inclui temas tradicionais de Natal, como \"Adeste fideles\", \"Noite Feliz\" e \"Hark the herald angels sing\". A entrada é gratuita e faz parte da programação de Natal do Porto.",
+  "image": {
+    "url": "https://i.imgur.com/VPGd8zk.jpeg",
+    "credit": "Photo: Agenda-porto",
+    "sourceUrl": "https://www.agenda-porto.pt/evento/0112-coro-de-sao-tarcisio/"
+  }
+}

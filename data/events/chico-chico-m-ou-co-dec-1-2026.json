@@ -1,0 +1,25 @@
+{
+  "slug": "chico-chico-m-ou-co-dec-1-2026",
+  "name": "Chico Chico",
+  "date": "2026-12-01T21:00",
+  "venue": "M.Ou.Co",
+  "venueSlug": "m-ou-co",
+  "price": "32€",
+  "priceFrom": 32,
+  "currency": "EUR",
+  "category": "music",
+  "description": "Brazilian singer Chico Chico presents the album Let it Burn - Deixa Arder at M.Ou.Co. in Porto.",
+  "longDescription": "Brazilian singer Chico Chico performs at M.Ou.Co. - JAM Porto on 1 December 2026. The concert features material from the album Let it Burn - Deixa Arder.\n\nThe performance begins at 21:00 at Rua de Frei Heitor Pinto, 65. Tickets cost 32€.",
+  "sourceEdition": "forward-scan",
+  "externalLink": "https://www.agenda-porto.pt/evento/jam-porto-chico-chico/",
+  "pickCandidate": true,
+  "addedAt": "2026-11-28T06:01:05.776Z",
+  "lastSeenAt": "2026-11-28T06:01:05.776Z",
+  "descriptionPt": "O cantor brasileiro Chico Chico apresenta o álbum Let it Burn - Deixa Arder no M.Ou.Co., no Porto.",
+  "longDescriptionPt": "O cantor brasileiro Chico Chico atua no M.Ou.Co. - JAM Porto a 1 de dezembro de 2026. O concerto traz os temas do álbum Let it Burn - Deixa Arder.\n\nO espetáculo começa às 21:00 na Rua de Frei Heitor Pinto, 65. Os bilhetes custam 32€.",
+  "image": {
+    "url": "https://i.imgur.com/h2GyfQx.jpeg",
+    "credit": "Photo: Agenda-porto",
+    "sourceUrl": "https://www.agenda-porto.pt/evento/jam-porto-chico-chico/"
+  }
+}
