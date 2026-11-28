@@ -1,30 +1,7 @@
 {
-  "syncedAt": "2026-11-27T04:30:11Z",
+  "syncedAt": "2026-11-28T04:30:08Z",
   "source": "https://www.gomry.com/api/v1/catalog/events",
   "items": [
-    {
-      "id": "G6JLdZlNZmJ4eSqCcQrN",
-      "name": "Festa Cubana com Los Cubanitos",
-      "url": "https://www.gomry.com/event/Festa-Cubana-com-Los-Cubanitos-G6JLdZlNZmJ4eSqCcQrN",
-      "start": "2026-11-27T21:00:00.000Z",
-      "end": "2026-11-28T01:00:00.000Z",
-      "venue": "",
-      "city": "Porto",
-      "priceFrom": 0,
-      "currency": "EUR",
-      "isFree": true,
-      "availability": "on_sale",
-      "organization": "Porto com Salsa",
-      "categories": [
-        "music",
-        "entertainment",
-        "concert",
-        "live-music",
-        "dancing",
-        "medium",
-        "free"
-      ]
-    },
     {
       "id": "yuy5UCEMfnKhycCOKlEY",
       "name": "Porto vs Sporting CP",
@@ -112,7 +89,7 @@
       "priceFrom": null,
       "currency": "EUR",
       "isFree": false,
-      "availability": "sold_out",
+      "availability": "unknown",
       "organization": "Gomry Retail",
       "categories": [
         "sports",
